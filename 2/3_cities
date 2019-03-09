@@ -1,2 +1,0 @@
-cut -f 3 -d : users.txt | tail -n +2 | cat | sort | uniq -c | sort -r | head -3
-
