@@ -20,7 +20,7 @@ $ git checkout master
 $ git checkout -b {username}/master
 ```
 
-Пушим нашу ветку в **git**
+Пушим вашу ветку в **git**
 
 ```sh
 $ git push --set-upstream origin {username}/master
@@ -51,7 +51,7 @@ $ git push --set-upstream origin {username}/hw{num}-{x}
     $ git checkout -b nnikitos95/master
     ```
     
-2. Пушим нашу ветку в **git**
+2. Пушим вашу ветку в **git**
    
    ```sh
    $ git push --set-upstream origin nnikitos95/master
