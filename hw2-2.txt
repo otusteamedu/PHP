@@ -1,0 +1,447 @@
+=========================
+ОБРАЗ UBUNTU УЖЕ ЗАКАЧАН:
+=========================
+[timofey@localhost ~]$ docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+Digest: sha256:017eef0b616011647b269b5c65826e2e2ebddbe5d1f8c1e56b3599fb14fabec8
+Status: Image is up to date for ubuntu:latest
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+======================
+СОДЕРЖИМОЕ DOCKERFILE:
+======================
+[timofey@localhost ~]$ cat /var/docker/ubuntu/apache/Dockerfile
+FROM ubuntu
+MAINTAINER timofey
+RUN apt update
+RUN apt-get -y install apache2
+RUN echo "Apache2 server by Dockerfile" > /var/www/html/index.html
+EXPOSE 80
+CMD /usr/sbin/apache2ctl -D FOREGROUND
+
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+=================
+ИМЕЮЩИЕСЯ ОБРАЗЫ:
+=================
+[timofey@localhost ~]$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              94e814e2efa8        10 days ago         88.9MB
+alpine              latest              5cb3aa00f899        2 weeks ago         5.53MB
+nginx               latest              8c9ca4d17702        3 weeks ago         109MB
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+============================================
+СОЗДАНИЕ НОВОГО ОБРАЗА НА ОСНОВЕ DOCKERFILE:
+============================================
+[timofey@localhost ~]$ docker build -t ubuntu-apache /var/docker/ubuntu/apache/
+Sending build context to Docker daemon  2.048kB
+Step 1/7 : FROM ubuntu
+ ---> 94e814e2efa8
+Step 2/7 : MAINTAINER timofey
+ ---> Running in 1af668cda720
+Removing intermediate container 1af668cda720
+ ---> 860117ebc554
+Step 3/7 : RUN apt update
+ ---> Running in b6ea06b1a5a8
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [361 kB]
+Get:8 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [5436 B]
+Get:9 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [159 kB]
+Get:10 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [3910 B]
+Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [952 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [6997 B]
+Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [725 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [10.8 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [942 B]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [3659 B]
+Fetched 15.6 MB in 6s (2714 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+5 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Removing intermediate container b6ea06b1a5a8
+ ---> d61fc075d59b
+Step 4/7 : RUN apt-get -y install apache2
+ ---> Running in 22d39b04003f
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  apache2-bin apache2-data apache2-utils file libapr1 libaprutil1
+  libaprutil1-dbd-sqlite3 libaprutil1-ldap libasn1-8-heimdal libexpat1
+  libgdbm-compat4 libgdbm5 libgssapi3-heimdal libhcrypto4-heimdal
+  libheimbase1-heimdal libheimntlm0-heimdal libhx509-5-heimdal libicu60
+  libkrb5-26-heimdal libldap-2.4-2 libldap-common liblua5.2-0 libmagic-mgc
+  libmagic1 libnghttp2-14 libperl5.26 libroken18-heimdal libsasl2-2
+  libsasl2-modules libsasl2-modules-db libsqlite3-0 libssl1.1 libwind0-heimdal
+  libxml2 mime-support netbase openssl perl perl-modules-5.26 ssl-cert
+  xz-utils
+Suggested packages:
+  www-browser apache2-doc apache2-suexec-pristine | apache2-suexec-custom ufw
+  gdbm-l10n libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal
+  libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql
+  ca-certificates perl-doc libterm-readline-gnu-perl
+  | libterm-readline-perl-perl make openssl-blacklist
+The following NEW packages will be installed:
+  apache2 apache2-bin apache2-data apache2-utils file libapr1 libaprutil1
+  libaprutil1-dbd-sqlite3 libaprutil1-ldap libasn1-8-heimdal libexpat1
+  libgdbm-compat4 libgdbm5 libgssapi3-heimdal libhcrypto4-heimdal
+  libheimbase1-heimdal libheimntlm0-heimdal libhx509-5-heimdal libicu60
+  libkrb5-26-heimdal libldap-2.4-2 libldap-common liblua5.2-0 libmagic-mgc
+  libmagic1 libnghttp2-14 libperl5.26 libroken18-heimdal libsasl2-2
+  libsasl2-modules libsasl2-modules-db libsqlite3-0 libssl1.1 libwind0-heimdal
+  libxml2 mime-support netbase openssl perl perl-modules-5.26 ssl-cert
+  xz-utils
+0 upgraded, 42 newly installed, 0 to remove and 5 not upgraded.
+Need to get 20.8 MB of archives.
+After this operation, 98.7 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 perl-modules-5.26 all 5.26.1-6ubuntu0.3 [2763 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgdbm5 amd64 1.14.1-6 [26.0 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgdbm-compat4 amd64 1.14.1-6 [6084 B]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libperl5.26 amd64 5.26.1-6ubuntu0.3 [3527 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 perl amd64 5.26.1-6ubuntu0.3 [201 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic/main amd64 mime-support all 3.60ubuntu1 [30.1 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic/main amd64 libapr1 amd64 1.6.3-2 [90.9 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 libexpat1 amd64 2.2.5-3 [80.2 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libssl1.1 amd64 1.1.0g-2ubuntu4.3 [1130 kB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic/main amd64 libaprutil1 amd64 1.6.1-2 [84.4 kB]
+Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libsqlite3-0 amd64 3.22.0-1 [496 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic/main amd64 libaprutil1-dbd-sqlite3 amd64 1.6.1-2 [10.6 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 libroken18-heimdal amd64 7.5.0+dfsg-1 [41.3 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 libasn1-8-heimdal amd64 7.5.0+dfsg-1 [175 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic/main amd64 libheimbase1-heimdal amd64 7.5.0+dfsg-1 [29.3 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/main amd64 libhcrypto4-heimdal amd64 7.5.0+dfsg-1 [85.9 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic/main amd64 libwind0-heimdal amd64 7.5.0+dfsg-1 [47.8 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic/main amd64 libhx509-5-heimdal amd64 7.5.0+dfsg-1 [107 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic/main amd64 libkrb5-26-heimdal amd64 7.5.0+dfsg-1 [206 kB]
+Get:20 http://archive.ubuntu.com/ubuntu bionic/main amd64 libheimntlm0-heimdal amd64 7.5.0+dfsg-1 [14.8 kB]
+Get:21 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgssapi3-heimdal amd64 7.5.0+dfsg-1 [96.5 kB]
+Get:22 http://archive.ubuntu.com/ubuntu bionic/main amd64 libsasl2-modules-db amd64 2.1.27~101-g0780600+dfsg-3ubuntu2 [14.8 kB]
+Get:23 http://archive.ubuntu.com/ubuntu bionic/main amd64 libsasl2-2 amd64 2.1.27~101-g0780600+dfsg-3ubuntu2 [49.2 kB]
+Get:24 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libldap-common all 2.4.45+dfsg-1ubuntu1.1 [16.6 kB]
+Get:25 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libldap-2.4-2 amd64 2.4.45+dfsg-1ubuntu1.1 [155 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/main amd64 libaprutil1-ldap amd64 1.6.1-2 [8764 B]
+Get:27 http://archive.ubuntu.com/ubuntu bionic/main amd64 liblua5.2-0 amd64 5.2.4-1.1build1 [108 kB]
+Get:28 http://archive.ubuntu.com/ubuntu bionic/main amd64 libnghttp2-14 amd64 1.30.0-1ubuntu1 [77.8 kB]
+Get:29 http://archive.ubuntu.com/ubuntu bionic/main amd64 libicu60 amd64 60.2-3ubuntu3 [8054 kB]
+Get:30 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libxml2 amd64 2.9.4+dfsg1-6.1ubuntu1.2 [663 kB]
+Get:31 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apache2-bin amd64 2.4.29-1ubuntu4.5 [1071 kB]
+Get:32 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apache2-utils amd64 2.4.29-1ubuntu4.5 [83.3 kB]
+Get:33 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apache2-data all 2.4.29-1ubuntu4.5 [160 kB]
+Get:34 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 apache2 amd64 2.4.29-1ubuntu4.5 [95.1 kB]
+Get:35 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic-mgc amd64 1:5.32-2ubuntu0.2 [184 kB]
+Get:36 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic1 amd64 1:5.32-2ubuntu0.2 [68.5 kB]
+Get:37 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 file amd64 1:5.32-2ubuntu0.2 [22.1 kB]
+Get:38 http://archive.ubuntu.com/ubuntu bionic/main amd64 netbase all 5.4 [12.7 kB]
+Get:39 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 openssl amd64 1.1.0g-2ubuntu4.3 [532 kB]
+Get:40 http://archive.ubuntu.com/ubuntu bionic/main amd64 xz-utils amd64 5.2.2-1.3 [83.8 kB]
+Get:41 http://archive.ubuntu.com/ubuntu bionic/main amd64 libsasl2-modules amd64 2.1.27~101-g0780600+dfsg-3ubuntu2 [48.7 kB]
+Get:42 http://archive.ubuntu.com/ubuntu bionic/main amd64 ssl-cert all 1.0.39 [17.0 kB]
+debconf: delaying package configuration, since apt-utils is not installed
+Fetched 20.8 MB in 8s (2577 kB/s)
+Selecting previously unselected package perl-modules-5.26.
+(Reading database ... 4039 files and directories currently installed.)
+Preparing to unpack .../00-perl-modules-5.26_5.26.1-6ubuntu0.3_all.deb ...
+Unpacking perl-modules-5.26 (5.26.1-6ubuntu0.3) ...
+Selecting previously unselected package libgdbm5:amd64.
+Preparing to unpack .../01-libgdbm5_1.14.1-6_amd64.deb ...
+Unpacking libgdbm5:amd64 (1.14.1-6) ...
+Selecting previously unselected package libgdbm-compat4:amd64.
+Preparing to unpack .../02-libgdbm-compat4_1.14.1-6_amd64.deb ...
+Unpacking libgdbm-compat4:amd64 (1.14.1-6) ...
+Selecting previously unselected package libperl5.26:amd64.
+Preparing to unpack .../03-libperl5.26_5.26.1-6ubuntu0.3_amd64.deb ...
+Unpacking libperl5.26:amd64 (5.26.1-6ubuntu0.3) ...
+Selecting previously unselected package perl.
+Preparing to unpack .../04-perl_5.26.1-6ubuntu0.3_amd64.deb ...
+Unpacking perl (5.26.1-6ubuntu0.3) ...
+Selecting previously unselected package mime-support.
+Preparing to unpack .../05-mime-support_3.60ubuntu1_all.deb ...
+Unpacking mime-support (3.60ubuntu1) ...
+Selecting previously unselected package libapr1:amd64.
+Preparing to unpack .../06-libapr1_1.6.3-2_amd64.deb ...
+Unpacking libapr1:amd64 (1.6.3-2) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../07-libexpat1_2.2.5-3_amd64.deb ...
+Unpacking libexpat1:amd64 (2.2.5-3) ...
+Selecting previously unselected package libssl1.1:amd64.
+Preparing to unpack .../08-libssl1.1_1.1.0g-2ubuntu4.3_amd64.deb ...
+Unpacking libssl1.1:amd64 (1.1.0g-2ubuntu4.3) ...
+Selecting previously unselected package libaprutil1:amd64.
+Preparing to unpack .../09-libaprutil1_1.6.1-2_amd64.deb ...
+Unpacking libaprutil1:amd64 (1.6.1-2) ...
+Selecting previously unselected package libsqlite3-0:amd64.
+Preparing to unpack .../10-libsqlite3-0_3.22.0-1_amd64.deb ...
+Unpacking libsqlite3-0:amd64 (3.22.0-1) ...
+Selecting previously unselected package libaprutil1-dbd-sqlite3:amd64.
+Preparing to unpack .../11-libaprutil1-dbd-sqlite3_1.6.1-2_amd64.deb ...
+Unpacking libaprutil1-dbd-sqlite3:amd64 (1.6.1-2) ...
+Selecting previously unselected package libroken18-heimdal:amd64.
+Preparing to unpack .../12-libroken18-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libroken18-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libasn1-8-heimdal:amd64.
+Preparing to unpack .../13-libasn1-8-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libasn1-8-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libheimbase1-heimdal:amd64.
+Preparing to unpack .../14-libheimbase1-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libheimbase1-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libhcrypto4-heimdal:amd64.
+Preparing to unpack .../15-libhcrypto4-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libhcrypto4-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libwind0-heimdal:amd64.
+Preparing to unpack .../16-libwind0-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libwind0-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libhx509-5-heimdal:amd64.
+Preparing to unpack .../17-libhx509-5-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libhx509-5-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libkrb5-26-heimdal:amd64.
+Preparing to unpack .../18-libkrb5-26-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libkrb5-26-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libheimntlm0-heimdal:amd64.
+Preparing to unpack .../19-libheimntlm0-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libheimntlm0-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libgssapi3-heimdal:amd64.
+Preparing to unpack .../20-libgssapi3-heimdal_7.5.0+dfsg-1_amd64.deb ...
+Unpacking libgssapi3-heimdal:amd64 (7.5.0+dfsg-1) ...
+Selecting previously unselected package libsasl2-modules-db:amd64.
+Preparing to unpack .../21-libsasl2-modules-db_2.1.27~101-g0780600+dfsg-3ubuntu2_amd64.deb ...
+Unpacking libsasl2-modules-db:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Selecting previously unselected package libsasl2-2:amd64.
+Preparing to unpack .../22-libsasl2-2_2.1.27~101-g0780600+dfsg-3ubuntu2_amd64.deb ...
+Unpacking libsasl2-2:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Selecting previously unselected package libldap-common.
+Preparing to unpack .../23-libldap-common_2.4.45+dfsg-1ubuntu1.1_all.deb ...
+Unpacking libldap-common (2.4.45+dfsg-1ubuntu1.1) ...
+Selecting previously unselected package libldap-2.4-2:amd64.
+Preparing to unpack .../24-libldap-2.4-2_2.4.45+dfsg-1ubuntu1.1_amd64.deb ...
+Unpacking libldap-2.4-2:amd64 (2.4.45+dfsg-1ubuntu1.1) ...
+Selecting previously unselected package libaprutil1-ldap:amd64.
+Preparing to unpack .../25-libaprutil1-ldap_1.6.1-2_amd64.deb ...
+Unpacking libaprutil1-ldap:amd64 (1.6.1-2) ...
+Selecting previously unselected package liblua5.2-0:amd64.
+Preparing to unpack .../26-liblua5.2-0_5.2.4-1.1build1_amd64.deb ...
+Unpacking liblua5.2-0:amd64 (5.2.4-1.1build1) ...
+Selecting previously unselected package libnghttp2-14:amd64.
+Preparing to unpack .../27-libnghttp2-14_1.30.0-1ubuntu1_amd64.deb ...
+Unpacking libnghttp2-14:amd64 (1.30.0-1ubuntu1) ...
+Selecting previously unselected package libicu60:amd64.
+Preparing to unpack .../28-libicu60_60.2-3ubuntu3_amd64.deb ...
+Unpacking libicu60:amd64 (60.2-3ubuntu3) ...
+Selecting previously unselected package libxml2:amd64.
+Preparing to unpack .../29-libxml2_2.9.4+dfsg1-6.1ubuntu1.2_amd64.deb ...
+Unpacking libxml2:amd64 (2.9.4+dfsg1-6.1ubuntu1.2) ...
+Selecting previously unselected package apache2-bin.
+Preparing to unpack .../30-apache2-bin_2.4.29-1ubuntu4.5_amd64.deb ...
+Unpacking apache2-bin (2.4.29-1ubuntu4.5) ...
+Selecting previously unselected package apache2-utils.
+Preparing to unpack .../31-apache2-utils_2.4.29-1ubuntu4.5_amd64.deb ...
+Unpacking apache2-utils (2.4.29-1ubuntu4.5) ...
+Selecting previously unselected package apache2-data.
+Preparing to unpack .../32-apache2-data_2.4.29-1ubuntu4.5_all.deb ...
+Unpacking apache2-data (2.4.29-1ubuntu4.5) ...
+Selecting previously unselected package apache2.
+Preparing to unpack .../33-apache2_2.4.29-1ubuntu4.5_amd64.deb ...
+Unpacking apache2 (2.4.29-1ubuntu4.5) ...
+Selecting previously unselected package libmagic-mgc.
+Preparing to unpack .../34-libmagic-mgc_1%3a5.32-2ubuntu0.2_amd64.deb ...
+Unpacking libmagic-mgc (1:5.32-2ubuntu0.2) ...
+Selecting previously unselected package libmagic1:amd64.
+Preparing to unpack .../35-libmagic1_1%3a5.32-2ubuntu0.2_amd64.deb ...
+Unpacking libmagic1:amd64 (1:5.32-2ubuntu0.2) ...
+Selecting previously unselected package file.
+Preparing to unpack .../36-file_1%3a5.32-2ubuntu0.2_amd64.deb ...
+Unpacking file (1:5.32-2ubuntu0.2) ...
+Selecting previously unselected package netbase.
+Preparing to unpack .../37-netbase_5.4_all.deb ...
+Unpacking netbase (5.4) ...
+Selecting previously unselected package openssl.
+Preparing to unpack .../38-openssl_1.1.0g-2ubuntu4.3_amd64.deb ...
+Unpacking openssl (1.1.0g-2ubuntu4.3) ...
+Selecting previously unselected package xz-utils.
+Preparing to unpack .../39-xz-utils_5.2.2-1.3_amd64.deb ...
+Unpacking xz-utils (5.2.2-1.3) ...
+Selecting previously unselected package libsasl2-modules:amd64.
+Preparing to unpack .../40-libsasl2-modules_2.1.27~101-g0780600+dfsg-3ubuntu2_amd64.deb ...
+Unpacking libsasl2-modules:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Selecting previously unselected package ssl-cert.
+Preparing to unpack .../41-ssl-cert_1.0.39_all.deb ...
+Unpacking ssl-cert (1.0.39) ...
+Setting up libapr1:amd64 (1.6.3-2) ...
+Setting up libexpat1:amd64 (2.2.5-3) ...
+Setting up libicu60:amd64 (60.2-3ubuntu3) ...
+Setting up libnghttp2-14:amd64 (1.30.0-1ubuntu1) ...
+Setting up mime-support (3.60ubuntu1) ...
+Setting up libldap-common (2.4.45+dfsg-1ubuntu1.1) ...
+Setting up libsasl2-modules-db:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Setting up libsasl2-2:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Setting up apache2-data (2.4.29-1ubuntu4.5) ...
+Setting up libroken18-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up perl-modules-5.26 (5.26.1-6ubuntu0.3) ...
+Setting up libgdbm5:amd64 (1.14.1-6) ...
+Setting up libxml2:amd64 (2.9.4+dfsg1-6.1ubuntu1.2) ...
+Setting up libmagic-mgc (1:5.32-2ubuntu0.2) ...
+Setting up libmagic1:amd64 (1:5.32-2ubuntu0.2) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up libssl1.1:amd64 (1.1.0g-2ubuntu4.3) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+Setting up xz-utils (5.2.2-1.3) ...
+update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzma.1.gz because associated file /usr/share/man/man1/xz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/unlzma.1.gz because associated file /usr/share/man/man1/unxz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcat.1.gz because associated file /usr/share/man/man1/xzcat.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzmore.1.gz because associated file /usr/share/man/man1/xzmore.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzless.1.gz because associated file /usr/share/man/man1/xzless.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzdiff.1.gz because associated file /usr/share/man/man1/xzdiff.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcmp.1.gz because associated file /usr/share/man/man1/xzcmp.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzgrep.1.gz because associated file /usr/share/man/man1/xzgrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzegrep.1.gz because associated file /usr/share/man/man1/xzegrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzfgrep.1.gz because associated file /usr/share/man/man1/xzfgrep.1.gz (of link group lzma) doesn't exist
+Setting up libaprutil1:amd64 (1.6.1-2) ...
+Setting up libheimbase1-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up openssl (1.1.0g-2ubuntu4.3) ...
+Setting up libsqlite3-0:amd64 (3.22.0-1) ...
+Setting up liblua5.2-0:amd64 (5.2.4-1.1build1) ...
+Setting up libgdbm-compat4:amd64 (1.14.1-6) ...
+Setting up libsasl2-modules:amd64 (2.1.27~101-g0780600+dfsg-3ubuntu2) ...
+Setting up netbase (5.4) ...
+Setting up libwind0-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up libaprutil1-dbd-sqlite3:amd64 (1.6.1-2) ...
+Setting up apache2-utils (2.4.29-1ubuntu4.5) ...
+Setting up libasn1-8-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up libhcrypto4-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up ssl-cert (1.0.39) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+Setting up file (1:5.32-2ubuntu0.2) ...
+Setting up libhx509-5-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up libperl5.26:amd64 (5.26.1-6ubuntu0.3) ...
+Setting up libkrb5-26-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up libheimntlm0-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up perl (5.26.1-6ubuntu0.3) ...
+Setting up libgssapi3-heimdal:amd64 (7.5.0+dfsg-1) ...
+Setting up libldap-2.4-2:amd64 (2.4.45+dfsg-1ubuntu1.1) ...
+Setting up libaprutil1-ldap:amd64 (1.6.1-2) ...
+Setting up apache2-bin (2.4.29-1ubuntu4.5) ...
+Setting up apache2 (2.4.29-1ubuntu4.5) ...
+Enabling module mpm_event.
+Enabling module authz_core.
+Enabling module authz_host.
+Enabling module authn_core.
+Enabling module auth_basic.
+Enabling module access_compat.
+Enabling module authn_file.
+Enabling module authz_user.
+Enabling module alias.
+Enabling module dir.
+Enabling module autoindex.
+Enabling module env.
+Enabling module mime.
+Enabling module negotiation.
+Enabling module setenvif.
+Enabling module filter.
+Enabling module deflate.
+Enabling module status.
+Enabling module reqtimeout.
+Enabling conf charset.
+Enabling conf localized-error-pages.
+Enabling conf other-vhosts-access-log.
+Enabling conf security.
+Enabling conf serve-cgi-bin.
+Enabling site 000-default.
+invoke-rc.d: could not determine current runlevel
+invoke-rc.d: policy-rc.d denied execution of start.
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Removing intermediate container 22d39b04003f
+ ---> a7e8f6a5dee6
+Step 5/7 : RUN echo "Apache2 server by Dockerfile" > /var/www/html/index.html
+ ---> Running in c8d14a5fda68
+Removing intermediate container c8d14a5fda68
+ ---> 93d46552592e
+Step 6/7 : EXPOSE 80
+ ---> Running in e4170734e95d
+Removing intermediate container e4170734e95d
+ ---> d0e09e0127bb
+Step 7/7 : CMD /usr/sbin/apache2ctl -D FOREGROUND
+ ---> Running in 2fb45d7bc12b
+Removing intermediate container 2fb45d7bc12b
+ ---> 67c3bd69b3c8
+Successfully built 67c3bd69b3c8
+Successfully tagged ubuntu-apache:latest
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+=================================
+ПОЯВИЛСЯ НОВЫЙ ОБРАЗ ПОСЛЕ БИЛДА:
+=================================
+[timofey@localhost ~]$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu-apache       latest              67c3bd69b3c8        19 seconds ago      210MB
+ubuntu              latest              94e814e2efa8        10 days ago         88.9MB
+alpine              latest              5cb3aa00f899        2 weeks ago         5.53MB
+nginx               latest              8c9ca4d17702        3 weeks ago         109MB
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+==================
+ЗАПУСК КОНТЕЙНЕРА:
+==================
+[timofey@localhost ~]$ docker run -d -p 8080:80 ubuntu-apache
+a4167341ef1636b2e86cb8c0cc7f27ff29dfd64f33b59b26bc42ef7952d00638
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+====================
+ЛИСТИНГ КОНТЕЙНЕРОВ:
+====================
+[timofey@localhost ~]$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+a4167341ef16        ubuntu-apache       "/bin/sh -c '/usr/sb…"   12 seconds ago      Up 9 seconds        0.0.0.0:8080->80/tcp   nostalgic_ardinghelli
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+====================================
+ПРОВЕРКА РАБОТЫ КОНТЕЙНЕРА С APACHE:
+====================================
+[timofey@localhost ~]$ curl 127.0.0.1:8080
+Apache2 server by Dockerfile
+[timofey@localhost ~]$
+[timofey@localhost ~]$
