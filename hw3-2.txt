@@ -1,0 +1,25 @@
+[timofey@localhost ~]$ cat table
+id      user    city    phone
+1       test    Moscow  1234123
+2       test2   Saint-P 1232121
+3       test3   Tver    4352124
+4       test4   Milan   7990923
+5       test5   Moscow  908213
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$ tail -n +2 table | awk '{city_phones_sum[$3]+=$4} END {for (city in city_phones_sum) printf("%s\t%s\n",city,city_phones_sum[city])}' | sort -rn -k2 | head -n3
+Milan   7990923
+Tver    4352124
+Moscow  2142336
+[timofey@localhost ~]$
+
+ОПИСАНИЕ
+========
+# урать заголовок таблицы
+	tail -n +2 table
+# группировка по городам (сумма колонки phone у дубликатов)
+	awk '{city_phones_sum[$3]+=$4} END {for (city in city_phones_sum) printf("%s\t%s\n",city,city_phones_sum[city])}'  
+# сортировка по phone
+	sort -rn -k2
+# фильрт первых 3-х результатов
+	head -n3
