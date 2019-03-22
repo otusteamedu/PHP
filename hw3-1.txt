@@ -1,0 +1,57 @@
+============
+BASH SCRIPT:
+============
+[timofey@localhost ~]$ cat sum.sh
+#! /bin/bash
+
+checkInputForInt() {
+        instance=$1
+        if ! [[ $instance =~ ^[0-9]+$ ]]; then
+                echo "Error! Input values must be integers!";
+                exit;
+        fi
+}
+
+a=$1
+b=$2
+
+checkInputForInt $a
+checkInputForInt $b
+
+sum=$((a+b))
+echo $a"+"$b"="$sum
+
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+=========
+TEST SUM:
+=========
+[timofey@localhost ~]$ ./sum.sh 21 34
+21+34=55
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+===========
+TEST ERROR:
+===========
+[timofey@localhost ~]$ ./sum.sh xx 34
+Error! Input values must be integers!
+[timofey@localhost ~]$
+[timofey@localhost ~]$
+
+
+
+===========
+TEST ERROR:
+===========
+[timofey@localhost ~]$ ./sum.sh 21 xx
+Error! Input values must be integers!
+[timofey@localhost ~]$
