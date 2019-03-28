@@ -1,0 +1,1543 @@
+Sending build context to Docker daemon  3.072kB
+Step 1/22 : FROM php:7.1.27-cli
+ ---> a7b7ac715318
+Step 2/22 : MAINTAINER timofey
+ ---> Running in 1c9ad44de028
+Removing intermediate container 1c9ad44de028
+ ---> 27ae930182e9
+Step 3/22 : RUN apt update
+ ---> Running in 089600003d6b
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mGet:1 http://security-cdn.debian.org/debian-security stretch/updates InRelease [94.3 kB]
+Ign:2 http://cdn-fastly.deb.debian.org/debian stretch InRelease
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch-updates InRelease [91.0 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch Release [118 kB]
+Get:5 http://cdn-fastly.deb.debian.org/debian stretch Release.gpg [2434 B]
+Get:6 http://security-cdn.debian.org/debian-security stretch/updates/main amd64 Packages [481 kB]
+Get:7 http://cdn-fastly.deb.debian.org/debian stretch-updates/main amd64 Packages [11.1 kB]
+Get:8 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 Packages [7084 kB]
+Fetched 7881 kB in 8s (889 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+Removing intermediate container 089600003d6b
+ ---> 74d5d2a8f459
+Step 4/22 : RUN apt -y install git curl wget grep
+ ---> Running in 825ca286ea09
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (7.52.1-5+deb9u9).
+grep is already the newest version (2.27-2).
+grep set to manually installed.
+The following additional packages will be installed:
+  git-man less libcurl3-gnutls liberror-perl libexpat1 libpopt0 libx11-6
+  libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 openssh-client rsync
+  xauth
+Suggested packages:
+  gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-el git-email
+  git-gui gitk gitweb git-arch git-cvs git-mediawiki git-svn keychain
+  libpam-ssh monkeysphere ssh-askpass openssh-server
+The following NEW packages will be installed:
+  git git-man less libcurl3-gnutls liberror-perl libexpat1 libpopt0 libx11-6
+  libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 openssh-client rsync
+  wget xauth
+0 upgraded, 18 newly installed, 0 to remove and 0 not upgraded.
+Need to get 9479 kB of archives.
+After this operation, 44.3 MB of additional disk space will be used.
+Get:1 http://security-cdn.debian.org/debian-security stretch/updates/main amd64 openssh-client amd64 1:7.4p1-10+deb9u6 [781 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libcurl3-gnutls amd64 7.52.1-5+deb9u9 [290 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libexpat1 amd64 2.2.0-2+deb9u1 [83.4 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 liberror-perl all 0.17024-1 [26.9 kB]
+Get:5 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 git-man all 1:2.11.0-3+deb9u4 [1433 kB]
+Get:6 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 git amd64 1:2.11.0-3+deb9u4 [4167 kB]
+Get:7 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libxau6 amd64 1:1.0.8-1 [20.7 kB]
+Get:8 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpopt0 amd64 1.16-10+b2 [49.4 kB]
+Get:9 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 wget amd64 1.18-5+deb9u2 [799 kB]
+Get:10 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 less amd64 481-2.1 [126 kB]
+Get:11 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libxdmcp6 amd64 1:1.1.2-3 [26.3 kB]
+Get:12 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libxcb1 amd64 1.12-1 [133 kB]
+Get:13 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libx11-data all 2:1.6.4-3+deb9u1 [287 kB]
+Get:14 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libx11-6 amd64 2:1.6.4-3+deb9u1 [748 kB]
+Get:15 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libxext6 amd64 2:1.3.3-1+b2 [52.5 kB]
+Get:16 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libxmuu1 amd64 2:1.1.2-2 [23.5 kB]
+Get:17 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 rsync amd64 3.1.2-1+deb9u1 [393 kB]
+Get:18 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 xauth amd64 1:1.0.9-1+b2 [39.6 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 9479 kB in 3s (2711 kB/s)
+Selecting previously unselected package libcurl3-gnutls:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 12292 files and directories currently installed.)
+Preparing to unpack .../00-libcurl3-gnutls_7.52.1-5+deb9u9_amd64.deb ...
+Unpacking libcurl3-gnutls:amd64 (7.52.1-5+deb9u9) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../01-libexpat1_2.2.0-2+deb9u1_amd64.deb ...
+Unpacking libexpat1:amd64 (2.2.0-2+deb9u1) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../02-liberror-perl_0.17024-1_all.deb ...
+Unpacking liberror-perl (0.17024-1) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../03-git-man_1%3a2.11.0-3+deb9u4_all.deb ...
+Unpacking git-man (1:2.11.0-3+deb9u4) ...
+Selecting previously unselected package git.
+Preparing to unpack .../04-git_1%3a2.11.0-3+deb9u4_amd64.deb ...
+Unpacking git (1:2.11.0-3+deb9u4) ...
+Selecting previously unselected package libxau6:amd64.
+Preparing to unpack .../05-libxau6_1%3a1.0.8-1_amd64.deb ...
+Unpacking libxau6:amd64 (1:1.0.8-1) ...
+Selecting previously unselected package libpopt0:amd64.
+Preparing to unpack .../06-libpopt0_1.16-10+b2_amd64.deb ...
+Unpacking libpopt0:amd64 (1.16-10+b2) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../07-wget_1.18-5+deb9u2_amd64.deb ...
+Unpacking wget (1.18-5+deb9u2) ...
+Selecting previously unselected package less.
+Preparing to unpack .../08-less_481-2.1_amd64.deb ...
+Unpacking less (481-2.1) ...
+Selecting previously unselected package openssh-client.
+Preparing to unpack .../09-openssh-client_1%3a7.4p1-10+deb9u6_amd64.deb ...
+Unpacking openssh-client (1:7.4p1-10+deb9u6) ...
+Selecting previously unselected package libxdmcp6:amd64.
+Preparing to unpack .../10-libxdmcp6_1%3a1.1.2-3_amd64.deb ...
+Unpacking libxdmcp6:amd64 (1:1.1.2-3) ...
+Selecting previously unselected package libxcb1:amd64.
+Preparing to unpack .../11-libxcb1_1.12-1_amd64.deb ...
+Unpacking libxcb1:amd64 (1.12-1) ...
+Selecting previously unselected package libx11-data.
+Preparing to unpack .../12-libx11-data_2%3a1.6.4-3+deb9u1_all.deb ...
+Unpacking libx11-data (2:1.6.4-3+deb9u1) ...
+Selecting previously unselected package libx11-6:amd64.
+Preparing to unpack .../13-libx11-6_2%3a1.6.4-3+deb9u1_amd64.deb ...
+Unpacking libx11-6:amd64 (2:1.6.4-3+deb9u1) ...
+Selecting previously unselected package libxext6:amd64.
+Preparing to unpack .../14-libxext6_2%3a1.3.3-1+b2_amd64.deb ...
+Unpacking libxext6:amd64 (2:1.3.3-1+b2) ...
+Selecting previously unselected package libxmuu1:amd64.
+Preparing to unpack .../15-libxmuu1_2%3a1.1.2-2_amd64.deb ...
+Unpacking libxmuu1:amd64 (2:1.1.2-2) ...
+Selecting previously unselected package rsync.
+Preparing to unpack .../16-rsync_3.1.2-1+deb9u1_amd64.deb ...
+Unpacking rsync (3.1.2-1+deb9u1) ...
+Selecting previously unselected package xauth.
+Preparing to unpack .../17-xauth_1%3a1.0.9-1+b2_amd64.deb ...
+Unpacking xauth (1:1.0.9-1+b2) ...
+Setting up git-man (1:2.11.0-3+deb9u4) ...
+Setting up libpopt0:amd64 (1.16-10+b2) ...
+Setting up libexpat1:amd64 (2.2.0-2+deb9u1) ...
+Setting up less (481-2.1) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+Setting up liberror-perl (0.17024-1) ...
+Setting up libcurl3-gnutls:amd64 (7.52.1-5+deb9u9) ...
+Setting up rsync (3.1.2-1+deb9u1) ...
+invoke-rc.d: could not determine current runlevel
+invoke-rc.d: policy-rc.d denied execution of restart.
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Setting up wget (1.18-5+deb9u2) ...
+Setting up libxdmcp6:amd64 (1:1.1.2-3) ...
+Setting up openssh-client (1:7.4p1-10+deb9u6) ...
+Setting up git (1:2.11.0-3+deb9u4) ...
+Setting up libx11-data (2:1.6.4-3+deb9u1) ...
+Setting up libxau6:amd64 (1:1.0.8-1) ...
+Setting up libxcb1:amd64 (1.12-1) ...
+Setting up libx11-6:amd64 (2:1.6.4-3+deb9u1) ...
+Setting up libxmuu1:amd64 (2:1.1.2-2) ...
+Setting up libxext6:amd64 (2:1.3.3-1+b2) ...
+Setting up xauth (1:1.0.9-1+b2) ...
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Removing intermediate container 825ca286ea09
+ ---> fc0449b9bf1d
+Step 5/22 : RUN apt -y install zlib1g-dev libcurl4-openssl-dev libssl-dev
+ ---> Running in 74b299cbc7c5
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libssl-doc
+Suggested packages:
+  libcurl4-doc libcurl3-dbg libidn11-dev libkrb5-dev libldap2-dev librtmp-dev
+  libssh2-1-dev libssl1.0-dev | libssl-dev
+The following NEW packages will be installed:
+  libcurl4-openssl-dev libssl-dev libssl-doc zlib1g-dev
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3643 kB of archives.
+After this operation, 13.6 MB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libcurl4-openssl-dev amd64 7.52.1-5+deb9u9 [374 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libssl-dev amd64 1.1.0j-1~deb9u1 [1588 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libssl-doc all 1.1.0j-1~deb9u1 [1476 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 zlib1g-dev amd64 1:1.2.8.dfsg-5 [205 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 3643 kB in 1s (2477 kB/s)
+Selecting previously unselected package libcurl4-openssl-dev:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 13691 files and directories currently installed.)
+Preparing to unpack .../libcurl4-openssl-dev_7.52.1-5+deb9u9_amd64.deb ...
+Unpacking libcurl4-openssl-dev:amd64 (7.52.1-5+deb9u9) ...
+Selecting previously unselected package libssl-dev:amd64.
+Preparing to unpack .../libssl-dev_1.1.0j-1~deb9u1_amd64.deb ...
+Unpacking libssl-dev:amd64 (1.1.0j-1~deb9u1) ...
+Selecting previously unselected package libssl-doc.
+Preparing to unpack .../libssl-doc_1.1.0j-1~deb9u1_all.deb ...
+Unpacking libssl-doc (1.1.0j-1~deb9u1) ...
+Selecting previously unselected package zlib1g-dev:amd64.
+Preparing to unpack .../zlib1g-dev_1%3a1.2.8.dfsg-5_amd64.deb ...
+Unpacking zlib1g-dev:amd64 (1:1.2.8.dfsg-5) ...
+Setting up libssl-dev:amd64 (1.1.0j-1~deb9u1) ...
+Setting up libssl-doc (1.1.0j-1~deb9u1) ...
+Setting up libcurl4-openssl-dev:amd64 (7.52.1-5+deb9u9) ...
+Setting up zlib1g-dev:amd64 (1:1.2.8.dfsg-5) ...
+Removing intermediate container 74b299cbc7c5
+ ---> e99a075e6109
+Step 6/22 : RUN apt -y install libpq-dev
+ ---> Running in aebf0bce8ae5
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libpq5
+Suggested packages:
+  postgresql-doc-9.6
+The following NEW packages will be installed:
+  libpq-dev libpq5
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 351 kB of archives.
+After this operation, 1635 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpq5 amd64 9.6.11-0+deb9u1 [136 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpq-dev amd64 9.6.11-0+deb9u1 [215 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 351 kB in 36s (9687 B/s)
+Selecting previously unselected package libpq5:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 17080 files and directories currently installed.)
+Preparing to unpack .../libpq5_9.6.11-0+deb9u1_amd64.deb ...
+Unpacking libpq5:amd64 (9.6.11-0+deb9u1) ...
+Selecting previously unselected package libpq-dev.
+Preparing to unpack .../libpq-dev_9.6.11-0+deb9u1_amd64.deb ...
+Unpacking libpq-dev (9.6.11-0+deb9u1) ...
+Setting up libpq5:amd64 (9.6.11-0+deb9u1) ...
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Setting up libpq-dev (9.6.11-0+deb9u1) ...
+Removing intermediate container aebf0bce8ae5
+ ---> 91d797ab21e3
+Step 7/22 : RUN apt -y install libmemcached-dev
+ ---> Running in 2d4166bba918
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libhashkit-dev libhashkit2 libmemcached11 libmemcachedutil2 libsasl2-dev
+The following NEW packages will be installed:
+  libhashkit-dev libhashkit2 libmemcached-dev libmemcached11 libmemcachedutil2
+  libsasl2-dev
+0 upgraded, 6 newly installed, 0 to remove and 0 not upgraded.
+Need to get 761 kB of archives.
+After this operation, 2369 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libhashkit2 amd64 1.0.18-4.1 [46.6 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libhashkit-dev amd64 1.0.18-4.1 [37.0 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmemcached11 amd64 1.0.18-4.1 [93.7 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmemcachedutil2 amd64 1.0.18-4.1 [22.3 kB]
+Get:5 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libsasl2-dev amd64 2.1.27~101-g0780600+dfsg-3 [310 kB]
+Get:6 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmemcached-dev amd64 1.0.18-4.1 [251 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 761 kB in 0s (954 kB/s)
+Selecting previously unselected package libhashkit2:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 17147 files and directories currently installed.)
+Preparing to unpack .../0-libhashkit2_1.0.18-4.1_amd64.deb ...
+Unpacking libhashkit2:amd64 (1.0.18-4.1) ...
+Selecting previously unselected package libhashkit-dev.
+Preparing to unpack .../1-libhashkit-dev_1.0.18-4.1_amd64.deb ...
+Unpacking libhashkit-dev (1.0.18-4.1) ...
+Selecting previously unselected package libmemcached11:amd64.
+Preparing to unpack .../2-libmemcached11_1.0.18-4.1_amd64.deb ...
+Unpacking libmemcached11:amd64 (1.0.18-4.1) ...
+Selecting previously unselected package libmemcachedutil2:amd64.
+Preparing to unpack .../3-libmemcachedutil2_1.0.18-4.1_amd64.deb ...
+Unpacking libmemcachedutil2:amd64 (1.0.18-4.1) ...
+Selecting previously unselected package libsasl2-dev.
+Preparing to unpack .../4-libsasl2-dev_2.1.27~101-g0780600+dfsg-3_amd64.deb ...
+Unpacking libsasl2-dev (2.1.27~101-g0780600+dfsg-3) ...
+Selecting previously unselected package libmemcached-dev.
+Preparing to unpack .../5-libmemcached-dev_1.0.18-4.1_amd64.deb ...
+Unpacking libmemcached-dev (1.0.18-4.1) ...
+Setting up libmemcached11:amd64 (1.0.18-4.1) ...
+Setting up libsasl2-dev (2.1.27~101-g0780600+dfsg-3) ...
+Setting up libhashkit2:amd64 (1.0.18-4.1) ...
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Setting up libmemcachedutil2:amd64 (1.0.18-4.1) ...
+Setting up libhashkit-dev (1.0.18-4.1) ...
+Setting up libmemcached-dev (1.0.18-4.1) ...
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Removing intermediate container 2d4166bba918
+ ---> 053df1dd9872
+Step 8/22 : RUN pecl install -f -o raphf
+ ---> Running in 8ee4eeb6f7d6
+downloading raphf-2.0.0.tgz ...
+Starting to download raphf-2.0.0.tgz (15,715 bytes)
+......done: 15,715 bytes
+8 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+building in /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0
+running: /tmp/pear/temp/raphf/configure --with-php-config=/usr/local/bin/php-config
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable raphf support... yes, shared
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/raphf -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/include -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/main -I/tmp/pear/temp/raphf -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/raphf/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/raphf/src/php_raphf_api.c -o src/php_raphf_api.lo
+mkdir src/.libs
+ cc -I. -I/tmp/pear/temp/raphf -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/include -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/main -I/tmp/pear/temp/raphf -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/raphf/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/raphf/src/php_raphf_api.c  -fPIC -DPIC -o src/.libs/php_raphf_api.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/include -I/tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/main -I/tmp/pear/temp/raphf -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/raphf/src  -DHAVE_CONFIG_H  -g -O2   -o raphf.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules  src/php_raphf_api.lo
+mkdir .libs
+cc -shared  src/.libs/php_raphf_api.o   -Wl,-soname -Wl,raphf.so -o .libs/raphf.so
+creating raphf.la
+(cd .libs && rm -f raphf.la && ln -s ../raphf.la raphf.la)
+/bin/bash /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/libtool --mode=install cp ./raphf.la /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+cp ./.libs/raphf.so /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules/raphf.so
+cp ./.libs/raphf.lai /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules/raphf.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0" install
+/bin/bash /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/libtool --mode=install cp ./raphf.la /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+cp ./.libs/raphf.so /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules/raphf.so
+cp ./.libs/raphf.lai /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules/raphf.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserBs4NzB/raphf-2.0.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Installing shared extensions:     /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+Installing header files:          /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php/
+running: find "/tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0" | xargs ls -dils
+ 67637844   0 drwxr-xr-x. 3 root root     17 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0
+101221769   0 drwxr-xr-x. 3 root root     19 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr
+  1208797   0 drwxr-xr-x. 4 root root     32 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local
+101221771   0 drwxr-xr-x. 3 root root     17 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include
+  1265761   0 drwxr-xr-x. 3 root root     17 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php
+ 34361769   0 drwxr-xr-x. 3 root root     19 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php/ext
+ 67637858   0 drwxr-xr-x. 2 root root     48 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php/ext/raphf
+ 67637861   4 -rw-r--r--. 1 root root   1295 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php/ext/raphf/php_raphf.h
+ 67637862  16 -rw-r--r--. 1 root root  12902 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/include/php/ext/raphf/php_raphf_api.h
+ 34361768   0 drwxr-xr-x. 3 root root     17 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib
+ 67637859   0 drwxr-xr-x. 3 root root     24 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib/php
+101221770   0 drwxr-xr-x. 3 root root     39 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib/php/extensions
+  1208798   0 drwxr-xr-x. 2 root root     22 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303
+  1265760 104 -rwxr-xr-x. 1 root root 105704 Mar 27 13:32 /tmp/pear/temp/pear-build-defaultuserBs4NzB/install-raphf-2.0.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/raphf.so
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20160303/raphf.so'
+Installing '/usr/local/include/php/ext/raphf/php_raphf.h'
+Installing '/usr/local/include/php/ext/raphf/php_raphf_api.h'
+install ok: channel://pecl.php.net/raphf-2.0.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=raphf.so" to php.ini
+Removing intermediate container 8ee4eeb6f7d6
+ ---> fa2e00e2fc4a
+Step 9/22 : RUN echo 'extension=raphf.so' > /usr/local/etc/php/conf.d/pecl_http.ini
+ ---> Running in 5e9755352918
+Removing intermediate container 5e9755352918
+ ---> 43eba42c934b
+Step 10/22 : RUN pecl install -f -o propro
+ ---> Running in 5d1e7ce53cdd
+downloading propro-2.1.0.tgz ...
+Starting to download propro-2.1.0.tgz (14,253 bytes)
+.....done: 14,253 bytes
+8 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+building in /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0
+running: /tmp/pear/temp/propro/configure --with-php-config=/usr/local/bin/php-config
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable property proxy support... yes, shared
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/propro -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/include -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/main -I/tmp/pear/temp/propro -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/propro/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/propro/src/php_propro_api.c -o src/php_propro_api.lo
+mkdir src/.libs
+ cc -I. -I/tmp/pear/temp/propro -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/include -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/main -I/tmp/pear/temp/propro -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/propro/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/propro/src/php_propro_api.c  -fPIC -DPIC -o src/.libs/php_propro_api.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/include -I/tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/main -I/tmp/pear/temp/propro -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/tmp/pear/temp/propro/src  -DHAVE_CONFIG_H  -g -O2   -o propro.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules  src/php_propro_api.lo
+mkdir .libs
+cc -shared  src/.libs/php_propro_api.o   -Wl,-soname -Wl,propro.so -o .libs/propro.so
+creating propro.la
+(cd .libs && rm -f propro.la && ln -s ../propro.la propro.la)
+/bin/bash /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/libtool --mode=install cp ./propro.la /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+cp ./.libs/propro.so /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules/propro.so
+cp ./.libs/propro.lai /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules/propro.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0" install
+/bin/bash /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/libtool --mode=install cp ./propro.la /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+cp ./.libs/propro.so /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules/propro.so
+cp ./.libs/propro.lai /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules/propro.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserPi54wa/propro-2.1.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Installing shared extensions:     /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+Installing header files:          /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php/
+running: find "/tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0" | xargs ls -dils
+  1208684   0 drwxr-xr-x. 3 root root     17 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0
+ 34361789   0 drwxr-xr-x. 3 root root     19 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr
+ 67660329   0 drwxr-xr-x. 4 root root     32 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local
+ 34361791   0 drwxr-xr-x. 3 root root     17 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include
+ 67660333   0 drwxr-xr-x. 3 root root     17 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php
+101221773   0 drwxr-xr-x. 3 root root     20 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php/ext
+  1208784   0 drwxr-xr-x. 2 root root     50 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php/ext/propro
+  1208786   4 -rw-r--r--. 1 root root   1356 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php/ext/propro/php_propro.h
+  1208787   4 -rw-r--r--. 1 root root   3985 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/include/php/ext/propro/php_propro_api.h
+101221772   0 drwxr-xr-x. 3 root root     17 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib
+  1208785   0 drwxr-xr-x. 3 root root     24 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib/php
+ 34361790   0 drwxr-xr-x. 3 root root     39 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib/php/extensions
+ 67660330   0 drwxr-xr-x. 2 root root     23 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303
+ 67660332 344 -rwxr-xr-x. 1 root root 349184 Mar 27 13:33 /tmp/pear/temp/pear-build-defaultuserPi54wa/install-propro-2.1.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/propro.so
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20160303/propro.so'
+Installing '/usr/local/include/php/ext/propro/php_propro.h'
+Installing '/usr/local/include/php/ext/propro/php_propro_api.h'
+install ok: channel://pecl.php.net/propro-2.1.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=propro.so" to php.ini
+Removing intermediate container 5d1e7ce53cdd
+ ---> ffd7e01fe7ab
+Step 11/22 : RUN echo 'extension=propro.so' >> /usr/local/etc/php/conf.d/pecl_http.ini
+ ---> Running in b6aeae1e7d56
+Removing intermediate container b6aeae1e7d56
+ ---> 34968d9a3c8d
+Step 12/22 : RUN pecl install -f -o pecl_http
+ ---> Running in 18c0bccc9299
+downloading pecl_http-3.2.0.tgz ...
+Starting to download pecl_http-3.2.0.tgz (218,829 bytes)
+.............................................done: 218,829 bytes
+84 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+where to find zlib [/usr] : where to find libcurl [/usr] : where to find libevent [/usr] : where to find libicu [/usr] : where to find libidn2 [/usr] : where to find libidn [/usr] : where to find libidnkit2 [/usr] : where to find libidnkit [/usr] : building in /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0
+running: /tmp/pear/temp/pecl_http/configure --with-php-config=/usr/local/bin/php-config --with-http-zlib-dir=/usr --with-http-libcurl-dir=/usr --with-http-libevent-dir=/usr --with-http-libicu-dir=/usr --with-http-libidn2-dir=/usr --with-http-libidn-dir=/usr --with-http-libidnkit2-dir=/usr --with-http-libidnkit-dir=/usr
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable extended HTTP support... yes, shared
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for off_t... yes
+checking for mbstate_t... yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking for unistd.h... (cached) yes
+checking wchar.h usability... yes
+checking wchar.h presence... yes
+checking for wchar.h... yes
+checking wctype.h usability... yes
+checking wctype.h presence... yes
+checking for wctype.h... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking for gethostname... yes
+checking for getdomainname... yes
+checking for mbrtowc... yes
+checking for mbtowc... yes
+checking for iswalnum... yes
+checking for inet_pton... yes
+checking whether/where to check for zlib... /usr
+checking for gawk... (cached) nawk
+checking for zlib... 1.2.8
+checking whether zlib version 1.2.8 >= 1.2.0.4... ok
+checking whether/where to check for libbrotli... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking for libbrotlicommon... no
+checking whether libbrotlicommon version  >= 1.0... no
+checking for libbrotlidec... no
+checking whether libbrotlidec version  >= 1.0... no
+checking for libbrotlienc... no
+checking whether libbrotlienc version  >= 1.0... no
+checking whether/where to check for libcurl... /usr
+checking for a sed that does not truncate output... /bin/sed
+checking for egrep... (cached) /bin/grep -E
+checking for curl-config... /usr/bin/curl-config
+checking for libcurl... 7.52.1
+checking whether libcurl version 7.52.1 >= 7.18.2... ok
+checking for default CA path... /etc/ssl/certs
+checking for default CA info... /etc/ssl/certs/ca-certificates.crt
+checking for HTTP protocol in libcurl... yes
+checking for HTTP2 feature in libcurl... yes
+checking for c-ares providing AsynchDNS in libcurl... no
+checking for SSL feature in libcurl... yes
+checking for OpenSSL providing SSL in libcurl... yes
+checking openssl/ssl.h usability... yes
+checking openssl/ssl.h presence... yes
+checking for openssl/ssl.h... yes
+checking openssl/crypto.h usability... yes
+checking openssl/crypto.h presence... yes
+checking for openssl/crypto.h... yes
+checking for CURLOPT_TLSAUTH_TYPE in curl/curl.h... yes
+checking whether CURLOPT_TLSAUTH_TYPE expects CURL_TLSAUTH_SRP... no
+checking for default CA path... (cached) /etc/ssl/certs
+checking for default CA info... (cached) /etc/ssl/certs/ca-certificates.crt
+checking whether/where to check for libevent... /usr
+checking for libevent... no
+checking whether/where to check for libidn2... /usr
+checking for libidn2... no
+checking whether/where to check for libidn... /usr
+checking for libidn... no
+checking whether/where to check for libicu... /usr
+checking for icu-config... false
+checking for libicu... no
+checking for uidna_IDNToASCII... no
+checking for uidna_nameToASCII_UTF8... no
+checking whether/where to check for libidnkit2... /usr
+checking for libidnkit2... no
+checking whether/where to check for libidnkit... /usr
+checking for libidnkit... no
+checking whether ext/raphf is enabled... yes
+checking for php_raphf.h of ext/raphf... /usr/local/include/php/ext/raphf
+checking whether ext/propro is enabled... yes
+checking for php_propro.h of ext/propro... /usr/local/include/php/ext/propro
+checking whether ext/hash is enabled... yes
+checking whether ext/iconv is enabled... yes
+checking whether to depend on extensions which have been built shared... yes
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http.c -o src/php_http.lo
+mkdir src/.libs
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http.c  -fPIC -DPIC -o src/.libs/php_http.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_buffer.c -o src/php_http_buffer.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_buffer.c  -fPIC -DPIC -o src/.libs/php_http_buffer.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client.c -o src/php_http_client.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client.c  -fPIC -DPIC -o src/.libs/php_http_client.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client_curl.c -o src/php_http_client_curl.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client_curl.c  -fPIC -DPIC -o src/.libs/php_http_client_curl.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client_curl_event.c -o src/php_http_client_curl_event.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client_curl_event.c  -fPIC -DPIC -o src/.libs/php_http_client_curl_event.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client_curl_user.c -o src/php_http_client_curl_user.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client_curl_user.c  -fPIC -DPIC -o src/.libs/php_http_client_curl_user.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client_request.c -o src/php_http_client_request.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client_request.c  -fPIC -DPIC -o src/.libs/php_http_client_request.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_client_response.c -o src/php_http_client_response.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_client_response.c  -fPIC -DPIC -o src/.libs/php_http_client_response.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_cookie.c -o src/php_http_cookie.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_cookie.c  -fPIC -DPIC -o src/.libs/php_http_cookie.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_curl.c -o src/php_http_curl.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_curl.c  -fPIC -DPIC -o src/.libs/php_http_curl.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_encoding.c -o src/php_http_encoding.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_encoding.c  -fPIC -DPIC -o src/.libs/php_http_encoding.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_encoding_brotli.c -o src/php_http_encoding_brotli.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_encoding_brotli.c  -fPIC -DPIC -o src/.libs/php_http_encoding_brotli.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_encoding_zlib.c -o src/php_http_encoding_zlib.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_encoding_zlib.c  -fPIC -DPIC -o src/.libs/php_http_encoding_zlib.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_env.c -o src/php_http_env.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_env.c  -fPIC -DPIC -o src/.libs/php_http_env.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_env_request.c -o src/php_http_env_request.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_env_request.c  -fPIC -DPIC -o src/.libs/php_http_env_request.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_env_response.c -o src/php_http_env_response.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_env_response.c  -fPIC -DPIC -o src/.libs/php_http_env_response.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_etag.c -o src/php_http_etag.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_etag.c  -fPIC -DPIC -o src/.libs/php_http_etag.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_exception.c -o src/php_http_exception.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_exception.c  -fPIC -DPIC -o src/.libs/php_http_exception.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_filter.c -o src/php_http_filter.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_filter.c  -fPIC -DPIC -o src/.libs/php_http_filter.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_header.c -o src/php_http_header.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_header.c  -fPIC -DPIC -o src/.libs/php_http_header.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_header_parser.c -o src/php_http_header_parser.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_header_parser.c  -fPIC -DPIC -o src/.libs/php_http_header_parser.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_info.c -o src/php_http_info.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_info.c  -fPIC -DPIC -o src/.libs/php_http_info.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_message.c -o src/php_http_message.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_message.c  -fPIC -DPIC -o src/.libs/php_http_message.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_message_body.c -o src/php_http_message_body.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_message_body.c  -fPIC -DPIC -o src/.libs/php_http_message_body.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_message_parser.c -o src/php_http_message_parser.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_message_parser.c  -fPIC -DPIC -o src/.libs/php_http_message_parser.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_misc.c -o src/php_http_misc.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_misc.c  -fPIC -DPIC -o src/.libs/php_http_misc.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_negotiate.c -o src/php_http_negotiate.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_negotiate.c  -fPIC -DPIC -o src/.libs/php_http_negotiate.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_object.c -o src/php_http_object.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_object.c  -fPIC -DPIC -o src/.libs/php_http_object.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_options.c -o src/php_http_options.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_options.c  -fPIC -DPIC -o src/.libs/php_http_options.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_params.c -o src/php_http_params.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_params.c  -fPIC -DPIC -o src/.libs/php_http_params.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_querystring.c -o src/php_http_querystring.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_querystring.c  -fPIC -DPIC -o src/.libs/php_http_querystring.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_url.c -o src/php_http_url.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_url.c  -fPIC -DPIC -o src/.libs/php_http_url.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/pecl_http/src/php_http_version.c -o src/php_http_version.lo
+ cc -I. -I/tmp/pear/temp/pecl_http -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/pecl_http/src/php_http_version.c  -fPIC -DPIC -o src/.libs/php_http_version.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/include -I/tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/main -I/tmp/pear/temp/pecl_http -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/local/include/php/ext/raphf -I/usr/local/include/php/ext/propro -I/tmp/pear/temp/pecl_http/src  -DHAVE_CONFIG_H  -g -O2   -o http.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules  src/php_http.lo src/php_http_buffer.lo src/php_http_client.lo src/php_http_client_curl.lo src/php_http_client_curl_event.lo src/php_http_client_curl_user.lo src/php_http_client_request.lo src/php_http_client_response.lo src/php_http_cookie.lo src/php_http_curl.lo src/php_http_encoding.lo src/php_http_
+encoding_brotli.lo src/php_http_encoding_zlib.lo src/php_http_env.lo src/php_http_env_request.lo src/php_http_env_response.lo src/php_http_etag.lo src/php_http_exception.lo src/php_http_filter.lo src/php_http_header.lo src/php_http_header_parser.lo src/php_http_info.lo src/php_http_message.lo src/php_http_message_body.lo src/php_http_message_parser.lo src/php_http_misc.lo src/php_http_negotiate.lo src/php_http_object.lo src/php_http_options.lo src/php_http_params.lo src/php_http_querystring.lo src/php_http_url.lo src/php_http_version.lo -lz -lz -lssl -lcrypto -lcurl -lcurl
+mkdir .libs
+cc -shared  src/.libs/php_http.o src/.libs/php_http_buffer.o src/.libs/php_http_client.o src/.libs/php_http_client_curl.o src/.libs/php_http_client_curl_event.o src/.libs/php_http_client_curl_user.o src/.libs/php_http_client_request.o src/.libs/php_http_client_response.o src/.libs/php_http_cookie.o src/.libs/php_http_curl.o src/.libs/php_http_encoding.o src/.libs/php_http_encoding_brotli.o src/.libs/php_http_encoding_zlib.o src/.libs/php_http_env.o src/.libs/php_http_env_request.o src/.libs/php_http_env_response.o src/.libs/php_http_etag.o src/.libs/php_http_exception.o src/.libs/php_http_filter.o src/.libs/php_http_header.o src/.libs/php_http_header_parser.o src/.libs/php_http_info.o src/.libs/php_http_message.o src/.libs/php_http_message_body.o src/.libs/php_http_message_parser.o src/.libs/php_http_misc.o src/.libs/php_http_negotiate.o src/.libs/php_http_object.o src/.libs/php_http_options.o src/.libs/php_http_params.o src/.libs/php_http_querystring.o src/.libs/php_http_url.o src/.libs/php_http_version.o
+-lz -lssl -lcrypto /usr/lib/x86_64-linux-gnu/libcurl.so  -Wl,-soname -Wl,http.so -o .libs/http.so
+creating http.la
+(cd .libs && rm -f http.la && ln -s ../http.la http.la)
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=install cp ./http.la /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+cp ./.libs/http.so /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules/http.so
+cp ./.libs/http.lai /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules/http.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0" install
+/bin/bash /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/libtool --mode=install cp ./http.la /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+cp ./.libs/http.so /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules/http.so
+cp ./.libs/http.lai /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules/http.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserzLfJ3f/pecl_http-3.2.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Installing shared extensions:     /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+Installing header files:          /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/
+running: find "/tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0" | xargs ls -dils
+101112696    0 drwxr-xr-x. 3 root root      17 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0
+  1124186    0 drwxr-xr-x. 3 root root      19 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr
+ 34373687    0 drwxr-xr-x. 4 root root      32 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local
+ 67899036    0 drwxr-xr-x. 3 root root      17 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include
+101114272    0 drwxr-xr-x. 3 root root      17 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php
+  1124188    0 drwxr-xr-x. 3 root root      18 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext
+ 34373691    4 drwxr-xr-x. 2 root root    4096 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http
+ 34373692    4 -rw-r--r--. 1 root root    1053 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http.h
+ 34373693    4 -rw-r--r--. 1 root root    3997 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_api.h
+ 34373694   12 -rw-r--r--. 1 root root   10513 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_buffer.h
+ 34373697    8 -rw-r--r--. 1 root root    7115 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client.h
+ 34373698    4 -rw-r--r--. 1 root root    2362 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client_curl.h
+ 34373699    4 -rw-r--r--. 1 root root    1037 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client_curl_event.h
+ 34373700    4 -rw-r--r--. 1 root root    2791 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client_curl_user.h
+ 34373701    4 -rw-r--r--. 1 root root    1047 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client_request.h
+ 34373702    4 -rw-r--r--. 1 root root    1053 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_client_response.h
+ 34373703    4 -rw-r--r--. 1 root root    3847 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_cookie.h
+ 34373704    4 -rw-r--r--. 1 root root    1322 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_curl.h
+ 34373705    8 -rw-r--r--. 1 root root    4731 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_encoding.h
+ 34373706    4 -rw-r--r--. 1 root root    2110 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_encoding_brotli.h
+ 34373707    4 -rw-r--r--. 1 root root    2353 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_encoding_zlib.h
+ 34373708    4 -rw-r--r--. 1 root root    3812 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_env.h
+ 34373709    4 -rw-r--r--. 1 root root    1003 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_env_request.h
+ 34373710    4 -rw-r--r--. 1 root root    3296 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_env_response.h
+ 34373711    4 -rw-r--r--. 1 root root    1543 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_etag.h
+ 34373712    4 -rw-r--r--. 1 root root    2326 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_exception.h
+ 34373713    4 -rw-r--r--. 1 root root     978 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_filter.h
+ 34373714    4 -rw-r--r--. 1 root root    1805 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_header.h
+ 34373715    4 -rw-r--r--. 1 root root    2965 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_header_parser.h
+ 34373716    4 -rw-r--r--. 1 root root    2100 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_info.h
+ 34373717    8 -rw-r--r--. 1 root root    4816 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_message.h
+ 34373718    8 -rw-r--r--. 1 root root    4180 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_message_body.h
+ 34373719    4 -rw-r--r--. 1 root root    3314 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_message_parser.h
+ 34373720    8 -rw-r--r--. 1 root root    7582 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_misc.h
+ 34373721    4 -rw-r--r--. 1 root root    4014 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_negotiate.h
+ 34373722    4 -rw-r--r--. 1 root root    1855 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_object.h
+ 34373723    4 -rw-r--r--. 1 root root    2228 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_options.h
+ 34373724    4 -rw-r--r--. 1 root root    2449 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_params.h
+ 34373725    4 -rw-r--r--. 1 root root    1877 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_querystring.h
+ 34373726    4 -rw-r--r--. 1 root root    3617 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_response_codes.h
+ 34373727    8 -rw-r--r--. 1 root root    4724 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_url.h
+ 34480868   24 -rw-r--r--. 1 root root   21039 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_utf8.h
+ 34480872    4 -rw-r--r--. 1 root root    1466 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/include/php/ext/http/php_http_version.h
+ 67899035    0 drwxr-xr-x. 3 root root      17 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib
+101114273    0 drwxr-xr-x. 3 root root      24 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib/php
+  1124187    0 drwxr-xr-x. 3 root root      39 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib/php/extensions
+ 34373688    0 drwxr-xr-x. 2 root root      21 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303
+ 34373690 2760 -rwxr-xr-x. 1 root root 2822176 Mar 27 13:34 /tmp/pear/temp/pear-build-defaultuserzLfJ3f/install-pecl_http-3.2.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/http.so
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20160303/http.so'
+Installing '/usr/local/include/php/ext/http/php_http.h'
+Installing '/usr/local/include/php/ext/http/php_http_api.h'
+Installing '/usr/local/include/php/ext/http/php_http_buffer.h'
+Installing '/usr/local/include/php/ext/http/php_http_client.h'
+Installing '/usr/local/include/php/ext/http/php_http_client_curl.h'
+Installing '/usr/local/include/php/ext/http/php_http_client_curl_event.h'
+Installing '/usr/local/include/php/ext/http/php_http_client_curl_user.h'
+Installing '/usr/local/include/php/ext/http/php_http_client_request.h'
+Installing '/usr/local/include/php/ext/http/php_http_client_response.h'
+Installing '/usr/local/include/php/ext/http/php_http_cookie.h'
+Installing '/usr/local/include/php/ext/http/php_http_curl.h'
+Installing '/usr/local/include/php/ext/http/php_http_encoding.h'
+Installing '/usr/local/include/php/ext/http/php_http_encoding_brotli.h'
+Installing '/usr/local/include/php/ext/http/php_http_encoding_zlib.h'
+Installing '/usr/local/include/php/ext/http/php_http_env.h'
+Installing '/usr/local/include/php/ext/http/php_http_env_request.h'
+Installing '/usr/local/include/php/ext/http/php_http_env_response.h'
+Installing '/usr/local/include/php/ext/http/php_http_etag.h'
+Installing '/usr/local/include/php/ext/http/php_http_exception.h'
+Installing '/usr/local/include/php/ext/http/php_http_filter.h'
+Installing '/usr/local/include/php/ext/http/php_http_header.h'
+Installing '/usr/local/include/php/ext/http/php_http_header_parser.h'
+Installing '/usr/local/include/php/ext/http/php_http_info.h'
+Installing '/usr/local/include/php/ext/http/php_http_message.h'
+Installing '/usr/local/include/php/ext/http/php_http_message_body.h'
+Installing '/usr/local/include/php/ext/http/php_http_message_parser.h'
+Installing '/usr/local/include/php/ext/http/php_http_misc.h'
+Installing '/usr/local/include/php/ext/http/php_http_negotiate.h'
+Installing '/usr/local/include/php/ext/http/php_http_object.h'
+Installing '/usr/local/include/php/ext/http/php_http_options.h'
+Installing '/usr/local/include/php/ext/http/php_http_params.h'
+Installing '/usr/local/include/php/ext/http/php_http_querystring.h'
+Installing '/usr/local/include/php/ext/http/php_http_response_codes.h'
+Installing '/usr/local/include/php/ext/http/php_http_url.h'
+Installing '/usr/local/include/php/ext/http/php_http_utf8.h'
+Installing '/usr/local/include/php/ext/http/php_http_version.h'
+install ok: channel://pecl.php.net/pecl_http-3.2.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=http.so" to php.ini
+Removing intermediate container 18c0bccc9299
+ ---> 932e5a8456bd
+Step 13/22 : RUN echo 'extension=http.so' >> /usr/local/etc/php/conf.d/pecl_http.ini
+ ---> Running in 5cd5cb1002de
+Removing intermediate container 5cd5cb1002de
+ ---> b24667703a63
+Step 14/22 : RUN docker-php-ext-install pdo_pgsql
+ ---> Running in 04d5f2f03ddc
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking for PostgreSQL support for PDO... yes, shared
+checking for pg_config... /usr/bin/pg_config
+checking for openssl dependencies... no
+checking for PQprepare in -lpq... yes
+checking for PQexecParams in -lpq... yes
+checking for PQescapeStringConn in -lpq... yes
+checking for PQescapeByteaConn in -lpq... yes
+checking for PDO includes... checking for PDO includes... /usr/local/include/php/ext
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+/bin/bash /usr/src/php/ext/pdo_pgsql/libtool --mode=compile cc -I/usr/local/include/php/ext  -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql  -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H  -fstack-protector-strong -fpic -fpie -O2   -c /usr/src/php/ext/pdo_pgsql/pdo_pgsql.c -o pdo_pgsql.lo 
+mkdir .libs
+ cc -I/usr/local/include/php/ext -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H -fstack-protector-strong -fpic -fpie -O2 -c /usr/src/php/ext/pdo_pgsql/pdo_pgsql.c  -fPIC -DPIC -o .libs/pdo_pgsql.o
+/bin/bash /usr/src/php/ext/pdo_pgsql/libtool --mode=compile cc -I/usr/local/include/php/ext  -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql  -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H  -fstack-protector-strong -fpic -fpie -O2   -c /usr/src/php/ext/pdo_pgsql/pgsql_driver.c -o pgsql_driver.lo 
+ cc -I/usr/local/include/php/ext -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H -fstack-protector-strong -fpic -fpie -O2 -c /usr/src/php/ext/pdo_pgsql/pgsql_driver.c  -fPIC -DPIC -o .libs/pgsql_driver.o
+/bin/bash /usr/src/php/ext/pdo_pgsql/libtool --mode=compile cc -I/usr/local/include/php/ext  -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql  -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H  -fstack-protector-strong -fpic -fpie -O2   -c /usr/src/php/ext/pdo_pgsql/pgsql_statement.c -o pgsql_statement.lo 
+ cc -I/usr/local/include/php/ext -I. -I/usr/src/php/ext/pdo_pgsql -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H -fstack-protector-strong -fpic -fpie -O2 -c /usr/src/php/ext/pdo_pgsql/pgsql_statement.c  -fPIC -DPIC -o .libs/pgsql_statement.o
+/bin/bash /usr/src/php/ext/pdo_pgsql/libtool --mode=link cc -DPHP_ATOM_INC -I/usr/src/php/ext/pdo_pgsql/include -I/usr/src/php/ext/pdo_pgsql/main -I/usr/src/php/ext/pdo_pgsql -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/postgresql  -fstack-protector-strong -fpic -fpie -O2 -DHAVE_CONFIG_H  -fstack-protector-strong -fpic -fpie -O2  -Wl,-O1 -Wl,--hash-style=both -pie -o pdo_pgsql.la -export-dynamic -avoid-version -prefer-pic -module -rpath /usr/src/php/ext/pdo_pgsql/modules  pdo_pgsql.lo pgsql_driver.lo pgsql_statement.lo -Wl,-rpath,/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -lpq
+cc -shared  .libs/pdo_pgsql.o .libs/pgsql_driver.o .libs/pgsql_statement.o  -L/usr/lib/x86_64-linux-gnu -lpq  -Wl,-O1 -Wl,--hash-style=both -Wl,-rpath -Wl,/usr/lib/x86_64-linux-gnu -Wl,-soname -Wl,pdo_pgsql.so -o .libs/pdo_pgsql.so
+creating pdo_pgsql.la
+(cd .libs && rm -f pdo_pgsql.la && ln -s ../pdo_pgsql.la pdo_pgsql.la)
+/bin/bash /usr/src/php/ext/pdo_pgsql/libtool --mode=install cp ./pdo_pgsql.la /usr/src/php/ext/pdo_pgsql/modules
+cp ./.libs/pdo_pgsql.so /usr/src/php/ext/pdo_pgsql/modules/pdo_pgsql.so
+cp ./.libs/pdo_pgsql.lai /usr/src/php/ext/pdo_pgsql/modules/pdo_pgsql.la
+PATH="$PATH:/sbin" ldconfig -n /usr/src/php/ext/pdo_pgsql/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/src/php/ext/pdo_pgsql/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+find . -name \*.gcno -o -name \*.gcda | xargs rm -f
+find . -name \*.lo -o -name \*.o | xargs rm -f
+find . -name \*.la -o -name \*.a | xargs rm -f
+find . -name \*.so | xargs rm -f
+find . -name .libs -a -type d|xargs rm -rf
+rm -f libphp.la       modules/* libs/*
+Removing intermediate container 04d5f2f03ddc
+ ---> 340009087300
+Step 15/22 : RUN pecl install -o -f memcached
+ ---> Running in cb703f4cccb2
+pecl/memcached can optionally use PHP extension "igbinary" (version >= 2.0)
+pecl/memcached can optionally use PHP extension "msgpack" (version >= 2.0)
+downloading memcached-3.1.3.tgz ...
+Starting to download memcached-3.1.3.tgz (82,673 bytes)
+....................done: 82,673 bytes
+15 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+libmemcached directory [no] : zlib directory [no] : use system fastlz [no] : enable igbinary serializer [no] : enable msgpack serializer [no] : enable json serializer [no] : enable server protocol [no] : enable sasl [yes] : enable sessions [yes] : building in /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3
+running: /tmp/pear/temp/memcached/configure --with-php-config=/usr/local/bin/php-config --with-libmemcached-dir=no --with-zlib-dir=no --with-system-fastlz=no --enable-memcached-igbinary=no --enable-memcached-msgpack=no --enable-memcached-json=no --enable-memcached-protocol=no --enable-memcached-sasl=yes --enable-memcached-session=yes
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable memcached support... yes, shared
+checking for libmemcached... yes, shared
+checking whether to enable memcached session handler support... yes
+checking whether to enable memcached igbinary serializer support... no
+checking whether to enable memcached json serializer support... no
+checking whether to enable memcached msgpack serializer support... no
+checking whether to enable memcached sasl support... yes
+checking whether to enable memcached protocol support... no
+checking whether to use system FastLZ library... no
+checking for ZLIB... yes, shared
+checking for pkg-config... /usr/bin/pkg-config
+checking for zlib location... /usr
+checking for session includes... /usr/local/include/php
+checking for memcached session support... enabled
+checking for memcached igbinary support... disabled
+checking for memcached msgpack support... disabled
+checking for libmemcached location... found version 1.0.18, under /usr
+checking for libmemcached sasl.h requirement... yes
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking sasl/sasl.h usability... yes
+checking sasl/sasl.h presence... yes
+checking for sasl/sasl.h... yes
+checking whether to enable sasl support... yes
+checking for sasl_client_init in -lsasl2... yes
+checking whether memcached_exist is defined... yes
+checking whether memcached_set_encoding_key is defined... yes
+checking for memcached protocol support... disabled
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=compile cc -I/usr/local/include/php    -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -c /tmp/pear/temp/memcached/php_memcached.c -o php_memcached.lo
+mkdir .libs
+ cc -I/usr/local/include/php -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -c /tmp/pear/temp/memcached/php_memcached.c  -fPIC -DPIC -o .libs/php_memcached.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=compile cc -I/usr/local/include/php    -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -c /tmp/pear/temp/memcached/php_libmemcached_compat.c -o php_libmemcached_compat.lo
+ cc -I/usr/local/include/php -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -c /tmp/pear/temp/memcached/php_libmemcached_compat.c  -fPIC -DPIC -o .libs/php_libmemcached_compat.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=compile cc -I/usr/local/include/php    -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -c /tmp/pear/temp/memcached/g_fmt.c -o g_fmt.lo
+ cc -I/usr/local/include/php -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -c /tmp/pear/temp/memcached/g_fmt.c  -fPIC -DPIC -o .libs/g_fmt.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=compile cc -I/usr/local/include/php    -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -c /tmp/pear/temp/memcached/fastlz/fastlz.c -o fastlz/fastlz.lo
+mkdir fastlz/.libs
+ cc -I/usr/local/include/php -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -c /tmp/pear/temp/memcached/fastlz/fastlz.c  -fPIC -DPIC -o fastlz/.libs/fastlz.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=compile cc -I/usr/local/include/php    -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -c /tmp/pear/temp/memcached/php_memcached_session.c -o php_memcached_session.lo
+ cc -I/usr/local/include/php -I. -I/tmp/pear/temp/memcached -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -c /tmp/pear/temp/memcached/php_memcached_session.c  -fPIC -DPIC -o .libs/php_memcached_session.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/include -I/tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/main -I/tmp/pear/temp/memcached -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib   -o memcached.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules  php_memcached.lo php_libmemcached_compat.lo g_fmt.lo fastlz/fastlz.lo php_memcached_session.lo -lz -lmemcached -lmemcachedutil -lsasl2
+cc -shared  .libs/php_memcached.o .libs/php_libmemcached_compat.o .libs/g_fmt.o fastlz/.libs/fastlz.o .libs/php_memcached_session.o  -lz -lmemcached -lmemcachedutil -lsasl2  -Wl,-soname -Wl,memcached.so -o .libs/memcached.so
+creating memcached.la
+(cd .libs && rm -f memcached.la && ln -s ../memcached.la memcached.la)
+/bin/bash /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/libtool --mode=install cp ./memcached.la /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules
+cp ./.libs/memcached.so /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules/memcached.so
+cp ./.libs/memcached.lai /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules/memcached.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserfZy05f/memcached-3.1.3/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3" install
+Installing shared extensions:     /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+running: find "/tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3" | xargs ls -dils
+101344466   0 drwxr-xr-x. 3 root root     17 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3
+  1264411   0 drwxr-xr-x. 3 root root     19 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr
+ 34488143   0 drwxr-xr-x. 3 root root     17 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local
+ 67660319   0 drwxr-xr-x. 3 root root     17 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib
+101709558   0 drwxr-xr-x. 3 root root     24 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib/php
+  1264412   0 drwxr-xr-x. 3 root root     39 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib/php/extensions
+ 34488144   0 drwxr-xr-x. 2 root root     26 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib/php/extensions/no-debug-non-zts-20160303
+ 34488146 572 -rwxr-xr-x. 1 root root 583848 Mar 27 13:35 /tmp/pear/temp/pear-build-defaultuserfZy05f/install-memcached-3.1.3/usr/local/lib/php/extensions/no-debug-non-zts-20160303/memcached.so
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20160303/memcached.so'
+install ok: channel://pecl.php.net/memcached-3.1.3
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=memcached.so" to php.ini
+Removing intermediate container cb703f4cccb2
+ ---> 31ebb835762c
+Step 16/22 : RUN docker-php-ext-enable memcached
+ ---> Running in ffbb627bd39a
+Removing intermediate container ffbb627bd39a
+ ---> dfb0f6707e25
+Step 17/22 : RUN pecl install -o -f redis
+ ---> Running in e9bf40110fb3
+downloading redis-4.3.0.tgz ...
+Starting to download redis-4.3.0.tgz (241,883 bytes)
+..................................................done: 241,883 bytes
+25 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20160303
+Zend Module Api No:      20160303
+Zend Extension Api No:   320160303
+enable igbinary serializer support? [no] : enable lzf compression support? [no] : building in /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0
+running: /tmp/pear/temp/redis/configure --with-php-config=/usr/local/bin/php-config --enable-redis-igbinary=no --enable-redis-lzf=no
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... re2c
+checking for re2c version... 0.16 (ok)
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable redis support... yes, shared
+checking whether to enable sessions... yes
+checking whether to enable igbinary serializer support... no
+checking whether to enable lzf compression... no
+checking use system liblzf... no
+checking for redis igbinary support... disabled
+checking for git... yes
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis.c -o redis.lo
+mkdir .libs
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis.c  -fPIC -DPIC -o .libs/redis.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis_commands.c -o redis_commands.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis_commands.c  -fPIC -DPIC -o .libs/redis_commands.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/library.c -o library.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/library.c  -fPIC -DPIC -o .libs/library.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis_session.c -o redis_session.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis_session.c  -fPIC -DPIC -o .libs/redis_session.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis_array.c -o redis_array.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis_array.c  -fPIC -DPIC -o .libs/redis_array.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis_array_impl.c -o redis_array_impl.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis_array_impl.c  -fPIC -DPIC -o .libs/redis_array_impl.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/redis_cluster.c -o redis_cluster.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/redis_cluster.c  -fPIC -DPIC -o .libs/redis_cluster.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=compile cc  -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/redis/cluster_library.c -o cluster_library.lo
+ cc -I. -I/tmp/pear/temp/redis -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/redis/cluster_library.c  -fPIC -DPIC -o .libs/cluster_library.o
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/include -I/tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/main -I/tmp/pear/temp/redis -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -o redis.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules  redis.lo redis_commands.lo library.lo redis_session.lo redis_array.lo redis_array_impl.lo redis_cluster.lo cluster_library.lo
+cc -shared  .libs/redis.o .libs/redis_commands.o .libs/library.o .libs/redis_session.o .libs/redis_array.o .libs/redis_array_impl.o .libs/redis_cluster.o .libs/cluster_library.o   -Wl,-soname -Wl,redis.so -o .libs/redis.so
+creating redis.la
+(cd .libs && rm -f redis.la && ln -s ../redis.la redis.la)
+/bin/bash /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/libtool --mode=install cp ./redis.la /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules
+cp ./.libs/redis.so /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules/redis.so
+cp ./.libs/redis.lai /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules/redis.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-defaultuserEG5fAG/redis-4.3.0/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0" install
+Installing shared extensions:     /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/
+running: find "/tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0" | xargs ls -dils
+101112600    0 drwxr-xr-x. 3 root root      17 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0
+ 67899039    0 drwxr-xr-x. 3 root root      19 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr
+101112601    0 drwxr-xr-x. 3 root root      17 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local
+  1096925    0 drwxr-xr-x. 3 root root      17 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib
+ 34361783    0 drwxr-xr-x. 3 root root      24 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib/php
+ 67869728    0 drwxr-xr-x. 3 root root      39 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib/php/extensions
+101112603    0 drwxr-xr-x. 2 root root      22 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303
+101112604 2372 -rwxr-xr-x. 1 root root 2425208 Mar 27 13:36 /tmp/pear/temp/pear-build-defaultuserEG5fAG/install-redis-4.3.0/usr/local/lib/php/extensions/no-debug-non-zts-20160303/redis.so
+
+Build process completed successfully
+Installing '/usr/local/lib/php/extensions/no-debug-non-zts-20160303/redis.so'
+install ok: channel://pecl.php.net/redis-4.3.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=redis.so" to php.ini
+Removing intermediate container e9bf40110fb3
+ ---> 3ab165869356
+Step 18/22 : RUN docker-php-ext-enable redis
+ ---> Running in eb08df73412c
+Removing intermediate container eb08df73412c
+ ---> 35ab6cf09648
+Step 19/22 : RUN mkdir /tmp/composer && cd /tmp/composer
+ ---> Running in 9db72eb92176
+Removing intermediate container 9db72eb92176
+ ---> 728568c43493
+Step 20/22 : RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+ ---> Running in 4db62548830e
+Removing intermediate container 4db62548830e
+ ---> 59237b7c76dd
+Step 21/22 : RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+ ---> Running in 784b767be36b
+All settings correct for using Composer
+Downloading...
+
+Composer (version 1.8.4) successfully installed to: /usr/local/bin/composer
+Use it: php /usr/local/bin/composer
+
+Removing intermediate container 784b767be36b
+ ---> 0ce7d127125c
+Step 22/22 : RUN cd ~ && rm -rf /tmp/composer
+ ---> Running in a993fab203ab
+Removing intermediate container a993fab203ab
+ ---> 33468d64a041
+Successfully built 33468d64a041
+Successfully tagged php_otus:latest
