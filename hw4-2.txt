@@ -1,0 +1,5 @@
+# GIT
+git clone https://github.com/TimGa/packagist-test.git
+
+# COMPOSER
+composer require timga/packagist-test
