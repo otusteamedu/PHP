@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    otus-php-fpm:
+        container_name: otus-php-fpm
+        image: otus/php-fpm
+        build: ./docker
+        volumes:
+            - ./app:/app
+        restart: always
+        ulimits:
+            nofile:
+                soft: 65535
+                hard: 65535

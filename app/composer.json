@@ -1,0 +1,11 @@
+{
+    "name": "fpronin/hw5-1",
+    "require": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Fdor\\" : "src"
+        }
+    }
+}
