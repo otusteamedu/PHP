@@ -1,0 +1,38 @@
+/tmp/mailparse-3.0.3 # cat make_output.txt
+/bin/sh /tmp/mailparse-3.0.3/libtool --mode=compile cc  -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/mailparse-3.0.3/mailparse.c -o mailparse.lo
+mkdir .libs
+ cc -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/mailparse-3.0.3/mailparse.c  -fPIC -DPIC -o .libs/mailparse.o
+/bin/sh /tmp/mailparse-3.0.3/libtool --mode=compile cc  -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/mailparse-3.0.3/php_mailparse_mime.c -o php_mailparse_mime.lo
+ cc -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/mailparse-3.0.3/php_mailparse_mime.c  -fPIC -DPIC -o .libs/php_mailparse_mime.o
+/bin/sh /tmp/mailparse-3.0.3/libtool --mode=compile cc  -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/mailparse-3.0.3/php_mailparse_rfc822.c -o php_mailparse_rfc822.lo
+ cc -I. -I/tmp/mailparse-3.0.3 -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/mailparse-3.0.3/php_mailparse_rfc822.c  -fPIC -DPIC -o .libs/php_mailparse_rfc822.o
+/bin/sh /tmp/mailparse-3.0.3/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/mailparse-3.0.3/include -I/tmp/mailparse-3.0.3/main -I/tmp/mailparse-3.0.3 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -o mailparse.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/mailparse-3.0.3/modules  mailparse.lo php_mailparse_mime.lo php_mailparse_rfc822.lo
+cc -shared  .libs/mailparse.o .libs/php_mailparse_mime.o .libs/php_mailparse_rfc822.o   -Wl,-soname -Wl,mailparse.so -o .libs/mailparse.so
+creating mailparse.la
+(cd .libs && rm -f mailparse.la && ln -s ../mailparse.la mailparse.la)
+/bin/sh /tmp/mailparse-3.0.3/libtool --mode=install cp ./mailparse.la /tmp/mailparse-3.0.3/modules
+cp ./.libs/mailparse.so /tmp/mailparse-3.0.3/modules/mailparse.so
+cp ./.libs/mailparse.lai /tmp/mailparse-3.0.3/modules/mailparse.la
+PATH="$PATH:/sbin" ldconfig -n /tmp/mailparse-3.0.3/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/mailparse-3.0.3/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+/tmp/mailparse-3.0.3 #
