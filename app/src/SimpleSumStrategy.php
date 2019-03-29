@@ -3,7 +3,7 @@
 namespace Fdor;
 
 /**
- * Class Srategy1
+ * Class SimpleSumStrategy
  * @package Fdor
  */
 class SimpleSumStrategy implements StrategyInterface
