@@ -16,8 +16,7 @@ class CalcTest extends TestCase
         $b = 3.7;
 
         $simpleSumStrategy = new SimpleSumStrategy();
-        $roundSumStrategy = new RoundSumStrategy();
-        $roundSumStrategy->setSimpleSumStrategy($simpleSumStrategy);
+        $roundSumStrategy = new RoundSumStrategy($simpleSumStrategy);
 
         $calc = new Calc($simpleSumStrategy);
         $this->assertEquals($calc->execute($a, $b), 8.9);

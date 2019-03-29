@@ -14,9 +14,10 @@ class RoundSumStrategy implements StrategyInterface
     private $simpleSumStrategy;
 
     /**
+     * RoundSumStrategy constructor.
      * @param StrategyInterface $simpleSumStrategy
      */
-    public function setSimpleSumStrategy(StrategyInterface $simpleSumStrategy): void
+    public function __construct(StrategyInterface $simpleSumStrategy)
     {
         $this->simpleSumStrategy = $simpleSumStrategy;
     }
