@@ -1,0 +1,11 @@
+{
+    "name": "fdor/hw5-1",
+    "require": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Fdor\\" : "src"
+        }
+    }
+}
