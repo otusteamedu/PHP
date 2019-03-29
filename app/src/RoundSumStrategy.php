@@ -3,11 +3,24 @@
 namespace Fdor;
 
 /**
- * Class Srategy1
+ * Class RoundSumStrategy
  * @package Fdor
  */
 class RoundSumStrategy implements StrategyInterface
 {
+    /**
+     * @var StrategyInterface
+     */
+    private $simpleSumStrategy;
+
+    /**
+     * @param StrategyInterface $simpleSumStrategy
+     */
+    public function setSimpleSumStrategy(StrategyInterface $simpleSumStrategy): void
+    {
+        $this->simpleSumStrategy = $simpleSumStrategy;
+    }
+
     /**
      * @param float $a
      * @param float $b
@@ -15,6 +28,8 @@ class RoundSumStrategy implements StrategyInterface
      */
     public function calc(float $a, float $b): float
     {
-        return round($a + $b);
+        $sum = $this->simpleSumStrategy->calc($a, $b);
+
+        return round($sum);
     }
 }

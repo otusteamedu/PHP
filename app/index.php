@@ -16,6 +16,7 @@ $b = $argv[2];
 
 $simpleSumStrategy = new SimpleSumStrategy();
 $roundSumStrategy = new RoundSumStrategy();
+$roundSumStrategy->setSimpleSumStrategy($simpleSumStrategy);
 
 $calc = new Calc($simpleSumStrategy);
 echo 'Simple sum strategy: ' . $calc->execute($a, $b) . PHP_EOL;
