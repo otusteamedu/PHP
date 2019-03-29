@@ -14,7 +14,7 @@ class Fixer
      */
     public static function fix(string $string): ?string
     {
-        if (preg_match('/git c[^t]+t/', $string)) {
+        if (preg_match('/git co[^t]+t/', $string)) {
             echo 'Maybe you meant: "git commit"? (y/n)';
             fscanf(STDIN, "%s\n", $answer);
 
