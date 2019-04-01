@@ -1,0 +1,3 @@
+FROM nginx
+WORKDIR /src
+EXPOSE 80

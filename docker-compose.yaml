@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  webserver:
+    container_name: nginx
+    image: nginx
+    build: ./docker/nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/src
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+  php:
+    container_name: php-fpm
+    image:  php:7.1.27-fpm-alpine3.9
+    build: ./docker/php
+    volumes:
+      - ./src:/src
