@@ -1,6 +1,6 @@
 <?php
 
-if ($_POST['string'] === '(()()()()))((((()()()))(()()()(((()))))))') {
+if (!empty($_POST['string']) && $_POST['string'] === '(()()()()))((((()()()))(()()()(((()))))))') {
     header("HTTP/1.1 200 OK");
     echo 'ok' . PHP_EOL;
 } else {
