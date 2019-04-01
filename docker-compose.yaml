@@ -26,4 +26,3 @@ services:
 
 networks:
     otus-network:
-        external: true
