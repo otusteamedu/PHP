@@ -1,0 +1,15 @@
+{
+    "name": "crazydope/command-fix",
+    "description": "Home Work 5-3",
+    "authors": [
+        {
+            "name": "Agureev Dmitry",
+            "email": "crazydope@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "crazydope\\command\\fix\\" : "src"
+        }
+    }
+}

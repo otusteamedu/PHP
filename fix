@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+require 'vendor/autoload.php';
+
+echo 'Please type a command: ';
+$input = trim(fgets(STDIN));
+$command = (new \crazydope\command\fix\ComposerUpdate)($input);
+
+echo $command ?? $input;
