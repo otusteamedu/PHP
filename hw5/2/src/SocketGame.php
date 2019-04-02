@@ -33,6 +33,9 @@ class SocketGame
         $this->address = $address;
         $this->port = $port;
         $this->logger = new Logger('socket_game');
+        if (file_exists($address)) {
+            @unlink($address);
+        }
         $this->createSocket();
     }
 
@@ -61,6 +64,7 @@ class SocketGame
         $this->setupServer($this->address, $this->port);
         try {
             do {
+                pcntl_signal_dispatch();
                 try {
                     $number = \random_int(1, 10);
                     $this->acceptClient();
@@ -76,6 +80,8 @@ class SocketGame
                         $answer = "You're loss. See you later :)\n";
                     }
                     $this->writeToClient($answer);
+                } catch (ServerStoppedException $e) {
+                    $this->logger->debug($e->getMessage());
                 } catch (RuntimeException $e) {
                     $this->logger->err($e->getMessage(), ['exception' => $e]);
                     echo $e->getMessage();
@@ -135,11 +141,12 @@ class SocketGame
     private function acceptClient(): void
     {
         $this->logger->debug(\sprintf('Wait for client...'));
-        $this->client = socket_accept($this->sock);
-        if ($this->client === false) {
-            throw new RuntimeException(\sprintf(
-                "Не удалось выполнить socket_accept(): причина: %s \n", $this->getLastError()
-            ));
+        socket_set_nonblock($this->sock);
+        while ($this->client = socket_accept($this->sock) === false) {
+            if ($this->isStopped) {
+                throw new ServerStoppedException('Server stopped');
+            }
+            usleep(100);
         }
         $this->logger->debug(\sprintf('Client connected.'));
     }
@@ -186,9 +193,9 @@ class SocketGame
 
     private function closeClient(): void
     {
-        if ($this->client !== false) {
+        if (is_bool($this->client) !== true) {
             $this->logger->debug(\sprintf('Close client.'));
-            socket_close($this->client);
+            $this->client && socket_close($this->client);
         }
     }
 
@@ -196,7 +203,7 @@ class SocketGame
     {
         if ($this->sock !== false) {
             $this->logger->debug(\sprintf('Close socket.'));
-            socket_close($this->sock);
+            $this->sock && socket_close($this->sock);
         }
     }
 
