@@ -1,0 +1,24 @@
+{
+  "name": "pawigor/otus-hw5-1",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Igor Pavlichenko",
+      "email": "pawigor@pieware.ru"
+    }
+  ],
+  "require": {
+    "php": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "HW5_1\\": "./src/"
+    },
+    "classmap": [
+      "src/"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0"
+  }
+}
