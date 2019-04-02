@@ -1,0 +1,23 @@
+{
+    "name": "nvggit/hw5-1",
+    "authors": [
+        {
+            "name": "Voronin Nikita",
+            "email": "cubaman@mail.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit" : "*"
+    },
+    "scripts": {
+        "test": [
+            "phpunit test/*.php"
+        ]
+    },
+    "autoload": {
+        "psr-4" : {
+            "nvggit\\": "src/"
+        }
+    }
+}
