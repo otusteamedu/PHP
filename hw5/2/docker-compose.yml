@@ -1,0 +1,8 @@
+version: "3"
+services:
+  server:
+    build: .
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: ["./game.php","--mode server"]
