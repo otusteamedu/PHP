@@ -33,9 +33,6 @@ class SocketGame
         $this->address = $address;
         $this->port = $port;
         $this->logger = new Logger('socket_game');
-        if (file_exists($address)) {
-            @unlink($address);
-        }
         $this->createSocket();
     }
 
@@ -49,6 +46,7 @@ class SocketGame
                 "Не удалось выполнить socket_create(): причина: %s \n", $this->getLastError()
             ));
         }
+        socket_set_nonblock($this->sock);
     }
 
     /**
@@ -64,7 +62,6 @@ class SocketGame
         $this->setupServer($this->address, $this->port);
         try {
             do {
-                pcntl_signal_dispatch();
                 try {
                     $number = \random_int(1, 10);
                     $this->acceptClient();
@@ -141,10 +138,9 @@ class SocketGame
     private function acceptClient(): void
     {
         $this->logger->debug(\sprintf('Wait for client...'));
-        socket_set_nonblock($this->sock);
-        while ($this->client = socket_accept($this->sock) === false) {
+        while (($this->client = socket_accept($this->sock)) === false) {
             if ($this->isStopped) {
-                throw new ServerStoppedException('Server stopped');
+                throw  new ServerStoppedException('Server Stopped');
             }
             usleep(100);
         }
@@ -193,9 +189,9 @@ class SocketGame
 
     private function closeClient(): void
     {
-        if (is_bool($this->client) !== true) {
+        if ($this->client !== false) {
             $this->logger->debug(\sprintf('Close client.'));
-            $this->client && socket_close($this->client);
+            socket_close($this->client);
         }
     }
 
@@ -203,7 +199,7 @@ class SocketGame
     {
         if ($this->sock !== false) {
             $this->logger->debug(\sprintf('Close socket.'));
-            $this->sock && socket_close($this->sock);
+            socket_close($this->sock);
         }
     }
 
