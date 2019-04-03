@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+    hw5-2:
+        container_name: hw5-2
+        build: .
+        volumes:
+            - ./app:/app
+        restart: always
+        command: php server.php
