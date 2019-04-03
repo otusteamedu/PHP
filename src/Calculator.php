@@ -19,15 +19,15 @@ class Calculator
         $this->expresion = $expr->toPostfix();
     }
 
-    public function calculate()
+    public function calculate(): float
     {
-        $stack = new StackImpl();
         $input = $this->expresion;
         $tokens = explode(InfixExpresion::SEPARATOR, $input);
+        $stack = new StackImpl();
         foreach ($tokens as $token) {
             $this->createCalcContext($token)->calculation($stack);
         }
-        return $stack->isEmpty() ? 0 : $stack->pop();
+        return $stack->isEmpty() ? 0.0 : (float)$stack->pop();
     }
 
     /**

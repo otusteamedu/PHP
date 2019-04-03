@@ -17,7 +17,7 @@ class DivOperation implements Operation
     {
         $b = $stack->pop();
         if ($b === 0) {
-            throw  new DivisionByZeroError('Division By Zero');
+            throw new DivisionByZeroError('Division By Zero');
         }
         $a = $stack->pop();
         $result = $a / $b;

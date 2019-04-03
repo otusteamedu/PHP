@@ -77,20 +77,19 @@ class InfixExpresion
                 case self::RIGHT_PARENTHESIS:
                     $this->gotRightParenthesis();
                     break;
-                case preg_match('/[\d\.]/', $ch) > 0:
+                default:
                     $str = '';
-                    do {
+                    while ($this->isDigitOrDot($ch)) {
                         $str .= $ch;
                         $i++;
                         if ($i >= $strlen) {
                             break;
                         }
                         $ch = $input[$i];
-                    } while (preg_match('/[\d\.]/', $ch) > 0);
+                    }
                     $i--;
                     $this->toOutput($str);
                     break;
-                default:
             }
         }
         while (!$this->stack->isEmpty()) {
@@ -137,5 +136,14 @@ class InfixExpresion
             }
             $this->toOutput($ch);
         }
+    }
+
+    /**
+     * @param $ch
+     * @return bool
+     */
+    private function isDigitOrDot($ch): bool
+    {
+        return preg_match('/[\d\.]/', $ch) > 0;
     }
 }
