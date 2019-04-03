@@ -9,6 +9,6 @@ services:
     networks:
       - otus
   app:
-    build: .
+    build: hw6/1
     networks:
       - otus
