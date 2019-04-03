@@ -11,5 +11,5 @@ if (count($argv) > 0) {
     $calculator = new Calc(implode(InfixExpresion::SEPARATOR, $argv));
     echo sprintf("%2.8f \n", $calculator->calculate());
 } else {
-    echo sprintf('Usage: %s <expresion>', basename($name));
+    echo sprintf("Usage: %s <expresion> \n", basename($name));
 }
