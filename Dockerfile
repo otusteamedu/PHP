@@ -14,7 +14,7 @@ COPY composer.lock .
 
 RUN composer install
 
-ADD ./src/ ./src/
+ADD src ./src/
 ADD game.php .
 RUN chmod +x game.php
 
