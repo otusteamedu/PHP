@@ -1,7 +1,7 @@
 version: "3"
 services:
   server:
-    build: hw5/2
+    build: .
     volumes:
       - ./:/app
     working_dir: /app
