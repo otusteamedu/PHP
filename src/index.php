@@ -1,5 +1,9 @@
 <?php 
-    echo $_POST['string'];
-    echo "<br>всё хорошо";
+    if ($_POST['string'] == '(()()()()))((((()()()))(()()()(((()))))))') 
+    {
+	echo "всё хорошо";
+    } else {
+	header('HTTP/1.1 400 Bad Request');
+    }
 ?>
 
