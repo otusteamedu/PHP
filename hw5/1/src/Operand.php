@@ -6,7 +6,6 @@ class Operand implements Operation
 {
     private $value;
 
-
     /**
      * Operand constructor.
      * @param $value
@@ -16,8 +15,8 @@ class Operand implements Operation
         $this->value = $value;
     }
 
-    public function calculate(Stack $stack): float
+    public function calculate(Stack $stack): void
     {
-        return $stack->push($this->value);
+        $stack->push($this->value);
     }
 }

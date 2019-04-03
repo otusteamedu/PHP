@@ -18,9 +18,8 @@ class CalcContext
         $this->operation = $operation;
     }
 
-    public function calculation(Stack $stack): float
+    public function calculation(Stack $stack): void
     {
-        return $this->operation->calculate($stack);
+        $this->operation->calculate($stack);
     }
-
 }

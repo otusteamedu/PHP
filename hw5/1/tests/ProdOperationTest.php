@@ -37,7 +37,7 @@ class ProdOperationTest extends TestCase
     {
         $stack = $this->getStack($a, $b);
         $op = new ProdOperation();
-        self::assertEquals($r, $op->calculate($stack));
+        $op->calculate($stack);
         self::assertEquals($r, $stack->pop());
         self::assertTrue($stack->isEmpty());
     }

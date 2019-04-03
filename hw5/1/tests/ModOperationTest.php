@@ -37,7 +37,7 @@ class ModOperationTest extends TestCase
     {
         $stack = $this->getStack($a, $b);
         $op = new ModOperation();
-        self::assertEquals($r, $op->calculate($stack));
+        $op->calculate($stack);
         self::assertEquals($r, $stack->pop());
         self::assertTrue($stack->isEmpty());
     }

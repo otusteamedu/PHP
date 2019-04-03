@@ -13,7 +13,7 @@ use DivisionByZeroError;
 class DivOperation implements Operation
 {
 
-    public function calculate(Stack $stack): float
+    public function calculate(Stack $stack): void
     {
         $b = $stack->pop();
         if ($b === 0) {
@@ -22,6 +22,5 @@ class DivOperation implements Operation
         $a = $stack->pop();
         $result = $a / $b;
         $stack->push($result);
-        return $result;
     }
 }

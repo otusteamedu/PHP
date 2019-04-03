@@ -11,5 +11,5 @@ namespace HW5_1;
 
 interface Operation
 {
-    public function calculate(Stack $stack): float ;
+    public function calculate(Stack $stack): void;
 }

@@ -13,8 +13,8 @@ class NullOperation implements Operation
     {
     }
 
-    public function calculate(Stack $stack): float
+    public function calculate(Stack $stack): void
     {
-        return 0.0;
+
     }
 }

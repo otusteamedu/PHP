@@ -12,12 +12,11 @@ namespace HW5_1;
 class AddOperation implements Operation
 {
 
-    public function calculate(Stack $stack): float
+    public function calculate(Stack $stack): void
     {
         $a = $stack->pop();
         $b = $stack->pop();
         $result = $a + $b;
         $stack->push($result);
-        return $result;
     }
 }

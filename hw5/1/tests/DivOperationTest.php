@@ -37,7 +37,7 @@ class DivOperationTest extends TestCase
     {
         $stack = $this->getStack($a, $b);
         $op = new DivOperation();
-        self::assertEquals($r, $op->calculate($stack));
+        $op->calculate($stack);
         self::assertEquals($r, $stack->pop());
         self::assertTrue($stack->isEmpty());
     }
