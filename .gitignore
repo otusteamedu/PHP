@@ -9,3 +9,4 @@ composer.phar
 
 .phpunit.result.cache
 phpunit.phar
+.idea
