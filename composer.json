@@ -12,7 +12,7 @@
   },
   "autoload": {
     "psr-4": {
-      "HW5_1\\": "./src/"
+      "HW5_1\\": "src/"
     },
     "classmap": [
       "src/"
