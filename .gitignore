@@ -3,6 +3,6 @@
 composer.phar
 /vendor/
 
-#.idea
+.idea
 
 docker-compose.override.yml
