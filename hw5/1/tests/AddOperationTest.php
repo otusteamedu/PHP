@@ -38,6 +38,8 @@ class AddOperationTest extends TestCase
         $stack = $this->getStack($a, $b);
         $op = new AddOperation();
         self::assertEquals($r, $op->calculate($stack));
+        self::assertEquals($r, $stack->pop());
+        self::assertTrue($stack->isEmpty());
     }
 
     /**

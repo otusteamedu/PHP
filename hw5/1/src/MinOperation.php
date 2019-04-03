@@ -16,6 +16,8 @@ class MinOperation implements Operation
     {
         $b = $stack->pop();
         $a = $stack->pop();
-        return $a - $b;
+        $result = $a - $b;
+        $stack->push($result);
+        return $result;
     }
 }

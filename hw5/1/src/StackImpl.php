@@ -8,8 +8,12 @@
 
 namespace HW5_1;
 
+use SplStack;
 
-class StackImpl extends \SplStack implements Stack
+class StackImpl extends SplStack implements Stack
 {
-
+    public function print()
+    {
+        var_dump($this);
+    }
 }

@@ -16,6 +16,8 @@ class AddOperation implements Operation
     {
         $a = $stack->pop();
         $b = $stack->pop();
-        return $a + $b;
+        $result = $a + $b;
+        $stack->push($result);
+        return $result;
     }
 }

@@ -20,6 +20,8 @@ class DivOperation implements Operation
             throw  new DivisionByZeroError('Division By Zero');
         }
         $a = $stack->pop();
-        return $a / $b;
+        $result = $a / $b;
+        $stack->push($result);
+        return $result;
     }
 }
