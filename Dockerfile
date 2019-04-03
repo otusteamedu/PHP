@@ -6,7 +6,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --quiet --install-dir=/usr/local/bin/ --filename=composer \
     && composer --version
 
-VOLUME /app
 WORKDIR /app
 
 COPY composer.json .
