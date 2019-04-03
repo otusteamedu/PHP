@@ -14,38 +14,45 @@ class Tests extends TestCase
 {
     /**
      * @test
+     * @dataProvider provider
      */
-    public function canMultiply() :void
+    public function canMultiply($a, $b) :void
     {
-        $calc = new Calc(new Multiplication(2,3));
-        $this->assertEquals(6, $calc->doMath());
+        $calc = new Calc(new Multiplication($a, $b));
+        $this->assertEquals($a * $b, $calc->doMath());
     }
 
     /**
      * @test
+     * @dataProvider provider
      */
-    public function canSubtract()
+    public function canSubtract($a, $b)
     {
-        $calc = new Calc(new Subtraction(5,3));
-        $this->assertEquals(2, $calc->doMath());
+        $calc = new Calc(new Subtraction($a,$b));
+        $this->assertEquals($a - $b, $calc->doMath());
     }
 
     /**
      * @test
+     * @dataProvider provider
      */
-    public function canAdd()
+    public function canAdd($a, $b)
     {
-        $calc = new Calc(new Addition(5,3));
-        $this->assertEquals(8, $calc->doMath());
+        $calc = new Calc(new Addition($a, $b));
+        $this->assertEquals($a + $b, $calc->doMath());
     }
 
     /**
      * @test
+     * @dataProvider provider
      */
-    public function canDivision()
+    public function canDivision($a, $b)
     {
-        $calc = new Calc(new Division(6,3));
-        $this->assertEquals(2, $calc->doMath());
+        if (is_float($a / $b)) {
+            $this->expectException(\InvalidArgumentException::class);
+        }
+        $calc = new Calc(new Division($a, $b));
+        $this->assertEquals($a / $b, $calc->doMath());
     }
 
     /**
@@ -55,5 +62,25 @@ class Tests extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         new Calc(new Division(6.2,3));
+    }
+
+    /**
+     * @test
+     */
+    public function divisionByZero()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $calc = new Calc(new Division(6,0.0));
+        $this->assertEquals(2, $calc->doMath());
+    }
+
+    public function provider()
+    {
+        return array(
+            array(1, 2, 3),
+            array(4, 5, 6),
+            array(7, 8, 9),
+            array(10, 11, 12)
+        );
     }
 }
