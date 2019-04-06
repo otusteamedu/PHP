@@ -6,35 +6,30 @@ use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase
 {
-    public function testCalculate1()
+
+    /**
+     * @return array
+     */
+    public function variants(): array
     {
-        $exp = '1 + 2 * ( 3 -4 / ( 5 + 6 ) )';
-        $calc = new Calculator($exp);
-        $res = $calc->calculate();
-        self::assertEqualsWithDelta(6.272727273, $res, 0.0001);
+        return [
+            ['exp' => '1 + 2 * ( 3 -4 / ( 5 + 6 ) )', 'result' => 6.272727273],
+            ['exp' => '13 + 16 * 17', 'result' => 285],
+            ['exp' => '11 % 12 *13', 'result' => 143],
+            ['exp' => '1', 'result' => 1],
+        ];
     }
 
-    public function testCalculate2()
+    /**
+     * @dataProvider variants
+     *
+     * @param $exp
+     * @param $result
+     */
+    public function testCalculate($exp, $result): void
     {
-        $exp = '13 + 16 * 17';
         $calc = new Calculator($exp);
         $res = $calc->calculate();
-        self::assertEqualsWithDelta(285, $res, 0.0001);
-    }
-
-    public function testCalculate3()
-    {
-        $exp = '11 % 12 *13';
-        $calc = new Calculator($exp);
-        $res = $calc->calculate();
-        self::assertEqualsWithDelta(143, $res, 0.0001);
-    }
-
-    public function testCalculate4()
-    {
-        $exp = '1';
-        $calc = new Calculator($exp);
-        $res = $calc->calculate();
-        self::assertEqualsWithDelta(1, $res, 0.0001);
+        self::assertEqualsWithDelta($result, $res, 0.0001);
     }
 }

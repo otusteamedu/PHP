@@ -1,33 +1,32 @@
 <?php
 
+namespace HW5_1;
 
-use HW5_1\InfixExpresion;
 use PHPUnit\Framework\TestCase;
 
 class InfixExpresionTest extends TestCase
 {
-    public function testToPostfix1()
+    /**
+     * @return array
+     */
+    public function variants(): array
     {
-        $expr = new InfixExpresion('1 + ( 3 - 4)');
-        self::assertEquals('1 3 4 - +', $expr->toPostfix());
+        return [
+            ['infix' => '1 + ( 3 - 4)', 'postfix' => '1 3 4 - +'],
+            ['infix' => '13 + 16 * 17', 'postfix' => '13 16 17 * +'],
+            ['infix' => '11 % 12 *13', 'postfix' => '11 12 % 13 *'],
+            ['infix' => '1 + 2 * ( 3 -4 / ( 5 + 6 ) )', 'postfix' => '1 2 3 4 5 6 + / - * +'],
+        ];
     }
 
-
-    public function testToPostfix2()
+    /**
+     * @dataProvider variants
+     * @param string $infix
+     * @param string $postfix
+     */
+    public function testToPostfix(string $infix, string $postfix): void
     {
-        $expr = new InfixExpresion('13 + 16 * 17');
-        self::assertEquals('13 16 17 * +', $expr->toPostfix());
-    }
-
-    public function testToPostfix3()
-    {
-        $expr = new InfixExpresion('11 % 12 *13');
-        self::assertEquals('11 12 % 13 *', $expr->toPostfix());
-    }
-
-    public function testToPostfix4()
-    {
-        $expr = new InfixExpresion('1 + 2 * ( 3 -4 / ( 5 + 6 ) )');
-        self::assertEquals('1 2 3 4 5 6 + / - * +', $expr->toPostfix());
+        $expr = new InfixExpresion($infix);
+        self::assertEquals($postfix, $expr->toPostfix());
     }
 }

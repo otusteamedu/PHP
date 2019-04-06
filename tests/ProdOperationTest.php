@@ -8,11 +8,8 @@
 
 namespace HW5_1;
 
-use PHPUnit\Framework\TestCase;
-
-class ProdOperationTest extends TestCase
+class ProdOperationTest extends OperationBaseTest
 {
-
     /**
      * @return array
      */
@@ -40,18 +37,5 @@ class ProdOperationTest extends TestCase
         $op->calculate($stack);
         self::assertEquals($r, $stack->pop());
         self::assertTrue($stack->isEmpty());
-    }
-
-    /**
-     * @param int $a
-     * @param int $b
-     * @return Stack
-     */
-    public function getStack(int $a, int $b): Stack
-    {
-        $stack = new StackImpl();
-        $stack->push($a);
-        $stack->push($b);
-        return $stack;
     }
 }
