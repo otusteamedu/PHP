@@ -57,7 +57,7 @@ class InfixExpresion
     public function toPostfix(): string
     {
         $this->output = '';
-        $input = mb_ereg_replace(self::SEPARATOR, '', $this->expresion);
+        $input = str_replace(self::SEPARATOR, '', $this->expresion);
         $strlen = strlen($input);
         for ($i = 0; $i < $strlen; $i++) {
             $ch = $input[$i];
