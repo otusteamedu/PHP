@@ -54,5 +54,4 @@ class MinOperationTest extends TestCase
         $stack->push($b);
         return $stack;
     }
-
 }

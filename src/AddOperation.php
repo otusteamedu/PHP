@@ -8,10 +8,8 @@
 
 namespace HW5_1;
 
-
 class AddOperation implements Operation
 {
-
     public function calculate(Stack $stack): void
     {
         $a = $stack->pop();

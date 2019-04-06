@@ -10,7 +10,6 @@ namespace HW5_1;
 
 class ModOperation implements Operation
 {
-
     public function calculate(Stack $stack): void
     {
         $b = $stack->pop();

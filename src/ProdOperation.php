@@ -8,7 +8,6 @@
 
 namespace HW5_1;
 
-
 class ProdOperation implements Operation
 {
     public function calculate(Stack $stack):void

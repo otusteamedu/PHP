@@ -54,5 +54,4 @@ class ProdOperationTest extends TestCase
         $stack->push($b);
         return $stack;
     }
-
 }

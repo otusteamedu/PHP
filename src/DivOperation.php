@@ -12,7 +12,6 @@ use DivisionByZeroError;
 
 class DivOperation implements Operation
 {
-
     public function calculate(Stack $stack): void
     {
         $b = $stack->pop();

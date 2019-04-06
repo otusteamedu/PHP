@@ -8,7 +8,6 @@
 
 namespace HW5_1;
 
-
 interface Stack
 {
     public function isEmpty();

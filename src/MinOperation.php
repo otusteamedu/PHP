@@ -8,10 +8,8 @@
 
 namespace HW5_1;
 
-
 class MinOperation implements Operation
 {
-
     public function calculate(Stack $stack): void
     {
         $b = $stack->pop();

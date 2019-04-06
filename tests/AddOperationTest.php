@@ -54,5 +54,4 @@ class AddOperationTest extends TestCase
         $stack->push($b);
         return $stack;
     }
-
 }

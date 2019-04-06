@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class InfixExpresionTest extends TestCase
 {
-
     public function testToPostfix1()
     {
         $expr = new InfixExpresion('1 + ( 3 - 4)');

@@ -2,12 +2,10 @@
 
 namespace HW5_1;
 
-
 use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase
 {
-
     public function testCalculate1()
     {
         $exp = '1 + 2 * ( 3 -4 / ( 5 + 6 ) )';

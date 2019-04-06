@@ -65,5 +65,4 @@ class ModOperationTest extends TestCase
         $this->expectException('DivisionByZeroError');
         $op->calculate($stack);
     }
-
 }
