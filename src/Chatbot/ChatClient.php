@@ -35,7 +35,7 @@ class ChatClient
 	if (!$buf) {
 	    return false;
 	}
-        echo $buf . PHP_EOL; ;
+        echo $buf . PHP_EOL;
 
 	do {
 
