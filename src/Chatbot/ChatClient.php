@@ -15,7 +15,7 @@ class ChatClient
     public function client() 
     {
 
-	echo "Connect to " . $this->address . ":" . $this->port . "\n";
+	echo "Connect to " . $this->address . ":" . $this->port . PHP_EOL; 
 
 	$socket = new Socket();
 	
@@ -35,7 +35,7 @@ class ChatClient
 	if (!$buf) {
 	    return false;
 	}
-        echo $buf . "\n";
+        echo $buf . PHP_EOL; ;
 
 	do {
 
