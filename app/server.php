@@ -10,16 +10,20 @@ $socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
 if ($socket === false) {
     $errorCode = socket_last_error();
     $errorMsg = socket_strerror($errorCode);
-    die("Не могу создать сокет: [$errorCode] $errorMsg");
+    die("create socket failed: [$errorCode] $errorMsg");
 }
 
 
 if (socket_bind($socket, $file) === false) {
-    echo "bind failed" . PHP_EOL;
+    $errorCode = socket_last_error($socket);
+    $errorMsg = socket_strerror($errorCode);
+    echo "bind failed: [$errorCode] $errorMsg" . PHP_EOL;
 }
 
 if (socket_recvfrom($socket, $buf, 64 * 1024, 0, $source) === false) {
-    echo "recv_from failed" . PHP_EOL;
+    $errorCode = socket_last_error($socket);
+    $errorMsg = socket_strerror($errorCode);
+    echo "recv_from failed: [$errorCode] $errorMsg" . PHP_EOL;
 }
 
 echo "received: " . $buf . PHP_EOL;
