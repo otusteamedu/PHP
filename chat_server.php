@@ -19,7 +19,7 @@ $longopts  = array(
 $options = getopt($shortopts, $longopts);
 
 if (array_key_exists("h", $options) || array_key_exists("help", $options)) { 
-    echo "Help\n-----------------\n quit - exit from server\n close - server shutdown \n -s - start chat server\n"; 
+    echo "Help" . PHP_EOL . "----------------- " . PHP_EOL . " quit - exit from server" . PHP_EOL . " close - server shutdown " . PHP_EOL . " -s - start chat server" . PHP_EOL; 
     die; 
 }
 
@@ -27,11 +27,8 @@ if (array_key_exists("s", $options) || array_key_exists("server", $options)) {
     // Start Chat Server
     $chatObj = new ChatServer($address, $port);
     $chatObj->server();
-
 } else {
-
     // Start client
     $chatObj = new ChatClient($address, $port);
     $chatObj->client();
-
 }
