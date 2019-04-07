@@ -6,7 +6,7 @@ class ChatClient
     private $address = '';
     private $port = '';
         
-    public function __construct ( $address, $port) 
+    public function __construct ($address, $port) 
     {
 	$this->address = $address;
         $this->port = $port;
@@ -17,22 +17,24 @@ class ChatClient
 
 	echo "Connect to " . $this->address . ":" . $this->port . "\n";
 
-	$socket = new socket();
+	$socket = new Socket();
 	
 	$sock = $socket->socketCreate();
 	if (!$sock) { 
-	    echo $socket->socketMsg($sock) . "\n"; 
+	    echo $socket->socketMsg($sock) . PHP_EOL; 
 	    return false; 
 	}
 
 	$isConnect = $socket->socketConnect($sock, $this->address, $this->port);
         if (!$isConnect) { 
-    	    echo "Connect failed: " . $socket->socketMsg($sock) . "\n"; 
+    	    echo "Connect failed: " . $socket->socketMsg($sock) . PHP_EOL; 
     	    return false; 
     	}
 
 	$buf = socket_read($sock, 2048);
-	if (!$buf) return false;
+	if (!$buf) {
+	    return false;
+	}
         echo $buf . "\n";
 
 	do {
@@ -41,15 +43,16 @@ class ChatClient
 	    
 	    if (trim($msg) != "") {
 		socket_write($sock, $msg, strlen($msg));
-		if ($msg == 'quit') break;
+		if ($msg == 'quit') {
+		    break;
+		}
 	    } else {
 		continue;
 	    }
 	    
 	    socket_read($sock, 2048);
 	    
-    	    echo "\n";
-        	
+    	    echo PHP_EOL;
 	  
 	} while (true);
 
