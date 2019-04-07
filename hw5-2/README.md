@@ -4,7 +4,7 @@ Two PHP scripts send messages via Linux sockets
 
 ### Installing
 
-Copy TimGa/hw5-1 folder from GIT
+Copy TimGa/hw5-2 folder from GIT
 
 ### Example
 
