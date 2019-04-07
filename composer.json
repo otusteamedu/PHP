@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "autoload": {
 	"psr-4": {
-	    "Chatbot\\": "src/Chatbot"
+	    "Chatbot\\": "app/Chatbot"
 	}
     },
     "repositories": [
