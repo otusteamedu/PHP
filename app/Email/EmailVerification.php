@@ -15,18 +15,20 @@ class EmailVerification
 
     public static function checkMX($email = '') : bool
     {
-	if (function_exists('getmxrr')) { // if this function present
-	    $splitEmail = explode ('@', $email);
-	    
-	    if (isset($splitEmail[1])) {
-		$mxres = getmxrr ( $splitEmail[1], $mxhosts );
+	$splitEmail = explode ('@', $email);
+
+	if (isset($splitEmail[1])) {
+
+	    $dns_rec = dns_get_record ($splitEmail[1]);
+
+	    foreach ($dns_rec as $val) {
 		
-		if ($mxres && count($mxhosts) > 0) 
-		    return true;
-		    
+
+		if (in_array('MX', $val)) return true;
+		
 	    }
-	} 
-	 
+	}
+	    
 	return false;
 
     }
