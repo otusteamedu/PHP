@@ -1,8 +1,2 @@
-<b>Simple Chatbot</b>
-<br>
-<br>
+<b>Email Verification</b>
 
-Start Server "./chat_server.php -s &"
-
-<br><br>
-Start Client "./chat_server.php"

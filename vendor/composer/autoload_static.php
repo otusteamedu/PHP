@@ -4,27 +4,27 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb95f639ad11e49626bb120808523ecad
+class ComposerStaticInita043441c11be3082c0f966eeca7e6481
 {
     public static $prefixLengthsPsr4 = array (
-        'C' => 
+        'E' => 
         array (
-            'Chatbot\\' => 8,
+            'Email\\' => 6,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Chatbot\\' => 
+        'Email\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/Chatbot',
+            0 => __DIR__ . '/../..' . '/app/Email',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb95f639ad11e49626bb120808523ecad::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb95f639ad11e49626bb120808523ecad::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita043441c11be3082c0f966eeca7e6481::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita043441c11be3082c0f966eeca7e6481::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

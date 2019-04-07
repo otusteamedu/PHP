@@ -1,8 +1,8 @@
 {
-    "name": "andrey/chatbot",
+    "name": "andrey/emailverification",
     "type": "library",
-    "description": "Chatbot",
-    "keywords": ["chatbot","chat"],
+    "description": "Email Verification",
+    "keywords": ["Email","check email"],
     "homepage": "https://github.com/AndreyPA/apovolotskiy",
     "authors": [
         {
@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "autoload": {
 	"psr-4": {
-	    "Chatbot\\": "src/Chatbot"
+	    "Email\\": "app/Email"
 	}
     },
     "repositories": [
