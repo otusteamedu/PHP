@@ -1,11 +1,10 @@
 <?php
 namespace Chatbot;
 
-class chatClient 
+class ChatClient 
 { 
-
-    public $address = '';
-    public $port = '';
+    private $address = '';
+    private $port = '';
         
     public function __construct ( $address, $port) 
     {
@@ -21,10 +20,16 @@ class chatClient
 	$socket = new socket();
 	
 	$sock = $socket->socketCreate();
-	if (!$sock) { echo $socket->socketMsg($sock) . "\n"; return false; }
+	if (!$sock) { 
+	    echo $socket->socketMsg($sock) . "\n"; 
+	    return false; 
+	}
 
 	$isConnect = $socket->socketConnect($sock, $this->address, $this->port);
-        if (!$isConnect) { echo "Connect failed: " . $socket->socketMsg($sock) . "\n"; return false; }
+        if (!$isConnect) { 
+    	    echo "Connect failed: " . $socket->socketMsg($sock) . "\n"; 
+    	    return false; 
+    	}
 
 	$buf = socket_read($sock, 2048);
 	if (!$buf) return false;

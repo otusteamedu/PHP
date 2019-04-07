@@ -3,7 +3,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use \Chatbot\{chatClient, chatServer};
+use \Chatbot\{ChatClient, ChatServer};
 
 $address = '127.0.0.1';
 $port = 10000;
@@ -25,13 +25,13 @@ if (array_key_exists("h", $options) || array_key_exists("help", $options)) {
 
 if (array_key_exists("s", $options) || array_key_exists("server", $options)) {
     // Start Chat Server
-    $chatObj = new chatServer($address, $port);
+    $chatObj = new ChatServer($address, $port);
     $chatObj->server();
 
 } else {
 
     // Start client
-    $chatObj = new chatClient($address, $port);
+    $chatObj = new ChatClient($address, $port);
     $chatObj->client();
 
 }

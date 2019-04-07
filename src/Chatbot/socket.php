@@ -1,7 +1,7 @@
 <?php
 namespace Chatbot;
 
-class socket 
+class Socket 
 { 
     
     function socketCreate() 

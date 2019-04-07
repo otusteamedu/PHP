@@ -1,12 +1,10 @@
 <?php
-
 namespace Chatbot;
 
-class chatServer 
+class ChatServer 
 { 
-    
-    public $address = '';
-    public $port = '';
+    private $address = '';
+    private $port = '';
     
     public function __construct ( $address, $port ) 
     {
