@@ -22,7 +22,6 @@ class EmailVerification
 	    $dns_rec = dns_get_record ($splitEmail[1]);
 
 	    foreach ($dns_rec as $val) {
-		
 
 		if (in_array('MX', $val)) return true;
 		
