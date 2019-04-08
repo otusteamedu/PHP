@@ -4,7 +4,7 @@ namespace HW5_1;
 
 use PHPUnit\Framework\TestCase;
 
-class OperationBaseTest extends TestCase
+abstract class OperationBaseTest extends TestCase
 {
     /**
      * @param int $a
