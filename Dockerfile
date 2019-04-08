@@ -12,18 +12,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 WORKDIR /app
 
-# Build
-COPY composer.json .
-COPY composer.lock .
-ADD src src
-RUN composer install
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
-# Run tests
-ADD tests tests
-RUN ./vendor/bin/phpunit ./tests/
-
-# Make executable
-COPY calculator.php .
-RUN chmod +x calculator.php
-
-ENTRYPOINT ["./calculator.php"]
+ENTRYPOINT ["/entrypoint.sh"]
