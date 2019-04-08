@@ -18,6 +18,6 @@ if ($emailObj::checkEmail($email)) {
 	echo 'MX zone for this Email not found.'.PHP_EOL;
     }
     
-} else 
+} else {
     echo 'Bad Email format'.PHP_EOL;
-
+}
