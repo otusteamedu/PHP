@@ -6,9 +6,14 @@ services:
     build: docker/nginx/
     ports:
       - 80:80
+    depends_on:
+      - app
     networks:
       - otus
   app:
-    build: .
+    build: docker/php/
+    working_dir: /var/www/
+    volumes:
+      - ./src/:/var/www
     networks:
       - otus
