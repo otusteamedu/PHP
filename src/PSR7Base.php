@@ -3,6 +3,8 @@
 namespace HW7_1;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\Test\TestLogger;
 
 abstract class PSR7Base
 {
@@ -10,6 +12,9 @@ abstract class PSR7Base
      * @var ListValidationWrapper
      */
     protected $validation;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     public function __construct(ListValidationWrapper $validation)
     {
@@ -21,6 +26,8 @@ abstract class PSR7Base
         } else {
             $this->validation = $validation;
         }
+        $this->logger = new TestLogger();
+        $this->validation->setLogger($this->logger);
     }
 
     /**

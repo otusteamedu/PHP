@@ -3,6 +3,7 @@
 namespace HW7_1;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 
 class ListValidationWrapperTest extends TestCase
 {
@@ -43,5 +44,25 @@ TAG
             self::assertContains($email, $emails);
             self::assertSame($result, $valid);
         }
+    }
+
+    public function testSetLogger(): void
+    {
+        $checkDNSValidation = $this->getMockBuilder(CheckDNSValidation::class)->setMethods(['setLogger'])->getMock();
+        $regexpValidation = $this->getMockBuilder(RegexpValidation::class)->setMethods(['setLogger'])->getMock();
+        $complexValidation = $this->getMockBuilder(ComplexValidation::class)
+            ->setConstructorArgs([[$checkDNSValidation, $regexpValidation]])
+            ->setMethods(['setLogger'])
+            ->getMock();
+        $validation = $this->getMockBuilder(ListValidationWrapper::class)
+            ->setConstructorArgs([$complexValidation])
+            ->setMethods(['setLogger'])
+            ->getMock();
+        $validation->expects($this->once())->method('setLogger');
+        $complexValidation->expects($this->once())->method('setLogger');
+        $regexpValidation->expects($this->once())->method('setLogger');
+        $checkDNSValidation->expects($this->once())->method('setLogger');
+
+        $validation->setLogger(new NullLogger());
     }
 }

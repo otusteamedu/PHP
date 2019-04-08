@@ -2,6 +2,11 @@
 
 namespace HW7_1;
 
+use Psr\Log\LoggerInterface;
+use function array_values;
+use function explode;
+use function sprintf;
+
 class ListValidationWrapper extends AbstractBaseValidation
 {
     /**
@@ -25,11 +30,10 @@ class ListValidationWrapper extends AbstractBaseValidation
      */
     public function validate(string $emailsString): bool
     {
-        $emails = mb_split('\r\n', $emailsString);
+        $emails = explode("\n", $emailsString);
         $checks = $this->validateArray($emails);
         $result = true;
-        foreach ($checks as $email => $check) {
-            $this->debug(sprintf('Validate result of %s: %b', $email, $check));
+        foreach (array_values($checks) as $check) {
             $result = $result && $check;
         }
         return $result;
@@ -43,8 +47,16 @@ class ListValidationWrapper extends AbstractBaseValidation
     {
         $results = [];
         foreach ($emails as $email) {
-            $results[$email] = $this->validation->validate($email);
+            $check = $this->validation->validate($email);
+            $this->debug(sprintf('Validate result of %s: %b', $email, $check));
+            $results[$email] = $check;
         }
         return $results;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        parent::setLogger($logger);
+        $this->validation->setLogger($logger);
     }
 }

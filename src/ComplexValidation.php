@@ -3,6 +3,7 @@
 namespace HW7_1;
 
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use function get_class;
 use function sprintf;
 
@@ -44,6 +45,14 @@ class ComplexValidation extends AbstractBaseValidation
     {
         $this->debug(sprintf('Add validator %s', get_class($validation)));
         $this->validations[] = $validation;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        parent::setLogger($logger);
+        foreach ($this->validations as $validation) {
+            $validation->setLogger($logger);
+        }
     }
 
     /**
