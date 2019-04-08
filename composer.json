@@ -1,0 +1,31 @@
+{
+    "name": "andrey/emailverification",
+    "type": "library",
+    "description": "Email Verification",
+    "keywords": ["Email","check email"],
+    "homepage": "https://github.com/AndreyPA/apovolotskiy",
+    "authors": [
+        {
+            "name": "Andrey",
+            "email": "andrey@uma.ru",
+            "homepage": "http://www.uma.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+           "php": ">=7"
+    },
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "autoload": {
+	"psr-4": {
+	    "Email\\": "app/Email"
+	}
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/AndreyPA/apovolotskiy" 
+        }
+    ]
+}
