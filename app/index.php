@@ -12,8 +12,8 @@ $emails = [
     'sdsdsda',
 ];
 
+$emailService = new EmailService();
+
 foreach ($emails as $email) {
-    echo $email . ' - ';
-    echo EmailService::validateEmail($email) ? 'ok' : 'not valid';
-    echo '<br />';
+    echo $email . ' - ' . ($emailService->validateEmail($email) ? 'ok' : 'not valid') . PHP_EOL;
 }

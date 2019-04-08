@@ -1,29 +1,9 @@
 version: '3'
 
 services:
-    otus-nginx:
-        container_name: otus-nginx
-        image: otus/nginx
-        build: ./docker/nginx
-        ports:
-            - 80:80
-        volumes:
-            - ./app:/app
-            - ./docker/nginx/app.conf:/etc/nginx/nginx.conf
-        depends_on:
-            - otus-php-fpm
-        networks:
-            - otus-network
-
     otus-php-fpm:
         container_name: otus-php-fpm
         image: otus/php-fpm
         build: ./docker/php-fpm
         volumes:
             - ./app:/app
-        networks:
-            - otus-network
-
-networks:
-    otus-network:
-        external: true
