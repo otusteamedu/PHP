@@ -6,8 +6,9 @@ class EmailVerification
     public static function checkEmail($email = '') : bool
     {
 	$regExp = '/^[0-9a-z-\.]+\@[0-9a-z-]{2,}\.[a-z]{2,}$/i';
-        if (preg_match($regExp, $email))
+        if (preg_match($regExp, $email)) {
     	    return true;
+    	}
 
 	return false;
     
@@ -23,7 +24,9 @@ class EmailVerification
 
 	    foreach ($dns_rec as $val) {
 
-		if (in_array('MX', $val)) return true;
+		if (in_array('MX', $val)) {
+		    return true;
+		}
 		
 	    }
 	}
