@@ -1,0 +1,25 @@
+{
+    "name": "crazydope/validation",
+    "description": "Home Work 7-1",
+    "authors": [
+        {
+            "name": "Agureev Dmitry",
+            "email": "crazydope@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "crazydope\\validation\\" : "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4\"": {
+            "crazydope\\validation\\tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    }
+}
