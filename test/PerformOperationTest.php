@@ -26,7 +26,7 @@ class AddTest  extends TestCase
     public function testExec($operation)
     {
         $calculator = new Calculator();
-        $this->assertSame(true, $calculator->canPerformOperation($operation));
+        $this->assertTrue($calculator->canPerformOperation($operation));
     }
 
 

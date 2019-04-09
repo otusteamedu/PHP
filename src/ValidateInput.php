@@ -6,47 +6,53 @@ namespace nvggit;
  * Class ValidateInput
  * @package nvggit
  */
-class ValidateInput
+class ValidateInput extends Input
 {
     const MATH_COUNT_ARGUMENTS = 4;
     const HELPER_COUNT_ARGUMENTS = 2;
 
-    public $input;
-
     /**
      * ValidateInput constructor.
      * @param $input
+     * @param $inputCount
      */
-    public function __construct($input)
+    public function __construct($input, $inputCount)
     {
-        $this->input = $input;
+        parent::__construct($input, $inputCount);
     }
 
     /**
+     * @return bool
      * @throws \Exception
      */
-    public function validate()
+    public function validate(): bool
     {
         if (!$this->validateCountArguments()) {
             throw new \Exception('Wrong count of arguments!');
         } else {
-            if (count($this->input) === self::MATH_COUNT_ARGUMENTS && !$this->validateOperator())
-                throw new \Exception("Operator '" . $this->getOperator() . "' do not support!");
+            if ($this->isMathArgsCompareDefault() && !$this->validateOperator())
+                throw new \Exception("Operator '" . parent::getOperator() . "' do not support!");
         }
+        return true;
     }
 
-    public function getOperator(): string
+    public function isMathArgsCompareDefault()
     {
-        return $this->input[2];
+        return parent::getInputCount() === self::MATH_COUNT_ARGUMENTS;
+    }
+
+    public function isHelperArgsCompareDefault()
+    {
+        return parent::getInputCount() === self::HELPER_COUNT_ARGUMENTS;
     }
 
     public function validateCountArguments(): bool
     {
-        return count($this->input) === self::MATH_COUNT_ARGUMENTS || count($this->input) === self::HELPER_COUNT_ARGUMENTS;
+        return  $this->isMathArgsCompareDefault() || $this->isHelperArgsCompareDefault();
     }
 
     public function validateOperator(): bool
     {
-        return array_key_exists($this->getOperator(), Helper::MATH_OPERATORS);
+        return array_key_exists(parent::getOperator(), Helper::MATH_OPERATORS);
     }
 }

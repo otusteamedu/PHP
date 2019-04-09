@@ -6,10 +6,9 @@ use nvggit\Calculator;
 use nvggit\ValidateInput;
 use nvggit\Helper;
 
-(new ValidateInput($argv))->validate();
-if($argc === ValidateInput::HELPER_COUNT_ARGUMENTS){
-    echo (new Helper($argv))->getHelper();
+$validator = new ValidateInput($argv, $argc);
+if($validator->validate() && $validator->isHelperArgsCompareDefault()){
+    echo (new Helper($argv, $argc))->getHelper();
     die();
 }
-
-echo (new Calculator())->exec($argv[2], $argv[1], $argv[3]) . "\n";
+echo (new Calculator())->exec($validator->getOperator(), $validator->getArg1(), $validator->getArg2()) . "\n";

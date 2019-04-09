@@ -22,11 +22,12 @@ class TestCalculator extends TestCase
     /**
      * @param array $input
      * @param $expected
+     * @throws Exception
      */
     public function add(array $input, $expected)
     {
-        $calculator = new Calculator(new Add());
-        $result = $calculator->exec($input[0], $input[1]);
+        $calculator = new Calculator();
+        $result = $calculator->exec("add", $input[0], $input[1]);
 
         $this->assertSame($expected, $result);
     }
@@ -34,11 +35,12 @@ class TestCalculator extends TestCase
     /**
      * @param array $input
      * @param $expected
+     * @throws Exception
      */
     public function sub(array $input, $expected)
     {
-        $calculator = new Calculator(new Substract());
-        $result = $calculator->exec($input[0], $input[1]);
+        $calculator = new Calculator();
+        $result = $calculator->exec("sub", $input[0], $input[1]);
 
         $this->assertSame($expected, $result);
     }
@@ -46,11 +48,12 @@ class TestCalculator extends TestCase
     /**
      * @param array $input
      * @param $expected
+     * @throws Exception
      */
     public function mul(array $input, $expected)
     {
-        $calculator = new Calculator(new Multiply());
-        $result = $calculator->exec($input[0], $input[1]);
+        $calculator = new Calculator();
+        $result = $calculator->exec("mul", $input[0], $input[1]);
 
         $this->assertSame($expected, $result);
     }
@@ -58,11 +61,12 @@ class TestCalculator extends TestCase
     /**
      * @param array $input
      * @param $expected
+     * @throws Exception
      */
     public function div(array $input, $expected)
     {
-        $calculator = new Calculator(new Divide());
-        $result = $calculator->exec($input[0], $input[1]);
+        $calculator = new Calculator();
+        $result = $calculator->exec("div", $input[0], $input[1]);
 
         $this->assertSame($expected, $result);
     }

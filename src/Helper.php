@@ -6,7 +6,7 @@ namespace nvggit;
  * Class Helper
  * @package nvggit
  */
-class Helper
+class Helper extends Input
 {
     const MATH_OPERATORS = [
         'add' => 'Addition: Sum of $a and $b.',
@@ -19,26 +19,25 @@ class Helper
         '-h,--help' => 'Print calculator helper'
     ];
 
-    public $input;
-
-    public function __construct($input)
+    /**
+     * Helper constructor.
+     * @param $input
+     * @param $inputCount
+     */
+    public function __construct($input, $inputCount)
     {
-        $this->input = $input;
-    }
-
-    public function getOperator(): string
-    {
-        return $this->input[1];
+        parent::__construct($input, $inputCount);
     }
 
     public function getHelper()
     {
-        if (count($this->input) === ValidateInput::HELPER_COUNT_ARGUMENTS)
-            if (in_array($this->getOperator(), explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
+        if ((new ValidateInput(parent::getInput(), parent::getInputCount()))->isHelperArgsCompareDefault()) {
+            if (in_array(parent::getOperator(), explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
                 return $this->getHelperText();
             } else {
                 return $this->getHelperArgumentsText();
             }
+        }
     }
 
     public function getHelperArgumentsText(): string
