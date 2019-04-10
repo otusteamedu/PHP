@@ -1,0 +1,16 @@
+{
+    "name": "nvggit/hw5-3",
+    "authors": [
+        {
+            "name": "Voronin Nikita",
+            "email": "cubaman@mail.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "nvggit\\": "src/"
+        }
+    }
+}
