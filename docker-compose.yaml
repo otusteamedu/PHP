@@ -5,6 +5,6 @@ services:
         container_name: hw5-2
         build: .
         volumes:
-            - ./app:/app
+            - ./:/app
         restart: always
         command: php server.php

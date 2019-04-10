@@ -1,0 +1,15 @@
+{
+    "name": "nvggit/hw5-2",
+    "authors": [
+        {
+            "name": "nvggit",
+            "email": "cubaman@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "nvggit\\": "src/"
+        }
+    }
+}
