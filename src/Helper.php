@@ -30,22 +30,22 @@ class Helper
         $this->operator = $operator;
     }
 
-    public function getMessageForError($error)
+    public function getMessageForError($error): string
     {
-        if($error === ValidateInput::ERROR_COUNT_ARGUMENTS) {
-                return "Wrong count of arguments! Expected 3!";
+        if ($error === ValidateInput::ERROR_COUNT_ARGUMENTS) {
+            return "Wrong count of arguments! Expected 3!";
         } elseif ($error === ValidateInput::ERROR_WRONG_OPERATOR) {
-                return $this->getHelper();
+            return $this->getHelper();
         }
+        return "Unknown error";
     }
 
-    public function getHelper()
+    public function getHelper(): string
     {
-        if (in_array(  $this->operator, explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
+        if (in_array($this->operator, explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
             return $this->getHelperText();
-        } else {
-            return $this->getHelperArgumentsText();
         }
+        return $this->getHelperArgumentsText();
     }
 
     public function getHelperArgumentsText(): string

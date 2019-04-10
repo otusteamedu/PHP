@@ -32,7 +32,7 @@ class ValidateInput
 
     public function getError()
     {
-      return $this->error;
+        return $this->error;
     }
 
     /**
@@ -42,37 +42,37 @@ class ValidateInput
     public function validate(): bool
     {
         if (!$this->validateCountArguments()) {
-            $this->error = self::ERROR_COUNT_ARGUMENTS;
-        } else {
-            if ($this->isMathArgsCompareDefault() && !$this->validateOperator())
-                $this->error = self::ERROR_WRONG_OPERATOR;
+            return $this->error = self::ERROR_COUNT_ARGUMENTS;
+        }
+        if ($this->isMathArgsCompareDefault() && !$this->validateOperator()) {
+            return $this->error = self::ERROR_WRONG_OPERATOR;
         }
         return true;
     }
 
-    public function getInputCount()
+    public function getInputCount(): int
     {
         return $this->inputCount;
     }
 
-    public function getOperator()
+    public function getOperator(): string
     {
         return $this->input[2];
     }
 
-    public function isMathArgsCompareDefault()
+    public function isMathArgsCompareDefault(): bool
     {
         return $this->getInputCount() === self::MATH_COUNT_ARGUMENTS;
     }
 
-    public function isHelperArgsCompareDefault()
+    public function isHelperArgsCompareDefault(): bool
     {
         return $this->getInputCount() === self::HELPER_COUNT_ARGUMENTS;
     }
 
     public function validateCountArguments(): bool
     {
-        return  $this->isMathArgsCompareDefault() || $this->isHelperArgsCompareDefault();
+        return $this->isMathArgsCompareDefault() || $this->isHelperArgsCompareDefault();
     }
 
     public function validateOperator(): bool
