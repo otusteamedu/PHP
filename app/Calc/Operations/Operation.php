@@ -20,10 +20,6 @@ abstract class Operation
             throw new InvalidArgumentException('only int variables are allowed!');
         }
 
-        if ($y === 0) {
-            throw new InvalidArgumentException('division by zero is not allowed!');
-        }
-
         $this->x = $x;
         $this->y = $y;
     }
