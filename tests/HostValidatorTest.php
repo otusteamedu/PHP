@@ -26,10 +26,10 @@ class HostValidatorTest
     public function hostProvider(): array
     {
         return [
-            [false,[]],
-            [false,'halskjdhflaskjdhfalsdkfj'],
-            [true,'москва.рф'],
-            [true,'yandex.ru'],
+            [false, []],
+            [false, 'halskjdhflaskjdhfalsdkfj'],
+            [true, 'москва.рф'],
+            [true, 'yandex.ru'],
         ];
     }
 
@@ -38,7 +38,7 @@ class HostValidatorTest
      * @param $host
      * @dataProvider hostProvider
      */
-    public function testValidateHostname($expected, $host): void
+    public function testValidateHostname( $expected, $host ): void
     {
         $this->assertSame($expected, $this->hostValidator->isValid($host));
     }

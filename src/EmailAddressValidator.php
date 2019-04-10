@@ -7,7 +7,7 @@ class EmailAddressValidator
 {
     protected const INVALID = 'The input is not a valid. String expected. ';
     protected const INVALID_FORMAT = 'The input is not a valid email address. ';
-    protected const LENGTH_EXCEEDED = 'The input exceeds the allowed length .';
+    protected const LENGTH_EXCEEDED = 'The input exceeds the allowed length. ';
     protected const DOT_ATOM = ' can not be matched against dot-atom format. ';
     protected const QUOTED_STRING = ' can not be matched against quoted-string format. ';
     protected const INVALID_LOCAL_PART = ' is not a valid local part for the email address. ';
@@ -50,9 +50,9 @@ class EmailAddressValidator
             return true;
         }
 
-        $this->addError($this->localPart.self::DOT_ATOM);
-        $this->addError($this->localPart.self::QUOTED_STRING);
-        $this->addError($this->localPart.self::INVALID_LOCAL_PART);
+        $this->addError($this->localPart . self::DOT_ATOM);
+        $this->addError($this->localPart . self::QUOTED_STRING);
+        $this->addError($this->localPart . self::INVALID_LOCAL_PART);
 
         return false;
     }
@@ -85,7 +85,7 @@ class EmailAddressValidator
      */
     protected function validateHostnamePart(): bool
     {
-        if ( !( new HostValidator )($this->hostname)) {
+        if ( !( new HostValidator )->isValid($this->hostname) ) {
             $this->addError($this->hostname . self::INVALID_HOSTNAME);
         }
 

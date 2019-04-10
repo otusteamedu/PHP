@@ -26,14 +26,14 @@ class EmailAddressValidatorTest
     public function emailProvider(): array
     {
         return [
-            [true,'crazydope@gmail.com'],
-            [true,'"asdf"@gmail.com'],
-            [false,[]],
-            [false,'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz@gmail.com'],
-            [false,'ошибка@gmail.com'],
-            [false,'test@test.ru'],
-            [false,'crazydope@localhost'],
-            [false,'gmail.com'],
+            [true, 'crazydope@gmail.com'],
+            [true, '"asdf"@gmail.com'],
+            [false, []],
+            [false, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz@gmail.com'],
+            [false, 'ошибка@gmail.com'],
+            [false, 'test@test.ru'],
+            [false, 'crazydope@localhost'],
+            [false, 'gmail.com'],
         ];
     }
 
@@ -42,7 +42,7 @@ class EmailAddressValidatorTest
      * @param $email
      * @dataProvider emailProvider
      */
-    public function testValidateEmailAddress($expected, $email): void
+    public function testValidateEmailAddress( $expected, $email ): void
     {
         $this->assertSame($expected, $this->emailValidator->isValid($email));
     }

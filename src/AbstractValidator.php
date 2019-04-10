@@ -7,24 +7,15 @@ abstract class AbstractValidator
 {
     protected $errors = [];
 
-    protected function addError( string $message): void
+    protected function addError( string $message ): void
     {
         $this->errors[] = $message;
     }
 
     abstract public function isValid( $value ): bool;
 
-    public function __invoke($value)
+    public function getErrors(): array
     {
-        return $this->isValid($value);
-    }
-
-    public function getErrors(): string
-    {
-        if(empty($this->errors)) {
-            return '';
-        }
-
-        return implode("\n", $this->errors);
+        return $this->errors;
     }
 }

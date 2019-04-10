@@ -4,7 +4,7 @@ namespace crazydope\validation;
 
 interface ValidatorInterface
 {
-    public function isValid($value): bool;
+    public function isValid( $value ): bool;
 
-    public function getErrors(): string;
+    public function getErrors(): array;
 }
