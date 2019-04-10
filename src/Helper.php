@@ -6,7 +6,7 @@ namespace nvggit;
  * Class Helper
  * @package nvggit
  */
-class Helper extends Input
+class Helper
 {
     const MATH_OPERATORS = [
         'add' => 'Addition: Sum of $a and $b.',
@@ -19,24 +19,32 @@ class Helper extends Input
         '-h,--help' => 'Print calculator helper'
     ];
 
+    public $operator;
+
     /**
      * Helper constructor.
-     * @param $input
-     * @param $inputCount
+     * @param $operator
      */
-    public function __construct($input, $inputCount)
+    public function __construct($operator)
     {
-        parent::__construct($input, $inputCount);
+        $this->operator = $operator;
+    }
+
+    public function getMessageForError($error)
+    {
+        if($error === ValidateInput::ERROR_COUNT_ARGUMENTS) {
+                return "Wrong count of arguments! Expected 3!";
+        } elseif ($error === ValidateInput::ERROR_WRONG_OPERATOR) {
+                return $this->getHelper();
+        }
     }
 
     public function getHelper()
     {
-        if ((new ValidateInput(parent::getInput(), parent::getInputCount()))->isHelperArgsCompareDefault()) {
-            if (in_array(parent::getOperator(), explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
-                return $this->getHelperText();
-            } else {
-                return $this->getHelperArgumentsText();
-            }
+        if (in_array(  $this->operator, explode(',', array_keys(self::HELPER_ARGUMENTS)[0]))) {
+            return $this->getHelperText();
+        } else {
+            return $this->getHelperArgumentsText();
         }
     }
 

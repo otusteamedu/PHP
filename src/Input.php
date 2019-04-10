@@ -11,6 +11,11 @@ class Input
     private $input;
     private $inputCount;
 
+    /**
+     * Input constructor.
+     * @param $input
+     * @param $inputCount
+     */
     public function __construct($input, $inputCount)
     {
         $this->input = $input;
