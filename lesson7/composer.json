@@ -1,0 +1,12 @@
+{
+  "name": "astepanov/otus-php-simple-email-verifierc",
+  "description": "simple email verifier",
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\": "src/Otus"
+    }
+  }
+}
