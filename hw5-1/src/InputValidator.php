@@ -8,17 +8,11 @@ class InputValidator
 
     public static function validateValue(float $value): bool
     {
-        if (is_numeric($value)) {
-            return true;
-        }
-        return false;
+        return is_numeric($value);
     }
 
     public static function validateAction(string $action): bool
     {
-        if (in_array($action, self::$allowedActions)) {
-            return true;
-        }
-        return false;
+        return in_array($action, self::$allowedActions);
     }
 }
