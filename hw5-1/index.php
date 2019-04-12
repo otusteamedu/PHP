@@ -23,5 +23,4 @@ switch($action) {
 
 // Calculator
 $calculator = new Calculator($strategy);
-$calculator->calculate($aValue, $bValue);
-echo $calculator->getResult();
+echo $calculator->calculate($aValue, $bValue);
