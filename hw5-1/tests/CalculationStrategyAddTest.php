@@ -21,15 +21,15 @@ class CalculationStrategyAddTest extends TestCase
 
     public function addDataProvider()
     {
-        return array(
-            array(2,3,5),
-            array(0,0,0),
-            array(-1,-2,-3),
-            array(0,-2,-2),
-            array(-5,0,-5),
-            array(0,12,12),
-            array(13,0,13),
-        );
+        return [
+            [2,3,5],
+            [0,0,0],
+            [-1,-2,-3],
+            [0,-2,-2],
+            [-5,0,-5],
+            [0,12,12],
+            [13,0,13],
+        ];
     }
 
     /**

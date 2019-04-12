@@ -21,17 +21,17 @@ class CalculationStrategySubtractTest extends TestCase
 
     public function addDataProvider()
     {
-        return array(
-            array(5,3,2),
-            array(4,7,-3),
-            array(0,0,0),
-            array(-5,-3,-2),
-            array(-3,-5,2),
-            array(-7,5,-12),
-            array(5,-7,12),
-            array(-5,7,-12),
-            array(7,-5,12),
-        );
+        return [
+            [5,3,2],
+            [4,7,-3],
+            [0,0,0],
+            [-5,-3,-2],
+            [-3,-5,2],
+            [-7,5,-12],
+            [5,-7,12],
+            [-5,7,-12],
+            [7,-5,12],
+        ];
     }
 
     /**
