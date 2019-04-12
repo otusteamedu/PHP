@@ -5,7 +5,6 @@ namespace timga\calculator\tests;
 use PHPUnit\Framework\TestCase;
 use timga\calculator\CalculationStrategySubtract;
 
-
 class CalculationStrategySubtractTest extends TestCase
 {
     private $strategy;

@@ -2,10 +2,8 @@
 
 namespace timga\calculator;
 
-
 class Calculator
 {
-
     private $strategy;
     private $result;
 

@@ -2,7 +2,6 @@
 
 namespace timga\calculator;
 
-
 class InputValidator
 {
     private static $allowedActions = ["add","subtract"];
