@@ -89,7 +89,7 @@ class Socket implements SocketInterface
      * @return int
      * @throws SocketException
      */
-    public function write(string $buffer):int
+    public function write(string $buffer): int
     {
         $return = @socket_write($this->resource, $buffer);
         if ($return === false) {

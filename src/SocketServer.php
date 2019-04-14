@@ -26,7 +26,7 @@ class SocketServer extends Socket implements SocketServerInterface
     {
         $this->prepareAddress($address);
         $bind = @socket_bind($this->resource, $this->address, $this->port);
-        if($bind === false) {
+        if ($bind === false) {
             throw new SocketException(self::getErrorMessage($this->resource));
         }
         return $this;
