@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 
 $address = 'tcp://127.0.0.1:1337';
 
-$client = (new SocketFactory(SocketFactory::CLIENT))->createFromString($address);
+$client = (new SocketFactory())->createClient($address);
 echo "Client connected to: $address \n";
 
 $message = 'Hello Server';

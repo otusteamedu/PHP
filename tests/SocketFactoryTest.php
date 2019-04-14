@@ -41,20 +41,10 @@ class SocketFactoryTest extends TestCase
         $this->assertInstanceOf(SocketFactoryInterface::class, $this->socketFactory);
     }
 
-    public function testInvalidType(): void
-    {
-        try {
-            $this->socketFactory->setType(0)->createFromString('tcp://127.0.0.1:1337');
-        } catch (\InvalidArgumentException $e) {
-            $this->assertEquals('Invalid type given.', $e->getMessage());
-        }
-
-    }
-
     public function testInvalidScheme(): void
     {
         try {
-            $this->socketFactory->createFromString('127.0.0.1');
+            $this->socketFactory->createServer('127.0.0.1');
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals('Invalid scheme given.', $e->getMessage());
         }
@@ -64,7 +54,7 @@ class SocketFactoryTest extends TestCase
     public function testInvalidSchemeNotSupport(): void
     {
         try {
-            $this->socketFactory->createFromString('udp://127.0.0.1:53');
+            $this->socketFactory->createServer('udp://127.0.0.1:53');
         } catch (\InvalidArgumentException $e) {
             $this->assertEquals('Scheme not supported.', $e->getMessage());
         }
@@ -73,20 +63,20 @@ class SocketFactoryTest extends TestCase
 
     public function testCreateServerTcp(): void
     {
-        $socket = $this->socketFactory->createFromString('tcp://127.0.0.1:1337');
+        $socket = $this->socketFactory->createServer('tcp://127.0.0.1:1337');
         $this->assertInstanceOf(SocketServerInterface::class, $socket);
     }
 
     public function testCreateClientTcp(): void
     {
-        $socket = $this->socketFactory->setType(SocketFactory::CLIENT)->createFromString('tcp://google.com:80');
+        $socket = $this->socketFactory->createClient('tcp://google.com:80');
         $this->assertInstanceOf(SocketClientInterface::class, $socket);
     }
 
     public function testCreateClientTcpUnboundFails(): void
     {
         try {
-            $this->socketFactory->setType(SocketFactory::CLIENT)->createFromString('tcp://localhost:2');
+            $this->socketFactory->createClient('tcp://localhost:2');
         } catch (SocketException $e) {
             $this->assertEquals('Connection refused (SOCKET_ECONNREFUSED)', $e->getMessage());
         }
@@ -98,7 +88,7 @@ class SocketFactoryTest extends TestCase
     public function testCreateServerUnix(): void
     {
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test-' . md5(microtime(true)) . '.sock';
-        $socket = $this->socketFactory->createFromString('unix://' . $path);
+        $socket = $this->socketFactory->createServer('unix://' . $path);
         $this->assertInstanceOf(SocketServerInterface::class, $socket);
         $this->assertTrue(unlink($path), 'Unable to remove temporary socket ' . $path);
     }

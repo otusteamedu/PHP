@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 
 $address = 'tcp://127.0.0.1:1337';
 
-$server = (new SocketFactory())->createFromString($address);
+$server = (new SocketFactory())->createServer($address);
 echo "Server address: $address \n";
 
 while (true) {

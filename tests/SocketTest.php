@@ -10,7 +10,7 @@ class SocketTest extends TestCase
 {
     public function testConnectGoogle(): void
     {
-        $socket = (new SocketFactory(SocketFactory::CLIENT))->createFromString('tcp://www.google.com:80');
+        $socket = (new SocketFactory())->createClient('tcp://www.google.com:80');
         $this->assertInstanceOf(SocketClientInterface::class, $socket);
         $this->assertEquals('resource', gettype($socket->getResource()));
 
