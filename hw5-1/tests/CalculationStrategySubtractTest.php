@@ -39,7 +39,7 @@ class CalculationStrategySubtractTest extends TestCase
      */
     public function testSubtractOperation($a, $b, $expected)
     {
-        $result = $this->strategy->calculate($a,$b);
+        $result = $this->strategy->calculate($a, $b);
         self::assertEquals($expected, $result);
     }
 }

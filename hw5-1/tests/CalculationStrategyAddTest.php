@@ -37,7 +37,7 @@ class CalculationStrategyAddTest extends TestCase
      */
     public function testAddOperation($a, $b, $expected)
     {
-        $result = $this->strategy->calculate($a,$b);
-        self::assertEquals($expected,$result);
+        $result = $this->strategy->calculate($a, $b);
+        self::assertEquals($expected, $result);
     }
 }

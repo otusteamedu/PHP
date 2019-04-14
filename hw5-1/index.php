@@ -1,9 +1,9 @@
 <?php
 
 require_once "vendor/autoload.php";
-define('ACTION',1);
-define('VALUE_A',2);
-define('VALUE_B',3);
+define('ACTION', 1);
+define('VALUE_A', 2);
+define('VALUE_B', 3);
 
 use timga\calculator\Calculator;
 use timga\calculator\ArgumentValidator;
