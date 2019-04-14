@@ -6,7 +6,7 @@ class ArgumentValidator
 {
     private $argc;
     private $argv;
-    private static $allowedActions = ["add","subtract","divide","multiply"];
+    private static $allowedActions = ["add","subtract","divide","multiply","pow"];
 
     public function __construct($argc, $argv)
     {
