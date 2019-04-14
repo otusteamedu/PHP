@@ -1,0 +1,19 @@
+{
+    "name": "punches/email-checker",
+    "description": "Check emails for validity",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Punches",
+            "email": "punches@ya.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    }
+}
