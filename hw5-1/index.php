@@ -10,6 +10,7 @@ use timga\calculator\ArgumentValidator;
 use timga\calculator\CalculationStrategyAdd;
 use timga\calculator\CalculationStrategySubtract;
 use timga\calculator\CalculationStrategyDivide;
+use timga\calculator\CalculationStrategyMultiply;
 
 $validator = new ArgumentValidator($argc, $argv);
 $action = $validator->getAction(ACTION);
@@ -21,6 +22,7 @@ switch($action) {
     case "add": $strategy = new CalculationStrategyAdd(); break;
     case "subtract": $strategy = new CalculationStrategySubtract(); break;
     case "divide": $strategy = new CalculationStrategyDivide(); break;
+    case "multiply": $strategy = new CalculationStrategyMultiply(); break;
 }
 
 // Calculator
