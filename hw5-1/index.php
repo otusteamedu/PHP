@@ -1,19 +1,19 @@
 <?php
 
 require_once "vendor/autoload.php";
+define('ACTION',1);
+define('VALUE_A',2);
+define('VALUE_B',3);
 
 use timga\calculator\Calculator;
-use timga\calculator\InputValidator;
+use timga\calculator\ArgumentValidator;
 use timga\calculator\CalculationStrategyAdd;
 use timga\calculator\CalculationStrategySubtract;
 
-// Input data
-$action = $argv[1] ?? "error";
-$aValue = $argv[2] ?? "error";
-$bValue = $argv[3] ?? "error";
-if (!InputValidator::validateAction($action)) die("Error! Incorrect action: $action");
-if (!InputValidator::validateValue($aValue)) die("Error! Incorrect value: $aValue");
-if (!InputValidator::validateValue($bValue)) die("Error! Incorrect value: $bValue");
+$validator = new ArgumentValidator($argc, $argv);
+$action = $validator->getAction(ACTION);
+$aValue = $validator->getValue(VALUE_A);
+$bValue = $validator->getValue(VALUE_B);
 
 // Choose strategy
 switch($action) {
