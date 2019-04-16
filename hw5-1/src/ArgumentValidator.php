@@ -4,33 +4,29 @@ namespace timga\calculator;
 
 class ArgumentValidator
 {
-    private $validatorErrors = [];
+    public $validatorErrors = [];
 
-    public function __construct(Input $input)
+    public function validate(Input $input)
     {
-        $this->validate($input);
-        $this->handleErrors();
-    }
-
-    private function validate(Input $input)
-    {
+        $result = true;
         if ($input->getArgc() != 4) {
             $this->validatorErrors[] = "Incorrect number of arguments!";
+            $result = false;
         }
         if (!is_numeric($input->getValueA())) {
             $this->validatorErrors[] = "Incorrect A-value!";
+            $result = false;
         }
         if (!is_numeric($input->getValueB())) {
             $this->validatorErrors[] = "Incorrect B-value!";
+            $result = false;
         }
+        return $result;
     }
 
-    private function handleErrors()
+    public function showErrors()
     {
-        if (!empty($this->validatorErrors)) {
-            echo "ArgumentValidator errors:" . PHP_EOL;
-            print_r($this->validatorErrors);
-            exit();
-        }
+        print_r($this->validatorErrors);
+        exit();
     }
 }

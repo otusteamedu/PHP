@@ -8,7 +8,10 @@ use timga\calculator\ArgumentValidator;
 
 // Input & validation
 $input = new Input($argc, $argv);
-$validator = new ArgumentValidator($input);
+$validator = new ArgumentValidator();
+if (!$validator->validate($input)) {
+    $validator->showErrors();
+}
 
 // Calculator
 $calculator = new Calculator();
