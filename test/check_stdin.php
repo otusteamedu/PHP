@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Чекаем STDIN
+ * Построчно валидируем STDIN на коректный email адрес
+ *
  */
 
 require '../vendor/autoload.php';
@@ -14,5 +15,5 @@ while (($line = fgets(STDIN)) !== false) {
 
     $line = trim($line);
     echo sprintf('%s %s%s', ($example->checkEmail($line) ? " " : "x"), $line, PHP_EOL);
-    
-    }
+
+}
