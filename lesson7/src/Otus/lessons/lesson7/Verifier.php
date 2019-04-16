@@ -8,11 +8,6 @@ class Verifier
 
     private $mails = array();
     private $result = array();
-    private $_connection = null;
-
-    const SMTP_CONNECT_SUCCESS = 220;
-    const SMTP_QUIT_SUCCESS    = 221;
-    const SMTP_GENERIC_SUCCESS = 250;
 
     /**
      * Verifier constructor.
@@ -118,8 +113,8 @@ class Verifier
                 try {
                     $this->checkMailString($mail);
                     $mxHosts = $this->checkMXDomain($mail);
-                    $this->checkResponse($mail, $mxHosts);
                     $this->result[$mail]['checked'] = true;
+                    $this->result[$mail]['MX'] = $mxHosts;
                 } catch (\Exception $e) {
                     $this->result[$mail]['error'] = 'Fail: ' . $e->getMessage();
                     $this->result[$mail]['checked'] = false;
@@ -159,179 +154,4 @@ class Verifier
         }
         return $mxHosts;
     }
-
-    /**
-     * Connecting to SMTP and check if mail exists
-     *
-     * @param string $mail
-     * @param array $mxHosts
-     * @throws \Exception
-     */
-    private function checkResponse(string $mail, array $mxHosts)
-    {
-        foreach ($mxHosts as $host) {
-            try {
-                $this->makeConnection($host);
-                $this->ehlo();
-                $this->mailFrom();
-                $this->rcpt($mail);
-                $this->reset();
-                $this->quit();
-                $this->closeConnection();
-                return;
-            } catch (\Exception $e) {
-                $this->result[$mail][$host] = 'Error: ' . $e->getMessage();
-            }
-        }
-        throw new \Exception("No mail <$mail> in " . implode(', ', $mxHosts));
-    }
-
-    /**
-     * Connect to SMTP
-     *
-     * @param $host
-     * @throws \Exception
-     */
-    private function makeConnection($host)
-    {
-        $connection = fsockopen($host, 25, $errCode, $errStr, 10);
-        if (!$connection) {
-            throw new \Exception("($host): Error: $errCode, message: $errStr.");
-        }
-        $this->_connection = $connection;
-        $this->getResponseFromSocket(self::SMTP_CONNECT_SUCCESS);
-    }
-
-    /**
-     * Close connection
-     */
-    private function closeConnection()
-    {
-        fclose($this->_connection);
-        $this->_connection = null;
-    }
-
-    /**
-     * Sending EHLO command
-     *
-     * @throws \Exception
-     */
-    private function ehlo()
-    {
-        $this->send("EHLO user.domain");
-        $this->getResponseFromSocket(self::SMTP_GENERIC_SUCCESS);
-    }
-
-    /**
-     * Setting Mail from
-     *
-     * @throws \Exception
-     */
-    private function mailFrom()
-    {
-        $this->send("MAIL FROM:<user@domain.local>");
-        $this->getResponseFromSocket(self::SMTP_GENERIC_SUCCESS);
-    }
-
-    /**
-     * Setting mail to
-     *
-     * @param $mail
-     * @throws \Exception
-     */
-    private function rcpt($mail)
-    {
-        $this->send("RCPT TO:<$mail>");
-        $this->getResponseFromSocket(self::SMTP_GENERIC_SUCCESS);
-    }
-
-    /**
-     * Resetting data on SMTP
-     *
-     * @throws \Exception
-     */
-    private function reset()
-    {
-        $this->send("RSET");
-        $this->getResponseFromSocket(self::SMTP_GENERIC_SUCCESS);
-    }
-
-    /**
-     * Logout from SMTP
-     *
-     * @throws \Exception
-     */
-    private function quit()
-    {
-        $this->send("QUIT");
-        $this->getResponseFromSocket(self::SMTP_QUIT_SUCCESS);
-    }
-
-    /**
-     * Sending commands to SMTP
-     *
-     * @param $cmd
-     * @throws \Exception
-     */
-    private function send($cmd)
-    {
-        if (!$this->_connection) {
-            throw new \Exception('Connection error.');
-        }
-        $result = fputs($this->_connection, $cmd . "\r\n");;
-        if (false === $result) {
-            throw new \Exception('Send failed on "' . $cmd . '"');
-        }
-    }
-
-    /**
-     * Reading response
-     *
-     * @param $expected
-     * @return string
-     * @throws \Exception
-     */
-    private function getResponseFromSocket($expected): string
-    {
-        if (!$this->_connection) {
-            throw new \Exception('Connection error.');
-        }
-
-
-        $code = null;
-        $text = '';
-
-        try {
-            $line = $this->getLine();
-            $text = $line;
-            while (preg_match('/^[0-9]+-/', $line)) {
-                $line = $this->getLine();
-                $text .= $line;
-            }
-            sscanf($line, '%d', $code);
-            if ($code != $expected) {
-                throw new \Exception($text);
-            }
-        } catch (\Exception $e) {
-            $this->closeConnection();
-            throw new \Exception($e->getMessage());
-        }
-        return $text;
-    }
-
-    /**
-     * Getting response
-     *
-     * @return bool|string
-     * @throws \Exception
-     */
-    private function getLine()
-    {
-        $line = fgets($this->_connection, 512);
-        if (!$line) {
-            throw new \Exception('No data');
-        }
-        return $line;
-    }
-
 }
