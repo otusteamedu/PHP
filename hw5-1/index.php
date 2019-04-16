@@ -5,6 +5,7 @@ define('ACTION', 1);
 define('VALUE_A', 2);
 define('VALUE_B', 3);
 
+use timga\calculator\Input;
 use timga\calculator\Calculator;
 use timga\calculator\ArgumentValidator;
 use timga\calculator\CalculationStrategyAdd;
@@ -13,10 +14,11 @@ use timga\calculator\CalculationStrategyDivide;
 use timga\calculator\CalculationStrategyMultiply;
 use timga\calculator\CalculationStrategyPow;
 
-$validator = new ArgumentValidator($argc, $argv);
-$action = $validator->getAction(ACTION);
-$aValue = $validator->getValue(VALUE_A);
-$bValue = $validator->getValue(VALUE_B);
+$input = new Input($argc, $argv);
+$validator = new ArgumentValidator($input);
+$action = $input->getAction();
+$aValue = $input->getValueA();
+$bValue = $input->getValueB();
 
 // Choose strategy
 switch($action) {
