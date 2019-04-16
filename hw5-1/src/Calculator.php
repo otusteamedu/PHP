@@ -4,21 +4,22 @@ namespace timga\calculator;
 
 class Calculator
 {
-    private $strategy;
-
-    public function __construct(CalculationStrategy $strategy)
+    public function calculate(Input $input): float
     {
-        $this->strategy = $strategy;
-    }
-
-    public function setStrategy(CalculationStrategy $strategy)
-    {
-        $this->strategy = $strategy;
-    }
-
-    public function calculate(float $aValue, float $bValue): float
-    {
-        $result = $this->strategy->calculate($aValue, $bValue);
+        $strategy = $this->chooseStrategy($input->getAction());
+        $result = $strategy->calculate($input->getValueA(), $input->getValueB());
         return $result;
+    }
+
+    private function chooseStrategy($action)
+    {
+        switch($action) {
+            case "add": return new CalculationStrategyAdd();
+            case "subtract": return new CalculationStrategySubtract();
+            case "divide": return new CalculationStrategyDivide();
+            case "multiply": return new CalculationStrategyMultiply();
+            case "pow": return new CalculationStrategyPow();
+            default: exit("Error: Incorrect action!");
+        }
     }
 }
