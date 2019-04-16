@@ -10,12 +10,13 @@ class EmailChecker
 {
 
     /**
+     * validation function
+     *  - checks by simple regular expression (only "@" and ".")
+     *  - checks domain e-mails for MX record. getmxrr()
+     *
      * @param string $email
      * @return bool
-     * функция валидаци
-     *  - проверяет на лайтовую регулярку (только @ и .)
-     *  - проверяет домен адреса на наличие MX записи. getmxrr()
-     * Вернем false, если в строке нет "@" или ".", или если нет MX-записи для домена адреса
+     * return false, if $email doesn't have "@" or ".", or domain doesn't have MX record
      */
     public function checkEmail(string $email): bool
     {
