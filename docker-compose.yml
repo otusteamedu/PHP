@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        # маршрутизируем порты
+        ports:
+            - "80:80"
+        volumes:
+            - ./hosts:/etc/nginx/conf.d
+            - ./html:/var/www/html
+        # nginx должен общаться с php контейнером
+        links:
+            - php
+    php:
+        image: php:7.1-fpm
+        volumes:
+            - ./html:/var/www/html
