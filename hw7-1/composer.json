@@ -1,0 +1,28 @@
+{
+	"name": "timga/email-validator",
+	"description": "Otus hw7-1: create email vlidator",
+	"authors": [
+		{
+			"name": "Timofey Gavryutenko",
+			"email": "tgavryutenko@mail.ru"
+		}
+	],
+	"require": {
+		"php": "^7.0"
+	},
+	"require-dev": {
+		"php":"^7.0",
+		"phpunit/phpunit":"^7.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"timga\\emailValidator\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"timga\\emailValidator\\tests\\": "tests"
+		}
+	},
+	"minimum-stability": "stable"
+}
