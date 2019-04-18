@@ -1,0 +1,85 @@
+CREATE TABLE IF NOT EXISTS `test_db`.`film` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `genre_id` INT(11) NULL DEFAULT NULL,
+  `duration` INT(11) NULL DEFAULT NULL,
+  `annotation` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `films_to_genre_idx` (`genre_id` ASC),
+  CONSTRAINT `films_to_genre`
+    FOREIGN KEY (`genre_id`)
+    REFERENCES `test_db`.`genre` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `test_db`.`hall` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `seats` INT(11) NOT NULL,
+  `some_staff` VARCHAR(45) NULL DEFAULT NULL,
+  `title` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `test_db`.`seance` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `hall_id` INT(11) NOT NULL,
+  `date_start` TIMESTAMP NULL DEFAULT NULL,
+  `date_end` TIMESTAMP NULL DEFAULT NULL,
+  `film_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `seance_to_film_idx` (`film_id` ASC),
+  CONSTRAINT `seance_to_film`
+    FOREIGN KEY (`film_id`)
+    REFERENCES `test_db`.`film` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `test_db`.`ticket` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `seance_id` INT(11) NOT NULL,
+  `seat_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `ticket_to_seats_idx` (`seat_id` ASC),
+  INDEX `ticket_to_seance_idx` (`seance_id` ASC),
+  UNIQUE INDEX `uniq_seat` (`seance_id` ASC, `seat_id` ASC),
+  CONSTRAINT `ticket_to_seats`
+    FOREIGN KEY (`seat_id`)
+    REFERENCES `test_db`.`seat` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `ticket_to_seance`
+    FOREIGN KEY (`seance_id`)
+    REFERENCES `test_db`.`seance` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `test_db`.`seat` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `hall_id` INT(11) NOT NULL,
+  `line` INT(11) NOT NULL,
+  `number` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `seats_to_hall_idx` (`hall_id` ASC),
+  UNIQUE INDEX `uniq_seat` (`hall_id` ASC, `line` ASC, `number` ASC),
+  CONSTRAINT `seats_to_hall`
+    FOREIGN KEY (`hall_id`)
+    REFERENCES `test_db`.`hall` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `test_db`.`genre` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+

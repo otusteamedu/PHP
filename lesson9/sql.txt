@@ -1,0 +1,8 @@
+SELECT f.title
+FROM
+    seance as s
+LEFT JOIN ticket t on t.seance_id = s.id
+LEFT JOIN film f on f.id = s.film_id
+GROUP BY s.id
+order by COUNT(t.id) desc
+limit 1;
