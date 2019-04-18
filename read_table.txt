@@ -3,6 +3,7 @@
 #cat table.txt | while read line
 #do
 # echo $line
+
 #done
 
 array=([1]=city [2]=count)
