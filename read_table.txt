@@ -1,0 +1,19 @@
+#!/bin/bash
+# our comment is here
+#cat table.txt | while read line
+#do
+# echo $line
+#done 
+
+array=([1]=city [2]=count)
+
+while read line ; do
+  IFS=";"
+  set -- $line
+  city=$3
+  count=$4
+  #echo -e "$city->$count\n"
+  array+=( $city, $count )  
+done < table.txt 
+
+echo ${array[@]}
