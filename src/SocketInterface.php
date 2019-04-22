@@ -10,6 +10,8 @@ interface SocketInterface
 
     public function getOption(int $level, int $name);
 
+    public function setOption(int $level, int $name, $optVal): bool;
+
     public function getResource();
 
     public function close();
