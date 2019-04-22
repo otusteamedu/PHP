@@ -106,6 +106,7 @@ class SocketFactory implements SocketFactoryInterface
         $socket = $this->make($address);
 
         try {
+            $socket->setOption(SOL_SOCKET, SO_REUSEADDR, 1);
             $socket->bind($address);
             if ($socket->getOption(SOL_SOCKET, SO_TYPE) === SOCK_STREAM) {
                 $socket->listen();
