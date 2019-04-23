@@ -1,0 +1,4 @@
+.idea
+.pgpass
+*_backup.sql*
+*_roles.sql
