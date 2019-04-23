@@ -1,0 +1,6 @@
+SELECT f.name, sum(s.price)
+FROM film f
+         LEFT JOIN session s on f.id_film = s.id_film
+GROUP BY s.id_film, name
+ORDER BY sum(s.price) ASC
+LIMIT 1;
