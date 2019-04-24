@@ -1,0 +1,8 @@
+ссылка на git
+
+https://github.com/walerij/passgen19.git
+
+
+ссылка на composer
+
+composer require walerij/passgen19
