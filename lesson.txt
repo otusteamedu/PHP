@@ -1,5 +1,7 @@
-# запускаем контейнер
+# запускаем контейнер и копируем dql.sql и fixture.sql в проброшенную папку
 sudo docker-compose up -d --build
+sudo cp dql.sql app/var/postgres/data
+sudo cp fixture.sql app/var/postgres/data
 
 # в контенере создаем папку для tablespace
 sudo docker exec -it otus-postgres bash
@@ -10,15 +12,15 @@ chown postgres:root tsFastIndex
 # заходим в контейнер, создаем пользователя, базу и tablespace
 sudo docker exec -it otus-postgres psql -U postgres
 create user fdor with password 'md56c14da109e294d1e8155be8aa4b1ce8e';
+alter user fdor with superuser;
 create database cinema owner fdor;
 create tablespace tsFastIndex location '/var/lib/postgresql/tsFastIndex';
 
-# выходим из контейнера и копируем dql.sql и fixture.sql в проброшенную папку
-sudo cp dql.sql app/var/postgres/data
-sudo cp fixture.sql app/var/postgres/data
+# создем еще одного пользователя с правами только на чтение
+create user fdor_read with password 'md56c14da109e294d1e8155be8aa4b1ce8e';
 
 # заходим в контейнер и испортируем данные таблиц
-sudo docker exec -it otus-postgres psql -U postgres
+sudo docker exec -it otus-postgres psql -U fdor -d cinema
 \i '/var/lib/postgresql/data/dql.sql'
 \i '/var/lib/postgresql/data/fixture.sql'
 
