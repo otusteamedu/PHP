@@ -1,0 +1,39 @@
+# запускаем контейнер
+sudo docker-compose up -d --build
+
+# в контенере создаем папку для tablespace
+sudo docker exec -it otus-postgres bash
+cd /var/lib/postgresql
+mkdir tsFastIndex
+chown postgres:root tsFastIndex
+
+# заходим в контейнер, создаем пользователя, базу и tablespace
+sudo docker exec -it otus-postgres psql -U postgres
+create user fdor with password 'md56c14da109e294d1e8155be8aa4b1ce8e';
+create database cinema owner fdor;
+create tablespace tsFastIndex location '/var/lib/postgresql/tsFastIndex';
+
+# выходим из контейнера и копируем dql.sql и fixture.sql в проброшенную папку
+sudo cp dql.sql app/var/postgres/data
+sudo cp fixture.sql app/var/postgres/data
+
+# заходим в контейнер и испортируем данные таблиц
+sudo docker exec -it otus-postgres psql -U postgres
+\i '/var/lib/postgresql/data/dql.sql'
+\i '/var/lib/postgresql/data/fixture.sql'
+
+# переносим индексы в tablespace tsFastIndex
+ALTER INDEX film_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX film_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_seats_key SET TABLESPACE tsFastIndex;
+ALTER INDEX customer_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX customer_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_type_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_type_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX ticket_pkey SET TABLESPACE tsFastIndex;
+
+
+
