@@ -1,0 +1,1 @@
+sudo docker exec -it otus-postgres bash -c "pg_dumpall -U fdor -h localhost -f '/var/lib/postgresql/cluster.sql' -g"

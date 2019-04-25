@@ -1,0 +1,1 @@
+sudo docker exec -it otus-postgres bash -U fdor -c "pg_dump -U fdor -h localhost -d cinema -f '/var/lib/postgresql/cinema.sql'"
