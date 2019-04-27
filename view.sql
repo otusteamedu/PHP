@@ -1,5 +1,5 @@
 create view marketing as
-    select film.name, attribute.name as attribute,
+    select film.name, attribute_type.name as type, attribute.name as attribute,
        CASE attribute_type.name
            WHEN 'integer' THEN CAST (attribute_value.integer_value AS text)
            WHEN 'time' THEN CAST (attribute_value.time_value AS text)
