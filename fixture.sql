@@ -20,6 +20,10 @@ insert into attribute_value (date_value) values ('2014-03-01');
 insert into attribute_value (date_value) values ('2014-06-01');
 insert into attribute_value (date_value) values ('2010-04-01');
 insert into attribute_value (date_value) values ('2014-06-01');
+insert into attribute_value (text_value) values ('Продажа билетов');
+insert into attribute_value (text_value) values ('Расклейка афиш');
+insert into attribute_value (text_value) values ('Анализ отзывов в соц. сетях');
+insert into attribute_value (text_value) values ('Подготовка залов');
 
 insert into attribute (name, attribute_type_id) values ('Длительность', 2);
 insert into attribute (name, attribute_type_id) values ('Рецензия', 5);
@@ -28,6 +32,8 @@ insert into attribute (name, attribute_type_id) values ('Премия Оскар
 insert into attribute (name, attribute_type_id) values ('Мировая премьера', 3);
 insert into attribute (name, attribute_type_id) values ('Премьера в РФ', 3);
 insert into attribute (name, attribute_type_id) values ('Запуск рекламы на ТВ', 3);
+insert into attribute (name, attribute_type_id) values ('Задачи на 2019-04-01', 5);
+insert into attribute (name, attribute_type_id) values ('Задачи на 2019-04-20', 5);
 
 insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 1, 1);
 insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2, 1, 2);
@@ -42,6 +48,12 @@ insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2
 insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2, 6, 10);
 insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 7, 11);
 insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2, 7, 12);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 8, 13);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 8, 14);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 8, 16);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2, 8, 13);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (1, 9, 15);
+insert into film_attribute (film_id, attribute_id, attribute_value_id) values (2, 9, 16);
 
 insert into hall (name, seats) values ('Зал №1', 500);
 insert into hall (name, seats) values ('Зал №2', 300);
