@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#setting default host:port
+host="localhost"
+port="5432"
+base="test_db"
+
+#watching for different host:port:db
+while [ -n "$1" ]
+do
+    case "$1" in
+        -h) host="$2"
+            shift
+            ;;
+        -p) port="$2"
+            shift
+            ;;
+        -d) base="$2"
+            shift
+            ;;
+    esac
+    shift
+done
+
+timestamp=`date "+%Y%m%d_%H%M%S_"`
+backupName=$timestamp$base
+backupName+=".bak"
+pg_dump -U postgres -h $host -p $port $base > $backupName

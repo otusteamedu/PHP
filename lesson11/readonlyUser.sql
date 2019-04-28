@@ -1,0 +1,3 @@
+CREATE USER readonlyuser LOGIN PASSWORD 'readonlyPassword';
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonlyuser;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonlyuser;
