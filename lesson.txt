@@ -1,0 +1,59 @@
+# запускаем контейнер и копируем dql.sql и fixture.sql в проброшенную папку
+sudo docker-compose up -d --build
+
+sudo cp dql.sql app/var/postgres/data
+sudo cp fixture.sql app/var/postgres/data
+
+# заходим в контейнер, создаем папку для tablespace, файл .pgpass и линукс пользователя fdor
+sudo docker exec -it otus-postgres bash
+
+cd /var/lib/postgresql
+mkdir tsFastIndex
+chown postgres:root tsFastIndex
+
+useradd fdor
+passwd fdor
+
+echo 'localhost:5432:cinema:fdor:1231' > ~/.pgpass
+chmod 600 ~/.pgpass
+
+# заходим в psql, создаем пользователя, базу и tablespace
+psql -U postgres
+create user fdor with password 'md56c14da109e294d1e8155be8aa4b1ce8e';
+alter user fdor with superuser;
+create database cinema owner fdor;
+create tablespace tsFastIndex location '/var/lib/postgresql/tsFastIndex';
+
+# создем еще одного пользователя с правами только на чтение
+create user fdor_read with password 'md56c14da109e294d1e8155be8aa4b1ce8e';
+grant usage on schema public to fdor_read;
+grant select on all tables in schema public to fdor_read;
+alter default privileges in schema public grant select on tables to fdor_read;
+
+# импортируем данные таблиц
+\c cinema
+\i '/var/lib/postgresql/data/dql.sql'
+\i '/var/lib/postgresql/data/fixture.sql'
+
+# переносим индексы в tablespace tsFastIndex
+ALTER INDEX film_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX film_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX hall_seats_key SET TABLESPACE tsFastIndex;
+ALTER INDEX customer_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX customer_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_type_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_type_name_key SET TABLESPACE tsFastIndex;
+ALTER INDEX seance_pkey SET TABLESPACE tsFastIndex;
+ALTER INDEX ticket_pkey SET TABLESPACE tsFastIndex;
+
+# выходим из psql и контейнера, проверям работу скриптов бекапа базы cinema и пользователей кластера
+# в скриптах не указан пароль пользователя, он берется из .pgpass
+./backup_base.sh
+./backup_users.sh
+
+
+
+
+
