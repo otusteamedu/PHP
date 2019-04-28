@@ -31,9 +31,15 @@ CREATE TABLE IF NOT EXISTS `test_db`.`seance` (
   `film_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `seance_to_film_idx` (`film_id` ASC),
+  INDEX `seance_to_hall_idx` (`hall_id` ASC),
   CONSTRAINT `seance_to_film`
     FOREIGN KEY (`film_id`)
     REFERENCES `test_db`.`film` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `seance_to_hall`
+    FOREIGN KEY (`hall_id`)
+    REFERENCES `test_db`.`hall` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

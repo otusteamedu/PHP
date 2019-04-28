@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `test_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `test_db`;
+-- MySQL dump 10.13  Distrib 5.6.13, for osx10.6 (i386)
 --
 -- Host: 127.0.0.1    Database: test_db
 -- ------------------------------------------------------
--- Server version	5.7.23
+-- Server version	5.7.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -109,7 +111,9 @@ CREATE TABLE `seance` (
   `film_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `seance_to_film_idx` (`film_id`),
-  CONSTRAINT `seance_to_film` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `seance_to_hall_idx` (`hall_id`),
+  CONSTRAINT `seance_to_film` FOREIGN KEY (`film_id`) REFERENCES `film` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `seance_to_hall` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,6 +167,7 @@ CREATE TABLE `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seance_id` int(11) NOT NULL,
   `seat_id` int(11) NOT NULL,
+  `price` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_seat` (`seance_id`,`seat_id`),
   KEY `ticket_to_seats_idx` (`seat_id`),
@@ -178,17 +183,9 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (1,1,1),(2,1,2),(3,1,3),(21,1,4),(4,1,5),(5,1,7),(22,1,8),(6,1,9),(13,1,23),(7,2,13),(10,2,15),(12,2,16),(11,2,17),(9,2,20),(8,2,21),(14,3,24),(15,3,25),(16,3,26),(17,3,27),(18,3,28),(19,3,29),(20,3,30);
+INSERT INTO `ticket` VALUES (1,1,1,26),(2,1,2,71),(3,1,3,78),(4,1,5,77),(5,1,7,52),(6,1,9,29),(7,2,13,89),(8,2,21,60),(9,2,20,31),(10,2,15,77),(11,2,17,93),(12,2,16,35),(13,1,23,94),(14,3,24,67),(15,3,25,54),(16,3,26,71),(17,3,27,91),(18,3,28,45),(19,3,29,51),(20,3,30,19),(21,1,4,43),(22,1,8,60);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'test_db'
---
-
---
--- Dumping routines for database 'test_db'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -199,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-18  7:42:08
+-- Dump completed on 2019-04-28 15:32:37
