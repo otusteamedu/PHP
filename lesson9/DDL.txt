@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `test_db`.`film` (
   `title` VARCHAR(255) NOT NULL,
   `genre_id` INT(11) NULL DEFAULT NULL,
   `duration` INT(11) NULL DEFAULT NULL,
-  `annotation` VARCHAR(255) NULL DEFAULT NULL,
+  `annotation` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `films_to_genre_idx` (`genre_id` ASC),
   CONSTRAINT `films_to_genre`
@@ -16,7 +16,7 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `test_db`.`hall` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `seats` INT(11) NOT NULL,
+  `seats` INT(3) NOT NULL,
   `some_staff` VARCHAR(45) NULL DEFAULT NULL,
   `title` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -69,8 +69,8 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `test_db`.`seat` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `hall_id` INT(11) NOT NULL,
-  `line` INT(11) NOT NULL,
-  `number` INT(11) NOT NULL,
+  `line` INT(2) NOT NULL,
+  `number` INT(2) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `seats_to_hall_idx` (`hall_id` ASC),
   UNIQUE INDEX `uniq_seat` (`hall_id` ASC, `line` ASC, `number` ASC),
