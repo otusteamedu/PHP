@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `test_db`.`film` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
+  `title` TEXT NOT NULL,
   `genre_id` INT(11) NULL DEFAULT NULL,
   `duration` INT(11) NULL DEFAULT NULL,
   `annotation` TEXT NULL DEFAULT NULL,
