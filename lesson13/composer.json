@@ -1,0 +1,12 @@
+{
+  "name": "astepanov/otus-php-lenniDespero-hw-13",
+  "description": "",
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\": "src/Otus"
+    }
+  }
+}
