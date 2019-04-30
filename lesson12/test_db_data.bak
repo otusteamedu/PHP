@@ -1,0 +1,280 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: attribute_name; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_name (id, title) FROM stdin;
+7	Бабе Вале понравилось
+10	Исправить опечатки в макете
+3	Мировая премьера
+8	Печать макета рекламного постера
+9	Пнуть дизайнера по срокам
+6	Премия Оскар за роль 3го плана в массовке вдали
+5	Премия Тэфи
+4	Премьера РФ
+2	Рецензия Васи Пупкина
+1	Рецензия киноакадемии
+\.
+
+
+--
+-- Data for Name: attribute_type; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_type (id, title, code, type) FROM stdin;
+1	Рецензия	review	text
+2	Приз	prize	boolean
+3	Дата	date	timestamp
+4	Работа	work	timestamp
+\.
+
+
+--
+-- Data for Name: attribute_value; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_value (id, bool_val, int_val, date_val, text_val) FROM stdin;
+1	f	\N	\N	Зелёные шторы олицетворяют тоску автора о портвейне
+2	f	\N	\N	Фильм ни о чём, но смотреть можно
+3	f	\N	\N	Ничего не понял, но оченб интересно
+11	t	\N	\N	\N
+12	t	\N	\N	\N
+13	t	\N	\N	\N
+14	t	\N	\N	\N
+15	t	\N	\N	\N
+4	f	\N	2019-04-30 00:00:00+03	\N
+8	f	\N	2019-05-20 00:00:00+03	\N
+9	f	\N	2019-04-30 00:00:00+03	\N
+10	f	\N	2019-04-30 00:00:00+03	\N
+5	f	\N	2019-04-30 00:00:00+03	\N
+6	f	\N	2019-04-30 00:00:00+03	\N
+7	f	\N	2019-04-30 00:00:00+03	\N
+\.
+
+
+--
+-- Data for Name: genre; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.genre (id, title) FROM stdin;
+1	horror
+2	comedy
+\.
+
+
+--
+-- Data for Name: film; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.film (id, title, genre_id, duration, annotation) FROM stdin;
+1	film 1	1	700	text
+2	film 2	1	23423	jdnfrjd
+3	film 3	2	2343	sefef
+\.
+
+
+--
+-- Data for Name: film_attribute; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.film_attribute (id, attribute_name_id, film_id, attribute_value_id, attribute_type_id) FROM stdin;
+1	1	1	1	1
+2	2	1	3	1
+3	3	1	4	3
+4	4	1	5	3
+5	10	1	6	4
+6	2	2	2	1
+7	4	2	7	3
+8	3	2	8	3
+9	6	2	12	2
+10	7	2	13	2
+11	6	3	14	2
+12	5	3	15	2
+13	9	3	9	4
+14	5	1	11	2
+15	3	2	10	3
+\.
+
+
+--
+-- Data for Name: hall; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.hall (id, seats, some_staff, title) FROM stdin;
+5	200	name1	name1
+6	100	name2	name2
+7	150	name3	name3
+\.
+
+
+--
+-- Data for Name: seance; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.seance (id, hall_id, date_start, date_end, film_id) FROM stdin;
+1	5	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	1
+2	6	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	2
+3	7	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	1
+\.
+
+
+--
+-- Data for Name: seat; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.seat (id, hall_id, line, number) FROM stdin;
+1	5	1	1
+2	5	1	2
+3	5	1	3
+4	5	1	4
+5	5	1	5
+6	5	1	6
+7	5	1	7
+8	5	1	8
+9	5	1	9
+10	5	1	10
+11	5	1	11
+12	5	1	12
+13	6	1	1
+14	6	1	2
+15	6	1	3
+16	6	1	4
+17	6	1	5
+18	6	1	6
+19	6	1	7
+20	6	1	8
+21	6	1	9
+22	6	1	10
+23	7	1	1
+24	7	1	2
+25	7	1	3
+26	7	1	4
+27	7	1	5
+28	7	1	6
+29	7	1	7
+30	7	1	8
+31	7	1	9
+32	7	1	10
+\.
+
+
+--
+-- Data for Name: ticket; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.ticket (id, seance_id, seat_id, price) FROM stdin;
+1	1	1	26
+2	1	2	71
+3	1	3	78
+4	1	5	77
+5	1	7	52
+6	1	9	29
+7	2	13	89
+8	2	21	60
+9	2	20	31
+10	2	15	77
+11	2	17	93
+12	2	16	35
+13	1	23	94
+14	3	24	67
+15	3	25	54
+16	3	26	71
+17	3	27	91
+18	3	28	45
+19	3	29	51
+20	3	30	19
+21	1	4	43
+22	1	8	60
+\.
+
+
+--
+-- Name: attribute_name_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_name_id_seq', 10, true);
+
+
+--
+-- Name: attribute_type_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_type_id_seq', 4, true);
+
+
+--
+-- Name: attribute_value_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_value_id_seq', 15, true);
+
+
+--
+-- Name: film_attribute_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.film_attribute_id_seq', 15, true);
+
+
+--
+-- Name: film_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.film_id_seq', 3, true);
+
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.genre_id_seq', 2, true);
+
+
+--
+-- Name: hall_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.hall_id_seq', 7, true);
+
+
+--
+-- Name: seance_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.seance_id_seq', 3, true);
+
+
+--
+-- Name: seat_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.seat_id_seq', 32, true);
+
+
+--
+-- Name: ticket_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.ticket_id_seq', 22, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

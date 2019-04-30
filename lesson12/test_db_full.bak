@@ -1,0 +1,1035 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: test_db; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA test_db;
+
+
+ALTER SCHEMA test_db OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: attribute_name; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.attribute_name (
+    id bigint NOT NULL,
+    title character varying(255) NOT NULL
+);
+
+
+ALTER TABLE test_db.attribute_name OWNER TO postgres;
+
+--
+-- Name: attribute_name_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.attribute_name_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.attribute_name_id_seq OWNER TO postgres;
+
+--
+-- Name: attribute_name_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.attribute_name_id_seq OWNED BY test_db.attribute_name.id;
+
+
+--
+-- Name: attribute_type; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.attribute_type (
+    id bigint NOT NULL,
+    title character varying(255) NOT NULL,
+    code character varying(45) NOT NULL,
+    type character varying(45) NOT NULL
+);
+
+
+ALTER TABLE test_db.attribute_type OWNER TO postgres;
+
+--
+-- Name: attribute_type_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.attribute_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.attribute_type_id_seq OWNER TO postgres;
+
+--
+-- Name: attribute_type_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.attribute_type_id_seq OWNED BY test_db.attribute_type.id;
+
+
+--
+-- Name: attribute_value; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.attribute_value (
+    id bigint NOT NULL,
+    bool_val boolean DEFAULT false,
+    int_val bigint,
+    date_val timestamp with time zone,
+    text_val text
+);
+
+
+ALTER TABLE test_db.attribute_value OWNER TO postgres;
+
+--
+-- Name: attribute_value_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.attribute_value_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.attribute_value_id_seq OWNER TO postgres;
+
+--
+-- Name: attribute_value_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.attribute_value_id_seq OWNED BY test_db.attribute_value.id;
+
+
+--
+-- Name: film; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.film (
+    id bigint NOT NULL,
+    title character varying(255) NOT NULL,
+    genre_id bigint,
+    duration bigint,
+    annotation text
+);
+
+
+ALTER TABLE test_db.film OWNER TO postgres;
+
+--
+-- Name: film_attribute; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.film_attribute (
+    id bigint NOT NULL,
+    attribute_name_id bigint NOT NULL,
+    film_id bigint NOT NULL,
+    attribute_value_id bigint NOT NULL,
+    attribute_type_id bigint NOT NULL
+);
+
+
+ALTER TABLE test_db.film_attribute OWNER TO postgres;
+
+--
+-- Name: film_attribute_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.film_attribute_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.film_attribute_id_seq OWNER TO postgres;
+
+--
+-- Name: film_attribute_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.film_attribute_id_seq OWNED BY test_db.film_attribute.id;
+
+
+--
+-- Name: film_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.film_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.film_id_seq OWNER TO postgres;
+
+--
+-- Name: film_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.film_id_seq OWNED BY test_db.film.id;
+
+
+--
+-- Name: genre; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.genre (
+    id bigint NOT NULL,
+    title character varying(255) NOT NULL
+);
+
+
+ALTER TABLE test_db.genre OWNER TO postgres;
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.genre_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.genre_id_seq OWNER TO postgres;
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.genre_id_seq OWNED BY test_db.genre.id;
+
+
+--
+-- Name: hall; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.hall (
+    id bigint NOT NULL,
+    seats integer NOT NULL,
+    some_staff character varying(45),
+    title character varying(45)
+);
+
+
+ALTER TABLE test_db.hall OWNER TO postgres;
+
+--
+-- Name: hall_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.hall_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.hall_id_seq OWNER TO postgres;
+
+--
+-- Name: hall_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.hall_id_seq OWNED BY test_db.hall.id;
+
+
+--
+-- Name: market_view; Type: VIEW; Schema: test_db; Owner: postgres
+--
+
+CREATE VIEW test_db.market_view AS
+ SELECT film.title,
+    attribute_type.title AS type,
+    attribute_name.title AS attribute,
+        CASE attribute_type.type
+            WHEN 'integer'::text THEN (attribute_value.int_val)::text
+            WHEN 'timestamp'::text THEN (attribute_value.date_val)::text
+            WHEN 'text'::text THEN attribute_value.text_val
+            WHEN 'boolean'::text THEN (attribute_value.bool_val)::text
+            ELSE NULL::text
+        END AS value
+   FROM ((((test_db.film
+     LEFT JOIN test_db.film_attribute ON ((film.id = film_attribute.film_id)))
+     LEFT JOIN test_db.attribute_name ON ((film_attribute.attribute_name_id = attribute_name.id)))
+     LEFT JOIN test_db.attribute_type ON ((film_attribute.attribute_type_id = attribute_type.id)))
+     LEFT JOIN test_db.attribute_value ON ((film_attribute.attribute_value_id = attribute_value.id)))
+  ORDER BY film.id;
+
+
+ALTER TABLE test_db.market_view OWNER TO postgres;
+
+--
+-- Name: seance; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.seance (
+    id bigint NOT NULL,
+    hall_id bigint NOT NULL,
+    date_start timestamp with time zone,
+    date_end timestamp with time zone,
+    film_id bigint NOT NULL
+);
+
+
+ALTER TABLE test_db.seance OWNER TO postgres;
+
+--
+-- Name: seance_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.seance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.seance_id_seq OWNER TO postgres;
+
+--
+-- Name: seance_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.seance_id_seq OWNED BY test_db.seance.id;
+
+
+--
+-- Name: seat; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.seat (
+    id bigint NOT NULL,
+    hall_id bigint NOT NULL,
+    line integer NOT NULL,
+    number integer NOT NULL
+);
+
+
+ALTER TABLE test_db.seat OWNER TO postgres;
+
+--
+-- Name: seat_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.seat_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.seat_id_seq OWNER TO postgres;
+
+--
+-- Name: seat_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.seat_id_seq OWNED BY test_db.seat.id;
+
+
+--
+-- Name: ticket; Type: TABLE; Schema: test_db; Owner: postgres
+--
+
+CREATE TABLE test_db.ticket (
+    id bigint NOT NULL,
+    seance_id bigint NOT NULL,
+    seat_id bigint NOT NULL,
+    price bigint DEFAULT '0'::bigint
+);
+
+
+ALTER TABLE test_db.ticket OWNER TO postgres;
+
+--
+-- Name: ticket_id_seq; Type: SEQUENCE; Schema: test_db; Owner: postgres
+--
+
+CREATE SEQUENCE test_db.ticket_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE test_db.ticket_id_seq OWNER TO postgres;
+
+--
+-- Name: ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: test_db; Owner: postgres
+--
+
+ALTER SEQUENCE test_db.ticket_id_seq OWNED BY test_db.ticket.id;
+
+
+--
+-- Name: work_tasks; Type: VIEW; Schema: test_db; Owner: postgres
+--
+
+CREATE VIEW test_db.work_tasks AS
+SELECT
+    NULL::character varying(255) AS title,
+    NULL::text AS today,
+    NULL::text AS future;
+
+
+ALTER TABLE test_db.work_tasks OWNER TO postgres;
+
+--
+-- Name: attribute_name id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_name ALTER COLUMN id SET DEFAULT nextval('test_db.attribute_name_id_seq'::regclass);
+
+
+--
+-- Name: attribute_type id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_type ALTER COLUMN id SET DEFAULT nextval('test_db.attribute_type_id_seq'::regclass);
+
+
+--
+-- Name: attribute_value id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_value ALTER COLUMN id SET DEFAULT nextval('test_db.attribute_value_id_seq'::regclass);
+
+
+--
+-- Name: film id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film ALTER COLUMN id SET DEFAULT nextval('test_db.film_id_seq'::regclass);
+
+
+--
+-- Name: film_attribute id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute ALTER COLUMN id SET DEFAULT nextval('test_db.film_attribute_id_seq'::regclass);
+
+
+--
+-- Name: genre id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.genre ALTER COLUMN id SET DEFAULT nextval('test_db.genre_id_seq'::regclass);
+
+
+--
+-- Name: hall id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.hall ALTER COLUMN id SET DEFAULT nextval('test_db.hall_id_seq'::regclass);
+
+
+--
+-- Name: seance id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seance ALTER COLUMN id SET DEFAULT nextval('test_db.seance_id_seq'::regclass);
+
+
+--
+-- Name: seat id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seat ALTER COLUMN id SET DEFAULT nextval('test_db.seat_id_seq'::regclass);
+
+
+--
+-- Name: ticket id; Type: DEFAULT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.ticket ALTER COLUMN id SET DEFAULT nextval('test_db.ticket_id_seq'::regclass);
+
+
+--
+-- Data for Name: attribute_name; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_name (id, title) FROM stdin;
+7	Бабе Вале понравилось
+10	Исправить опечатки в макете
+3	Мировая премьера
+8	Печать макета рекламного постера
+9	Пнуть дизайнера по срокам
+6	Премия Оскар за роль 3го плана в массовке вдали
+5	Премия Тэфи
+4	Премьера РФ
+2	Рецензия Васи Пупкина
+1	Рецензия киноакадемии
+\.
+
+
+--
+-- Data for Name: attribute_type; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_type (id, title, code, type) FROM stdin;
+1	Рецензия	review	text
+2	Приз	prize	boolean
+3	Дата	date	timestamp
+4	Работа	work	timestamp
+\.
+
+
+--
+-- Data for Name: attribute_value; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.attribute_value (id, bool_val, int_val, date_val, text_val) FROM stdin;
+1	f	\N	\N	Зелёные шторы олицетворяют тоску автора о портвейне
+2	f	\N	\N	Фильм ни о чём, но смотреть можно
+3	f	\N	\N	Ничего не понял, но оченб интересно
+11	t	\N	\N	\N
+12	t	\N	\N	\N
+13	t	\N	\N	\N
+14	t	\N	\N	\N
+15	t	\N	\N	\N
+4	f	\N	2019-04-30 00:00:00+03	\N
+8	f	\N	2019-05-20 00:00:00+03	\N
+9	f	\N	2019-04-30 00:00:00+03	\N
+10	f	\N	2019-04-30 00:00:00+03	\N
+5	f	\N	2019-04-30 00:00:00+03	\N
+6	f	\N	2019-04-30 00:00:00+03	\N
+7	f	\N	2019-04-30 00:00:00+03	\N
+\.
+
+
+--
+-- Data for Name: film; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.film (id, title, genre_id, duration, annotation) FROM stdin;
+1	film 1	1	700	text
+2	film 2	1	23423	jdnfrjd
+3	film 3	2	2343	sefef
+\.
+
+
+--
+-- Data for Name: film_attribute; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.film_attribute (id, attribute_name_id, film_id, attribute_value_id, attribute_type_id) FROM stdin;
+1	1	1	1	1
+2	2	1	3	1
+3	3	1	4	3
+4	4	1	5	3
+5	10	1	6	4
+6	2	2	2	1
+7	4	2	7	3
+8	3	2	8	3
+9	6	2	12	2
+10	7	2	13	2
+11	6	3	14	2
+12	5	3	15	2
+13	9	3	9	4
+14	5	1	11	2
+15	3	2	10	3
+\.
+
+
+--
+-- Data for Name: genre; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.genre (id, title) FROM stdin;
+1	horror
+2	comedy
+\.
+
+
+--
+-- Data for Name: hall; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.hall (id, seats, some_staff, title) FROM stdin;
+5	200	name1	name1
+6	100	name2	name2
+7	150	name3	name3
+\.
+
+
+--
+-- Data for Name: seance; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.seance (id, hall_id, date_start, date_end, film_id) FROM stdin;
+1	5	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	1
+2	6	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	2
+3	7	2018-01-01 00:00:00+03	2018-01-01 01:00:00+03	1
+\.
+
+
+--
+-- Data for Name: seat; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.seat (id, hall_id, line, number) FROM stdin;
+1	5	1	1
+2	5	1	2
+3	5	1	3
+4	5	1	4
+5	5	1	5
+6	5	1	6
+7	5	1	7
+8	5	1	8
+9	5	1	9
+10	5	1	10
+11	5	1	11
+12	5	1	12
+13	6	1	1
+14	6	1	2
+15	6	1	3
+16	6	1	4
+17	6	1	5
+18	6	1	6
+19	6	1	7
+20	6	1	8
+21	6	1	9
+22	6	1	10
+23	7	1	1
+24	7	1	2
+25	7	1	3
+26	7	1	4
+27	7	1	5
+28	7	1	6
+29	7	1	7
+30	7	1	8
+31	7	1	9
+32	7	1	10
+\.
+
+
+--
+-- Data for Name: ticket; Type: TABLE DATA; Schema: test_db; Owner: postgres
+--
+
+COPY test_db.ticket (id, seance_id, seat_id, price) FROM stdin;
+1	1	1	26
+2	1	2	71
+3	1	3	78
+4	1	5	77
+5	1	7	52
+6	1	9	29
+7	2	13	89
+8	2	21	60
+9	2	20	31
+10	2	15	77
+11	2	17	93
+12	2	16	35
+13	1	23	94
+14	3	24	67
+15	3	25	54
+16	3	26	71
+17	3	27	91
+18	3	28	45
+19	3	29	51
+20	3	30	19
+21	1	4	43
+22	1	8	60
+\.
+
+
+--
+-- Name: attribute_name_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_name_id_seq', 10, true);
+
+
+--
+-- Name: attribute_type_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_type_id_seq', 4, true);
+
+
+--
+-- Name: attribute_value_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.attribute_value_id_seq', 15, true);
+
+
+--
+-- Name: film_attribute_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.film_attribute_id_seq', 15, true);
+
+
+--
+-- Name: film_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.film_id_seq', 3, true);
+
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.genre_id_seq', 2, true);
+
+
+--
+-- Name: hall_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.hall_id_seq', 7, true);
+
+
+--
+-- Name: seance_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.seance_id_seq', 3, true);
+
+
+--
+-- Name: seat_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.seat_id_seq', 32, true);
+
+
+--
+-- Name: ticket_id_seq; Type: SEQUENCE SET; Schema: test_db; Owner: postgres
+--
+
+SELECT pg_catalog.setval('test_db.ticket_id_seq', 22, true);
+
+
+--
+-- Name: attribute_name idx_16998_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_name
+    ADD CONSTRAINT idx_16998_primary PRIMARY KEY (id);
+
+
+--
+-- Name: attribute_type idx_17004_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_type
+    ADD CONSTRAINT idx_17004_primary PRIMARY KEY (id);
+
+
+--
+-- Name: attribute_value idx_17010_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.attribute_value
+    ADD CONSTRAINT idx_17010_primary PRIMARY KEY (id);
+
+
+--
+-- Name: film idx_17020_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film
+    ADD CONSTRAINT idx_17020_primary PRIMARY KEY (id);
+
+
+--
+-- Name: film_attribute idx_17029_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute
+    ADD CONSTRAINT idx_17029_primary PRIMARY KEY (id);
+
+
+--
+-- Name: genre idx_17035_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.genre
+    ADD CONSTRAINT idx_17035_primary PRIMARY KEY (id);
+
+
+--
+-- Name: hall idx_17041_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.hall
+    ADD CONSTRAINT idx_17041_primary PRIMARY KEY (id);
+
+
+--
+-- Name: seance idx_17047_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seance
+    ADD CONSTRAINT idx_17047_primary PRIMARY KEY (id);
+
+
+--
+-- Name: seat idx_17053_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seat
+    ADD CONSTRAINT idx_17053_primary PRIMARY KEY (id);
+
+
+--
+-- Name: ticket idx_17059_primary; Type: CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.ticket
+    ADD CONSTRAINT idx_17059_primary PRIMARY KEY (id);
+
+
+--
+-- Name: idx_16998_title_unique; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE UNIQUE INDEX idx_16998_title_unique ON test_db.attribute_name USING btree (title);
+
+
+--
+-- Name: idx_17004_title_unique; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE UNIQUE INDEX idx_17004_title_unique ON test_db.attribute_type USING btree (title);
+
+
+--
+-- Name: idx_17020_films_to_genre_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17020_films_to_genre_idx ON test_db.film USING btree (genre_id);
+
+
+--
+-- Name: idx_17029_atribute_to_value_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17029_atribute_to_value_idx ON test_db.film_attribute USING btree (attribute_value_id);
+
+
+--
+-- Name: idx_17029_attribute_to_type_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17029_attribute_to_type_idx ON test_db.film_attribute USING btree (attribute_name_id);
+
+
+--
+-- Name: idx_17029_attribute_to_type_idx1; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17029_attribute_to_type_idx1 ON test_db.film_attribute USING btree (attribute_type_id);
+
+
+--
+-- Name: idx_17029_films_attributes_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17029_films_attributes_idx ON test_db.film_attribute USING btree (film_id);
+
+
+--
+-- Name: idx_17047_seance_to_film_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17047_seance_to_film_idx ON test_db.seance USING btree (film_id);
+
+
+--
+-- Name: idx_17047_seance_to_hall_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17047_seance_to_hall_idx ON test_db.seance USING btree (hall_id);
+
+
+--
+-- Name: idx_17053_seats_to_hall_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17053_seats_to_hall_idx ON test_db.seat USING btree (hall_id);
+
+
+--
+-- Name: idx_17053_uniq_seat; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE UNIQUE INDEX idx_17053_uniq_seat ON test_db.seat USING btree (hall_id, line, number);
+
+
+--
+-- Name: idx_17059_ticket_to_seance_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17059_ticket_to_seance_idx ON test_db.ticket USING btree (seance_id);
+
+
+--
+-- Name: idx_17059_ticket_to_seats_idx; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE INDEX idx_17059_ticket_to_seats_idx ON test_db.ticket USING btree (seat_id);
+
+
+--
+-- Name: idx_17059_uniq_seat; Type: INDEX; Schema: test_db; Owner: postgres
+--
+
+CREATE UNIQUE INDEX idx_17059_uniq_seat ON test_db.ticket USING btree (seance_id, seat_id);
+
+
+--
+-- Name: work_tasks _RETURN; Type: RULE; Schema: test_db; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW test_db.work_tasks AS
+ SELECT film.title,
+    string_agg(DISTINCT (today_work.title)::text, ', '::text) AS today,
+    string_agg(DISTINCT (future_work.title)::text, ','::text) AS future
+   FROM ((test_db.film
+     LEFT JOIN ( SELECT fa_today.film_id,
+            a_today.title
+           FROM (((test_db.film_attribute fa_today
+             LEFT JOIN test_db.attribute_name a_today ON ((fa_today.attribute_name_id = a_today.id)))
+             LEFT JOIN test_db.attribute_type at_today ON (((fa_today.attribute_type_id = at_today.id) AND ((at_today.code)::text = 'work'::text))))
+             LEFT JOIN test_db.attribute_value av_today ON ((fa_today.attribute_value_id = av_today.id)))
+          WHERE (date(av_today.date_val) = CURRENT_DATE)) today_work ON ((film.id = today_work.film_id)))
+     LEFT JOIN ( SELECT fa_future.film_id,
+            a_future.title
+           FROM (((test_db.film_attribute fa_future
+             LEFT JOIN test_db.attribute_name a_future ON ((fa_future.attribute_name_id = a_future.id)))
+             LEFT JOIN test_db.attribute_type at_future ON (((fa_future.attribute_type_id = at_future.id) AND ((at_future.code)::text = 'work'::text))))
+             LEFT JOIN test_db.attribute_value av_future ON ((fa_future.attribute_value_id = av_future.id)))
+          WHERE (date(av_future.date_val) = (CURRENT_DATE + '20 days'::interval))) future_work ON ((film.id = future_work.film_id)))
+  GROUP BY film.id;
+
+
+--
+-- Name: film_attribute atribute_to_value; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute
+    ADD CONSTRAINT atribute_to_value FOREIGN KEY (attribute_value_id) REFERENCES test_db.attribute_value(id);
+
+
+--
+-- Name: film_attribute attribute_to_name; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute
+    ADD CONSTRAINT attribute_to_name FOREIGN KEY (attribute_name_id) REFERENCES test_db.attribute_name(id);
+
+
+--
+-- Name: film_attribute attribute_to_type; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute
+    ADD CONSTRAINT attribute_to_type FOREIGN KEY (attribute_type_id) REFERENCES test_db.attribute_type(id);
+
+
+--
+-- Name: film_attribute films_attributes; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film_attribute
+    ADD CONSTRAINT films_attributes FOREIGN KEY (film_id) REFERENCES test_db.film(id);
+
+
+--
+-- Name: film films_to_genre; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.film
+    ADD CONSTRAINT films_to_genre FOREIGN KEY (genre_id) REFERENCES test_db.genre(id);
+
+
+--
+-- Name: seance seance_to_film; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seance
+    ADD CONSTRAINT seance_to_film FOREIGN KEY (film_id) REFERENCES test_db.film(id);
+
+
+--
+-- Name: seance seance_to_hall; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seance
+    ADD CONSTRAINT seance_to_hall FOREIGN KEY (hall_id) REFERENCES test_db.hall(id);
+
+
+--
+-- Name: seat seats_to_hall; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.seat
+    ADD CONSTRAINT seats_to_hall FOREIGN KEY (hall_id) REFERENCES test_db.hall(id);
+
+
+--
+-- Name: ticket ticket_to_seance; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.ticket
+    ADD CONSTRAINT ticket_to_seance FOREIGN KEY (seance_id) REFERENCES test_db.seance(id);
+
+
+--
+-- Name: ticket ticket_to_seats; Type: FK CONSTRAINT; Schema: test_db; Owner: postgres
+--
+
+ALTER TABLE ONLY test_db.ticket
+    ADD CONSTRAINT ticket_to_seats FOREIGN KEY (seat_id) REFERENCES test_db.seat(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
