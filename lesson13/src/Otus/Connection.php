@@ -26,7 +26,7 @@ class Connection
      * @param string $password
      * @return PDO
      */
-    public function connect($host, $port, $user, $password, $database = null)
+    public function connect(string $host, string $port, string $user, string $password, string $database = null)
     {
 
         // connect to the postgresql database
