@@ -85,6 +85,7 @@ class Inserter
 
     public function insertData(string $type)
     {
+        $this->generateAttributes();
         switch ($type) {
             case 's':
                 echo 'Inserting small dataset (~10000 rows)' . PHP_EOL;
@@ -103,6 +104,7 @@ class Inserter
             $this->insertHall();
             $this->insertSeats();
             $this->generateSeances();
+            $this->generateTickets();
         }
     }
 
@@ -174,7 +176,7 @@ class Inserter
             $names = ['Air Force Blue', 'Alice Blue', 'Alizarin Crimson', 'Almond', 'Amaranth',
                 'Amber', 'American Rose', 'Amethyst', 'Anti-flash White', 'Antique White', 'Apple Green',
                 'Asparagus', 'Aqua', 'Aquamarine', 'Army Green', 'Arsenic', 'Azure'];
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 11; $i++) {
                 $currentName = rand(0, 16);
                 $values[] = [rand(120, 150), $names[$currentName]];
             }
@@ -209,20 +211,94 @@ class Inserter
 
     private function generateSeances()
     {
-        $films = $this->getDataFromTable('film', ['id', 'duration']);
+        $films = $this->getDataFromTable('film', ['id', 'duration'], "(select count(*) from seance where seance.film_id=film.id and date(date_start) between date('" . date('Y-m-1') . "') and date('" . date('Y-m-28') . "'))=0");
         $filmsCount = count($films);
-        $halls = $this->getIdsFromTable('hall');
-        $values = array();
-        foreach ($halls as $hall) {
-            for ($i=1;$i<29;$i++) {
-                for($j=0;$j<8;$j++) {
-                    $film = $films[rand(0,$filmsCount-1)];
-                    $date = date('Y') . '-' . date('m') . '-' . (iconv_strlen($i)==2 ? $i : '0' . $i) . ' ' . $j*3 . ':00:00';
-                    $date_stop = date('Y-m-d H:i:s', strtotime($date) + $film['duration']);
-                    $values[] = [$hall, $date, $date_stop, $film['id']];
+        if ($filmsCount) {
+            $halls = $this->getIdsFromTable('hall');
+            $values = array();
+            foreach ($halls as $hall) {
+                for ($i = 1; $i < 3; $i++) {
+                    for ($j = 0; $j < 8; $j++) {
+                        $film = $films[rand(0, $filmsCount - 1)];
+                        $date = date('Y') . '-' . date('m') . '-' . (iconv_strlen($i) == 2 ? $i : '0' . $i) . ' ' . $j * 3 . ':00:00';
+                        $date_stop = date('Y-m-d H:i:s', strtotime($date) + $film['duration']);
+                        $values[] = [$hall, $date, $date_stop, $film['id']];
+                    }
                 }
             }
+            $this->insertTransaction('seance', ['hall_id', 'date_start', 'date_end', 'film_id'], $values);
         }
-        $this->insertTransaction('seance', ['hall_id', 'date_start', 'date_end', 'film_id'], $values);
+    }
+
+    private function generateTickets()
+    {
+        $seances = $this->getDataFromTable('seance', ['id', 'hall_id'], '(select count(*) from ticket where ticket.seance_id = seance.id) = 0');
+        $values = array();
+        $seanceCount = count($seances);
+        $seanceNum = 0;
+        $totalTickets = 0;
+        foreach ($seances as $seance) {
+            $seanceNum++;
+            $seatIds = $this->getIdsFromTable('seat', 'hall_id = ' . $seance['hall_id']);
+            $seatsCount = count($seatIds);
+            $seatsForTickets = array();
+            for ($i = 0; $i < $seatsCount; $i++) {
+                if (rand(1, 10) % 2) {
+                    $seatsForTickets[] = $seatIds[rand(0, $seatsCount - 1)];
+                }
+            }
+            $seatsForTickets = array_values(array_unique($seatsForTickets));
+            foreach ($seatsForTickets as $seat) {
+                $values[] = [$seance['id'], $seat, rand(20000, 100000)];
+            }
+            //too many tickets6 let's insert it by parts
+            $this->insertTransaction('ticket', ['seance_id', 'seat_id', 'price'], $values);
+            $totalTickets += count($values);
+            echo "\rGenerate " . $totalTickets . ' tickets ' . $seanceNum . '/' . $seanceCount;
+            $values = array();
+        }
+        echo PHP_EOL;
+    }
+
+    private function generateAttributes()
+    {
+        if (!$this->countRows('attribute_name') && !$this->countRows('attribute_type')) {
+            $this->insertTransaction(
+                'attribute_type',
+                ['title', 'code', 'type'],
+                [['Рецензия', 'review', 'text'],
+                    ['Приз', 'prize', 'boolean'],
+                    ['Дата', 'date', 'timestamp'],
+                    ['Работа', 'work', 'timestamp']]);
+            $this->insertTransaction(
+                'attribute_name',
+                ['title'],
+                [['Бабе Вале понравилось'], ['Премия Оскар за роль 3го плана в массовке вдали'], ['Премия Тэфи'],
+                    ['Мировая премьера'], ['Премьера РФ'],
+                    ['Исправить опечатки в макете'], ['Печать макета рекламного постера'], ['Пнуть дизайнера по срокам'],
+                    ['Рецензия Васи Пупкина'], ['Рецензия киноакадемии']]);
+        }
+        $types = $this->getDataFromTable('attribute_type', ['id', 'code']);
+        $attributes = array();
+        foreach ($types as $type) {
+            $attributes[$type['code']]['type'] = $type['id'];
+        }
+        $data = $this->getDataFromTable('attribute_name', ['id'], "title in ('Бабе Вале понравилось', 'Премия Оскар за роль 3го плана в массовке вдали', 'Премия Тэфи')");
+        foreach ($data as $name) {
+            $attributes['prize']['name'][] = $name['id'];
+        }
+        $data = $this->getDataFromTable('attribute_name', ['id'], "title in ('Мировая премьера', 'Премьера РФ')");
+        foreach ($data as $name) {
+            $attributes['date']['name'][] = $name['id'];
+        }
+        $data = $this->getDataFromTable('attribute_name', ['id'], "title in ('Исправить опечатки в макете', 'Печать макета рекламного постера', 'Пнуть дизайнера по срокам')");
+        foreach ($data as $name) {
+            $attributes['work']['name'][] = $name['id'];
+        }
+        $data = $this->getDataFromTable('attribute_name', ['id'], "title in ('Рецензия Васи Пупкина', 'Рецензия киноакадемии')");
+        foreach ($data as $name) {
+            $attributes['work']['name'][] = $name['id'];
+        }
+        die(var_dump($attributes));
     }
 }
