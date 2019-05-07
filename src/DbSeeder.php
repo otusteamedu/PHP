@@ -107,7 +107,7 @@ class DbSeeder
             'id_film_attribute_value',
             'id_film' => $this->generator->relation('film', 'id_film'),
             'id_film_attribute' => $this->generator->relation('film_attribute', 'id_film_attribute'),
-            'bool_value' => $this->faker->boolean(),
+            'bool_value' => $this->faker->randomElement([0, 1]),
             'int_value' => $this->faker->randomNumber(),
             'text_value' => $this->faker->text(),
             'date_value' => $this->faker->date(),
