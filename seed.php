@@ -17,5 +17,3 @@ $dbSeeder
     ->seedAttribute(200)
     ->seedAttributeValue(10000)
     ->fill();
-
-

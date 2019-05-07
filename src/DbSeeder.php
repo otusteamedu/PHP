@@ -38,11 +38,6 @@ class DbSeeder
 
     public function seedHall(int $rows = 1): DbSeeder
     {
-//        INSERT INTO public.film_attribute_type (id_film_attribute_type, name, type) VALUES (1, 'Целое', 'integer');
-        //INSERT INTO public.film_attribute_type (id_film_attribute_type, name, type) VALUES (2, 'Текст', 'text');
-        //INSERT INTO public.film_attribute_type (id_film_attribute_type, name, type) VALUES (3, 'Дата', 'timestamp');
-        //INSERT INTO public.film_attribute_type (id_film_attribute_type, name, type) VALUES (4, 'Да/Нет', 'boolean');
-        //INSERT INTO public.film_attribute_type (id_film_attribute_type, name, type) VALUES (5, 'Раб.Дата', 'timestamp');
         $this->seeder->table('hall')->columns([
             'id_hall' => $this->generator->pk,
             'name' => $this->faker->name,
