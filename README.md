@@ -1,12 +1,8 @@
 ### hmw5-2 Sockets
 
-run console
-
-`docker-compose up`
-
 run console to run server
 
-`docker-compose exec hw5-2 php server.php`
+`docker-compose up`
 
 run console to run client
 

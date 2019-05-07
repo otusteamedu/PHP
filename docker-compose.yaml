@@ -7,4 +7,5 @@ services:
         volumes:
             - ./:/app
         restart: always
-        command: php server.php
+        working_dir: /app
+        command: bash -c "composer update && php server.php"

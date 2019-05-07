@@ -17,6 +17,7 @@ class Server
     public $clientCount;
     private $socket;
     private $onlineClients;
+    private $clientData;
 
     /**
      * Server constructor.
@@ -43,6 +44,7 @@ class Server
     public function start()
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP) or die(socket_strerror());
+        socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
         socket_bind($this->socket, $this->host, $this->port) or die($this->getSocketError());
         socket_listen($this->socket, $this->clientCount) or die($this->getSocketError());
 
@@ -53,30 +55,46 @@ class Server
 
     public function listen()
     {
+        $this->onlineClients = array($this->socket);
         while (true) {
-            $accept = socket_accept($this->socket);
+            $read = $this->onlineClients;
+            if (socket_select($read, $write = NULL, $except = NULL, 0) < 1)
+                continue;
 
-            $this->onlineClients[]['socket'] = $accept;
-            echo self::prepareSysMsg("New colonist #" . $this->getClientId($accept) . " connected");
-            socket_write($accept, $this->getWelcomeMsg());
-            $clientId = $this->getClientId($accept);
-            socket_write($accept, $this->getRegisatrationMsg($clientId));
+            if (in_array($this->socket, $read)) {
+                $this->onlineClients[] = $newsock = socket_accept($this->socket);
+                $clientId = $this->getClientId($newsock);
 
-            while ($accept) {
-                $input = socket_read($accept, 1024) or die($this->getSocketError());
-                echo self::prepareSysMsg("New message recieved from client #" . $this->getClientId($accept) . " $input");
+                socket_write($newsock, $this->getWelcomeMsg());
+                socket_write($newsock, $this->getRegisatrationMsg($clientId));
 
-                $this->setAnswer($clientId, $input);
+                socket_getpeername($newsock, $ip);
+                echo self::prepareSysMsg("New client connected: {$ip}");
 
-                socket_write($accept, $this->getRegisatrationMsg($clientId));
+                $key = array_search($this->socket, $read);
+                unset($read[$key]);
+            }
 
-                if ($this->isClientFinishRegistration($clientId)) {
-                    $this->closeConnection($clientId);
-                    echo self::prepareSysMsg("Client #" . $clientId . " connection closed!");
-                    break;
+            foreach ($read as $read_sock) {
+                $data = @socket_read($read_sock, 1024, PHP_NORMAL_READ);
+
+                if ($data === false) {
+                    $key = array_search($read_sock, $this->onlineClients);
+                    unset($this->onlineClients [$key]);
+                    echo "client disconnected.\n";
+                    continue;
+                }
+
+                $data = trim($data);
+
+                if (!empty($data)) {
+                    echo self::prepareSysMsg("Msg from client: {$data}");
+                    $this->setAnswer($clientId, $data);
+                    socket_write($newsock, $this->getRegisatrationMsg($clientId));
                 }
             }
         }
+        socket_close($this->socket);
     }
 
     public function isClientFinishRegistration($clientId): bool
@@ -99,34 +117,30 @@ class Server
     {
         $id = null;
         foreach ($this->onlineClients as $onlineClientKey => $onlineClient) {
-            if ($onlineClient['socket'] === $client) {
+            if ($onlineClient === $client) {
                 $id = $onlineClientKey;
             }
         }
         return $id;
     }
 
-    public function setAnswer($clientId, $answer)
+    public function setAnswer($id, $answer)
     {
-        $client = $this->onlineClients[$clientId];
-        if (!isset($client['name'])) {
-            $this->onlineClients[$clientId]['name'] = $answer;
-        } elseif (!isset($client['age'])) {
-            $this->onlineClients[$clientId]['age'] = $answer;
-            $this->onlineClients[$clientId]['finish'] = 1;
+        if (!isset($this->clientData[$id]['name'])) {
+            $this->clientData[$id]['name'] = $answer;
+        } elseif (!isset($this->clientData[$id]['age'])) {
+            $this->clientData[$id]['age'] = $answer;
+            $this->clientData[$id]['finish'] = 1;
         }
     }
 
-    public function getRegisatrationMsg($clientId): string
+    public function getRegisatrationMsg($id): string
     {
-        $client = $this->onlineClients[$clientId];
-
-        if (!isset($client['name'])) {
+        $out = "Thank you for registration in SpaceX! We will contact you soon! Bye!";
+        if (!isset($this->clientData[$id]['name'])) {
             $out = "Please, enter your name:";
-        } elseif (!isset($client['age'])) {
+        } elseif (!isset($this->clientData[$id]['age'])) {
             $out = "Please, enter your age:";
-        } else {
-            $out = "Thank you for registration in SpaceX! We will contact you soon! Bye!";
         }
         return $out;
     }

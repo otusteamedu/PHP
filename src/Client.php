@@ -11,6 +11,9 @@ class Client
     const PORT_DEFAULT = 4550;
     const HOST_DEFAULT = "127.0.0.1";
 
+    const ERROR_EMPTY_DATA_RECIEVED = 1;
+    const ERROR_FALSE_DATA_RECIEVED = 2;
+
     public $host;
     public $port;
     public $connect;
@@ -38,17 +41,21 @@ class Client
     {
         $this->connect();
 
-        if (!$this->connect) {
-            socket_close($this->socket);
-            exit;
-        }
-        while ($this->connect) {
-            $read = socket_read($this->socket, 1024);
-            if($read ===  false)
+        while (true) {
+            $read = @socket_read($this->socket, 1024);
+            if ($read === '') {
+                echo $this->getError(self::ERROR_EMPTY_DATA_RECIEVED) . "\n";
+                $this->closeConnection();
                 break;
+            }
+            if ($read === false) {
+                echo $this->getError(self::ERROR_FALSE_DATA_RECIEVED) . "\n";
+                $this->closeConnection();
+                break;
+            }
             echo "$read ";
             $input = fgets(STDIN);
-            socket_write($this->socket, $input);
+            socket_write($this->socket, $input) or die($this->getSocketError());
             echo "\n";
         }
         $this->closeConnection();
@@ -57,9 +64,20 @@ class Client
     public function closeConnection()
     {
         echo "Connection closed.\n";
-        socket_shutdown($this->socket);
-        socket_close($this->socket);
+        @socket_shutdown($this->socket);
+        @socket_close($this->socket);
         exit;
+    }
+
+    public function getError(int $error): string
+    {
+        if ($error === self::ERROR_EMPTY_DATA_RECIEVED) {
+            return "No data received!";
+        }
+        if ($error === self::ERROR_FALSE_DATA_RECIEVED) {
+            return "Server disconnected!";
+        }
+
     }
 
     /**
