@@ -1,0 +1,18 @@
+{
+  "name": "pawigor/otus13-1",
+  "authors": [
+    {
+      "name": "Igor Pavlichenko",
+      "email": "inbox@pieware.pro"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "tebazil/db-seeder": "^0.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "HW13_1\\": "./src"
+    }
+  }
+}
