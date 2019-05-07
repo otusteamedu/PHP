@@ -2,7 +2,6 @@
 
 namespace Otus;
 
-
 use PDO;
 
 class Creator
@@ -31,102 +30,192 @@ class Creator
         $this->connectionData = $connectionData;
     }
 
+    /**
+     * Set new PDO
+     * @param $pdo
+     */
     public function setPdo($pdo)
     {
         $this->pdo = $pdo;
     }
 
 
+    /**
+     * Check if DB exists
+     * @return bool
+     */
     public function checkDb(): bool
     {
         return (bool)$this->pdo->query("SELECT pg_database.datname FROM pg_database WHERE pg_database.datname like '" . $this->connectionData['database'] . "'")->rowCount();
     }
 
+    /**
+     *  Creating DB by connection data
+     */
     public function createDb()
     {
         $this->pdo->exec('CREATE DATABASE ' . $this->connectionData['database'] . ';');
     }
 
+    /**
+     * Check if schema exists
+     * @return bool
+     */
     public function checkSchema(): bool
     {
         return (bool)$this->pdo->query("SELECT schema_name FROM information_schema.schemata WHERE schema_name = '" . $this->connectionData['schema'] . "'")->rowCount();
     }
 
+    /**
+     * Drop shema by connection data
+     */
     public function dropSchema()
     {
         $this->pdo->exec('DROP SCHEMA IF EXISTS ' . $this->connectionData['schema'] . ' CASCADE;');
     }
 
+    /**
+     * Creating schema by connection data
+     */
     public function createSchema()
     {
         $this->pdo->exec('CREATE SCHEMA ' . $this->connectionData['schema'] . ';');
     }
 
+    /**
+     * Create table
+     * @param string $tableName
+     * @param array $columns
+     */
     public function createTable(string $tableName, array $columns)
     {
         $this->pdo->exec('CREATE TABLE ' . $this->connectionData['schema'] . '.' . $tableName . ' ( ' . implode(', ', $columns) . ');');
     }
 
+    /**
+     * Drop table
+     * @param string $tableName
+     */
     public function dropTable(string $tableName)
     {
         $this->pdo->exec('DROP TABLE IF EXISTS ' . $this->connectionData['schema'] . '.' . $tableName . ' CASCADE;');
     }
 
+    /**
+     * Set table owner
+     * @param string $tableName
+     * @param string $owner
+     */
     public function setTableOwner(string $tableName, string $owner)
     {
         $this->pdo->exec('ALTER TABLE ' . $this->connectionData['schema'] . '.' . $tableName . ' OWNER TO ' . $owner . ';');
     }
 
+    /**
+     * Create sequence
+     * @param string $sequenceName
+     * @param array $params
+     */
     public function createSequence(string $sequenceName, array $params)
     {
         $this->pdo->exec('CREATE SEQUENCE ' . $this->connectionData['schema'] . '.' . $sequenceName . ' ' . implode(' ', $params) . ';');
     }
 
+    /**
+     * Set sequence on column
+     * @param string $sequenceName
+     * @param string $tableName
+     * @param string $columnName
+     */
     public function setSequenceOnColumn(string $sequenceName, string $tableName, string $columnName)
     {
         $this->pdo->exec('ALTER SEQUENCE ' . $this->connectionData['schema'] . '.' . $sequenceName . ' OWNED BY ' . $this->connectionData['schema'] . '.' . $tableName . '.' . $columnName . ';');
     }
 
+    /**
+     * Create view
+     * @param string $name
+     * @param string $query
+     */
     public function createView(string $name, string $query)
     {
         $this->pdo->exec('CREATE OR REPLACE VIEW ' . $this->connectionData['schema'] . '.' . $name . ' AS ' . $query . ';');
     }
 
+    /**
+     * Set sequence nextval on column
+     * @param string $tableName
+     * @param string $column
+     * @param string $sequence
+     */
     public function setSequenceNextval(string $tableName, string $column, string $sequence)
     {
         $this->pdo->exec('ALTER TABLE ONLY ' . $this->connectionData['schema'] . '.' . $tableName . ' ALTER COLUMN ' . $column . " SET DEFAULT nextval('" . $this->connectionData['schema'] . '.' . $sequence . "'::regclass);");
     }
 
+    /**
+     * Add constraint
+     * @param string $tableName
+     * @param string $indexName
+     * @param string $column
+     * @param string $type
+     * @param string|null $references
+     */
     public function addConstraint(string $tableName, string $indexName, string $column, string $type = 'PRIMARY KEY', string $references = null)
     {
         $this->pdo->exec('ALTER TABLE ONLY ' . $this->connectionData['schema'] . '.' . $tableName . ' ADD CONSTRAINT ' . $indexName . ' ' . $type . ' (' . $column . ')' . ($references ? ' REFERENCES ' . $this->connectionData['schema'] . '.' . $references : '' ) . ';');
     }
 
+    /**
+     * Add index
+     * @param string $tableName
+     * @param string $indexName
+     * @param string $column
+     * @param bool $unique
+     */
     public function addIndex(string $tableName, string $indexName, string $column, bool $unique = false)
     {
         $this->pdo->exec('CREATE ' . ($unique ? 'UNIQUE' : '') . ' INDEX ' . $indexName . ' ON ' . $this->connectionData['schema'] . '.' . $tableName . ' USING btree (' . $column . ');');
     }
+
     /**
-     * create default tables
+     * Create default tables
      */
     public function createDefaultTables()
     {
+        echo 'Creating table "attribute_name"' . PHP_EOL;
         $this->createTableAttributeName();
+        echo 'Creating table "attribute_type"' . PHP_EOL;
         $this->createTableAttributeType();
+        echo 'Creating table "attribute_value"' . PHP_EOL;
         $this->createTableAttributeValue();
+        echo 'Creating table "film"' . PHP_EOL;
         $this->createTableFilm();
+        echo 'Creating table "film_attribute"' . PHP_EOL;
         $this->createTableFilmAttribute();
+        echo 'Creating table "genre"' . PHP_EOL;
         $this->createTableGenre();
+        echo 'Creating table "hall"' . PHP_EOL;
         $this->createTableHall();
+        echo 'Creating table "seance"' . PHP_EOL;
         $this->createTableSeance();
+        echo 'Creating table "seat"' . PHP_EOL;
         $this->createTableSeat();
+        echo 'Creating table "ticket"' . PHP_EOL;
         $this->createTableTicket();
+        echo 'Creating market view' . PHP_EOL;
         $this->createMarketView();
+        echo 'Setting up sequences"' . PHP_EOL;
         $this->setSequences();
+        echo 'Adding indexes and constraints' . PHP_EOL;
         $this->addIndexes();
+        echo 'Creating work_tasks view' . PHP_EOL;
         $this->createWorkTasksView();
     }
 
+    /**
+     * Create default table 'attribute_name'
+     */
     private function createTableAttributeName()
     {
         $this->dropTable('attribute_name');
@@ -137,6 +226,9 @@ class Creator
         $this->setSequenceOnColumn('attribute_name_id_seq', 'attribute_name', 'id');
     }
 
+    /**
+     * Create default table 'attribute_type'
+     */
     private function createTableAttributeType()
     {
         $this->dropTable('attribute_type');
@@ -147,6 +239,9 @@ class Creator
         $this->setSequenceOnColumn('attribute_type_id_seq', 'attribute_type', 'id');
     }
 
+    /**
+     * Create default table 'attribute_value'
+     */
     private function createTableAttributeValue()
     {
         $this->dropTable('attribute_value');
@@ -157,6 +252,9 @@ class Creator
         $this->setSequenceOnColumn('attribute_value_id_seq', 'attribute_value', 'id');
     }
 
+    /**
+     * Create default table 'film'
+     */
     private function createTableFilm()
     {
         $this->dropTable('film');
@@ -167,6 +265,9 @@ class Creator
         $this->setSequenceOnColumn('film_id_seq', 'film', 'id');
     }
 
+    /**
+     * Create default table 'film_attribute'
+     */
     private function createTableFilmAttribute()
     {
         $this->dropTable('film_attribute');
@@ -177,6 +278,9 @@ class Creator
         $this->setSequenceOnColumn('film_attribute_id_seq', 'film_attribute', 'id');
     }
 
+    /**
+     * Create default table 'genre'
+     */
     private function createTableGenre()
     {
         $this->dropTable('genre');
@@ -187,6 +291,9 @@ class Creator
         $this->setSequenceOnColumn('genre_id_seq', 'genre', 'id');
     }
 
+    /**
+     * Create default table 'hall'
+     */
     private function createTableHall()
     {
         $this->dropTable('hall');
@@ -197,6 +304,9 @@ class Creator
         $this->setSequenceOnColumn('hall_id_seq', 'hall', 'id');
     }
 
+    /**
+     * Create default table 'seance'
+     */
     private function createTableSeance()
     {
         $this->dropTable('seance');
@@ -207,6 +317,9 @@ class Creator
         $this->setSequenceOnColumn('seance_id_seq', 'seance', 'id');
     }
 
+    /**
+     * Create default table 'seat'
+     */
     private function createTableSeat()
     {
         $this->dropTable('seat');
@@ -217,6 +330,9 @@ class Creator
         $this->setSequenceOnColumn('seat_id_seq', 'seat', 'id');
     }
 
+    /**
+     * Create default table 'ticket'
+     */
     private function createTableTicket()
     {
         $this->dropTable('ticket');
@@ -227,6 +343,9 @@ class Creator
         $this->setSequenceOnColumn('ticket_id_seq', 'ticket', 'id');
     }
 
+    /**
+     * Create default view 'market_view'
+     */
     private function createMarketView()
     {
         $sql = "(SELECT film.title,
@@ -249,6 +368,9 @@ class Creator
         $this->setTableOwner('market_view', $this->connectionData['user']);
     }
 
+    /**
+     * Create default view 'work_tasks'
+     */
     private function createWorkTasksView()
     {
         $sql = "(SELECT film.title,
@@ -276,6 +398,9 @@ class Creator
         $this->setTableOwner('work_tasks', $this->connectionData['user']);
     }
 
+    /**
+     * Setting up default sequences
+     */
     private function setSequences()
     {
         $this->setSequenceNextval('attribute_name', 'id', 'attribute_name_id_seq');
@@ -290,6 +415,9 @@ class Creator
         $this->setSequenceNextval('ticket', 'id', 'ticket_id_seq');
     }
 
+    /**
+     * Setting up default indexes
+     */
     private function addIndexes()
     {
         $this->addConstraint('attribute_name', 'idx_attr_name_primary', 'id');
@@ -328,11 +456,4 @@ class Creator
         $this->addConstraint('ticket', 'ticket_to_seats', 'seat_id', 'FOREIGN KEY', 'seat(id)');
     }
 
-    /**
-     * return tables in the database
-     */
-    public function getTables()
-    {
-
-    }
 }

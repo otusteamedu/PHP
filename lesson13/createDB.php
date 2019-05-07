@@ -6,9 +6,15 @@ require 'vendor/autoload.php';
 use Otus\Connection as Connection;
 use Otus\Creator as Creator;
 
+//setting default credits
 $connectionData = ['host' => 'localhost', 'port' => 5432, 'user' => 'postgres', 'password' => 'adminPassword', 'database' => 'test_db2', 'schema' => 'test_db'];
-//todo чтение параметров
-$options = getopt("hvs", ['help', 'host', 'port', 'user', 'password', 'database', 'schema']);
+//getting options
+$options = getopt("h", ['help', 'host:', 'port:', 'user:', 'password:', 'database:', 'schema:']);
+/**
+ *  TODO
+ *  Maybe use extract($options) and check options by isset($opt) ?
+ *  Maybe... not now..
+ */
 if (array_key_exists('h', $options) || array_key_exists('help', $options)) {
     echo "Options:\n'--host' - host(default: localhost),\n"
         . "'--port' - port(default: 5432),\n"
@@ -21,13 +27,17 @@ if (array_key_exists('h', $options) || array_key_exists('help', $options)) {
         . "'-h\\--help' - this message." . PHP_EOL;
     exit();
 }
-
+!array_key_exists('host', $options) ? : $connectionData['host'] = $options['host'];
+!array_key_exists('port', $options) ? : $connectionData['port'] = $options['port'];
+!array_key_exists('user', $options) ? : $connectionData['user'] = $options['user'];
+!array_key_exists('password', $options) ? : $connectionData['password'] = $options['password'];
+!array_key_exists('database', $options) ? : $connectionData['database'] = $options['database'];
+!array_key_exists('schema', $options) ? : $connectionData['schema'] = $options['schema'];
 try {
-    // Check DB
+    // Check DB exists
     $pdo = Connection::get()->connect($connectionData['host'], $connectionData['port'], $connectionData['user'], $connectionData['password']);
-    $creator = new Creator($pdo, $connectionData);
+    $creator = new Creator($pdo, ['database' => $connectionData['database'], 'schema' => $connectionData['schema'], 'user' => $connectionData['user']]);
 
-//    die(var_dump($creator->checkDb()));
     $checkDb = $creator->checkDb();
     if (!$checkDb) {
         $answer = '';
@@ -45,13 +55,12 @@ try {
             }
         }
     }
-    // change connection to chosen db
+    // Change connection to chosen DB
     $pdo = Connection::get()->connect($connectionData['host'], $connectionData['port'], $connectionData['user'], $connectionData['password'], $connectionData['database']);
     $creator->setPdo($pdo);
 
-    // check schema
+    // Check schema exists
     $checkSchema = $creator->checkSchema();
-
     if ($checkSchema) {
         $answer = '';
         while (!$answer) {
@@ -72,6 +81,8 @@ try {
     $creator->createSchema();
     echo 'Creating tables' . PHP_EOL;
     $creator->createDefaultTables();
+    echo 'Database creating complete' . PHP_EOL;
 } catch (PDOException $e) {
-    echo $e->getMessage();
+    echo 'Error: ' . $e->getMessage() . PHP_EOL;
+    die();
 }
