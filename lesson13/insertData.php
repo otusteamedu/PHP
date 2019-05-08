@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-ini_set('memory_limit', '256M');
+
 require 'vendor/autoload.php';
 
 use Otus\Connection;
@@ -29,17 +29,17 @@ if (array_key_exists('h', $options) || array_key_exists('help', $options)) {
         . "'-h\\--help' - this message." . PHP_EOL;
     exit();
 }
-//if (!array_key_exists('type', $options)) {
-//    echo 'Error: You must choose type of insert data, "s" - for small data(~10000 rows), "b" - for big data(~10000000 rows).' . PHP_EOL;
-//    echo 'Example: ./insertData.php --type s' . PHP_EOL;
-//    die();
-//} elseif(!in_array($options['type'], ['s', 'b'])) {
-//    echo 'Error: You must choose type of insert data, "s" - for small data(~10000 rows), "b" - for big data(~10000000 rows).' . PHP_EOL;
-//    echo 'Example: ./insertData.php --type s' . PHP_EOL;
-//    die();
-//} else {
-//    $type = $options['type'];
-//}
+if (!array_key_exists('type', $options)) {
+    echo 'Error: You must choose type of insert data, "s" - for small data(~10000 rows), "b" - for big data(~10000000 rows).' . PHP_EOL;
+    echo 'Example: ./insertData.php --type s' . PHP_EOL;
+    die();
+} elseif(!in_array($options['type'], ['s', 'b'])) {
+    echo 'Error: You must choose type of insert data, "s" - for small data(~10000 rows), "b" - for big data(~10000000 rows).' . PHP_EOL;
+    echo 'Example: ./insertData.php --type s' . PHP_EOL;
+    die();
+} else {
+    $type = $options['type'];
+}
 !array_key_exists('host', $options) ? : $connectionData['host'] = $options['host'];
 !array_key_exists('port', $options) ? : $connectionData['port'] = $options['port'];
 !array_key_exists('user', $options) ? : $connectionData['user'] = $options['user'];
@@ -50,8 +50,17 @@ try {
     $pdo = Connection::get()->connect($connectionData['host'], $connectionData['port'], $connectionData['user'], $connectionData['password'], $connectionData['database']);
     $pdo->exec('SET search_path TO ' . $connectionData['schema']);
     $inserter = new Inserter($pdo);
-    $inserter->insertData('s');
-    die();
+    switch ($type) {
+        case 's':
+            echo 'Inserting small dataset (~10000 rows)' . PHP_EOL;
+            $inserter->insertData(10000);
+            break;
+        case 'b':
+            echo 'Inserting big dataset (~10000000 rows)' . PHP_EOL;
+            $inserter->insertData(10000000);
+            break;
+    }
+    exit();
 } catch (PDOException $e) {
     echo 'Error: ' . $e->getMessage() . PHP_EOL;
     die();
