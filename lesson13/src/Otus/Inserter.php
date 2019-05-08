@@ -4,6 +4,10 @@ namespace Otus;
 
 use PDO;
 
+/**
+ * Class Inserter
+ * @package Otus
+ */
 class Inserter
 {
     /**
@@ -12,9 +16,18 @@ class Inserter
      */
     private $pdo;
 
+    /**
+     * Rows count
+     * @var int
+     */
     private $rowsCount = 0;
+
+    /**
+     * Rows needed
+     * @var int
+     */
     private $rowsNeeded = 0;
-    private $baseTables = ['genre', 'film', 'hall', 'seance', 'seat', 'ticket', 'attribute_name', 'attribute_type', 'attribute_value', 'film_attribute'];
+
 
     /**
      * init the object with a \PDO object
@@ -25,16 +38,27 @@ class Inserter
         $this->pdo = $pdo;
     }
 
+    /**
+     * Increment rows count
+     * @param int $count
+     */
     private function incrementRowsCount(int $count)
     {
         $this->rowsCount += $count;
     }
 
+    /**
+     * Set rows needed
+     * @param int $count
+     */
     private function setRowsNeeded(int $count)
     {
         $this->rowsNeeded = $count;
     }
 
+    /**
+     *  Count total rows and set in rowsCount
+     */
     private function countTotalRows()
     {
         foreach ($this->baseTables as $table) {
@@ -42,21 +66,41 @@ class Inserter
         }
     }
 
+    /**
+     * @param string $tableName
+     * @return int
+     */
     private function countRows(string $tableName): int
     {
         return (int)$this->pdo->query('SELECT * FROM ' . $tableName)->rowCount();
     }
 
+    /**
+     * @param string $tableName
+     * @param string|null $where
+     * @return array
+     */
     private function getIdsFromTable(string $tableName, string $where = null): array
     {
         return $this->pdo->query('SELECT id FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
+    /**
+     * @param string $tableName
+     * @param array $columns
+     * @param string|null $where
+     * @return array
+     */
     private function getDataFromTable(string $tableName, array $columns, string $where = null): array
     {
         return $this->pdo->query('SELECT ' . implode(', ', $columns) . ' FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll();
     }
 
+    /**
+     * @param string $tableName
+     * @param array $columns
+     * @param array $values
+     */
     private function insertTransaction(string $tableName, array $columns, array $values)
     {
         $this->pdo->beginTransaction();
@@ -72,7 +116,7 @@ class Inserter
         $this->pdo->commit();
     }
 
-    private function multipleTableInsert($parentTable, $parentColumns, $parentValues, $childTable, $childColumns, $childValues, $childFiled)
+    private function multipleTableInsert(string $parentTable, array $parentColumns, array $parentValues, string $childTable, array $childColumns, array $childValues, string $childFiled)
     {
         $question_marks = array();
         $question_marks['parent'] = '(' . $this->getPlaceholders('?', sizeof($parentColumns)) . ')';
@@ -103,6 +147,13 @@ class Inserter
         $stmt->execute(array_merge($parentValues, $childValues));
     }
 
+    /**
+     * generate placeholder by columns
+     * @param $text
+     * @param int $count
+     * @param string $separator
+     * @return string
+     */
     private function getPlaceholders($text, $count = 0, $separator = ",")
     {
         $result = array();
@@ -114,6 +165,10 @@ class Inserter
         return implode($separator, $result);
     }
 
+    /**
+     * insert test data
+     * @param string $rowsNeed
+     */
     public function insertData(string $rowsNeed)
     {
         $this->setRowsNeeded($rowsNeed);
@@ -139,6 +194,9 @@ class Inserter
         }
     }
 
+    /**
+     *
+     */
     private function insertGenres()
     {
         if (!$this->countRows('genre')) {
@@ -153,6 +211,9 @@ class Inserter
         }
     }
 
+    /**
+     *
+     */
     private function generateFilms()
     {
         $rowsMinimum = $this->rowsNeeded>50000 ? 100 : 10;
@@ -165,6 +226,9 @@ class Inserter
         $this->insertTransaction('film', ['title', 'genre_id', 'duration', 'annotation'], $values);
     }
 
+    /**
+     * @return string
+     */
     private function generateFilmName()
     {
         $first = ['Момент', 'Небо', 'Океан', 'Страницы', 'Море', 'Боль', 'Обрывки',
@@ -185,6 +249,9 @@ class Inserter
         return $first[mt_rand(0, 29)] . ' ' . ($odd ? $second[mt_rand(0, 30)] . ' ' . $third[mt_rand(0, 36)] : $third[mt_rand(0, 36)] . ' ' . $second[mt_rand(0, 30)]);
     }
 
+    /**
+     * @return string
+     */
     private function generateFilmAnnotation()
     {
         $first = ['обречён', 'ожидает', 'возможно получит', 'вполне способен', 'явно не хочет'];//5
@@ -199,6 +266,9 @@ class Inserter
         return sprintf($text, $third[mt_rand(0, 36)], $third[mt_rand(0, 36)], $first[mt_rand(0, 4)], $second[mt_rand(0, 4)], $third[mt_rand(0, 36)]);
     }
 
+    /**
+     *
+     */
     private function insertHall()
     {
         if ($this->countRows('hall') < 10) {
@@ -215,6 +285,9 @@ class Inserter
         }
     }
 
+    /**
+     *
+     */
     private function insertSeats()
     {
         $data = $this->getDataFromTable('hall', ['id', 'seats'], '(select count(*) from seat where seat.hall_id = hall.id) = 0');
@@ -241,6 +314,9 @@ class Inserter
 
     }
 
+    /**
+     *
+     */
     private function generateSeances()
     {
 
@@ -269,6 +345,9 @@ class Inserter
         }
     }
 
+    /**
+     *
+     */
     private function generateTickets()
     {
         $seances = $this->getDataFromTable('seance', ['id', 'hall_id'], '(select count(*) from ticket where ticket.seance_id = seance.id) = 0');
@@ -299,6 +378,9 @@ class Inserter
         echo PHP_EOL;
     }
 
+    /**
+     *
+     */
     private function generateAttributes()
     {
         if (!$this->countRows('attribute_type')) {
@@ -337,6 +419,9 @@ class Inserter
         }
     }
 
+    /**
+     * @return array
+     */
     private function getRandomAttributes()
     {
         $types = $this->getDataFromTable('attribute_type', ['id', 'code', 'type']);
@@ -374,6 +459,10 @@ class Inserter
         return $response;
     }
 
+    /**
+     * @param $type
+     * @return bool|false|string
+     */
     private function getRandomValueByType($type)
     {
         switch ($type) {
