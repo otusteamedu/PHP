@@ -28,6 +28,11 @@ class Inserter
      */
     private $rowsNeeded = 0;
 
+    /**
+     * Base tables
+     * @var array
+     */
+    private $baseTables = ['genre', 'film', 'hall', 'seance', 'seat', 'ticket', 'attribute_name', 'attribute_type', 'attribute_value', 'film_attribute'];
 
     /**
      * init the object with a \PDO object
@@ -36,133 +41,6 @@ class Inserter
     public function __construct($pdo)
     {
         $this->pdo = $pdo;
-    }
-
-    /**
-     * Increment rows count
-     * @param int $count
-     */
-    private function incrementRowsCount(int $count)
-    {
-        $this->rowsCount += $count;
-    }
-
-    /**
-     * Set rows needed
-     * @param int $count
-     */
-    private function setRowsNeeded(int $count)
-    {
-        $this->rowsNeeded = $count;
-    }
-
-    /**
-     *  Count total rows and set in rowsCount
-     */
-    private function countTotalRows()
-    {
-        foreach ($this->baseTables as $table) {
-            $this->incrementRowsCount($this->countRows($table));
-        }
-    }
-
-    /**
-     * @param string $tableName
-     * @return int
-     */
-    private function countRows(string $tableName): int
-    {
-        return (int)$this->pdo->query('SELECT * FROM ' . $tableName)->rowCount();
-    }
-
-    /**
-     * @param string $tableName
-     * @param string|null $where
-     * @return array
-     */
-    private function getIdsFromTable(string $tableName, string $where = null): array
-    {
-        return $this->pdo->query('SELECT id FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll(PDO::FETCH_COLUMN, 0);
-    }
-
-    /**
-     * @param string $tableName
-     * @param array $columns
-     * @param string|null $where
-     * @return array
-     */
-    private function getDataFromTable(string $tableName, array $columns, string $where = null): array
-    {
-        return $this->pdo->query('SELECT ' . implode(', ', $columns) . ' FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll();
-    }
-
-    /**
-     * @param string $tableName
-     * @param array $columns
-     * @param array $values
-     */
-    private function insertTransaction(string $tableName, array $columns, array $values)
-    {
-        $this->pdo->beginTransaction();
-        $insert_values = array();
-        $question_marks = array();
-        foreach ($values as $row) {
-            $question_marks[] = '(' . $this->getPlaceholders('?', sizeof($columns)) . ')';
-            $insert_values = array_merge($insert_values, array_values($row));
-        }
-        $sql = "INSERT INTO $tableName (" . implode(",", $columns) . ") VALUES " . implode(',', $question_marks);
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($insert_values);
-        $this->pdo->commit();
-    }
-
-    private function multipleTableInsert(string $parentTable, array $parentColumns, array $parentValues, string $childTable, array $childColumns, array $childValues, string $childFiled)
-    {
-        $question_marks = array();
-        $question_marks['parent'] = '(' . $this->getPlaceholders('?', sizeof($parentColumns)) . ')';
-        $childWithTypes = array();
-        $childColumnsNames = array();
-        foreach ($childColumns as $column) {
-            if (array_key_exists('type', $column)) {
-                $childWithTypes[] = 'CAST (' . $column['name'] . ' as ' . $column['type'] . ')';
-                $childColumnsNames[] = $column['name'];
-            }
-        }
-        if (!$childColumnsNames) {
-            $childColumnsNames = $childColumns;
-        }
-        $question_marks['child'] = '(' . $this->getPlaceholders('?', sizeof($childColumnsNames)) . ')';
-
-        $sql = "WITH new_parent AS (
-            INSERT INTO $parentTable (" . implode(",", $parentColumns) . ") VALUES " . $question_marks['parent'] . "
-            RETURNING id
-            ),
-            v(" . implode(",", $childColumnsNames) . ") AS (values
-              " . $question_marks['child'] . "
-            )
-            INSERT INTO $childTable (" . implode(",", array_merge([$childFiled], $childColumnsNames)) . ")
-             SELECT new_parent.id, " . implode(",", $childWithTypes ? $childWithTypes : $childColumnsNames) . " FROM v, new_parent";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(array_merge($parentValues, $childValues));
-    }
-
-    /**
-     * generate placeholder by columns
-     * @param $text
-     * @param int $count
-     * @param string $separator
-     * @return string
-     */
-    private function getPlaceholders($text, $count = 0, $separator = ",")
-    {
-        $result = array();
-        if ($count > 0) {
-            for ($x = 0; $x < $count; $x++) {
-                $result[] = $text;
-            }
-        }
-        return implode($separator, $result);
     }
 
     /**
@@ -195,7 +73,45 @@ class Inserter
     }
 
     /**
-     *
+     * Set rows needed
+     * @param int $count
+     */
+    private function setRowsNeeded(int $count)
+    {
+        $this->rowsNeeded = $count;
+    }
+
+    /**
+     *  Count total rows and set in rowsCount
+     */
+    private function countTotalRows()
+    {
+        foreach ($this->baseTables as $table) {
+            $this->incrementRowsCount($this->countRows($table));
+        }
+    }
+
+    /**
+     * Increment rows count
+     * @param int $count
+     */
+    private function incrementRowsCount(int $count)
+    {
+        $this->rowsCount += $count;
+    }
+
+    /**
+     * Counting rows from chosen table
+     * @param string $tableName
+     * @return int
+     */
+    private function countRows(string $tableName): int
+    {
+        return (int)$this->pdo->query('SELECT * FROM ' . $tableName)->rowCount();
+    }
+
+    /**
+     * Insert default genres if table 'genre' is empty
      */
     private function insertGenres()
     {
@@ -212,11 +128,114 @@ class Inserter
     }
 
     /**
-     *
+     * Make insert transaction
+     * @param string $tableName
+     * @param array $columns
+     * @param array $values
+     */
+    private function insertTransaction(string $tableName, array $columns, array $values)
+    {
+        $this->pdo->beginTransaction();
+        $insert_values = array();
+        $question_marks = array();
+        foreach ($values as $row) {
+            $question_marks[] = '(' . $this->getPlaceholders('?', sizeof($columns)) . ')';
+            $insert_values = array_merge($insert_values, array_values($row));
+        }
+        $sql = "INSERT INTO $tableName (" . implode(",", $columns) . ") VALUES " . implode(',', $question_marks);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($insert_values);
+        $this->pdo->commit();
+    }
+
+    /**
+     * Make insert transaction for 2 tables with relation
+     * @param string $parentTable
+     * @param array $parentColumns
+     * @param array $parentValues
+     * @param string $childTable
+     * @param array $childColumns
+     * @param array $childValues
+     * @param string $childFiled
+     */
+    private function multipleTableInsert(string $parentTable, array $parentColumns, array $parentValues, string $childTable, array $childColumns, array $childValues, string $childFiled)
+    {
+        $question_marks = array();
+        $question_marks['parent'] = '(' . $this->getPlaceholders('?', sizeof($parentColumns)) . ')';
+        $childWithTypes = array();
+        $childColumnsNames = array();
+        foreach ($childColumns as $column) {
+            if (array_key_exists('type', $column)) {
+                $childWithTypes[] = 'CAST (' . $column['name'] . ' as ' . $column['type'] . ')';
+                $childColumnsNames[] = $column['name'];
+            }
+        }
+        if (!$childColumnsNames) {
+            $childColumnsNames = $childColumns;
+        }
+        $question_marks['child'] = '(' . $this->getPlaceholders('?', sizeof($childColumnsNames)) . ')';
+
+        $sql = "WITH new_parent AS (
+            INSERT INTO $parentTable (" . implode(",", $parentColumns) . ") VALUES " . $question_marks['parent'] . "
+            RETURNING id
+            ),
+            v(" . implode(",", $childColumnsNames) . ") AS (values
+              " . $question_marks['child'] . "
+            )
+            INSERT INTO $childTable (" . implode(",", array_merge([$childFiled], $childColumnsNames)) . ")
+             SELECT new_parent.id, " . implode(",", $childWithTypes ? $childWithTypes : $childColumnsNames) . " FROM v, new_parent";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array_merge($parentValues, $childValues));
+    }
+
+    /**
+     * Generate placeholder
+     * @param $text
+     * @param int $count
+     * @param string $separator
+     * @return string
+     */
+    private function getPlaceholders($text, $count = 0, $separator = ",")
+    {
+        $result = array();
+        if ($count > 0) {
+            for ($x = 0; $x < $count; $x++) {
+                $result[] = $text;
+            }
+        }
+        return implode($separator, $result);
+    }
+
+    /**
+     * Get array of existing ids from table
+     * @param string $tableName
+     * @param string|null $where
+     * @return array
+     */
+    private function getIdsFromTable(string $tableName, string $where = null): array
+    {
+        return $this->pdo->query('SELECT id FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
+    /**
+     * Gettin array of chosen columns from chosen table
+     * @param string $tableName
+     * @param array $columns
+     * @param string|null $where
+     * @return array
+     */
+    private function getDataFromTable(string $tableName, array $columns, string $where = null): array
+    {
+        return $this->pdo->query('SELECT ' . implode(', ', $columns) . ' FROM ' . $tableName . ($where ? ' WHERE ' . $where : ''))->fetchAll();
+    }
+
+    /**
+     * Films generator
      */
     private function generateFilms()
     {
-        $rowsMinimum = $this->rowsNeeded>50000 ? 100 : 10;
+        $rowsMinimum = $this->rowsNeeded > 50000 ? 100 : 10;
         $values = array();
         $genreIds = $this->getIdsFromTable('genre');
         $genreIdsCount = count($genreIds);
@@ -227,6 +246,7 @@ class Inserter
     }
 
     /**
+     * Generating random film name
      * @return string
      */
     private function generateFilmName()
@@ -250,6 +270,7 @@ class Inserter
     }
 
     /**
+     * Film annotation generator
      * @return string
      */
     private function generateFilmAnnotation()
@@ -267,7 +288,7 @@ class Inserter
     }
 
     /**
-     *
+     * Generate 10 halls if table 'hall' is empty
      */
     private function insertHall()
     {
@@ -286,7 +307,7 @@ class Inserter
     }
 
     /**
-     *
+     * Generating seats in hall if hall haven't it
      */
     private function insertSeats()
     {
@@ -315,12 +336,12 @@ class Inserter
     }
 
     /**
-     *
+     * Generate seances for every film that haven't seances.
+     * Maybe it need take last 20 films...
      */
     private function generateSeances()
     {
-
-        $days = $this->rowsNeeded > 10000 ? 3 : 10;
+        $days = $this->rowsNeeded < 15000 ? 2 : 6;
         $films = $this->getDataFromTable('film', ['id', 'duration'], "(select count(*) from seance where seance.film_id=film.id and date(date_start) between date('" . date('Y-m-d') . "') and date('" . date('Y-m-d', strtotime("+$days day")) . "'))=0");
         $filmsCount = count($films);
         if (!$filmsCount) {
@@ -334,6 +355,7 @@ class Inserter
         $values = array();
         foreach ($halls as $hall) {
             for ($i = 0; $i < $days; $i++) {
+                // 8 - count of max seances in 1 hall in 24 hours (3 hours for 1 seance)
                 for ($j = 0; $j < 8; $j++) {
                     $film = $films[rand(0, $filmsCount - 1)];
                     $date = date('Y-m-d ' . $j * 3 . ':00:00', strtotime("$dateStart +$i day"));
@@ -341,12 +363,12 @@ class Inserter
                     $values[] = [$hall, $date, $date_stop, $film['id']];
                 }
             }
-            $this->insertTransaction('seance', ['hall_id', 'date_start', 'date_end', 'film_id'], $values);
         }
+        $this->insertTransaction('seance', ['hall_id', 'date_start', 'date_end', 'film_id'], $values);
     }
 
     /**
-     *
+     * Generate random tickets for seances without tickets
      */
     private function generateTickets()
     {
@@ -369,7 +391,7 @@ class Inserter
             foreach ($seatsForTickets as $seat) {
                 $values[] = [$seance['id'], $seat, rand(20000, 100000)];
             }
-            //too many tickets6 let's insert it by parts
+            //too many tickets, let's insert it by parts
             $this->insertTransaction('ticket', ['seance_id', 'seat_id', 'price'], $values);
             $totalTickets += count($values);
             echo "\rGenerate " . $totalTickets . ' tickets ' . $seanceNum . '/' . $seanceCount;
@@ -379,7 +401,7 @@ class Inserter
     }
 
     /**
-     *
+     * Generator for attributes
      */
     private function generateAttributes()
     {
@@ -420,6 +442,7 @@ class Inserter
     }
 
     /**
+     * Randomize attribute
      * @return array
      */
     private function getRandomAttributes()
@@ -460,6 +483,7 @@ class Inserter
     }
 
     /**
+     * Random value generator for chosen types
      * @param $type
      * @return bool|false|string
      */
