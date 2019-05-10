@@ -439,32 +439,17 @@ limit 5;
 -- pg_catalog	pg_operator	    788	    240 kB	88 kB	152 kB
 
 -- Индексы отсортированные по их использованию
--- select * from pg_statio_user_indexes order by idx_blks_read desc;
+-- select * from pg_statio_user_indexes order by idx_blks_read desc limit 5;
 -- 19007	19061	test_db	ticket	        idx_uniq_seance_seat	    3166	938614
 -- 19007	19060	test_db	ticket	        idx_ticket_to_seat_idx	    3141	2425589
 -- 19007	19046	test_db	ticket	        idx_ticket_primary	        2268	986954
 -- 19007	19059	test_db	ticket	        idx_ticket_to_seance_idx	2248	1697820
 -- 18997	19055	test_db	seance	        idx_seance_to_film_idx	    55	    106808
--- 18997	19056	test_db	seance	        idx_seance_to_hall_idx	    51	    30888
--- 18997	19042	test_db	seance	        idx_seance_primary	        40	    1672177
--- 18982	19053	test_db	film_attribute	idx_attribute_to_type_idx	23	    10997
--- 18982	19052	test_db	film_attribute	idx_attribute_to_name_idx	22	    10258
--- 18982	19036	test_db	film_attribute	idx_film_attr_primary	    16	    9887
--- 18965	19032	test_db	attribute_value	idx_attr_value_primary	    16	    19738
--- 18982	19054	test_db	film_attribute	idx_films_attributes_idx	16	    76385
--- 18982	19051	test_db	film_attribute	idx_attribute_to_value_idx	16	    9887
--- 18974	19050	test_db	film	        idx_films_to_genre_idx	    11	    4883
--- 18997	19131	test_db	seance	        seance_date_start_idx	    10	    28
--- 18974	19034	test_db	film	        idx_film_primary	        10	    40386
--- 19002	19058	test_db	seat	        idx_uniq_seat	            9	    3503
--- 19002	19057	test_db	seat	        idx_seats_to_hall_idx	    7	    39866
--- 19002	19044	test_db	seat	        idx_seat_primary	        7	    1657784
--- 18960	19049	test_db	attribute_type	idx_attr_type_title_unique	2	    11
--- 18955	19028	test_db	attribute_name	idx_attr_name_primary	    2	    5148
--- 18960	19030	test_db	attribute_type	idx_attr_type_primary	    2	    5142
--- 18987	19038	test_db	genre	        idx_genre_primary	        2	    2631
--- 18992	19040	test_db	hall	        idx_hall_primary	        2	    16837
--- 18955	19048	test_db	attribute_name	idx_attr_name_title_unique	2	    17
--- 18974	19217	test_db	film	        trgm_idx_film_title	        0	    0
+
+-- select * from pg_statio_user_indexes order by idx_blks_read limit 5;
 -- 18974	19218	test_db	film	        trgm_idx_film_annotation	0	    0
+-- 18974	19217	test_db	film	        trgm_idx_film_title	        0	    0
+-- 18955	19048	test_db	attribute_name	idx_attr_name_title_unique	2	    17
+-- 18992	19040	test_db	hall	        idx_hall_primary	        2	    16837
+-- 18987	19038	test_db	genre	        idx_genre_primary	        2	    2631
 
