@@ -22,8 +22,6 @@ if (array_key_exists('h', $options) || array_key_exists('help', $options)) {
         . "'--password' - password(default: adminPassword),\n"
         . "'--database' - database(default: test_db),\n"
         . "'--schema' - schema(default: test_db),\n"
-        . "'-v' - verbose mode,\n"
-        . "'-s' - silence mode,\n"
         . "'-h\\--help' - this message." . PHP_EOL;
     exit();
 }
