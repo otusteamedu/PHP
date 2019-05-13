@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+    otus-postgres:
+        container_name: otus-postgres
+        image: otus/postgres
+        build: ./docker/postgres
+        image: postgres:11.2
+        volumes:
+            - ./app/var/postgres:/var/lib/postgresql
+            - ./app/var/postgres/data:/var/lib/postgresql/data
+        restart: always
+        ports:
+            - 5432:5432
