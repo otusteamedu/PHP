@@ -2,6 +2,8 @@
 
 namespace timga\calculator;
 
+use timga\calculator\Exceptions\CalcActionNotExistsException;
+
 class Calculator
 {
     public function calculate(Input $input): float
@@ -11,7 +13,7 @@ class Calculator
         return $result;
     }
 
-    private function chooseStrategy($action)
+    public function chooseStrategy($action)
     {
         switch($action) {
             case "add": return new CalculationStrategyAdd();
@@ -19,7 +21,7 @@ class Calculator
             case "divide": return new CalculationStrategyDivide();
             case "multiply": return new CalculationStrategyMultiply();
             case "pow": return new CalculationStrategyPow();
-            default: exit("Error: Incorrect action!");
+            default: throw new CalcActionNotExistsException();
         }
     }
 }
