@@ -2,31 +2,28 @@
 
 namespace timga\calculator;
 
+use timga\calculator\Exceptions\IncorrectAValueException;
+use timga\calculator\Exceptions\IncorrectBValueException;
+use timga\calculator\Exceptions\IncorrectNumberOfArgumentsException;
+
 class ArgumentValidator
 {
-    public $validatorErrors = [];
+
+    public function __construct(Input $input)
+    {
+        $this->validate($input);
+    }
 
     public function validate(Input $input)
     {
-        $result = true;
         if ($input->getArgc() != 4) {
-            $this->validatorErrors[] = "Incorrect number of arguments!";
-            $result = false;
+            throw new IncorrectNumberOfArgumentsException();
         }
         if (!is_numeric($input->getValueA())) {
-            $this->validatorErrors[] = "Incorrect A-value!";
-            $result = false;
+            throw new IncorrectAValueException();
         }
         if (!is_numeric($input->getValueB())) {
-            $this->validatorErrors[] = "Incorrect B-value!";
-            $result = false;
+            throw new IncorrectBValueException();
         }
-        return $result;
-    }
-
-    public function showErrors()
-    {
-        print_r($this->validatorErrors);
-        exit();
     }
 }
