@@ -17,9 +17,9 @@ class Input
     {
         $this->argc = $argc;
         $this->argv = $argv;
-        $this->action = $argv[self::ACTION_INDEX] ?? 'error';
-        $this->valueA = $argv[self::VALUE_A_INDEX] ?? 'error';
-        $this->valueB = $argv[self::VALUE_B_INDEX] ?? 'error';
+        $this->action = $argv[self::ACTION_INDEX] ?? null;
+        $this->valueA = $argv[self::VALUE_A_INDEX] ?? null;
+        $this->valueB = $argv[self::VALUE_B_INDEX] ?? null;
     }
 
     public function getArgc()
