@@ -6,8 +6,8 @@
 
 ### Adding new film
 
-1. Add new film name and price into `movie` table
-2. Add schedule for new film_id into table `schedule`
+1. Add new film name into `movie` table
+2. Add schedule and price for new film_id into table `schedule`
 3. Run `config/fill_ticket_when_new_movie_scheduled.sql` to generate tickets for specified new schedule_id
 
 ### Show schedule, tickets & best film profit
