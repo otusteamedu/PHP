@@ -1,0 +1,12 @@
+version: '3'
+services:
+  percona:
+    container_name: otus_14_db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: mysql
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
