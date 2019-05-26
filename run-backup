@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+HOST="localhost"
+PORT="5432"
+DB="test_db"
+
+if [[ -z $1 ]]; then
+    HOST=$1;
+fi
+if [[ -z $2 ]]; then
+    PORT=$2;
+fi
+if [[ -z $3 ]]; then
+    DB=$3;
+fi
+
+./pgpass
+
+DATE=`date +%Y%m%d_%H%M`
+BACKUPNAME=$DB$DATE
+
+pg_dump -U postgres -h $HOST -p $PORT $DB > $BACKUPNAME
