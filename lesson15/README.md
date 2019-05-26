@@ -5,6 +5,10 @@
 
 For using config.ini define "APP_DIR" before using Otus\Client
 
+If you haven't Redis server you can use docker image. Start it by this command:
+
+`$ docker run -it -p 6379:6379 --name some-redis -d redis` 
+
 ####Examples
 
     <?php

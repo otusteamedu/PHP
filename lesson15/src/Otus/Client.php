@@ -2,6 +2,7 @@
 
 namespace Otus;
 
+use Exception;
 use Predis;
 
 /**
@@ -34,7 +35,11 @@ class Client
      */
     public function setEventListItem(EventItem $eventListItem)
     {
-        return $this->client->set('eventList.' . $eventListItem->id, json_encode($eventListItem));
+        try {
+            return $this->client->set('eventList.' . $eventListItem->id, json_encode($eventListItem));
+        } catch (Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -44,7 +49,11 @@ class Client
      */
     public function increment($key)
     {
-        return $this->client->incr($key);
+        try {
+            return $this->client->incr($key);
+        } catch (Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -56,7 +65,11 @@ class Client
      */
     public function addCondition($id, $param, $value)
     {
-        return $this->client->sadd("event.condition.$param.$value", is_array($id) ? $id : [$id]);
+        try {
+            return $this->client->sadd("event.condition.$param.$value", is_array($id) ? $id : [$id]);
+        } catch (Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -64,13 +77,17 @@ class Client
      * @param $conditions
      * @return array
      */
-    public function getEventIdsByConditions($conditions)
+    public function getEventIdsByConditions(array $conditions)
     {
         $sets = [];
         foreach ($conditions as $param => $value) {
             $sets[] = "event.condition.$param.$value";
         }
-        return $this->client->sinter($sets);
+        try {
+            return $this->client->sinter($sets);
+        } catch (Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -81,13 +98,17 @@ class Client
     public function getEventListsByIds($ids)
     {
         $collection = [];
-        foreach ($ids as $id) {
-            $eventList = $this->client->get('eventList.' . $id);
-            if ($eventList) {
-                $collection[] = json_decode($eventList);
+        try {
+            foreach ($ids as $id) {
+                $eventList = $this->client->get('eventList.' . $id);
+                if ($eventList) {
+                    $collection[] = json_decode($eventList);
+                }
             }
+            return $collection;
+        } catch (Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
         }
-        return $collection;
     }
 
     /**
@@ -97,8 +118,12 @@ class Client
      */
     public function deleteByKeyPattern($pattern)
     {
-        $keys = $this->client->keys($pattern);
-        return $this->delete($keys);
+        try {
+            $keys = $this->client->keys($pattern);
+            return $this->delete($keys);
+        } catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -108,7 +133,11 @@ class Client
      */
     public function delete($keys)
     {
-        return $this->client->del(is_array($keys) ? $keys : [$keys]);
+        try {
+            return $this->client->del(is_array($keys) ? $keys : [$keys]);
+        } catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -116,7 +145,11 @@ class Client
      */
     public function startTransaction()
     {
-        $this->client->multi();
+        try {
+            $this->client->multi();
+        } catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     /**
@@ -124,6 +157,10 @@ class Client
      */
     public function endTransaction()
     {
-        $this->client->exec();
+        try {
+            $this->client->exec();
+        } catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 }
