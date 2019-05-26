@@ -2,9 +2,20 @@
 
 namespace Otus;
 
+/**
+ * Class FilmModel
+ * @package Otus
+ */
 class FilmModel extends BaseModel
 {
-    protected $tableName = 'film';
+    /**
+     * @var string
+     */
+    protected static $tableName = 'film';
+
+    /**
+     * @var array
+     */
     protected $fields = ['id', 'title', 'genre_id', 'duration', 'annotation'];
 
     /**

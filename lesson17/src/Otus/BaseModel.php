@@ -1,7 +1,9 @@
 <?php
 
 namespace Otus;
+
 use mysql_xdevapi\Exception;
+use PDO;
 
 /**
  * Class Client
@@ -9,22 +11,42 @@ use mysql_xdevapi\Exception;
  */
 class BaseModel
 {
-    protected $tableName;
+    /**
+     * @var
+     */
+    protected static $tableName;
+
+    /**
+     * instance of pdo
+     * @var PDO
+     */
     private $pdo;
 
-    public function __construct(\PDO $pdo)
+    /**
+     * BaseModel constructor.
+     * @param PDO $pdo
+     */
+    public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    private function getTableName()
+    /**
+     * Get table name
+     * @return mixed
+     */
+    private static function getTableName()
     {
-        return $this->tableName;
+        return static::$tableName;
     }
 
+    /**
+     * Save data
+     * @return BaseModel
+     * @throws \Exception
+     */
     public function save()
     {
-
         if ($this->id) {
             return $this->update();
         } else {
@@ -32,9 +54,14 @@ class BaseModel
         }
     }
 
+    /**
+     * Update existing data
+     * @return BaseModel
+     * @throws \Exception
+     */
     private function update()
     {
-        $tableName = $this->getTableName();
+        $tableName = self::getTableName();
         $fields = $this->getFields();
         $values = array();
         $marks = array();
@@ -54,17 +81,22 @@ class BaseModel
         return $this->fromArray($result);
     }
 
+    /**
+     * Insert new data
+     * @return BaseModel
+     * @throws \Exception
+     */
     private function insert()
     {
-        $tableName = $this->getTableName();
+        $tableName = self::getTableName();
         $fields = $this->getFields();
         $values = array();
         foreach ($fields as $field) {
-            if ( $this->{$field}) {
+            if ($this->{$field}) {
                 $values[$field] = $this->{$field};
             }
         }
-        $marks = implode(',',array_fill(0,count($values),'?'));
+        $marks = implode(',', array_fill(0, count($values), '?'));
         $fields = implode(',', array_keys($values));
         $query = $this->pdo->prepare("insert into $tableName ( $fields ) values ( $marks )  RETURNING *");
         if (!$query->execute(array_values($values))) {
@@ -74,26 +106,88 @@ class BaseModel
         return $this->fromArray($result);
     }
 
+    /**
+     * Delete data from db
+     * @return null
+     * @throws \Exception
+     */
     public function delete()
     {
-        $tableName = $this->getTableName();
+        $tableName = self::getTableName();
         $query = $this->pdo->prepare("delete from $tableName where id = ?");
-        $query->execute([$this->id]);
+        if (!$query->execute([$this->id])) {
+            throw new \Exception('Error: ' . $query->errorInfo());
+        }
         return null;
     }
 
+    /**
+     * Get fields
+     * @return mixed
+     */
     private function getFields()
     {
         return $this->fields;
     }
 
+    /**
+     * Apply data from array to model
+     * @param $array
+     * @return $this
+     */
     public function fromArray($array)
     {
         foreach ($array as $key => $value) {
-            if (isset($this->{$key})) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             }
         }
         return $this;
+    }
+
+    /**
+     * Find data by id
+     * @param PDO $pdo
+     * @param int $id
+     * @return mixed|BaseModel
+     * @throws \Exception
+     */
+    public static function findById(PDO $pdo, int $id)
+    {
+        $tableName = self::getTableName();
+        $record = IdentityMap::getRecord(get_called_class(), $id);
+        if ($record) {
+            return $record;
+        }
+        $query = $pdo->prepare("select * from $tableName where id = ?");
+        if (!$query->execute([$id])) {
+            throw new \Exception('Error: ' . $query->errorInfo());
+        }
+        $result = $query->fetch();
+        $item = new static($pdo);
+        $item->fromArray($result);
+        IdentityMap::addRecord($item, $id);
+        return $item;
+    }
+
+    /**
+     * Get all data from table
+     * @param PDO $pdo
+     * @return array
+     * @throws \Exception
+     */
+    public static function findAll(PDO $pdo)
+    {
+        $tableName = self::getTableName();
+        $query = $pdo->prepare("select * from $tableName");
+        if (!$query->execute()) {
+            throw new \Exception('Error: ' . $query->errorInfo());
+        }
+        $collection = array();
+        while ($result = $query->fetch()) {
+            $item = new static($pdo);
+            $collection[] = $item->fromArray($result);
+        }
+        return $collection;
     }
 }
