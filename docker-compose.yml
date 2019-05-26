@@ -1,0 +1,16 @@
+version: '2'
+services:
+    percona:
+        container_name: otus-percona
+        image: otus/percona
+        build: ./docker/percona
+        user: mysql
+        environment:
+            - MYSQL_DATABASE=test_db
+            - MYSQL_USER=testuser
+            - MYSQL_PASSWORD=testpassword
+            - MYSQL_ROOT_PASSWORD=rootpassword
+        volumes:
+            - ./app:/app
+        ports:
+            - 3306:3306
