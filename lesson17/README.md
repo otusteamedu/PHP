@@ -23,15 +23,25 @@
 		$film->id = 12;
 		$film->duration = 12;
 		$film->genre_id = 3;
-		$film->save(); //update record
+		try {
+		    $film->save(); //update record
+		} catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+            die();
+        }
 
 		$film = new Film($pdo);
 		$film->title = 'Some title';
 		$film->duration = 12;
 		$film->genre_id = 3;
-		$film->save(); //insert new record
+		try {
+		    $film->save(); //insert new record
+		} catch (\Exception $ex) {
+            echo 'Error: ' . $ex->getMessage() . PHP_EOL;
+           die();
+        }
 
-		$film = Film::findAll(); //get all rows from table
+		$film = Film::findAll($pdo); //get all rows from table
     ?>
 
 Look it in examples/example.php 

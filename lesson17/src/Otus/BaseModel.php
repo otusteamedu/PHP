@@ -42,13 +42,14 @@ class BaseModel
 
     /**
      * Save data
+     * @param string $keyColumn
      * @return BaseModel
      * @throws \Exception
      */
-    public function save()
+    public function save($keyColumn = 'id')
     {
-        if ($this->id) {
-            return $this->update();
+        if ($this->{$keyColumn}) {
+            return $this->update($keyColumn);
         } else {
             return $this->insert();
         }
@@ -56,24 +57,25 @@ class BaseModel
 
     /**
      * Update existing data
+     * @param string $keyColumn
      * @return BaseModel
      * @throws \Exception
      */
-    private function update()
+    private function update($keyColumn)
     {
         $tableName = self::getTableName();
         $fields = $this->getFields();
         $values = array();
         $marks = array();
         foreach ($fields as $field) {
-            if ($field != 'id' && $this->{$field}) {
+            if ($field != $keyColumn && $this->{$field}) {
                 $values[$field] = $this->{$field};
                 $marks[] = $field . ' = ?';
             }
         }
         $marks = implode(',', $marks);
-        $query = $this->pdo->prepare("update $tableName set $marks where id = ? RETURNING *");
-        $values[] = $this->id;
+        $query = $this->pdo->prepare("update $tableName set $marks where $keyColumn = ? RETURNING *");
+        $values[] = $this->{$keyColumn};
         if (!$query->execute(array_values($values))) {
             throw new \Exception('Error: ' . $query->errorInfo());
         }
@@ -106,16 +108,18 @@ class BaseModel
         return $this->fromArray($result);
     }
 
+
     /**
      * Delete data from db
+     * @param string $keyColumn
      * @return null
      * @throws \Exception
      */
-    public function delete()
+    public function delete($keyColumn = 'id')
     {
         $tableName = self::getTableName();
-        $query = $this->pdo->prepare("delete from $tableName where id = ?");
-        if (!$query->execute([$this->id])) {
+        $query = $this->pdo->prepare("delete from $tableName where $keyColumn = ?");
+        if (!$query->execute([$this->{$keyColumn}])) {
             throw new \Exception('Error: ' . $query->errorInfo());
         }
         return null;
@@ -149,17 +153,18 @@ class BaseModel
      * Find data by id
      * @param PDO $pdo
      * @param int $id
+     * @param string $keyColumn
      * @return mixed|BaseModel
      * @throws \Exception
      */
-    public static function findById(PDO $pdo, int $id)
+    public static function findById(PDO $pdo, int $id, $keyColumn = 'id')
     {
         $tableName = self::getTableName();
         $record = IdentityMap::getRecord(get_called_class(), $id);
         if ($record) {
             return $record;
         }
-        $query = $pdo->prepare("select * from $tableName where id = ?");
+        $query = $pdo->prepare("select * from $tableName where $keyColumn = ?");
         if (!$query->execute([$id])) {
             throw new \Exception('Error: ' . $query->errorInfo());
         }
