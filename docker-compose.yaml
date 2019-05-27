@@ -19,6 +19,7 @@ services:
         image: otus/postgres
         build: ./docker/postgres
         volumes:
+            - ./app:/app
             - ./app/var/postgres:/var/lib/postgresql
             - ./app/var/postgres/data:/var/lib/postgresql/data
         restart: always

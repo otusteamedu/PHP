@@ -1,0 +1,7 @@
+docker-compose up -d --build
+docker exec -it otus-postgres bash
+psql -Upostgres
+create user cinema with password 'md56c14da109e294d1e8155be8aa4b1ce8e’;
+create database cinema owner cinema;
+\q
+psql -U cinema cinema < sql/dql.sql
