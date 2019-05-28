@@ -110,7 +110,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL generateData(10);
+CALL generateData(100);
 
 SHOW PROCEDURE STATUS;
 
