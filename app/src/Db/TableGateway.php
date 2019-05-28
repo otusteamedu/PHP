@@ -2,7 +2,10 @@
 
 namespace App\Db;
 
-
+/**
+ * Class TableGateway
+ * @package App\Db
+ */
 class TableGateway
 {
     private const DSN = 'pgsql:host=otus-postgres;dbname=cinema;user=cinema;password=1231';
@@ -25,6 +28,12 @@ class TableGateway
     public function __construct(string $table, array $fields)
     {
         $this->pdo = new \PDO(self::DSN);
+
+        $stmt = $this->pdo->prepare('TRUNCATE ' . $table . ' CASCADE');
+        $stmt->execute();
+        $stmt = $this->pdo->prepare('ALTER SEQUENCE ' . $table . '_id_seq RESTART');
+        $stmt->execute();
+
         $this->insertStmt = $this->pdo->prepare(
             'INSERT INTO ' . $table . ' (' .
             implode(', ', $fields) . ') VALUES (:' .
@@ -38,10 +47,7 @@ class TableGateway
      */
     public function insert(array $fields): int
     {
-        foreach ($fields as $fieldName => $fieldValue) {
-            $this->insertStmt->bindParam(':' . $fieldName, $fieldValue);
-        }
-        $this->insertStmt->execute();
+        $this->insertStmt->execute($fields);
 
         return $this->pdo->lastInsertId();
     }
