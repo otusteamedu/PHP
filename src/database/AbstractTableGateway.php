@@ -103,10 +103,13 @@ abstract class AbstractTableGateway implements TableGatewayInterface
     {
         $sql = '';
         $i = 0;
+
         foreach ($where as $key => $value) {
             $sql .= ($i === 0) ? ' WHERE ' : ' AND ';
             $sql .= $key.' = ?';
+            $i++;
         }
+
         return $sql;
     }
 
