@@ -9,7 +9,24 @@ use Countable;
 abstract class AbstractResultSet implements ResultSetInterface, Iterator
 {
     /**
-     * if -1, datasource is already buffered
+     *  data source is already buffered
+     */
+    protected const DATA_SOURCE_BUFFERED = -1;
+    /**
+     * implicitly disabling buffering in ResultSet
+     */
+    protected const IMPLICITLY_DISABLE_BUFFERING = -2;
+    /**
+     * explicitly disabled
+     */
+    protected const EXPLICITLY_DISABLE_BUFFERING = false;
+    /**
+     * default state - nothing, but can buffer until iteration started
+     */
+    protected const BUFFER_DEFAULT_STATE = null;
+
+    /**
+     * if -1, data source is already buffered
      * if -2, implicitly disabling buffering in ResultSet
      * if false, explicitly disabled
      * if null, default state - nothing, but can buffer until iteration started
@@ -54,7 +71,7 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
             $this->dataSource = $dataSource;
 
             if ($dataSource->isBuffered()) {
-                $this->buffer = -1;
+                $this->buffer = self::DATA_SOURCE_BUFFERED;
             }
 
             if (is_array($this->buffer)) {
@@ -65,11 +82,11 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
         }
 
         if (is_array($dataSource)) {
-            $first = current($dataSource);
+            $firstElement = current($dataSource);
             reset($dataSource);
-            $this->fieldCount = $first === false ? 0 : count($first);
+            $this->fieldCount = $firstElement === false ? 0 : count($firstElement);
             $this->dataSource = new \ArrayIterator($dataSource);
-            $this->buffer = -1;
+            $this->buffer = self::DATA_SOURCE_BUFFERED;
         } elseif ($dataSource instanceof \IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
         } elseif ($dataSource instanceof \Iterator) {
@@ -85,11 +102,11 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
 
     public function buffer(): self
     {
-        if ($this->buffer === -2) {
+        if ($this->buffer === self::IMPLICITLY_DISABLE_BUFFERING) {
             throw new \RuntimeException('Buffering must be enabled before iteration is started');
         }
 
-        if ($this->buffer === null) {
+        if ($this->buffer === self::BUFFER_DEFAULT_STATE) {
             $this->buffer = [];
             if ($this->dataSource instanceof ResultInterface) {
                 $this->dataSource->rewind();
@@ -101,17 +118,20 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
 
     public function isBuffered(): bool
     {
-        if ($this->buffer === -1 || is_array($this->buffer)) {
-            return true;
-        }
-        return false;
+        return ($this->buffer === self::DATA_SOURCE_BUFFERED || is_array($this->buffer));
     }
 
+    /**
+     * @return Iterator|null
+     */
     public function getDataSource(): ?\Iterator
     {
         return $this->dataSource;
     }
 
+    /**
+     * @return int
+     */
     public function getFieldCount(): int
     {
         if (null !== $this->fieldCount) {
@@ -142,12 +162,14 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
 
     public function next(): void
     {
-        if ($this->buffer === null) {
-            $this->buffer = -2;
+        if ($this->buffer === self::BUFFER_DEFAULT_STATE) {
+            $this->buffer = self::IMPLICITLY_DISABLE_BUFFERING;
         }
+
         if (!is_array($this->buffer) || $this->position === $this->dataSource->key()) {
             $this->dataSource->next();
         }
+
         $this->position++;
     }
 
@@ -158,12 +180,12 @@ abstract class AbstractResultSet implements ResultSetInterface, Iterator
 
     public function current()
     {
-        if ($this->buffer === -1) {
+        if ($this->buffer === self::DATA_SOURCE_BUFFERED) {
             return $this->dataSource->current();
         }
 
-        if ($this->buffer === null) {
-            $this->buffer = -2;
+        if ($this->buffer === self::BUFFER_DEFAULT_STATE) {
+            $this->buffer = self::IMPLICITLY_DISABLE_BUFFERING;
         } elseif (is_array($this->buffer) && isset($this->buffer[$this->position])) {
             return $this->buffer[$this->position];
         }
