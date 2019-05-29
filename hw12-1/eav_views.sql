@@ -7,6 +7,7 @@ AS SELECT m.name,
             WHEN 'text'::text THEN mav.text_value
             WHEN 'boolean'::text THEN mav.bool_value::text
             WHEN 'timestamp'::text THEN mav.date_value::text
+            WHEN 'integer'::text THEN mav.int_value::text
             ELSE NULL::text
         END AS value
    FROM movie m

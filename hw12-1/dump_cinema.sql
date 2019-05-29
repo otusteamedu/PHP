@@ -182,7 +182,8 @@ CREATE TABLE public.movie_attribute_value (
     attribute_id integer,
     text_value text,
     date_value timestamp without time zone,
-    bool_value boolean
+    bool_value boolean,
+    int_value integer
 );
 
 
@@ -222,6 +223,7 @@ CREATE VIEW public.movie_marketing_view AS
             WHEN 'text'::text THEN mav.text_value
             WHEN 'boolean'::text THEN (mav.bool_value)::text
             WHEN 'timestamp'::text THEN (mav.date_value)::text
+            WHEN 'integer'::text THEN (mav.int_value)::text
             ELSE NULL::text
         END AS value
    FROM ((((public.movie m
@@ -498,6 +500,7 @@ COPY public.movie_attribute (attribute_id, attribute_name, attribute_class_id, a
 6	Премьера в Росии	3	1
 7	Старт продажи билетов	4	1
 8	Старт рекламы	4	1
+9	Продано билетов	5	4
 \.
 
 
@@ -510,6 +513,7 @@ COPY public.movie_attribute_class (attribute_class_id, attribute_class_name) FRO
 2	Премии
 3	Важные даты
 4	Служебные даты
+5	Служебные показатели
 \.
 
 
@@ -521,6 +525,7 @@ COPY public.movie_attribute_type (attribute_type_id, attribute_type_name, attrib
 1	Date of event	timestamp
 3	Review	text
 2	Award	boolean
+4	Counter	integer
 \.
 
 
@@ -528,27 +533,29 @@ COPY public.movie_attribute_type (attribute_type_id, attribute_type_name, attrib
 -- Data for Name: movie_attribute_value; Type: TABLE DATA; Schema: public; Owner: timofey
 --
 
-COPY public.movie_attribute_value (attribute_value_id, movie_id, attribute_id, text_value, date_value, bool_value) FROM stdin;
-6	1	4	\N	\N	f
-11	2	1	Отзыв кинокритиков В1	\N	\N
-12	2	1	Отзыв кинокритиков В2	\N	\N
-13	2	2	Отзыв зрителей В1	\N	\N
-14	2	2	Отзыв зрителей В2	\N	\N
-15	2	3	\N	\N	f
-16	2	4	\N	\N	t
-17	2	5	\N	2019-05-27 00:00:00	\N
-18	2	6	\N	2019-06-03 00:00:00	\N
-19	2	7	\N	2019-05-30 00:00:00	\N
-20	2	8	\N	2019-05-28 00:00:00	\N
-1	1	1	Отзыв кинокритиков М1	\N	\N
-2	1	1	Отзыв кинокритиков М2	\N	\N
-3	1	2	Отзыв зрителей М1	\N	\N
-4	1	2	Отзыв зрителей М2	\N	\N
-5	1	3	\N	\N	t
-7	1	5	\N	2019-05-25 00:00:00	\N
-8	1	6	\N	2019-06-01 00:00:00	\N
-9	1	7	\N	2019-05-28 00:00:00	\N
-10	1	8	\N	2019-05-26 00:00:00	\N
+COPY public.movie_attribute_value (attribute_value_id, movie_id, attribute_id, text_value, date_value, bool_value, int_value) FROM stdin;
+6	1	4	\N	\N	f	\N
+11	2	1	Отзыв кинокритиков В1	\N	\N	\N
+12	2	1	Отзыв кинокритиков В2	\N	\N	\N
+13	2	2	Отзыв зрителей В1	\N	\N	\N
+14	2	2	Отзыв зрителей В2	\N	\N	\N
+15	2	3	\N	\N	f	\N
+16	2	4	\N	\N	t	\N
+17	2	5	\N	2019-05-27 00:00:00	\N	\N
+18	2	6	\N	2019-06-03 00:00:00	\N	\N
+19	2	7	\N	2019-05-30 00:00:00	\N	\N
+20	2	8	\N	2019-05-28 00:00:00	\N	\N
+1	1	1	Отзыв кинокритиков М1	\N	\N	\N
+2	1	1	Отзыв кинокритиков М2	\N	\N	\N
+3	1	2	Отзыв зрителей М1	\N	\N	\N
+4	1	2	Отзыв зрителей М2	\N	\N	\N
+5	1	3	\N	\N	t	\N
+7	1	5	\N	2019-05-25 00:00:00	\N	\N
+8	1	6	\N	2019-06-01 00:00:00	\N	\N
+9	1	7	\N	2019-05-28 00:00:00	\N	\N
+10	1	8	\N	2019-05-26 00:00:00	\N	\N
+21	1	9	\N	\N	\N	123
+22	2	9	\N	\N	\N	0
 \.
 
 
@@ -595,28 +602,28 @@ SELECT pg_catalog.setval('public.hall_hall_id_seq', 1, false);
 -- Name: movie_attribute_attribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: timofey
 --
 
-SELECT pg_catalog.setval('public.movie_attribute_attribute_id_seq', 8, true);
+SELECT pg_catalog.setval('public.movie_attribute_attribute_id_seq', 9, true);
 
 
 --
 -- Name: movie_attribute_class_attribute_class_id_seq; Type: SEQUENCE SET; Schema: public; Owner: timofey
 --
 
-SELECT pg_catalog.setval('public.movie_attribute_class_attribute_class_id_seq', 4, true);
+SELECT pg_catalog.setval('public.movie_attribute_class_attribute_class_id_seq', 5, true);
 
 
 --
 -- Name: movie_attribute_type_attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: timofey
 --
 
-SELECT pg_catalog.setval('public.movie_attribute_type_attribute_type_id_seq', 3, true);
+SELECT pg_catalog.setval('public.movie_attribute_type_attribute_type_id_seq', 4, true);
 
 
 --
 -- Name: movie_attribute_value_attribute_value_id_seq; Type: SEQUENCE SET; Schema: public; Owner: timofey
 --
 
-SELECT pg_catalog.setval('public.movie_attribute_value_attribute_value_id_seq', 20, true);
+SELECT pg_catalog.setval('public.movie_attribute_value_attribute_value_id_seq', 22, true);
 
 
 --

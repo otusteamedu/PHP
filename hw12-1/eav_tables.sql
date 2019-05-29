@@ -39,6 +39,7 @@ CREATE TABLE public.movie_attribute_value (
 	text_value text NULL,
 	date_value timestamp NULL,
 	bool_value bool NULL,
+	int_value int4 NULL,
 	CONSTRAINT movie_attribute_value_pkey PRIMARY KEY (attribute_value_id),
 	CONSTRAINT "fk_movie_attribute_value-movie-movie_id" FOREIGN KEY (movie_id) REFERENCES movie(movie_id),
 	CONSTRAINT "fk_movie_attribute_value-movie_attribute-attribute_id" FOREIGN KEY (attribute_id) REFERENCES movie_attribute(attribute_id)
