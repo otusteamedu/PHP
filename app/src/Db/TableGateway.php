@@ -51,4 +51,26 @@ class TableGateway
 
         return $this->pdo->lastInsertId();
     }
+
+    /**
+     * @param int $attributeId
+     * @return int
+     */
+    public function getRandAttribute(int $attributeId)
+    {
+        $row = $this->pdo->query(
+            'SELECT attribute_type.name as name ' .
+            'FROM attribute ' .
+            'INNER JOIN attribute_type ON attribute.attribute_type_id = attribute_type.id ' .
+            'WHERE attribute.id = ' . $attributeId
+        )->fetch();
+
+        $row = $this->pdo->query(
+            'SELECT attribute_value.id as id ' .
+            'FROM attribute_value ' .
+            'WHERE ' . $row['name'] . '_value is not null'
+        )->fetchAll();
+
+        return $row[rand(0, count($row))]['id'];
+    }
 }

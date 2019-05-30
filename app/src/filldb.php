@@ -65,7 +65,7 @@ $ticket = new TableGateway('ticket', [
     'purchase_date',
     'seat'
 ]);
-//exit;
+
 //--- Fill tables ---------------------------------------------------
 
 //attribute_type
@@ -140,10 +140,11 @@ for ($i = 0; $i < $count/10; $i++) {
 
 //film_attribute ???
 for ($i = 0; $i < $count/10; $i++) {
+    $attributeId = Rand::getRandInt(1, $count/10 - 1);
     $filmAttribute->insert([
         'film_id' => Rand::getRandInt(1, $count/10 - 1),
-        'attribute_id' => Rand::getRandInt(1, $count/10 - 1),
-        'attribute_value_id' => Rand::getRandInt(1, $count/10 - 1),
+        'attribute_id' => $attributeId,
+        'attribute_value_id' => $attributeValue->getRandAttribute($attributeId),
     ]);
 }
 
