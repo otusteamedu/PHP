@@ -16,49 +16,417 @@ exit
 docker exec -it otus-php-fpm bash
 php src/filldb.php 10000
 
-# Анализируем запросы
+# Записываем запросы, время выполнения и explain
 
-# Импортируем данные php скирптом (10000000)
+# Сократил до 1000000 из-за большого времени генерации данных,
+# но я думаю на 1000000 также быдет видна разница
+
+php src/filldb.php 1000000
+
+# Записываем запросы, время выполнения и explain
+
+# Анализируем запросы сравниваем и добавляем индексы ##########################
+
+# Количество записей в таблицах при генерации 10000 (небольшой разброс значений из-за ограничений уникальности)
+
+attribute 1000
+attribute_type 6
+attribute_value 907
+customer 10000
+film 1000
+film_attribute 9929
+hall 85
+seance 8529
+ticket 8462
+
+# Количество записей в таблицах при генерации 1000000 (небольшой разброс значений из-за ограничений уникальности)
+
+attribute 100000
+attribute_type 6
+attribute_value 91446
+customer 1000000
+film 100000
+film_attribute 999928
+hall 401
+seance 39710
+ticket 39537
+
+# 1 ==========================================================================
+
+select * from seance where hall_id = 1
+
+# При 10000 ### (8529 записей в seance)
+
+83 rows / 29 ms
+
+Seq Scan on seance  (cost=0.00..171.61 rows=83 width=24)
+  Filter: (hall_id = 1)
+
+# При 1000000 ### (39710 записей в seance)
+
+93 rows / 32 ms
+
+Seq Scan on seance  (cost=0.00..1237.54 rows=102 width=24)
+  Filter: (hall_id = 1)
+
+# Оптимизация ###
+
+CREATE INDEX idx_seance_hall_id ON seance(hall_id);
+
+93 rows / 19 ms
+
+Bitmap Heap Scan on seance  (cost=5.02..267.12 rows=94 width=24)
+  Recheck Cond: (hall_id = 1)
+  ->  Bitmap Index Scan on idx_seance_hall_id  (cost=0.00..5.00 rows=94 width=0)
+        Index Cond: (hall_id = 1)
+
+Зайдествовался индекс, небольшое увеличение скорости выборки, при радикальном увеличении записей будет более актуально
+
+# 2 ==========================================================================
+
+# При 10000 ### (8462 записей в ticket)
+
+select * from ticket where date(purchase_date) = '2012-06-12'
+
+2 rows / 20 ms
+
+Seq Scan on ticket  (cost=0.00..190.93 rows=42 width=24)
+  Filter: (date(purchase_date) = '2012-06-12'::date)
+
+# При 1000000 ### (39537 записей в ticket)
+
+4 rows / 22 ms
+
+Seq Scan on ticket  (cost=0.00..1348.13 rows=220 width=24)
+  Filter: (date(purchase_date) = '2012-06-11'::date)
+
+# Оптимизация ###
+
+CREATE INDEX idx_ticket_purchase_date ON ticket(date(purchase_date));
+
+4 rows / 15 ms
+
+Bitmap Heap Scan on ticket  (cost=4.31..15.76 rows=3 width=24)
+  Recheck Cond: (date(purchase_date) = '2012-06-11'::date)
+  ->  Bitmap Index Scan on idx_ticket_purchase_date  (cost=0.00..4.31 rows=3 width=0)
+        Index Cond: (date(purchase_date) = '2012-06-11'::date)
 
 
+Зайдествовался индекс, увеличение скорости выборки за счет функциональности индекса
 
+# 3 ==========================================================================
+
+# При 10000 ### (8529 записей в seance)
+
+select hall_id, count(hall_id) as c from seance group by hall_id order by c desc
+
+85 rows / 24 ms
+
+Sort  (cost=196.51..196.72 rows=85 width=12)
+  Sort Key: (count(hall_id)) DESC
+  ->  HashAggregate  (cost=192.94..193.78 rows=85 width=12)
+        Group Key: hall_id
+        ->  Seq Scan on seance  (cost=0.00..150.29 rows=8529 width=4)
+
+# При 1000000 ### (39710 записей в seance)
+
+401 rows / 28 ms
+
+Sort  (cost=1365.99..1367.00 rows=401 width=12)
+  Sort Key: (count(hall_id)) DESC
+  ->  HashAggregate  (cost=1344.65..1348.66 rows=401 width=12)
+        Group Key: hall_id
+        ->  Seq Scan on seance  (cost=0.00..1130.43 rows=42843 width=4)
+
+# Оптимизация ###
+
+CREATE INDEX idx_seance_hall_id ON seance(hall_id);
+
+401 rows / 24 ms
+
+Sort  (cost=1259.84..1260.84 rows=401 width=12)
+  Sort Key: (count(hall_id)) DESC
+  ->  GroupAggregate  (cost=0.29..1242.50 rows=401 width=12)
+        Group Key: hall_id
+        ->  Index Only Scan using idx_seance_hall_id on seance  (cost=0.29..1039.94 rows=39710 width=4)
+
+
+Зайдествовался индекс, небольшое увеличение скорости выборки, при радикальном увеличении записей будет более актуально
+
+# 4 ==========================================================================
+
+# При 10000 ### (8529 записей в seance, film 1000)
+
+select film.name, sum(seance.price) as sum
+from seance
+inner join film on seance.film_id = film.id
+group by film.id
+order by sum desc
+
+500 rows / 21 ms (execution: 9 ms, fetching: 12 ms)
+
+Sort  (cost=304.75..307.25 rows=1000 width=25)
+  Sort Key: (sum(seance.price)) DESC
+  ->  HashAggregate  (cost=244.92..254.92 rows=1000 width=25)
+        Group Key: film.id
+        ->  Hash Join  (cost=29.50..202.28 rows=8529 width=21)
+              Hash Cond: (seance.film_id = film.id)
+              ->  Seq Scan on seance  (cost=0.00..150.29 rows=8529 width=8)
+              ->  Hash  (cost=17.00..17.00 rows=1000 width=17)
+                    ->  Seq Scan on film  (cost=0.00..17.00 rows=1000 width=17)
+
+# При 1000000 ### (39710 записей в seance, film 100000)
+
+500 rows / 90 ms
+
+Sort  (cost=8795.29..8902.40 rows=42843 width=27)
+  Sort Key: (sum(seance.price)) DESC
+  ->  HashAggregate  (cost=5070.78..5499.21 rows=42843 width=27)
+        Group Key: film.id
+        ->  Hash Join  (cost=1665.97..4856.57 rows=42843 width=23)
+              Hash Cond: (film.id = seance.film_id)
+              ->  Seq Scan on film  (cost=0.00..1637.08 rows=100008 width=19)
+              ->  Hash  (cost=1130.43..1130.43 rows=42843 width=8)
+                    ->  Seq Scan on seance  (cost=0.00..1130.43 rows=42843 width=8)
+
+# Оптимизация ###
+
+CREATE INDEX idx_seance_film_id ON seance(film_id);
+
+500 rows / 76 ms
+
+Sort  (cost=8133.52..8232.79 rows=39710 width=27)
+  Sort Key: (sum(seance.price)) DESC
+  ->  HashAggregate  (cost=4703.12..5100.22 rows=39710 width=27)
+        Group Key: film.id
+        ->  Hash Join  (cost=1595.47..4504.57 rows=39710 width=23)
+              Hash Cond: (film.id = seance.film_id)
+              ->  Seq Scan on film  (cost=0.00..1637.00 rows=100000 width=19)
+              ->  Hash  (cost=1099.10..1099.10 rows=39710 width=8)
+                    ->  Seq Scan on seance  (cost=0.00..1099.10 rows=39710 width=8)
+
+
+Судя по плану индекс не задействовался
+
+# 5 ==========================================================================
+
+# При 10000 ### (6 записей в film_attribute, film 85, attribute 1000, attribute_value 907)
+
+select film_attribute.id, film.name, attribute.name as aname, attribute_value.text_value
+from film_attribute
+inner join film on film_attribute.film_id = film.id
+inner join attribute on film_attribute.attribute_id = attribute.id
+inner join attribute_value on film_attribute.attribute_value_id = attribute_value.id
+where attribute.name = 'BYIXB9buve768'
+
+17 rows retrieved starting from 1 in 18 ms (execution: 5 ms, fetching: 13 ms)
+
+Nested Loop  (cost=8.86..193.75 rows=10 width=526)
+  ->  Nested Loop  (cost=8.58..190.74 rows=10 width=34)
+        ->  Hash Join  (cost=8.30..187.77 rows=10 width=25)
+              Hash Cond: (film_attribute.attribute_id = attribute.id)
+              ->  Seq Scan on film_attribute  (cost=0.00..153.29 rows=9929 width=16)
+              ->  Hash  (cost=8.29..8.29 rows=1 width=17)
+                    ->  Index Scan using attribute_name_key on attribute  (cost=0.28..8.29 rows=1 width=17)
+                          Index Cond: ((name)::text = 'BYIXB9buve768'::text)
+        ->  Index Scan using film_pkey on film  (cost=0.28..0.30 rows=1 width=17)
+              Index Cond: (id = film_attribute.film_id)
+  ->  Index Scan using attribute_value_pkey on attribute_value  (cost=0.28..0.30 rows=1 width=500)
+        Index Cond: (id = film_attribute.attribute_value_id)
+
+# При 1000000 ### (6 записей в film_attribute, film 100000, attribute 100000, attribute_value 91446)
+ 
+19 rows / 154 ms
+
+Gather  (cost=1009.03..11678.46 rows=10 width=530)
+  Workers Planned: 2
+  ->  Nested Loop  (cost=9.03..10677.46 rows=4 width=530)
+        ->  Nested Loop  (cost=8.74..10676.19 rows=4 width=38)
+              ->  Hash Join  (cost=8.45..10674.94 rows=4 width=27)
+                    Hash Cond: (film_attribute.attribute_id = attribute.id)
+                    ->  Parallel Seq Scan on film_attribute  (cost=0.00..9572.69 rows=416669 width=16)
+                    ->  Hash  (cost=8.44..8.44 rows=1 width=19)
+                          ->  Index Scan using attribute_name_key on attribute  (cost=0.42..8.44 rows=1 width=19)
+                                Index Cond: ((name)::text = '0aSy2ZBCEI17397'::text)
+              ->  Index Scan using film_pkey on film  (cost=0.29..0.31 rows=1 width=19)
+                    Index Cond: (id = film_attribute.film_id)
+        ->  Index Scan using attribute_value_pkey on attribute_value  (cost=0.29..0.32 rows=1 width=500)
+              Index Cond: (id = film_attribute.attribute_value_id)
+
+
+# Оптимизация ###
+
+CREATE INDEX idx_attribute_name ON attribute(name);
+
+19 rows / 149 ms
+
+Gather  (cost=1009.03..11678.05 rows=10 width=530)
+  Workers Planned: 2
+  ->  Nested Loop  (cost=9.03..10677.05 rows=4 width=530)
+        ->  Nested Loop  (cost=8.74..10675.79 rows=4 width=38)
+              ->  Hash Join  (cost=8.45..10674.53 rows=4 width=27)
+                    Hash Cond: (film_attribute.attribute_id = attribute.id)
+                    ->  Parallel Seq Scan on film_attribute  (cost=0.00..9572.37 rows=416637 width=16)
+                    ->  Hash  (cost=8.44..8.44 rows=1 width=19)
+                          ->  Index Scan using idx_attribute_name on attribute  (cost=0.42..8.44 rows=1 width=19)
+                                Index Cond: ((name)::text = '0aSy2ZBCEI17397'::text)
+              ->  Index Scan using film_pkey on film  (cost=0.29..0.31 rows=1 width=19)
+                    Index Cond: (id = film_attribute.film_id)
+        ->  Index Scan using attribute_value_pkey on attribute_value  (cost=0.29..0.32 rows=1 width=500)
+              Index Cond: (id = film_attribute.attribute_value_id)
+
+
+Индекс зайдействовался, небольшой плюс 
+Все джойны идут через film_attribute в которой 6 записей, поэтому индексы по внешним ключам делать не будем
+
+# 6 ==========================================================================
+
+# При 10000 ### (1000 записей в film, film_attribute 9929, attribute 1000, attribute_type 6, attribute_value 907)
+
+select film.name, attribute_type.name as type, attribute.name as attribute,
+    CASE attribute_type.name
+       WHEN 'integer' THEN CAST (attribute_value.integer_value AS text)
+       WHEN 'time' THEN CAST (attribute_value.time_value AS text)
+       WHEN 'date' THEN CAST (attribute_value.date_value AS text)
+       WHEN 'timestamp' THEN CAST (attribute_value.timestamp_value AS text)
+       WHEN 'text' THEN CAST (attribute_value.text_value AS text)
+       WHEN 'boolean' THEN CAST (attribute_value.boolean_value AS text)
+    ELSE null
+    END as value
+from film
+left join film_attribute on film.id = film_attribute.film_id
+inner join attribute on film_attribute.attribute_id = attribute.id
+inner join attribute_type on attribute.attribute_type_id = attribute_type.id
+inner join attribute_value on film_attribute.attribute_value_id = attribute_value.id
+order by film.id;
+
+500 rows retrieved starting from 1 in 61 ms (execution: 27 ms, fetching: 34 ms)
+
+Sort  (cost=1442.00..1466.82 rows=9929 width=68)
+  Sort Key: film.id
+  ->  Hash Join  (cost=152.56..782.84 rows=9929 width=68)
+        Hash Cond: (film_attribute.attribute_value_id = attribute_value.id)
+        ->  Hash Join  (cost=117.15..348.91 rows=9929 width=40)
+              Hash Cond: (attribute.attribute_type_id = attribute_type.id)
+              ->  Hash Join  (cost=59.00..264.64 rows=9929 width=38)
+                    Hash Cond: (film_attribute.attribute_id = attribute.id)
+                    ->  Hash Join  (cost=29.50..208.96 rows=9929 width=25)
+                          Hash Cond: (film_attribute.film_id = film.id)
+                          ->  Seq Scan on film_attribute  (cost=0.00..153.29 rows=9929 width=12)
+                          ->  Hash  (cost=17.00..17.00 rows=1000 width=17)
+                                ->  Seq Scan on film  (cost=0.00..17.00 rows=1000 width=17)
+                    ->  Hash  (cost=17.00..17.00 rows=1000 width=21)
+                          ->  Seq Scan on attribute  (cost=0.00..17.00 rows=1000 width=21)
+              ->  Hash  (cost=31.40..31.40 rows=2140 width=10)
+                    ->  Seq Scan on attribute_type  (cost=0.00..31.40 rows=2140 width=10)
+        ->  Hash  (cost=24.07..24.07 rows=907 width=525)
+              ->  Seq Scan on attribute_value  (cost=0.00..24.07 rows=907 width=525)
+
+# При 1000000 ### (100000 записей в film, film_attribute 999928, attribute 100000, attribute_type 6, attribute_value 91446)
+
+500 rows / 3 s 464 ms
+
+Gather Merge  (cost=121770.41..218999.96 rows=833338 width=72)
+  Workers Planned: 2
+  ->  Sort  (cost=120770.39..121812.06 rows=416669 width=72)
+        Sort Key: film.id
+        ->  Parallel Hash Join  (cost=13317.75..64786.87 rows=416669 width=72)
+              Hash Cond: (film_attribute.attribute_value_id = attribute_value.id)
+              ->  Hash Join  (cost=7004.33..30800.55 rows=416669 width=44)
+                    Hash Cond: (attribute.attribute_type_id = attribute_type.id)
+                    ->  Hash Join  (cost=6946.18..29646.47 rows=416669 width=42)
+                          Hash Cond: (film_attribute.attribute_id = attribute.id)
+                          ->  Hash Join  (cost=3473.18..18795.67 rows=416669 width=27)
+                                Hash Cond: (film_attribute.film_id = film.id)
+                                ->  Parallel Seq Scan on film_attribute  (cost=0.00..9572.69 rows=416669 width=12)
+                                ->  Hash  (cost=1637.08..1637.08 rows=100008 width=19)
+                                      ->  Seq Scan on film  (cost=0.00..1637.08 rows=100008 width=19)
+                          ->  Hash  (cost=1637.00..1637.00 rows=100000 width=23)
+                                ->  Seq Scan on attribute  (cost=0.00..1637.00 rows=100000 width=23)
+                    ->  Hash  (cost=31.40..31.40 rows=2140 width=10)
+                          ->  Seq Scan on attribute_type  (cost=0.00..31.40 rows=2140 width=10)
+              ->  Parallel Hash  (cost=2012.41..2012.41 rows=53841 width=525)
+                    ->  Parallel Seq Scan on attribute_value  (cost=0.00..2012.41 rows=53841 width=525)
+
+# Оптимизация ###
+
+CREATE INDEX idx_film_attribute ON film_attribute(film_id, attribute_id, attribute_value_id);
+CREATE INDEX idx_attribute ON attribute(attribute_type_id);	
+
+500 rows / 3 s 368 ms
+
+Gather Merge  (cost=122469.38..219691.47 rows=833274 width=72)
+  Workers Planned: 2
+  ->  Sort  (cost=121469.36..122510.95 rows=416637 width=72)
+        Sort Key: film.id
+        ->  Parallel Hash Join  (cost=13256.45..65489.06 rows=416637 width=72)
+              Hash Cond: (film_attribute.attribute_value_id = attribute_value.id)
+              ->  Hash Join  (cost=6947.14..31513.13 rows=416637 width=44)
+                    Hash Cond: (attribute.attribute_type_id = attribute_type.id)
+                    ->  Hash Join  (cost=6946.00..29645.80 rows=416637 width=42)
+                          Hash Cond: (film_attribute.attribute_id = attribute.id)
+                          ->  Hash Join  (cost=3473.00..18795.08 rows=416637 width=27)
+                                Hash Cond: (film_attribute.film_id = film.id)
+                                ->  Parallel Seq Scan on film_attribute  (cost=0.00..9572.37 rows=416637 width=12)
+                                ->  Hash  (cost=1637.00..1637.00 rows=100000 width=19)
+                                      ->  Seq Scan on film  (cost=0.00..1637.00 rows=100000 width=19)
+                          ->  Hash  (cost=1637.00..1637.00 rows=100000 width=23)
+                                ->  Seq Scan on attribute  (cost=0.00..1637.00 rows=100000 width=23)
+                    ->  Hash  (cost=1.06..1.06 rows=6 width=10)
+                          ->  Seq Scan on attribute_type  (cost=0.00..1.06 rows=6 width=10)
+              ->  Parallel Hash  (cost=2011.92..2011.92 rows=53792 width=525)
+                    ->  Parallel Seq Scan on attribute_value  (cost=0.00..2011.92 rows=53792 width=525)
+
+Индекс не задействовался
 
 #--------------------------
 
-Индексы и анализ производительности
-Подготовить список из 6 основных запросов к БД, разработанной на предыдущих занятиях. Целесообразно выбрать 3 "простых" (задействована 1 таблица), 3 "сложных" (агрегатные функции, связи таблиц).
+# Отсортированный список (15 значений) самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
+
+select nspname || '.' || relname as name,
+pg_size_pretty(pg_total_relation_size(C.oid)) as totalsize,
+pg_size_pretty(pg_relation_size(C.oid)) as relsize,
+from pg_class c
+left join pg_namespace N on (N.oid = C.relnamespace)
+where nspname not in ('pg_catalog', 'information_schema') --and relname ilike '%raw%'
+order by pg_total_relation_size(C.oid) desc
+limit 15
+
+name/				totalsize/relsize
+public.customer			119 MB	50 MB
+public.film_attribute		94 MB	42 MB
+public.customer_name_key	48 MB	48 MB
+public.idx_film_attribute	30 MB	30 MB
+public.seance			29 MB	5616 kB
+public.ticket			28 MB	5504 kB
+public.customer_pkey		21 MB	21 MB
+public.film_attribute_pkey	21 MB	21 MB
+public.seance_pkey		21 MB	21 MB
+public.ticket_pkey		21 MB	21 MB
+public.attribute		16 MB	5096 kB
+public.attribute_value		14 MB	12 MB
+public.film			11 MB	5096 kB
+public.film_name_key		4144 kB	4144 kB
+public.attribute_name_key	4104 kB	4104 kB
+
+# Отсортированные списки (по 5 значений) самых часто и редко используемых индексов
+select indexrelname, idx_scan  from pg_stat_user_indexes order by idx_scan limit 5;
+film_attribute_pkey	0
+hall_name_key		0
+attribute_type_name_key	0
+film_name_key		0
+customer_name_key	0
+
+select indexrelname, idx_scan  from pg_stat_user_indexes order by idx_scan desc limit 5;
+attribute_type_pkey	3179883
+film_pkey		2028837
+attribute_pkey		2024103
+seance_pkey		1016296
+customer_pkey		1016290
 
 
 
-- рецензии (текстовые значения) - рецензии критиков, отзыв неизвестной киноакадемии ...
-- премия (заменяется при печати баннеров и билетов на изображение, логическое значение) - оскар, ника ...
-- "важные даты" даты (при печати - наименование атрибута и значение даты, тип дата) - мировая премьера, премьера в РФ ...
-- служебные даты (используются при планировании, тип дата) - дата начала продажи билетов, когда запускать рекламу на ТВ ...
-View сборки служебных данных в форме (три колонки):
-- фильм, задачи актуальные на сегодня, задачи актуальные через 20 дней
-View сборки данных для маркетинга в форме (три колонки):
-- фильм, тип атрибута, атрибут, значение (значение выводим как текст)
 
 
 
 
-
-Скрипт для наполнения основных таблиц БД тестовыми данными.
-Заполнить таблицы, увеличив общее количество строк текстовых данных до 10000.
-Провести анализ производительности запросов к БД, сохранить планы выполнения.
-Заполнить таблицы, увеличив общее количество строк текстовых данных до 10000000.
-Провести анализ производительности запросов к БД, сохранить планы выполнения.
-На основе анализа запросов и планов предложить оптимизации (индексы, структура, параметры и др.), выполнить их, сравнить результат (планы выполнения).
-
-
-Критерии оценки: Результат:
-- скрипт создания БД (с предыдущих занятий)
-- скрипт заполнения БД тестовыми данными
-- таблица с результатами по каждому из 6 запросов
-- запрос
-- план на БД до 10000 строк
-- план на БД до 10000000 строк
-- план на БД до 10000000 строк, что удалось улучшить
-- перечень оптимизаций с пояснениями
-- отсортированный список (15 значений) самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
-- отсортированные списки (по 5 значений) самых часто и редко используемых индексов

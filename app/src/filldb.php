@@ -116,14 +116,14 @@ for ($i = 0; $i < $count/100; $i++) {
 }
 
 //customer
-for ($i = 0; $i < $count/10; $i++) {
+for ($i = 0; $i < $count; $i++) {
     $customer->insert([
         'name' => Rand::getRandStr(10) . $i,
     ]);
 }
 
 //seance
-for ($i = 0; $i < $count/10; $i++) {
+for ($i = 0; $i < $count; $i++) {
     $date = Rand::getRandInt(1970, 2019) . '-' .
         sprintf("%02d",Rand::getRandInt(1, 12)) . '-' .
         sprintf("%02d",Rand::getRandInt(1, 30));
@@ -138,8 +138,8 @@ for ($i = 0; $i < $count/10; $i++) {
     ]);
 }
 
-//film_attribute ???
-for ($i = 0; $i < $count/10; $i++) {
+//film_attribute
+for ($i = 0; $i < $count; $i++) {
     $attributeId = Rand::getRandInt(1, $count/10 - 1);
     $filmAttribute->insert([
         'film_id' => Rand::getRandInt(1, $count/10 - 1),
@@ -149,7 +149,7 @@ for ($i = 0; $i < $count/10; $i++) {
 }
 
 //ticket
-for ($i = 0; $i < $count/10; $i++) {
+for ($i = 0; $i < $count; $i++) {
     $date = Rand::getRandInt(1970, 2019) . '-' .
         sprintf("%02d",Rand::getRandInt(1, 12)) . '-' .
         sprintf("%02d",Rand::getRandInt(1, 30));
@@ -157,8 +157,8 @@ for ($i = 0; $i < $count/10; $i++) {
         sprintf("%02d",Rand::getRandInt(0, 59)) . ':' .
         sprintf("%02d",Rand::getRandInt(0, 59));
     $ticket->insert([
-        'customer_id' => Rand::getRandInt(1, $count/10 - 1),
-        'seance_id' => Rand::getRandInt(1, $count/10 - 1),
+        'customer_id' => Rand::getRandInt(1, $count - 1),
+        'seance_id' => Rand::getRandInt(1, $count - 1),
         'purchase_date' => $date . ' ' . $time,
         'seat' => Rand::getRandInt(100, 500),
     ]);
