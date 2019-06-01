@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: mysql
--- Время создания: Июн 01 2019 г., 08:36
+-- Время создания: Июн 01 2019 г., 12:56
 -- Версия сервера: 5.7.26
 -- Версия PHP: 7.2.14
 
@@ -155,9 +155,9 @@ CREATE TABLE `movie_attribute_value_boolean` (
 
 INSERT INTO `movie_attribute_value_boolean` (`id`, `attribute`, `movie`, `value`) VALUES
 (1, 2, 1, 1),
-(2, 2, 2, 2),
-(3, 2, 3, 3),
-(4, 2, 4, 4);
+(2, 2, 2, 1),
+(3, 2, 3, 1),
+(4, 2, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -237,6 +237,18 @@ CREATE TABLE `session` (
 -- --------------------------------------------------------
 
 --
+-- Дублирующая структура для представления `staff_tasks`
+-- (См. Ниже фактическое представление)
+--
+CREATE TABLE `staff_tasks` (
+`name` varchar(45)
+,`todayTasks` varchar(45)
+,`plus20DaysTasks` varchar(45)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `ticket`
 --
 
@@ -282,6 +294,15 @@ CREATE TABLE `user_type` (
 DROP TABLE IF EXISTS `movies_attributes`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `movies_attributes`  AS  select `m`.`name` AS `name`,`a`.`attributeName` AS `attributeName`,`a`.`attributeValue` AS `attributeValue` from (`movie` `m` left join (select `movie_attribute`.`name` AS `attributeName`,`avd`.`value` AS `attributeValue`,`avd`.`movie` AS `movie` from (`movie_attribute_value_datetime` `avd` left join `movie_attribute` on((`avd`.`attribute` = `movie_attribute`.`id`))) union select `movie_attribute`.`name` AS `attributeName`,`avb`.`value` AS `attributeValue`,`avb`.`movie` AS `movie` from (`movie_attribute_value_boolean` `avb` left join `movie_attribute` on((`avb`.`attribute` = `movie_attribute`.`id`))) union select `movie_attribute`.`name` AS `attributeName`,`avt`.`value` AS `attributeValue`,`avt`.`movie` AS `movie` from (`movie_attribute_value_text` `avt` left join `movie_attribute` on((`avt`.`attribute` = `movie_attribute`.`id`)))) `a` on((`m`.`id` = `a`.`movie`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура для представления `staff_tasks`
+--
+DROP TABLE IF EXISTS `staff_tasks`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `staff_tasks`  AS  select `m`.`name` AS `name`,`a1`.`attributeName` AS `todayTasks`,`a2`.`attributeName` AS `plus20DaysTasks` from ((`movie` `m` left join (select `ma`.`name` AS `attributeName`,`avd`.`movie` AS `movie` from (`movie_attribute_value_datetime` `avd` left join `movie_attribute` `ma` on((`avd`.`attribute` = `ma`.`id`))) where ((`ma`.`type` = 2) and (`avd`.`value` = cast(now() as date)))) `a1` on((`m`.`id` = `a1`.`movie`))) left join (select `ma`.`name` AS `attributeName`,`avd`.`movie` AS `movie` from (`movie_attribute_value_datetime` `avd` left join `movie_attribute` `ma` on((`avd`.`attribute` = `ma`.`id`))) where ((`ma`.`type` = 2) and (`avd`.`value` = cast((now() + interval 20 day) as date)))) `a2` on((`m`.`id` = `a2`.`movie`))) ;
 
 --
 -- Индексы сохранённых таблиц
