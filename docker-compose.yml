@@ -1,0 +1,18 @@
+version: "3"
+services:
+  php:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+      context: .
+    command: php -S 0.0.0.0:80 -t /var/www/src
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+
+  redis:
+    build:
+      dockerfile: ./docker/redis/Dockerfile
+      context: .
+    ports:
+      - 6379:6379

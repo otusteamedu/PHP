@@ -1,0 +1,12 @@
+{
+    "name": "pawigor/hw15-1",
+    "authors": [
+        {
+            "name": "Igor Pavlichenko",
+            "email": "pawigor@pieware.ru"
+        }
+    ],
+    "require": {
+        "predis/predis": "^1.1"
+    }
+}
