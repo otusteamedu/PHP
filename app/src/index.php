@@ -2,13 +2,15 @@
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Db\ActiveRecord\ActiveRecord;
 use App\Db\Connect;
+use App\Db\ActiveRecord\ActiveRecord;
 use App\Db\RowGateway\SeanceFinder;
 use App\Db\RowGateway\Seance;
 use App\Db\TableGateway\TableGateway;
 
 $connect = new Connect('pgsql', 'otus-postgres', 'cinema', 'cinema', '1231');
+
+/// TableGateway //////////////////////////////////
 
 $tableGateway = new TableGateway($connect);
 echo 'TableGateway' . PHP_EOL . '============' . PHP_EOL;
@@ -28,7 +30,7 @@ try {
 }
 echo PHP_EOL;
 
-/////////////////////////////////////
+/// RowGateway ////////////////////////////////////
 
 $seance = new Seance($connect);
 $seanceFinder = new SeanceFinder($connect);
@@ -56,7 +58,7 @@ try {
 }
 echo PHP_EOL;
 
-/////////////////////////////////////
+/// ActiveRecord //////////////////////////////////
 
 $activeRecord = new ActiveRecord($connect);
 echo 'ActiveRecord' . PHP_EOL . '============' . PHP_EOL;
@@ -64,9 +66,10 @@ $activeRecord->setFilmId(4);
 $activeRecord->setHallId(4);
 $activeRecord->setSeanceTime(new DateTime('2019-01-01 18:30:00'));
 $activeRecord->setPrice(700);
-$id = $activeRecord->insert();
-echo "Insert new record (4, 4, 2019-01-01 18:30:00, 700) with id #{$id}" . PHP_EOL;
-//echo "Find by #{$id}, result: ";
-//$activeRecord = $activeRecord->findById($id);
-//echo $activeRecord . PHP_EOL;
+$activeRecord->insert();
+echo "Insert new record (4, 4, 2019-01-01 18:30:00, 700) with id #{$activeRecord->getId()}" . PHP_EOL;
+echo "Find by #{$activeRecord->getId()}, result: ";
+$activeRecord = $activeRecord->findById($activeRecord->getId());
+echo $activeRecord . PHP_EOL;
 
+/// DataMapper ////////////////////////////////////

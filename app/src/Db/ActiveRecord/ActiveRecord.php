@@ -72,7 +72,7 @@ class ActiveRecord
     private $deleteStmt;
 
     /**
-     * SeanceGateway constructor.
+     * ActiveRecord constructor.
      * @param Connect $connect
      */
     public function __construct(Connect $connect)
@@ -197,7 +197,7 @@ class ActiveRecord
      * @return Seance
      * @throws Exception
      */
-    public function findById(int $id): Seance
+    public function findById(int $id): self
     {
         $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
@@ -214,9 +214,9 @@ class ActiveRecord
     /**
      * @return int
      */
-    public function insert(): int
+    public function insert(): bool
     {
-        $this->insertStmt->execute([
+        $result = $this->insertStmt->execute([
             $this->getFilmId(),
             $this->getHallId(),
             $this->getSeanceTime()->format('Y-m-d H:i:s'),
@@ -225,7 +225,7 @@ class ActiveRecord
 
         $this->setId($this->pdo->lastInsertId());
 
-        return $this->getId();
+        return $result;
     }
 
     /**
