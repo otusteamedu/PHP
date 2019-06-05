@@ -1,0 +1,38 @@
+version: '3'
+
+volumes:
+  db_data:
+    driver: local
+
+services:
+  web:
+    image: "nginx:latest"
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/app
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+    depends_on:
+      - php
+
+  db:
+    image: "percona:5.7"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql/      
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker/php  
+    volumes: 
+      - ./app:/var/www/app
+      - ./.env:/var/www/app/.env
