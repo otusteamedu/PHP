@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 7080:80
+    volumes:
+      - ./src:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+
+  php:
+    image: php:7.2-fpm
+    volumes:
+      - ./src:/usr/share/nginx/html
+
+  db:
+    build: ./db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - ./databases:/var/lib/mysql
+
+  adminer:
+    build: ./adminer
+    restart: always
+    ports:
+      - 6080:8080
