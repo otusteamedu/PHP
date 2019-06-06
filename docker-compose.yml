@@ -3,19 +3,21 @@ version: '3.1'
 services:
 
   nginx:
-    image: nginx:1.13
+    image: nginx:latest
     ports:
-      - 7080:80
+      - 80:80
+      - 443:443
     volumes:
-      - ./src:/usr/share/nginx/html
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./www:/var/www
+      - ./logs:/var/log/nginx
     depends_on:
       - php
 
   php:
     image: php:7.2-fpm
     volumes:
-      - ./src:/usr/share/nginx/html
+      - ./www:/var/www
 
   db:
     build: ./db
