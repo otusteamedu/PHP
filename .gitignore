@@ -109,6 +109,9 @@ fabric.properties
 # .idea/misc.xml
 # *.ipr
 
+# Storm
+.idea
+
 # Sonarlint plugin
 .idea/sonarlint
 
