@@ -4,6 +4,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Db\Connect;
 use App\Db\ActiveRecord\ActiveRecord;
+use App\Db\DataMapper\SeanceMapper;
 use App\Db\RowGateway\SeanceFinder;
 use App\Db\RowGateway\Seance;
 use App\Db\TableGateway\TableGateway;
@@ -71,5 +72,49 @@ echo "Insert new record (4, 4, 2019-01-01 18:30:00, 700) with id #{$activeRecord
 echo "Find by #{$activeRecord->getId()}, result: ";
 $activeRecord = $activeRecord->findById($activeRecord->getId());
 echo $activeRecord . PHP_EOL;
+$activeRecord->setPrice(800);
+if ($activeRecord->update()) {
+    echo "Update by #{$activeRecord->getId()}, result: " . $activeRecord . PHP_EOL;
+}
+$id = $activeRecord->getId();
+$activeRecord->delete();
+echo "Delete by #{$id}, result: ";
+try {
+    $activeRecord = $activeRecord->findById($id);
+    echo $activeRecord . PHP_EOL;
+} catch (\Throwable $exception) {
+    echo "no record" . PHP_EOL;
+}
+echo PHP_EOL;
 
 /// DataMapper ////////////////////////////////////
+
+$seance = new Seance($connect);
+$seanceMapper = new SeanceMapper($connect);
+echo 'DataMapper' . PHP_EOL . '============' . PHP_EOL;
+$seance = $seanceMapper->insert([
+    'film_id' => 5,
+    'hall_id' => 5,
+    'seance_time' => '2019-01-01 17:30:00',
+    'price' => 900
+]);
+echo "Insert new record (5, 5, 2019-01-01 18:30:00, 900) with id #{$seance->getId()}" . PHP_EOL;
+echo "Find by #{$seance->getId()}, result: ";
+$seance = $seanceMapper->findById($seance->getId());
+echo $seance . PHP_EOL;
+$seance->setPrice(1000);
+if ($seanceMapper->update($seance)) {
+    echo "Update by #{$seance->getId()}, result: " . $seance . PHP_EOL;
+}
+$seanceMapper->delete($seance);
+echo "Delete by #{$seance->getId()}, result: ";
+try {
+    $seance = $seanceMapper->findById($seance->getId());
+    echo $seance . PHP_EOL;
+} catch (\Throwable $exception) {
+    echo "no record" . PHP_EOL;
+}
+echo PHP_EOL;
+
+var_dump($seanceMapper->findBy(['hall_id' => 1]));
+
