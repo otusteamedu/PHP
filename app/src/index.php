@@ -4,6 +4,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Db\Connect;
 use App\Db\ActiveRecord\ActiveRecord;
+use App\Db\DataMapper\FilmMapper;
 use App\Db\DataMapper\SeanceMapper;
 use App\Db\RowGateway\SeanceFinder;
 use App\Db\RowGateway\Seance;
@@ -116,5 +117,27 @@ try {
 }
 echo PHP_EOL;
 
-var_dump($seanceMapper->findBy(['hall_id' => 1]));
+$halls = $seanceMapper->findBy(['hall_id' => 1]);
+echo "Сеансов в 1 зале: " . count($halls) . PHP_EOL;
+
+$filmMapper = new FilmMapper($connect);
+$film = $filmMapper->findById(2);
+/*$film->setName('Фильм');
+$filmMapper->update($film);
+$film = $filmMapper->findById(2);*/
+var_dump($filmMapper->delete($film));
+/*try {
+    $film = $filmMapper->findById(2);
+    echo $film . PHP_EOL;
+} catch (\Throwable $exception) {
+    echo "no record" . PHP_EOL;
+}*/
+
+/*$seance = $seanceMapper->findByIdLazy(1);
+$seance->getHall();
+echo "1 санс в зале " . $seance->getId() . PHP_EOL;
+
+$seance = $seanceMapper->findByIdNotLazy(1);
+$seance->getHall();
+echo "1 санс в зале " . $seance->getId() . PHP_EOL;*/
 

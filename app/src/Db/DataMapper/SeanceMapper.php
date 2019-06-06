@@ -5,7 +5,6 @@ namespace App\Db\DataMapper;
 use App\Db\Connect;
 use DateTime;
 use Exception;
-use mysql_xdevapi\Collection;
 use PDO;
 use PDOStatement;
 
@@ -96,16 +95,18 @@ class SeanceMapper
 
     /**
      * @param array $criteria
-     * @return mixed
+     * @return array
      */
     public function findBy(array $criteria)
     {
         $sql = 'SELECT film_id, hall_id, seance_time, price FROM seance';
+
         $where = [];
         foreach ($criteria as $field => $value) {
             $where[] = $field . ' = ?';
         }
         $sql .= ' WHERE ' . implode(' AND ', $where);
+
         $selectStmt = $this->pdo->prepare($sql);
         $selectStmt->setFetchMode(PDO::FETCH_ASSOC);
         $selectStmt->execute(array_values($criteria));

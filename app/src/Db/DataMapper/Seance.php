@@ -21,6 +21,11 @@ class Seance
     private $filmId;
 
     /**
+     * @var Film
+     */
+    private $film;
+
+    /**
      * @var int
      */
     private $hallId;
@@ -75,6 +80,25 @@ class Seance
     public function getFilmId(): int
     {
         return $this->filmId;
+    }
+
+    /**
+     * @return Film
+     */
+    public function getFilm(): Film
+    {
+        return $this->film;
+    }
+
+    /**
+     * @param Film $film
+     * @return Seance
+     */
+    public function setFilm(Film $film): self
+    {
+        $this->film = $film;
+
+        return $this;
     }
 
     /**
