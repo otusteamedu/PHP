@@ -94,32 +94,11 @@ class SeanceMapper
     }
 
     /**
-     * @param array $criteria
-     * @return array
-     */
-    public function findBy(array $criteria)
-    {
-        $sql = 'SELECT film_id, hall_id, seance_time, price FROM seance';
-
-        $where = [];
-        foreach ($criteria as $field => $value) {
-            $where[] = $field . ' = ?';
-        }
-        $sql .= ' WHERE ' . implode(' AND ', $where);
-
-        $selectStmt = $this->pdo->prepare($sql);
-        $selectStmt->setFetchMode(PDO::FETCH_ASSOC);
-        $selectStmt->execute(array_values($criteria));
-
-        return $selectStmt->fetchAll();
-    }
-
-    /**
      * @param array $raw
      * @return Seance
      * @throws Exception
      */
-    public function insert(array $raw): Seance
+    public function insert(array $raw)//: Seance
     {
         $this->insertStmt->execute([
             $raw['film_id'],

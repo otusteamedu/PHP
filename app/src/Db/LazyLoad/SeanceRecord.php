@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Db\ActiveRecord;
+namespace App\Db\LazyLoad;
 
 use App\Db\Connect;
 use DateTime;
@@ -9,10 +9,10 @@ use PDO;
 use PDOStatement;
 
 /**
- * Class ActiveRecord
- * @package App\Db\ActiveRecord
+ * Class SeanceRecord
+ * @package App\Db\LazyLoad
  */
-class ActiveRecord
+class SeanceRecord
 {
     private const DOLLAR_K = 65.43;
     /**
@@ -34,6 +34,11 @@ class ActiveRecord
      * @var int
      */
     private $filmId;
+
+    /**
+     * @var FilmRecord
+     */
+    private $film;
 
     /**
      * @var int
@@ -71,15 +76,30 @@ class ActiveRecord
     private $deleteStmt;
 
     /**
+     * @var bool
+     */
+    private $lazy;
+
+    /**
      * ActiveRecord constructor.
      * @param Connect $connect
      */
-    public function __construct(Connect $connect)
+    public function __construct(Connect $connect, bool $lazy =true)
     {
         $this->connect = $connect;
         $this->pdo = $connect->getPdo();
+        $this->lazy = $lazy;
 
         $this->selectStmt = $this->pdo->prepare(
+            'SELECT 
+                seance.film_id, seance.hall_id, seance.seance_time, seance.price, 
+                film.id as film_id, film.name as film_name 
+                FROM seance 
+                INNER join film ON seance.film_id = film.id 
+                WHERE seance.id = ?'
+        );
+
+        $this->selectStmtLazy = $this->pdo->prepare(
             'SELECT film_id, hall_id, seance_time, price FROM seance WHERE id = ?'
         );
 
@@ -106,7 +126,7 @@ class ActiveRecord
 
     /**
      * @param int|null $id
-     * @return ActiveRecord
+     * @return SeanceRecord
      */
     public function setId(?int $id): self
     {
@@ -125,13 +145,33 @@ class ActiveRecord
 
     /**
      * @param int $filmId
-     * @return ActiveRecord
+     * @return SeanceRecord
      */
     public function setFilmId(int $filmId): self
     {
         $this->filmId = $filmId;
 
         return $this;
+    }
+
+    /**
+     * @return FilmRecord
+     */
+    public function getFilm()
+    {
+        if ($this->lazy) {
+            $filmRecord = new FilmRecord($this->connect);
+            $film = $filmRecord->findById($this->getFilmId());
+
+            return $film;
+        } else {
+            return $this->film;
+        }
+    }
+
+    public function setFilm(FilmRecord $film)
+    {
+        $this->film = $film;
     }
 
     /**
@@ -144,7 +184,7 @@ class ActiveRecord
 
     /**
      * @param int $hallId
-     * @return ActiveRecord
+     * @return SeanceRecord
      */
     public function setHallId(int $hallId): self
     {
@@ -163,7 +203,7 @@ class ActiveRecord
 
     /**
      * @param DateTime $seanceTime
-     * @return ActiveRecord
+     * @return SeanceRecord
      */
     public function setSeanceTime(DateTime $seanceTime): self
     {
@@ -182,7 +222,7 @@ class ActiveRecord
 
     /**
      * @param int $price
-     * @return ActiveRecord
+     * @return SeanceRecord
      */
     public function setPrice(int $price): self
     {
@@ -193,14 +233,25 @@ class ActiveRecord
 
     /**
      * @param int $id
-     * @return ActiveRecord
+     * @return SeanceRecord
      * @throws Exception
      */
     public function findById(int $id): self
     {
-        $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
-        $this->selectStmt->execute([$id]);
-        $result = $this->selectStmt->fetch();
+        if ($this->lazy) {
+            $this->selectStmtLazy->setFetchMode(PDO::FETCH_ASSOC);
+            $this->selectStmtLazy->execute([$id]);
+            $result = $this->selectStmtLazy->fetch();
+        } else {
+            $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
+            $this->selectStmt->execute([$id]);
+            $result = $this->selectStmt->fetch();
+
+            $film = (new FilmRecord($this->connect))
+                ->setId($result['film_id'])
+                ->setName($result['film_name']);
+            $this->setFilm($film);
+        }
 
         return (new self($this->connect))
             ->setId($id)
@@ -208,6 +259,38 @@ class ActiveRecord
             ->setHallId($result['hall_id'])
             ->setSeanceTime(new DateTime($result['seance_time']))
             ->setPrice($result['price']);
+    }
+
+    /**
+     * @param array $criteria
+     * @return array
+     */
+    public function findBy(array $criteria)
+    {
+        $sql = 'SELECT id, film_id, hall_id, seance_time, price FROM seance';
+
+        $where = [];
+        foreach ($criteria as $field => $value) {
+            $where[] = $field . ' = ?';
+        }
+        $sql .= ' WHERE ' . implode(' AND ', $where);
+
+        $selectStmt = $this->pdo->prepare($sql);
+        $selectStmt->setFetchMode(PDO::FETCH_ASSOC);
+        $selectStmt->execute(array_values($criteria));
+
+        $result = [];
+
+        foreach ($selectStmt->fetchAll() as $item) {
+            $result[] = (new self($this->connect))
+                ->setId($item['id'])
+                ->setFilmId($item['film_id'])
+                ->setHallId($item['hall_id'])
+                ->setSeanceTime(new DateTime($item['seance_time']))
+                ->setPrice($item['price']);
+        }
+
+        return $result;
     }
 
     /**

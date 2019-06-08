@@ -3,12 +3,13 @@
 include_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Db\Connect;
-use App\Db\ActiveRecord\ActiveRecord;
-use App\Db\DataMapper\FilmMapper;
-use App\Db\DataMapper\SeanceMapper;
+use App\Db\TableGateway\TableGateway;
 use App\Db\RowGateway\SeanceFinder;
 use App\Db\RowGateway\Seance;
-use App\Db\TableGateway\TableGateway;
+use App\Db\ActiveRecord\ActiveRecord;
+use App\Db\DataMapper\SeanceMapper;
+use App\Db\DataMapper\Seance as SeanceDM;
+use App\Db\LazyLoad\SeanceRecord;
 
 $connect = new Connect('pgsql', 'otus-postgres', 'cinema', 'cinema', '1231');
 
@@ -37,12 +38,12 @@ echo PHP_EOL;
 $seance = new Seance($connect);
 $seanceFinder = new SeanceFinder($connect);
 echo 'RowGateway' . PHP_EOL . '============' . PHP_EOL;
-$seance->setFilmId(3);
-$seance->setHallId(3);
+$seance->setFilmId(2);
+$seance->setHallId(2);
 $seance->setSeanceTime(new DateTime('2019-01-01 17:30:00'));
 $seance->setPrice(500);
 $id = $seance->insert();
-echo "Insert new record (3, 3, 2019-01-01 17:30:00, 500) with id #{$id}" . PHP_EOL;
+echo "Insert new record (2, 2, 2019-01-01 17:30:00, 500) with id #{$id}" . PHP_EOL;
 echo "Find by #{$id}, result: ";
 $seance = $seanceFinder->findById($id);
 echo $seance . PHP_EOL;
@@ -64,12 +65,12 @@ echo PHP_EOL;
 
 $activeRecord = new ActiveRecord($connect);
 echo 'ActiveRecord' . PHP_EOL . '============' . PHP_EOL;
-$activeRecord->setFilmId(4);
-$activeRecord->setHallId(4);
+$activeRecord->setFilmId(3);
+$activeRecord->setHallId(3);
 $activeRecord->setSeanceTime(new DateTime('2019-01-01 18:30:00'));
 $activeRecord->setPrice(700);
 $activeRecord->insert();
-echo "Insert new record (4, 4, 2019-01-01 18:30:00, 700) with id #{$activeRecord->getId()}" . PHP_EOL;
+echo "Insert new record (3, 3, 2019-01-01 18:30:00, 700) with id #{$activeRecord->getId()}" . PHP_EOL;
 echo "Find by #{$activeRecord->getId()}, result: ";
 $activeRecord = $activeRecord->findById($activeRecord->getId());
 echo $activeRecord . PHP_EOL;
@@ -90,16 +91,16 @@ echo PHP_EOL;
 
 /// DataMapper ////////////////////////////////////
 
-$seance = new Seance($connect);
+$seance = new SeanceDM(4, 4, new DateTime('2019-01-01 17:30:00'), 900);
 $seanceMapper = new SeanceMapper($connect);
 echo 'DataMapper' . PHP_EOL . '============' . PHP_EOL;
 $seance = $seanceMapper->insert([
-    'film_id' => 5,
-    'hall_id' => 5,
+    'film_id' => 4,
+    'hall_id' => 4,
     'seance_time' => '2019-01-01 17:30:00',
     'price' => 900
 ]);
-echo "Insert new record (5, 5, 2019-01-01 18:30:00, 900) with id #{$seance->getId()}" . PHP_EOL;
+echo "Insert new record (4, 4, 2019-01-01 18:30:00, 900) with id #{$seance->getId()}" . PHP_EOL;
 echo "Find by #{$seance->getId()}, result: ";
 $seance = $seanceMapper->findById($seance->getId());
 echo $seance . PHP_EOL;
@@ -117,27 +118,20 @@ try {
 }
 echo PHP_EOL;
 
-$halls = $seanceMapper->findBy(['hall_id' => 1]);
-echo "Сеансов в 1 зале: " . count($halls) . PHP_EOL;
+/// FindAll and Lazy Load /////////////////////////
 
-$filmMapper = new FilmMapper($connect);
-$film = $filmMapper->findById(2);
-/*$film->setName('Фильм');
-$filmMapper->update($film);
-$film = $filmMapper->findById(2);*/
-var_dump($filmMapper->delete($film));
-/*try {
-    $film = $filmMapper->findById(2);
-    echo $film . PHP_EOL;
-} catch (\Throwable $exception) {
-    echo "no record" . PHP_EOL;
-}*/
+$seanceRecord = new SeanceRecord($connect, true);
+echo 'ActiveRecord' . PHP_EOL . '============' . PHP_EOL;
+$seances = $seanceRecord->findBy(['hall_id' => 4]);
+echo 'Find by hall_id = 4 >> ' . count($seances) . ' seances' . PHP_EOL;
 
-/*$seance = $seanceMapper->findByIdLazy(1);
-$seance->getHall();
-echo "1 санс в зале " . $seance->getId() . PHP_EOL;
+//Lazy
+$seanceRecord = new SeanceRecord($connect, true);
+$seance = $seanceRecord->findById($seances[0]->getId());
+echo '(lazy) Film for seance #' . $seances[0]->getId() . ' >> ' . $seance->getFilm() . PHP_EOL;
 
-$seance = $seanceMapper->findByIdNotLazy(1);
-$seance->getHall();
-echo "1 санс в зале " . $seance->getId() . PHP_EOL;*/
+//NotLazy
+$seanceRecord = new SeanceRecord($connect, false);
+$seance = $seanceRecord->findById($seances[0]->getId());
+echo '(not lazy) Film for seance #' . $seances[0]->getId() . ' >> ' . $seance->getFilm() . PHP_EOL;
 
