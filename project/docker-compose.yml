@@ -20,6 +20,6 @@ db:
         - ./db:/var/lib/mysql
     environment:
         MYSQL_DATABASE: db_first
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
-        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: user
+        MYSQL_PASSWORD: pass
+        MYSQL_ROOT_PASSWORD: root_pass
