@@ -1,0 +1,2 @@
+#!/bin/bash
+awk -F '\t' '{print $3 }' city.log | sort | uniq -c | sort -nr | head -3
