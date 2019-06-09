@@ -18,13 +18,11 @@ services:
         container_name: otus-redis
         image: otus/redis
         build: ./docker/redis
-        #volumes:
-        ##    - ./app:/app
-        #   - ./app/var/postgres:/var/lib/postgresql
-        #    - ./app/var/postgres/data:/var/lib/postgresql/data
+        volumes:
+            - ./app/var/redis/data:/data
         restart: always
-        #ports:
-        #    - 5432:5432
+        ports:
+            - 6379:6379
         networks:
             - otus-network
 networks:

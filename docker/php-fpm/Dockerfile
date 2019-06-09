@@ -5,5 +5,9 @@ RUN apt-get install -y libpq-dev
 RUN docker-php-ext-install pdo pdo_pgsql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#redis
+RUN pecl install -of redis
+RUN docker-php-ext-enable redis
+
 WORKDIR /app
 EXPOSE 9000
