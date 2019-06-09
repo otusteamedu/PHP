@@ -1,0 +1,29 @@
+version: '2.4'
+
+services:
+    otus-php-fpm:
+        container_name: otus-php-fpm
+        image: otus/php-fpm
+        build: ./docker/php-fpm
+        volumes:
+            - ./app:/app
+        restart: always
+        ports:
+            - 80:80
+        depends_on:
+            - otus-redis
+        networks:
+            - otus-network
+    otus-redis:
+        container_name: otus-redis
+        image: otus/redis
+        build: ./docker/redis
+        volumes:
+            - ./app/var/redis/data:/data
+        restart: always
+        ports:
+            - 6379:6379
+        networks:
+            - otus-network
+networks:
+    otus-network:
