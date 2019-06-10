@@ -7,7 +7,7 @@ if [[ $# -ne 2 ]]; then
    exit 1
 fi
 
-if ! [[ $1 =~ $re ]] || ! [[ $2 =~ $pattern ]];
+if ! [[ $1 =~ $pattern ]] || ! [[ $2 =~ $pattern ]];
 then
    echo "Ошибка: невалидные входные данные" >&2;
    exit 1
