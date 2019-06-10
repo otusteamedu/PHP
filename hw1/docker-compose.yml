@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/public
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - php
+
+  php:
+    build: php
+#    image: php:7.3-fpm
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./src:/var/www/public
+    depends_on:
+      - mysql
+
+  mysql:
+#    build: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - "mysql:/var/lib/mysql"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: example
+
+volumes:
+  mysql:
