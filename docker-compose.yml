@@ -1,0 +1,20 @@
+web:
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        - ./code:/code
+        - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    links:
+        - php
+php:
+    build: ./conf/php-fpm
+    volumes:
+      - ./code:/code
+postgres:
+  image: postgres:alpine
+  volumes:
+    - ./database:/var/lib/postgresql/data/
+  environment:
+    POSTGRES_PASSWORD: password
+    POSTGRES_USER: postgres
