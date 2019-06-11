@@ -1,8 +1,0 @@
-2019/06/06 11:33:54 [error] 6#6: *1 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.20.0.1, server: example.com, request: "GET /favicon.ico HTTP/1.1", host: "example.com", referrer: "http://example.com/"
-2019/06/06 11:39:22 [error] 6#6: *1 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.20.0.1, server: test.me, request: "GET /favicon.ico HTTP/1.1", host: "test.me", referrer: "http://test.me/"
-2019/06/06 12:01:42 [emerg] 1#1: "worker_processes" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:1
-2019/06/06 12:08:46 [emerg] 1#1: "worker_processes" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:1
-2019/06/06 12:10:50 [emerg] 1#1: "events" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:1
-2019/06/06 12:11:22 [emerg] 1#1: "http" directive is not allowed here in /etc/nginx/conf.d/nginx.conf:1
-2019/06/06 12:42:36 [crit] 1#1: pread() "/etc/nginx/conf.d/mysite.local.conf" failed (21: Is a directory)
-2019/06/06 12:45:03 [error] 6#6: *3 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.20.0.1, server: mysite.local, request: "GET /favicon.ico HTTP/1.1", host: "mysite.local", referrer: "http://mysite.local/"
