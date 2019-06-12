@@ -1,0 +1,26 @@
+web:
+  image: nginx:latest
+  ports:
+    - "80:80"
+  volumes:
+    - ./code:/code
+    - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+  links:
+    - php
+php:
+  image: php:7-fpm
+  command: 'sudo apt-get install php5-mysql'
+  volumes:
+    - ./code:/code
+
+db:
+  image: mysql:latest
+  ports:
+    - 3306:3306
+  volumes:
+    - ./db:/var/lib/mysql
+  environment:
+    MYSQL_DATABASE: db
+    MYSQL_USER: root
+    MYSQL_PASSWORD: root333
+    MYSQL_ROOT_PASSWORD: root333
