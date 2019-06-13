@@ -1,0 +1,19 @@
+{
+    "name": "jekys/console",
+    "description": "Colorized output for CLI",
+    "type": "tool",
+    "authors": [
+        {
+            "name": "Evgeny Prokhorov",
+            "email": "contact@jekys.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jekys\\": "src/"
+        }
+    }
+}
