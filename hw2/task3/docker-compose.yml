@@ -1,0 +1,55 @@
+version: '3'
+
+volumes:
+  db_data:
+  redis_data:
+
+services:
+  web:
+    image: "nginx:alpine"
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/app
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+    depends_on:
+      - php
+
+  db:
+    image: "postgres:alpine"
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - php
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+
+  php:
+    build:
+      context: ./docker/php
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}    
+      DB_PASSWORD: ${DB_PASSWORD}    
+    volumes: 
+      - ./app:/var/www/app
+
+  memcached:
+    restart: always
+    image: memcached:alpine
+    ports:
+      - "11212:11211"
+
+  redis:
+    restart: always
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
