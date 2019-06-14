@@ -14,6 +14,7 @@ class CalcTest extends TestCase
 	$a = 2.1;
         $b = 6.7;
 	$sumStrategy = new SumStrategy();
+	$divideStrategy = new DivideStrategy();
 
 	$calc = new Calc($sumStrategy);
 	$calc->setStrategy($sumStrategy);
