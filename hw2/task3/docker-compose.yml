@@ -3,6 +3,7 @@ version: '3'
 volumes:
   db_data:
   redis_data:
+  sockets:
 
 services:
   web:
@@ -10,6 +11,7 @@ services:
     ports:
       - 80:80
     volumes:
+      - sockets:/sockets
       - ./app:/var/www/app
       - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
     depends_on:
@@ -36,7 +38,9 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}    
       DB_PASSWORD: ${DB_PASSWORD}    
-    volumes: 
+    volumes:
+      - sockets:/sockets
+      - ./docker/php/app.local.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
       - ./app:/var/www/app
 
   memcached:
