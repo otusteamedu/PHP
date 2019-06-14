@@ -16,7 +16,7 @@ $digit1 = $argv[1];
 $action = $argv[2];
 $digit2 = $argv[3];
 
-if ($action == '/' && $digit1 == 0) {
+if ($action == '/' && $digit2 == 0) {
     echo 'Деление на ноль' . PHP_EOL;
     die;
 }
