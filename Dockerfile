@@ -29,4 +29,13 @@ RUN apt-get install -y libcurl4-openssl-dev libssl-dev
 RUN pecl install pecl_http
 RUN echo "extension=http.so" >> /usr/local/etc/php/conf.d/pecl_http.ini
 
+# INSTALL ZIP
+RUN apt-get -y install libzip-dev
+RUN pecl install zip
+RUN echo "extension=zip.so" >> /usr/local/etc/php/conf.d/zip.ini
+
 COPY "./src" "/app"
+
+WORKDIR /app
+
+RUN composer install

@@ -26,6 +26,7 @@ php calculator.php -8.0 + 15.0
 php calculator.php 9 - -1
 php calculator.php 7 * 10
 php calculator.php 10 / 2
+
 DOC;
 }
 
