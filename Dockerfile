@@ -27,4 +27,6 @@ RUN pecl install propro
 RUN echo "extension=propro.so" >> /usr/local/etc/php/conf.d/propro.ini
 RUN apt-get install -y libcurl4-openssl-dev libssl-dev
 RUN pecl install pecl_http
-RUN echo "extension=pecl_http.so" >> /usr/local/etc/php/conf.d/pecl_http.ini
+RUN echo "extension=http.so" >> /usr/local/etc/php/conf.d/pecl_http.ini
+
+COPY "./src" "/app"
