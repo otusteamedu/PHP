@@ -15,7 +15,7 @@ class Calculate {
 	$this->strategy = $strategy;
     }
 
-    public function execute(float $a, float $b): float
+    public function execute(float $a, float $b, string $action): float
     {
 	return $this->strategy->calc($a, $b);
     }

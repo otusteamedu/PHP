@@ -19,5 +19,8 @@ class CalcTest extends TestCase
 	$calc->setStrategy($sumStrategy);
 	$this->assertEquals($calc->execute($a, $b), 4);
 
+	$calc->setStrategy($divideStrategy);
+	$this->assertEquals($calc->execute($a, $b), 4);
+
     }
 }
