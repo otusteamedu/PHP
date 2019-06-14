@@ -19,4 +19,3 @@ $sumStrategy = new sumStrategy();
 $calc = new Calculate($sumStrategy);
 
 echo 'Сумма: ' . $calc->execute($a, $b) . PHP_EOL;
-
