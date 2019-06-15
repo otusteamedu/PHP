@@ -16,11 +16,12 @@ $digit1 = $argv[1];
 $action = $argv[2];
 $digit2 = $argv[3];
 
+/*
 if ($action == '/' && $digit2 == 0) {
     echo 'Деление на ноль' . PHP_EOL;
     die;
 }
-
+*/
 
 $sumStrategy = new sumStrategy();
 $divideStrategy = new divideStrategy();
@@ -35,6 +36,12 @@ switch ($action) {
 }
 
 $calc = new Calculate($strategy);
+$result = $calc->execute($digit1, $digit2, $action);
 
-echo 'Результат: ' . $calc->execute($digit1, $digit2, $action) . PHP_EOL;
+if ($result) {
+    echo 'Результат: ' . $result . PHP_EOL;
+} else {
+    echo 'Неверно введены данные или деление на ноль' . PHP_EOL;
+}
+
 

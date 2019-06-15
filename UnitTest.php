@@ -11,17 +11,25 @@ class CalcTest extends TestCase
 {
     public function testCalc(): void
     {
-	$a = 2.1;
-        $b = 6.7;
+	$a = 6.2;
+        $b = 2.2;
 	$sumStrategy = new SumStrategy();
 	$divideStrategy = new DivideStrategy();
 
 	$calc = new Calc($sumStrategy);
 	$calc->setStrategy($sumStrategy);
-	$this->assertEquals($calc->execute($a, $b), 4);
+	$this->assertEquals($calc->execute($a, $b), 8.4);
 
+
+	$a = 6;
+        $b = 2;
 	$calc->setStrategy($divideStrategy);
-	$this->assertEquals($calc->execute($a, $b), 4);
+	$this->assertEquals($calc->execute($a, $b), 3);
+
+	$a = 3;
+        $b = 0;
+	$calc->setStrategy($divideStrategy);
+	$this->assertEquals($calc->execute($a, $b), false);
 
     }
 }
