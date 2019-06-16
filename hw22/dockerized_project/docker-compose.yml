@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8088:80"
+        volumes:
+            - ./nginx/www:/var/www/
+            - ./nginx/logs:/var/log/nginx/
+        links:
+            - php
+
+    mysql:
+        image: mysql:latest
+        ports:
+            - "3308:3306"
+        container_name: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=ro1234ot
+            - MYSQL_USER=test
+            - MYSQL_PASSWORD=1234
+        volumes:
+            - ./mysql:/var/lib/mysql
+    php:
+        build: ./php
+        container_name: php-fpm
+        volumes:
+            - ./nginx/www:/var/www
+        links:
+            - mysql
