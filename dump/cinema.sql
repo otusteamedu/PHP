@@ -155,7 +155,7 @@ CREATE TABLE  "movie_rewards" (
 -- -----------------------------------------------------
 CREATE TABLE  "movie_attribute_type" (
   id INT NOT NULL,
-  type VARCHAR(45) NULL,
+  name VARCHAR(45) NOT NULL,
   PRIMARY KEY (id));
 
 
@@ -164,7 +164,7 @@ CREATE TABLE  "movie_attribute_type" (
 -- -----------------------------------------------------
 CREATE TABLE  "movie_attribute_name" (
   id SERIAL,
-  name INT NULL,
+  name VARCHAR(45) NOT NULL,
   PRIMARY KEY (id));
 
 
@@ -173,7 +173,6 @@ CREATE TABLE  "movie_attribute_name" (
 -- -----------------------------------------------------
 CREATE TABLE  "movie_attribute_value" (
   id SERIAL,
-  attribute INT NULL,
   value_datetime DATE NULL DEFAULT NULL,
   value_bool BOOLEAN NULL DEFAULT NULL,
   value_text TEXT NULL DEFAULT NULL,
@@ -186,6 +185,7 @@ CREATE TABLE  "movie_attribute_value" (
 -- -----------------------------------------------------
 CREATE TABLE  "movie_attribute_categ" (
   id INT NOT NULL,
+  name VARCHAR(45) NULL,
   PRIMARY KEY (id));
 
 
@@ -242,12 +242,12 @@ CREATE TABLE  "staff_tasks" (movieName INT, todayTasks INT, plus20DaysTasks INT)
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS movie_attributes CASCADE;
 CREATE OR REPLACE VIEW movie_attributes AS
-SELECT m.name as movieName, mat.type AS attributeType, man.name AS attributeName,
+SELECT m.name as movieName, mat.name AS attributeType, man.name AS attributeName,
 CASE
-    WHEN mat.type = 'int' THEN mav.value_datetime::text
-    WHEN mat.type = 'time' THEN mav.value_bool::text
-    WHEN mat.type = 'text' THEN mav.value_text::text
-    WHEN mat.type = 'boolean' THEN mav.value_int::text
+    WHEN mat.name = 'int' THEN mav.value_datetime::text
+    WHEN mat.name = 'time' THEN mav.value_bool::text
+    WHEN mat.name = 'text' THEN mav.value_text::text
+    WHEN mat.name = 'boolean' THEN mav.value_int::text
     ELSE null
 END AS attributeValue
 FROM movie as m
@@ -281,3 +281,15 @@ LEFT JOIN (
     WHERE ma.categ = 1
 	AND mav.value_datetime = CAST((NOW() + INTERVAL '20 DAYS') as date)
 ) AS ma2 ON m.id = ma2.movie;
+
+
+-- -----------------------------------------------------
+-- View movies_reviews
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS movies_reviews CASCADE;
+CREATE OR REPLACE VIEW movies_reviews AS
+SELECT m.name as movieName, mav.value_text::text
+FROM movie as m
+LEFT JOIN movie_attribute AS ma ON m.id = ma.movie
+LEFT JOIN movie_attribute_value AS mav ON ma.value = mav.id
+WHERE ma.categ = 4;

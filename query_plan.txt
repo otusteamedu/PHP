@@ -1,0 +1,323 @@
+-----------------------------------------------------------------------------------------------------------------------
+- простой запрос 1 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from movie where name like 'дзунамиру';
+                                            QUERY PLAN
+--------------------------------------------------------------------------------------------------
+ Seq Scan on movie  (cost=0.00..189.00 rows=1 width=20) (actual time=3.196..3.202 rows=1 loops=1)
+   Filter: ((name)::text ~~ 'дзунамиру'::text)
+   Rows Removed by Filter: 9999
+ Planning time: 0.133 ms
+ Execution time: 3.233 ms
+(5 rows)
+
+cinema=# explain analyze select * from movie where name like 'хамикира4';
+                                                       QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..62327.80 rows=165 width=20) (actual time=244.004..246.656 rows=1 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on movie  (cost=0.00..61311.30 rows=69 width=20) (actual time=239.506..239.506 rows=0 loops=3)
+         Filter: ((name)::text ~~ 'хамикира4'::text)
+         Rows Removed by Filter: 1765172
+ Planning time: 0.125 ms
+ Execution time: 246.688 ms
+(8 rows)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+- простой запрос 2 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from movie_attribute_name where name like 'Премьера в мире';
+                                                        QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------
+ Seq Scan on movie_attribute_name  (cost=0.00..825.00 rows=10000 width=32) (actual time=0.016..14.420 rows=10000 loops=1)
+   Filter: ((name)::text ~~ 'Премьера в мире'::text)
+   Rows Removed by Filter: 30000
+ Planning time: 0.088 ms
+ Execution time: 15.873 ms
+(5 rows)
+
+cinema=# explain analyze select * from movie_attribute_name where name like 'Премьера в мире';
+                                                             QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------
+ Seq Scan on movie_attribute_name  (cost=0.00..436707.40 rows=1029824 width=32) (actual time=1.394..10357.321 rows=1095518 loops=1)
+   Filter: ((name)::text ~~ 'Премьера в мире'::text)
+   Rows Removed by Filter: 15886554
+ Planning time: 1.926 ms
+ Execution time: 10748.691 ms
+(5 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------
+- простой запрос 3 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from movie_attribute_value where value_text like 'QNFKuhHaM5w0Iln26HJ';
+                                                      QUERY PLAN
+----------------------------------------------------------------------------------------------------------------------
+ Seq Scan on movie_attribute_value  (cost=0.00..1335.00 rows=1 width=517) (actual time=11.101..11.101 rows=0 loops=1)
+   Filter: (value_text ~~ 'QNFKuhHaM5w0Iln26HJ'::text)
+   Rows Removed by Filter: 40000
+ Planning time: 0.166 ms
+ Execution time: 11.131 ms
+(5 rows)
+                                                                 QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..552617.60 rows=1 width=517) (actual time=18279.406..18283.720 rows=0 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on movie_attribute_value  (cost=0.00..551617.50 rows=1 width=517) (actual time=18273.829..18273.829 rows=0 loops=3)
+         Filter: (value_text ~~ 'ln'::text)
+         Rows Removed by Filter: 7060691
+ Planning time: 0.694 ms
+ Execution time: 18283.789 ms
+(8 rows)
+
+
+-----------------------------------------------------------------------------------------------------------------------
+- сложный запрос 1 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from movie_attributes;
+                                                                       QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=2692.05..5691.87 rows=40000 width=184) (actual time=51.167..132.419 rows=40000 loops=1)
+   Hash Cond: (ma.name = man.id)
+   ->  Hash Left Join  (cost=1467.05..3461.86 rows=40000 width=641) (actual time=35.044..91.875 rows=40000 loops=1)
+         Hash Cond: (ma.type = mat.id)
+         ->  Hash Right Join  (cost=1444.00..3333.04 rows=40000 width=537) (actual time=35.009..78.585 rows=40000 loops=1)
+               Hash Cond: (ma.movie = m.id)
+               ->  Hash Right Join  (cost=1155.00..2939.00 rows=40000 width=525) (actual time=22.194..51.865 rows=40000 loops=1)
+                     Hash Cond: (mav.id = ma.value)
+                     ->  Seq Scan on movie_attribute_value mav  (cost=0.00..1234.00 rows=40000 width=517) (actual time=0.007..5.305 rows=40000 loops=1)
+                     ->  Hash  (cost=655.00..655.00 rows=40000 width=16) (actual time=21.602..21.602 rows=40000 loops=1)
+                           Buckets: 65536  Batches: 1  Memory Usage: 2387kB
+                           ->  Seq Scan on movie_attribute ma  (cost=0.00..655.00 rows=40000 width=16) (actual time=0.015..10.704 rows=40000 loops=1)
+               ->  Hash  (cost=164.00..164.00 rows=10000 width=20) (actual time=12.646..12.646 rows=10000 loops=1)
+                     Buckets: 16384  Batches: 1  Memory Usage: 661kB
+                     ->  Seq Scan on movie m  (cost=0.00..164.00 rows=10000 width=20) (actual time=0.020..5.904 rows=10000 loops=1)
+         ->  Hash  (cost=15.80..15.80 rows=580 width=112) (actual time=0.020..0.020 rows=4 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               ->  Seq Scan on movie_attribute_type mat  (cost=0.00..15.80 rows=580 width=112) (actual time=0.010..0.011 rows=4 loops=1)
+   ->  Hash  (cost=725.00..725.00 rows=40000 width=32) (actual time=15.872..15.872 rows=40000 loops=1)
+         Buckets: 65536  Batches: 1  Memory Usage: 3130kB
+         ->  Seq Scan on movie_attribute_name man  (cost=0.00..725.00 rows=40000 width=32) (actual time=0.006..6.725 rows=40000 loops=1)
+ Planning time: 1.962 ms
+ Execution time: 134.759 ms
+(23 rows)
+
+cinema=# explain analyze select * from movie_attributes;
+                                                                            QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=3301775.71..6840556.45 rows=21182125 width=184) (actual time=178750.450..390036.418 rows=21182072 loops=1)
+   Hash Cond: (ma.type = mat.id)
+   ->  Hash Left Join  (cost=3301752.67..6307926.22 rows=21182125 width=561) (actual time=178750.389..375485.789 rows=21182072 loops=1)
+         Hash Cond: (ma.value = mav.id)
+         ->  Hash Left Join  (cost=977236.15..2107467.61 rows=21182125 width=52) (actual time=43527.587..176540.546 rows=21182072 loops=1)
+               Hash Cond: (ma.name = man.id)
+               ->  Hash Right Join  (cost=183910.23..824139.60 rows=21182125 width=28) (actual time=2125.672..81816.270 rows=21182072 loops=1)
+                     Hash Cond: (ma.movie = m.id)
+                     ->  Seq Scan on movie_attribute ma  (cost=0.00..346739.25 rows=21182125 width=16) (actual time=1.303..28497.254 rows=21182072 loops=1)
+                     ->  Hash  (cost=86686.10..86686.10 rows=5295610 width=20) (actual time=2123.686..2123.686 rows=5295518 loops=1)
+                           Buckets: 65536  Batches: 128  Memory Usage: 2713kB
+                           ->  Seq Scan on movie m  (cost=0.00..86686.10 rows=5295610 width=20) (actual time=0.013..911.953 rows=5295518 loops=1)
+               ->  Hash  (cost=383752.52..383752.52 rows=21181952 width=32) (actual time=41354.418..41354.418 rows=21182072 loops=1)
+                     Buckets: 65536  Batches: 512  Memory Usage: 3193kB
+                     ->  Seq Scan on movie_attribute_name man  (cost=0.00..383752.52 rows=21181952 width=32) (actual time=0.010..27705.354 rows=21182072 loops=1)
+         ->  Hash  (cost=653115.12..653115.12 rows=21182112 width=517) (actual time=130129.027..130129.027 rows=21182072 loops=1)
+               Buckets: 8192  Batches: 4096  Memory Usage: 900kB
+               ->  Seq Scan on movie_attribute_value mav  (cost=0.00..653115.12 rows=21182112 width=517) (actual time=1.649..92986.144 rows=21182072 loops=1)
+   ->  Hash  (cost=15.80..15.80 rows=580 width=112) (actual time=0.036..0.036 rows=4 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 9kB
+         ->  Seq Scan on movie_attribute_type mat  (cost=0.00..15.80 rows=580 width=112) (actual time=0.031..0.032 rows=4 loops=1)
+ Planning time: 25.858 ms
+ Execution time: 391628.175 ms
+(23 rows)
+
+-----------------------------------------------------------------------------------------------------------------------
+- сложный запрос 2 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from staff_tasks;
+                                                                                 QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=4731.91..4970.98 rows=10000 width=72) (actual time=56.121..62.080 rows=10000 loops=1)
+   Hash Cond: (m.id = ma_1.movie)
+   ->  Hash Left Join  (cost=2316.65..2518.18 rows=10000 width=48) (actual time=34.316..37.884 rows=10000 loops=1)
+         Hash Cond: (m.id = ma.movie)
+         ->  Seq Scan on movie m  (cost=0.00..164.00 rows=10000 width=20) (actual time=0.014..1.053 rows=10000 loops=1)
+         ->  Hash  (cost=2316.61..2316.61 rows=3 width=32) (actual time=34.243..34.243 rows=8 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               ->  Nested Loop Left Join  (cost=1534.43..2316.61 rows=3 width=32) (actual time=25.454..34.230 rows=8 loops=1)
+                     ->  Hash Join  (cost=1534.14..2315.16 rows=3 width=8) (actual time=25.424..34.166 rows=8 loops=1)
+                           Hash Cond: (ma.value = mav.id)
+                           ->  Seq Scan on movie_attribute ma  (cost=0.00..755.00 rows=9912 width=16) (actual time=0.013..7.453 rows=10000 loops=1)
+                                 Filter: (categ = 1)
+                                 Rows Removed by Filter: 30000
+                           ->  Hash  (cost=1534.00..1534.00 rows=11 width=4) (actual time=25.036..25.036 rows=8 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                 ->  Seq Scan on movie_attribute_value mav  (cost=0.00..1534.00 rows=11 width=4) (actual time=0.753..24.999 rows=8 loops=1)
+                                       Filter: (value_datetime = (now())::date)
+                                       Rows Removed by Filter: 39992
+                     ->  Index Scan using movie_attribute_name_pkey on movie_attribute_name man  (cost=0.29..0.48 rows=1 width=32) (actual time=0.006..0.006 rows=1 loops=8)
+                           Index Cond: (ma.name = id)
+   ->  Hash  (cost=2415.22..2415.22 rows=4 width=4) (actual t
+   ime=21.786..21.786 rows=14 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 9kB
+         ->  Hash Join  (cost=1634.20..2415.22 rows=4 width=4) (actual time=16.712..21.776 rows=14 loops=1)
+               Hash Cond: (ma_1.value = mav_1.id)
+               ->  Seq Scan on movie_attribute ma_1  (cost=0.00..755.00 rows=9912 width=16) (actual time=0.010..4.709 rows=10000 loops=1)
+                     Filter: (categ = 1)
+                     Rows Removed by Filter: 30000
+               ->  Hash  (cost=1634.00..1634.00 rows=16 width=4) (actual time=15.986..15.986 rows=14 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     ->  Seq Scan on movie_attribute_value mav_1  (cost=0.00..1634.00 rows=16 width=4) (actual time=2.239..15.974 rows=14 loops=1)
+                           Filter: (value_datetime = ((now() + '20 days'::interval))::date)
+                           Rows Removed by Filter: 39986
+ Planning time: 2.996 ms
+ Execution time: 62.809 ms
+(34 rows)
+
+                                                                                   QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Merge Left Join  (cost=2512147.71..2710029.88 rows=5295610 width=72) (actual time=47458.050..51144.886 rows=5295518 loops=1)
+   Merge Cond: (m.id = ma_1.movie)
+   ->  Merge Left Join  (cost=1233443.81..1418066.47 rows=5295610 width=48) (actual time=35494.944..38025.574 rows=5295518 loops=1)
+         Merge Cond: (m.id = ma.movie)
+         ->  Index Scan using movie_pkey on movie m  (cost=0.43..171363.58 rows=5295610 width=20) (actual time=0.023..1281.085 rows=5295518 loops=1)
+         ->  Sort  (cost=1233443.38..1233446.87 rows=1397 width=32) (actual time=35494.917..35495.806 rows=6224 loops=1)
+               Sort Key: ma.movie
+               Sort Method: quicksort  Memory: 679kB
+               ->  Nested Loop Left Join  (cost=812051.08..1233370.40 rows=1397 width=32) (actual time=24377.126..35481.983 rows=6224 loops=1)
+                     ->  Hash Join  (cost=812050.65..1225675.64 rows=1397 width=8) (actual time=24376.521..30199.304 rows=6224 loops=1)
+                           Hash Cond: (ma.value = mav.id)
+                           ->  Seq Scan on movie_attribute ma  (cost=0.00..399694.56 rows=5306829 width=16) (actual time=0.596..4576.597 rows=5295518 loops=1)
+                                 Filter: (categ = 1)
+                                 Rows Removed by Filter: 15886554
+                           ->  Hash  (cost=811980.96..811980.96 rows=5575 width=4) (actual time=24374.302..24374.302 rows=6224 loops=1)
+                                 Buckets: 8192  Batches: 1  Memory Usage: 283kB
+                                 ->  Seq Scan on movie_attribute_value mav  (cost=0.00..811980.96 rows=5575 width=4) (actual time=0.712..24357.514 rows=6224 loops=1)
+                                       Filter: (value_datetime = (now())::date)
+                                       Rows Removed by Filter: 21175848
+                     ->  Index Scan using movie_attribute_name_pkey on movie_attribute_name man  (cost=0.44..5.51 rows=1 width=32) (actual time=0.845..0.845 rows=1 loops=6224)
+                           Index Cond: (ma.name = id)
+   ->  Sort  (cost=1278703.90..1278707.39 rows=1397 width=4) (actual time=11963.101..11963.951 rows=6034 loops=1)
+         Sort Key: ma_1.movie
+         Sort Method: quicksort  Memory: 475kB
+         ->  Hash Join  (cost=865005.93..1278630.92 rows=1397 width=4) (actual time=8604.966..11960.415 rows=6034 loops=1)
+               Hash Cond: (ma_1.value = mav_1.id)
+               ->  Seq Scan on movie_attribute ma_1  (cost=0.00..399694.56 rows=5306829 width=16) (actual time=0.025..2697.782 rows=5295518 loops=1)
+                     Filter: (categ = 1)
+                     Rows Removed by Filter: 15886554
+               ->  Hash  (cost=864936.24..864936.24 rows=5575 width=4) (actual time=8604.853..8604.854 rows=6034 loops=1)
+                     Buckets: 8192  Batches: 1  Memory Usage: 277kB
+                     ->  Seq Scan on movie_attribute_value mav_1  (cost=0.00..864936.24 rows=5575 width=4) (actual time=0.532..8601.078 rows=6034 loops=1)
+                           Filter: (value_datetime = ((now() + '20 days'::interval))::date)
+                           Rows Removed by Filter: 21176038
+ Planning time: 5.050 ms
+ Execution time: 51423.857 ms
+(36 rows)
+
+-----------------------------------------------------------------------------------------------------------------------
+- сложный запрос 3 ----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+cinema=# explain analyze select * from movies_reviews;
+                                                                 QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Join  (cost=1169.56..2680.39 rows=10045 width=520) (actual time=14.186..32.531 rows=10000 loops=1)
+   Hash Cond: (ma.movie = m.id)
+   ->  Hash Right Join  (cost=880.56..2365.01 rows=10045 width=508) (actual time=7.189..21.862 rows=10000 loops=1)
+         Hash Cond: (mav.id = ma.value)
+         ->  Seq Scan on movie_attribute_value mav  (cost=0.00..1234.00 rows=40000 width=508) (actual time=0.005..5.533 rows=40000 loops=1)
+         ->  Hash  (cost=755.00..755.00 rows=10045 width=8) (actual time=7.112..7.112 rows=10000 loops=1)
+               Buckets: 16384  Batches: 1  Memory Usage: 519kB
+               ->  Seq Scan on movie_attribute ma  (cost=0.00..755.00 rows=10045 width=8) (actual time=0.007..5.396 rows=10000 loops=1)
+                     Filter: (categ = 4)
+                     Rows Removed by Filter: 30000
+   ->  Hash  (cost=164.00..164.00 rows=10000 width=20) (actual time=6.965..6.965 rows=10000 loops=1)
+         Buckets: 16384  Batches: 1  Memory Usage: 661kB
+         ->  Seq Scan on movie m  (cost=0.00..164.00 rows=10000 width=20) (actual time=0.017..3.236 rows=10000 loops=1)
+ Planning time: 0.704 ms
+ Execution time: 33.211 ms
+(15 rows)
+
+                                                                                     QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Merge Right Join  (cost=1475520.15..2609243.83 rows=5277879 width=520) (actual time=12990.862..30399.069 rows=5295518 loops=1)
+   Merge Cond: (mav.id = ma.value)
+   ->  Index Scan using movie_attribute_value_pkey on movie_attribute_value mav  (cost=0.44..991785.12 rows=21182112 width=508) (actual time=0.015..10821.762 rows=21182072 loops=1)
+   ->  Materialize  (cost=1475519.71..1501909.11 rows=5277879 width=20) (actual time=12990.836..15344.944 rows=5295518 loops=1)
+         ->  Sort  (cost=1475519.71..1488714.41 rows=5277879 width=20) (actual time=12990.832..14432.637 rows=5295518 loops=1)
+               Sort Key: ma.value
+               Sort Method: external merge  Disk: 168696kB
+               ->  Hash Join  (cost=183910.23..669722.23 rows=5277879 width=20) (actual time=3218.491..9791.251 rows=5295518 loops=1)
+                     Hash Cond: (ma.movie = m.id)
+                     ->  Seq Scan on movie_attribute ma  (cost=0.00..399694.56 rows=5277879 width=8) (actual time=0.031..3149.226 rows=5295518 loops=1)
+                           Filter: (categ = 4)
+                           Rows Removed by Filter: 15886554
+                     ->  Hash  (cost=86686.10..86686.10 rows=5295610 width=20) (actual time=3217.770..3217.770 rows=5295518 loops=1)
+                           Buckets: 65536  Batches: 128  Memory Usage: 2713kB
+                           ->  Seq Scan on movie m  (cost=0.00..86686.10 rows=5295610 width=20) (actual time=0.012..1710.520 rows=5295518 loops=1)
+ Planning time: 6.716 ms
+ Execution time: 30734.240 ms
+(17 rows)
+
+-----------------------------------------------------------------------------------------------------------------------
+Добавление индексов
+
+cinema=# create index idx_movie_name on movie(name);
+CREATE INDEX
+
+cinema=# create index idx_movie_attribute_name_name on movie_attribute_name(name);
+CREATE INDEX
+
+cinema=# create index idx_movie_attribute_value_value_text on movie_attribute_value(value_text);
+CREATE INDEX
+
+----------------------------------------------------------------------------------------------------------------------
+Список самых больших 15 объектов тсортированных
+
+SELECT *, pg_size_pretty(total_bytes) AS total
+    , pg_size_pretty(index_bytes) AS INDEX
+    , pg_size_pretty(toast_bytes) AS toast
+    , pg_size_pretty(table_bytes) AS TABLE
+  FROM (
+  SELECT *, total_bytes-index_bytes-COALESCE(toast_bytes,0) AS table_bytes FROM (
+      SELECT c.oid,nspname AS table_schema, relname AS TABLE_NAME
+              , c.reltuples AS row_estimate
+              , pg_total_relation_size(c.oid) AS total_bytes
+              , pg_indexes_size(c.oid) AS index_bytes
+              , pg_total_relation_size(reltoastrelid) AS toast_bytes
+          FROM pg_class c
+          LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+          WHERE relkind = 'r'
+  ) a
+) a
+ORDER BY total DESC
+LIMIT 15;
+
+  oid  | table_schema |      table_name       | row_estimate | total_bytes | index_bytes | toast_bytes | table_bytes |   total    |   index    | toast |   table
+-------+--------------+-----------------------+--------------+-------------+-------------+-------------+-------------+------------+------------+-------+------------
+ 16512 | public       | movie_attribute_name  |  2.02415e+07 |  1885528064 |   476684288 |             |  1408843776 | 1798 MB    | 455 MB     |       | 1344 MB
+ 16536 | public       | movie_attribute       |  2.10645e+07 |  1582227456 |   476684288 |             |  1105543168 | 1509 MB    | 455 MB     |       | 1054 MB
+ 16408 | public       | movie                 |  4.91379e+06 |   395591680 |   119185408 |             |   276406272 | 377 MB     | 114 MB     |       | 264 MB
+  1247 | pg_catalog   | pg_type               |          375 |      188416 |       73728 |             |      114688 | 184 kB     | 72 kB      |       | 112 kB
+  1260 | pg_catalog   | pg_authid             |            6 |       73728 |       32768 |             |       40960 | 72 kB      | 32 kB      |       | 40 kB
+ 16529 | public       | movie_attribute_categ |            0 |       24576 |       16384 |             |        8192 | 24 kB      | 16 kB      |       | 8192 bytes
+ 16505 | public       | movie_attribute_type  |            0 |       24576 |       16384 |             |        8192 | 24 kB      | 16 kB      |       | 8192 bytes
+  3256 | pg_catalog   | pg_policy             |            0 |       16384 |       16384 |             |           0 | 16 kB      | 16 kB      |       | 0 bytes
+ 16471 | public       | ticket                |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16494 | public       | movie_rewards         |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16387 | public       | hall_type             |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16450 | public       | user_type             |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16458 | public       | user                  |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16395 | public       | hall                  |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+ 16416 | public       | session               |            0 |        8192 |        8192 |             |           0 | 8192 bytes | 8192 bytes |       | 0 bytes
+
+(15 rows)
+
