@@ -1,0 +1,2 @@
+#!/bin/bash
+awk -F'\t' '{print $3}' $1 | sort | uniq -c | sort -r -k1 | awk '{print $2}' | head -n 3
