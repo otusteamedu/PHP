@@ -21,6 +21,17 @@ RUN docker-php-ext-install pdo && \
 RUN apk add --no-cache zlib libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev libpng libpng-dev && \
     docker-php-ext-install gd && docker-php-ext-install zip && apk del libpng-dev
 
+
+RUN set -ex \
+&& apk add --no-cache bash build-base wget curl m4 autoconf libtool imagemagick imagemagick-dev zlib zlib-dev libcurl curl-dev libevent libevent-dev libidn libidn-dev \
+&& printf "\n" | pecl install raphf propro \
+&& docker-php-ext-enable raphf propro \
+&& printf "\n" | pecl install pecl_http \
+&& echo -e "extension=raphf.so\nextension=propro.so\nextension=http.so" > /usr/local/etc/php/conf.d/docker-php-ext-http.ini \
+&& rm -rf /usr/local/etc/php/conf.d/docker-php-ext-raphf.ini \
+&& rm -rf /usr/local/etc/php/conf.d/docker-php-ext-propro.ini
+
+
 # composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
