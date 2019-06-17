@@ -1,0 +1,27 @@
+version: '2.4'
+
+services:
+    otus-php-fpm:
+        container_name: otus-php-fpm
+        image: otus/php-fpm
+        build: ./docker/php-fpm
+        volumes:
+            - ./app:/app
+        restart: always
+        ports:
+            - 80:80
+        depends_on:
+            - otus-mongo
+        networks:
+            - otus-network
+    otus-mongo:
+        container_name: otus-mongo
+        image: otus/mongo
+        build: docker/mongo
+        volumes:
+            - ./app:/app
+        restart: always
+        networks:
+            - otus-network
+networks:
+    otus-network:
