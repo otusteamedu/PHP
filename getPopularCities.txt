@@ -1,0 +1,10 @@
+# tail -n +2 citiesCalls.txt          - стереть заголовки
+# awk '{ print $3 }' citiesCalls.txt  - вывести только 3 столбик
+# sort citiesCalls.txt                - отсортировать
+# uniq -c citiesCalls.txt             - удалить дубли
+# head -n 3 citiesCalls.txt           - вывести 3 только три первых строки
+# символ |                            - для разделения команд
+
+tail -n +2 citiesCalls.txt | awk '{ print $3 }' | sort | uniq -c | head -n 3
+
+# Результат: http://joxi.ru/D2Pq45gsqxdYNA
