@@ -16,9 +16,6 @@ class AdditionOperation implements OperationInterface
      */
     public function execute(float $a, float $b): float
     {
-        if (($a != (int)$a) || ($b != (int)$b)) {
-            throw new InputException('Arguments must be integer values');
-        }
         return $a + $b;
     }
 }

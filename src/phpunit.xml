@@ -4,4 +4,14 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="./logs/coverage"
+             lowUpperBound="50" highLowerBound="80"/>
+    </logging>
 </phpunit>
