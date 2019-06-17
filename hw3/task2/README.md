@@ -6,7 +6,7 @@ App helps to fix typos in commands. Works with git commands only.
 
 ## Requirements
 
-* php >= 5.4.0
+* php >= 7.0.0
 * php-phar extention
 
 ## Tested on
