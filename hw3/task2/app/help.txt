@@ -1,0 +1,9 @@
+This app is a simple implementation of amazing "TheFuck" tool
+App helps to fix typos in commands. Works with git commands only.
+
+Avaliable keys:
+  --install         add "fuck" alias into terminal for faster usage
+  --fix=<command>   show possible options to fix the command
+  --help            if you read this text, you know what this key do=)
+
+More info here: https://github.com/jekys13/php-fuck
