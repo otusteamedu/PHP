@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  percona:
+    container_name: hw14-percona
+    build: .
+    restart: always
+    user: "1000:50"
+    environment:
+      - MYSQL_DATABASE=${PERCONA_DATABASE}
+      - MYSQL_USER=${PERCONA_USER}
+      - MYSQL_PASSWORD=${PERCONA_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
+    ports:
+      - "${PERCONA_PORT}:3306"
