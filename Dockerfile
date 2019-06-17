@@ -34,6 +34,10 @@ RUN apt-get -y install libzip-dev
 RUN pecl install zip
 RUN echo "extension=zip.so" >> /usr/local/etc/php/conf.d/zip.ini
 
+# INSTALL XDEBUG (for phpunit)
+RUN pecl install xdebug
+RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/xdebug.ini
+
 COPY "./src" "/app"
 
 WORKDIR /app
