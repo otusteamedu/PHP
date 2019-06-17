@@ -32,8 +32,3 @@ services:
     restart: always
     ports:
       - 6080:8080
-
-  composer:
-    image: composer:1.6
-    volumes:
-      - ./www:/var/www
