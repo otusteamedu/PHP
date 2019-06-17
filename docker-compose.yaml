@@ -21,6 +21,8 @@ services:
         volumes:
             - ./app:/app
         restart: always
+        ports:
+            - 27017:27017
         networks:
             - otus-network
 networks:
