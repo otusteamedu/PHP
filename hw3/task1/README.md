@@ -1,6 +1,6 @@
 ## Description
 
-Very simple example of communication between to scripts via socket
+Very simple example of communication between two scripts via socket
 
 ## Usage
 
