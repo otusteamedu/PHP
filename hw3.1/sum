@@ -1,0 +1,16 @@
+#!/bin/bash
+
+re='^[0-9]+$'
+
+if ! [[ $1 =~ $re ]] ; then
+   echo "error: $1 Not a number"; exit 1
+fi
+
+if ! [[ $2 =~ $re ]] ; then
+   echo "error: $2 Not a number"; exit 1
+fi
+
+total=$[ $1 + $2 ]
+echo "Сумма параметров равно $total."
+
+
