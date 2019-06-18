@@ -1,0 +1,153 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "Channel",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "customUrl",
+    "publishedAt",
+    "country",
+    "uploads",
+    "statistics"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id of YouTube channel",
+      "default": "",
+      "examples": [
+        "UCiVZttFkdEwMi3QXpRqFTzQ"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "The Title of YouTube channel",
+      "default": "",
+      "examples": [
+        "some title"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description of channel",
+      "default": "",
+      "examples": [
+        "some description"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "customUrl": {
+      "$id": "#/properties/customUrl",
+      "type": "string",
+      "title": "The Customurl of channel",
+      "default": "",
+      "examples": [
+        "gtrftv"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "publishedAt": {
+      "$id": "#/properties/publishedAt",
+      "type": "string",
+      "title": "The Publishedat attribute of channel",
+      "default": "",
+      "examples": [
+        "2017-11-15T09:46:53.000Z"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "country": {
+      "$id": "#/properties/country",
+      "type": "string",
+      "title": "The Country Code",
+      "default": "",
+      "examples": [
+        "RU"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "uploads": {
+      "$id": "#/properties/uploads",
+      "type": "string",
+      "title": "The Uploads playlist id",
+      "default": "",
+      "examples": [
+        "UUiVZttFkdEwMi3QXpRqFTzQ"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "statistics": {
+      "$id": "#/properties/statistics",
+      "type": "object",
+      "title": "The Statistics data",
+      "default": null,
+      "required": [
+        "viewCount",
+        "commentCount",
+        "subscriberCount",
+        "hiddenSubscriberCount",
+        "videoCount"
+      ],
+      "properties": {
+        "viewCount": {
+          "$id": "#/properties/statistics/properties/viewCount",
+          "type": "string",
+          "title": "The Viewcount",
+          "default": "",
+          "examples": [
+            "56243157"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "commentCount": {
+          "$id": "#/properties/statistics/properties/commentCount",
+          "type": "string",
+          "title": "The Commentcount",
+          "default": "",
+          "examples": [
+            "0"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "subscriberCount": {
+          "$id": "#/properties/statistics/properties/subscriberCount",
+          "type": "string",
+          "title": "The Subscribercount",
+          "default": "",
+          "examples": [
+            "224550"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "hiddenSubscriberCount": {
+          "$id": "#/properties/statistics/properties/hiddenSubscriberCount",
+          "type": "boolean",
+          "title": "The Hiddensubscribercount",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "videoCount": {
+          "$id": "#/properties/statistics/properties/videoCount",
+          "type": "string",
+          "title": "The Videocount",
+          "default": "",
+          "examples": [
+            "5164"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "video",
+  "required": [
+    "id",
+    "publishedAt",
+    "channelId",
+    "title",
+    "description",
+    "channelTitle",
+    "tags",
+    "categoryId",
+    "statistics"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id Schema",
+      "default": "",
+      "examples": [
+        "WmMuwgMFmb8"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "publishedAt": {
+      "$id": "#/properties/publishedAt",
+      "type": "string",
+      "title": "The Publishedat Schema",
+      "default": "",
+      "examples": [
+        "2019-06-16T07:00:02.000Z"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "channelId": {
+      "$id": "#/properties/channelId",
+      "type": "string",
+      "title": "The Channelid Schema",
+      "default": "",
+      "examples": [
+        "UCiVZttFkdEwMi3QXpRqFTzQ"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "The Title Schema",
+      "default": "",
+      "examples": [
+        "some title"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description Schema",
+      "default": "",
+      "examples": [
+        "some description"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "channelTitle": {
+      "$id": "#/properties/channelTitle",
+      "type": "string",
+      "title": "The Channeltitle Schema",
+      "default": "",
+      "examples": [
+        "channel title"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema",
+      "items": {
+        "$id": "#/properties/tags/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "tag1",
+          "tag2"
+        ],
+        "pattern": "^(.*)$"
+      }
+    },
+    "categoryId": {
+      "$id": "#/properties/categoryId",
+      "type": "string",
+      "title": "The Categoryid Schema",
+      "default": "",
+      "examples": [
+        "24"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "statistics": {
+      "$id": "#/properties/statistics",
+      "type": "object",
+      "title": "The Statistics Schema",
+      "required": [
+        "viewCount",
+        "likeCount",
+        "dislikeCount",
+        "favoriteCount",
+        "commentCount"
+      ],
+      "properties": {
+        "viewCount": {
+          "$id": "#/properties/statistics/properties/viewCount",
+          "type": "string",
+          "title": "The Viewcount Schema",
+          "default": "",
+          "examples": [
+            "631"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "likeCount": {
+          "$id": "#/properties/statistics/properties/likeCount",
+          "type": "string",
+          "title": "The Likecount Schema",
+          "default": "",
+          "examples": [
+            "58"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "dislikeCount": {
+          "$id": "#/properties/statistics/properties/dislikeCount",
+          "type": "string",
+          "title": "The Dislikecount Schema",
+          "default": "",
+          "examples": [
+            "1"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "favoriteCount": {
+          "$id": "#/properties/statistics/properties/favoriteCount",
+          "type": "string",
+          "title": "The Favoritecount Schema",
+          "default": "",
+          "examples": [
+            "0"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "commentCount": {
+          "$id": "#/properties/statistics/properties/commentCount",
+          "type": "string",
+          "title": "The Commentcount Schema",
+          "default": "",
+          "examples": [
+            "7"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}
