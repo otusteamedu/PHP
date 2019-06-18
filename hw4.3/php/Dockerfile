@@ -1,53 +1,56 @@
-FROM php:7.1-fpm-alpine
+# Для начала указываем исходный образ, он будет использован как основа
+FROM php:7.1-fpm
+# Необязательная строка с указанием автора образа
+MAINTAINER Vlad Zaiko <vl.zayko@gmail.com>
 
-# git
-RUN apk --update add git && rm /var/cache/apk/*
+RUN apt-get update && apt-get install -y \
+    unzip
 
-RUN apk add zlib-dev libmemcached-dev libmemcached postgresql-dev
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer --version
 
-# php extensions
-RUN  apk add --no-cache $PHPIZE_DEPS
-RUN docker-php-ext-install pdo && \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install pdo_pgsql && \
-    docker-php-ext-install sockets && \
-    pecl install redis && docker-php-ext-enable redis && \
-    pecl install memcached && docker-php-ext-enable memcached && \
-    pecl install xdebug && docker-php-ext-enable xdebug && \
-    # install pcntl
-    docker-php-ext-install pcntl
+# Install PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
-#install gd zip
-RUN apk add --no-cache zlib libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev libpng libpng-dev && \
-    docker-php-ext-install gd && docker-php-ext-install zip && apk del libpng-dev
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        vim \
+        curl \
+        wget \
+        grep \
+        mc \
+    && docker-php-ext-install -j$(nproc) iconv bcmath iconv mcrypt mbstring  \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
 
+RUN apt-get install -y zlib1g-dev libicu-dev g++ libzip-dev && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl zip sockets && \
+    apt-get purge -y g++
 
-RUN set -ex \
-&& apk add --no-cache bash build-base wget curl m4 autoconf libtool imagemagick imagemagick-dev zlib zlib-dev libcurl curl-dev libevent libevent-dev libidn libidn-dev \
-&& printf "\n" | pecl install raphf propro \
-&& docker-php-ext-enable raphf propro \
-&& printf "\n" | pecl install pecl_http \
-&& echo -e "extension=raphf.so\nextension=propro.so\nextension=http.so" > /usr/local/etc/php/conf.d/docker-php-ext-http.ini \
-&& rm -rf /usr/local/etc/php/conf.d/docker-php-ext-raphf.ini \
-&& rm -rf /usr/local/etc/php/conf.d/docker-php-ext-propro.ini
+RUN apt-get install -y libxslt-dev
+RUN docker-php-ext-install xsl soap mysqli
 
+# Install Redis extension
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && echo "extension=redis.so" > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
-# composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+# Install MongoDB extension
+RUN pecl install mongodb \
+    && rm -rf /tmp/pear \
+    && echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini
 
-# bash tools and openssh
-RUN apk add --no-cache bash gawk sed grep bc coreutils openssh mc wget
+# Install Memcached extension
+RUN apt-get update && apt-get install -y libz-dev libmemcached-dev
+RUN pecl install memcached
+RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 
-RUN docker-php-ext-install opcache
-RUN docker-php-ext-enable opcache
-
-# mysql-client
-RUN apk add mysql-client
-
-RUN apk add icu icu-dev
-RUN apk add php7-intl
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
-RUN docker-php-ext-enable intl
-
-RUN  rm -rf /tmp/* /var/cache/apk/*
+# Install xdebug extensions
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
