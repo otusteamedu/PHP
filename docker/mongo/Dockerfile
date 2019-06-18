@@ -1,0 +1,2 @@
+FROM mongo
+WORKDIR /app

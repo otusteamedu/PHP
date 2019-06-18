@@ -1,0 +1,11 @@
+{
+    "name": "fdor/hw16-1",
+    "require": {
+        "ext-mongodb": "*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "App\\" : "src"
+        }
+    }
+}
