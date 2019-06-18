@@ -5,7 +5,7 @@ namespace App\Entity;
 /**
  * Class Video
  */
-class Video implements EntityInterface
+class Video
 {
     /**
      * @var string
@@ -157,7 +157,7 @@ class Video implements EntityInterface
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
+            '_id' => $this->getId(),
             'url' => $this->getUrl(),
             'title' => $this->getTitle(),
             'likeCount' => $this->getLikeCount(),

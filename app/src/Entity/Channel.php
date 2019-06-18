@@ -6,7 +6,7 @@ namespace App\Entity;
  * Class Channel
  * @package App\Entity
  */
-class Channel implements EntityInterface
+class Channel
 {
     /**
      * @var string
@@ -86,7 +86,7 @@ class Channel implements EntityInterface
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
+            '_id' => $this->getId(),
             'url' => $this->getUrl(),
             'title' => $this->getTitle(),
         ];

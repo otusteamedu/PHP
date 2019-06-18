@@ -1,3 +1,2 @@
 FROM mongo
 WORKDIR /app
-EXPOSE 27017
