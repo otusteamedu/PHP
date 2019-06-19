@@ -1,0 +1,19 @@
+ web:
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        - ./code:/code
+        - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+        - "phpsocket:/var/run"
+    links:
+        - php   
+
+ php:
+    image: php:7-fpm
+    volumes:
+        - ./code:/code
+#        - ./www.conf:/usr/local/etc/php-fpm.d/www.conf
+        - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+        - "phpsocket:/var/run"
+
