@@ -1,0 +1,2 @@
+awk 'NR == 1; NR > 1 { print $0 | "sort -k4 -n -r"}' cities.txt | awk '!x[$3]++' | head -4
+
