@@ -1,0 +1,46 @@
+Запрос отображает непроданные билеты на определенное место по всем сеансам (глупая статистика, но для кучи)
+
+
+ЗАПРОС:
+-------
+select * from ticket where seat_id = 100 and ticket_status_id = 1;
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Seq Scan on ticket  (cost=0.00..7057.38 rows=49 width=16) (actual time=0.135..27.505 rows=46 loops=1)
+  Filter: ((seat_id = 100) AND (ticket_status_id = 1))                                               
+  Rows Removed by Filter: 57179                                                                      
+Planning Time: 0.141 ms                                                                              
+Execution Time: 27.557 ms
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Gather  (cost=1000.00..144840.61 rows=10602 width=16) (actual time=14.054..2601.149 rows=10691 loops=1)                     
+  Workers Planned: 2                                                                                                        
+  Workers Launched: 2                                                                                                       
+  ->  Parallel Seq Scan on ticket  (cost=0.00..142780.41 rows=4418 width=16) (actual time=5.486..2557.222 rows=3564 loops=3)
+        Filter: ((seat_id = 100) AND (ticket_status_id = 1))                                                                
+        Rows Removed by Filter: 4079803                                                                                     
+Planning Time: 8.716 ms                                                                                                     
+Execution Time: 2603.821 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создан комбинированный индекс специально под этот запрос, слева-направо: сначала seat_id, потом ticket_status_id
+Время выполнения запроса уменьшилось больше чем в 50 раз
+---
+CREATE INDEX ticket_seat_id_idx ON public.ticket (seat_id,ticket_status_id);
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Bitmap Heap Scan on ticket  (cost=223.23..27950.67 rows=10419 width=16) (actual time=13.817..43.999 rows=10691 loops=1)            
+  Recheck Cond: ((seat_id = 100) AND (ticket_status_id = 1))                                                                       
+  Heap Blocks: exact=10316                                                                                                         
+  ->  Bitmap Index Scan on ticket_seat_id_idx  (cost=0.00..220.62 rows=10419 width=0) (actual time=7.015..7.015 rows=10691 loops=1)
+        Index Cond: ((seat_id = 100) AND (ticket_status_id = 1))                                                                   
+Planning Time: 0.196 ms                                                                                                            
+Execution Time: 46.008 ms

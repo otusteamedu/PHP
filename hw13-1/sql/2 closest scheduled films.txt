@@ -1,0 +1,43 @@
+Запрос отображает сеансы фильмов за ближайшие 5 дней
+
+
+ЗАПРОС:
+-------
+select * from schedule where begin_time < current_date + INTERVAL '5 DAY' ;
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Seq Scan on schedule  (cost=0.00..25.15 rows=69 width=28) (actual time=0.031..1.211 rows=70 loops=1)
+  Filter: (begin_time < (CURRENT_DATE + '5 days'::interval))                                        
+  Rows Removed by Filter: 910                                                                       
+Planning Time: 0.188 ms                                                                             
+Execution Time: 1.250 ms
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Gather  (cost=1000.00..4714.04 rows=67 width=28) (actual time=0.703..170.166 rows=74 loops=1)                           
+  Workers Planned: 1                                                                                                    
+  Workers Launched: 1                                                                                                   
+  ->  Parallel Seq Scan on schedule  (cost=0.00..3707.34 rows=39 width=28) (actual time=66.606..148.213 rows=37 loops=2)
+        Filter: (begin_time < (CURRENT_DATE + '5 days'::interval))                                                      
+        Rows Removed by Filter: 104963                                                                                  
+Planning Time: 0.269 ms                                                                                                 
+Execution Time: 170.225 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создан индекс на дату сеанса, т.к. выборка идет именно по ней
+Время выполнения запроса уменьшилось больше чем в 100 раз
+---
+CREATE INDEX schedule_begin_time_idx ON public.schedule (begin_time);
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Index Scan using schedule_begin_time_idx on schedule  (cost=0.42..9.89 rows=84 width=28) (actual time=0.041..0.079 rows=89 loops=1)
+  Index Cond: (begin_time < (CURRENT_DATE + '5 days'::interval))                                                                   
+Planning Time: 7.034 ms                                                                                                            
+Execution Time: 0.204 ms   

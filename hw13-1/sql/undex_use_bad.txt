@@ -1,0 +1,17 @@
+ЗАПРОС:
+-------
+select relname, indexrelname, idx_scan
+from pg_stat_user_indexes
+order by idx_scan
+limit 6;
+
+ОТВЕТ:
+------
+|relname                                                                                             |indexrelname                                                                                        |idx_scan            |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|--------------------|
+|movie_attribute_value                                                                               |movie_attribute_value_pkey                                                                          |0                   |
+|movie_attribute_class                                                                               |movie_attribute_class_pk                                                                            |0                   |
+|movie_attribute_type                                                                                |movie_attribute_type_pkey                                                                           |0                   |
+|ticket                                                                                              |ticket_pkey                                                                                         |0                   |
+|ticket_status                                                                                       |ticket_status_pkey                                                                                  |0                   |
+|movie_attribute                                                                                     |movie_attribute_pkey                                                                                |0                   |

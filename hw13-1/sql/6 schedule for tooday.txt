@@ -1,0 +1,72 @@
+Запрос показывает список фильмов на сегодня
+
+
+ЗАПРОС:
+-------
+select m.name, s.begin_time, h.name
+from movie m
+join schedule s on s.movie_id = m.movie_id
+join hall h on h.hall_id = s.hall_id
+where begin_time < current_date + INTERVAL '1 DAY';
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Hash Join  (cost=47.42..50.90 rows=11 width=137) (actual time=1.066..1.118 rows=14 loops=1)                                         
+  Hash Cond: (s.hall_id = h.hall_id)                                                                                                
+  ->  Merge Join  (cost=25.49..28.94 rows=11 width=23) (actual time=1.022..1.064 rows=14 loops=1)                                   
+        Merge Cond: (m.movie_id = s.movie_id)                                                                                       
+        ->  Index Scan using movie_pkey on movie m  (cost=0.15..61.50 rows=1890 width=15) (actual time=0.007..0.028 rows=44 loops=1)
+        ->  Sort  (cost=25.34..25.37 rows=11 width=16) (actual time=0.999..1.003 rows=14 loops=1)                                   
+              Sort Key: s.movie_id                                                                                                  
+              Sort Method: quicksort  Memory: 25kB                                                                                  
+              ->  Seq Scan on schedule s  (cost=0.00..25.15 rows=11 width=16) (actual time=0.020..0.978 rows=14 loops=1)            
+                    Filter: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                       
+                    Rows Removed by Filter: 966                                                                                     
+  ->  Hash  (cost=15.30..15.30 rows=530 width=122) (actual time=0.029..0.029 rows=3 loops=1)                                        
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                
+        ->  Seq Scan on hall h  (cost=0.00..15.30 rows=530 width=122) (actual time=0.018..0.021 rows=3 loops=1)                     
+Planning Time: 0.740 ms                                                                                                             
+Execution Time: 1.197 ms
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Nested Loop  (cost=1000.43..4846.88 rows=21 width=137) (actual time=1.022..153.889 rows=14 loops=1)                                   
+  ->  Gather  (cost=1000.28..4795.36 rows=21 width=23) (actual time=1.010..160.227 rows=14 loops=1)                                   
+        Workers Planned: 1                                                                                                            
+        Workers Launched: 1                                                                                                           
+        ->  Nested Loop  (cost=0.29..3793.26 rows=12 width=23) (actual time=63.955..140.207 rows=7 loops=2)                           
+              ->  Parallel Seq Scan on schedule s  (cost=0.00..3707.34 rows=12 width=16) (actual time=63.900..140.089 rows=7 loops=2) 
+                    Filter: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                         
+                    Rows Removed by Filter: 104993                                                                                    
+              ->  Index Scan using movie_pkey on movie m  (cost=0.29..7.16 rows=1 width=15) (actual time=0.010..0.010 rows=1 loops=14)
+                    Index Cond: (movie_id = s.movie_id)                                                                               
+  ->  Index Scan using hall_pkey on hall h  (cost=0.15..2.45 rows=1 width=122) (actual time=0.002..0.003 rows=1 loops=14)             
+        Index Cond: (hall_id = s.hall_id)                                                                                             
+Planning Time: 0.834 ms                                                                                                               
+Execution Time: 160.469 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создан индекс на дату сеанса, т.к. выборка идет именно по ней
+Время выполнения запроса уменьшилось больше чем в 300 раз
+---
+CREATE INDEX schedule_begin_time_idx ON public.schedule (begin_time);
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Hash Join  (cost=22.64..105.26 rows=9 width=137) (actual time=0.097..0.207 rows=14 loops=1)                                                     
+  Hash Cond: (s.hall_id = h.hall_id)                                                                                                            
+  ->  Nested Loop  (cost=0.71..83.31 rows=9 width=23) (actual time=0.050..0.150 rows=14 loops=1)                                                
+        ->  Index Scan using schedule_begin_time_idx on schedule s  (cost=0.42..8.58 rows=9 width=16) (actual time=0.029..0.039 rows=14 loops=1)
+              Index Cond: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                                     
+        ->  Index Scan using movie_pkey on movie m  (cost=0.29..8.30 rows=1 width=15) (actual time=0.006..0.006 rows=1 loops=14)                
+              Index Cond: (movie_id = s.movie_id)                                                                                               
+  ->  Hash  (cost=15.30..15.30 rows=530 width=122) (actual time=0.029..0.029 rows=3 loops=1)                                                    
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                            
+        ->  Seq Scan on hall h  (cost=0.00..15.30 rows=530 width=122) (actual time=0.018..0.020 rows=3 loops=1)                                 
+Planning Time: 1.081 ms                                                                                                                         
+Execution Time: 0.449 ms

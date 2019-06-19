@@ -1,0 +1,36 @@
+ЗАПРОС:
+-------
+SELECT 
+	table_name,
+	pg_size_pretty(total_bytes) AS total_size,
+	pg_size_pretty(index_bytes) AS index_size,
+	pg_size_pretty(table_bytes) AS table_data_size
+  FROM (
+  SELECT *, total_bytes-index_bytes-COALESCE(toast_bytes,0) AS table_bytes FROM (
+      SELECT c.oid,nspname AS table_schema, relname AS TABLE_NAME
+              , c.reltuples AS row_estimate
+              , pg_total_relation_size(c.oid) AS total_bytes
+              , pg_indexes_size(c.oid) AS index_bytes
+              , pg_total_relation_size(reltoastrelid) AS toast_bytes
+          FROM pg_class c
+          LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+          WHERE relkind = 'r' and nspname = 'public'
+  ) a
+) a
+order by total_bytes desc
+limit 15;
+
+ОТВЕТ:
+------
+|table_name                                                                                          |total_size                                                                                          |index_size                                                                                          |table_data_size                                                                                     |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+|ticket                                                                                              |1310 MB                                                                                             |793 MB                                                                                              |517 MB                                                                                              |
+|schedule                                                                                            |26 MB                                                                                               |14 MB                                                                                               |12 MB                                                                                               |
+|movie                                                                                               |1680 kB                                                                                             |896 kB                                                                                              |784 kB                                                                                              |
+|ticket_status                                                                                       |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|seat                                                                                                |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|movie_attribute                                                                                     |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|movie_attribute_class                                                                               |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|hall                                                                                                |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|movie_attribute_type                                                                                |24 kB                                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |
+|movie_attribute_value                                                                               |16 kB                                                                                               |8192 bytes                                                                                          |0 bytes                                                                                             |

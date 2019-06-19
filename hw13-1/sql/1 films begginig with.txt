@@ -1,0 +1,55 @@
+Запрос отображает все фильмы, начинающиеся с буквы "н"
+
+
+ЗАПРОС:
+-------
+select * from movie where name like 'н%';
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Seq Scan on movie  (cost=0.00..33.62 rows=121 width=15) (actual time=0.028..0.040 rows=3 loops=1)
+  Filter: ((name)::text ~~ 'н%'::text)                                                           
+  Rows Removed by Filter: 47                                                                     
+Planning Time: 0.125 ms                                                                          
+Execution Time: 0.067 ms 
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Seq Scan on movie  (cost=0.00..219.00 rows=593 width=15) (actual time=0.025..4.778 rows=566 loops=1)
+  Filter: ((name)::text ~~ 'н%'::text)                                                              
+  Rows Removed by Filter: 9434                                                                      
+Planning Time: 0.172 ms                                                                             
+Execution Time: 4.878 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создан функциональный индекс на первую букву имени фильма:
+---
+CREATE INDEX movie_name_first_letter_idx ON movie (left(name,1));
+
+Но запрос этот индекс не использовал:
+---
+Seq Scan on movie  (cost=0.00..219.00 rows=593 width=15) (actual time=0.087..5.029 rows=566 loops=1)
+  Filter: ((name)::text ~~ 'н%'::text)                                                              
+  Rows Removed by Filter: 9434                                                                      
+Planning Time: 0.261 ms                                                                             
+Execution Time: 5.138 ms
+
+Чтобы индекс использовался, пришлось изменить запрос - изменить "like 'н%'" на "left(name,1) = 'н'"
+После этого индекс сработал, время выполнения уменьшилось в 5 раз
+---
+select * from movie where left(name,1) = 'н';
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Bitmap Heap Scan on movie  (cost=12.67..115.16 rows=566 width=15) (actual time=0.154..0.765 rows=566 loops=1)                          
+  Recheck Cond: ("left"((name)::text, 1) = 'н'::text)                                                                                  
+  Heap Blocks: exact=57                                                                                                                
+  ->  Bitmap Index Scan on movie_name_first_letter_idx  (cost=0.00..12.53 rows=566 width=0) (actual time=0.125..0.125 rows=566 loops=1)
+        Index Cond: ("left"((name)::text, 1) = 'н'::text)                                                                              
+Planning Time: 0.271 ms                                                                                                                
+Execution Time: 0.886 ms

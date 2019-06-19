@@ -1,0 +1,175 @@
+Интересный запрос - анализирует все* проданные билеты по всем сеансам за все время.
+* для работы индексов пришлось далее конкретизировать запрос, указав конкретный фильм или перечень фильмов
+
+
+ЗАПРОС:
+-------
+select m.name, sum(price) as revenue
+from movie m
+join schedule s on s.movie_id = m.movie_id
+join ticket t on t.schedule_id = s.schedule_id
+join ticket_status ts on ts.ticket_status_id = t.ticket_status_id
+where ts.ticket_status = 'sold'
+group by m.name
+order by sum(price) desc;
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Sort  (cost=7060.96..7061.76 rows=318 width=19) (actual time=291.405..291.415 rows=50 loops=1)                                                 
+  Sort Key: (sum(s.price)) DESC                                                                                                                
+  Sort Method: quicksort  Memory: 28kB                                                                                                         
+  ->  GroupAggregate  (cost=7042.18..7047.75 rows=318 width=19) (actual time=241.401..291.274 rows=50 loops=1)                                 
+        Group Key: m.name                                                                                                                      
+        ->  Sort  (cost=7042.18..7042.98 rows=318 width=19) (actual time=240.781..267.447 rows=48789 loops=1)                                  
+              Sort Key: m.name                                                                                                                 
+              Sort Method: external merge  Disk: 1632kB                                                                                        
+              ->  Hash Join  (cost=101.95..7028.96 rows=318 width=19) (actual time=1.808..121.166 rows=48789 loops=1)                          
+                    Hash Cond: (t.schedule_id = s.schedule_id)                                                                                 
+                    ->  Hash Join  (cost=16.79..6939.43 rows=318 width=4) (actual time=0.059..79.295 rows=48789 loops=1)                       
+                          Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                
+                          ->  Seq Scan on ticket t  (cost=0.00..6771.25 rows=57225 width=8) (actual time=0.026..34.833 rows=57225 loops=1)     
+                          ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.019..0.020 rows=1 loops=1)                               
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                   
+                                ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.013..0.014 rows=1 loops=1)  
+                                      Filter: ((ticket_status)::text = 'sold'::text)                                                           
+                                      Rows Removed by Filter: 1                                                                                
+                    ->  Hash  (cost=72.91..72.91 rows=980 width=23) (actual time=1.740..1.740 rows=980 loops=1)                                
+                          Buckets: 1024  Batches: 1  Memory Usage: 66kB                                                                        
+                          ->  Hash Join  (cost=52.53..72.91 rows=980 width=23) (actual time=0.173..1.250 rows=980 loops=1)                     
+                                Hash Cond: (s.movie_id = m.movie_id)                                                                           
+                                ->  Seq Scan on schedule s  (cost=0.00..17.80 rows=980 width=16) (actual time=0.010..0.265 rows=980 loops=1)   
+                                ->  Hash  (cost=28.90..28.90 rows=1890 width=15) (actual time=0.151..0.152 rows=50 loops=1)                    
+                                      Buckets: 2048  Batches: 1  Memory Usage: 19kB                                                            
+                                      ->  Seq Scan on movie m  (cost=0.00..28.90 rows=1890 width=15) (actual time=0.105..0.122 rows=50 loops=1)
+Planning Time: 1.159 ms                                                                                                                        
+Execution Time: 292.516 ms
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Sort  (cost=138820.91..138845.23 rows=9731 width=19) (actual time=25584.133..25587.229 rows=9731 loops=1)                                                                          
+  Sort Key: (sum(s.price)) DESC                                                                                                                                                    
+  Sort Method: quicksort  Memory: 1145kB                                                                                                                                           
+  ->  Finalize GroupAggregate  (cost=136911.28..138176.31 rows=9731 width=19) (actual time=25555.509..25575.960 rows=9731 loops=1)                                                 
+        Group Key: m.name                                                                                                                                                          
+        ->  Gather Merge  (cost=136911.28..138030.34 rows=9731 width=19) (actual time=25555.486..25814.679 rows=19462 loops=1)                                                     
+              Workers Planned: 1                                                                                                                                                   
+              Workers Launched: 1                                                                                                                                                  
+              ->  Sort  (cost=135911.27..135935.59 rows=9731 width=19) (actual time=25529.359..25531.386 rows=9731 loops=2)                                                        
+                    Sort Key: m.name                                                                                                                                               
+                    Sort Method: quicksort  Memory: 1145kB                                                                                                                         
+                    Worker 0:  Sort Method: quicksort  Memory: 1145kB                                                                                                              
+                    ->  Partial HashAggregate  (cost=135169.36..135266.67 rows=9731 width=19) (actual time=25466.698..25469.833 rows=9731 loops=2)                                 
+                          Group Key: m.name                                                                                                                                        
+                          ->  Hash Join  (cost=131453.27..134969.19 rows=40033 width=19) (actual time=16728.748..22726.516 rows=5207033 loops=2)                                   
+                                Hash Cond: (s.movie_id = m.movie_id)                                                                                                               
+                                ->  Parallel Hash Join  (cost=131134.27..134545.06 rows=40033 width=12) (actual time=16690.493..20145.199 rows=5207033 loops=2)                    
+                                      Hash Cond: (s.schedule_id = t.schedule_id)                                                                                                   
+                                      ->  Parallel Seq Scan on schedule s  (cost=0.00..2780.62 rows=123562 width=16) (actual time=0.025..46.718 rows=105000 loops=2)               
+                                      ->  Parallel Hash  (cost=130779.81..130779.81 rows=28357 width=4) (actual time=16439.731..16439.732 rows=5207033 loops=2)                    
+                                            Buckets: 131072 (originally 131072)  Batches: 128 (originally 1)  Memory Usage: 4448kB                                                 
+                                            ->  Hash Join  (cost=16.79..130779.81 rows=28357 width=4) (actual time=2.210..8290.157 rows=5207033 loops=2)                           
+                                                  Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                            
+                                                  ->  Parallel Seq Scan on ticket t  (cost=0.00..117259.27 rows=5104227 width=8) (actual time=0.144..3554.151 rows=6125050 loops=2)
+                                                  ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=1.051..1.054 rows=1 loops=2)                                           
+                                                        Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                               
+                                                        ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=1.007..1.011 rows=1 loops=2)              
+                                                              Filter: ((ticket_status)::text = 'sold'::text)                                                                       
+                                                              Rows Removed by Filter: 1                                                                                            
+                                ->  Hash  (cost=194.00..194.00 rows=10000 width=15) (actual time=33.400..33.400 rows=10000 loops=2)                                                
+                                      Buckets: 16384  Batches: 1  Memory Usage: 605kB                                                                                              
+                                      ->  Seq Scan on movie m  (cost=0.00..194.00 rows=10000 width=15) (actual time=0.210..6.439 rows=10000 loops=2)                               
+Planning Time: 19.757 ms                                                                                                                                                           
+Execution Time: 25862.894 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создал индексы чтобы JOIN-ы работали быстрее:
+---
+CREATE INDEX ticket_schedule_id_idx ON public.ticket (schedule_id);
+CREATE INDEX schedule_movie_id_idx ON public.schedule (movie_id);
+
+Но на указанном выше запросе они не сработали:
+---
+Sort  (cost=140565.79..140590.11 rows=9731 width=19) (actual time=12501.104..12503.295 rows=9731 loops=1)                                                                    
+  Sort Key: (sum(s.price)) DESC                                                                                                                                              
+  Sort Method: quicksort  Memory: 1145kB                                                                                                                                     
+  ->  Finalize GroupAggregate  (cost=137455.84..139921.19 rows=9731 width=19) (actual time=12445.184..12490.576 rows=9731 loops=1)                                           
+        Group Key: m.name                                                                                                                                                    
+        ->  Gather Merge  (cost=137455.84..139726.57 rows=19462 width=19) (actual time=12445.132..12481.271 rows=29188 loops=1)                                              
+              Workers Planned: 2                                                                                                                                             
+              Workers Launched: 2                                                                                                                                            
+              ->  Sort  (cost=136455.82..136480.14 rows=9731 width=19) (actual time=12399.086..12401.672 rows=9729 loops=3)                                                  
+                    Sort Key: m.name                                                                                                                                         
+                    Sort Method: quicksort  Memory: 1145kB                                                                                                                   
+                    Worker 0:  Sort Method: quicksort  Memory: 1145kB                                                                                                        
+                    Worker 1:  Sort Method: quicksort  Memory: 1145kB                                                                                                        
+                    ->  Partial HashAggregate  (cost=135713.91..135811.22 rows=9731 width=19) (actual time=12263.816..12272.978 rows=9729 loops=3)                           
+                          Group Key: m.name                                                                                                                                  
+                          ->  Hash Join  (cost=4660.19..135572.12 rows=28357 width=19) (actual time=203.346..9691.277 rows=3471355 loops=3)                                  
+                                Hash Cond: (s.movie_id = m.movie_id)                                                                                                         
+                                ->  Parallel Hash Join  (cost=4341.19..135178.65 rows=28357 width=12) (actual time=184.726..7235.668 rows=3471355 loops=3)                   
+                                      Hash Cond: (t.schedule_id = s.schedule_id)                                                                                             
+                                      ->  Hash Join  (cost=16.79..130779.81 rows=28357 width=4) (actual time=0.170..4443.278 rows=3471355 loops=3)                           
+                                            Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                            
+                                            ->  Parallel Seq Scan on ticket t  (cost=0.00..117259.27 rows=5104227 width=8) (actual time=0.069..1662.964 rows=4083367 loops=3)
+                                            ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.060..0.061 rows=1 loops=3)                                           
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                               
+                                                  ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.041..0.043 rows=1 loops=3)              
+                                                        Filter: ((ticket_status)::text = 'sold'::text)                                                                       
+                                                        Rows Removed by Filter: 1                                                                                            
+                                      ->  Parallel Hash  (cost=2780.29..2780.29 rows=123529 width=16) (actual time=175.673..175.674 rows=70000 loops=3)                      
+                                            Buckets: 262144  Batches: 1  Memory Usage: 11968kB                                                                               
+                                            ->  Parallel Seq Scan on schedule s  (cost=0.00..2780.29 rows=123529 width=16) (actual time=0.031..47.241 rows=70000 loops=3)    
+                                ->  Hash  (cost=194.00..194.00 rows=10000 width=15) (actual time=18.317..18.317 rows=10000 loops=3)                                          
+                                      Buckets: 16384  Batches: 1  Memory Usage: 605kB                                                                                        
+                                      ->  Seq Scan on movie m  (cost=0.00..194.00 rows=10000 width=15) (actual time=0.073..7.694 rows=10000 loops=3)                         
+Planning Time: 1.813 ms                                                                                                                                                      
+Execution Time: 12509.369 ms
+
+Хотя время исполнения стало меньше. Как я понял, это связано или с кэшем, или с количесвом воркеров.
+Почитал в интернете и понял, что если potgres понимает что ему нужно анализировать всю таблицу полностью, то он не будет использовать индекс,
+поэтому изменил запрос на анализ конкретного фильма, например, фильма с movie_id=100, после чего индексы успешно сработали и запрос выполнился в 2000 раз быстрее:
+---
+select m.name, sum(price) as revenue
+from movie m
+join schedule s on s.movie_id = m.movie_id
+join ticket t on t.schedule_id = s.schedule_id
+join ticket_status ts on ts.ticket_status_id = t.ticket_status_id
+where ts.ticket_status = 'sold' and m.movie_id = 100
+group by m.name
+order by sum(price) desc;
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Sort  (cost=372.67..372.68 rows=1 width=19) (actual time=5.460..5.461 rows=1 loops=1)                                                                                   
+  Sort Key: (sum(s.price)) DESC                                                                                                                                         
+  Sort Method: quicksort  Memory: 25kB                                                                                                                                  
+  ->  GroupAggregate  (cost=372.60..372.66 rows=1 width=19) (actual time=5.450..5.450 rows=1 loops=1)                                                                   
+        Group Key: m.name                                                                                                                                               
+        ->  Sort  (cost=372.60..372.62 rows=7 width=19) (actual time=4.592..4.791 rows=1320 loops=1)                                                                    
+              Sort Key: m.name                                                                                                                                          
+              Sort Method: quicksort  Memory: 152kB                                                                                                                     
+              ->  Nested Loop  (cost=22.09..372.50 rows=7 width=19) (actual time=0.121..3.907 rows=1320 loops=1)                                                        
+                    ->  Index Scan using movie_pkey on movie m  (cost=0.29..8.30 rows=1 width=15) (actual time=0.019..0.021 rows=1 loops=1)                             
+                          Index Cond: (movie_id = 100)                                                                                                                  
+                    ->  Hash Join  (cost=21.81..364.13 rows=7 width=12) (actual time=0.093..3.450 rows=1320 loops=1)                                                    
+                          Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                                         
+                          ->  Nested Loop  (cost=5.02..344.11 rows=1225 width=16) (actual time=0.057..2.548 rows=1550 loops=1)                                          
+                                ->  Bitmap Heap Scan on schedule s  (cost=4.58..81.50 rows=21 width=16) (actual time=0.034..0.187 rows=26 loops=1)                      
+                                      Recheck Cond: (movie_id = 100)                                                                                                    
+                                      Heap Blocks: exact=26                                                                                                             
+                                      ->  Bitmap Index Scan on schedule_movie_id_idx  (cost=0.00..4.58 rows=21 width=0) (actual time=0.020..0.020 rows=26 loops=1)      
+                                            Index Cond: (movie_id = 100)                                                                                                
+                                ->  Index Scan using ticket_schedule_id_idx on ticket t  (cost=0.43..11.03 rows=148 width=8) (actual time=0.015..0.046 rows=60 loops=26)
+                                      Index Cond: (schedule_id = s.schedule_id)                                                                                         
+                          ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.022..0.022 rows=1 loops=1)                                                        
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                            
+                                ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.015..0.016 rows=1 loops=1)                           
+                                      Filter: ((ticket_status)::text = 'sold'::text)                                                                                    
+                                      Rows Removed by Filter: 1                                                                                                         
+Planning Time: 1.367 ms                                                                                                                                                 
+Execution Time: 5.604 ms

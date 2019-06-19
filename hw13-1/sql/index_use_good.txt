@@ -1,0 +1,17 @@
+ЗАПРОС:
+-------
+select relname, indexrelname, idx_scan
+from pg_stat_user_indexes
+order by idx_scan desc
+limit 6;
+
+ОТВЕТ:
+------
+|relname                                                                                             |indexrelname                                                                                        |idx_scan            |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|--------------------|
+|ticket                                                                                              |ticket_schedule_id_idx                                                                              |141504              |
+|movie                                                                                               |movie_pkey                                                                                          |2204                |
+|seat                                                                                                |seat_pkey                                                                                           |1980                |
+|hall                                                                                                |hall_pkey                                                                                           |1964                |
+|schedule                                                                                            |schedule_pkey                                                                                       |166                 |
+|schedule                                                                                            |schedule_movie_id_idx                                                                               |153                 |

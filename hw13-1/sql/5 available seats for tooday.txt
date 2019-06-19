@@ -1,0 +1,111 @@
+Запрос отображает свободные места на сегодняшний день
+
+
+ЗАПРОС:
+-------
+select m.name, s.begin_time, h.name, st."row", st.num, s.price
+from movie m
+join schedule s on s.movie_id = m.movie_id
+join ticket t on t.schedule_id = s.schedule_id
+join ticket_status ts on ts.ticket_status_id = t.ticket_status_id
+join hall h on h.hall_id = s.hall_id
+join seat st on st.seat_id = t.seat_id
+where begin_time < current_date + INTERVAL '1 DAY' and ts.ticket_status = 'available';
+
+
+ПЛАН ВЫПОЛНЕНИЯ при малом кол-ве строк:
+---------------------------------------
+Nested Loop  (cost=17.23..7052.55 rows=4 width=153) (actual time=0.128..108.272 rows=146 loops=1)                                            
+  ->  Nested Loop  (cost=17.09..7051.90 rows=4 width=149) (actual time=0.119..107.674 rows=146 loops=1)                                      
+        ->  Nested Loop  (cost=16.94..7036.67 rows=4 width=35) (actual time=0.111..107.153 rows=146 loops=1)                                 
+              ->  Nested Loop  (cost=16.79..7017.08 rows=4 width=28) (actual time=0.092..106.408 rows=146 loops=1)                           
+                    Join Filter: (t.schedule_id = s.schedule_id)                                                                             
+                    Rows Removed by Join Filter: 117045                                                                                      
+                    ->  Hash Join  (cost=16.79..6939.43 rows=318 width=8) (actual time=0.064..47.693 rows=8436 loops=1)                      
+                          Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                              
+                          ->  Seq Scan on ticket t  (cost=0.00..6771.25 rows=57225 width=12) (actual time=0.026..25.406 rows=57225 loops=1)  
+                          ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.021..0.021 rows=1 loops=1)                             
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                 
+                                ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.013..0.016 rows=1 loops=1)
+                                      Filter: ((ticket_status)::text = 'available'::text)                                                    
+                                      Rows Removed by Filter: 1                                                                              
+                    ->  Materialize  (cost=0.00..25.21 rows=11 width=28) (actual time=0.000..0.003 rows=14 loops=8436)                       
+                          ->  Seq Scan on schedule s  (cost=0.00..25.15 rows=11 width=28) (actual time=0.020..0.939 rows=14 loops=1)         
+                                Filter: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                    
+                                Rows Removed by Filter: 966                                                                                  
+              ->  Index Scan using movie_pkey on movie m  (cost=0.15..4.90 rows=1 width=15) (actual time=0.003..0.003 rows=1 loops=146)      
+                    Index Cond: (movie_id = s.movie_id)                                                                                      
+        ->  Index Scan using hall_pkey on hall h  (cost=0.15..3.80 rows=1 width=122) (actual time=0.002..0.002 rows=1 loops=146)             
+              Index Cond: (hall_id = s.hall_id)                                                                                              
+  ->  Index Scan using seat_pkey on seat st  (cost=0.14..0.16 rows=1 width=12) (actual time=0.003..0.003 rows=1 loops=146)                   
+        Index Cond: (seat_id = t.seat_id)                                                                                                    
+Planning Time: 2.466 ms                                                                                                                      
+Execution Time: 108.431 ms
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк:
+-----------------------------------------
+Gather  (cost=4724.86..135413.80 rows=7 width=153) (actual time=250.951..4004.935 rows=107 loops=1)                                                               
+  Workers Planned: 2                                                                                                                                              
+  Workers Launched: 2                                                                                                                                             
+  ->  Nested Loop  (cost=3724.86..134413.10 rows=3 width=153) (actual time=220.277..3966.410 rows=36 loops=3)                                                     
+        ->  Nested Loop  (cost=3724.71..134412.61 rows=3 width=149) (actual time=217.530..3963.428 rows=36 loops=3)                                               
+              ->  Nested Loop  (cost=3724.56..134405.24 rows=3 width=35) (actual time=216.748..3962.384 rows=36 loops=3)                                          
+                    ->  Hash Join  (cost=3724.28..134383.76 rows=3 width=28) (actual time=216.372..3960.521 rows=36 loops=3)                                      
+                          Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                                   
+                          ->  Parallel Hash Join  (cost=3707.49..134365.62 rows=510 width=32) (actual time=215.569..3959.587 rows=258 loops=3)                    
+                                Hash Cond: (t.schedule_id = s.schedule_id)                                                                                        
+                                ->  Parallel Seq Scan on ticket t  (cost=0.00..117259.27 rows=5104227 width=12) (actual time=8.300..1970.741 rows=4083367 loops=3)
+                                ->  Parallel Hash  (cost=3707.34..3707.34 rows=12 width=28) (actual time=205.173..205.173 rows=5 loops=3)                         
+                                      Buckets: 1024  Batches: 1  Memory Usage: 40kB                                                                               
+                                      ->  Parallel Seq Scan on schedule s  (cost=0.00..3707.34 rows=12 width=28) (actual time=118.532..196.643 rows=5 loops=3)    
+                                            Filter: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                             
+                                            Rows Removed by Filter: 69995                                                                                         
+                          ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.108..0.108 rows=1 loops=3)                                                  
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                      
+                                ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.088..0.091 rows=1 loops=3)                     
+                                      Filter: ((ticket_status)::text = 'available'::text)                                                                         
+                                      Rows Removed by Filter: 1                                                                                                   
+                    ->  Index Scan using movie_pkey on movie m  (cost=0.29..7.16 rows=1 width=15) (actual time=0.049..0.049 rows=1 loops=107)                     
+                          Index Cond: (movie_id = s.movie_id)                                                                                                     
+              ->  Index Scan using hall_pkey on hall h  (cost=0.15..2.45 rows=1 width=122) (actual time=0.026..0.026 rows=1 loops=107)                            
+                    Index Cond: (hall_id = s.hall_id)                                                                                                             
+        ->  Index Scan using seat_pkey on seat st  (cost=0.14..0.16 rows=1 width=12) (actual time=0.081..0.081 rows=1 loops=107)                                  
+              Index Cond: (seat_id = t.seat_id)                                                                                                                   
+Planning Time: 6.967 ms                                                                                                                                           
+Execution Time: 4005.181 ms
+
+
+ЧТО ОПТИМИЗИРОВАНО:
+-------------------
+Создан индекс на дату сеанса, т.к. выборка идет именно по ней
+Время выполнения запроса уменьшилось больше чем в 500 раз
+---
+CREATE INDEX schedule_begin_time_idx ON public.schedule (begin_time);
+
+
+ПЛАН ВЫПОЛНЕНИЯ при большом кол-ве строк после оптимизации:
+-----------------------------------------------------------
+Nested Loop  (cost=18.23..404.54 rows=8 width=153) (actual time=0.155..7.260 rows=252 loops=1)                                                                     
+  ->  Nested Loop  (cost=18.08..403.24 rows=8 width=149) (actual time=0.146..6.126 rows=252 loops=1)                                                               
+        ->  Nested Loop  (cost=17.93..385.89 rows=8 width=35) (actual time=0.137..3.977 rows=252 loops=1)                                                          
+              ->  Hash Join  (cost=17.65..328.80 rows=8 width=28) (actual time=0.126..2.665 rows=252 loops=1)                                                      
+                    Hash Cond: (t.ticket_status_id = ts.ticket_status_id)                                                                                          
+                    ->  Nested Loop  (cost=0.86..308.30 rows=1400 width=32) (actual time=0.048..2.028 rows=1700 loops=1)                                           
+                          ->  Index Scan using schedule_begin_time_idx on schedule s  (cost=0.42..8.85 rows=24 width=28) (actual time=0.025..0.045 rows=29 loops=1)
+                                Index Cond: (begin_time < (CURRENT_DATE + '1 day'::interval))                                                                      
+                          ->  Index Scan using ticket_schedule_id_idx on ticket t  (cost=0.43..11.01 rows=147 width=12) (actual time=0.009..0.041 rows=59 loops=29)
+                                Index Cond: (schedule_id = s.schedule_id)                                                                                          
+                    ->  Hash  (cost=16.75..16.75 rows=3 width=4) (actual time=0.027..0.027 rows=1 loops=1)                                                         
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                             
+                          ->  Seq Scan on ticket_status ts  (cost=0.00..16.75 rows=3 width=4) (actual time=0.019..0.021 rows=1 loops=1)                            
+                                Filter: ((ticket_status)::text = 'available'::text)                                                                                
+                                Rows Removed by Filter: 1                                                                                                          
+              ->  Index Scan using movie_pkey on movie m  (cost=0.29..7.14 rows=1 width=15) (actual time=0.004..0.004 rows=1 loops=252)                            
+                    Index Cond: (movie_id = s.movie_id)                                                                                                            
+        ->  Index Scan using hall_pkey on hall h  (cost=0.15..2.17 rows=1 width=122) (actual time=0.007..0.007 rows=1 loops=252)                                   
+              Index Cond: (hall_id = s.hall_id)                                                                                                                    
+  ->  Index Scan using seat_pkey on seat st  (cost=0.14..0.16 rows=1 width=12) (actual time=0.003..0.003 rows=1 loops=252)                                         
+        Index Cond: (seat_id = t.seat_id)                                                                                                                          
+Planning Time: 2.941 ms                                                                                                                                            
+Execution Time: 7.432 ms
