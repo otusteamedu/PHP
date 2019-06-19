@@ -46,7 +46,7 @@ class YouTubeApi {
     //part=snippet&
     //playlistId=$playList&
     //key=$key
-    public function getVideosFromPlaylist(string $id, array $part = ['snippet'], string $pageToken = null, int $maxResults = 10)
+    public function getPlaylistInfo(string $id, array $part = ['snippet'], string $pageToken = null, int $maxResults = 10)
     {
         $this->path = 'playlistItems?';
         $parameters = [
@@ -62,10 +62,53 @@ class YouTubeApi {
         }
         $url = $this->getUrlByParameters($parameters);
         $response = $this->makeRequest($url);
-        if (isset($response->items)) {
-            return $response;
+        if (isset($response->error)) {
+            throw new \Exception($response->error->code . ': ' . $response->error->message);
         } else {
-            return null;
+            return $response;
+        }
+    }
+
+    public function getVideosInfo(string $id, array $part = ['snippet', 'statistics'])
+    {
+        $this->path = 'videos?';
+        $parameters = [
+            'part'  => implode(',',$part),
+            'id'    => $id,
+            'key'   => $this->token,
+        ];
+        $parameters['maxResults'] = 20;
+
+        $url = $this->getUrlByParameters($parameters);
+        $response = $this->makeRequest($url);
+        if (isset($response->error)) {
+            throw new \Exception($response->error->code . ': ' . $response->error->message);
+        } else if (isset($response->items)) {
+            return $response->items;
+        } else {
+            return [];
+        }
+    }
+
+    public function searchVideoByWorld($world, array $part = ['snippet'], int $limit = 50)
+    {
+        $this->path = 'search?';
+        $parameters = [
+            'part'  => implode(',',$part),
+            'q'    => $world,
+            'maxResults' => $limit,
+            'key'   => $this->token,
+        ];
+        $parameters['maxResults'] = 20;
+
+        $url = $this->getUrlByParameters($parameters);
+        $response = $this->makeRequest($url);
+        if (isset($response->error)) {
+            throw new \Exception($response->error->code . ': ' . $response->error->message);
+        } else if (isset($response->items)) {
+            return $response->items;
+        } else {
+            return [];
         }
     }
 

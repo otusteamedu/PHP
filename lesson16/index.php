@@ -15,6 +15,40 @@ $config = parse_ini_file(APP_DIR . '/config.ini', true);
 
 BaseRecord::$connection = new MongoDB\Client();
 BaseRecord::$database = 'myapp';
+
+$grabber = new \Otus\Grabber();
+//var_dump($grabber->getRandomChannelId());
+//die();
+$grabber->grabChannel('UCigmJGP6E-wbZGclCDkalcQ');
+die();
+$mongo = new MongoDB\Client();
+$collection = $mongo->myapp->channel;
+$channel = Channel::count([]);
+die(var_dump($channel));
+//$collection->deleteOne()
+//$result = $collection->find(['title' => 'new titile']);
+//foreach ($result as $res) {
+//    var_dump($res);
+//}
+//die();
+//$result = $collection->find(["title" => "Советское телевидение. ГОСТЕЛЕРАДИОФОНД России"]);
+////var_dump($collection, $result);
+//foreach ($result as $res) {
+//    die(1);
+//}
+//    var_dump($result);
+//
+//die();
+$channel = Channel::findOneById(12);
+$channel->destroy();
+//$channel->setTitle('new titile');
+//$channel->save();
+var_dump($channel);
+die();
+//$collection->findOneAndUpdate();
+$collection->updateOne(['_id'=>12], $record);
+die(var_dump($record, $collection));
+
 //$channel = new Channel(['id'=>13, 'title'=>'title13']);
 //$channel->setTitle(13);
 //die(var_dump($channel));
@@ -27,8 +61,10 @@ BaseRecord::$database = 'myapp';
 //}
 //die();
 //die(var_dump($channel));
+$channel = Channel::findOne(['_id' => 12]);
+die(var_dump($channel));
 $api = YouTubeApi::getInstance();
-$channel = $api->getChannelInfoById('UCiVZttFkdEwMi3QXpRqFTzQ');
+$channel = $api->getChannelInfoById('UCBJ8lINWy72UTid23846n_A');
 if ($channel) {
     $record = new Channel();
     $record->fromYouTubeData($channel);

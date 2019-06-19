@@ -5,10 +5,8 @@ namespace Otus;
 abstract class BaseRecord
 {
     protected $attributes;
-    protected $errors;
     public static $database = null;
     public static $connection = null;
-    public static $findTimeout = 20000;
     protected static $collectionName = null;
 
     public function __construct($attributes = array(), $new = true)
@@ -18,78 +16,53 @@ abstract class BaseRecord
             unset($attributes['id']);
         }
         $this->attributes = $attributes;
-        $this->errors = array();
     }
 
     public function save(array $options = array())
     {
         $collection = self::getCollection();
         if (isset($this->attributes['_id'])) {
-            $old = $collection->findOne(['_id' => $this->attributes['_id']]);
-            if ($old) {
-                $collection->replaceOne(['_id' => $this->attributes['_id']], $this->attributes, $options);
-                return true;
+            if (!array_key_exists('upsert', $options)) {
+                $options['upsert'] = true;
             }
+            $collection->findOneAndUpdate(['_id' => $this->attributes['_id']], ['$set' => $this->attributes], $options);
+            return true;
         }
         $collection->insertOne($this->attributes, $options);
         return true;
     }
 
-    public function destroy()
+    public function delete()
     {
-        if (!$this->new) {
             $collection = self::getCollection();
-            $collection->remove(array('_id' => $this->attributes['_id']));
-        }
-    }
-
-    private static function _find($query = array(), $options = array())
-    {
-
-        $collection = self::getCollection();
-        if (isset($options['fields'])) {
-            $documents = $collection->find($query, $options['fields']);
-        } else {
-            $documents = $collection->find($query);
-        }
-
-        $className = get_called_class();
-        if (isset($options['sort']))
-            $documents->sort($options['sort']);
-        if (isset($options['offset']))
-            $documents->skip($options['offset']);
-        if (isset($options['limit']))
-            $documents->limit($options['limit']);
-
-        $documents->timeout($className::$findTimeout);
-        return $documents;
-    }
-
-    public static function findAll($query = array(), $options = array())
-    {
-        $documents = static::_find($query, $options);
-        $ret = array();
-        while ($documents->hasNext()) {
-            $document = $documents->getNext();
-            $ret[] = self::instantiate($document);
-        }
-        return $ret;
+            $collection->deleteOne(array('_id' => $this->attributes['_id']));
+            $this->attributes = [];
+            return true;
     }
 
     public static function find($query = array(), $options = array())
     {
-        $documents = static::_find($query, $options);
+        $collection = self::getCollection();
+        $cursor = $collection->find($query, $options);
+        $documents = [];
+        foreach ($cursor as $document) {
+            $documents[$document->_id] = self::instantiate((array)$document);
+        }
         return $documents;
     }
 
     public static function findOne($query = array(), $options = array())
     {
-        $options['limit'] = 1;
-        $results = self::find($query, $options);
-        if ($results)
-            return $results->current();
-        else
-            return null;
+        $collection = self::getCollection();
+        $record = $collection->findOne($query, $options);
+        return self::instantiate((array)$record);
+    }
+
+    public static function findOneById($id, $options = array())
+    {
+        $collection = self::getCollection();
+        $record = $collection->findOne(['_id'=>$id], $options);
+        return self::instantiate((array)$record);
     }
 
     public static function count($query = array())
@@ -147,7 +120,6 @@ abstract class BaseRecord
         }
     }
 
-
     protected static function getCollection()
     {
         $className = get_called_class();
@@ -163,22 +135,6 @@ abstract class BaseRecord
         if (!($className::$connection->connected))
             $className::$connection->connect();
         return $className::$connection->selectCollection($className::$database, $collectionName);
-    }
-
-    public static function setFindTimeout($timeout)
-    {
-        $className = get_called_class();
-        $className::$findTimeout = $timeout;
-    }
-
-    public static function ensureIndex(array $keys, array $options = array())
-    {
-        return self::getCollection()->ensureIndex($keys, $options);
-    }
-
-    public static function deleteIndex($keys)
-    {
-        return self::getCollection()->deleteIndex($keys);
     }
 
     public function getAttributes()
