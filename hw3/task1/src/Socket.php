@@ -36,6 +36,8 @@ class Socket
     */
     public function sendMsg(String $msg)
     {
+        $msg = $msg."\n";
+
         return socket_write($this->socket, $msg, strlen($msg));
     }
 
@@ -46,7 +48,13 @@ class Socket
     */
     public function readMsg()
     {
-        return socket_read($this->socket, 1024);
+        $msg = '';
+
+        while (($bite = socket_read($this->socket, 1)) != "\n") {
+            $msg .= $bite;
+        }
+
+        return $msg;
     }
 
     /**
