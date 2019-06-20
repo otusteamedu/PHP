@@ -3,6 +3,7 @@
   "description": "",
   "require": {
     "php": ">=7.1",
+    "ext-mongodb": "*",
     "mongodb/mongodb": "^1.4"
   },
   "autoload": {

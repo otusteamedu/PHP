@@ -94,11 +94,11 @@
     },
     "categoryId": {
       "$id": "#/properties/categoryId",
-      "type": "string",
+      "type": "integer",
       "title": "The Categoryid Schema",
       "default": "",
       "examples": [
-        "24"
+        24
       ],
       "pattern": "^(.*)$"
     },
@@ -116,51 +116,51 @@
       "properties": {
         "viewCount": {
           "$id": "#/properties/statistics/properties/viewCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Viewcount Schema",
           "default": "",
           "examples": [
-            "631"
+            631
           ],
           "pattern": "^(.*)$"
         },
         "likeCount": {
           "$id": "#/properties/statistics/properties/likeCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Likecount Schema",
           "default": "",
           "examples": [
-            "58"
+            58
           ],
           "pattern": "^(.*)$"
         },
         "dislikeCount": {
           "$id": "#/properties/statistics/properties/dislikeCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Dislikecount Schema",
           "default": "",
           "examples": [
-            "1"
+            1
           ],
           "pattern": "^(.*)$"
         },
         "favoriteCount": {
           "$id": "#/properties/statistics/properties/favoriteCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Favoritecount Schema",
           "default": "",
           "examples": [
-            "0"
+            0
           ],
           "pattern": "^(.*)$"
         },
         "commentCount": {
           "$id": "#/properties/statistics/properties/commentCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Commentcount Schema",
           "default": "",
           "examples": [
-            "7"
+            7
           ],
           "pattern": "^(.*)$"
         }

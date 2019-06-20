@@ -110,21 +110,21 @@
         },
         "commentCount": {
           "$id": "#/properties/statistics/properties/commentCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Commentcount",
           "default": "",
           "examples": [
-            "0"
+            0
           ],
           "pattern": "^(.*)$"
         },
         "subscriberCount": {
           "$id": "#/properties/statistics/properties/subscriberCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Subscribercount",
           "default": "",
           "examples": [
-            "224550"
+            224550
           ],
           "pattern": "^(.*)$"
         },
@@ -139,11 +139,11 @@
         },
         "videoCount": {
           "$id": "#/properties/statistics/properties/videoCount",
-          "type": "string",
+          "type": "integer",
           "title": "The Videocount",
           "default": "",
           "examples": [
-            "5164"
+            5164
           ],
           "pattern": "^(.*)$"
         }

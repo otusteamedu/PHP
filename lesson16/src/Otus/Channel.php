@@ -1,58 +1,48 @@
 <?php
 
 namespace Otus;
-//
-//  ["id"]=>
-//  string(24) "UCiVZttFkdEwMi3QXpRqFTzQ"
-//  ["snippet"]=>
-//  object(stdClass)#11 (7) {
-//    ["title"]=>
-//    string(88) "Советское телевидение. ГОСТЕЛЕРАДИОФОНД России"
-//    ["description"]=>
-//    string(940) ""
-//    ["customUrl"]=>
-//    string(6) "gtrftv"
-//    ["publishedAt"]=>
-//    string(24) "2017-11-15T09:46:53.000Z"
-//    ["country"]=>
-//    string(2) "RU"
-//  }
-//  ["contentDetails"]=>
-//  object(stdClass)#18 (1) {
-//    ["relatedPlaylists"]=>
-//    object(stdClass)#17 (3) {
-//      ["uploads"]=>
-//      string(24) "UUiVZttFkdEwMi3QXpRqFTzQ"
-//    }
-//  }
-//  ["statistics"]=>
-//  object(stdClass)#19 (5) {
-//    ["viewCount"]=>
-//    string(8) "56279290"
-//    ["commentCount"]=>
-//    string(1) "0"
-//    ["subscriberCount"]=>
-//    string(6) "224666"
-//    ["hiddenSubscriberCount"]=>
-//    bool(false)
-//    ["videoCount"]=>
-//    string(4) "5172"
-//  }
-//}
 
+/**
+ * Class Channel
+ * @package Otus
+ */
 class Channel extends BaseRecord
 {
+    /**
+     * Collection name in Mongo
+     * @var string
+     */
     protected static $collectionName = 'channel';
 
+    /**
+     * Fields
+     * @var array
+     */
+    protected static $fields = ['_id', 'title', 'description', 'customUrl', 'publishedAt', 'country', 'uploads', 'statistics'];
+
+    /**
+     * Set data in properties from youtube api
+     * @param $data
+     */
     public function fromYouTubeData($data)
     {
         $this->setID($data->id);
-        $this->setTitle($data->snippet->title);
-        $this->setDescription($data->snippet->description);
-        $this->setCustomUrl($data->snippet->customUrl);
-        $this->setPublishedAt($data->snippet->publishedAt);
-        $this->setCountry($data->snippet->country);
-        $this->setUploads($data->contentDetails->relatedPlaylists->uploads);
-        $this->setStatistics($data->statistics);
+        $this->setTitle(isset($data->snippet->title) ? $data->snippet->title : '');
+        $this->setDescription(isset($data->snippet->description) ? $data->snippet->description : '');
+        $this->setCustomUrl(isset($data->snippet->customUrl) ? $data->snippet->customUrl : '');
+        $this->setPublishedAt(isset($data->snippet->publishedAt) ? $data->snippet->publishedAt : null);
+        $this->setCountry(isset($data->snippet->country) ? $data->snippet->country : '');
+        $this->setUploads(isset($data->contentDetails->relatedPlaylists->uploads) ? $data->contentDetails->relatedPlaylists->uploads : null);
+        $statistics = null;
+        if (isset($data->statistics)) {
+            $statistics = $data->statistics;
+            isset($statistics->viewCount) ? ($statistics->viewCount = (int)$statistics->viewCount) : 0;
+            isset($statistics->commentCount) ? ($statistics->commentCount = (int)$statistics->commentCount) : 0;
+            isset($statistics->subscriberCount) ? ($statistics->subscriberCount = (int)$statistics->subscriberCount) : 0;
+            isset($statistics->hiddenSubscriberCount) ? ($statistics->hiddenSubscriberCount = filter_var($statistics->hiddenSubscriberCount, FILTER_VALIDATE_BOOLEAN)) : false;
+            isset($statistics->videoCount) ? ($statistics->videoCount = (int)$statistics->videoCount) : 0;
+        }
+        $this->setStatistics($statistics);
     }
+
 }

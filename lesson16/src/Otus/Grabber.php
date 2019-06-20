@@ -2,18 +2,37 @@
 
 namespace Otus;
 
+
+/**
+ * Class Grabber
+ * @package Otus
+ */
 class Grabber
 {
-    protected  $api;
+    /**
+     * @var mixed
+     */
+    protected $api;
 
+    /**
+     * Grabber constructor.
+     */
     public function __construct()
     {
         $this->api = YouTubeApi::getInstance();
     }
 
+    /**
+     * Grab channel info with videos
+     * @param string $id
+     * @throws \Exception
+     */
     public function grabChannel(string $id)
     {
-        $channel = Channel::findOneById(['_id'=>$id]);
+        if (!$id) {
+            throw new \Exception('Id is needed');
+        }
+        $channel = Channel::findOneById(['_id' => $id]);
         if (!$channel) {
             $channel = new Channel();
         }
@@ -23,6 +42,13 @@ class Grabber
         $this->grabVideosByPlaylist($channel->getUploads());
     }
 
+    /**
+     * Grab videos info by playlist
+     * @param string $playlistId
+     * @param array $part
+     * @param null $pageToken
+     * @param int $limit
+     */
     public function grabVideosByPlaylist(string $playlistId, $part = ['snippet'], $pageToken = null, $limit = 10)
     {
         $apiVideoList = $this->api->getPlaylistInfo($playlistId, $part, $pageToken, $limit);
@@ -30,8 +56,8 @@ class Grabber
         foreach ($apiVideoList->items as $item) {
             $ids[] = $item->snippet->resourceId->videoId;
         }
-        if (count($ids)>0) {
-            $this->grabVideosByIds(implode(',',$ids));
+        if (count($ids) > 0) {
+            $this->grabVideosByIds(implode(',', $ids));
         }
         $nextPage = isset($apiVideoList->nextPageToken) ? $apiVideoList->nextPageToken : null;
         if ($nextPage) {
@@ -39,6 +65,10 @@ class Grabber
         }
     }
 
+    /**
+     * Grab video by id/ids
+     * @param $ids
+     */
     public function grabVideosByIds($ids)
     {
         $apiVideos = $this->api->getVideosInfo($ids);
@@ -49,13 +79,17 @@ class Grabber
         }
     }
 
+    /**
+     * Get random channel id
+     * @return string
+     */
     public function getRandomChannelId()
     {
         $channelId = '';
         while (!$channelId) {
             $word = $this->getDigits();
-            $randVideos = $this->api->searchVideoByWorld($word);
-            if(count($randVideos) == 0) {
+            $randVideos = $this->api->searchVideoByWord($word);
+            if (count($randVideos) == 0) {
                 continue;
             }
             $channelId = $randVideos[array_rand($randVideos)]->snippet->channelId;
@@ -63,11 +97,15 @@ class Grabber
         return $channelId;
     }
 
+    /**
+     * Generate 3 random digits
+     * @return string
+     */
     private function getDigits()
     {
-        $lang = mt_rand(0,1);
+        $lang = mt_rand(0, 1);
         $digits = '';
-        for ($i=0;$i<3;$i++) {
+        for ($i = 0; $i < 3; $i++) {
             if ($lang) {
                 $digits .= chr(mt_rand(ord('а'), ord('я')));
             } else {
