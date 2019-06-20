@@ -1,0 +1,27 @@
+git config
+git init
+git add
+git status
+git commit
+git rm
+git log
+git log
+git log
+git diff
+git show
+git blame
+git checkout
+git clone
+git push origin
+git remote -v
+git remote set-url
+git clone
+git stash
+git grep
+git branch
+git fetch
+git merge
+git checkout
+git reset
+git clean
+git push
