@@ -1,0 +1,13 @@
+web:
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        - ./code:/code
+        - ./docker/nginx/mysite.otus.conf:/etc/nginx/conf.d/mysite.otus.conf
+    links:
+        - php
+php:
+    build: ./docker/php/
+    volumes:
+        - ./code:/code
