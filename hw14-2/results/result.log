@@ -1,0 +1,73 @@
+------------------
+—ÃŒ“–»Ã  ŒÕ“≈…Õ≈–€
+------------------
+[timofey@localhost hw14]$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+87849d7fcb78        percona:5.7         "/docker-entrypoint.Ö"   3 hours ago         Up 3 hours          0.0.0.0:3306->3306/tcp   otus-percona
+[timofey@localhost hw14]$
+
+
+------------------------------
+–¿«¬Œ–¿◊»¬¿≈Ã ƒ¿Ãœ — “¿¡À»÷¿Ã»
+------------------------------
+[timofey@localhost hw14]$ cat percona/sql/dump.sql | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+[timofey@localhost hw14]$
+
+
+-----------------------
+–¿«¬Œ–¿◊»¬¿≈Ã œ–Œ÷≈ƒ”–€
+-----------------------
+[timofey@localhost hw14]$ cat percona/sql/proc.sql | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+[timofey@localhost hw14]$
+
+
+-----------------------------
+œ–Œ¬≈–ﬂÃ œŒﬂ¬»À»—‹ À» “¿¡À»÷€
+-----------------------------
+[timofey@localhost hw14]$ echo "SHOW TABLES;" | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Tables_in_library
+author
+book
+client
+composition
+publisher
+ticket
+[timofey@localhost hw14]$
+
+
+--------------------------------
+œ–Œ¬≈–ﬂ≈Ã œŒﬂ¬»À»—‹ À» œ–Œ÷≈ƒ”–€
+--------------------------------
+[timofey@localhost hw14]$ echo "SHOW PROCEDURE STATUS;" | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Db      Name    Type    Definer Modified        Created Security_type   Comment character_set_client    collation_connection    Database Collation
+library generateAuthors PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generateBooks   PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generateClients PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generateCompositions    PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generateData    PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generatePublishers      PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+library generateTickets PROCEDURE       timofey@%       2019-06-22 11:59:07     2019-06-22 11:59:07     DEFINER         latin1  latin1_swedish_ci       utf8_general_ci
+[timofey@localhost hw14]$
+
+
+--------------------------
+√≈Õ≈–»–”≈Ã “≈—“Œ¬€≈ ƒ¿ÕÕ€≈
+--------------------------
+[timofey@localhost hw14]$ echo "CALL generateData(10);" | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+[timofey@localhost hw14]$
+
+
+---------------------------------------------
+œ–Œ¬≈–ﬂ≈Ã ◊“Œ “≈—“Œ¬€≈ ƒ¿ÕÕ€≈ —√≈Õ≈–»–Œ¬¿À»—‹
+---------------------------------------------
+[timofey@localhost hw14]$ echo "SELECT COUNT(id) FROM ticket;" | docker exec -i otus-percona /usr/bin/mysql -utimofey -ptimofey123 library
+mysql: [Warning] Using a password on the command line interface can be insecure.
+COUNT(id)
+5000
+[timofey@localhost hw14]$
+[timofey@localhost hw14]$

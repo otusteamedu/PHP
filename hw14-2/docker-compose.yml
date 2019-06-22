@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+    db:
+        image: percona:5.7
+        container_name: otus-percona
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root123
+            MYSQL_DATABASE: library
+            MYSQL_USER: timofey
+            MYSQL_PASSWORD: timofey123
+        volumes:
+            - ./percona/conf:/etc/my.cnf.d
+            - ./percona/data:/var/lib/mysql
+        ports:
+            - 3306:3306
