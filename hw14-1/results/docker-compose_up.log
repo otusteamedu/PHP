@@ -1,0 +1,165 @@
+[timofey@localhost hw14]$ docker-compose up
+Creating otus-percona ... done
+Attaching to otus-percona
+otus-percona | Initializing database
+otus-percona | 2019-06-21T18:38:25.183918Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+otus-percona |  100
+otus-percona |  100
+otus-percona | 2019-06-21T18:38:26.172175Z 0 [Warning] InnoDB: New log files created, LSN=45790
+otus-percona | 2019-06-21T18:38:26.272727Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+otus-percona | 2019-06-21T18:38:26.336046Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: c1a2822f-9453-11e9-aafc-0242ac120002.
+otus-percona | 2019-06-21T18:38:26.348342Z 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+otus-percona | 2019-06-21T18:38:27.349608Z 0 [Warning] CA certificate ca.pem is self signed.
+otus-percona | 2019-06-21T18:38:27.575207Z 1 [Warning] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+otus-percona | Database initialized
+otus-percona | MySQL init process in progress...
+otus-percona | 2019-06-21T18:38:33.731827Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+otus-percona | 2019-06-21T18:38:33.737514Z 0 [Note] mysqld (mysqld 5.7.26-29) starting as process 50 ...
+otus-percona | 2019-06-21T18:38:33.754380Z 0 [Note] InnoDB: PUNCH HOLE support available
+otus-percona | 2019-06-21T18:38:33.754666Z 0 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+otus-percona | 2019-06-21T18:38:33.754695Z 0 [Note] InnoDB: Uses event mutexes
+otus-percona | 2019-06-21T18:38:33.754712Z 0 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
+otus-percona | 2019-06-21T18:38:33.754727Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.7
+otus-percona | 2019-06-21T18:38:33.754738Z 0 [Note] InnoDB: Using Linux native AIO
+otus-percona | 2019-06-21T18:38:33.755830Z 0 [Note] InnoDB: Number of pools: 1
+otus-percona | 2019-06-21T18:38:33.756394Z 0 [Note] InnoDB: Using CPU crc32 instructions
+otus-percona | 2019-06-21T18:38:33.777350Z 0 [Note] InnoDB: Initializing buffer pool, total size = 768M, instances = 1, chunk size = 128M
+otus-percona | 2019-06-21T18:38:33.935933Z 0 [Note] InnoDB: Completed initialization of buffer pool
+otus-percona | 2019-06-21T18:38:33.998478Z 0 [Note] InnoDB: If the mysqld execution user is authorized, page cleaner thread priority can be changed. See the man page of setpriority().
+otus-percona | 2019-06-21T18:38:34.011632Z 0 [Note] InnoDB: Crash recovery did not find the parallel doublewrite buffer at /var/lib/mysql/xb_doublewrite
+otus-percona | 2019-06-21T18:38:34.015171Z 0 [Note] InnoDB: Highest supported file format is Barracuda.
+otus-percona | 2019-06-21T18:38:34.125849Z 0 [Note] InnoDB: Created parallel doublewrite buffer at /var/lib/mysql/xb_doublewrite, size 3932160 bytes
+otus-percona | 2019-06-21T18:38:34.164524Z 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+otus-percona | 2019-06-21T18:38:34.165187Z 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+otus-percona | 2019-06-21T18:38:34.291195Z 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+otus-percona | 2019-06-21T18:38:34.295263Z 0 [Note] InnoDB: 96 redo rollback segment(s) found. 96 redo rollback segment(s) are active.
+otus-percona | 2019-06-21T18:38:34.295331Z 0 [Note] InnoDB: 32 non-redo rollback segment(s) are active.
+otus-percona | 2019-06-21T18:38:34.296720Z 0 [Note] InnoDB: Waiting for purge to start
+otus-percona | 2019-06-21T18:38:34.347778Z 0 [Note] InnoDB: Percona XtraDB (http://www.percona.com) 5.7.26-29 started; log sequence number 2530464
+otus-percona | 2019-06-21T18:38:34.349729Z 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
+otus-percona | 2019-06-21T18:38:34.353096Z 0 [Note] Plugin 'FEDERATED' is disabled.
+otus-percona | 2019-06-21T18:38:34.360421Z 0 [Note] InnoDB: Buffer pool(s) load completed at 190621 18:38:34
+otus-percona | 2019-06-21T18:38:34.370758Z 0 [Note] Found ca.pem, server-cert.pem and server-key.pem in data directory. Trying to enable SSL support using them.
+otus-percona | 2019-06-21T18:38:34.370818Z 0 [Note] Skipping generation of SSL certificates as certificate files are present in data directory.
+otus-percona | 2019-06-21T18:38:34.374089Z 0 [Warning] CA certificate ca.pem is self signed.
+otus-percona | 2019-06-21T18:38:34.374403Z 0 [Note] Skipping generation of RSA key pair as key files are present in data directory.
+otus-percona | 2019-06-21T18:38:34.429475Z 0 [Note] Event Scheduler: Loaded 0 events
+otus-percona | 2019-06-21T18:38:34.431897Z 0 [Note] mysqld: ready for connections.
+otus-percona | Version: '5.7.26-29'  socket: '/var/lib/mysql/mysql.sock'  port: 0  Percona Server (GPL), Release 29, Revision 11ad961
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona | Warning: Unable to load '/usr/share/zoneinfo/iso3166.tab' as time zone. Skipping it.
+otus-percona | Warning: Unable to load '/usr/share/zoneinfo/leapseconds' as time zone. Skipping it.
+otus-percona | Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping it.
+otus-percona | Warning: Unable to load '/usr/share/zoneinfo/zone.tab' as time zone. Skipping it.
+otus-percona | Warning: Unable to load '/usr/share/zoneinfo/zone1970.tab' as time zone. Skipping it.
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona | mysql: [Warning] Using a password on the command line interface can be insecure.
+otus-percona |
+otus-percona | 2019-06-21T18:38:39.875995Z 0 [Note] Giving 0 client threads a chance to die gracefully
+otus-percona | 2019-06-21T18:38:39.876046Z 0 [Note] Shutting down slave threads
+otus-percona | 2019-06-21T18:38:39.876060Z 0 [Note] Forcefully disconnecting 0 remaining clients
+otus-percona | 2019-06-21T18:38:39.876072Z 0 [Note] Event Scheduler: Purging the queue. 0 events
+otus-percona | 2019-06-21T18:38:39.876311Z 0 [Note] Binlog end
+otus-percona | 2019-06-21T18:38:39.877379Z 0 [Note] Shutting down plugin 'ngram'
+otus-percona | 2019-06-21T18:38:39.877409Z 0 [Note] Shutting down plugin 'BLACKHOLE'
+otus-percona | 2019-06-21T18:38:39.877417Z 0 [Note] Shutting down plugin 'ARCHIVE'
+otus-percona | 2019-06-21T18:38:39.877422Z 0 [Note] Shutting down plugin 'partition'
+otus-percona | 2019-06-21T18:38:39.877427Z 0 [Note] Shutting down plugin 'MRG_MYISAM'
+otus-percona | 2019-06-21T18:38:39.877432Z 0 [Note] Shutting down plugin 'MyISAM'
+otus-percona | 2019-06-21T18:38:39.877444Z 0 [Note] Shutting down plugin 'CSV'
+otus-percona | 2019-06-21T18:38:39.877450Z 0 [Note] Shutting down plugin 'MEMORY'
+otus-percona | 2019-06-21T18:38:39.877459Z 0 [Note] Shutting down plugin 'INNODB_TABLESPACES_SCRUBBING'
+otus-percona | 2019-06-21T18:38:39.877465Z 0 [Note] Shutting down plugin 'INNODB_TABLESPACES_ENCRYPTION'
+otus-percona | 2019-06-21T18:38:39.877469Z 0 [Note] Shutting down plugin 'INNODB_SYS_VIRTUAL'
+otus-percona | 2019-06-21T18:38:39.877473Z 0 [Note] Shutting down plugin 'INNODB_CHANGED_PAGES'
+otus-percona | 2019-06-21T18:38:39.877478Z 0 [Note] Shutting down plugin 'INNODB_SYS_DATAFILES'
+otus-percona | 2019-06-21T18:38:39.877482Z 0 [Note] Shutting down plugin 'INNODB_SYS_TABLESPACES'
+otus-percona | 2019-06-21T18:38:39.877487Z 0 [Note] Shutting down plugin 'INNODB_SYS_FOREIGN_COLS'
+otus-percona | 2019-06-21T18:38:39.877491Z 0 [Note] Shutting down plugin 'INNODB_SYS_FOREIGN'
+otus-percona | 2019-06-21T18:38:39.877495Z 0 [Note] Shutting down plugin 'INNODB_SYS_FIELDS'
+otus-percona | 2019-06-21T18:38:39.877499Z 0 [Note] Shutting down plugin 'INNODB_SYS_COLUMNS'
+otus-percona | 2019-06-21T18:38:39.877503Z 0 [Note] Shutting down plugin 'INNODB_SYS_INDEXES'
+otus-percona | 2019-06-21T18:38:39.877508Z 0 [Note] Shutting down plugin 'INNODB_SYS_TABLESTATS'
+otus-percona | 2019-06-21T18:38:39.877512Z 0 [Note] Shutting down plugin 'INNODB_SYS_TABLES'
+otus-percona | 2019-06-21T18:38:39.877516Z 0 [Note] Shutting down plugin 'INNODB_FT_INDEX_TABLE'
+otus-percona | 2019-06-21T18:38:39.877520Z 0 [Note] Shutting down plugin 'INNODB_FT_INDEX_CACHE'
+otus-percona | 2019-06-21T18:38:39.877525Z 0 [Note] Shutting down plugin 'INNODB_FT_CONFIG'
+otus-percona | 2019-06-21T18:38:39.877529Z 0 [Note] Shutting down plugin 'INNODB_FT_BEING_DELETED'
+otus-percona | 2019-06-21T18:38:39.877533Z 0 [Note] Shutting down plugin 'INNODB_FT_DELETED'
+otus-percona | 2019-06-21T18:38:39.877537Z 0 [Note] Shutting down plugin 'INNODB_FT_DEFAULT_STOPWORD'
+otus-percona | 2019-06-21T18:38:39.877541Z 0 [Note] Shutting down plugin 'INNODB_METRICS'
+otus-percona | 2019-06-21T18:38:39.877546Z 0 [Note] Shutting down plugin 'INNODB_TEMP_TABLE_INFO'
+otus-percona | 2019-06-21T18:38:39.877550Z 0 [Note] Shutting down plugin 'INNODB_BUFFER_POOL_STATS'
+otus-percona | 2019-06-21T18:38:39.877583Z 0 [Note] Shutting down plugin 'INNODB_BUFFER_PAGE_LRU'
+otus-percona | 2019-06-21T18:38:39.877602Z 0 [Note] Shutting down plugin 'INNODB_BUFFER_PAGE'
+otus-percona | 2019-06-21T18:38:39.877606Z 0 [Note] Shutting down plugin 'INNODB_CMP_PER_INDEX_RESET'
+otus-percona | 2019-06-21T18:38:39.877611Z 0 [Note] Shutting down plugin 'INNODB_CMP_PER_INDEX'
+otus-percona | 2019-06-21T18:38:39.877615Z 0 [Note] Shutting down plugin 'INNODB_CMPMEM_RESET'
+otus-percona | 2019-06-21T18:38:39.877619Z 0 [Note] Shutting down plugin 'INNODB_CMPMEM'
+otus-percona | 2019-06-21T18:38:39.877623Z 0 [Note] Shutting down plugin 'INNODB_CMP_RESET'
+otus-percona | 2019-06-21T18:38:39.877627Z 0 [Note] Shutting down plugin 'INNODB_CMP'
+otus-percona | 2019-06-21T18:38:39.877632Z 0 [Note] Shutting down plugin 'INNODB_LOCK_WAITS'
+otus-percona | 2019-06-21T18:38:39.877636Z 0 [Note] Shutting down plugin 'INNODB_LOCKS'
+otus-percona | 2019-06-21T18:38:39.877640Z 0 [Note] Shutting down plugin 'INNODB_TRX'
+otus-percona | 2019-06-21T18:38:39.877645Z 0 [Note] Shutting down plugin 'XTRADB_ZIP_DICT_COLS'
+otus-percona | 2019-06-21T18:38:39.877649Z 0 [Note] Shutting down plugin 'XTRADB_ZIP_DICT'
+otus-percona | 2019-06-21T18:38:39.877654Z 0 [Note] Shutting down plugin 'XTRADB_RSEG'
+otus-percona | 2019-06-21T18:38:39.877658Z 0 [Note] Shutting down plugin 'XTRADB_INTERNAL_HASH_TABLES'
+otus-percona | 2019-06-21T18:38:39.877662Z 0 [Note] Shutting down plugin 'XTRADB_READ_VIEW'
+otus-percona | 2019-06-21T18:38:39.877667Z 0 [Note] Shutting down plugin 'InnoDB'
+otus-percona | 2019-06-21T18:38:39.877797Z 0 [Note] InnoDB: FTS optimize thread exiting.
+otus-percona | 2019-06-21T18:38:39.879076Z 0 [Note] InnoDB: Starting shutdown...
+otus-percona | 2019-06-21T18:38:39.979802Z 0 [Note] InnoDB: Dumping buffer pool(s) to /var/lib/mysql/ib_buffer_pool
+otus-percona | 2019-06-21T18:38:39.980686Z 0 [Note] InnoDB: Buffer pool(s) dump completed at 190621 18:38:39
+otus-percona | 2019-06-21T18:38:40.588685Z 0 [Note] InnoDB: Waiting for page_cleaner to finish flushing of buffer pool
+otus-percona | 2019-06-21T18:38:41.791752Z 0 [Note] InnoDB: Shutdown completed; log sequence number 11901119
+otus-percona | 2019-06-21T18:38:41.799046Z 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+otus-percona | 2019-06-21T18:38:41.799193Z 0 [Note] Shutting down plugin 'PERFORMANCE_SCHEMA'
+otus-percona | 2019-06-21T18:38:41.799264Z 0 [Note] Shutting down plugin 'sha256_password'
+otus-percona | 2019-06-21T18:38:41.799275Z 0 [Note] Shutting down plugin 'mysql_native_password'
+otus-percona | 2019-06-21T18:38:41.799817Z 0 [Note] Shutting down plugin 'binlog'
+otus-percona | 2019-06-21T18:38:41.802335Z 0 [Note] mysqld: Shutdown complete
+otus-percona |
+otus-percona |
+otus-percona | MySQL init process done. Ready for start up.
+otus-percona |
+otus-percona | 2019-06-21T18:38:42.201346Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+otus-percona | 2019-06-21T18:38:42.206870Z 0 [Note] mysqld (mysqld 5.7.26-29) starting as process 1 ...
+otus-percona | 2019-06-21T18:38:42.219791Z 0 [Note] InnoDB: PUNCH HOLE support available
+otus-percona | 2019-06-21T18:38:42.219898Z 0 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+otus-percona | 2019-06-21T18:38:42.219916Z 0 [Note] InnoDB: Uses event mutexes
+otus-percona | 2019-06-21T18:38:42.219934Z 0 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
+otus-percona | 2019-06-21T18:38:42.219945Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.7
+otus-percona | 2019-06-21T18:38:42.219957Z 0 [Note] InnoDB: Using Linux native AIO
+otus-percona | 2019-06-21T18:38:42.220955Z 0 [Note] InnoDB: Number of pools: 1
+otus-percona | 2019-06-21T18:38:42.221498Z 0 [Note] InnoDB: Using CPU crc32 instructions
+otus-percona | 2019-06-21T18:38:42.229578Z 0 [Note] InnoDB: Initializing buffer pool, total size = 768M, instances = 1, chunk size = 128M
+otus-percona | 2019-06-21T18:38:42.328515Z 0 [Note] InnoDB: Completed initialization of buffer pool
+otus-percona | 2019-06-21T18:38:42.358472Z 0 [Note] InnoDB: If the mysqld execution user is authorized, page cleaner thread priority can be changed. See the man page of setpriority().
+otus-percona | 2019-06-21T18:38:42.372953Z 0 [Note] InnoDB: Crash recovery did not find the parallel doublewrite buffer at /var/lib/mysql/xb_doublewrite
+otus-percona | 2019-06-21T18:38:42.375667Z 0 [Note] InnoDB: Highest supported file format is Barracuda.
+otus-percona | 2019-06-21T18:38:42.460289Z 0 [Note] InnoDB: Created parallel doublewrite buffer at /var/lib/mysql/xb_doublewrite, size 3932160 bytes
+otus-percona | 2019-06-21T18:38:42.495494Z 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+otus-percona | 2019-06-21T18:38:42.495854Z 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+otus-percona | 2019-06-21T18:38:42.587154Z 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+otus-percona | 2019-06-21T18:38:42.591036Z 0 [Note] InnoDB: 96 redo rollback segment(s) found. 96 redo rollback segment(s) are active.
+otus-percona | 2019-06-21T18:38:42.591104Z 0 [Note] InnoDB: 32 non-redo rollback segment(s) are active.
+otus-percona | 2019-06-21T18:38:42.595899Z 0 [Note] InnoDB: Waiting for purge to start
+otus-percona | 2019-06-21T18:38:42.647569Z 0 [Note] InnoDB: Percona XtraDB (http://www.percona.com) 5.7.26-29 started; log sequence number 11901119
+otus-percona | 2019-06-21T18:38:42.648879Z 0 [Note] Plugin 'FEDERATED' is disabled.
+otus-percona | 2019-06-21T18:38:42.650048Z 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
+otus-percona | 2019-06-21T18:38:42.664058Z 0 [Note] Found ca.pem, server-cert.pem and server-key.pem in data directory. Trying to enable SSL support using them.
+otus-percona | 2019-06-21T18:38:42.664229Z 0 [Note] Skipping generation of SSL certificates as certificate files are present in data directory.
+otus-percona | 2019-06-21T18:38:42.667408Z 0 [Warning] CA certificate ca.pem is self signed.
+otus-percona | 2019-06-21T18:38:42.667595Z 0 [Note] Skipping generation of RSA key pair as key files are present in data directory.
+otus-percona | 2019-06-21T18:38:42.669540Z 0 [Note] Server hostname (bind-address): '*'; port: 3306
+otus-percona | 2019-06-21T18:38:42.672585Z 0 [Note] IPv6 is available.
+otus-percona | 2019-06-21T18:38:42.672664Z 0 [Note]   - '::' resolves to '::';
+otus-percona | 2019-06-21T18:38:42.672835Z 0 [Note] Server socket created on IP: '::'.
+otus-percona | 2019-06-21T18:38:42.672849Z 0 [Note] InnoDB: Buffer pool(s) load completed at 190621 18:38:42
+otus-percona | 2019-06-21T18:38:42.736805Z 0 [Note] Event Scheduler: Loaded 0 events
+otus-percona | 2019-06-21T18:38:42.737570Z 0 [Note] mysqld: ready for connections.
+otus-percona | Version: '5.7.26-29'  socket: '/var/lib/mysql/mysql.sock'  port: 3306  Percona Server (GPL), Release 29, Revision 11ad961
