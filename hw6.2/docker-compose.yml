@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ./www:/var/www
+      - ./logs:/var/log/nginx
+    depends_on:
+      - php
+
+  php:
+    build: ./php
+    volumes:
+      - ./www:/var/www
+
+  db:
+    build: ./db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - ./databases:/var/lib/mysql
+
+  adminer:
+    build: ./adminer
+    restart: always
+    ports:
+      - 6080:8080
