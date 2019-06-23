@@ -1,4 +1,3 @@
-<?=PHP_SAPI?>
 <?php
 ob_start();
 phpinfo(~(2+64));
