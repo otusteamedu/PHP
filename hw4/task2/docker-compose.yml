@@ -11,7 +11,7 @@ services:
       - 80:80
     volumes:
       - sockets:/sockets
-      - ./code/public:/var/www/app
+      - ./code/public:/var/www/laravel
       - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
     depends_on:
       - php
@@ -34,8 +34,8 @@ services:
     volumes:
       - sockets:/sockets
       - ./docker/php/app.local.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - ./code:/var/www/app
-      - ./.env:/var/www/app/.env
+      - ./code:/var/www/laravel
+      - ./.env:/var/www/laravel/.env
     depends_on:
       - db
 
