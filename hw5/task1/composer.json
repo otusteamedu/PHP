@@ -1,0 +1,17 @@
+{
+    "name": "jekys/email",
+    "description": "Simple email checker",
+    "type": "tool",
+    "authors": [
+        {
+            "name": "Evgeny Prokhorov",
+            "email": "contact@jekys.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Jekys\\": "src/"
+        } 
+    }
+}
