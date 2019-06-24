@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs:/var/log/nginx
+    links:
+      - php
+  php:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+    links:
+      - pgsql
+  pgsql:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgsql:/var/lib/pgsql
+    environment:
+      POSTGRES_DB: otus
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: developer
