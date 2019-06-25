@@ -10,7 +10,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../app:/apps/otus
+      - ../src:/apps/otus
       - ./hosts:/etc/nginx/conf.d
       - ./sock:/var/run
     networks:
@@ -20,9 +20,27 @@ services:
   php:
     build: ./images/php
     volumes:
-      - ../app:/apps/otus
+      - ../src:/apps/otus
       - ./conf/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
       - ./sock:/var/run
+    networks:
+      - default
+    links:
+      - mysql
+      - redis
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./conf/mysql:/etc/mysql/conf.d
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  redis:
+    image: redis:latest
     networks:
       - default
 
