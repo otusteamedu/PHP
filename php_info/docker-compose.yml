@@ -1,0 +1,13 @@
+web:
+    image: nginx:latest
+    ports:
+        - "80:80"
+    volumes:
+        - ./code:/code
+        - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    links:
+        - php
+php:
+    image: php:7-fpm
+    volumes:
+        - ./code:/code
