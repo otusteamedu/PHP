@@ -1,0 +1,11 @@
+{
+    "require": {
+        "nkurgalin/example": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/kurgalinn/otus-example.git"
+        }
+    ]
+}
