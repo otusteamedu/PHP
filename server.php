@@ -5,26 +5,37 @@
  *
  * Возвращает перевернутое сообщение клиента
  */
-$HOST = "127.0.0.1";
-$PORT = 25005;
+
+$SERVER_SOCKET = dirname(__FILE__) . '/sockets/server.sock';
 
 // -- Создаем сокет
-$socket = stream_socket_server("tcp://$HOST:$PORT", $errno, $errstr);
-
+$socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
 if (false === $socket) {
-	die("$errstr ($errno)" . PHP_EOL);
+	die('Не получилось создать UNIX сокет');
+}
+
+if (false === socket_bind($socket, $SERVER_SOCKET)) {
+	die('Не получилось привязать сокет к файлу');
 }
 // -- -- -- --
 
-// -- Обрабатываем входящие соединения
-while ($connect = stream_socket_accept($socket, -1)) {
-	$input = fread($connect, 1024);
-	echo 'Сообщение от клиента: ' . trim($input) . PHP_EOL;
+while(true) {
+	// -- Ставим блокировку
+	if (false === socket_set_block($socket)) {
+		die('Не удалось поставить блокировку');
+	}
+	// -- -- -- --
 
-	fputs($connect, strrev($input)); // Переворачиваем строку и возвращаем клиенту
+	// -- Получение данных от клиента
+	socket_recvfrom($socket, $message, 65536, 0, $clientAddr);
+	echo 'Сообщение от клиента: ' . $message . PHP_EOL;
+	// -- -- -- --
 
-	fclose($connect);
+	// -- Отправка ответа
+	if (false === socket_set_nonblock($socket)) {
+		die('Не удалось снять бокировку');
+	}
+
+	socket_sendto($socket, strrev($message), strlen($message), 0, $clientAddr);
+	// -- -- -- --
 }
-// -- -- -- --
-
-fclose($socket);
