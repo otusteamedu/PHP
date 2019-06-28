@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ifomin/brackets": "dev-master"
+    }
+}

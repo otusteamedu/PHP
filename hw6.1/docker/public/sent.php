@@ -2,10 +2,10 @@
 
 $fp = fsockopen('localhost', 8080);
 
-$array = ['string' => '()'];
+$array = ['string' => '())'];
 $array = http_build_query($array);
 
-fwrite($fp, "POST /index.php HTTP/1.1\r\n");
+fwrite($fp, "POST /reposter.php HTTP/1.1\r\n");
 fwrite($fp, "Host: localhost\r\n");
 fwrite($fp, "Content-Type: application/x-www-form-urlencoded\r\n");
 fwrite($fp, "Content-Length: ".strlen($array)."\r\n");

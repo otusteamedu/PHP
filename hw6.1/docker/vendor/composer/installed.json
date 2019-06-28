@@ -1,0 +1,40 @@
+[
+    {
+        "name": "ifomin/brackets",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ivanfomin/pairBrackets.git",
+            "reference": "a20180ac2c26dfce79900b77431e251b8bd72195"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ivanfomin/pairBrackets/zipball/a20180ac2c26dfce79900b77431e251b8bd72195",
+            "reference": "a20180ac2c26dfce79900b77431e251b8bd72195",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0"
+        },
+        "time": "2019-04-11T09:15:09+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "App\\": "src/App"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ivan Fomin",
+                "email": "la-verne@mail.ru"
+            }
+        ],
+        "description": "tell you even or odd count brackets in code"
+    }
+]
