@@ -1,0 +1,1 @@
+Match brackets - equals opened =  closed
