@@ -8,8 +8,7 @@ if(PHP_SAPI == "cli") {
 function myCommander($ucmd = false) {
     if(!$ucmd) {
         $ucmd = myReadline("Enter command: ");
-    }
-    if($ucmd == 'exit') {
+    } elseif($ucmd == 'exit') {
         exit();
     }
     $status = mySystem($ucmd);
@@ -82,8 +81,7 @@ function findCommand($ucmds, $fcmd = array()) {
     if($find && $ucmds) {
         return findCommand($ucmds, $fcmd);
     } elseif($fcmd) {
-        if(!$find)
-        {
+        if(!$find) {
             $fcmd[] = $ucmd;
         }
         if($ucmds) {
