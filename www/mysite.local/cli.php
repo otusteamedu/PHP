@@ -12,7 +12,7 @@ function myCommander($ucmd = false) {
     if($ucmd == 'exit') {
         exit();
     }
-    $status = exec($ucmd);
+    $status = mySystem($ucmd);
     if($status == 127 || $status == 1) {
         if($fcmd = findCommand($ucmd)) {
             $ucmd = myReadline("Did you mean? (y)\n {$fcmd}\nEnter command: ");
