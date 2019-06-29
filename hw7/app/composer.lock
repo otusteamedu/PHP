@@ -1,0 +1,48 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9a1c25b4eb463aea972e19977b0ba24b",
+    "packages": [
+        {
+            "name": "jekys/email",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jekys13/email-checker.git",
+                "reference": "eb66c58de76b6c0b8d0d6c94699232b283ad9197"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jekys13/email-checker/zipball/eb66c58de76b6c0b8d0d6c94699232b283ad9197",
+                "reference": "eb66c58de76b6c0b8d0d6c94699232b283ad9197",
+                "shasum": ""
+            },
+            "type": "tool",
+            "autoload": {
+                "psr-4": {
+                    "Jekys\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Evgeny Prokhorov",
+                    "email": "contact@jekys.ru"
+                }
+            ],
+            "description": "Simple email checker",
+            "time": "2019-06-23T12:07:15+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
