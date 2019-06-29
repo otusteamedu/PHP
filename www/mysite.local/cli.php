@@ -16,12 +16,9 @@ function myCommander($ucmd = false) {
     if($status == 127 || $status == 1) {
         if($fcmd = findCommand($ucmd)) {
             $ucmd = myReadline("Did you mean? (y)\n {$fcmd}\nEnter command: ");
-            if($ucmd == 'y')
-            {
+            if($ucmd == 'y') {
                 myCommander($fcmd);
-            }
-            else
-            {
+            } else {
                 myCommander($ucmd);
             }
         }
