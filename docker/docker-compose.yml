@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ../code:/code
+      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ./sock:/sock
+    links:
+      - php
+  php:
+    build: images/php
+    volumes:
+      - ../code:/code
+      - ./conf/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./sock:/sock
+    links:
+      - pgsql
+  pgsql:
+    image: postgres
+    environment:
+          POSTGRES_USER: ${DB_USERNAME}
+          POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
