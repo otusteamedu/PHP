@@ -62,15 +62,18 @@ class Response
     {
         $callAction = true;
 
-        foreach (['email', 'action'] as $param) {
-            if (empty(${$param})) {
-                $this->error = $param.' param is empty';
-                $callAction = false;
+        if (empty($email)) {
+            $this->error = 'email param is empty';
+            $callAction = false;
+        } else {
+            $this->email = $email;
+        }
 
-                break;
-            } else {
-                $this->{$param} = ${$param};
-            }
+        if (empty($action)) {
+            $this->error = 'action param is empty';
+            $callAction = false;
+        } else {
+            $this->action = $action;
         }
 
         if ($callAction) {
