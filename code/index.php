@@ -14,7 +14,7 @@ for ($i = 0; $i < strlen($string); $i ++) {
 	if ($char === '(') {
 		$stack[] = $char;
 	}
-	else if ($char === '(') {
+	else if ($char === ')') {
 		if (count($stack) === 0) {
 			error();
 		}
@@ -28,6 +28,9 @@ for ($i = 0; $i < strlen($string); $i ++) {
 
 if (count($stack) === 0) {
 	success();
+}
+else {
+	error();
 }
 // -- -- -- --
 
