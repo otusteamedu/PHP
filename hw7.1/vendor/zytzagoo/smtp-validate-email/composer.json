@@ -1,0 +1,43 @@
+{
+    "name": "zytzagoo/smtp-validate-email",
+    "description": "Perform email address verification via SMTP",
+    "keywords": [
+      "smtp",
+      "validator",
+      "verify",
+      "email"
+    ],
+    "type": "library",
+    "license": "GPL-3.0+",
+    "homepage": "https://github.com/zytzagoo/smtp-validate-email",
+    "support": {
+        "source": "https://github.com/zytzagoo/smtp-validate-email",
+        "docs": "https://github.com/zytzagoo/smtp-validate-email",
+        "issues": "https://github.com/zytzagoo/smtp-validate-email/issues"
+    },
+    "authors": [
+        {
+            "name": "Tomaš Trkulja [zytzagoo]",
+            "email": "zyt@zytzagoo.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+      "dealerdirect/phpcodesniffer-composer-installer": "^0.4.2",
+      "phpunit/phpunit": "~4.8|~5.1",
+      "squizlabs/php_codesniffer": "^3.0",
+      "wimg/php-compatibility": "^8.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "SMTPValidateEmail\\": "src"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "SMTPValidateEmail\\Tests\\": "tests"
+      }
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "zytzagoo/smtp-validate-email": "^1.0"
+    }
+}
