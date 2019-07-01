@@ -1,0 +1,53 @@
+[
+    {
+        "name": "zytzagoo/smtp-validate-email",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zytzagoo/smtp-validate-email.git",
+            "reference": "33fff1553b2465ae9c7e65eb37d6b00663a744a6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zytzagoo/smtp-validate-email/zipball/33fff1553b2465ae9c7e65eb37d6b00663a744a6",
+            "reference": "33fff1553b2465ae9c7e65eb37d6b00663a744a6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.2",
+            "phpunit/phpunit": "~4.8|~5.1",
+            "squizlabs/php_codesniffer": "^3.0",
+            "wimg/php-compatibility": "^8.0"
+        },
+        "time": "2017-11-10T15:47:02+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "SMTPValidateEmail\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0+"
+        ],
+        "authors": [
+            {
+                "name": "Tomaš Trkulja [zytzagoo]",
+                "email": "zyt@zytzagoo.net"
+            }
+        ],
+        "description": "Perform email address verification via SMTP",
+        "homepage": "https://github.com/zytzagoo/smtp-validate-email",
+        "keywords": [
+            "email",
+            "smtp",
+            "validator",
+            "verify"
+        ]
+    }
+]
