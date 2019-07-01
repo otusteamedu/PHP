@@ -1,0 +1,21 @@
+{
+    "name": "lexerom/email-validator",
+    "description": "A library for email validation, including mx record checking",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Sukhikh",
+            "email": "lexerom@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "lexerom\\": "src"
+        }
+    }
+}
