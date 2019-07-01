@@ -8,7 +8,7 @@ namespace App;
 
 use \Jekys\Email;
 
-class Response
+class ResponseHandler
 {
     /**
     * @var boolean - store final response result
@@ -84,22 +84,32 @@ class Response
     /**
     * Calls the action and sets final result according to Email lib response
     *
-    * @return void
+    * @return boolean
     */
     private function callAction()
     {
-        if (array_key_exists($this->action, $this->methods)) {
-            $action = $this->methods[$this->action];
-
-            $this->success = Email::{$action['method']}($this->email);
-            if ($this->success) {
-                $this->error = '';
-            } else {
-                $this->error = $action['error'];
-            }
-        } else {
+        if (!array_key_exists($this->action, $this->methods)) {
             $this->error = 'Unknown action';
+
+            return false;
         }
+
+        $action = $this->methods[$this->action];
+
+        if (!in_array($action['method'], get_class_methods('Jekys\\Email'))) {
+            $this->error = 'Wrong class method';
+
+            return false;
+        }
+
+        $this->success = Email::{$action['method']}($this->email);
+        if ($this->success) {
+            $this->error = '';
+        } else {
+            $this->error = $action['error'];
+        }
+
+        return $this->error;
     }
 
     /**
