@@ -1,0 +1,4 @@
+php:
+  image: hw4:latest
+  volumes:
+    - ./code:/code
