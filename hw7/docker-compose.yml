@@ -1,0 +1,22 @@
+version: '3'
+
+volumes:
+  sockets:
+
+services:
+  web:
+    image: "nginx:alpine"
+    ports:
+      - "80:80"
+    volumes:
+      - sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/nginx.conf:/etc/nginx/conf.d/app.conf
+    links:
+      - php
+  php:
+    image: "php:7-fpm-alpine"
+    volumes: 
+      - sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/php-fpm.conf/:/usr/local/etc/php-fpm.d/zz-docker.conf
