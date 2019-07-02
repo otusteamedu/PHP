@@ -12,7 +12,14 @@ try {
     $graph = Graph::getGraphByRoutes(json_decode($routes));
     $result = $graph->getDijkstraRoute($from, $to);
     // Shortest path from '1' to '11' is: 1->2->5->6->9->10->11. It cost: 38
-    echo "Shortest path from '$from' to '$to' is: " . implode('->', $result['path']) . '. It cost: ' . $result['weight'] . PHP_EOL;
+    foreach ($result as $toKey => $data) {
+        if ($data['weight'] !== INF) {
+            echo "Shortest path from '$from' to '$toKey' is: " . implode('->', array_merge($data['path'], [$toKey])) . '. It cost: ' . $data['weight'] . PHP_EOL;
+        } else {
+            echo "Path from '$from' to '$toKey' is unreachable. . It cost: " . $data['weight'] . PHP_EOL;
+        }
+    }
+    echo PHP_EOL;
 
     $graph = new Graph($arrayGraph = [
         1 => [2 => 4, 4 => 17],
@@ -26,7 +33,13 @@ try {
     $to = 7;
     $result = $graph->getDijkstraRoute($from, $to);
     // Shortest path from '1' to '7' is: 1->4->7. It cost: 21
-    echo "Shortest path from '$from' to '$to' is: " . implode('->', $result['path']) . '. It cost: ' . $result['weight'] . PHP_EOL;
+    foreach ($result as $toKey => $data) {
+        if ($data['weight'] === INF) {
+            echo "Path from '$from' to '$toKey' is unreachable. . It cost: " . $data['weight'] . PHP_EOL;
+        } else {
+            echo "Shortest path from '$from' to '$toKey' is: " . implode('->', array_merge($data['path'], [$toKey])) . '. It cost: ' . $data['weight'] . PHP_EOL;
+        }
+    }
 } catch (Exception $e) {
     echo $e->getMessage();
     die();

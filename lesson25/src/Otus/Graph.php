@@ -54,7 +54,7 @@ class Graph
      */
     public function getDijkstraRoute($from, $to)
     {
-        if (!array_key_exists($from, $this->graph) || !array_key_exists($from, $this->graph)) {
+        if (!array_key_exists($from, $this->graph) || !array_key_exists($to, $this->graph)) {
             throw new \Exception('Unknown point "from":' . $from . ' or "to":' . $to);
         }
         $paths = array();
@@ -65,11 +65,11 @@ class Graph
         }
         $paths[$from]['weight'] = 0;
         $this->calculatePotentials($paths, $from);
+        $paths = array_replace($this->graph, $paths);
         if (count($paths[$to]) < 1) {
             throw new \Exception("No route from '$from' to '$to' ");
         }
-        $paths[$to]['path'] = array_merge($paths[$to]['path'], [$to]);
-        return $paths[$to];
+        return $paths;
     }
 
     /**
