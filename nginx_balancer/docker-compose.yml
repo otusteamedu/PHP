@@ -1,0 +1,10 @@
+ web0:
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        #override default nginx conf
+        - ./nginx.conf:/etc/nginx/nginx.conf
+        - ./index.html:/usr/share/nginx/html/index.html
+       
+
