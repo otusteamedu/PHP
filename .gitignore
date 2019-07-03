@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-hw7.1/vendor
+hw7.1/vendor/
 hw7.1/composer.lock
-hw6.2
-.idea
+hw6.2/
+.idea/
