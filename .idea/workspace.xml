@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b108604-8aa5-43e3-98b2-76eb9420aa6b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/aria_log.00000001" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/aria_log_control" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/ib_buffer_pool" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/ib_logfile0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/ib_logfile1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/ibdata1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/ibtmp1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hw6.2/databases/multi-master.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9b108604-8aa5-43e3-98b2-76eb9420aa6b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+            <state relative-caret-position="104">
+              <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -203,17 +192,18 @@
       <workItem from="1561729672359" duration="6900000" />
       <workItem from="1561820568774" duration="39000" />
       <workItem from="1561994960273" duration="2890000" />
-      <workItem from="1562184291992" duration="301000" />
+      <workItem from="1562184291992" duration="585000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23044000" />
+    <option name="totallyTimeSpent" value="23328000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17948718" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17948718" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -226,7 +216,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.25605902" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.25605902" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -286,8 +276,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+        <state relative-caret-position="104">
+          <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
         </state>
       </provider>
     </entry>
