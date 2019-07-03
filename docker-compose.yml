@@ -4,7 +4,7 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "8001:80"
+      - "80:80"
     volumes:
       - ./hosts:/etc/nginx/conf.d
       - ./www:/var/www
