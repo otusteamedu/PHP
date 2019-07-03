@@ -36,7 +36,7 @@ class PostStringHandler
         preg_match_all('/(\()?(\))?/', $this->postString, $matches);
         $cntLeft = count(array_diff($matches['1'], array('')));
         $cntRight = count(array_diff($matches['2'], array('')));
-        if ($cntRight <= 0 && $cntRight <= 0) {
+        if ($cntRight <= 0 && $cntLeft <= 0) {
             $this->errorMsg = 'String does not contain parentheses!';
         } else if ($cntLeft > $cntRight) {
             $this->errorMsg = 'Opening parentheses more than closing!';
