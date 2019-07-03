@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  web:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./res/code:/code
+    networks:
+      - code-network
+  php:
+    build: ./php
+    volumes:
+      - ./res/code:/code
+    networks:
+      - code-network
+    command: bash -c "cd /code && composer install && php-fpm"
+  db:
+    build: ./mysql
+    container_name: mysql
+    user: mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_SAVE_PATH}/:/var/lib/mysql
+      - ${DATA_LOG_PATH}/:/var/log/mysql
+      - ./res/db:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - code-network
+  rabbit:
+    image: "rabbitmq:3-management"
+    container_name: rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "${RABBIT_GUI_PORT}:15672"
+      - "${RABBIT_PORT}:5672"
+    networks:
+      - code-network
+networks:
+  code-network:
+    driver: bridge

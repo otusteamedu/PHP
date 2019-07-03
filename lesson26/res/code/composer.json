@@ -1,0 +1,13 @@
+{
+  "name": "astepanov/otus-php-lenni-despero-hw-26",
+  "description": "",
+  "require": {
+    "php": ">=7.1",
+    "php-amqplib/php-amqplib": "^2.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\": "src/Otus"
+    }
+  }
+}
