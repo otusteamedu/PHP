@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+  manager-nginx:
+      build:
+        context: ./docker/development/
+        dockerfile: nginx.docker
+      volumes:
+        - ./docker/public/laravel:/var/www/laravel-docker
+      depends_on:
+        - manager-php-fpm
+      ports:
+        - "8080:80"
+      links:
+        - db
+
+  manager-php-fpm:
+    build:
+      context: ./docker/development
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./docker/public/laravel:/var/www/laravel-docker
+    links:
+      - db
+  manager-php-cli:
+    build:
+      context: ./docker/development
+      dockerfile: php-cli.docker
+    volumes:
+      - ./docker:/app
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: lara-test
+    volumes:
+      - ./docker/public/databases:/var/lib/mysql
+
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 6080:8080
+  composer:
+      image: composer:1.6
+      volumes:
+        - ./docker:/app
+      working_dir: /app/public/laravel
+      command: composer install

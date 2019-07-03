@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+hw6.2/docker/public/laravel/vendor
+.idea
+
+hw6.2/docker/public/databases
