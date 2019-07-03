@@ -10,7 +10,7 @@ try {
     $from = 1;
     $to = 11;
     $graph = Graph::getGraphByRoutes(json_decode($routes));
-    $result = $graph->getDijkstraRoute($from, $to);
+    $result = $graph->getAnotherDijkstraRoute($from, $to);
     // Shortest path from '1' to '11' is: 1->2->5->6->9->10->11. It cost: 38
     foreach ($result as $toKey => $data) {
         if ($data['weight'] !== INF) {
@@ -20,8 +20,7 @@ try {
         }
     }
     echo PHP_EOL;
-
-    $result = $graph->getDijkstraRoute($from);
+    $result = $graph->getAnotherDijkstraRoute($from);
 //    Shortest path from '1' to '1' is: 1. It cost: 0
 //    Shortest path from '1' to '2' is: 1->2. It cost: 4
 //    Shortest path from '1' to '3' is: 1->2->3. It cost: 19
@@ -54,7 +53,7 @@ try {
         7 => []]);
     $from = 1;
     $to = 7;
-    $result = $graph->getDijkstraRoute($from);
+    $result = $graph->getAnotherDijkstraRoute($from);
 //    Shortest path from '1' to '1' is: 1. It cost: 0
 //    Shortest path from '1' to '2' is: 1->2. It cost: 4
 //    Shortest path from '1' to '3' is: 1->2->3. It cost: 19

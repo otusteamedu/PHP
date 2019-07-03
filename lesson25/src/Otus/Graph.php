@@ -46,7 +46,7 @@ class Graph
     }
 
     /**
-     * Get shortest path
+     * Get shortest path (recursive.. wrong)
      * @param $from
      * @param $to
      * @return mixed
@@ -61,15 +61,13 @@ class Graph
         foreach ($this->graph as $node => $weight) {
             $paths[$node]['weight'] = INF;
             $paths[$node]['path'] = [];
-            $paths[$node]['isChecked'] = false;
         }
         $paths[$from]['weight'] = 0;
         $this->calculatePotentials($paths, $from);
         $paths = array_replace($this->graph, $paths);
         if (isset($to)) {
-            return [$paths[$to]];
+            return [$to => $paths[$to]];
         }
-
         return $paths;
     }
 
@@ -92,6 +90,52 @@ class Graph
         foreach ($this->graph[$currentNodeId] as $id => $weight) {
             if (!$path[$id]['isChecked'] && !in_array($id, $path[$currentNodeId]['path'])) {
                 $this->calculatePotentials($path, $id);
+            }
+        }
+    }
+
+    /**
+     * Get shortest path
+     * @param $from
+     * @param $to
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getAnotherDijkstraRoute($from, $to = null)
+    {
+        if (!array_key_exists($from, $this->graph) || (isset($to) && !array_key_exists($to, $this->graph))) {
+            throw new \Exception('Unknown point "from":' . $from . ' or "to":' . $to);
+        }
+        $paths = array();
+        $list = array();
+        foreach ($this->graph as $node => $weight) {
+            $paths[$node]['weight'] = $list[$node] = INF;
+            $paths[$node]['path'] = [];
+        }
+        $paths[$from]['weight'] = $list[$from] = 0;
+        while ($list) {
+            $min = array_search(min($list), $list);
+            $this->calculateAnotherPotentials($paths, $list, $min);
+            unset($list[$min]);
+        }
+        if (isset($to)) {
+            return [$to => $paths[$to]];
+        }
+        return $paths;
+    }
+
+    /**
+     * Function for calculate potentials
+     * @param $path
+     * @param $list
+     * @param $currentNodeId
+     */
+    private function calculateAnotherPotentials(&$path, &$list, $currentNodeId)
+    {
+        foreach ($this->graph[$currentNodeId] as $id => $weight) {
+            if(!empty($list[$id]) && $list[$currentNodeId] + $weight < $list[$id]) {
+                $list[$id] = $path[$id]['weight'] = $list[$currentNodeId] + $weight;
+                $path[$id]['path'] = array_merge($path[$currentNodeId]['path'],[$currentNodeId]);
             }
         }
     }
