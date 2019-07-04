@@ -33,18 +33,21 @@ class PostStringHandler
     
     public function checkParentheses()
     {
-        preg_match_all('/(\()?(\))?/', $this->postString, $matches);
-        $cntLeft = count(array_diff($matches['1'], array('')));
-        $cntRight = count(array_diff($matches['2'], array('')));
-        if ($cntRight <= 0 && $cntLeft <= 0) {
-            $this->errorMsg = 'String does not contain parentheses!';
-        } else if ($cntLeft > $cntRight) {
-            $this->errorMsg = 'Opening parentheses more than closing!';
-        } else if($cntLeft < $cntRight) {
-            $this->errorMsg = 'Closing parentheses more than opening!';
+        if (substr($this->postString, 0, 1) == ')' || substr($this->postString, -1, 1) == '(') {
+            $this->errorMsg = 'String cannot begin with ")" and closing with "("!';
         } else {
-            $this->cntParentheses = $cntRight;
-            return true;
+            $cntLeft = substr_count($this->postString, '(');
+            $cntRight = substr_count($this->postString, ')');
+            if ($cntRight <= 0 && $cntRight <= 0) {
+                $this->errorMsg = 'String does not contain parentheses!';
+            } else if ($cntLeft > $cntRight) {
+                $this->errorMsg = 'Opening parentheses more than closing!';
+            } else if($cntLeft < $cntRight) {
+                $this->errorMsg = 'Closing parentheses more than opening!';
+            } else {
+                $this->cntParentheses = $cntRight;
+                return true;
+            }
         }
         return false;
     }
