@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+#  Балансировщик nginx
+  balancer:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./conf/balancer-nginx.conf:/etc/nginx/nginx.conf
+
+#  Первый бэкенд
+  nginx_1:
+    image: nginx:latest
+    volumes:
+      - ./backend1/code:/code
+      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend1/sock:/sock
+    links:
+      - php_1
+  php_1:
+    image: php:fpm
+    volumes:
+      - ./backend1/code:/code
+      - ./conf/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./backend1/sock:/sock
+
+#  Второй бэкенд
+  nginx_2:
+    image: nginx:latest
+    volumes:
+      - ./backend2/code:/code
+      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend2/sock:/sock
+    links:
+      - php_2
+  php_2:
+    image: php:fpm
+    volumes:
+      - ./backend2/code:/code
+      - ./conf/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./backend2/sock:/sock
