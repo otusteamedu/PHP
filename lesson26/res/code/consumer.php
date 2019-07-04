@@ -7,16 +7,6 @@ use Otus\Models\Message;
 use Otus\Utils\Rabbit;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-putenv('RABBIT_HOST=127.0.0.1');
-putenv('RABBIT_USER=rabbitmq');
-putenv('RABBIT_PASSWORD=rabbitmq');
-putenv('RABBIT_PORT=5672');
-putenv('POSTGRES_HOST=127.0.0.1');
-putenv('POSTGRES_USER=testuser');
-putenv('POSTGRES_PASSWORD=testpassword');
-putenv('POSTGRES_DB=test_db');
-putenv('POSTGRES_SCHEMA=cinema');
-putenv('POSTGRES_PORT=5433');
 //get credits
 $host = getenv('RABBIT_HOST');
 $user = getenv('RABBIT_USER');

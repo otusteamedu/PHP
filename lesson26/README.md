@@ -8,7 +8,7 @@ Clone or download project and edit env options in .env file.
 Run containers by command:
 `$ docker-compose up --build`
 
-Set local enviroment(for consumer local usage) like this(example for MacOS)
+Set local enviroment for POSTGRES and RABBIT like in .env (for consumer local usage) like this(example for MacOS)
 `$ export PARAM="PARAM_VALUE"`
 
 Start local consumer:
