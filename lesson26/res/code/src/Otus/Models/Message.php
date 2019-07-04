@@ -14,6 +14,11 @@ class Message extends BaseModel
     protected static $tableName = 'message';
 
     /**
+     * @var string
+     */
+    protected static $queueName = 'messages';
+
+    /**
      * @var array
      */
     protected $fields = ['id', 'message', 'status', 'deleted', 'type'];
@@ -43,11 +48,30 @@ class Message extends BaseModel
      */
     public $type;
 
-    protected function beforeSave()
-    {
-        if (!$this->id) {
-            $this->id = uniqid('', true);
-        }
-    }
+    const STATUS_NEW = 0;
+    const STATUS_ACCEPTED = 2;
+    const STATUS_REJECTED = 3;
+    public static $statuses = [
+        self::STATUS_NEW => 'Ожидает рассмотрения',
+        self::STATUS_ACCEPTED => 'Принято',
+        self::STATUS_REJECTED => 'Отклонено',
+    ];
 
+    const TYPE_COMMENT = 0;
+    const TYPE_OFFER = 1;
+    const TYPE_WARNING = 2;
+    public static $types = [
+        self::TYPE_COMMENT => 'Отзыв',
+        self::TYPE_OFFER => 'Предложение',
+        self::TYPE_WARNING => 'Предупреждение',
+    ];
+
+    /**
+     * get queue name
+     * @return string
+     */
+    public static function getQueueName()
+    {
+        return self::$queueName;
+    }
 }

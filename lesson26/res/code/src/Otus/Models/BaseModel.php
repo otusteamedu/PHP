@@ -2,7 +2,8 @@
 
 namespace Otus\Models;
 
-use PDO;
+use Otus\Utils\Connection;
+
 /**
  * Class Client
  * @package Otus
@@ -13,21 +14,6 @@ class BaseModel
      * @var
      */
     protected static $tableName;
-
-    /**
-     * instance of pdo
-     * @var PDO
-     */
-    private $pdo;
-
-    /**
-     * BaseModel constructor.
-     * @param PDO $pdo
-     */
-    public function __construct(PDO $pdo)
-    {
-        $this->pdo = $pdo;
-    }
 
     /**
      * Get table name
@@ -61,6 +47,7 @@ class BaseModel
      */
     private function update($keyColumn)
     {
+        $pdo = Connection::getPDO();
         $tableName = self::getTableName();
         $fields = $this->getFields();
         $values = array();
@@ -72,14 +59,13 @@ class BaseModel
             }
         }
         $marks = implode(',', $marks);
-        $query = $this->pdo->prepare("update $tableName set $marks where $keyColumn = ? RETURNING *");
+        $query = $pdo->prepare("update $tableName set $marks where $keyColumn = ? RETURNING *");
         $values[] = $this->{$keyColumn};
         if (!$query->execute(array_values($values))) {
-            throw new \Exception('Error: ' . $query->errorInfo());
+            throw new \Exception('Error: ' . $query->errorInfo()[2]);
         }
         $result = $query->fetch();
         $this->fromArray($result);
-        $this->afterSave();
         return $this;
     }
 
@@ -90,7 +76,7 @@ class BaseModel
      */
     private function insert()
     {
-        $this->beforeSave();
+        $pdo = Connection::getPDO();
         $tableName = self::getTableName();
         $fields = $this->getFields();
         $values = array();
@@ -101,24 +87,13 @@ class BaseModel
         }
         $marks = implode(',', array_fill(0, count($values), '?'));
         $fields = implode(',', array_keys($values));
-        $query = $this->pdo->prepare("insert into $tableName ( $fields ) values ( $marks )  RETURNING *");
+        $query = $pdo->prepare("insert into $tableName ( $fields ) values ( $marks )  RETURNING *");
         if (!$query->execute(array_values($values))) {
-            throw new \Exception('Error: ' . $query->errorInfo());
+            throw new \Exception('Error: ' . $query->errorInfo()[2]);
         }
         $result = $query->fetch();
         $this->fromArray($result);
-        $this->afterSave();
         return $this;
-    }
-
-    protected function beforeSave()
-    {
-
-    }
-
-    protected function afterSave()
-    {
-
     }
 
     /**
@@ -129,10 +104,11 @@ class BaseModel
      */
     public function delete($keyColumn = 'id')
     {
+        $pdo = Connection::getPDO();
         $tableName = self::getTableName();
-        $query = $this->pdo->prepare("delete from $tableName where $keyColumn = ?");
+        $query = $pdo->prepare("delete from $tableName where $keyColumn = ?");
         if (!$query->execute([$this->{$keyColumn}])) {
-            throw new \Exception('Error: ' . $query->errorInfo());
+            throw new \Exception('Error: ' . $query->errorInfo()[2]);
         }
         return null;
     }
@@ -163,14 +139,14 @@ class BaseModel
 
     /**
      * Find data by id
-     * @param PDO $pdo
-     * @param int $id
+     * @param $id
      * @param string $keyColumn
      * @return mixed|BaseModel
      * @throws \Exception
      */
-    public static function findById(PDO $pdo, int $id, $keyColumn = 'id')
+    public static function findById($id, $keyColumn = 'id')
     {
+        $pdo = Connection::getPDO();
         $tableName = self::getTableName();
         $record = IdentityMap::getRecord(get_called_class(), $id);
         if ($record) {
@@ -178,10 +154,13 @@ class BaseModel
         }
         $query = $pdo->prepare("select * from $tableName where $keyColumn = ?");
         if (!$query->execute([$id])) {
-            throw new \Exception('Error: ' . $query->errorInfo());
+            throw new \Exception('Error: ' . $query->errorInfo()[2]);
         }
         $result = $query->fetch();
-        $item = new static($pdo);
+        if (!$result) {
+            return null;
+        }
+        $item = new static();
         $item->fromArray($result);
         IdentityMap::addRecord($item, $id);
         return $item;
@@ -189,20 +168,20 @@ class BaseModel
 
     /**
      * Get all data from table
-     * @param PDO $pdo
      * @return array
      * @throws \Exception
      */
-    public static function findAll(PDO $pdo)
+    public static function findAll()
     {
+        $pdo = Connection::getPDO();
         $tableName = self::getTableName();
         $query = $pdo->prepare("select * from $tableName");
         if (!$query->execute()) {
-            throw new \Exception('Error: ' . $query->errorInfo());
+            throw new \Exception('Error: ' . $query->errorInfo()[2]);
         }
         $collection = array();
         while ($result = $query->fetch()) {
-            $item = new static($pdo);
+            $item = new static();
             $collection[] = $item->fromArray($result);
         }
         return $collection;

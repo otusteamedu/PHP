@@ -1,10 +1,12 @@
 FROM php:7.3-fpm
 ## Install the composer package dependencies
+RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer \
     && docker-php-ext-install bcmath sockets \
-    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-configure bcmath
 
 # Allow composer to be run as super user

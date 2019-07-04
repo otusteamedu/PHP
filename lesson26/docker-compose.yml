@@ -12,32 +12,41 @@ services:
       - code-network
   php:
     build: ./php
+    container_name: php
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_HOST: ${DOCKER_DB}
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_SCHEMA: ${POSTGRES_SCHEME}
+      RABBIT_HOST: ${DOCKER_RABBIT}
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASSWORD: ${RABBIT_PASSWORD}
+      RABBIT_PORT: 5672
     volumes:
       - ./res/code:/code
     networks:
       - code-network
     command: bash -c "cd /code && composer install && php-fpm"
   db:
-    build: ./mysql
-    container_name: mysql
-    user: mysql
+    build: ./database
+    container_name: ${DOCKER_DB}
     restart: always
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
     volumes:
-      - ${DATA_SAVE_PATH}/:/var/lib/mysql
-      - ${DATA_LOG_PATH}/:/var/log/mysql
+      - ${PGDATA}/:/var/lib/postgresql/data
       - ./res/db:/docker-entrypoint-initdb.d:ro
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "5433:5432"
     networks:
       - code-network
   rabbit:
-    image: "rabbitmq:3-management"
-    container_name: rabbit
+    build: ./rabbit
+    container_name: ${DOCKER_RABBIT}
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
