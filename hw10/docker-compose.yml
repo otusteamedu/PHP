@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/code
+      - ./configuration/default.conf:/etc/nginx/configuration.d/default.conf
+    links:
+      - php
+  php:
+    image: php:7.3-fpm
+    volumes:
+      - ./code:/code
