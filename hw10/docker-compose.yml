@@ -7,7 +7,8 @@ services:
       - "80:80"
     volumes:
       - ./code:/code
-      - ./configuration/default.conf:/etc/nginx/configuration.d/default.conf
+      - ./conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./logs:/var/log/nginx
     links:
       - php
   php:
