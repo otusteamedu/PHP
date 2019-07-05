@@ -57,8 +57,9 @@ class Emails
         return $this->validEmails;
     }
     
-    private function checkMx($domain)
+    private function checkMx($email)
     {
+        $domain = substr(strrchr($email, "@"), 1);
         $response = getmxrr($domain, $mxRecords);
         if ($response != false && count($mxRecords) > 0) {
             return true;
@@ -69,11 +70,8 @@ class Emails
     public function validateEmail($email)
     {
         $email = trim($email);
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $domain = substr(strrchr($email, "@"), 1);
-            if ($this->checkMx($domain)) {
-                return $email;
-            }
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) && $this->checkMx($email)) {
+            return $email;
         }
         $this->badEmails[] = $email;
     }
