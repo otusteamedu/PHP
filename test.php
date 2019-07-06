@@ -29,26 +29,26 @@ for ($i = 0; $i < $eventsCount; $i++) {
 
 echo "\nAsk REDIS for events 9 times...";
 
-echo "\n" . $ep->match(['param1' => 1]);
-echo "\n" . $ep->match(['param1' => 2, 'param2' => 1]);
-echo "\n" . $ep->match(['param1' => 0]);
+echo "\n" . $ep->pop(['param1' => 1]);
+echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
+echo "\n" . $ep->pop(['param1' => 0]);
 
-echo "\n" . $ep->match(['param1' => 0]);
-echo "\n" . $ep->match(['param1' => 1]);
-echo "\n" . $ep->match(['param1' => 2, 'param2' => 1]);
+echo "\n" . $ep->pop(['param1' => 0]);
+echo "\n" . $ep->pop(['param1' => 1]);
+echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
 
-echo "\n" . $ep->match(['param1' => 2, 'param2' => 1]);
-echo "\n" . $ep->match(['param1' => 1]);
-echo "\n" . $ep->match(['param1' => 0]);
+echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
+echo "\n" . $ep->pop(['param1' => 1]);
+echo "\n" . $ep->pop(['param1' => 0]);
 
-echo "\n" . $ep->match(['param1' => 1]);
-echo "\n" . $ep->match(['param1' => 2, 'param2' => 1]);
-echo "\n" . $ep->match(['param1' => 0]);
+echo "\n" . $ep->pop(['param1' => 1]);
+echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
+echo "\n" . $ep->pop(['param1' => 0]);
 
-echo "\n" . $ep->match(['param1' => 1]);
-echo "\n" . $ep->match(['param1' => 0]);
-echo "\n" . $ep->match(['param1' => 2, 'param2' => 1]);
-echo "\n" . ($ep->match(['param666' => 666, 'param999' => 999]) ?? 'I\'M NOT EVENT - BUT NULL');
+echo "\n" . $ep->pop(['param1' => 1]);
+echo "\n" . $ep->pop(['param1' => 0]);
+echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
+echo "\n" . ($ep->pop(['param666' => 666, 'param999' => 999]) ?? 'I\'M NOT EVENT - BUT NULL');
 
 echo "\nCleanup...";
 $ep->clean();

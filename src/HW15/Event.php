@@ -15,6 +15,6 @@ class Event
 
     public function __toString()
     {
-        return sprintf('%s with %d priority and conditions: %s', $this->event->title, $this->priority, EventProvider::buildKeyByConditions($this->conditions));
+        return sprintf('%s with %d priority and conditions: %s', $this->event->title, $this->priority, Utils::buildKeyByConditions($this->conditions));
     }
 }

@@ -3,16 +3,14 @@ declare(strict_types=1);
 
 namespace HW15;
 
-use ArrayObject;
 use Predis\Client;
 use Predis\Transaction\MultiExec;
 use stdClass;
 
-const EVENT_LAST_ID = 'event:lastId';
-const EVENT = 'event:';
-
 class EventProvider
 {
+    public const EVENT_LAST_ID = 'event:lastId';
+    public const EVENT = 'event:';
     /**
      * @var Client
      */
@@ -23,55 +21,93 @@ class EventProvider
         $this->client = $client;
     }
 
+    /**
+     * Store event to redis
+     * @param Event $event
+     */
     public function store(Event $event): void
     {
         $that = $this;
-        /** @var  $responses */
         $this->client->transaction(static function ($tx) use ($that, $event) {
             /** @var MultiExec $tx */
-            $id = $that->client->incr(EVENT_LAST_ID);
-            $key = $that->buildKeyByConditions($event->conditions);
+            $id = $that->client->incr(self::EVENT_LAST_ID);
+            $key = Utils::buildKeyByConditions($event->conditions);
             $tx->zadd($key, [$id => $event->priority]);
-            $tx->set(EVENT . $id, serialize($event));
+            $tx->set($that->getEventKey((string)$id), serialize($event));
         });
     }
 
     /**
-     * @param array $conditions
+     * @param string $eventId
      * @return string
      */
-    public static function buildKeyByConditions(array $conditions): string
+    public function getEventKey(string $eventId): string
     {
-        $arrayCopy = (new ArrayObject($conditions))->getArrayCopy();
-        asort($arrayCopy);
-        return http_build_query($conditions);
+        return self::EVENT . $eventId;
     }
 
-    public function match(array $conditions): ?Event
+    /**
+     * Match and return Event by conditions or null if not match
+     * @param array $conditions
+     * @return Event|null
+     */
+    public function pop(array $conditions): ?Event
     {
-        $event = null;
+        [$matchedKey, $matchedId] = $this->getMatchedKeyAndId($conditions);
+        if (!$matchedKey || !$matchedId) {
+            return null;
+        }
+        return $this->popEvent($matchedKey, $matchedId);
+    }
+
+    /**
+     * @param array $conditions
+     * @return array
+     */
+    private function getMatchedKeyAndId(array $conditions): array
+    {
         $matchedId = null;
         $matchedKey = null;
         $maxPriority = PHP_INT_MIN;
-        foreach ($this->subs($conditions) as $conditionsVariant) {
-            $key = self::buildKeyByConditions($conditionsVariant);
+        foreach (Utils::subArrays($conditions) as $conditionsVariant) {
+            $key = Utils::buildKeyByConditions($conditionsVariant);
             if ($this->client->exists($key)) {
-                $id = current($this->client->zrevrange($key, 0, 1, []));
-                $e = $this->getEvent($id);
-                if ($e->priority > $maxPriority) {
+                $id = (string)current($this->client->zrevrange($key, 0, 1, []));
+                if ($this->getEvent($id)->priority > $maxPriority) {
                     $matchedKey = $key;
                     $matchedId = $id;
                 }
             }
         }
-        if ($matchedKey && $matchedId) {
-            $this->client->zrem($matchedKey, $matchedId);
-            $event = $this->getEvent($matchedId);
-            $this->client->del([EVENT . $matchedId]);
-        }
+        return [$matchedKey, $matchedId];
+    }
+
+    /**
+     * @param $eventId
+     * @return Event
+     */
+    private function getEvent($eventId): Event
+    {
+        $eventString = $this->client->get($this->getEventKey($eventId));
+        return unserialize($eventString, ['allowed_classes' => [Event::class, stdClass::class]]);
+    }
+
+    /**
+     * @param string $matchedKey
+     * @param string $matchedId
+     * @return Event
+     */
+    private function popEvent(string $matchedKey, string $matchedId): Event
+    {
+        $this->client->zrem($matchedKey, $matchedId);
+        $event = $this->getEvent($matchedId);
+        $this->client->del([$this->getEventKey($matchedId)]);
         return $event;
     }
 
+    /**
+     * Clean up redis
+     */
     public function clean(): void
     {
         $cursor = 0;
@@ -82,58 +118,4 @@ class EventProvider
             }
         } while ($cursor > 0);
     }
-    /**
-     * Thanks to https://github.com/mjacobsz/php_array_subarrays/blob/master/main.php
-     * @param $a
-     * @return array
-     */
-    private function subs($a): array
-    {
-        $ak = array_keys($a);
-        // Create an container array to store all subsets
-        $subarrays = array();
-
-        // Get all subsets in this loop
-        $number_of_subsets = 2 ** count($a);
-        for ($i = 0; $i < $number_of_subsets; $i++) {
-            // New subarray
-            $subarray = array();
-            // Create the bitmap
-            $n = strrev(decbin($i)); // Reverse the bitstring, so it matches array ordering
-            $binary_map_of_elements_to_include = str_split($n);
-
-            $length_of_binary_map = count($binary_map_of_elements_to_include);
-            for ($j = 0; $j < $length_of_binary_map; $j++) {
-
-                // Insert the element when we encounter a '1'
-                if ($binary_map_of_elements_to_include[$j] === '1') {
-
-                    if (is_string($ak[$j])) {            // When the key is a string, we want to copy this key to the subarray
-                        $subarray[$ak[$j]] = $a[$ak[$j]];
-                    } else {
-                        $subarray[] = $a[$ak[$j]];         // When the key is a integer, just do the regular index numbering
-                    }
-
-                }
-            }
-
-            // Add subarray to the list of results
-            $subarrays[] = $subarray;
-        }
-        return $subarrays;
-    }
-
-    /**
-     * @param $id
-     * @return Event
-     */
-    private function getEvent($id): Event
-    {
-        $ev = $this->client->get(EVENT . $id);
-        /** @var Event $e */
-        $e = unserialize($ev, ['allowed_classes' => [Event::class, stdClass::class]]);
-        return $e;
-    }
-
-
 }
