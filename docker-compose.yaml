@@ -2,26 +2,35 @@ version: "3.5"
 
 services:
 
-  nginx:
+  front:
     image: nginx:alpine
     volumes:
-      - "./docker/nginx/server.conf:/etc/nginx/conf.d/server.conf"
-      - "./html:/var/www/html"
+      - "./docker/nginx/front.conf:/etc/nginx/conf.d/server.conf"
     networks:
       otus-php-backend:
     ports:
       - "80:80"
     links:
-      - php-fpm
+      - nginx1
+      - nginx2
 
-  php-fpm:
-    build: docker/php-fpm
+  nginx1:
+    image: nginx:alpine
     volumes:
-      - "./docker/php-fpm/fpm-fcgi.ini:/usr/local/etc/php/conf.d/zx-fpm-fcgi.ini"
-      - "./docker/php-fpm/pool.conf:/usr/local/etc/php-fpm.d/zx-pool.conf"
-      - ".:/var/www"
+      - "./docker/nginx/nginx1.conf:/etc/nginx/conf.d/server.conf"
     networks:
       otus-php-backend:
+    expose:
+      - "80"
+
+  nginx2:
+    image: nginx:alpine
+    volumes:
+      - "./docker/nginx/nginx2.conf:/etc/nginx/conf.d/server.conf"
+    networks:
+      otus-php-backend:
+    expose:
+      - "80"
 
 networks:
 
