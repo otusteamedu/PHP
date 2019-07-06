@@ -1,0 +1,19 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Andrey Repin",
+            "email": "anrdaemon@yandex.ru"
+        }
+    ],
+    "config": {
+        "prepend-autoloader": false,
+        "bin-dir": "bin/"
+    },
+    "extra": {
+        "requisites": {
+            "root": "html/"
+        }
+    }
+}
