@@ -93,15 +93,15 @@ class EventProvider
     }
 
     /**
-     * @param string $matchedKey
-     * @param string $matchedId
+     * @param string $key
+     * @param string $eventId
      * @return Event
      */
-    private function popEvent(string $matchedKey, string $matchedId): Event
+    private function popEvent(string $key, string $eventId): Event
     {
-        $this->client->zrem($matchedKey, $matchedId);
-        $event = $this->getEvent($matchedId);
-        $this->client->del([$this->getEventKey($matchedId)]);
+        $this->client->zrem($key, $eventId);
+        $event = $this->getEvent($eventId);
+        $this->client->del([$this->getEventKey($eventId)]);
         return $event;
     }
 
