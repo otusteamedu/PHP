@@ -20,9 +20,9 @@
     "minimum-stability": "dev",
     "autoload": {
 	"psr-4": {
-	    "Paa\\Controllers\\": "./controllers",
-	    "Paa\\Models\\": "./models",
-	    "Paa\\App\\": "./app"
+	    "Paa\\Controllers\\": "controllers",
+	    "Paa\\Models\\": "models",
+	    "Paa\\App\\": "app"
 	}
     },
     "repositories": [

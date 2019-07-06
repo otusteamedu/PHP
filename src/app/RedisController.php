@@ -3,7 +3,7 @@ namespace Paa\App;
 
 use Predis;
 
-class RedisController
+class RedisController 
 {
     public function __construct()
     {

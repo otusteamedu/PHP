@@ -1,31 +1,20 @@
 <?php
 namespace Paa\Controllers;
 
-use Paa\App\RedisController;
 use Paa\Models\RedisModel;
 
-class SiteController extends RedisController
+class SiteController
 {
 
-    protected $redis;
-    
-    public function __construct()
-    {
-	$this->redis = parent::__construct();
-    }
-    
     public function actionIndex()
     {
-	$redis = $this->redis;
-	$redisObj = new RedisModel($redis);
+	$redisObj = new RedisModel();
 	$result = $redisObj->getEvents();
         $asset['eventsList'] = $result;
         
-        $result = [ 'asset' => $asset, 'type' => 'html' ]; //, 'layout' => 'no'
+        $result = [ 'asset' => $asset, 'type' => 'html' ];
         return $result;
     }
-    
-
     
     public function actionAddEvent()
     {
@@ -41,7 +30,6 @@ class SiteController extends RedisController
 	}
 
 	if (count($params) > 0)  {
-	    $redis = $this->redis;
 	    $redisObj = new RedisModel($redis);
 	    $result = $redisObj->setEvent($priority, $params);
             $asset['result'] = $result;
@@ -59,8 +47,7 @@ class SiteController extends RedisController
 
     public function actionDelEvents()
     {
-	$redis = $this->redis;
-	$redisObj = new RedisModel($redis);
+	$redisObj = new RedisModel();
 	$redisObj->delEvents();
 	
 	$asset['result'] = true;
@@ -79,8 +66,7 @@ class SiteController extends RedisController
 	    $params['param2'] = (string)$_GET['param2'];
 	}
 
-	$redis = $this->redis;
-	$redisObj = new RedisModel($redis);
+	$redisObj = new RedisModel();
 	$result = $redisObj->getEvents();
 	
 	// Create array
@@ -97,9 +83,6 @@ class SiteController extends RedisController
 	}
 	
 	rsort ($findResult);
-	
-	
-
 	$asset['result'] = $findResult;
 	
         $result = [ 'asset' => $asset, 'type' => 'json', 'layout' => 'no' ];

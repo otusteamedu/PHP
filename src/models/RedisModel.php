@@ -1,25 +1,29 @@
 <?
 namespace Paa\Models;
 
-class RedisModel
+use Paa\App\RedisController;
+
+class RedisModel extends RedisController
 {
-    public function __construct($redis) 
+
+    protected $redis;
+    
+    public function __construct() 
     {
-	$this->redis = $redis;
+        $this->redis = parent::__construct();
     }
     
     
     public function setEvent($priority = 0, $params = [])
     {
+	$redis = $this->redis;
+
 	$i = 1;
-	
 	foreach($params as $indx => $val) {
 	    $comma = ($i > 1) ? ', ' : '';
 	    $paramsJson .= $comma . '"' . $indx . '": "' . $val . '"';
 	    $i++;
 	}
-	
-	$redis = $this->redis;
 
 	// Get max key id + 1
 	$id = $this->getMaxId($redis->keys("*")) + 1;
@@ -36,6 +40,7 @@ class RedisModel
     public function delEvents()
     {
 	$redis = $this->redis;
+
 	$allKeys = $redis->keys("*");
 
 	foreach ($allKeys as $val) {
@@ -46,6 +51,7 @@ class RedisModel
     public function getEvents() : array
     {
 	$redis = $this->redis;
+
 	$allKeys = $redis->keys("*");
 
 	$eventsList = [];
