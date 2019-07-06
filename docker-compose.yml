@@ -2,23 +2,41 @@ version: '3'
 
 services:
   balancer:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
       - "80:80"
     volumes:
       - ./hosts/balancer.conf:/etc/nginx/nginx.conf
   nginx1:
-    image: nginx:latest
+    image: nginx:alpine
     volumes:
-      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./hosts/nginx1.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code1:/var/www
+    links:
+      - php1
+  php1:
+    build: ./images/php
+    volumes:
       - ./www/code1:/var/www
   nginx2:
-    image: nginx:latest
+    image: nginx:alpine
     volumes:
-      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./hosts/nginx2.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code2:/var/www
+    links:
+      - php2
+  php2:
+    build: ./images/php
+    volumes:
       - ./www/code2:/var/www
   nginx3:
-    image: nginx:latest
+    image: nginx:alpine
     volumes:
-      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./hosts/nginx3.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code3:/var/www
+    links:
+      - php3
+  php3:
+    build: ./images/php
+    volumes:
       - ./www/code3:/var/www
