@@ -1,0 +1,37 @@
+version: "3.5"
+
+services:
+
+  front:
+    image: nginx:alpine
+    volumes:
+      - "./docker/nginx/front.conf:/etc/nginx/conf.d/server.conf"
+    networks:
+      otus-php-backend:
+    ports:
+      - "80:80"
+    links:
+      - nginx1
+      - nginx2
+
+  nginx1:
+    image: nginx:alpine
+    volumes:
+      - "./docker/nginx/nginx1.conf:/etc/nginx/conf.d/server.conf"
+    networks:
+      otus-php-backend:
+    expose:
+      - "80"
+
+  nginx2:
+    image: nginx:alpine
+    volumes:
+      - "./docker/nginx/nginx2.conf:/etc/nginx/conf.d/server.conf"
+    networks:
+      otus-php-backend:
+    expose:
+      - "80"
+
+networks:
+
+  otus-php-backend:
