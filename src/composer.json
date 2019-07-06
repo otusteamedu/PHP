@@ -1,0 +1,35 @@
+{
+    "name": "andrey/redis hw",
+    "type": "library",
+    "description": "Redis",
+    "keywords": ["",""],
+    "homepage": "https://github.com/AndreyPA/apovolotskiy",
+    "authors": [
+        {
+            "name": "Andrey",
+            "email": "andrey@uma.ru",
+            "homepage": "http://www.uma.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+           "php": "^7.1",
+	   "predis/predis": "^1.1"
+    },
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "autoload": {
+	"psr-4": {
+	    "Paa\\Controllers\\": "controllers",
+	    "Paa\\Models\\": "models",
+	    "Paa\\App\\": "app"
+	}
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/AndreyPA/apovolotskiy" 
+        }
+    ]
+}
+
