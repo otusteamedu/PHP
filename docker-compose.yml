@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  php:
+    build: .
+    expose:
+      - 9000
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    links:
+      - php
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./app:/app
