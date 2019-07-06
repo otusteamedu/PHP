@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  balancer:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./hosts/balancer.conf:/etc/nginx/nginx.conf
+  nginx1:
+    image: nginx:latest
+    volumes:
+      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code1:/var/www
+  nginx2:
+    image: nginx:latest
+    volumes:
+      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code2:/var/www
+  nginx3:
+    image: nginx:latest
+    volumes:
+      - ./hosts/nginx.conf:/etc/nginx/conf.d/mysite.conf
+      - ./www/code3:/var/www
