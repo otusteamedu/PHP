@@ -1,0 +1,10 @@
+version: "3"
+services:
+  mongo:
+    build: docker/mongo
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+
