@@ -25,7 +25,7 @@ class EventProvider
      * Store event to redis
      * @param Event $event
      */
-    public function store(Event $event): void
+    public function push(Event $event): void
     {
         $that = $this;
         $this->client->transaction(static function ($tx) use ($that, $event) {
@@ -108,7 +108,7 @@ class EventProvider
     /**
      * Clean up redis
      */
-    public function clean(): void
+    public function clear(): void
     {
         $cursor = 0;
         do {

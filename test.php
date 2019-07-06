@@ -24,7 +24,7 @@ for ($i = 0; $i < $eventsCount; $i++) {
     }
     $event->conditions = $conditions;
     $event->priority = 1000 * random_int(0, 10);
-    $ep->store($event);
+    $ep->push($event);
 }
 
 echo "\nAsk REDIS for events 9 times...";
@@ -51,5 +51,5 @@ echo "\n" . $ep->pop(['param1' => 2, 'param2' => 1]);
 echo "\n" . ($ep->pop(['param666' => 666, 'param999' => 999]) ?? 'I\'M NOT EVENT - BUT NULL');
 
 echo "\nCleanup...";
-$ep->clean();
+$ep->clear();
 echo "\nDone.\n";
