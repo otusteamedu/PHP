@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx
+    restart: on-failure
+    build: ./Dockerfiles/nginx/.
+    ports:
+      - 8000:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./../src:/usr/share/nginx/html
+    depends_on:
+      - php
+
+  php:
+    image: php:7.1-fpm
+    restart: on-failure
+    build: ./Dockerfiles/php/.
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - ./../src:/usr/share/nginx/html
+    command: bash -c "php-fpm -D && /usr/bin/redis-server"
+    ports:
+      - 9000:9000
