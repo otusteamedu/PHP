@@ -1,0 +1,15 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Otus\\": "src/Otus"
+    }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/AlekseiZolotukhin/otus_lesson_4.git"
+    }
+  ],
+  "name": "azolotukhin/otus",
+  "require": {}
+}
