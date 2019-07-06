@@ -4,9 +4,8 @@ services:
     build:
       dockerfile: ./docker/php/Dockerfile
       context: .
-    command: php -S 0.0.0.0:80 -t /var/www/src
-    ports:
-      - 80:80
+    command: sh -c "sleep 1; php /var/www/test.php"
+    working_dir: /var/www
     volumes:
       - ./:/var/www
 

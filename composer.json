@@ -1,12 +1,17 @@
 {
-    "name": "pawigor/hw15-1",
-    "authors": [
-        {
-            "name": "Igor Pavlichenko",
-            "email": "pawigor@pieware.ru"
-        }
-    ],
-    "require": {
-        "predis/predis": "^1.1"
+  "name": "pawigor/hw15-1",
+  "authors": [
+    {
+      "name": "Igor Pavlichenko",
+      "email": "pawigor@pieware.ru"
     }
+  ],
+  "require": {
+    "predis/predis": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "HW15\\": "./src/HW15"
+    }
+  }
 }
