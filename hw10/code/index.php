@@ -20,7 +20,9 @@ for ($i = 0; $i < $stringLength; $i++) {
     } elseif ($symbol === ')') {
         $result -= 1;
     }
-    $result > 0 ? : error();
+    if ($result < 0){
+        error();
+    }
 }
 $result === 0 ? success() : error();
 
