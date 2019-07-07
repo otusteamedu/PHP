@@ -1,0 +1,5 @@
+{
+	"require": {
+        "lexerom/email-validator": "dev-master"
+    }
+}
