@@ -1,0 +1,37 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ffad35e8c5ceaab5bcb7eca990e243cb",
+    "packages": [
+        {
+            "name": "nkurgalin/otus-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kurgalinn/otus-validator.git",
+                "reference": "cd3902a48c02f378675133d7413ccc27d17eaeaa"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Otus\\": "src/Otus"
+                }
+            },
+            "description": "Otus validator",
+            "time": "2019-07-07T19:57:03+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "nkurgalin/otus-validator": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

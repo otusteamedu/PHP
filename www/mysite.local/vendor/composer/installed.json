@@ -1,0 +1,21 @@
+[
+    {
+        "name": "nkurgalin/otus-validator",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kurgalinn/otus-validator.git",
+            "reference": "cd3902a48c02f378675133d7413ccc27d17eaeaa"
+        },
+        "time": "2019-07-07T19:57:03+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Otus\\": "src/Otus"
+            }
+        },
+        "description": "Otus validator"
+    }
+]
