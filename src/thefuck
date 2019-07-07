@@ -1,0 +1,2 @@
+#!/bin/sh
+php thefuck.php "$1"
