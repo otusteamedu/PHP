@@ -1,11 +1,11 @@
 FROM php:7.3-fpm-alpine as php-fpm-base
 
 RUN apk add --no-cache libpq \
-    && pecl channel-update pecl.php.net
-
-RUN apk add --no-cache --virtual .build-deps postgresql-dev \
+    && apk add --no-cache --virtual .build-deps postgresql-dev \
     && docker-php-ext-install pdo_pgsql \
     && apk del --purge .build-deps
+
+RUN pecl channel-update pecl.php.net
 
 RUN apk add --no-cache --virtual .build-deps g++ make autoconf \
     && pecl install apcu-5.1.17 \
