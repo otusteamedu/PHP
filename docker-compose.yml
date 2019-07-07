@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    balancer:        
+        image: nginx:1.17.1
+        ports:
+            - "80:80"
+        volumes:
+            - ./hosts/balancer.conf:/etc/nginx/conf.d/balancer.conf
+        links:
+            - nginx1
+            - nginx2
+    nginx1:
+        image: nginx:1.17.1
+        volumes:
+            - ./src:/apps/otus
+            - ./hosts/site1.conf:/etc/nginx/conf.d/site1.conf
+    nginx2:
+        image: nginx:1.17.1
+        volumes:
+            - ./src:/apps/otus
+            - ./hosts/site2.conf:/etc/nginx/conf.d/site2.conf
+
