@@ -52,13 +52,6 @@ $points = [
 // ];
 //--dbg
 
-function getPointWithNewLength($newLength, string $pointName, array $points) {
-    $point = $points[$pointName];
-    $point['distanceToPoint'] = $newLength;
-
-    return $point;
-}
-
 function getDistanceBetweenNeighbors(string $from, string $to, $weights) {
     foreach($weights as $weight) {
         if(($weight[0] === $from && $weight[1] === $to)
@@ -71,7 +64,8 @@ function getDistanceBetweenNeighbors(string $from, string $to, $weights) {
     return false;
 }
 
-function doDijkstra(string $from, string $to, array $points, array $weights) {
+function doDijkstra(string $from, array $points, array $weights) {
+    $visitedPoints = [];
     $isAllPointsVisited = false;
     $points[$from]['distanceToPoint'] = 0;
     // $points[$from]['isVisited'] = true;
@@ -107,19 +101,27 @@ function doDijkstra(string $from, string $to, array $points, array $weights) {
             //++dbg
             echo 'Selected point: ' . $pointWithTheLeastDistanceTo[0] . ', distance: ' . $pointWithTheLeastDistanceTo[1] . PHP_EOL;
             //--dbg
-        // Пересчитываем расстояние ближайших точек
+        // Пометим посещенной минимальную и добавим в массив посещенных
         foreach($points as $name => &$pointData) {
-            // Пометим посещенной минимальную
             if($name === $pointWithTheLeastDistanceTo[0]) {
                 $pointData['isVisited'] = true;
-                continue;
+                $visitedPoints[] = $name;
+                break;
             }
+        }
+        unset($pointData);
+        reset($points);
+
+        // Пересчитываем расстояние ближайших точек
+        foreach($points as $name => &$pointData) {
             // Пересчитываем расстояния 
             if(!$pointData['isVisited']) {
                 $isAllPointsVisited = false;
                 $distance = getDistanceBetweenNeighbors($pointWithTheLeastDistanceTo[0], $name, $weights);
                 if($distance) {
-                    $pointData['distanceToPoint'] = $pointWithTheLeastDistanceTo[1] + $distance;
+                    if($pointData['distanceToPoint'] > $pointWithTheLeastDistanceTo[1] + $distance) {
+                        $pointData['distanceToPoint'] = $pointWithTheLeastDistanceTo[1] + $distance;
+                    }
                 }
             }
         }
@@ -132,7 +134,12 @@ function doDijkstra(string $from, string $to, array $points, array $weights) {
         //--dbg
     }
 
-    return 'Distance to point ' . $to . ' is: ' . $points[$to]['distanceToPoint'];
+    echo '=================================================================' . PHP_EOL . PHP_EOL;
+    echo 'Distance from point ' . $from . ' to point...' . PHP_EOL;
+
+    foreach ($points as $name => $data) {
+        echo $name . ' is ' . $data['distanceToPoint'] . PHP_EOL;
+    }
 }
 
-echo doDijkstra('1', '3', $points, $weights);
+doDijkstra('1', $points, $weights);
