@@ -10,3 +10,4 @@ use Code\Simple;
 
 var_dump(Simple::isSimple(31));
 var_dump(Simple::isSimple(28));
+var_dump(Simple::isSimple('aaaaa'));
