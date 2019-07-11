@@ -1,7 +1,0 @@
-2019/07/01 12:21:19 [error] 9#9: *1 open() "/usr/share/nginx/html/index.php" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index.php HTTP/1.1", host: "localhost"
-2019/07/01 12:21:19 [error] 9#9: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/index.php"
-2019/07/01 12:21:29 [error] 9#9: *1 directory index of "/usr/share/nginx/html/" is forbidden, client: 172.17.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost"
-2019/07/01 12:22:09 [error] 9#9: *5 open() "/project/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: mysite.local, request: "GET /favicon.ico HTTP/1.1", host: "mysite.local", referrer: "http://mysite.local/index.php"
-2019/07/01 12:22:29 [error] 9#9: *5 "/project/index.php" is not found (2: No such file or directory), client: 172.17.0.1, server: mysite.local, request: "GET / HTTP/1.1", host: "mysite.local"
-2019/07/01 12:24:21 [error] 9#9: *8 "/project/index.php" is not found (2: No such file or directory), client: 172.17.0.1, server: mysite.local, request: "GET / HTTP/1.1", host: "mysite.local"
-2019/07/01 12:27:45 [error] 9#9: *10 "/project/index.php" is not found (2: No such file or directory), client: 172.17.0.1, server: mysite.local, request: "GET / HTTP/1.1", host: "mysite.local"
