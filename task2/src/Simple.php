@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace Code;
 /**
@@ -13,7 +13,7 @@ class Simple
      * @param int $number
      * @return bool
      */
-    public static function isSimple($number) : bool
+    public static function isSimple(int $number) : bool
     {
         if ($number == 1)
             return false;
