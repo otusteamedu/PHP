@@ -5,15 +5,13 @@ nginx:
     - "80:80"
   volumes:
     - ./Nginx/core/nginx.conf:/etc/nginx/conf.d/nginx.conf
-    - ./Nginx/www:/var/www/
     - ./Nginx/Logs:/var/log/nginx/
     - ./Nginx/html:/usr/share/nginx/html/
-    - ./laravel:/laravel
+    - ./laravel:/var/www/laravel_app/
   links:
     - php
 php:
   image: php:7.2-fpm
   container_name: php-fpm-lara
   volumes:
-    - ./Nginx/www/:/var/www/
-    - ./laravel:/laravel
+    - ./laravel:/var/www/laravel_app/
