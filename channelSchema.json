@@ -1,0 +1,65 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "Chanel"
+  ],
+  "properties": {
+    "Chanel": {
+      "$id": "#/properties/Chanel",
+      "type": "object",
+      "title": "The Chanel Schema",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "link"
+      ],
+      "properties": {
+        "id": {
+          "$id": "#/properties/Chanel/properties/id",
+          "type": "string",
+          "title": "The Id Schema",
+          "default": "",
+          "examples": [
+            "asd"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "title": {
+          "$id": "#/properties/Chanel/properties/title",
+          "type": "string",
+          "title": "The Title Schema",
+          "default": "",
+          "examples": [
+            "test Title"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "description": {
+          "$id": "#/properties/Chanel/properties/description",
+          "type": "string",
+          "title": "The Description Schema",
+          "default": "",
+          "examples": [
+            "test Description"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "link": {
+          "$id": "#/properties/Chanel/properties/link",
+          "type": "string",
+          "title": "The Link Schema",
+          "default": "",
+          "examples": [
+            "https://www.youtube.com/user/roydroider"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

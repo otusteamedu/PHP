@@ -1,0 +1,85 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "video"
+  ],
+  "properties": {
+    "video": {
+      "$id": "#/properties/video",
+      "type": "object",
+      "title": "The Video Schema",
+      "required": [
+        "id",
+        "channelId",
+        "title",
+        "link",
+        "likeCount",
+        "dislikeCount"
+      ],
+      "properties": {
+        "id": {
+          "$id": "#/properties/video/properties/id",
+          "type": "string",
+          "title": "The Id Schema",
+          "default": "",
+          "examples": [
+            "record id"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "ChannelId": {
+          "$id": "#/properties/video/properties/chanelId",
+          "type": "string",
+          "title": "The ChannelId Schema",
+          "default": "",
+          "examples": [
+            "ChannelId string"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "title": {
+          "$id": "#/properties/video/properties/title",
+          "type": "string",
+          "title": "The Title Schema",
+          "default": "",
+          "examples": [
+            "title"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "link": {
+          "$id": "#/properties/video/properties/link",
+          "type": "string",
+          "title": "The Link Schema",
+          "default": "",
+          "examples": [
+            "https://www.youtube.com/watch?v=9dAhGQZKEfs"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "likeCount": {
+          "$id": "#/properties/video/properties/likeCount",
+          "type": "integer",
+          "title": "The Like Count Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "dislikeCount": {
+          "$id": "#/properties/video/properties/dislikeCount",
+          "type": "integer",
+          "title": "The Dislike Count Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        }
+      }
+    }
+  }
+}
