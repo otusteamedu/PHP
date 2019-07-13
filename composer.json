@@ -1,0 +1,20 @@
+{
+    "name": "crazydope/youtube",
+    "description": "Home Work 16-1",
+    "authors": [
+        {
+            "name": "Agureev Dmitry",
+            "email": "crazydope@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-mongodb": "*",
+        "mongodb/mongodb": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "crazydope\\youtube\\": "src/"
+        }
+    }
+}
