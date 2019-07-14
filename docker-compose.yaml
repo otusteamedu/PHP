@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+
+  postgres:
+    build:
+    build:
+      dockerfile: docker/Dockerfile
+      context: .
+    networks:
+      otus-php-backend:
+    ports:
+      - "5432:5432"
+
+networks:
+
+  otus-php-backend:
