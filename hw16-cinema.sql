@@ -39,3 +39,5 @@ CREATE TABLE "tickets" (
   "status_data" VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY ("show_id", "seat_id")
 );
+
+ALTER INDEX ALL IN TABLESPACE "pg_default" SET TABLESPACE "tsFastIndex";
