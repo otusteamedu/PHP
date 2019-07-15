@@ -9,7 +9,7 @@ $config = [
     ],
     'youtube' => [
 	    'url' => 'https://www.youtube.com',
-	    'key' => 'AIzaSyC-Rz-DbAkzP7ulvntkhXrNhSuuDUBVhck',
+	    'key' => 'AIzaSyB7ZxHaCJ0ol37RQLk9wryzHg00kpwRCkU',
 	    'tableChannels' => 'channels',
 	    'tableVideos' => 'videos',
     ]
