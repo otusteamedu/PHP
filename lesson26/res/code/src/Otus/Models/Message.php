@@ -74,4 +74,12 @@ class Message extends BaseModel
     {
         return self::$queueName;
     }
+
+    /**
+     * @return string
+     */
+    public function getStringStatus()
+    {
+        return 'Message with id "' . $this->id . '" has status "' . self::$statuses[$this->status] . '".';
+    }
 }

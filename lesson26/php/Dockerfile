@@ -1,6 +1,6 @@
 FROM php:7.3-fpm
-## Install the composer package dependencies
-RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev
+## Install the composer package dependencies + git + procps
+RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev git procps
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer \
