@@ -118,7 +118,7 @@ class MongoModel extends MongoController
 	try {
 	    $manager = $this->manager;
 	    $bulk = new MongoDB\Driver\BulkWrite;
-	    $doc = ['channelTitle' => $channelTitle = '', 'channelViews' => $channelViews, 'channelLikes' => $channelLikes, 'channelDislikes' => $channelDislikes ];
+	    $doc = ['channelTitle' => $channelTitle, 'channelViews' => $channelViews, 'channelLikes' => $channelLikes, 'channelDislikes' => $channelDislikes ];
     	    $where = ['channelId' => $channelId ];
 	    $bulk->update($where, [ '$set' => $doc ]);
 	    $manager->executeBulkWrite( $dbName . '.' . $youtubeChannelsTable, $bulk );
