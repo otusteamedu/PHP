@@ -1,0 +1,2 @@
+# Create builds and start
+docker-compose up --build -d
