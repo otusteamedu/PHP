@@ -1,0 +1,36 @@
+balancer:
+  image: nginx:latest
+  container_name: nginx-balancer
+  ports:
+    - "80:80"
+  volumes:
+    - ./balancer.conf:/etc/nginx/conf.d/balancer.conf
+  links:
+    - nginx1
+    - nginx2
+nginx1:
+  image: nginx:latest
+  container_name: nginx1
+  volumes:
+    - ./nginx1.conf:/etc/nginx/conf.d/nginx1.conf
+    - ./project:/var/www/project/
+  links:
+    - php1
+nginx2:
+  image: nginx:latest
+  container_name: nginx2
+  volumes:
+    - ./nginx2.conf:/etc/nginx/conf.d/nginx2.conf
+    - ./project:/var/www/project/
+  links:
+    - php2
+php1:
+  image: php:7.2-fpm
+  container_name: php-fpm1
+  volumes:
+    - ./project:/var/www/project/
+php2:
+  image: php:7.2-fpm
+  container_name: php-fpm2
+  volumes:
+    - ./project:/var/www/project/

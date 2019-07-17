@@ -18,7 +18,7 @@ class MailChecker
 
     private function checkWithRegularExpression(string $mail): bool
     {
-        return preg_match(self::MAIL_PATTERN, $mail);
+        return preg_match(self::MAIL_PATTERN, $mail) ? true : false;
     }
 
     private function checkWithDns(string $mail): bool
