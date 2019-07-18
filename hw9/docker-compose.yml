@@ -7,7 +7,7 @@ services:
       context: ./docker/postgres 
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       
   adminer:
     image: adminer
