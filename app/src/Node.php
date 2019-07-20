@@ -144,15 +144,16 @@ class Node
     }
 
     /**
-     * @param Node $node
+     * @param int $number
+     * @param int $length
      * @return Node
      */
-    public function addNeighbor(Node $node, int $length): self
+    public function addNeighbor(int $number, int $length): self
     {
         $neighbors = $this->getNeighbors();
         $neighbors[] = [
-            'node' => $node,
-            'length' => $length
+            'number' => $number,
+            'length' => $length,
         ];
         $this->setNeighbors($neighbors);
 

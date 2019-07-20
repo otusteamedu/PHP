@@ -2,16 +2,12 @@
 
 namespace App;
 
-use InvalidArgumentException;
-
 /**
  * Class Graph
  * @package App
  */
 class Graph
 {
-    private const INFINITY = 999;
-
     /**
      * @var array
      */
@@ -53,7 +49,16 @@ class Graph
     public function addNode(Node $node): self
     {
         $nodes = $this->getNodes();
-        $nodes[] = $node;
+
+        if (isset($nodes[$node->getNumber()])) {
+            $neighbors = array_merge(
+                $nodes[$node->getNumber()]->getNeighbors(),
+                $node->getNeighbors()
+            );
+            $node->setNeighbors($neighbors);
+        }
+
+        $nodes[$node->getNumber()] = $node;
         $this->setNodes($nodes);
 
         return $this;
@@ -62,51 +67,51 @@ class Graph
     /**
      * @return string
      */
-    public function getPath(): string
+    public function calc(): string
     {
-        if (!$node = $this->getFirstNode()) {
-            throw new InvalidArgumentException('Can not find node #1');
-        }
+        $nodes = $this->getNodes();
+        $nodes[1]->setLength(0);
+        $nodes[1]->setPath([1]);
 
-        do {
-            $nearestNode = $this->lookingForNeighbors($node);
-            echo 'Take node #' . $node->getNumber() . PHP_EOL;
-            $node = $nearestNode;
-        } while ($node !== null);
+        for ($i = 1; $i <= count($nodes); $i++) {
 
-        return '';
-    }
+            echo 'Node #' . $nodes[$i]->getNumber() . PHP_EOL;
 
-    /**
-     * @param Node $node
-     * @return Node|null
-     */
-    private function lookingForNeighbors(Node $node): ?Node
-    {
-        $length = self::INFINITY;
-        $nearestNode = null;
+            $neighbors = $nodes[$i]->getNeighbors();
 
-        /**
-         * @var Node $neighborNode
-         */
-        foreach ($node->getNeighbors() as $neighbor) {
-            $neighborNode = $neighbor['node'];
+            for ($n = 0; $n < count($neighbors); $n++) {
+                echo '  neighbor #' . $nodes[$neighbors[$n]['number']]->getNumber() .
+                    ' (length ' . $nodes[$neighbors[$n]['number']]->getLength() . ') - ';
 
-            if (!$neighborNode->isVisited()) {
-                if ($neighborNode->getLength() > $neighbor['length']) {
-                    $neighborNode->setLength($neighbor['length']);
-                }
+                $length = $nodes[$i]->getLength() + $neighbors[$n]['length'];
 
-                if ($neighbor['length'] < $length) {
-                    $nearestNode = $neighborNode;
-                    $length = $neighbor['length'];
+                if (!$nodes[$neighbors[$n]['number']]->isVisited()) {
+                    if ($length < $nodes[$neighbors[$n]['number']]->getLength()) {
+                        $nodes[$neighbors[$n]['number']]->setLength($length);
+                        $nodes[$neighbors[$n]['number']]->setPath(
+                            array_merge(
+                                $nodes[$i]->getPath(),
+                                [$neighbors[$n]['number']]
+                            )
+                        );
+                        echo 'set new length ';
+                    } else {
+                        echo 'save old length ';
+                    }
+                    echo $nodes[$neighbors[$n]['number']]->getLength() . ', path is ' .
+                        implode('-', $nodes[$neighbors[$n]['number']]->getPath()) . PHP_EOL;
+                } else {
+                    echo 'already visited' . PHP_EOL;
                 }
             }
+
+            $nodes[$i]->setNeighbors($neighbors);
+            $nodes[$i]->setVisited(true);
+            echo PHP_EOL;
         }
 
-        $node->setVisited(true);
-
-        return $nearestNode;
+        return 'Shortest path is ' . implode('-', $nodes[count($nodes)]->getPath()) .
+            ', length is ' . $nodes[count($nodes)]->getLength() . PHP_EOL;
     }
 
     /**
@@ -116,25 +121,13 @@ class Graph
     {
         foreach ($json as $edge) {
             $node1 = new Node($edge[0]);
-            $node2 = new Node($edge[2]);
-            $node1->addNeighbor($node2, $edge[1]);
-            $node2->addNeighbor($node1, $edge[1]);
+            $node2 = new Node($edge[1]);
+
+            $node1->addNeighbor($node2->getNumber(), $edge[2]);
+            $node2->addNeighbor($node1->getNumber(), $edge[2]);
+
             $this->addNode($node1);
             $this->addNode($node2);
         }
-    }
-
-    /**
-     * @return Node|null
-     */
-    private function getFirstNode(): ?Node
-    {
-        foreach ($this->getNodes() as $node) {
-            if ($node->getNumber() === 1) {
-                return $node;
-            }
-        }
-
-        return null;
     }
 }
