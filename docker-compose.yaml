@@ -1,0 +1,12 @@
+version: '2.4'
+
+services:
+    otus-php-fpm:
+        container_name: otus-php-fpm
+        image: otus/php-fpm
+        build: ./docker/php-fpm
+        volumes:
+            - ./app:/app
+        restart: always
+        ports:
+            - 80:80
