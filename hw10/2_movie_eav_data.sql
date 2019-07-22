@@ -37,7 +37,7 @@ INSERT INTO movie (title) VALUES
     ('Форсаж: Хоббс и Шоу'),
     ('Человек-паук: Вдали от дома');
 
-INSERT INTO movie_attribute_value (movie_id, movie_attribute_id, value_date, value_text, value_int, value_num) VALUES
+INSERT INTO movie_attribute_value (movie_id, movie_attribute_id, value_date, value_text, value_int, value_real) VALUES
     (1, 1, NULL, '/upload/img1.png', NULL, NULL),
     (1, 1, NULL, '/upload/img2.png', NULL, NULL),
     (1, 1, NULL, '/upload/img3.png', NULL, NULL),

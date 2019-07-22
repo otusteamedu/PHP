@@ -40,6 +40,6 @@ CREATE TABLE IF NOT EXISTS movie_attribute_value (
     value_date TIMESTAMP,
     value_text TEXT,
     value_int INT,
-    value_num NUMERIC
+    value_real REAL
 );
 

@@ -9,7 +9,7 @@ CREATE VIEW marketing_info AS
             WHEN at.code = 'date' THEN to_char(val.value_date, 'DD.MM.YYYY')
             WHEN at.code = 'integer' THEN cast(val.value_int as VARCHAR)
             WHEN at.code = 'dict' THEN (SELECT value FROM movie_attribute_dict_value WHERE id = val.value_int)
-            WHEN at.code = 'numeric' THEN cast(val.value_num as VARCHAR)
+            WHEN at.code = 'numeric' THEN cast(val.value_real as VARCHAR)
             WHEN at.code = 'text' THEN val.value_text
             ELSE ''
         END as value
