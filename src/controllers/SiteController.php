@@ -16,7 +16,7 @@ class SiteController
 
 	$ar = new ActiveRecordModel();
 	
-	$id = 1;
+	$id = 211;
 	$ar->setId($id);
 
 	print_r($ar->select());

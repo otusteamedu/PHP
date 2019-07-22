@@ -15,7 +15,7 @@ services:
       - db
 
   php:
-    image: php:7.2-fpm
+    image: php:7.1-fpm
     restart: on-failure
     build: ./Dockerfiles/php/.
     working_dir: /usr/share/nginx/html

@@ -10,8 +10,6 @@ use PDOException;
 class ActiveRecordModel extends PostgresqlController
 {
 
-    private $pdo;
-
     private $id;
     private $idHall;
     private $cinemaName;
@@ -35,21 +33,21 @@ CREATE TABLE "cinemaHall" (
     {
         $this->pdo = parent::__construct();
         
-        $pdo = $this->pdo;
+        print_r($this->pdo);
         
-        $this->insertStmt = $pdo->prepare(
+        $this->insertStmt = $this->pdo->prepare(
                 "insert into cinemaHall (idHall, cinemaName, seatHall) values (?, ?, ?)"
 	);
         
-        $this->updateStmt = $pdo->prepare(
+        $this->updateStmt = $this->pdo->prepare(
                 "update cinemaHall set idHall = ?, cinemaName = ?, seatHall = ? where id = ?"
         );
 
-        $this->selectStmt = $pdo->prepare(
+        $this->selectStmt = $this->pdo->prepare(
                 "select id, idHall, cinemaName, seatHall from cinemaHall where id = ?"
         );
         
-        $this->deleteStmt = $pdo->prepare("delete from cinemaHall where id = ?");
+        $this->deleteStmt = $this->pdo->prepare("delete from cinemaHall where id = ?");
         
     }
         
@@ -74,17 +72,16 @@ CREATE TABLE "cinemaHall" (
 	]);
     }
 
-    public function select(): array
+    public function select()
     {
-	$id = $this->id;
-	$this->selectStmt->execute([$id]);
-	return $this->selectStmt->fetchAll(PDO::FETCH_ASSOC);
+	$this->selectStmt->execute([$this->id]);
+//        $this->selectStmt->debugDumpParams();
+	return $this->selectStmt->fetchAll();
     }
 
     public function delete(): bool
     {
-	$id = $this->id;
-	return $this->deleteStmt->execute([$id]);
+	return $this->deleteStmt->execute([$this->id]);
     }
 
 }
