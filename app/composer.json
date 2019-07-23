@@ -1,0 +1,9 @@
+{
+    "name": "fdor/hw26-1",
+    "require": {},
+    "autoload": {
+        "psr-4" : {
+            "App\\" : "src"
+        }
+    }
+}
