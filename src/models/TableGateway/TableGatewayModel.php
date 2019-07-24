@@ -49,17 +49,17 @@ CREATE TABLE "cinemaHall" (
         
     }
     
-    public function select(int $id): array
+    public function select(int $id)
     {
 	$this->selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
-        return (array) $this->selectStmt->fetch();
+        return $this->selectStmt->fetch();
     }
 
-    public function insert(int $idHall, string $cinemaName, int $seatHall): int
+    public function insert(int $idHall, string $cinemaName, int $seatHall)
     {
 	$this->insertStmt->execute([ $idHall, $cinemaName, $seatHall ]);
-        return (int) $this->pdo->lastInsertId();
+        return $this->pdo->lastInsertId();
     }
 
     public function update(int $id, int $idHall, string $cinemaName, int $seatHall): bool {

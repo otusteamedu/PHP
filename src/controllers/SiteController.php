@@ -11,6 +11,8 @@ use Paa\Models\TableGateway\TableGatewayModel;
 use Paa\Models\RowGateway\RowGatewayModel;
 use Paa\Models\RowGateway\RowGatewayFinderModel;
 
+use Paa\Models\LazyLoad\LazyLoadModel;
+
 class SiteController
 {
 
@@ -128,13 +130,18 @@ class SiteController
 
 
 
+/* ------------ Lazy Load ------------------------ */	
 
 
+	print "<h3>Lazy Load Model</h3><br>";
 
+        print "<p>Load</p>";
+	$ll = new LazyLoadModel(false);
+	print_r($ll->select(1));
 
-
-
-
+        print "<p>Lazy Load</p>";
+	$ll = new LazyLoadModel(true);
+	print_r($ll->select(1));
 
 
 
