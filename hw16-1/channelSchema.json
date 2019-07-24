@@ -1,0 +1,15 @@
+{
+  "bsonType": "object",
+  "required": [ "name", "description", "author"],
+  "properties": {
+    "name": {
+      "bsonType": "string"
+    },
+    "description": {
+      "bsonType": "string"
+    },
+    "author": {
+      "bsonType": "string"
+    }
+  }
+}
