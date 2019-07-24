@@ -1,4 +1,6 @@
 <?
+declare(strict_types = 1);
+
 namespace Paa\Models\ActiveRecord;
 
 use Paa\App\PostgresqlController;
@@ -32,22 +34,23 @@ CREATE TABLE "cinemaHall" (
     public function __construct() 
     {
         $this->pdo = parent::__construct();
-        
-        print_r($this->pdo);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         $this->insertStmt = $this->pdo->prepare(
-                "insert into cinemaHall (idHall, cinemaName, seatHall) values (?, ?, ?)"
+    		'insert into "cinemaHall" ("idHall", "cinemaName", "seatHall") values (?, ?, ?)'
 	);
         
         $this->updateStmt = $this->pdo->prepare(
-                "update cinemaHall set idHall = ?, cinemaName = ?, seatHall = ? where id = ?"
+                'update "cinemaHall" set "idHall" = ?, "cinemaName" = ?, "seatHall" = ? where "id" = ?'
         );
 
         $this->selectStmt = $this->pdo->prepare(
-                "select id, idHall, cinemaName, seatHall from cinemaHall where id = ?"
+                'select "id", "idHall", "cinemaName", "seatHall" from "cinemaHall" where "id" = ?'
         );
         
-        $this->deleteStmt = $this->pdo->prepare("delete from cinemaHall where id = ?");
+        $this->deleteStmt = $this->pdo->prepare(
+    		'delete from "cinemaHall" where "id" = ?'
+    	);
         
     }
         
@@ -61,6 +64,39 @@ CREATE TABLE "cinemaHall" (
 	$this->id = $id;
 	return $this;
     }
+
+    public function getIdHall(): int
+    {
+	return $this->idHall;
+    }
+
+    public function setIdHall(int $idHall): self
+    {
+	$this->idHall = $idHall;
+	return $this;
+    }
+
+    public function getCinemaName(): string
+    {
+	return $this->cinemaName;
+    }
+
+    public function setCinemaName(string $cinemaName): self
+    {
+	$this->cinemaName = $cinemaName;
+	return $this;
+    }
+
+    public function getSeatHall(): int
+    {
+	return $this->seatHall;
+    }
+
+    public function setSeatHall(string $seatHall): self
+    {
+	$this->seatHall = $seatHall;
+	return $this;
+    }
    
     public function update(): bool
     {
@@ -71,11 +107,22 @@ CREATE TABLE "cinemaHall" (
 	    $this->id
 	]);
     }
+    
+    public function insert()
+    {
+	$this->insertStmt->execute([ 
+	    $this->idHall,
+    	    $this->cinemaName,
+            $this->seatHall
+	]);
+	
+        return $this->pdo->lastInsertId();
+    }
+                                
 
     public function select()
     {
 	$this->selectStmt->execute([$this->id]);
-//        $this->selectStmt->debugDumpParams();
 	return $this->selectStmt->fetchAll();
     }
 

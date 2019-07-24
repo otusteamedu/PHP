@@ -1,6 +1,4 @@
 <?php
-//require('../vendor/autoload.php');
-//require('../config/config.php');
-//(new \Paa\App\ApplicationController())->run();
-
-print phpinfo();
+require('../vendor/autoload.php');
+require('../config/config.php');
+(new \Paa\App\ApplicationController())->run();

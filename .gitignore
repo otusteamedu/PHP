@@ -1,5 +1,4 @@
 src/vendor
-docker/dump
 docker/postgres
 
 

@@ -15,7 +15,7 @@ services:
       - db
 
   php:
-    image: php:7.1-fpm
+    image: php:7.3-fpm
     restart: on-failure
     build: ./Dockerfiles/php/.
     working_dir: /usr/share/nginx/html
@@ -27,7 +27,7 @@ services:
       - db
 
   db:
-    image: postgres:latest
+    image: postgres
     restart: on-failure
     environment:
       - POSTGRES_DB=${DB_NAME}
