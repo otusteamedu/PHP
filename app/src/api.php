@@ -1,6 +1,8 @@
 <?php
 
 use App\Connect;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
@@ -47,6 +49,16 @@ if ($_GET['mode'] === 'send') {
         'status' => 'ok',
         'message' => md5($id),
     ]);
+
+    $connection = new AMQPStreamConnection('otus-rabbitmq', 5672, 'admin', '1231');
+    $channel = $connection->channel();
+    $channel->queue_declare('manager', false, true, false, false);
+
+    $msg = new AMQPMessage(md5($id), ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
+    $channel->basic_publish($msg, '', 'manager');
+
+    $channel->close();
+    $connection->close();
 
     exit;
 }

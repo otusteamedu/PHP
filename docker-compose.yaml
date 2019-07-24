@@ -40,5 +40,17 @@ services:
             - 5432:5432
         networks:
             - otus-network
+
+    otus-rabbitmq:
+        container_name: otus-rabbitmq
+        image: otus/rabbitmq
+        build: ./docker/rabbitmq
+        volumes:
+            - ./app/var/rabbitmq/data:/var/lib/rabbitmq
+        restart: always
+        ports:
+            - 15672:15672
+        networks:
+            - otus-network
 networks:
     otus-network:
