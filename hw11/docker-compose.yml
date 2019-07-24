@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRESS_PASSWORD}
+    volumes:
+      - ./1-cinema-ddl.sql:/docker-entrypoint-initdb.d/1-cinema-ddl.sql
+      - ./2-functions.sql:/docker-entrypoint-initdb.d/2-functions.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
