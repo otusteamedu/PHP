@@ -1,0 +1,13 @@
+randomstring
+only.user@
+@domain.test
+user@nonexistent.domain
+info@налог.рф
+violinhi@yahoo.com
+augusto@yahoo.ca
+bwcarty@att.net
+dprice@msn.com
+staikos@optonline.net
+psharpe@mac.com
+andale@yahoo.com
+magusnet@icloud.com
