@@ -1,9 +1,12 @@
 FROM php:7.3-fpm-alpine as stage-build
 
 RUN pecl channel-update pecl.php.net \
-    && apk add --no-cache --virtual .build-deps g++ make autoconf \
+    && apk add --no-cache libpq \
+    && apk add --no-cache --virtual .build-deps g++ make autoconf postgresql-dev \
+    && docker-php-ext-install pdo_pgsql \
+    && pecl install apcu-5.1.17 \
     && pecl install xdebug-2.7.2 \
-    && docker-php-ext-enable xdebug \
+    && docker-php-ext-enable apcu xdebug \
     && apk del --purge .build-deps \
     && pecl clear-cache
 
