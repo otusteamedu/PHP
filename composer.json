@@ -1,0 +1,31 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.rootdir.org/",
+            "options": {
+                "ssl": {
+                    "verify_peer": true,
+                    "cafile": "ca-20120530-0121.crt"
+                }
+            }
+        }
+    ],
+    "config": {
+        "prepend-autoloader": false,
+        "sort-packages": true,
+        "bin-dir": "bin/"
+    },
+    "require": {
+        "anrdaemon/validator-emailaddress": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "AnrDaemon\\CcWeb\\": "src/"
+        }
+    }
+}

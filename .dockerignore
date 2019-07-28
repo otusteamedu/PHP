@@ -1,0 +1,6 @@
+/docker
+/html
+/vendor
+/**/.gitkeep
+/.*
+/docker-compose*

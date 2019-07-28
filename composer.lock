@@ -1,0 +1,65 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "173e1f4836248d39952d33ed37a46cab",
+    "packages": [
+        {
+            "name": "anrdaemon/validator-emailaddress",
+            "version": "0.1",
+            "source": {
+                "type": "svn",
+                "url": "https://svn.rootdir.org/misc/validator-emailaddress",
+                "reference": "/tags/0.1/@1021"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://satis.rootdir.org//dist/anrdaemon/validator-emailaddress/anrdaemon-validator-emailaddress-0.1-144cc5.tar",
+                "reference": "/tags/0.1/@1021",
+                "shasum": "b19a1c1e2c574f355c6e95bec48897478b8a1406"
+            },
+            "require": {
+                "ext-spl": "*",
+                "php": "^5.6 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-trunk": "1.x-dev",
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AnrDaemon\\Validator\\": "src/Validator/"
+                }
+            },
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Repin",
+                    "email": "anrdaemon@yandex.ru"
+                }
+            ],
+            "description": "Email address validator",
+            "transport-options": {
+                "ssl": {
+                    "verify_peer": false
+                }
+            },
+            "time": "2019-07-28T17:19:48+03:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
