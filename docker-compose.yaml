@@ -21,7 +21,7 @@ services:
     volumes:
       - "./docker/php-fpm/fpm-fcgi.ini:/usr/local/etc/php/conf.d/zx-fpm-fcgi.ini"
       - "./docker/php-fpm/pool.conf:/usr/local/etc/php-fpm.d/zx-pool.conf"
-      - ".:/var/www"
+#      - ".:/var/www"
     networks:
       otus-php-backend:
 
