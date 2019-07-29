@@ -1,0 +1,7 @@
+{
+    "name": "luft/project",
+    "type": "project",
+    "require": {
+        "luft/libraries-mytestlib": "dev-master"
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "668385eca62bec00e588f73d99506eb9",
+    "packages": [
+        {
+            "name": "luft/libraries-mytestlib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitalyluft/testLuftLib.git",
+                "reference": "05cc02aaf019bdb33b207adba661868b2b2273aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitalyluft/testLuftLib/zipball/05cc02aaf019bdb33b207adba661868b2b2273aa",
+                "reference": "05cc02aaf019bdb33b207adba661868b2b2273aa",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MyTestLib\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-07-23T09:15:55+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "luft/libraries-mytestlib": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

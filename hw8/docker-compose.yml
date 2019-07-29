@@ -1,0 +1,15 @@
+nginx:
+  image: nginx:latest
+  container_name: nginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+    - ./project:/var/www/project/
+  links:
+    - php
+php:
+  image: php:7.2-fpm
+  container_name: php
+  volumes:
+    - ./project:/var/www/project/
