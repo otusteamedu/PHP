@@ -3,7 +3,7 @@
 
 namespace AnrDaemon;
 
-require __DIR__ . "/StreamServer.php";
+require __DIR__ . "/src/classloader.php";
 
 $uri = "unix://" . __DIR__ . "/socket";
 //$uri = "tcp://0.0.0.0:4445";
