@@ -19,19 +19,9 @@ class StreamServer
 
   protected function init()
   {
-    $params = [
-      $this->uri,
-      &$this->errno,
-      &$this->errstr,
-      $this->flags,
-    ];
+    $context = $this->context ?: stream_context_create();
 
-    if(is_resource($this->context))
-    {
-      $params[] = $this->context;
-    }
-
-    $this->server = stream_socket_server(...$params);
+    $this->server = stream_socket_server($this->uri, $this->errno, $this->errstr, $this->flags, $context);
     if(false === $this->server)
     {
       throw new \RuntimeException("Unable to start server: " . error_get_last()["message"]);
@@ -65,13 +55,13 @@ class StreamServer
     {
       if(false === fclose($this->server))
       {
-        error_log("WTF?");
+        error_log("Error occured while closing server socket.");
       }
 
       [$shema, $path] = explode(":", $this->uri, 2);
       if($shema === "unix" && false === unlink($path))
       {
-        error_log("WTF/2?");
+        error_log("Error occured while removing socket file.");
       }
     }
   }
@@ -196,6 +186,22 @@ class StreamServer
     {
       error_log("Shutting down.");
       $this->stop();
+    }
+  }
+
+  public function __clone()
+  {
+    if(is_resource($this->server))
+    {
+      throw new \BadMethodCallException("Unable to clone running server instance");
+    }
+  }
+
+  public function __sleep()
+  {
+    if(is_resource($this->server))
+    {
+      throw new \BadMethodCallException("Unable to serialize running server instance");
     }
   }
 }
