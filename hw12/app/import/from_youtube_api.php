@@ -15,13 +15,11 @@ if (php_sapi_name() != 'cli') {
 
 require_once $_SERVER['APP_PATH'].'/config.php';
 
-$secretJson = 'secret.json';
-
-if (!file_exists($secretJson)) {
-    die('Sorry! File ".'.$secretJson.'." doesn`t exists.'.PHP_EOL);
+if (!file_exists($youtubeJson)) {
+    die('Sorry! File ".'.$youtubeJson.'." doesn`t exists.'.PHP_EOL);
 }
 
-$api = new Jekys\YoutubeAPI($secretJson);
+$api = new Jekys\YoutubeAPI($youtubeAppName, $youtubeScopes, $youtubeJson);
 
 $region = readline('Enter the region code [ru]: ');
 

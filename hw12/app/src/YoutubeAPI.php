@@ -24,17 +24,17 @@ class YoutubeAPI
     /**
     * Object instance constructor
     *
+    * @param string $appName - Google Cloud API App Name
+    * @param array $scopes - Youtube API access scope
     * @param string $secretJsonPath - JSON file with Youtube API credentials
     *
     * @return void
     */
-    public function __construct($secretJsonPath)
+    public function __construct(string $appName, array $scopes, string $secretJsonPath)
     {
         $this->client = new Google_Client();
-        $this->client->setApplicationName('Youtube Channels Stats');
-        $this->client->setScopes([
-            'https://www.googleapis.com/auth/youtube.readonly',
-        ]);
+        $this->client->setApplicationName($appName);
+        $this->client->setScopes($scopes);
 
         $this->client->setAuthConfig($secretJsonPath);
         $this->client->setAccessType('offline');

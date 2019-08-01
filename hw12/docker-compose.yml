@@ -13,6 +13,7 @@ services:
       - 'MONGO_HOST=${MONGO_HOST}'
       - 'MONGO_PORT=${MONGO_PORT}'
       - 'MONGO_DB=${MONGO_DB}'
+      - 'MONGO_COLLECTION=${MONGO_COLLECTION}'
     volumes:
       - './app:${APP_PATH}'
 

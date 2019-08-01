@@ -21,7 +21,7 @@ class Statistics
     /**
     * @var string - mongo database collection
     */
-    private $dbCollection = 'youtube_channels';
+    private $dbCollection;
 
     /**
     * Object entity constructor
@@ -32,10 +32,11 @@ class Statistics
     *
     * @return void
     */
-    public function __construct(String $dbHost, Int $dbPort, String $dbName)
+    public function __construct(String $dbHost, Int $dbPort, String $dbName, String $dbCollection)
     {
         $this->dbConn = new \MongoDB\Driver\Manager('mongodb://'.$dbHost.':'.$dbPort);
         $this->dbName = $dbName;
+        $this->dbCollection = $dbCollection;
     }
 
     /**
