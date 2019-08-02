@@ -1,0 +1,16 @@
+{
+    "name": "jekys/redis-app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Evgeny Prokhorov",
+            "email": "prohorov-evgen@ya.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Jekys\\": "src/"
+        }
+    }
+}
