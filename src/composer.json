@@ -1,0 +1,37 @@
+{
+    "name": "andrey/hw_26",
+    "type": "library",
+    "description": "",
+    "keywords": ["",""],
+    "homepage": "https://github.com/AndreyPA/apovolotskiy",
+    "authors": [
+        {
+            "name": "Andrey",
+            "email": "andrey@uma.ru",
+            "homepage": "http://www.uma.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+           "php": ">=7.1",
+           "php-amqplib/php-amqplib" : ">=2.10",
+           "ext-bcmath": "*",
+           "ext-sockets": "*"
+    },
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "autoload": {
+	"psr-4": {
+	    "Paa\\Controllers\\": "./controllers",
+	    "Paa\\Models\\": "./models",
+	    "Paa\\App\\": "./app"
+	}
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/AndreyPA/apovolotskiy" 
+        }
+    ]
+}
+
