@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+    otus-nginx:
+        container_name: otus-nginx
+        image: otus/nginx
+        build: ./docker/nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./app:/app
+            - ./app/var/log/nginx:/var/log/nginx
+        depends_on:
+            - otus-php-fpm
+        networks:
+            - otus-network
+
+    otus-php-fpm:
+        container_name: otus-php-fpm
+        image: otus/php-fpm
+        build: ./docker/php-fpm
+        volumes:
+            - ./app:/app
+            - ./app/var/php-fpm/logs:/var/log/php-fpm
+        depends_on:
+           - otus-postgres
+        restart: always
+        networks:
+            - otus-network
+    otus-postgres:
+        container_name: otus-postgres
+        image: otus/postgres
+        build: ./docker/postgres
+        volumes:
+            - ./app:/app
+            - ./app/var/postgres:/var/lib/postgresql
+            - ./app/var/postgres/data:/var/lib/postgresql/data
+        restart: always
+        ports:
+            - 5432:5432
+        networks:
+            - otus-network
+
+    otus-rabbitmq:
+        container_name: otus-rabbitmq
+        image: otus/rabbitmq
+        build: ./docker/rabbitmq
+        volumes:
+            - ./app/var/rabbitmq/data:/var/lib/rabbitmq
+        restart: always
+        ports:
+            - 15672:15672
+        networks:
+            - otus-network
+networks:
+    otus-network:
