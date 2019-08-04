@@ -11,8 +11,7 @@ class PostgresqlModel extends PostgresqlController
         $this->pdo = parent::__construct();
     }
     
-    public function insertMess(string $msgText = '') {
-	$msgUnique = md5(microtime(true).mt_Rand());
+    public function insertMess(string $msgText = '', string $msgUnique = '') {
         $this->pdo->prepare('insert into "feedback" ("msgText", "msgDate", "msgAnswer", "msgStatus", "msgUnique") values (?, current_timestamp, \'\', 0, ?)')->execute([$msgText, $msgUnique]);
     }
 
@@ -29,6 +28,14 @@ class PostgresqlModel extends PostgresqlController
         $this->selectStmt->execute();
         return $this->selectStmt->fetchAll();
     }
+
+    public function selectByUnique(string $unique = '') {
+	$this->selectStmt = $this->pdo->prepare('select "msgStatus" from "feedback" where "msgUnique" = ?');
+	$this->selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->selectStmt->execute([$unique]);
+        return $this->selectStmt->fetch();
+    }
+
 
     public function updateMess(int $msgId = 0, string $msgAnswer = '', int $msgStatus = 0) {
 	$this->selectStmt = $this->pdo->prepare('update "feedback" set "msgAnswer" = ?, "msgStatus" = ? where "id" = ?');

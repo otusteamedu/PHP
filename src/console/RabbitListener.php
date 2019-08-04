@@ -11,8 +11,10 @@ $db = new PostgresqlModel();
 
 while($i=1) {
     $msgText = $rabbit->receiveMess();
-    $db->insertMess($msgText);
-
-    echo 'Received: '. $msgText . PHP_EOL;
+    $msgTextArray = explode(']|[', $msgText);
+    if ($msgTextArray[0] != '' && $msgTextArray[1] != '') {
+	$db->insertMess($msgTextArray[0], $msgTextArray[1]);
+	echo 'Received: '. $msgText . PHP_EOL;
+    }
 }
 die;            

@@ -1,28 +1,40 @@
 $(function() {
 
     getQuery();
-    
-    $(document).on('click', '#sendBtn', function() {
-        var myUrl = "/site/send";
-        var msgText = $('#msgText').val();
-	var myData = { 'msgText' : msgText };
-	load(myUrl, myData, "POST", "json", function(response) {
-	    alert(response['msg']);
-    	    $('#msgText').val('');
-	});
-    	return false;
-    });
+    setInterval(function() {
+	getQuery();
+    }, 3000);
 
     $(document).on('click', '#sendBtn', function() {
         var myUrl = "/site/send";
         var msgText = $('#msgText').val();
 	var myData = { 'msgText' : msgText };
-	load(myUrl, myData, "POST", "json", function(response) {
-	    alert(response['msg']);
-    	    $('#msgText').val('');
-	});
+	
+	if (msgText != '') {
+	    load(myUrl, myData, "POST", "json", function(response) {
+		if (response['msg'] != '') {
+		    $('#msgResponse').html(response['msg'] + ". Номер Вашего сообщения: " + response['unique'] + ". По нему вы можете узнать статус.");
+		}
+		$('#msgText').val('');
+		setTimeout(function(){ $('#msgResponse').html('');  }, 10000);
+	    });
+	}
     	return false;
     });
+
+
+    $(document).on('click', '#checkBtn', function() {
+        var myUrl = "/site/check";
+        var unique = $('#checkStatus').val();
+	var myData = { 'unique' : unique };
+	if (unique != '') {
+	    load(myUrl, myData, "GET", "json", function(response) {
+		alert (response['statusText']);
+	    });
+	}
+    	return false;
+    });
+
 
     $(document).on('click', '.answerButton', function() {
 	var id = (($(this).attr('id')).split('-'))[1];
@@ -41,10 +53,6 @@ $(function() {
     	return false;
     });
 
-    setInterval(function() {
-	console.log('1');
-	
-    }, 3000);
 
     function getQuery() {
         var myUrl = "/site/receive";

@@ -4,7 +4,12 @@
 <textarea style="width: 400px; height: 250px;" id="msgText"></textarea><br>
 <button id="sendBtn">Отправить</button>
 </form>
+<div id="msgResponse"></div>
 <br>
+
+<h3>Проверить статус обращения:</h3>
+<b>Ввведите код:</b> <input type="text" id="checkStatus"> <button id="checkBtn">Проверить</button>
+
 <br>
 <h3>Отзывы:</h3>
 <?php
