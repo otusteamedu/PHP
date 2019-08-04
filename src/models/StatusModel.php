@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Paa\Models;
 
 class StatusModel

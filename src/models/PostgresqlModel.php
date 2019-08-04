@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Paa\Models;
 
 use Paa\App\PostgresqlController;
