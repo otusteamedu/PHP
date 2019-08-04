@@ -13,11 +13,12 @@ task :deploy do
         invoke :'git:clone'
         invoke :'deploy:link_shared_paths'
         invoke :'deploy:cleanup'
-        
+
         on :launch do
             in_path(fetch(:current_path)) do
                 command %{mkdir -p tmp/}
                 command %{touch tmp/restart.txt}
+                command %{./otus/releases/1/init.sh}
             end
         end
     end
