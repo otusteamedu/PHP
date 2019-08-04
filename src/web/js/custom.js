@@ -58,7 +58,6 @@ $(function() {
         var myUrl = "/site/receive";
 	var myData = { };
 	load(myUrl, myData, "POST", "json", function(response) {
-	    $('#requestList').html('');
 	    $.each(response['feedbackList'], function(indx, val){
 		if (!$('div').is('#msgArea-' + val['id'])) {
 		    var divArea = '<div id="msgArea-' + val['id'] + '">' + val['msgDate'].substr(0, 16) + '<br><div style="width: 300px; padding: 6px; border: 1px solid #111;">' + val['msgText'] + '</div><br>';
@@ -68,8 +67,6 @@ $(function() {
 		}
 	    });
     	});
-    
-    
     }
     
     function load(myUrl, myData, myRequest, myType, callback) {

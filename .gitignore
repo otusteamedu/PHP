@@ -1,4 +1,4 @@
-src/vendor
+vendor
 docker/postgres
 docker/data
 

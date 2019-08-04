@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx
+    restart: on-failure
+    build: ./docker/Dockerfiles/nginx/.
+    ports:
+      - 8000:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/usr/share/nginx/html
+    depends_on:
+      - php
+      - rabbitmq
+      - db
+
+  php:
+    image: php:7.1-fpm
+    restart: on-failure
+    build: ./docker/Dockerfiles/php/.
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - ./:/usr/share/nginx/html
+    command: bash -c "php-fpm -D && /usr/share/nginx/html/src/console/RabbitListener.sh"
+    ports:
+      - 9000:9000
+    depends_on:
+      - rabbitmq
+      - db
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+    - ./data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached  
+    environment:
+      AMQP_DSN: amqp://rabbitmq:rabbitmq@rabbitmq:5672/mqdev
+      RABBITMQ_AMQP_DSN: amqp+rabbitmq://rabbitmq:rabbitmq@rabbitmq:5672/mqdev
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+  db:
+   image: postgres
+   restart: on-failure
+   environment:
+     - POSTGRES_DB=${DB_NAME}
+     - POSTGRES_USER=${DB_USER}
+     - POSTGRES_PASSWORD=${DB_PASSWORD}
+   ports:
+     - 5432:5432
+   volumes:
+     - ./postgres:/var/lib/postgresql/data
+     - ./docker/dump/feedbackDB.sql:/docker-entrypoint-initdb.d/feedbackDB.sql
+

@@ -1,6 +1,6 @@
 #!/usr/local/bin/php
 <?php
-require('../vendor/autoload.php');
+require('./../../vendor/autoload.php');
 require('../config/config.php');
 
 use Paa\Models\RabbitModel;
