@@ -18,8 +18,7 @@ task :deploy do
             in_path(fetch(:current_path)) do
                 command %{mkdir -p tmp/}
                 command %{touch tmp/restart.txt}
-                command %{pwd}
-                command %{/home/serv/otus/releases/1/init.sh}
+                command %{sudo ./init.sh}
             end
         end
     end
