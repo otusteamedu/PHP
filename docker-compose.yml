@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  web:
+    build: Docker/nginx
+    container_name: nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./code:/code
+    networks:
+      - code-network
+  php:
+    build: Docker/php
+    container_name: ${PHP_HOST}
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: 3306
+      MYSQL_DB: ${MYSQL_DB}
+      RABBIT_HOST: ${RABBIT_HOST}
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASSWORD: ${RABBIT_PASSWORD}
+      RABBIT_PORT: 5672
+      API_ADMIN_USER: ${API_ADMIN_USER}
+      API_ADMIN_PASSWORD: ${API_ADMIN_PASSWORD}
+      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_port=9010"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    volumes:
+      - ./code:/code
+    networks:
+      - code-network
+    command: bash -c "cd /code && composer install && php-fpm"
+  db:
+    image: mysql
+    container_name: db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: otus
+    volumes:
+      - ~/mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - code-network
+  rabbit:
+    build: Docker/rabbit
+    container_name: ${RABBIT_HOST}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "${RABBIT_GUI_PORT}:15672"
+      - "${RABBIT_PORT}:5672"
+    networks:
+      - code-network
+networks:
+  code-network:
+    driver: bridge

@@ -1,0 +1,22 @@
+{
+    "name": "crazydope/theater-api",
+    "description": "Home Work 26-1",
+    "authors": [
+        {
+            "name": "Agureev Dmitry",
+            "email": "crazydope@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "php-amqplib/php-amqplib": "^2.9",
+        "pecee/simple-router": "4.2.0.6",
+        "opis/json-schema": "^1.0",
+        "webpatser/laravel-uuid": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "crazydope\\theater\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "type",
+    "message"
+  ],
+  "properties": {
+    "type": {
+      "$id": "#/properties/type",
+      "type": "integer",
+      "title": "The Type Schema",
+      "default": 1,
+      "examples": [
+        1
+      ]
+    },
+    "message": {
+      "$id": "#/properties/message",
+      "type": "string",
+      "title": "The Message Schema",
+      "examples": [
+        "A green door"
+      ],
+      "pattern": "^[A-Za-zА-Я-а-я0-9\\\\s]+$"
+    },
+    "answer": {
+      "$id": "#/properties/answer",
+      "type": "string",
+      "title": "The Message Schema",
+      "examples": [
+        "A green door"
+      ],
+      "pattern": "^[A-Za-zА-Я-а-я0-9\\\\s]+$"
+    }
+  }
+}
