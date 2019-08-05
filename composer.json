@@ -1,0 +1,32 @@
+{
+    "name": "andrey/hw_17",
+    "type": "sample",
+    "description": "",
+    "keywords": ["",""],
+    "homepage": "https://github.com/AndreyPA/apovolotskiy",
+    "authors": [
+        {
+            "name": "Andrey",
+            "email": "andrey@uma.ru",
+            "homepage": "http://www.uma.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+           "php": ">=7.1"
+    },
+    "license": "GPL-3.0-or-later",
+    "minimum-stability": "dev",
+    "autoload": {
+	"psr-4": {
+	    "Paa\\App\\": "./src"
+	}
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/AndreyPA/apovolotskiy" 
+        }
+    ]
+}
+
