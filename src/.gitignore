@@ -1,3 +1,4 @@
 vendor
 config
 !config/main.php.example
+.phpunit.result.cache
