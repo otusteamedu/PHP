@@ -34,7 +34,9 @@ abstract class Model
         $db = Db::getInstance();
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
         $data = $db->query($sql, [':id' => $id], static::class);
-        Identity::addRecord($data[0], $id);
+        if ($data[0] != null) {
+            Identity::addRecord($data[0], $id);
+        }
         return $data[0] ?? false;
     }
 
