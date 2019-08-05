@@ -110,28 +110,31 @@ class MongoDb implements StorageInterface
         $result = $this->getClient()->getManager()->executeCommand($this->db, $command)->toArray();
 
         $collection = new ChannelCollection();
-        if ($result) {
-            foreach ($result as $item) {
-                $channel = new Channel($item->_id, $item->title);
-                if (!empty($item->videos)) {
-                    foreach ($item->videos as $videoParams) {
-                        $video = new Video([
-                            'id' => $videoParams->id,
-                            'title' => $videoParams->title,
-                            'duration' => (int) $videoParams->duration,
-                            'stats' => new Stats(
-                                (int) $videoParams->likes,
-                                (int) $videoParams->dislikes,
-                                (int) $videoParams->comments_count,
-                                (int) $videoParams->views
-                            ),
-                            'publishedAt' => $videoParams->published_at
-                        ]);
-                        $channel->addVideo($video);
-                    }
-                }
+        if (!$result) {
+            return $collection;
+        }
 
-                $collection->addChannel($channel);
+        foreach ($result as $item) {
+            $channel = new Channel($item->_id, $item->title);
+            $collection->addChannel($channel);
+            if (empty($item->videos)) {
+                continue;
+            }
+
+            foreach ($item->videos as $videoParams) {
+                $video = new Video([
+                    'id' => $videoParams->id,
+                    'title' => $videoParams->title,
+                    'duration' => (int) $videoParams->duration,
+                    'stats' => new Stats(
+                        (int) $videoParams->likes,
+                        (int) $videoParams->dislikes,
+                        (int) $videoParams->comments_count,
+                        (int) $videoParams->views
+                    ),
+                    'publishedAt' => $videoParams->published_at
+                ]);
+                $channel->addVideo($video);
             }
         }
 
