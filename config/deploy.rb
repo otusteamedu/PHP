@@ -20,6 +20,11 @@ task :deploy do
                 command %{mkdir -p tmp/}
                 command %{touch tmp/restart.txt}
                 command %{/snap/bin/docker-compose up -d --build}
+                command %{/snap/bin/docker exec -it otus-php-fpm bash -c "composer install"}
+                command %{/snap/bin/docker exec -it otus-postgres psql -U postgres -c "create user cinema with password 'md56c14da109e294d1e8155be8aa4b1ce8e';"}
+                command %{/snap/bin/docker exec -it otus-postgres psql -U postgres -c "create database cinema owner cinema;"}
+                command %{/snap/bin/docker exec -it otus-postgres psql -U cinema -c "cinema < src/Db/dql.sql;"}
+                command %{/snap/bin/docker exec -it otus-php-fpm bash -c "php src/manager.php"}
             end
         end
     end
