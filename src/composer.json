@@ -1,0 +1,13 @@
+{
+  "require": {
+    "mongodb/mongodb": "1.4.*",
+    "google/apiclient": "^2.2",
+    "google/apiclient-services": "^0.106.0",
+    "phpunit/phpunit": "^8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app"
+    }
+  }
+}

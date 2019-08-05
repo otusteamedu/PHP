@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+    default:
+        driver: bridge
+
+services:
+    nginx:        
+        image: nginx:1.17.1
+        ports:
+            - "80:80"
+        volumes:
+            - ./src:/apps/otus
+            - ./hosts:/etc/nginx/conf.d
+            - ./sock:/var/run
+        networks:
+            - default
+        links:
+            - php
+    php:
+        build: ./images/php
+        volumes:
+            - ./src:/apps/otus
+            - ./conf/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./sock:/var/run
+        networks:
+            - default
+        links:
+            - mongodb
+    mongodb:
+        image: mongo:4.0.10
+        volumes:
+            - ./mongo:/data/db
+
