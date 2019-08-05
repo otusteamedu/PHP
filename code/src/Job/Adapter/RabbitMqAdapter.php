@@ -18,7 +18,13 @@ class RabbitMqAdapter implements AdapterInterface
     public function __construct(AMQPStreamConnection $connection)
     {
         $this->connection = $connection;
+        $channel = $this->connection->channel();
+
+        // Declare Queue
+        $channel->queue_declare(self::QUEUE_NAME, false, true, false, false);
+        $channel->close();
     }
+
 
     /**
      * @param string $message
@@ -26,9 +32,6 @@ class RabbitMqAdapter implements AdapterInterface
     public function publish(string $message): void
     {
         $channel = $this->connection->channel();
-
-        // Declare Queue
-        $channel->queue_declare(self::QUEUE_NAME, false, true, false, false);
 
         // Create msg and publish
         $msg = new AMQPMessage($message, ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
