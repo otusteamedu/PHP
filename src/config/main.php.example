@@ -1,0 +1,12 @@
+<?php
+
+return [
+    'mongodb' => [
+        'host' => 'mongodb',
+        'port' => 27017,
+        'db' => 'youtube',
+        'collection' => 'videos'
+    ],
+    'application_name' => 'hw21 youtube',
+    'youtube_api_key' => '...your key here...'
+];
