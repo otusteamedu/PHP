@@ -1,0 +1,11 @@
+postgres:
+  image: postgres:latest
+  ports:
+    - 5432:5432
+  volumes:
+    - ./postgres:/var/lib/postgresql/data
+    - ./tablespaces:/var/lib/postgresql/tablespaces
+  environment:
+    POSTGRES_DB: cinema
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: qwerty
