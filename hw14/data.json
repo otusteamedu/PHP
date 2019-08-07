@@ -1,0 +1,5 @@
+{ "_id" : ObjectId("5d49c91990b16859480dab12"), "name" : "Dmitry Afanasyev", "videos" : "355", "comments" : "0", "views" : "2500506", "subscibers" : "17116" }
+{ "_id" : ObjectId("5d49cafa90b1685bc9378612"), "name" : "Блог Торвальда", "videos" : "1191", "comments" : "0", "views" : "81315324", "subscibers" : "341859" }
+{ "_id" : ObjectId("5d4a4fad90b1682ee9214712"), "name" : "JUG .ru", "videos" : "560", "comments" : "0", "views" : "3388442", "subscibers" : "27465" }
+{ "_id" : ObjectId("5d4a77d990b168451e556222"), "name" : "ФАЛТ МФТИ", "videos" : "192", "comments" : "0", "views" : "554990", "subscibers" : "11866" }
+{ "_id" : ObjectId("5d4a7bb590b168482a24e1c2"), "name" : "Otus.Ru онлайн - образование", "videos" : "298", "comments" : "0", "views" : "1468997", "subscibers" : "3778" }
