@@ -88,18 +88,19 @@ class DijkstraAlgorithm implements DijkstraInterface
             throw new \Exception('Please specify a starting & ending point');
         }
 
-        $connections = [];
         if (!$this->counted) {
+            $connections = [];
             $connections[] = $this->calculate($this->start);
-            do {
+
+            while($connections) {
                 $heels = array_shift($connections);
                 foreach ($heels as $heel) {
                     $vertex = $this->graph->getVertex($heel);
-                    if (!$vertex->isPassed())
+                    if (!$vertex->isPassed()) {
                         $connections[] = $this->calculate($vertex);
+                    }
                 }
-
-            } while ($connections);
+            }
 
             $this->counted = true;
         }
