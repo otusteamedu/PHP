@@ -1,0 +1,19 @@
+{
+    "name": "nvggit/hw15",
+    "authors": [
+        {
+            "name": "nvggit",
+            "email": "cubaman@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "predis/predis": "^1.1",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hw15\\": "src/"
+        }
+    }
+}
