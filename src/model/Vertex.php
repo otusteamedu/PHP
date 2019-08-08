@@ -11,7 +11,7 @@ class Vertex implements VertexInterface
     /**
      * @var int
      */
-    protected $weight = 999;
+    protected $weight = PHP_INT_MAX;
     /**
      * @var array
      */
