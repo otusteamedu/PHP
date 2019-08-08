@@ -1,0 +1,19 @@
+{
+    "name": "crazydope/algorithms",
+    "description": "Home Work 24-1",
+    "authors": [
+        {
+            "name": "Agureev Dmitry",
+            "email": "crazydope@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "crazydope\\algorithms\\": "src/"
+        }
+    }
+}
