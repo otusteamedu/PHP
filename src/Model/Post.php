@@ -57,7 +57,7 @@ class Post extends BaseModel
     /**
      * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -73,7 +73,7 @@ class Post extends BaseModel
     /**
      * @param string $title
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -147,7 +147,7 @@ class Post extends BaseModel
     /**
      * @param string $teaser
      */
-    public function setTeaser($teaser): void
+    public function setTeaser(?string $teaser): void
     {
         $this->teaser = $teaser;
     }
@@ -163,7 +163,7 @@ class Post extends BaseModel
     /**
      * @param string $content
      */
-    public function setContent($content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -179,7 +179,7 @@ class Post extends BaseModel
     /**
      * @param string $createdAt
      */
-    public function setCreatedAt($createdAt): void
+    public function setCreatedAt(?string $createdAt): void
     {
         $this->created_at = $createdAt;
     }
@@ -195,7 +195,7 @@ class Post extends BaseModel
     /**
      * @param string $updatedAt
      */
-    public function setUpdatedAt($updatedAt): void
+    public function setUpdatedAt(?string $updatedAt): void
     {
         $this->updated_at = $updatedAt;
     }
@@ -211,7 +211,7 @@ class Post extends BaseModel
     /**
      * @param int $isPublished
      */
-    public function setIsPublished($isPublished): void
+    public function setIsPublished(int $isPublished): void
     {
         $this->is_published = $isPublished;
     }

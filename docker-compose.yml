@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3'
 
 networks:
   default:
@@ -11,8 +11,8 @@ services:
       - "80:80"
     volumes:
       - ./src:/apps/otus
-      - ./hosts:/etc/nginx/conf.d
-      - ./sock:/var/run
+      - ./docker/hosts:/etc/nginx/conf.d
+      - ./docker/sock:/var/run
     networks:
       - default
     links:
@@ -24,4 +24,5 @@ services:
       - ./data:/db
       - ./docker/conf/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
       - ./docker/sock:/var/run
-
+    networks:
+      - default

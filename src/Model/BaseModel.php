@@ -19,7 +19,7 @@ abstract class BaseModel
         foreach ($config as $key => $value) {
             $method = (new CamelCase('set-' . $key))();
             if (method_exists($this, $method)) {
-                call_user_func_array([$this, $method], $value);
+                call_user_func_array([$this, $method], [$value]);
             }
         }
     }

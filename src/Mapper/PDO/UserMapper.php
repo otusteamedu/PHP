@@ -11,26 +11,38 @@ use Otus\hw22\Model\User;
 
 class UserMapper extends AbstractMapper implements UserMapperInterface
 {
-    public function init(): void
-    {
-        $this->relations['posts'] = new Relation(
-            new PostMapper($this->pdo),
-            'getPostsByAuthor'
-        );
-
-        $this->relations['comments'] = new Relation(
-            new CommentMapper($this->pdo),
-            'getCommentsByUser'
-        );
-    }
-
     protected function createUser(array $data): User
     {
         $user = new User($data);
-        $posts = $this->relations['posts']->setArgs($user);
-        $comments = $this->relations['comments']->setArgs($user);
-        $user->setRelation('posts', $posts);
+        $this->createPostRelation($user);
+        $this->createCommentsRelation($user);
+
+        return $user;
+    }
+
+    protected function createPostRelation(User $user): Relation
+    {
+        $post = new Relation(
+            new PostMapper($this->pdo),
+            'getPostsByAuthor',
+            $user
+        );
+        $user->setRelation('posts', $post);
+
+        return $post;
+    }
+
+    protected function createCommentsRelation(User $user): Relation
+    {
+        $comments = new Relation(
+            new CommentMapper($this->pdo),
+            'getCommentsByUser',
+            $user
+        );
+
         $user->setRelation('comments', $comments);
+
+        return $comments;
     }
 
     /**
@@ -39,15 +51,22 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
      */
     public function getUser(int $id): User
     {
-        $query = $this->pdo->prepare("SELECT FROM user WHERE id=:id");
-        $result = $query->execute([
+        $query = $this->pdo->prepare("SELECT * FROM user WHERE id=:id");
+
+        if (!$query) {
+            throw new \PDOException("Invalid query");
+        }
+
+        $query->execute([
             ':id' => $id
         ]);
 
-        if (!$result) {
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
             throw new NotFoundException(sprintf("User not found. User ID: %d", $id));
         }
 
-        return $this->createUser($query->fetch(\PDO::FETCH_ASSOC));
+        return $this->createUser($data);
     }
 }

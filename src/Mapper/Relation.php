@@ -31,7 +31,7 @@ class Relation
      */
     private $called = false;
 
-    public function __construct(MapperInterface $mapper, string $method, $args)
+    public function __construct(MapperInterface $mapper, string $method, $args = null)
     {
         $this->mapper = $mapper;
         $this->method = $method;
@@ -49,7 +49,7 @@ class Relation
             $this->setResult(call_user_func_array([
                 $this->mapper,
                 $this->method
-            ], $this->args));
+            ], [$this->args]));
         }
 
         return $this->result;

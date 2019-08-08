@@ -21,6 +21,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ENV PATH /root/.composer/vendor/bin:$PATH
 
+RUN composer global require "phpunit/phpunit"
+
+RUN ln -s /root/.composer/vendor/bin/phpunit /usr/bin/phpunit
+
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
+
+WORKDIR /apps/otus
 
 CMD ["php-fpm"]

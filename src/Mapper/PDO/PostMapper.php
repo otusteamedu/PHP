@@ -13,27 +13,36 @@ use Otus\hw22\Model\{Post, User};
 
 class PostMapper extends AbstractMapper implements PostMapperInterface
 {
-    public function init(): void
-    {
-        $this->relations['author'] = new Relation(
-            new UserMapper($this->pdo),
-            'getUser'
-        );
-
-        $this->relations['comments'] = new Relation(
-            new CommentMapper($this->pdo),
-            'getCommentsOfPost'
-        );
-    }
-
     protected function createPost(array $data = []): Post
     {
         $post = new Post($data);
-        $author = $this->relations['author']->setArgs($post->getAuthorId());
-        $post->setRelation('author', $author);
-        $comments = $this->relations['comments']->setArgs($post);
-        $post->setRelation('comments', $comments);
+        $this->createUserRelation($post);
+        $this->createCommentsRelation($post);
         return $post;
+    }
+
+    protected function createUserRelation(Post $post): Relation
+    {
+        $author = new Relation(
+            new UserMapper($this->pdo),
+            'getUser',
+            $post->getAuthorId()
+        );
+        $post->setRelation('author', $author);
+
+        return $author;
+    }
+
+    protected function createCommentsRelation(Post $post): Relation
+    {
+        $comments = new Relation(
+            new CommentMapper($this->pdo),
+            'getCommentsOfPost',
+            $post
+        );
+        $post->setRelation('comments', $comments);
+
+        return $comments;
     }
 
     /**
@@ -45,15 +54,17 @@ class PostMapper extends AbstractMapper implements PostMapperInterface
     {
         $query = $this->pdo->prepare('SELECT * FROM post WHERE id=:id');
 
-        $exists = $query->execute([
+        $query->execute([
             ':id' => $postId
         ]);
 
-        if (!$exists) {
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
             throw new NotFoundException(sprintf("Post not found. Post ID: %d", $postId));
         }
 
-        return $this->createPost($query->fetch(\PDO::FETCH_ASSOC));
+        return $this->createPost($data);
     }
 
     public function savePost(Post $post): bool
@@ -71,7 +82,9 @@ class PostMapper extends AbstractMapper implements PostMapperInterface
     public function deletePost(int $postId): bool
     {
         $query = $this->pdo->prepare("DELETE FROM post WHERE id=:id");
-        return $query->execute();
+        return $query->execute([
+            ':id' => $postId
+        ]);
     }
 
     /**
@@ -81,17 +94,19 @@ class PostMapper extends AbstractMapper implements PostMapperInterface
     public function getPostsByAuthor(User $author): array
     {
         $query = $this->pdo->prepare("SELECT * FROM post WHERE author_id=:author_id");
-        $found = $query->execute([
+        $query->execute([
             ':author_id' => $author->getId()
         ]);
 
-        if (!$found) {
+        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
             return [];
         }
 
         $posts = [];
-        foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row) {
-            $post = new Post($row);
+        foreach ($data as $row) {
+            $post = $this->createPost($row);
             $post->setAuthor($author);
             $posts[] = $post;
         }

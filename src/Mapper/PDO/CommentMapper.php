@@ -5,34 +5,42 @@ declare(strict_types=1);
 namespace Otus\hw22\Mapper\PDO;
 
 use Otus\hw22\Mapper\CommentInterface;
-use Otus\hw22\Mapper\Post;
+use Otus\hw22\Model\Post;
 use Otus\hw22\Mapper\Relation;
-use Otus\hw22\Mapper\User;
+use Otus\hw22\Model\User;
 use Otus\hw22\Model\Comment;
 
 class CommentMapper extends AbstractMapper implements CommentInterface
 {
-    public function init(): void
+    protected function createPostRelation(Comment $comment): Relation
     {
-        $this->relations['user'] = new Relation(new UserMapper($this->pdo), 'getUser');
-        $this->relations['post'] = new Relation(new PostMapper($this->pdo), 'getPost');
+        $post = new Relation(
+            new PostMapper($this->pdo),
+            'getPost',
+            $comment->getPostId()
+        );
+        $comment->setRelation('post', $post);
+
+        return $post;
     }
 
-    protected function setPostRelation(Comment $comment): void
+    protected function createUserRelation(Comment $comment): Relation
     {
-        $comment->setRelation('post', $this->relations['post']->setArgs($comment->getPostId()));
-    }
+        $user = new Relation(
+            new UserMapper($this->pdo),
+            'getUser',
+            $comment->getUserId()
+        );
+        $comment->setRelation('user', $user);
 
-    protected function setUserRelation(Comment $comment): void
-    {
-        $comment->setRelation('user', $this->relations['user']->setArgs($comment->getUserId()));
+        return $user;
     }
 
     protected function createComment(array $data = []): Comment
     {
         $comment = new Comment($data);
-        $this->setUserRelation($comment);
-        $this->setPostRelation($comment);
+        $this->createUserRelation($comment);
+        $this->createPostRelation($comment);
 
         return $comment;
     }
@@ -40,19 +48,20 @@ class CommentMapper extends AbstractMapper implements CommentInterface
     public function getCommentsByUser(User $user): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comment WHERE user_id=:user_id");
-        $found = $query->execute([
+        $query->execute([
             ':user_id' => $user->getId()
         ]);
 
-        if (!$found) {
+        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
             return [];
         }
 
         $comments = [];
-        foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row) {
-            $comment = new Comment($row);
+        foreach ($data as $row) {
+            $comment = $this->createComment($row);
             $comment->setUser($user);
-            $this->setPostRelation($comment);
             $comments[] = $comment;
         }
 
@@ -62,18 +71,19 @@ class CommentMapper extends AbstractMapper implements CommentInterface
     public function getCommentsOfPost(Post $post): array
     {
         $query = $this->pdo->prepare("SELECT * FROM comment WHERE post_id=:post_id");
-        $found = $query->execute([
+        $query->execute([
             ':post_id' => $post->getId()
         ]);
 
-        if (!$found) {
+        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
             return [];
         }
 
         $comments = [];
-        foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row) {
-            $comment = new Comment($row);
-            $this->setUserRelation($comment);
+        foreach ($data as $row) {
+            $comment = $this->createComment($row);
             $comment->setPost($post);
             $comments[] = $comment;
         }
