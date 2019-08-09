@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Otus\hw22\Mapper\PDO;
 
 use Otus\hw22\Exception\NotFoundException;
-use Otus\hw22\Mapper\PDO\Proxy\PostWithRelations;
 use Otus\hw22\Mapper\PostMapperInterface;
 use Otus\hw22\Mapper\Relation;
-use Otus\hw22\Observer;
 use Otus\hw22\Model\{Post, User};
 
 class PostMapper extends AbstractMapper implements PostMapperInterface
@@ -69,10 +67,7 @@ class PostMapper extends AbstractMapper implements PostMapperInterface
 
     public function savePost(Post $post): bool
     {
-        if ($post->getId() !== null) {
-            $query = $this->pdo->prepare('UPDATE post SET');
-
-        }
+        //TODO update post if $post->getId() is not null, insert otherwise
     }
 
     /**

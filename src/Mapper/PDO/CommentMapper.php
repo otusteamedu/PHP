@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Otus\hw22\Mapper\PDO;
 
 use Otus\hw22\Mapper\CommentInterface;
-use Otus\hw22\Model\Post;
+use Otus\hw22\Model\{Post, User, Comment};
 use Otus\hw22\Mapper\Relation;
-use Otus\hw22\Model\User;
-use Otus\hw22\Model\Comment;
 
 class CommentMapper extends AbstractMapper implements CommentInterface
 {
