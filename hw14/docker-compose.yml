@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - ./sql/1_schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./sql/2_data.sql:/docker-entrypoint-initdb.d/2_data.sql
+
+  php:
+    build:
+      context: ./docker/php 
+    tty: true
+    environment:
+      - 'APP_PATH=${APP_PATH}'
+      - 'DB_NAME=${DB_NAME}'
+      - 'DB_HOST=${DB_HOST}'
+      - 'DB_USER=${DB_USER}'
+      - 'DB_PASS=${DB_PASS}'
+    volumes:
+      - './app:${APP_PATH}'  
+
