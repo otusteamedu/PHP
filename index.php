@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-use nvggit\hw26\QueueApi;
+use nvggit\hw26\api\QueueApi;
 
 try {
     $api = new QueueApi();
@@ -10,3 +10,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(Array('error' => $e->getMessage()));
 }
+

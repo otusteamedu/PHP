@@ -1,7 +1,7 @@
 <?php
 
 
-namespace nvggit\hw26;
+namespace nvggit\hw26\rabbit;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;

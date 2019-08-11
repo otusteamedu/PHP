@@ -1,7 +1,7 @@
 <?php
 
 
-namespace nvggit\hw26;
+namespace nvggit\hw26\api;
 
 
 abstract class RestApi
@@ -31,7 +31,7 @@ abstract class RestApi
             } else if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
                 $this->method = 'PUT';
             } else {
-                throw new Exception("Unexpected Header");
+                throw new \Exception("Unexpected Header");
             }
         }
     }
@@ -39,7 +39,7 @@ abstract class RestApi
     public function run()
     {
         if (array_shift($this->requestUri) !== 'api' || array_shift($this->requestUri) !== $this->apiName) {
-            throw new RuntimeException('API Not Found', 404);
+            throw new \RuntimeException('API Not Found', 404);
         }
 
         $this->action = $this->getAction();
@@ -47,7 +47,7 @@ abstract class RestApi
         if (method_exists($this, $this->action)) {
             return $this->{$this->action}();
         } else {
-            throw new RuntimeException('Invalid Method', 405);
+            throw new \RuntimeException('Invalid Method', 405);
         }
     }
 
