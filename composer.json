@@ -1,0 +1,20 @@
+{
+  "name": "nvggit/hw26",
+  "authors": [
+    {
+      "name": "nvggit",
+      "email": "cubaman@mail.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "php-amqplib/php-amqplib": ">=2.6.1",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "nvggit\\hw26\\": "app/"
+    }
+  }
+
+}
