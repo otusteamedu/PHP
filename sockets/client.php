@@ -13,7 +13,7 @@ while (true)
     {
         echo "$errstr ($errno)\n";
     }
-    
+
     fwrite( $socket, "Сколько времени?" );
     echo fgets( $socket, 1024 );
     fclose($socket);
