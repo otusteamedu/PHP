@@ -1,0 +1,12 @@
+{
+  "name": "timga/dnpatterns",
+  "description": "Otus DB patterns lesson",
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "TimGa\\DbPatterns\\": "src/"
+    }
+  }
+}
