@@ -1,0 +1,4 @@
+{
+  "commands": ["git commit", "ps aux", "nano"],
+  "perc": 70
+}
