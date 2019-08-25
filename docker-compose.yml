@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web3:
+    build:
+      context: .docker/web
+      dockerfile: Dockerfile-php-7.2
+    container_name: devweb3
+    ports:
+      - "8080:80"
+    links:
+      - redis:devcache1
+    volumes:
+      - ./web/html:/var/www/html
+  redis:
+    build: .docker/cache
+    container_name: devcache1

@@ -1,0 +1,22 @@
+[   
+    {
+        "priority": 1000,
+        "conditions": [{"param1":1}],
+        "event": "Рост температуры в реакторе"
+    },
+    {
+        "priority": 2000,
+        "conditions":[{"param1":2, "param2":2}],
+        "event": "Скачек напряжения"
+    },
+    {
+        "priority":3000,
+        "conditions":[{"param1":1, "param2":2}],
+        "event": "Плавление стержней"
+    },
+    {
+        "priority":4000,
+        "conditions":[{"param1":1, "param2":1}],
+        "event": "Разрушение реактора"
+    }
+]
