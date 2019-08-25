@@ -1,0 +1,1 @@
+history | tail -1 | awk '{$1=""}1'
