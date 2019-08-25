@@ -1,0 +1,12 @@
+{
+    "name": "bazarov/as-fuck",
+    "description": "Command correction app",
+    "type": "project",
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "AsFuck\\": "src/"
+        }
+    }
+}
