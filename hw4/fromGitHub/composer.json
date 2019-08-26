@@ -1,0 +1,23 @@
+{
+  "name": "bazarov/from-git-hub",
+  "description": "Test",
+  "type": "project",
+
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "bazarov/my-extension",
+        "version": "1.0",
+        "source": {
+          "url": "git@github.com:abazarov/my-extension.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }],
+  "require" : {
+    "bazarov/my-extension": "1.0"
+  }
+
+}

@@ -1,0 +1,10 @@
+{
+  "name": "bazarov/from-packagist",
+  "description": "Test",
+  "type": "project",
+
+  "require" : {
+    "bazarov/my-extension": "dev-master"
+  }
+
+}
