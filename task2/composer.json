@@ -1,0 +1,15 @@
+{
+    "name": "baldin/task2",
+    "authors": [
+        {
+            "name": "Baldin Dmitriy",
+            "email": "baldin@tutu.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Code\\": "src/"
+        }
+    }
+
+}
