@@ -1,0 +1,15 @@
+{
+    "name": "apankov/fuck",
+    "authors": [
+        {
+            "name": "pankovalxndr",
+            "email": "pankovalxndr@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "APankov\\": "src/APankov/"
+        }
+    }
+}
