@@ -9,20 +9,28 @@ namespace APP;
 
 class Request
 {
-    public static function getData(): array
+    private $rowBody;
+    private $headers;
+
+    public function __construct()
     {
-        return $_REQUEST;
+        $this->headers = getallheaders();
+        $this->rowBody = $_REQUEST;
     }
 
-    public static function isRequestValid(): bool
+    public function getBody(): ?array
     {
-        return self::isContentLengthEqual();
+        if ($this->isContentLengthEqual()) {
+            return $this->rowBody;
+        }
+
+        return null;
     }
 
-    private static function isContentLengthEqual(): bool
+    private function isContentLengthEqual(): bool
     {
         $requestBodyLength = strlen(file_get_contents('php://input'));
-        $requestBodyLengthFromHeader = (int)$_SERVER['CONTENT_LENGTH'];
+        $requestBodyLengthFromHeader = (int) $this->headers['Content-Length'];
         return $requestBodyLength === $requestBodyLengthFromHeader;
     }
 }

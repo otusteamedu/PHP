@@ -7,8 +7,12 @@ declare(strict_types=1);
 
 namespace APP;
 
+use mysql_xdevapi\Exception;
+
 class Response
 {
+    public const RESPONSE_CODES = [200, 400, 500]; // and etc
+
     private $body;
     private $headers;
 
@@ -30,7 +34,12 @@ class Response
 
     public function addCode(int $code): void
     {
-        http_response_code($code);
+        if (in_array($code, self::RESPONSE_CODES))
+        {
+            http_response_code($code);
+        } else {
+            throw new Exception("Unknown response code $code");
+        }
     }
 
     private function sendHeaders(): void
@@ -46,4 +55,6 @@ class Response
     {
         echo $this->body;
     }
+
+
 }

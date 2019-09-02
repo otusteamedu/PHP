@@ -9,25 +9,14 @@ namespace APP;
 
 class StringValidator
 {
-    private const BRACKETS_SET = [
-        ['(', ')'],
-        ['{', '}'],
-        ['[', ']']
-    ];
-
     public static function isAllBracketsClosedProperly(string $string): bool
     {
-        foreach (self::BRACKETS_SET as $brackets) {
-            if (!self::isBracketsClosedProperly($string, $brackets)) {
-                return false;
-            }
+        $re = '/(\(((?R)|)\))*/';
+        preg_match($re, $string, $matches, PREG_OFFSET_CAPTURE, 0);
+
+        if (isset($matches[0][0]) && $matches[0][0] === $string) {
+            return true;
         }
-
-        return true;
-    }
-
-    private static function isBracketsClosedProperly(string $string, array $bracketsSet): bool
-    {
-        return substr_count($string, $bracketsSet[0]) === substr_count($string, $bracketsSet[1]);
+        return false;
     }
 }

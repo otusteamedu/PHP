@@ -9,26 +9,24 @@ require_once __DIR__ . "/vendor/autoload.php";
 
 use APP\Response;
 use APP\Request;
-use APP\StringValidator;
+use APP\Router;
 
-if (Request::isRequestValid()) {
-    sendResponse(400, "Malformed request");
-    die(0);
+$route = new Router(new Request());
+$response = new Response();
+
+switch ($route->getRoute()) {
+    case Router::MALFORMED_REQUEST:
+        $response->addCode(400);
+        $response->setResponse("Malformed request");
+        break;
+    case Router::CORRUPTED_PARAMETER:
+        $response->addCode(400);
+        $response->setResponse("Brackets are closed improperly");
+        break;
+    case Router::PROPER_REQUEST:
+        $response->addCode(200);
+        $response->setResponse("it's fine");
+        break;
 }
 
-$data = Request::getData()['string'];
-
-if (StringValidator::isAllBracketsClosedProperly($data)) {
-    sendResponse(200, "it's fine");
-} else {
-    sendResponse(400, "Brackets closed");
-}
-
-
-function sendResponse(int $code, string $message): void
-{
-    $response = new Response();
-    $response->addCode($code);
-    $response->setResponse($message);
-    $response->send();
-}
+$response->send();
