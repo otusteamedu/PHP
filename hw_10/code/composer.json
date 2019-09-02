@@ -1,0 +1,12 @@
+{
+  "name": "bazarov/webapp",
+  "description": "Simple WebApp",
+  "type": "project",
+  "require": {},
+
+  "autoload": {
+    "psr-4": {
+      "APP\\": "src/"
+    }
+  }
+}
