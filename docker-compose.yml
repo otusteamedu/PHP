@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./docker/nginx/server.conf:/etc/nginx/conf.d/server.conf
+    ports:
+      - "8081:80" #да, буду прописывать порт, а лучше внесу запись в /etc/hosts
+    links:
+      - fpm
+  fpm:
+    build:
+      context: ./
+      dockerfile: docker/fpm/Dockerfile
+    volumes:
+      - ./code:/var/www/laravel
