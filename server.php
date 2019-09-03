@@ -1,22 +1,24 @@
+#!/usr/bin/env php
 <?php
-$pathSocket = __DIR__ . "/socket.sock";
-if (file_exists($pathSocket)) {
-    unlink($pathSocket);
+
+use APankov\SocketServer as Server;
+
+require_once "vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load(); //загружаем конфигурации
+
+$exit_command = getenv('SOCKET_DISCONNECT_COMMAND');
+$server = new Server(getenv('SOCKET_HOST'), getenv('SOCKET_PORT'));
+
+$server->sendMsg('Как тебя зовут?');
+$name = $server->readMsg();
+
+$server->sendMsg('Привет, ' . $name . '!');
+$wish = $server->readMsg();
+
+while (strtolower($wish) != $exit_command) {
+    $server->sendMsg('Набери \'' . $exit_command . '\' для того чтобы отсоединиться');
+    $wish = $server->readMsg();
 }
-$socket = stream_socket_server(
-    "unix://" . $pathSocket,
-    $errno,
-    $errstr
-);
-if (!$socket) {
-    echo "$errstr ( $errno )\n";
-} else {
-    while ($conn = stream_socket_accept($socket)) {
-        $message = fread($conn, 1024);
-        echo 'Кто-то стучится' . PHP_EOL;
-        $data = 'Кто там?'. PHP_EOL;
-        fwrite($conn, $data);
-        fclose($conn);
-    }
-    fclose($socket);
-}
+
+$server->sendMsg(getenv('SOCKET_DISCONNECT_COMMAND_CLIENT'));
