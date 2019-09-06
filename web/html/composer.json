@@ -1,0 +1,12 @@
+{
+    "require": {
+        "predis/predis": "^1.1"
+    },
+    "autoload": {
+        "psr-4": { 
+          "controller\\": "controller/",
+          "model\\": "model/",
+          "view\\": "view/"
+        }
+      }
+}
