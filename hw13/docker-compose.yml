@@ -1,0 +1,60 @@
+version: '3.5'
+
+services:
+  balancer:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginxBalancer.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend-01
+      - frontend-02
+
+  frontend-01:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/src
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - backend-01:back
+  backend-01:
+    image: php:7.2-fpm
+    environment:
+      - BACKEND=backend-01
+    volumes:
+      - ./src:/src
+
+  frontend-02:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/src
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - backend-02:back
+  backend-02:
+    image: php:7.2-fpm
+    environment:
+      - BACKEND=backend-02
+    volumes:
+      - ./src:/src
+
+  frontend-03:
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes:
+      - ./src:/src
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - backend-03:back
+  backend-03:
+    image: php:7.2-fpm
+    environment:
+      - BACKEND=backend-03
+    volumes:
+      - ./src:/src
