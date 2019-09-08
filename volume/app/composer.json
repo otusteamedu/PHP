@@ -1,0 +1,18 @@
+{
+    "name": "nvggit/hw13",
+    "authors": [
+        {
+            "name": "Voronin Nikita",
+            "email": "cubaman@mail.ru"
+        }
+    ],
+    "require": {
+        "php" : ">=7.0",
+        "php-activerecord/php-activerecord" : "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hw13\\" : "models"
+        }
+    }
+}

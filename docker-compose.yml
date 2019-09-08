@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  composer:
+    image: composer/composer
+    container_name: hw13-composer
+    volumes:
+      - ./volume/app:/var/www/app
+    working_dir: /var/www/app
+    command: install -o
+  php:
+    build: ./docker/php
+    container_name: hw13-php
+    volumes:
+      - ./volume/app:/var/www/app
+    links:
+      - db
+    depends_on:
+      - composer
+  db:
+    image: postgres:10
+    container_name: hw13-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=otus2019
+    volumes:
+      - ./volume/db:/var/lib/postgresql/data
+      - ./dump/cinema.sql:/docker-entrypoint-initdb.d/init.sql
+
