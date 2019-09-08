@@ -1,0 +1,26 @@
+version: "3.5"
+
+services:
+  php_fpm:
+    build: .
+    container_name: php
+    volumes:
+      - ./lara:/lara
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+     - "80:80"
+    volumes:
+     - ./lara:/lara
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+     - MYSQL_DATABASE=blog
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_USER=user
+     - MYSQL_PASSWORD=password
