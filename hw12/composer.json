@@ -1,0 +1,10 @@
+{
+  "name": "bazarov/email",
+  "type": "extension",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Email\\": "src/"
+    }
+  }
+}
