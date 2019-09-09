@@ -1,0 +1,29 @@
+﻿Дано 
+
+проект	library
+тип	потребованию
+регион	фрафрукт
+машина	виртуальная
+количество машин	10
+количество ядер	4
+память	8gb
+гипервизор	KVM/Xen
+DB	MYSQL
+Результат
+	On-Premises	AWS
+Server	$ 117,552	$ 22,031
+Storage	$ 80,233	$ 4,515
+Network	$ 65,620	$ 37,525
+IT-Labor$ 10,125	$ 13,925
+Total	$ 273,530	$ 77,996
+
+
+of VMs	vCPU  RAM (GB)     OS Avg.U	Optimize by
+10	4	8	Linux	100%	RAM
+
+Instances Instance	vCPU RAM (GiB)	Optimize byInstance type
+10	db.t2.large	2	8	RAM	 3 Yr. Partial Upfront R
+
+В результате сравнения целесобразности разворачивания своей инфраструктуры и аренды публичного облака  AWS мы получаем выгоду в 71% или $ 195,534
+Но получим 2 ядерные процессоры вместо 4 ядерных
+
