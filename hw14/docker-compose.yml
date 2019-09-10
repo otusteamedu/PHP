@@ -1,28 +1,36 @@
-nginx:
-  image: nginx:latest
-  container_name: nginx
-  ports:
-    - 80:80
-  volumes:
-    - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-    - ./project:/var/www/project/
-  links:
-    - php
-php:
-  dockerfile: ./Dockerfile
-  build: ./containers/fpm
-  container_name: php
-  volumes:
-    - ./project:/var/www/project/
-  links:
-    - mongodb
-mongodb:
-  image: mongo:latest
-  container_name: "mongodb"
-  ports:
-    - 27017:27017
-  volumes:
-    - ./mongo:/data/db
-  environment:
-    MONGO_INITDB_ROOT_USERNAME: test
-    MONGO_INITDB_ROOT_PASSWORD: qwerty
+version: '3.6'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./project:/var/www/html/
+    links:
+      - php
+  php:
+    build:
+      context: ./
+      dockerfile: ./containers/fpm/Dockerfile
+    container_name: php
+    volumes:
+      - ./project:/var/www/html/
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+
+volumes:
+  mongo: {}
+  project: {}
