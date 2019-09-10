@@ -1,3 +1,4 @@
 .git
 .idea
 mysql/*
+logs/*
