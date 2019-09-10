@@ -1,4 +1,5 @@
 .git
 .idea
 mysql/*
-logs/*
+logs/*.log
+!logs/.gitkeep
