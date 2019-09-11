@@ -1,6 +1,6 @@
 #!/bin/bash
 
-digitalRegex=^[0-9]+$
+digitalRegex=^-?[0-9.]+$
 
 if [ ! $# -eq 2 ]; then
    echo 'Error: Wrong arguments count' >&2
@@ -15,4 +15,4 @@ do
     fi
 done
 
-echo $(($1 + $2))
+echo $1 + $2 | bc
