@@ -1,0 +1,8 @@
+version: '3.6'
+services:
+ static:
+   build: .
+   ports:
+    - "8079:80"
+   volumes:
+    - .:/usr/share/nginx/html
