@@ -1,0 +1,19 @@
+{
+    "name": "eantonov/hw3",
+    "description": "Homework3 composer",
+    "authors": [
+        {
+            "name": "Antonov Evgenii",
+            "email": "antonov.evgenij1987@yandex.ru"
+        }
+    ],
+    "require": {
+        "eantonov/demopackage": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/antonov-e-v/demo-php-package.git"
+        }
+    ]
+}
