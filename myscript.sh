@@ -2,7 +2,7 @@
 var1=$1 
 var2=$2 
 
-re='^[0-9]+([.][0-9]+)?$'
+re='^[+-]?[0-9]+([.][0-9]+)?$'
 if ! [[ $var1 =~ $re ]]&&[[ $var2 =~ $re ]] ; then
    echo "error: Not a number" >&2; exit 1
 fi
