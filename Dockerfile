@@ -8,7 +8,7 @@ ENV TZ=Erope/Moscow
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-COPY  ./nginx/mysite.local.conf /etc/nginx/sites-enabled/mysite.local.conf
+COPY  ./nginx/mysite.local.conf /etc/nginx/nginx.conf
 
 
 COPY   ./site/ /var/www/mysite.local/
