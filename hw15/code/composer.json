@@ -1,0 +1,10 @@
+{
+  "name": "bazarov/http-client-with-lib",
+  "type": "project",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "APP\\": "src/"
+    }
+  }
+}
