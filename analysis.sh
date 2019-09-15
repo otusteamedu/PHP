@@ -1,10 +1,6 @@
 #!/bin/bash
 
-
-head  ./table.txt|tail -n+2  |  awk '{print $3}'| sort | uniq -c |  awk '{print $1,$2}'| sort -nr |  head -n3 | awk '{ print $2 }'
-
-
-
+awk '{ if(NR>1) print $3 }' table.txt  | sort | uniq -c | sort -nr | awk '{print $1,$2}'| head -n 3 | awk '{ print $2 }'
 
 
 
