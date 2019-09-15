@@ -1,0 +1,1 @@
+awk '{print $3}' table.txt | tail -n +2| sort | uniq -c | sort -rnk 1,1 -k 2,2  | head -n 3 | awk '{print $2}'
