@@ -1,0 +1,1 @@
+<?= 'Hellow world'.PHP_EOL;?>
