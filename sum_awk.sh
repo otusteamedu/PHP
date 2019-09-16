@@ -4,7 +4,7 @@ if [ ! $# -eq 2 ]; then
 else
     for number in $@
     do
-        if [[ ! $number =~ ^-?[0-9].?[0-9]?+$ ]]; then
+        if [[ ! $number =~ ^[-]?([0-9]*[.])?[0-9]+$ ]]; then
             echo "Error: '$number' is not a number" >&2
             exit 1
         fi
