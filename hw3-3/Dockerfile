@@ -8,6 +8,7 @@ RUN apk add php7-dev \
 && apk add curl-dev \
 && apk add libpq \
 && apk add postgresql-dev \
+&& apk add icu-dev \
 && curl -sS https://getcomposer.org/installer | php -- \
         --install-dir=/usr/bin \
         --filename=composer \
@@ -20,5 +21,5 @@ RUN apk add php7-dev \
 && pecl install -of propro \
 && docker-php-ext-enable propro \
 && pecl install -of pecl_http \
-&& extension=http.so >> /usr/local/etc/php/conf.d/docker-php-ext-http.ini \
+&& echo "extension=http.so" >> /usr/local/etc/php/conf.d/docker-php-ext-zhttp.ini \
 && docker-php-ext-install pdo_pgsql \
