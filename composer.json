@@ -1,0 +1,12 @@
+{
+    "name": "benderoki/otus",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=7.3.0",
+        "ext-sockets": "*"
+    }
+}

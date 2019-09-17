@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  php:
+    image: php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/src/app
+      - ./chat.php:/src/chat.php
+      - ./server.php:/src/server.php
+    env_file:
+      - .env
