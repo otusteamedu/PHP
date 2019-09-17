@@ -3,3 +3,4 @@
 mysql/*
 logs/*.log
 !logs/.gitkeep
+www/redis-stable
