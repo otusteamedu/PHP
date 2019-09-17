@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get install -y \
         unzip \
         git \
+        wget \
         libpq-dev \
         zlib1g \
         libzip-dev \
@@ -18,7 +19,7 @@ RUN apt-get update && \
     pecl install pecl_http && \
     docker-php-ext-enable http
 
-RUN curl -sS https://getcomposer.org/installer | php -- -- install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
