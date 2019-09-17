@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  php:
+    image: php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/src
+  web:
+    image: nginx:latest
+    volumes:
+      - ./configs/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/app/src/public
+    depends_on:
+      - php
+    ports:
+      - "8000:80"
