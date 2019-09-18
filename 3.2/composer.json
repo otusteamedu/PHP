@@ -1,0 +1,19 @@
+{
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "sacram/sample",
+        "version": "1.0",
+        "source": {
+          "url": "https://github.com/workaandrey/composer-package-sample",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "sacram/sample": "1.0"
+  }
+}
