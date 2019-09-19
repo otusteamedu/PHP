@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
+        memcached \
     && pecl install mcrypt-1.0.2 \
     && docker-php-ext-enable mcrypt \
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
@@ -24,7 +25,21 @@ RUN apt-get update && apt-get install -y \
     && tar xvzf redis-stable.tar.gz \
     && cd redis-stable \
     && make \
-    && make install
+    && make install \
+    && pecl install -of redis \
+    && docker-php-ext-enable redis \
+    && apt install libcurl4-openssl-dev \
+    && pecl install raphf \
+    && docker-php-ext-enable raphf \
+    && pecl install propro \
+    && docker-php-ext-enable propro \
+    && apt-get install libssl-dev \
+    && pecl install -of pecl_http \
+    && docker-php-ext-enable http \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql pgsql \
+
 
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
