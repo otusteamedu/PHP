@@ -1,0 +1,26 @@
+---
+version: '3.7'
+
+services:
+  web:
+    container_name: nginx
+    hostname: COOL_HOST
+    image: nginx:latest
+#    build: .
+    ports:
+      - "127.0.0.1:8000:80"
+    volumes:
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+      - ./data:/data
+
+    links:
+      - php
+
+  php:
+#    image: php:7.2-fpm
+    container_name: php
+    hostname: php_host
+    build: ./php
+    volumes:
+      - ./data:/data
+
