@@ -1,0 +1,13 @@
+FROM php:7.1-fpm-alpine
+COPY . /src/myapp
+WORKDIR /src/myapp
+RUN apk add php7-dev gcc g++ make curl git wget grep libmemcached-dev zlib-dev curl-dev libpq postgresql-dev \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && pecl install -of redis && docker-php-ext-enable redis \
+    && pecl install memcached && docker-php-ext-enable memcached \
+    && pecl install -of raphf && docker-php-ext-enable raphf \
+    && pecl install -of propro && docker-php-ext-enable propro \
+    && pecl install -of pecl_http && docker-php-ext-enable http \
+    && docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_pgsql \
+    && docker-php-ext-enable pdo
