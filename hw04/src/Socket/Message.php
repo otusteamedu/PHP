@@ -2,7 +2,7 @@
 
 namespace App\Socket;
 
-class ReceivedMessage
+class Message
 {
     public $content = '';
     public $from = '';

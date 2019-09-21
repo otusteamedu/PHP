@@ -30,9 +30,13 @@ class UnixSocket
      * @return $this
      * @throws Exception
      */
-    public function bind(string $file)
+    public function bind(string $file = null): UnixSocket
     {
-        $this->removeSocketFile($file);
+        if ($file) {
+            $this->removeSocketFile($file);
+        } else {
+            $file = tempnam(sys_get_temp_dir(), '');
+        }
 
         if (! socket_bind($this->socket, $file)) {
             throw new Exception("Unable to bind to $file");
@@ -47,7 +51,7 @@ class UnixSocket
      * @return UnixSocket
      * @throws Exception
      */
-    public function setBlock()
+    public function setBlock(): UnixSocket
     {
         if (! socket_set_block($this->socket)) {
             throw new Exception('Unable to set blocking mode for socket');
@@ -60,7 +64,7 @@ class UnixSocket
      * @return UnixSocket
      * @throws Exception
      */
-    public function setNonBlock()
+    public function setNonBlock(): UnixSocket
     {
         if (! socket_set_nonblock($this->socket)) {
             throw new Exception('Unable to set nonblocking mode for socket');
@@ -71,10 +75,10 @@ class UnixSocket
 
     /**
      * @param int $length
-     * @return ReceivedMessage
+     * @return Message
      * @throws Exception
      */
-    public function receive(int $length = 65535)
+    public function receive(int $length = 65535): Message
     {
         $buf = '';
         $from = '';
@@ -85,7 +89,7 @@ class UnixSocket
             throw new Exception('An error occured while receiving from the socket');
         }
 
-        return new ReceivedMessage($buf, $from, $received);
+        return new Message($buf, $from, $received);
     }
 
     /**
@@ -94,7 +98,7 @@ class UnixSocket
      * @return int
      * @throws Exception
      */
-    public function send(string $message, string $to)
+    public function send(string $message, string $to): int
     {
         $sentBytes = socket_sendto($this->socket, $message, mb_strlen($message), 0, $to);
 
@@ -108,7 +112,7 @@ class UnixSocket
     /**
      * @return void
      */
-    public function close()
+    public function close(): void
     {
         socket_close($this->socket);
 
@@ -119,7 +123,7 @@ class UnixSocket
      * @param string $file
      * @return void
      */
-    protected function removeSocketFile(string $file)
+    protected function removeSocketFile(string $file): void
     {
         if (file_exists($file)) {
             unlink($file);
