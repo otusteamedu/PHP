@@ -1,0 +1,10 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx.docker
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "8080:80"
