@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+    links:
+      - php
+  php:
+    build: ./php
+    volumes:
+      - ../app:/opt/app/
