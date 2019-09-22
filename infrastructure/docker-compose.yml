@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+    links:
+      - php
+  php:
+    build: ./php
+    volumes:
+      - ../app:/opt/app/
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
