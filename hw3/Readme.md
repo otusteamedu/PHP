@@ -18,4 +18,7 @@ connect:
     
     docker-compose stop && docker-compose rm -f;docker-compose up -d --build;  docker-compose ps
 
+ composer:
  
+    composer install
+    composer dump-autoload
