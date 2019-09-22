@@ -1,0 +1,2 @@
+git clone https://github.com/nvggit/otus-hw-4-2.git
+composer require composer require nvoronin/hw4_2
