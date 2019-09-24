@@ -5,5 +5,6 @@ services:
     build: ./
     volumes:
       - ./:/var/www/html
+      - ./php_conf:/usr/local/etc/php/
     ports:
       - '8000:80'
