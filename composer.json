@@ -1,0 +1,13 @@
+{
+    "name": "sacram/email-verifier",
+    "description": "Check if email is valid and exists",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "EmailVerifier\\": "src/"
+        }
+    }
+}
