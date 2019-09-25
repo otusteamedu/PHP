@@ -1,0 +1,6 @@
+FROM node:8
+
+RUN apt-get update \
+    && apt-get install libpng-dev autoconf libtool pkg-config nasm build-essential -y --no-install-recommends
+
+WORKDIR /var/www

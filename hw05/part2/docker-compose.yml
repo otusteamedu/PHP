@@ -1,0 +1,44 @@
+version: '2'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx.docker
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "80:80"
+    links:
+      - php-fpm
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm.docker
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker/php/php.ini-development:/usr/local/etc/php/php.ini:delegated
+      - composer:/root/.composer/cache:delegated
+    links:
+      - mysql
+      - redis
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql:delegated
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=laravel"
+    ports:
+      - "33061:3306"
+    tty: true
+  redis:
+    image: redis
+    volumes:
+      - ./storage/docker/redis_data:/data:delegated
+  mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+
+volumes:
+  composer:
