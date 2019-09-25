@@ -3,12 +3,13 @@
 
 class SocketServer
 {
-    private $loca_socket = 'tcp://0.0.0.0:8000';
-    public  function run()
+    private $locaSocket = 'tcp://0.0.0.0:8000';
+
+    public function run()
     {
-        $socket = stream_socket_server($this->loca_socket, $errno, $errstr);
+        $socket = stream_socket_server($this->locaSocket, $errno, $errstr);
         if (!$socket) {
-            die("$errstr ($errno)\n");
+            throw new Exception("$errstr ($errno)\n");
         }
 
         while ($connect = stream_socket_accept($socket, -1)) {
@@ -25,11 +26,7 @@ class SocketServer
 
         fclose($socket);
     }
-
 }
-
-$socketServer=new SocketServer();
-$socketServer->run();
 
 
 
