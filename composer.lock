@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d347d2a02fe33677928d0db62dea8df4",
+    "packages": [
+        {
+            "name": "richieseagull/php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RichiSeagull/otus-hw4.git",
+                "reference": "9d4c82de1f36ce1f13cbc45c0ec073f5f398c4f5"
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Entities\\HomeWorks\\": "src/entities/exercises"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Richie Seagull",
+                    "role": "Student",
+                    "email": "richie.seagull@gmail.com",
+                    "homepage": "https://github.com/RichiSeagull"
+                }
+            ],
+            "description": "test package",
+            "time": "2019-09-25T15:32:09+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "richieseagull/php": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.2"
+    },
+    "platform-dev": []
+}
