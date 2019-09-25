@@ -2,5 +2,10 @@
     "require": {
         "google/apiclient": "^2.0",
         "mongodb/mongodb": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Youtubestat\\":"app/"
+        }
     }
 }
