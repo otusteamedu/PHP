@@ -1,0 +1,19 @@
+{
+    "name": "eantonov/hw6-1",
+    "description": "Homework6-1 email validation",
+    "authors": [
+        {
+            "name": "Antonov Evgenii",
+            "email": "antonov.evgenij1987@yandex.ru"
+        }
+    ],
+    "require": {
+        "eantonov/email-validator": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/antonov-e-v/email-validator.git"
+        }
+    ]
+}
