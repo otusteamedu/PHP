@@ -2,9 +2,6 @@
 
 namespace EmailVerifier;
 
-use EmailVerifier\Checker\CheckerInterface;
-use EmailVerifier\Exceptions\EmailIsNotExists;
-use EmailVerifier\Exceptions\EmailIsNotValid;
 use EmailVerifier\Validator\ValidatorInterface;
 
 /**
@@ -13,36 +10,27 @@ use EmailVerifier\Validator\ValidatorInterface;
  */
 class EmailVerifier
 {
-    /**
-     * @var CheckerInterface
-     */
-    private $existenceChecker;
 
     /**
-     * @var ValidatorInterface
+     * @var ValidatorInterface[]
      */
-    private $validator;
+    private $validators;
 
-    public function __construct(ValidatorInterface $emailValidator, CheckerInterface $emailChecker)
+    public function addValidator(ValidatorInterface $validator): EmailVerifier
     {
-        $this->validator = $emailValidator;
-        $this->existenceChecker = $emailChecker;
+        $this->validators[] = $validator;
+
+        return $this;
     }
 
     /**
      * @param string $email
      * @return bool
-     * @throws EmailIsNotExists
-     * @throws EmailIsNotValid
      */
     public function isCorrect(string $email): bool
     {
-        if(!$this->validator->validate($email)) {
-            throw new EmailIsNotValid();
-        }
-
-        if(!$this->existenceChecker->exists($email)) {
-            throw new EmailIsNotExists();
+        foreach ($this->validators as $validator) {
+            $validator->validate($email);
         }
 
         return true;

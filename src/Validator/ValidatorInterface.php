@@ -4,5 +4,5 @@ namespace EmailVerifier\Validator;
 
 interface ValidatorInterface
 {
-    public function validate(string $email): bool;
+    public function validate(string $email);
 }
