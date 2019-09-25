@@ -38,8 +38,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable http \
     && apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql pgsql \
-
+    && docker-php-ext-install pgsql pdo_pgsql
 
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

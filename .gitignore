@@ -4,4 +4,5 @@ mysql/*
 logs/*.log
 !logs/.gitkeep
 www/redis-stable
-vendor
+www/vendor
+www/composer.lock
