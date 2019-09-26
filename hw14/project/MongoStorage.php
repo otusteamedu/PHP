@@ -13,22 +13,34 @@ class MongoStorage
      * @var string 
      */
     private $db;
-    
+
+    /**
+     * @var \MongoDB\Collection 
+     */
     private $collection;
     
-    public function __construct()
+    public function __construct(string $uri, string $db, string $collection)
     {
-        $this->client = new Client('mongodb://mongodb');
-        $this->db = 'youtube';
-        $this->collection = 'channels';
+        $this->client = new Client($uri);
+        $this->db = $db;
+        $this->collection = $this->client->selectCollection($this->db, $collection);
     }
     
     public function addChannel(array $channel){
-        return $this->client->selectCollection($this->db, $this->collection)->insertOne($channel);
+        return $this->collection->insertOne($channel);
     }
     
     public function deleteChannel(string $channelName){
-        return $this->client->selectCollection($this->db, $this->collection)->deleteOne(["channelName" => $channelName]);
+        return $this->collection->deleteOne(["channelName" => $channelName]);
+    }
+    
+    public function getChannels()
+    {
+        return $this->collection->find();
+    }
+    public function getChannelByName(string $name)
+    {
+        return $this->collection->findOne(["channelName" => $name]);
     }
     
     public function getClient(){
