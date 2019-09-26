@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/core:/etc/nginx/conf.d
+      - ./nginx/www:/var/www/
+      - ./nginx/Logs:/var/log/nginx/
+      - ./nginx/html:/usr/share/nginx/html/
+    links:
+      - php
+
+  php:
+    build: ./php
+
+    volumes:
+      - ./nginx/www:/var/www/
