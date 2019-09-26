@@ -4,7 +4,7 @@ namespace App\Validator;
 
 use InvalidArgumentException;
 
-class Ruleset
+class Ruleset implements RulesetInterface
 {
     /** @var Rule[] */
     protected $rules = [];
@@ -13,7 +13,7 @@ class Ruleset
      * @param Rule $rule
      * @return Ruleset
      */
-    public function addRule(Rule $rule): Ruleset
+    public function addRule(Rule $rule): RulesetInterface
     {
         if (! array_key_exists($rule->getName(), $this->rules)) {
             $this->rules[$rule->getName()] = $rule;

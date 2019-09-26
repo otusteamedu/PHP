@@ -1,13 +1,13 @@
 #!/usr/bin/php -q
 <?php
 
-use GuzzleHttp\Client;
+use GuzzleHttp\{Client, RequestOptions};
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\RequestOptions;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-$client = new Client();
+/** @var Client $client */
+$client = $container['http_client'];
 
 try {
     $response = $client->post('localhost', [

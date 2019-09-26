@@ -1,15 +1,18 @@
 <?php
 
 use App\Validator\Validator;
-use Zend\Diactoros\{Response, ServerRequestFactory};
+use Zend\Diactoros\{Response, ServerRequest};
 
 chdir(dirname(__DIR__));
 
-require './vendor/autoload.php';
+require './bootstrap.php';
 
-$request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
-$validator = new Validator();
+/** @var ServerRequest $request */
+$request = $container['request'];
+
+/** @var Validator $validator */
+$validator = $container['validator'];
 $validator->breakOnFirstError(true);
 
 $rules = ['string' => 'required|not_empty|min:2|match_counts:(,)'];

@@ -4,9 +4,9 @@ namespace App\Validator;
 
 class Validator
 {
-    /** @var Ruleset */
+    /** @var RulesetInterface */
     protected $ruleset;
-    /** @var ErrorBag */
+    /** @var ErrorBagInterface */
     protected $errors;
     /** @var bool */
     protected $breakOnFirstError = false;
@@ -14,14 +14,15 @@ class Validator
     protected $failed = false;
 
     /**
+     * @param RulesetInterface $ruleset
+     * @param ErrorBagInterface $errorBag
      * @param bool $breakOnFirstError
      */
-    public function __construct(bool $breakOnFirstError = false)
+    public function __construct(RulesetInterface $ruleset, ErrorBagInterface $errorBag, bool $breakOnFirstError = false)
     {
+        $this->ruleset = $ruleset;
+        $this->errors = $errorBag;
         $this->breakOnFirstError = $breakOnFirstError;
-
-        $this->ruleset = new Ruleset();
-        $this->errors = new ErrorBag();
     }
 
     /**
@@ -41,9 +42,9 @@ class Validator
     }
 
     /**
-     * @return ErrorBag
+     * @return ErrorBagInterface
      */
-    public function errors(): ErrorBag
+    public function errors(): ErrorBagInterface
     {
         return $this->errors;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-class ErrorBag
+class ErrorBag implements ErrorBagInterface
 {
     /** @var array */
     protected $errors = [];
@@ -12,7 +12,7 @@ class ErrorBag
      * @param string $value
      * @return ErrorBag
      */
-    public function add(string $key, string $value): ErrorBag
+    public function add(string $key, string $value): ErrorBagInterface
     {
         $this->errors[$key][] = $value;
 
