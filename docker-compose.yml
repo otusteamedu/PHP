@@ -10,7 +10,7 @@ services:
       - ./nginx/core:/etc/nginx/conf.d
       - ./hw5:/var/www/html
       - ./nginx/Logs:/var/log/nginx/
-      - ./hw5:/usr/share/nginx/html/
+      - ./:/usr/share/nginx/html/
     links:
       - php
 
