@@ -14,7 +14,6 @@ curl_close($ch);
 var_dump($output);*/
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_PORT, 80);
 curl_setopt($ch, CURLOPT_URL,'http://localhost:80');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);//для возврата результата в виде строки, вместо прямого вывода в браузер
 curl_setopt($ch, CURLOPT_HEADER, 1);

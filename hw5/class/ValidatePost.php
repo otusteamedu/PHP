@@ -1,17 +1,21 @@
 <?php
 
-class ValidatePost
+class PostValidator
 {
     private $error = false;
 
     public function run()
     {
-        if (empty(trim($_POST['string']))) {
+       $this->string_validate($_POST['string']);
+    }
+
+    public function string_validate($string=''){
+        if (empty(trim($string))) {
             $this->error = true;
         } else {
-            $new_string = preg_replace('/[^\(\)]/', '', $_POST['string']);
+            $new_string = preg_replace('/[^\(\)]/', '', $string);
             if (!empty($new_string)) {
-                $this->error = $this->correctBracket($_POST['string']);
+                $this->error = $this->correctBracket($string);
             }
         }
     }
