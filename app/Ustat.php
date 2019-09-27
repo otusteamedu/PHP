@@ -12,6 +12,12 @@ class Ustat
 
     private $refresh_token = '';
 
+    private $credentials_json_file = '';
+
+    private $scope = '';
+
+    private $db_structure = [];
+
     //google API connect client
     protected $api_client;
 
@@ -19,13 +25,26 @@ class Ustat
 
     protected $pages = 1;
 
+    //we can receive less than 1 object in response
+    protected $minYoutubeResults = 1;
+
+    //youtube api not return more than 50 object per request.
+    protected $maxYoutubeResults = 50;
+
+    //min pages in response
+    protected $minPages = 1;
+
+
     public function __construct(Array $params)
     {
 
         $required_keys = [
             'client_id',
             'client_secret',
-            'refresh_token'
+            'refresh_token',
+            'credentials_json_file',
+            'scope',
+            'db_structure'
         ];
 
         if (empty($params)) {
@@ -36,6 +55,10 @@ class Ustat
 
         if (!empty($messing_keys = array_diff($required_keys, $param_keys))) {
             throw new \Exception('Required param or parameters is missing: ' . implode(', ', $messing_keys));
+        }
+
+        if (!is_file($params['credentials_json_file'])) {
+            throw new \Exception('Credentials file not exist: ' . $params['credentials_json_file']);
         }
 
         foreach ($required_keys as $key) {
@@ -60,11 +83,11 @@ class Ustat
             throw new \Exception('Max results must be integer number');
         }
 
-        if ($max < 1) {
-            $max = 1;
+        if ($max < $this->minYoutubeResults) {
+            $max = $this->minYoutubeResults;
         }
-        if($max > 50) {
-            $max = 50;
+        if($max > $this->maxYoutubeResults) {
+            $max = $this->maxYoutubeResults;
         }
 
         $this->maxResults = $max;
@@ -81,8 +104,8 @@ class Ustat
             throw new \Exception('Pages must be integer number');
         }
 
-        if ($pages < 1) {
-            $pages = 1;
+        if ($pages < $this->minPages) {
+            $pages = $this->minPages;
         }
 
         $this->pages = $pages;
@@ -99,18 +122,14 @@ class Ustat
 
         $client = new \Google_Client();
         $client->setApplicationName('API code samples');
-        $client->setScopes([
-            'https://www.googleapis.com/auth/youtube.readonly',
-        ]);
+        $client->setScopes([$this->scope]);
 
         //how to get keys https://cloud.google.com/iam/docs/creating-managing-service-account-keys
-        $client->setAuthConfig('client_secret_899632747294-df8fm6buohraml1gq9lj67anio1lsgqi.apps.googleusercontent.com.json');
+        $client->setAuthConfig($this->credentials_json_file);
         $client->setAccessType('offline');
 
 
         // Exchange authorization code for an access token.
-        //$accessToken = '1/0ETQq8vdh4ilfOks8Z6GDBOf1Bdrc9vjFjOJUm2ddF3SOEoY4GPYr2jydUg99Acu';//this is refresh token
-        //$client->fetchAccessTokenWithAuthCode($authCode);
         $client->fetchAccessTokenWithRefreshToken($this->refresh_token);
 
         return $client;
@@ -169,7 +188,7 @@ class Ustat
      */
     public function getAllData()
     {
-        $model = new Model();
+        $model = new Model($this->db_structure);
 
         return $model->getAllData();
     }
@@ -326,7 +345,7 @@ class Ustat
             throw new \Exception('Data for collection is empty');
         }
 
-        $model = new Model();
+        $model = new Model($this->db_structure);
 
         return $model->addItem2Collection($data);
 
@@ -341,7 +360,7 @@ class Ustat
     public function getChannelStatByName(string $channelName)
     {
 
-        $model = new Model();
+        $model = new Model($this->db_structure);
         $result = $model->getAllData(['channelTitle' => $channelName]);
         if (!empty($data = iterator_to_array($result))) {
             $channelId = $data[0]['channelId'];
@@ -359,7 +378,7 @@ class Ustat
      */
     public function getChannelStatById(string $channelId)
     {
-        $model = new Model();
+        $model = new Model($this->db_structure);
 
         return $model->getChannelStat($channelId);
     }
@@ -371,7 +390,7 @@ class Ustat
     public function getTopChannels()
     {
 
-        $model = new Model();
+        $model = new Model($this->db_structure);
 
         return $model->getTopLikeDislikeChannels();
 

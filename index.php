@@ -12,7 +12,10 @@ try {
     $params = [
         'client_id' => '899632747294-df8fm6buohraml1gq9lj67anio1lsgqi.apps.googleusercontent.com',
         'client_secret' => 'oMOhUtKGwhQIfkVyHIeOScyC',
-        'refresh_token' => '1/0ETQq8vdh4ilfOks8Z6GDBOf1Bdrc9vjFjOJUm2ddF3SOEoY4GPYr2jydUg99Acu'
+        'refresh_token' => '1/0ETQq8vdh4ilfOks8Z6GDBOf1Bdrc9vjFjOJUm2ddF3SOEoY4GPYr2jydUg99Acu',
+        'credentials_json_file' => '',
+        'scope' => 'https://www.googleapis.com/auth/youtube.readonly',
+        'db_structure' => ['youtube', 'channels']
     ];
 
     $app = new Ustat($params);
