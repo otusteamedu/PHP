@@ -6,10 +6,24 @@ class Model
 {
     private $collection;
 
-    public function __construct()
+    public function __construct(Array $structure)
     {
-        $this->collection = (new \MongoDB\Client)->youtube->channels;
-        //$this->collection->drop();
+        switch(count($structure)) {
+            case 1:
+                $this->collection = (new \MongoDB\Client)->{$structure[0]};
+                break;
+            case 2:
+                $this->collection = (new \MongoDB\Client)->{$structure[0]}->{$structure[1]};
+                break;
+            case 3:
+                $this->collection = (new \MongoDB\Client)->{$structure[0]}->{$structure[1]}->{$structure[2]};
+                break;
+            case 4:
+                $this->collection = (new \MongoDB\Client)->{$structure[0]}->{$structure[1]}->{$structure[2]}->{$structure[3]};
+                break;
+            default:
+                $this->collection = (new \MongoDB\Client)->youtube->channels;
+        }
     }
 
 
