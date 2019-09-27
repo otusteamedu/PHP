@@ -42,7 +42,6 @@ try {
     }
 
 
-    exit;
     //if we haven't data in the database we make request to youtube top video chart
     $topVideos = $app->getTopVideos();
 
