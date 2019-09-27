@@ -6,10 +6,10 @@ class Model
 {
     private $collection;
 
-
     public function __construct()
     {
         $this->collection = (new \MongoDB\Client)->youtube->channels;
+        //$this->collection->drop();
     }
 
 
@@ -62,18 +62,156 @@ class Model
 
 
     // statistics section
-    public function getChannelLikes($channelID = '')
+    public function getChannelStat($channelID = '')
     {
         if (empty($channelID)) {
             throw new \Exception('Missing or empty required parameter channel ID');
         }
 
-        $videos = $this->getChannelVideos($channelID);
+        return  $this->collection->aggregate([
+            ['$match' => ["channelId" => $channelID] ],
+            ['$unwind' => '$channelVideos'],
+            ['$group' => [
+                '_id' => null,
+                'likes' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.likeCount'
+                    ]
+                ],
+                'disLikes' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.dislikeCount'
+                    ]
+                ],
+                'comments' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.commentCount'
+                    ]
+                ],
+                'view' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.viewCount'
+                    ]
+                ]
+            ]]
+        ]);
+
     }
 
 
-    public function getTopLikeDislikeChannels($limit = 0)
+    public function getTopLikeDislikeChannels()
     {
+        $topLikes = $this->collection->aggregate([
+            ['$unwind' => '$channelVideos'],
+            ['$project' => [
+                '_id' => null,
+                'channelId' => 1,
+                'channelTitle' => 1,
+                'likes' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.likeCount'
+                    ]
+                ],
+                'disLikes' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.dislikeCount'
+                    ]
+                ],
+                'comments' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.commentCount'
+                    ]
+                ],
+                'view' => [
+                    '$sum' => [
+                        '$toDouble' => '$channelVideos.statistics.viewCount'
+                    ]
+                ]
+            ]
+            ],
+            ['$group' => [
+                '_id' => ['channelId' => '$channelId', 'channelTitle' => '$channelTitle'],
+                'likes' => [
+                    '$sum' => [
+                        '$toDouble' => '$likes'
+                    ]
+                ],
+                'disLikes' => [
+                    '$sum' => [
+                        '$toDouble' => '$disLikes'
+                    ]
+                ],
+                'comments' => [
+                    '$sum' => [
+                        '$toDouble' => '$comments'
+                    ]
+                ],
+                'view' => [
+                    '$sum' => [
+                        '$toDouble' => '$view'
+                    ]
+                ]
+            ]
+            ],
+            ['$sort' => ['likes' => -1]]
+        ]);
+
+        $topDislikes = $this->collection->aggregate([
+        ['$unwind' => '$channelVideos'],
+        ['$project' => [
+            '_id' => null,
+            'channelId' => 1,
+            'channelTitle' => 1,
+            'likes' => [
+                '$sum' => [
+                    '$toDouble' => '$channelVideos.statistics.likeCount'
+                ]
+            ],
+            'disLikes' => [
+                '$sum' => [
+                    '$toDouble' => '$channelVideos.statistics.dislikeCount'
+                ]
+            ],
+            'comments' => [
+                '$sum' => [
+                    '$toDouble' => '$channelVideos.statistics.commentCount'
+                ]
+            ],
+            'view' => [
+                '$sum' => [
+                    '$toDouble' => '$channelVideos.statistics.viewCount'
+                ]
+            ]
+        ]
+        ],
+        ['$group' => [
+            '_id' => ['channelId' => '$channelId', 'channelTitle' => '$channelTitle'],
+            'likes' => [
+                '$sum' => [
+                    '$toDouble' => '$likes'
+                ]
+            ],
+            'disLikes' => [
+                '$sum' => [
+                    '$toDouble' => '$disLikes'
+                ]
+            ],
+            'comments' => [
+                '$sum' => [
+                    '$toDouble' => '$comments'
+                ]
+            ],
+            'view' => [
+                '$sum' => [
+                    '$toDouble' => '$view'
+                ]
+            ]
+        ]
+        ],
+        ['$sort' => ['disLikes' => -1]]
+    ]);
+
+        return [$topLikes, $topDislikes];
 
     }
     //end statistics section

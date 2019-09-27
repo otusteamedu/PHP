@@ -15,7 +15,7 @@ class Ustat
     //google API connect client
     protected $api_client;
 
-    protected $maxResults = 5;
+    protected $maxResults = 50;
 
     protected $pages = 1;
 
@@ -29,18 +29,18 @@ class Ustat
         ];
 
         if (empty($params)) {
-            throw new \Exception('Reqired params is missing. You must provide next fields: ' . implode(', ', $required_keys));
+            throw new \Exception('Required params is missing. You must provide next fields: ' . implode(', ', $required_keys));
         }
 
         $param_keys = array_keys($params);
 
         if (!empty($messing_keys = array_diff($required_keys, $param_keys))) {
-            throw new \Exception('Reqired param or parameters is missing: ' . implode(', ', $messing_keys));
+            throw new \Exception('Required param or parameters is missing: ' . implode(', ', $messing_keys));
         }
 
         foreach ($required_keys as $key) {
             if (empty($params[$key])) {
-                throw new \Exception('Reqired param "' . $key . '" is empty');
+                throw new \Exception('Required param "' . $key . '" is empty');
             }
             $this->$key = $params[$key];
         }
@@ -49,6 +49,11 @@ class Ustat
 
     }
 
+    /**
+     * Set max result that we will receive in response from youtube
+     * @param $max
+     * @throws \Exception
+     */
     public function setMaxResults($max)
     {
         if (!filter_var($max, FILTER_SANITIZE_NUMBER_INT)) {
@@ -58,10 +63,18 @@ class Ustat
         if ($max < 1) {
             $max = 1;
         }
+        if($max > 50) {
+            $max = 50;
+        }
 
         $this->maxResults = $max;
     }
 
+    /**
+     * Set how much pages we will check in response what we receive before. In 1 page maximum can be 50 results
+     * @param $pages
+     * @throws \Exception
+     */
     public function setPages($pages)
     {
         if (!filter_var($pages, FILTER_SANITIZE_NUMBER_INT)) {
@@ -76,7 +89,10 @@ class Ustat
     }
 
 
-
+    /**
+     * Connect to youtube api, use refresh token
+     * @return \Google_Client
+     */
     private function connect()
     {
         require_once __DIR__ . '/../vendor/autoload.php';
@@ -100,7 +116,10 @@ class Ustat
         return $client;
     }
 
-
+    /**
+     * Get video list from top chart
+     * @return array
+     */
     public function getTopVideos()
     {
 
@@ -136,18 +155,31 @@ class Ustat
             }
         }
 
-        /*$this->printDie($response->getItems());*/
-
         if (count($items)) {
             $items = array_merge(...$items);
         }
-
 
         return $items;
 
     }
 
+    /**
+     * Get all data from mongodb
+     * @return \MongoDB\Driver\Cursor
+     */
+    public function getAllData()
+    {
+        $model = new Model();
 
+        return $model->getAllData();
+    }
+
+
+    /**
+     * get all videos for given channel id
+     * @param $channelId
+     * @return array
+     */
     public function getAllVideos4Channel($channelId)
     {
 
@@ -191,7 +223,12 @@ class Ustat
 
     }
 
-
+    /**
+     * make request to youtube api and get statistics for video ids which we get from previous steps [all channel videos]
+     * @param array $videoIds
+     * @return array
+     * @throws \Exception
+     */
     public function getVideoStatistics(Array $videoIds)
     {
         $type = 'videos';
@@ -232,12 +269,17 @@ class Ustat
             $items = array_merge(...$items);
         }
 
-
         return $items;
     }
 
-
-    public function makeRequest($type = 'videos', Array $params)
+    /**
+     * Make request to youtube api
+     * @param string $type
+     * @param array $params
+     * @return \Google_Service_YouTube_SearchListResponse|\Google_Service_YouTube_VideoListResponse|null
+     * @throws \Exception
+     */
+    public function makeRequest(string $type = 'videos', Array $params)
     {
 
         $requiredKeys = ['part', 'queryParams'];
@@ -271,6 +313,12 @@ class Ustat
 
     }
 
+    /**
+     * Save data to mongodb
+     * @param array $data
+     * @return int
+     * @throws \Exception
+     */
     public function saveChannelData(Array $data)
     {
 
@@ -284,12 +332,68 @@ class Ustat
 
     }
 
-    public function printDie($data)
+
+    /**
+     * Return statistics for channel by name
+     * @param string $channelName
+     * @return array|\Traversable
+     */
+    public function getChannelStatByName(string $channelName)
+    {
+
+        $model = new Model();
+        $result = $model->getAllData(['channelTitle' => $channelName]);
+        if (!empty($data = iterator_to_array($result))) {
+            $channelId = $data[0]['channelId'];
+            return $this->getChannelStatById($channelId);
+        }
+
+        return [];
+
+    }
+
+    /**
+     * Return statistics for channel by id
+     * @param string $channelId
+     * @return \Traversable
+     */
+    public function getChannelStatById(string $channelId)
+    {
+        $model = new Model();
+
+        return $model->getChannelStat($channelId);
+    }
+
+    /**
+     * Return statistics for all channel
+     * @return array
+     */
+    public function getTopChannels()
+    {
+
+        $model = new Model();
+
+        return $model->getTopLikeDislikeChannels();
+
+    }
+
+    /**
+     * Just for debug
+     * @param $data
+     */
+    public function printVarDie($data)
     {
         echo '<pre>';
         print_r($data);
         echo '</pre>';
         exit;
+    }
+
+    public function printVar($data)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
     }
 
 }
