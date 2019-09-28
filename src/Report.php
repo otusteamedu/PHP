@@ -79,7 +79,6 @@ class Report
         foreach ($event as $k => $item) {
             $hkey = $key.':'.$k ;
 
-            //echo 'insert: ' . $keyFind . ' ' . $hkey . '<br>';
             if (!is_array($item)) {
                 $item = [$k => $item];
             }
