@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  php:
+    build: ./php-fpm/
+    volumes:
+      - www-data:/var/www/public
+
+  nginx:
+    build: ./nginx/
+    ports:
+      - "80:80"
+    volumes:
+      - www-data:/var/www/public
+
+volumes:
+   www-data:
