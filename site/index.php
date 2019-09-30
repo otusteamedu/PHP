@@ -1,91 +1,64 @@
-
 <?php
-class WebApp
-{
-    public $postdata;
-    public $socket;
-    public $string = '(()()()()))((((()()()))(()()()(((()))))))';
-    public $posts = 'string=';
-    public $contentsno = true;
-    public $content;
-    public $subStrContent;
-   
+class validator{
+  public $badReqest=false;
+  public $postdata;
+  public $bracketClose=0;
+  public $bracketOpen=0;
 
-    public function getContents()
-    {
-        if ($_POST['string']) {
-            $this->contentsno = false;
-            $this->postdata = file_get_contents("php://input");
-            if (empty($this->postdata)) {
-                header("HTTP/1.1 400 Bad Request");
-            } else if (mb_strlen($this->postdata) != 48) {
-                header("HTTP/1.1 400 Bad Request");
-            } else {
-                header('HTTP/1.1 200 OK;');
-                echo $this->postdata;
-            }
-         
+function isRequest(){
+    $this->postdata = urldecode(file_get_contents("php://input"));
+    $string = str_split($_POST['string']); 
+    for($i=0; $i<count($string); $i++){
+        if($string[$i]==")")
+        {
+            $this->bracketClose++;               
+        }else if($string[$i]=="(")
+        {
+            $this->bracketOpen++;
         }
-    }
-
-    public function openSocket()
-    {
-        $this->posts .= $this->string;
-        $this->socket = fsockopen('mysite.local', 80, $errno, $errstr, 60);
-        if (!$this->socket) {
-            echo "$errstr ($errno)<br/>\n";
-        }
-    }
-    public function socketWrite()
-    {
-        fwrite($this->socket, "POST / HTTP/1.1\r\n");
-        fwrite($this->socket, "Host: mysite.local\r\n");
-        fwrite($this->socket, "Content-Type: application/x-www-form-urlencoded\r\n");
-        fwrite($this->socket, "Content-Length: " . strlen($this->posts) . "\r\n");
-        fwrite($this->socket, "Connection:close\r\n\r\n");
-        fwrite($this->socket, $this->posts);
-    }
-    public function socketRead()
-    {
-        while (!feof($this->socket)) {
-            $this->content .= fgets($this->socket, 1024);
-        }
-    }
-    public function subContent()
-    {
-        $pos = strpos($this->content, "Server: nginx");
-        $this->subStrContent = mb_strimwidth($this->content, 0, $pos);
-    }
-    public function stadinContent()
-    {
-        echo $this->subStrContent;
-        if (strlen($this->subStrContent) == 17) {
-            echo "Верный запрос";
-        } else {
-            echo "Не верный запрос";
-        }
-    }
-    public function isRequest(){
-      if($this->contentsno){
-        $this->openSocket();
-        $this->socketWrite();
-        $this->socketRead();
-        $this->subContent();
-        $this->stadinContent();
-
-      }
-
-
     }
 }
+function isValid () {
+    if (empty($this->postdata)) {
+       $this->badReqest=true;
+    } else if (mb_strlen($this->postdata) != 48 && !empty($this->postdata)) {
+       $this->badReqest=true;
+    } else if($this->bracketClose!=21|| $this->bracketOpen!=20){
+         $this->badReqest=true;
+    }
+}
+function sendMessage(){
+     if($this->badReqest){
+        header("HTTP/1.1 400 Bad Request");
+        echo "Ошибка отправки 400 Bad Request";
+     }else if(!$this->badReqest){
+        header('HTTP/1.1 200 OK;');
+        echo "Удачная отправка 200 OK";
 
-$web= new WebApp();
-$web->getContents();
-$web->isRequest();
+     }
+    }
+function validate(){
+    if ($_POST['string']) {
+        $this->isRequest();
+        $this->isValid ();
+        $this->sendMessage();
+    }
+}
+   
+}
+
+$valid= new validator;
+$valid->validate();
 ?>
-
-
 <html>
 <body>
+<button onclick="redir()">Next Page</button>
+<div id="redirect"></div>
+<script>
+function redir() {
+  document.getElementById('redirect').innerHTML = '<form style="display:none;" position="absolute" method="post" action="/"><input id="redirbtn" type="submit" name="string" value="(()()()()))((((()()()))(()()()(((()))))))"></form>';
+  document.getElementById('redirbtn').click();
+}
+  </script>
 </body>
 </html>
