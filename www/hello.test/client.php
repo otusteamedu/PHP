@@ -1,22 +1,22 @@
 <?php
 // No Timeout
 set_time_limit(0);
-include_once 'transport.php';
+include_once 'class-client.php';
 
-// Готовим параметры из командной строки для передачи на сервер
-$opts = "";
-$opts .= "f:";  // Required
-$opts .= "s:";  // Required
+$sock = new Client();
 
-$options = getopt( $opts );
-$message = implode(' :: ', $options);
+	try {
+		// Получаем первый параметр из командной строки для передачи на сервер
+		$message = $argv[1];
+		if ( !$message ) {
+			throw new Exception('Вы ничего не передали');
+		}
+		$sock->create_client();
+		echo $sock->send_message($message) . PHP_EOL;
 
-$sock = new Transport('/tmp/server.sock');
+	}
+	catch ( Exception $e ) {
+			echo $e->getMessage() . PHP_EOL;
+	}
 
-try {
-	echo $sock->send_message( 'ура' );
-}
-catch ( Exception $e ) {
-	echo $ex->getMessage();
-}
 
