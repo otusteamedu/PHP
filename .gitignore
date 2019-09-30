@@ -1,0 +1,7 @@
+.git
+.idea
+mysql/*
+logs/*.log
+!logs/.gitkeep
+www/redis-stable
+vendor
