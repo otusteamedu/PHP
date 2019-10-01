@@ -1,0 +1,11 @@
+{
+  "repositories": [
+     {
+       "type": "vcs",
+       "url": "https://github.com/EvilWolf/otus-email-validator"
+     }
+  ],
+  "require": {
+    "evilwolf/otus-email-validator": "^1.0"
+  }
+}

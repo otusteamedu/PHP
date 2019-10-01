@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build: ./nginx-balancer/
+    ports:
+      - "80:80"
+    restart: always
+    links:
+      - nginx-backend-1
+      - nginx-backend-2
+
+  nginx-backend-1:
+    build: ./nginx-backend/
+    volumes:
+      - app-data:/var/www/public
+    restart: always
+    links:
+      - php-1
+      - php-2
+      - php-3
+
+  nginx-backend-2:
+    build: ./nginx-backend/
+    volumes:
+      - app-data:/var/www/public
+    restart: always
+    links:
+      - php-1
+      - php-2
+      - php-3
+
+  php-1:
+    build: ./php-fpm/
+    volumes:
+      - app-data:/var/www/public
+    restart: always
+
+  php-2:
+    build: ./php-fpm/
+    volumes:
+      - app-data:/var/www/public
+    restart: always
+
+  php-3:
+    build: ./php-fpm/
+    volumes:
+      - app-data:/var/www/public
+    restart: always
+
+volumes:
+  app-data:
