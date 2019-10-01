@@ -13,10 +13,7 @@ class PostValidator
         if (empty(trim($string))) {
             $this->error = true;
         } else {
-            $new_string = preg_replace('/[^\(\)]/', '', $string);
-            if (!empty($new_string)) {
-                $this->error = $this->correctBracket($string);
-            }
+            $this->error = $this->correctBracket($string);
         }
     }
 
