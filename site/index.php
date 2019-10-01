@@ -32,7 +32,7 @@ public function correctBracket($string)
 function isValid () {
     if (empty($this->postdata)) {
        $this->badReqest=true;
-    } else if (mb_strlen($this->postdata) != 48 && !empty($this->postdata)) {
+    } else if (mb_strlen($this->postdata) != 47 && !empty($this->postdata)) {
       $this->badReqest=true;
     } else if($this->bracketsBalansno){
          $this->badReqest=true;
@@ -69,7 +69,7 @@ $valid->validate();
     <script>
     function redir() {
         document.getElementById('redirect').innerHTML =
-            '<form style="display:none;" position="absolute" method="post" action="/"><input id="redirbtn" type="submit" name="string" value="()"></form>';
+            '<form style="display:none;" position="absolute" method="post" action="/"><input id="redirbtn" type="submit" name="string" value="(((((((((((((((((((())))))))))))))))))))"></form>';
         document.getElementById('redirbtn').click();
     }
     </script>
