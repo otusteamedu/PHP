@@ -1,0 +1,16 @@
+{
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "test/composer",
+        "version": "1.0.0",
+        "source": {
+          "url": "https://github.com/pulwar/composer.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  ]
+}
