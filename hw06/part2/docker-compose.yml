@@ -1,0 +1,36 @@
+version: '3'
+services:
+  balancer:
+    build:
+      context: ./
+      dockerfile: docker/balancer.docker
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend1
+      - backend2
+  backend1:
+    build:
+      context: ./
+      dockerfile: docker/backend1.docker
+    volumes:
+      - ./:/var/www:delegated
+    depends_on:
+      - php-fpm
+  backend2:
+    build:
+      context: ./
+      dockerfile: docker/backend2.docker
+    volumes:
+      - ./:/var/www:delegated
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm.docker
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker/php/php.ini-development:/usr/local/etc/php/php.ini:delegated
