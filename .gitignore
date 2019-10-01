@@ -120,3 +120,4 @@ fabric.properties
 *.log
 postgresql/postgres/
 postgresql/tablespaces/
+hw14/mongo/
