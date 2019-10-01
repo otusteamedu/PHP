@@ -2,28 +2,39 @@
 class validator{
   public $badReqest=false;
   public $postdata;
-  public $bracketClose=0;
-  public $bracketOpen=0;
+  public $bracketsBalansno=false;
 
-function isRequest(){
+  public function isRequest(){
     $this->postdata = urldecode(file_get_contents("php://input"));
-    $string = str_split($_POST['string']); 
-    for($i=0; $i<count($string); $i++){
-        if($string[$i]==")")
-        {
-            $this->bracketClose++;               
-        }else if($string[$i]=="(")
-        {
-            $this->bracketOpen++;
+    $this->bracketsValidator($_POST["string"]);
+}
+
+public function bracketsValidator($string){
+        $new_string = preg_replace('/[^\(\)]/', '', $string);
+        if (!empty($new_string)) {
+            $this->bracketsBalansno= $this->correctBracket($string);
+        }
+    
+}
+public function correctBracket($string)
+{
+    if (!empty($string)) {
+        $rep_string = preg_replace('/[\(]{1}[\)]{1}/', '', $string, $limit = -1, $count);
+        if ($count > 0) {
+            return $this->correctBracket($rep_string);
+        } else {
+          return true;
         }
     }
+    return false;
 }
+
 function isValid () {
     if (empty($this->postdata)) {
        $this->badReqest=true;
     } else if (mb_strlen($this->postdata) != 48 && !empty($this->postdata)) {
-       $this->badReqest=true;
-    } else if($this->bracketClose!=21|| $this->bracketOpen!=20){
+      $this->badReqest=true;
+    } else if($this->bracketsBalansno){
          $this->badReqest=true;
     }
 }
@@ -51,14 +62,17 @@ $valid= new validator;
 $valid->validate();
 ?>
 <html>
+
 <body>
-<button onclick="redir()">Next Page</button>
-<div id="redirect"></div>
-<script>
-function redir() {
-  document.getElementById('redirect').innerHTML = '<form style="display:none;" position="absolute" method="post" action="/"><input id="redirbtn" type="submit" name="string" value="(()()()()))((((()()()))(()()()(((()))))))"></form>';
-  document.getElementById('redirbtn').click();
-}
-  </script>
+    <button onclick="redir()">Next Page</button>
+    <div id="redirect"></div>
+    <script>
+    function redir() {
+        document.getElementById('redirect').innerHTML =
+            '<form style="display:none;" position="absolute" method="post" action="/"><input id="redirbtn" type="submit" name="string" value="()"></form>';
+        document.getElementById('redirbtn').click();
+    }
+    </script>
 </body>
+
 </html>
