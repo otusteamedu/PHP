@@ -1,0 +1,28 @@
+{
+  "name": "myapp",
+  "authors": [
+    {
+      "name": "Katya Leurdo",
+      "email": "katya.leurdo@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:leurdo/composer-test.git"
+    }
+  ],
+  "require": {
+    "hw3/composer_test": "dev-master"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "hello.test/app"
+    }
+  }
+}

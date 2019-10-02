@@ -1,0 +1,8 @@
+.git
+.idea
+mysql/*
+logs/*.log
+!logs/.gitkeep
+www/redis-stable
+www/vendor
+www/composer.lock
