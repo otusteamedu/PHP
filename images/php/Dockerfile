@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
         libpng-dev \
         memcached \
+        libmemcached-dev \
     && pecl install mcrypt-1.0.2 \
     && docker-php-ext-enable mcrypt \
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
@@ -33,12 +34,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable raphf \
     && pecl install propro \
     && docker-php-ext-enable propro \
-    && apt-get install libssl-dev \
+    && apt-get install -y libssl-dev \
     && pecl install -of pecl_http \
     && docker-php-ext-enable http \
     && apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pgsql pdo_pgsql
+    && docker-php-ext-install pgsql pdo_pgsql \
+    && pecl install -of memcached \
+    && docker-php-ext-enable memcached
+
 
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
