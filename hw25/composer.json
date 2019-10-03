@@ -1,0 +1,12 @@
+{
+  "name": "bazarov/dijkstra",
+  "description": "Dijkstra's algorithm",
+  "type": "project",
+  "require": {},
+
+  "autoload": {
+    "psr-4": {
+      "APP\\": "src/"
+    }
+  }
+}
