@@ -1,0 +1,22 @@
+{
+    "name": "jekys/youtube-channels-stats",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Evgeny Prokhorov",
+            "email": "prohorov-evgen@ya.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jekys\\": "src/"
+        }
+    },
+    "require": {
+        "php-amqplib/php-amqplib": ">=2.6.1",
+        "google/apiclient": "~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3"
+    }
+}

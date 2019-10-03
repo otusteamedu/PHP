@@ -1,0 +1,55 @@
+version: "3"
+
+volumes:
+  mongo_data:
+  rabbitmq_data:
+
+services:
+
+  app:
+    build:
+      context: ./docker/app
+    tty: true
+    environment:
+      - 'MONGO_HOST=${MONGO_HOST}'
+      - 'MONGO_PORT=${MONGO_PORT}'
+      - 'MONGO_DB=${MONGO_DB}'
+      - 'MONGO_COLLECTION=${MONGO_COLLECTION}'
+      - 'RABBITMQ_HOST=${RABBITMQ_HOST}'
+      - 'RABBITMQ_USER=${RABBITMQ_USER}'
+      - 'RABBITMQ_PASS=${RABBITMQ_PASS}'
+    volumes:
+      - './app:/var/www'
+
+  workers: 
+    build:
+      context: ./docker/workers
+    tty: true
+    environment:
+      - 'MONGO_HOST=${MONGO_HOST}'
+      - 'MONGO_PORT=${MONGO_PORT}'
+      - 'MONGO_DB=${MONGO_DB}'
+      - 'MONGO_COLLECTION=${MONGO_COLLECTION}'
+      - 'RABBITMQ_HOST=${RABBITMQ_HOST}'
+      - 'RABBITMQ_USER=${RABBITMQ_USER}'
+      - 'RABBITMQ_PASS=${RABBITMQ_PASS}'    
+    volumes:
+      - ./docker/workers/supervisor.conf:/etc/supervisord.conf
+      - ./app:/var/www
+
+  rabbitmq:
+    image: rabbitmq:alpine
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+    environment:  
+      - 'RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}'
+      - 'RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}'
+      - 'RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}'
+    ports:
+      - 5672:5672
+
+  mongo:
+    image: 'mongo:latest'
+    restart: always
+    volumes:
+      - mongo_data:/data/db      
