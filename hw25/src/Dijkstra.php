@@ -55,9 +55,12 @@ class Dijkstra
         } while (in_array(false, $this->isVertexProcessed));
     }
 
-    public function getShortestDistanceToVertex(): array
+    public function getShortestDistanceToVertex(bool $sorted = false): ?array
     {
-        return $this->shortestDistanceToVertex ?? [];
+        if ($sorted) {
+            return $this->getSortedArray($this->shortestDistanceToVertex);
+        }
+        return $this->shortestDistanceToVertex;
     }
 
     private function initialization(): void
@@ -69,5 +72,11 @@ class Dijkstra
         );
         $this->shortestDistanceToVertex[1] = 0;
         $this->isVertexProcessed = array_fill(1, $this->graph->getNumberOfVertices(), false);
+    }
+
+    private function getSortedArray(array $array): array
+    {
+        asort($array);
+        return $array;
     }
 }

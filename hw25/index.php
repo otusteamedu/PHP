@@ -11,6 +11,8 @@ $graph->loadGraphFromJSON("graph.json");
 $dijkstra = new Dijkstra($graph);
 $dijkstra->process();
 
-foreach ($dijkstra->getShortestDistanceToVertex() as $index => $distanceToVertex) {
+
+
+foreach ($dijkstra->getShortestDistanceToVertex(true) as $index => $distanceToVertex) {
     echo "For the vertex $index distance is $distanceToVertex" . PHP_EOL;
 }
