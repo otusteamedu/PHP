@@ -1,0 +1,43 @@
+version: "3.3"
+services:
+    nginx-main:
+            build:
+                 context: ./docker/
+                 dockerfile: Nginx-main.Dockerfile
+            ports:
+                - 8081:80
+            links:
+                - nginx-1
+                - nginx-2
+                - nginx-3 
+    nginx-1:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile
+        links:
+            - php-fpm-1
+        volumes:
+            - ./site/:/var/www/html               
+    nginx-2:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile 
+        links:
+            - php-fpm-1
+        volumes:
+            - ./site/:/var/www/html
+    nginx-3:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile
+        links:
+            - php-fpm-1
+        volumes:
+            - ./site/:/var/www/html
+    php-fpm-1:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        volumes:
+            - ./site/:/var/www/html
+ 
