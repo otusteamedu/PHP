@@ -1,4 +1,4 @@
-FROM php:7.2-alpine
+FROM php:7.2-fpm-alpine
 RUN apk add php7-dev gcc g++ make \
     && apk add curl-dev \
     && apk add grep \
@@ -15,6 +15,7 @@ RUN apk add php7-dev gcc g++ make \
     && pecl install -of propro \
     && docker-php-ext-enable propro \
     && pecl install -of pecl_http \
+    && docker-php-ext-install pdo pdo_pgsql \
     && echo "extension=http.so" >> /usr/local/etc/php/conf.d/docker-php-ext-zhttp.ini \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
