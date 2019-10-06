@@ -1,0 +1,19 @@
+{
+  "name": "aivanow/hw3.2",
+  "description": "Homework 3.2. Example how to use package 'ai/otus-backend-php-hw3.2'",
+  "authors": [
+    {
+      "name": "Aleksey Ivanov",
+      "email": "ai@proto.uz"
+    }
+  ],
+  "require": {
+    "ai/otus-backend-php-hw3.2": "dev-master"
+  },
+  "repositories":[
+    {
+      "type": "git",
+      "url": "https://github.com/leadorub/otus-backend-php-hw3.2.git"
+    }
+  ]
+}
