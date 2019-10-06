@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="48215b18-6b49-4fd6-be2c-9eb067e4f5e1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1216281236">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.18" value="3" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.opened" value="10" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="Dockerfile" value="11" />
+          <entry key="awk" value="2" />
+          <entry key="conf" value="3" />
+          <entry key="gitignore" value="8" />
+          <entry key="gitkeep" value="1" />
+          <entry key="ini" value="3" />
+          <entry key="json" value="5" />
+          <entry key="log" value="4" />
+          <entry key="md" value="2" />
+          <entry key="out" value="1" />
+          <entry key="php" value="15" />
+          <entry key="sh" value="2" />
+          <entry key="txt" value="4" />
+          <entry key="yml" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Bash" value="1" />
+          <entry key="Dockerfile" value="11" />
+          <entry key="Ini" value="3" />
+          <entry key="JSON" value="5" />
+          <entry key="Markdown" value="2" />
+          <entry key="PHP" value="15" />
+          <entry key="PLAIN_TEXT" value="21" />
+          <entry key="SmartyConfig" value="3" />
+          <entry key="YAML" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Dockerfile" value="230" />
+          <entry key="awk" value="138" />
+          <entry key="conf" value="8" />
+          <entry key="dummy" value="15" />
+          <entry key="gitignore" value="60" />
+          <entry key="json" value="34" />
+          <entry key="md" value="965" />
+          <entry key="php" value="3811" />
+          <entry key="sh" value="755" />
+          <entry key="txt" value="20" />
+          <entry key="yml" value="40" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Bash" value="755" />
+          <entry key="Dockerfile" value="230" />
+          <entry key="JSON" value="34" />
+          <entry key="Markdown" value="965" />
+          <entry key="PHP" value="3811" />
+          <entry key="PLAIN_TEXT" value="233" />
+          <entry key="SmartyConfig" value="8" />
+          <entry key="YAML" value="40" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>\n\	\$sock \= new Transport\(\'\/tmp\/server\.sock\'\)\;\n\	echo \&quot;Готов принимать сообщения\.\.\.\\n\&quot;\;\n\	while \( true \) \{\n\	\	try \{\n\	\	\	echo \$sock\-\&gt;read_message\(\)\;\n\	\	\}\n\	\	catch \( Exception \$e \) \{\n\	\	\	\	echo \$ex\-\&gt;getMessage\(\)\;\n\	\	\	\}\n\}\n</find>
+      <find>connect_socket</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/www/hello.dev/index.php" />
+        <option value="$PROJECT_DIR$/images/php/php.ini" />
+        <option value="$PROJECT_DIR$/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/hosts/hello-dev.conf" />
+        <option value="$PROJECT_DIR$/hosts/hello-test.conf" />
+        <option value="$PROJECT_DIR$/calculator.sh" />
+        <option value="$PROJECT_DIR$/cities.txt" />
+        <option value="$PROJECT_DIR$/db.txt" />
+        <option value="$PROJECT_DIR$/myscript.awk" />
+        <option value="$PROJECT_DIR$/textprocess.sh" />
+        <option value="$PROJECT_DIR$/www/hello.test/app/myclass.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/index.php" />
+        <option value="$PROJECT_DIR$/www/composer.json" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/www/hello.test/receiver.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/sender.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/transport.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/server.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/class-server.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/class-client.php" />
+        <option value="$PROJECT_DIR$/www/hello.test/client.php" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/images/php/Dockerfile" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/www/vendor/composer" />
+      <path value="$PROJECT_DIR$/www/vendor/hw3/composer_test" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-6" />
+    <option name="y" value="13" />
+    <option name="width" value="1293" />
+    <option name="height" value="713" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Code SmellPHP</id>
+          </State>
+          <State>
+            <id>PHP</id>
+          </State>
+          <State>
+            <id>PHP Strict StandardsPHP</id>
+          </State>
+          <State>
+            <id>Sass/SCSS</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>PhpCSValidationInspection</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="myapp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="myapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\work\myapp\www" />
+      <recent name="C:\work\myapp\www\hello.test" />
+      <recent name="C:\work\myapp\images\php" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="48215b18-6b49-4fd6-be2c-9eb067e4f5e1" name="Default Changelist" comment="" />
+      <created>1567965974550</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1567965974550</updated>
+      <workItem from="1567965975973" duration="11783000" />
+      <workItem from="1568058494578" duration="7008000" />
+      <workItem from="1568224364858" duration="40624000" />
+      <workItem from="1568969223963" duration="27000" />
+      <workItem from="1568969800890" duration="10000" />
+      <workItem from="1569349456538" duration="705000" />
+      <workItem from="1569350882591" duration="30424000" />
+      <workItem from="1569571926318" duration="11800000" />
+      <workItem from="1570008614425" duration="29000" />
+      <workItem from="1570386827958" duration="1209000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="103619000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="23" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18218623" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.6313869" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.41423357" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Remote Host" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/logs/error.log" />
+    <entry file="file://$PROJECT_DIR$/logs/access.log" />
+    <entry file="file://$PROJECT_DIR$/hosts/hello-test.conf" />
+    <entry file="file://$PROJECT_DIR$/logs/.gitkeep" />
+    <entry file="file://$PROJECT_DIR$/calculator.sh" />
+    <entry file="file://$PROJECT_DIR$/cities.txt" />
+    <entry file="file://$PROJECT_DIR$/myscript.awk" />
+    <entry file="file://$PROJECT_DIR$/db.txt" />
+    <entry file="file://$PROJECT_DIR$/textprocess.sh" />
+    <entry file="file://$PROJECT_DIR$/www/make_output.txt" />
+    <entry file="file://$PROJECT_DIR$/vendor/hw3/composer_test/composer.json" />
+    <entry file="file://$PROJECT_DIR$/images/php/php.ini">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/hello.test/nohup.out" />
+    <entry file="file://$PROJECT_DIR$/www/composer.json" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/app/myclass.php" />
+    <entry file="file://$PROJECT_DIR$/composer.json" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/index.php" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/receiver.php" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/transport.php" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/server.php" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/class-server.php" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/class-client.php" />
+    <entry file="file://$PROJECT_DIR$/README.md" />
+    <entry file="file://$PROJECT_DIR$/www/hello.test/client.php" />
+    <entry file="file://$PROJECT_DIR$/images/php/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
