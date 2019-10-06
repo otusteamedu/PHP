@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48215b18-6b49-4fd6-be2c-9eb067e4f5e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +66,7 @@
           <entry key="awk" value="138" />
           <entry key="conf" value="8" />
           <entry key="dummy" value="15" />
-          <entry key="gitignore" value="60" />
+          <entry key="gitignore" value="65" />
           <entry key="json" value="34" />
           <entry key="md" value="965" />
           <entry key="php" value="3811" />
@@ -82,7 +82,7 @@
           <entry key="JSON" value="34" />
           <entry key="Markdown" value="965" />
           <entry key="PHP" value="3811" />
-          <entry key="PLAIN_TEXT" value="233" />
+          <entry key="PLAIN_TEXT" value="238" />
           <entry key="SmartyConfig" value="8" />
           <entry key="YAML" value="40" />
         </counts>
@@ -93,7 +93,11 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="5" selection-start-column="5" selection-end-column="5" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -124,7 +128,6 @@
         <option value="$PROJECT_DIR$/www/hello.test/app/myclass.php" />
         <option value="$PROJECT_DIR$/www/hello.test/index.php" />
         <option value="$PROJECT_DIR$/www/composer.json" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/www/hello.test/receiver.php" />
         <option value="$PROJECT_DIR$/www/hello.test/sender.php" />
@@ -135,6 +138,7 @@
         <option value="$PROJECT_DIR$/www/hello.test/client.php" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/images/php/Dockerfile" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -250,18 +254,18 @@
       <workItem from="1569350882591" duration="30424000" />
       <workItem from="1569571926318" duration="11800000" />
       <workItem from="1570008614425" duration="29000" />
-      <workItem from="1570386827958" duration="1209000" />
+      <workItem from="1570386827958" duration="1278000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103619000" />
+    <option name="totallyTimeSpent" value="103688000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="23" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18218623" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18218623" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -274,7 +278,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.6313869" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.41423357" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.41423357" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -357,7 +361,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
