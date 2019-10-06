@@ -25,6 +25,7 @@ $email[] = '123456@i.ру';
 $email[] = '123456@ru.name.ру';
 $email[] = 'roliol27@yandex.ru';
 $email[] = 'grigorjev-andrey2011@yandex.ru';
+$email[] = 'av.priakhin@gmail.com';
 
 
 $val= new ValidatorEmail;

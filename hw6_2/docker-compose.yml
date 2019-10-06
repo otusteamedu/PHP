@@ -17,7 +17,8 @@ services:
         links:
             - php-fpm-1
         volumes:
-            - ./site/:/var/www/html               
+            - ./site/:/var/www/html
+            - "phpsocket:/var/run"               
     nginx-2:
         build:
             context: ./docker/
@@ -26,6 +27,7 @@ services:
             - php-fpm-1
         volumes:
             - ./site/:/var/www/html
+            - "phpsocket:/var/run"
     nginx-3:
         build:
             context: ./docker/
@@ -34,10 +36,19 @@ services:
             - php-fpm-1
         volumes:
             - ./site/:/var/www/html
+            - "phpsocket:/var/run"
     php-fpm-1:
         build:
             context: ./docker/
             dockerfile: Fpm.Dockerfile
         volumes:
             - ./site/:/var/www/html
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
+
+volumes:
+    phpsocket:
+
  

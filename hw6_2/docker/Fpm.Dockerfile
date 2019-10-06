@@ -12,12 +12,8 @@
 		zlib1g-dev \
         libpq-dev\
         libmsgpackc2\
-        build-essential \
-        pkg-config\
         git\
         sudo\
-        vim\
-        nano\
         curl\
         wget\
         zip\
