@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  nginx_bl:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/balance:/etc/nginx/conf.d
+    links:
+      - php_cont_1
+      - php_cont_2
+
+  php_cont_1:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./nginx/fpm:/etc/nginx/conf.d
+      - ./src:/var/www/html
+
+  php_cont_2:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./nginx/fpm:/etc/nginx/conf.d
+      - ./src:/var/www/html
