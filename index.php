@@ -1,5 +1,5 @@
 <?
-require('src/Classes/EmailValidator.php');
+require_once('./vendor/autoload.php');
 $emailList = [
     'omen.ekb@gmail.com',
     'omen.ekb@gmail,com',
@@ -9,7 +9,7 @@ $emailList = [
     '11111@mail.ru'
 ];
 
-$emailValidator = new \src\Classes\EmailValidator($emailList);
+$emailValidator = new classes\EmailValidator($emailList);
 $emailValidator->validateEmail();
 $emailValidatorErrors = $emailValidator->getErrors();
 if (!empty($emailValidatorErrors)) {
