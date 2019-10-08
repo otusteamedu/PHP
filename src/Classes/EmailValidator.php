@@ -50,8 +50,7 @@ class EmailValidator
     {
         $brakeEmail = explode('@', $email);
         $resultMx = getmxrr($brakeEmail[1], $mxRecords);
-        if (($resultMx == false || count($mxRecords) == 0) ||
-            (count($mxRecords) && ($mxRecords[0] == null || $mxRecords[0] == '0.0.0.0'))) {
+        if (($resultMx == false) || (count($mxRecords)==1 && ($mxRecords[0] == null || $mxRecords[0] == '0.0.0.0'))) {
             $this->errors[$email] = 'Email не прошел проверку на наличие MX-записей';
             return false;
         }
