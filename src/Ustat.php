@@ -1,7 +1,7 @@
 <?php
-namespace Youtubestat;
+namespace Alex\Youtubestat;
 
-use Youtubestat\Model;
+use Alex\Youtubestat\Model;
 
 class Ustat
 {

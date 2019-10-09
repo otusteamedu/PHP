@@ -1,5 +1,5 @@
 <?php
-namespace Youtubestat;
+namespace Alex\Youtubestat;
 
 
 class Model

@@ -5,7 +5,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Youtubestat\\":"app/"
+            "Alex\\Youtubestat\\":"src/",
+            "Alex\\Youtubestat\\Routers\\":"src/routers/"
         }
     }
 }
