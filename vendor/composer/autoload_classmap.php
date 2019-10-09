@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Alex\\Youtubestat\\Helpers' => $baseDir . '/src/Helpers.php',
+    'Alex\\Youtubestat\\Model' => $baseDir . '/src/Model.php',
+    'Alex\\Youtubestat\\Ustat' => $baseDir . '/src/Ustat.php',
     'Firebase\\JWT\\BeforeValidException' => $vendorDir . '/firebase/php-jwt/src/BeforeValidException.php',
     'Firebase\\JWT\\ExpiredException' => $vendorDir . '/firebase/php-jwt/src/ExpiredException.php',
     'Firebase\\JWT\\JWT' => $vendorDir . '/firebase/php-jwt/src/JWT.php',
@@ -3139,11 +3142,9 @@ return array(
     'Google_Service_Compute_HealthStatus' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HealthStatus.php',
     'Google_Service_Compute_HealthStatusForNetworkEndpoint' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HealthStatusForNetworkEndpoint.php',
     'Google_Service_Compute_HostRule' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HostRule.php',
-    'Google_Service_Compute_HttpHealthCheck' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheck.php',
     'Google_Service_Compute_HttpHealthCheckList' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckList.php',
     'Google_Service_Compute_HttpHealthCheckListWarning' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckListWarning.php',
     'Google_Service_Compute_HttpHealthCheckListWarningData' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckListWarningData.php',
-    'Google_Service_Compute_HttpsHealthCheck' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheck.php',
     'Google_Service_Compute_HttpsHealthCheckList' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckList.php',
     'Google_Service_Compute_HttpsHealthCheckListWarning' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckListWarning.php',
     'Google_Service_Compute_HttpsHealthCheckListWarningData' => $vendorDir . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckListWarningData.php',
@@ -9959,7 +9960,7 @@ return array(
     'Monolog\\Handler\\DoctrineCouchDBHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
     'Monolog\\Handler\\DynamoDbHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
     'Monolog\\Handler\\ElasticaHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ElasticaHandler.php',
-    'Monolog\\Handler\\ElasticsearchHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ElasticsearchHandler.php',
+    'Monolog\\Handler\\ElasticsearchHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
     'Monolog\\Handler\\ErrorLogHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php',
     'Monolog\\Handler\\FallbackGroupHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/FallbackGroupHandler.php',
     'Monolog\\Handler\\FilterHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/FilterHandler.php',
@@ -10058,7 +10059,6 @@ return array(
     'Psr\\Log\\Test\\DummyTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'Psr\\Log\\Test\\LoggerInterfaceTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'Psr\\Log\\Test\\TestLogger' => $vendorDir . '/psr/log/Psr/Log/Test/TestLogger.php',
-    'Youtubestat\\Ustat' => $baseDir . '/app/Ustat.php',
     'phpseclib\\Crypt\\AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
     'phpseclib\\Crypt\\Base' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
     'phpseclib\\Crypt\\Blowfish' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',

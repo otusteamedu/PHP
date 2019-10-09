@@ -20,10 +20,6 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         array (
             'phpseclib\\' => 10,
         ),
-        'Y' => 
-        array (
-            'Youtubestat\\' => 12,
-        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -46,16 +42,16 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'A' => 
+        array (
+            'Alex\\Youtubestat\\' => 17,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
-        ),
-        'Youtubestat\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app',
         ),
         'Psr\\Log\\' => 
         array (
@@ -97,6 +93,10 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'Alex\\Youtubestat\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -114,6 +114,9 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
     );
 
     public static $classMap = array (
+        'Alex\\Youtubestat\\Helpers' => __DIR__ . '/../..' . '/src/Helpers.php',
+        'Alex\\Youtubestat\\Model' => __DIR__ . '/../..' . '/src/Model.php',
+        'Alex\\Youtubestat\\Ustat' => __DIR__ . '/../..' . '/src/Ustat.php',
         'Firebase\\JWT\\BeforeValidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/BeforeValidException.php',
         'Firebase\\JWT\\ExpiredException' => __DIR__ . '/..' . '/firebase/php-jwt/src/ExpiredException.php',
         'Firebase\\JWT\\JWT' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWT.php',
@@ -3247,11 +3250,9 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         'Google_Service_Compute_HealthStatus' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HealthStatus.php',
         'Google_Service_Compute_HealthStatusForNetworkEndpoint' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HealthStatusForNetworkEndpoint.php',
         'Google_Service_Compute_HostRule' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HostRule.php',
-        'Google_Service_Compute_HttpHealthCheck' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheck.php',
         'Google_Service_Compute_HttpHealthCheckList' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckList.php',
         'Google_Service_Compute_HttpHealthCheckListWarning' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckListWarning.php',
         'Google_Service_Compute_HttpHealthCheckListWarningData' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpHealthCheckListWarningData.php',
-        'Google_Service_Compute_HttpsHealthCheck' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheck.php',
         'Google_Service_Compute_HttpsHealthCheckList' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckList.php',
         'Google_Service_Compute_HttpsHealthCheckListWarning' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckListWarning.php',
         'Google_Service_Compute_HttpsHealthCheckListWarningData' => __DIR__ . '/..' . '/google/apiclient-services/src/Google/Service/Compute/HttpsHealthCheckListWarningData.php',
@@ -10067,7 +10068,7 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         'Monolog\\Handler\\DoctrineCouchDBHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
         'Monolog\\Handler\\DynamoDbHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
         'Monolog\\Handler\\ElasticaHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ElasticaHandler.php',
-        'Monolog\\Handler\\ElasticsearchHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ElasticsearchHandler.php',
+        'Monolog\\Handler\\ElasticsearchHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
         'Monolog\\Handler\\ErrorLogHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php',
         'Monolog\\Handler\\FallbackGroupHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FallbackGroupHandler.php',
         'Monolog\\Handler\\FilterHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FilterHandler.php',
@@ -10166,7 +10167,6 @@ class ComposerStaticInitf96bf46edd46d847316b986ee4391d9e
         'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
-        'Youtubestat\\Ustat' => __DIR__ . '/../..' . '/app/Ustat.php',
         'phpseclib\\Crypt\\AES' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
         'phpseclib\\Crypt\\Base' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
         'phpseclib\\Crypt\\Blowfish' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',
