@@ -1,0 +1,47 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./code:/code
+      - ./Docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8000:80
+    links:
+      - php
+  
+  php:
+    build: Docker/php
+    image: php:hw26
+    container_name: php
+    volumes:
+      - ./code:/code
+    links:
+      - mysql
+      - rabbitmq
+      
+  mysql:
+    image: mysql
+    container_name: mysql
+    volumes:
+     - ./Docker/mysql/default-autentication-plugin.cnf:/etc/mysql/conf.d/default-autentication-plugin.cnf
+     - ./Docker/mysql/entrypoint.sql:/docker-entrypoint-initdb.d/entrypoint.sql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=otus
+      - MYSQL_USER=timofey
+      - MYSQL_PASSWORD=timofey123
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=timofey
+      - RABBITMQ_DEFAULT_PASS=timofey123
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - 15672:15672
+      - 5672:5672

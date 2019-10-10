@@ -1,0 +1,10 @@
+{
+    "require": {
+        "php-amqplib/php-amqplib": ">=2.10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TimGa\\hw26\\": "src/"
+        }
+    }
+}
