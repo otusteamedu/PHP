@@ -2,38 +2,64 @@
 declare(strict_types = 1);
 
 namespace Alex\Youtubestat\Routers;
+use Alex\Youtubestat\Config;
+use Alex\Youtubestat\Helpers;
 
 class Video
 {
     private $method;
     private $urlData;
     private $formData;
+    private $config;
 
     public function __construct($method, $urlData, $formData)
     {
         $this->method = $method;
         $this->urlData = $urlData;
         $this->formData = $formData;
+        $this->config = new Config();
     }
 
     public function route()
     {
+        $helpers = new Helpers();
         // Получение информации о товаре
         // GET /goods/{goodId}
         if ($this->method === 'GET' && count($this->urlData) === 1) {
             // Получаем id товара
             $id = $this->urlData[0];
 
-            $this->get($id);
+            $resultId = $helpers->queueAdd($this->config->request_list_video_name, $id);
+
+            $response_data = ['resultId' => $resultId];
+
+            $helpers->sendResponse(200, $response_data);
+
+            //$this->get($id);
 
             return;
         }
 
+        if ($this->method === 'GET' && count($this->urlData) === 2 && strtolower($this->urlData[0]) === 'result') {
+            // Получаем id товара
+            $resultId = $this->urlData[1];
 
-        // Добавление нового товара
-        // POST /goods
+            $response_data = $this->get($resultId);
+
+            if (empty($response_data)) {
+                $helpers->sendResponse(404,['info' => 'Result not found']);
+                return;
+            }
+
+            $helpers->sendResponse(200,['info' => json_decode($response_data, true)]);
+
+            return;
+        }
+
+        // for POST
         if ($this->method === 'POST' && empty($this->urlData)) {
-            // Добавляем товар в базу...
+
+            //add something
 
             $this->post();
 
@@ -41,21 +67,17 @@ class Video
         }
 
 
-        // Обновление всех данных товара
-        // PUT /goods/{goodId}
+        // for PUT
         if ($this->method === 'PUT' && count($this->urlData) === 1) {
-            // Получаем id товара
             $id = $this->urlData[0];
 
             $this->put($id);
-
 
             return;
         }
 
 
-        // Частичное обновление данных товара
-        // PATCH /goods/{goodId}
+        // for PATCH
         if ($this->method === 'PATCH' && count($this->urlData) === 1) {
             // Получаем id товара
             $id = $this->urlData[0];
@@ -66,8 +88,7 @@ class Video
         }
 
 
-        // Удаление товара
-        // DELETE /goods/{goodId}
+        // for DELETE
         if ($this->method === 'DELETE' && count($this->urlData) === 1) {
             // Получаем id товара
             $id = $this->urlData[0];
@@ -78,33 +99,23 @@ class Video
         }
 
 
-        // Возвращаем ошибку
-        header('HTTP/1.0 400 Bad Request');
-        echo json_encode(array(
-            'error' => 'Bad Request'
-        ));
+        // return error if not from above cases
+        $helpers->sendResponse(400);
 
     }
 
-    private function get($id)
+    private function get($resultId)
     {
 
-        // Вытаскиваем товар из базы...
-
-        // Выводим ответ клиенту
-        echo json_encode(array(
-            'method' => 'GET',
-            'id' => $id,
-            'good' => 'phone',
-            'price' => 10000
-        ));
+        $helpers = new Helpers();
+        return $helpers->queueGet($resultId);
 
     }
 
     private function post()
     {
 
-        // Выводим ответ клиенту
+        // test response
         echo json_encode(array(
             'method' => 'POST',
             'id' => mt_rand(1, 100),
@@ -116,9 +127,7 @@ class Video
     private function put($id)
     {
 
-        // Обновляем все поля товара в базе...
-
-        // Выводим ответ клиенту
+        // test response
         echo json_encode(array(
             'method' => 'PUT',
             'id' => $id,
@@ -130,9 +139,7 @@ class Video
     private function patch($id)
     {
 
-        // Обновляем только указанные поля товара в базе...
-
-        // Выводим ответ клиенту
+        // test response
         echo json_encode(array(
             'method' => 'PATCH',
             'id' => $id,
@@ -144,9 +151,7 @@ class Video
     private function delete($id)
     {
 
-        // Удаляем товар из базы...
-
-        // Выводим ответ клиенту
+        // test response
         echo json_encode(array(
             'method' => 'DELETE',
             'id' => $id

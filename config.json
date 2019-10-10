@@ -1,0 +1,14 @@
+{
+  "redis_host": "127.0.0.1",
+  "redis_port": 6379,
+  "request_list_video_name": "video",
+  "result_list_video_name": "video_result",
+  "request_list_channel_name": "channel",
+  "result_list_channel_name": "channel_result",
+  "api_client_id": "",
+  "api_client_secret": "",
+  "api_refresh_token": "",
+  "api_credentials_json_file": "",
+  "api_scope": "https://www.googleapis.com/auth/youtube.readonly",
+  "api_db_structure": ["youtube", "stat"]
+}

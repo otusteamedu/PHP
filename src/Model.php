@@ -22,7 +22,7 @@ class Model
                 $this->collection = (new \MongoDB\Client)->{$structure[0]}->{$structure[1]}->{$structure[2]}->{$structure[3]};
                 break;
             default:
-        $this->collection = (new \MongoDB\Client)->youtube->channels;
+                $this->collection = (new \MongoDB\Client)->youtube->channels;
         }
     }
 
