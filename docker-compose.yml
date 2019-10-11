@@ -1,0 +1,36 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+    - "80:80"
+    volumes:
+    - ./hosts:/etc/nginx/conf.d
+    - ./www:/var/www
+    - ./logs:/var/log/nginx
+    depends_on:
+    - php
+    - db
+    restart: always
+
+  php:
+    build: ./php-fpm
+    restart: always
+    volumes:
+    - ./www:/var/www
+    - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  db:
+    image: postgres:10.1
+    restart: always
+    environment:
+    - POSTGRES_DB=${DB_NAME}
+    - POSTGRES_USER=${DB_USER}
+    - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+    - 5432:5432
+    volumes:
+    - ./postgres/:/docker-entrypoint-initdb.d/
+
+
+
