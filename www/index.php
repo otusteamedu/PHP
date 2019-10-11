@@ -1,5 +1,6 @@
 <?php
 $string = '((()))';
+
 $runfile = 'http://nginx/query.php';
 
 $ch = curl_init();
