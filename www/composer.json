@@ -1,0 +1,16 @@
+{
+    "name": "Validator",
+    "authors": [
+        {
+            "name": "Katya Leurdo",
+            "email": "katya.leurdo@gmail.com"
+        }
+    ],
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "MyValidator\\":"includes/"
+        }
+    }
+}
