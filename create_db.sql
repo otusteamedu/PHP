@@ -29,9 +29,10 @@ CREATE TABLE IF NOT EXISTS tickets(
     id serial PRIMARY KEY,
     session_id INT NOT NULL,
     seat_id INT NOT NULL,
-    price NUMERIC NOT NULL,
+    price NUMERIC NOT NULL CHECK (price >0),
     FOREIGN KEY (session_id) REFERENCES sessions (id),
-    FOREIGN KEY (seat_id) REFERENCES seats (id)
+    FOREIGN KEY (seat_id) REFERENCES seats (id),
+    UNIQUE (seat_id, session_id)
 );
 
 CREATE TABLE IF NOT EXISTS film_attrs_types(
@@ -78,6 +79,18 @@ insert into films_attrs_values VALUES(6, 2, 4, null, '2019-10-31', true);
 insert into films_attrs_values VALUES(7, 2, 4, null, '2019-11-11', true);
 insert into films_attrs_values VALUES(8, 1, 4, null, '2019-10-11', true);
 
+insert into halls VALUES(1, 'hall1');
+
+insert into seats VALUES(1, 1, 1, 1);
+insert into seats VALUES(2, 1, 1, 2);
+
+insert into sessions VALUES(1, 1, 1, '2019-11-11 20:00:00');
+
+/*insert into tickets VALUES (1, 1, 1, 0);*/
+/*insert into tickets VALUES (1, 1, 1, 1000);*/
+/*insert into tickets VALUES (2, 1, 1, 1000);*/
+
+CREATE INDEX value_date_idx ON films_attrs_values (value_date);
 
 CREATE VIEW marketing AS
 SELECT
