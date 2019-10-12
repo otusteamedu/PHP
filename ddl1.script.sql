@@ -54,7 +54,12 @@ CREATE TABLE public.tickets
     id_films integer,
     id_price integer,
     id_day integer,
+    id_client integer,
     CONSTRAINT tickets_pkey PRIMARY KEY (id),
+    CONSTRAINT "Foregin key_6" FOREIGN KEY (id_client)
+        REFERENCES public.clients (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "Foregn key_4" FOREIGN KEY (id_price)
         REFERENCES public.price (id) MATCH SIMPLE
         ON UPDATE CASCADE
