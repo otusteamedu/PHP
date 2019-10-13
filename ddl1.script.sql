@@ -13,25 +13,21 @@ CREATE TABLE public.clients
     name character(10) COLLATE pg_catalog."default",
     CONSTRAINT clients_pkey PRIMARY KEY (id)
 )
-
 CREATE TABLE public.film
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name character(10) COLLATE pg_catalog."default",
     CONSTRAINT film_pkey PRIMARY KEY (id)
 )
-
 CREATE TABLE public.hall
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name character(10) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT hall_pkey PRIMARY KEY (id)
 )
-
 CREATE TABLE public.seance
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    price numeric,
     id_film integer,
     id_hall integer,
     datetime timestamp without time zone,
@@ -45,12 +41,12 @@ CREATE TABLE public.seance
         ON UPDATE CASCADE
         ON DELETE CASCADE
 )
-
 CREATE TABLE public.tickets
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     id_seance integer,
     id_client integer,
+    price numeric(10,0),
     CONSTRAINT tickets_pkey PRIMARY KEY (id),
     CONSTRAINT "Foregin key_6" FOREIGN KEY (id_client)
         REFERENCES public.clients (id) MATCH SIMPLE
