@@ -1,0 +1,6 @@
+/config/config.cached
+/vendor
+/tmp
+/t/reports
+/t/logs
+/t/tmp

@@ -121,3 +121,4 @@ fabric.properties
 postgresql/postgres/
 postgresql/tablespaces/
 hw14/mongo/
+hw16/redis/
