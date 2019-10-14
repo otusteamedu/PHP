@@ -82,6 +82,10 @@ class RedisStorage
         $this->client->flushdb();
     }
 
+    /**
+     * @param string $name
+     * @return Event
+     */
     private function getEventByName(string $name): Event
     {
         $eventFromStorage = $this->client->hgetall($name);
@@ -93,7 +97,11 @@ class RedisStorage
         );
     }
 
-    private function getEventsByParams(array $params)
+    /**
+     * @param array $params
+     * @return array
+     */
+    private function getEventsByParams(array $params): array 
     {
         $events = [];
         foreach ($this->client->sinter($params) as $eventName) {
@@ -102,7 +110,11 @@ class RedisStorage
         return $events;
     }
 
-    private function getHighestPriorityEvent(array $events)
+    /**
+     * @param array $events
+     * @return Event
+     */
+    private function getHighestPriorityEvent(array $events): Event
     {
         $eventsWithPriority = [];
 
