@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/app/src
+      - ./public:/app/src/public
   web:
     image: nginx:latest
     volumes:

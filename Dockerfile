@@ -9,6 +9,7 @@ RUN apt update && apt install -y \
     libc6 \
     libpq-dev \
     libssl-dev \
+    wget \
     --no-install-recommends \
     && pecl install redis && docker-php-ext-enable redis \
     && pecl install memcached && docker-php-ext-enable memcached \
@@ -20,7 +21,11 @@ RUN apt update && apt install -y \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app/src
-COPY . ./
+
+COPY composer.json composer.lock ./
+
+RUN composer install
+
 
 CMD ["php-fpm"]
 
