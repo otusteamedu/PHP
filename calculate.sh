@@ -1,9 +1,9 @@
 #!/bin/bash
 
-int='^-?[0-9]+$'
-if ([[ $# == 2 ]] && [[ $1 =~ $int ]] && [[ $2 =~ $int ]])
+float='^-?[0-9]+(\.[0-9]+)?$'
+if ([[ $# == 2 ]] && [[ $1 =~ $float ]] && [[ $2 =~ $float ]])
 then
-    echo $1 + $2 = $(($1+$2))
+    echo $1 + $2 = $(awk "BEGIN {print $1+$2;}")
 else
-    echo "Arguments should be two integers"
+    echo "Arguments should be two float"
 fi
