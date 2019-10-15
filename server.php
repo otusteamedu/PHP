@@ -7,6 +7,10 @@ if (!extension_loaded('sockets')) {
 include 'classes/ServerClass.php';
 $baseDir = __DIR__ . DIRECTORY_SEPARATOR;
 $config = parse_ini_file($baseDir . 'config/config.ini');
+$server_log = $baseDir . $config['server_log'];
+$error_log =  $baseDir . $config['error_log'];
+if (!is_dir(dirname($server_log))) mkdir(dirname($server_log), 0777, true);
+if (!is_dir(dirname($error_log)))  mkdir(dirname($error_log), 0777, true);
 
 ini_set('error_log', $baseDir . $config['error_log']);
 fclose(STDIN); fclose(STDOUT); fclose(STDERR);
