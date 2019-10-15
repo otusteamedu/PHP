@@ -14,9 +14,9 @@ if (!is_dir(dirname($error_log)))  mkdir(dirname($error_log), 0777, true);
 
 ini_set('error_log', $baseDir . $config['error_log']);
 fclose(STDIN); fclose(STDOUT); fclose(STDERR);
-$STDIN = fopen('/dev/null', 'r');
-$STDOUT = fopen($baseDir . $config['server_log'], 'ab');
-$STDERR = fopen($baseDir . $config['error_log'], 'ab');
+$STDIN =  fopen('/dev/null', 'r');
+$STDOUT = fopen($server_log, 'ab');
+$STDERR = fopen($error_log,  'ab');
 
 $server_side_sock = $config['server'];
 
