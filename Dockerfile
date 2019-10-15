@@ -4,6 +4,7 @@ RUN apk add php7-dev gcc g++ make \
     && apk add grep \
     && apk add git \
     && apk add wget \
+    && apk add icu-dev \
     && apk add postgresql-dev \
     && apk add libmemcached-dev \
     && pecl install -of redis \
