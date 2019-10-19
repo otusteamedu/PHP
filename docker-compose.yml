@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_DB: cinema
+      POSTGRES_USER: cinema
+      POSTGRES_PASSWORD: password
+    networks:
+      otus-php-backend:
+    ports:
+      - "5432:5432"
+
+networks:
+  otus-php-backend:
