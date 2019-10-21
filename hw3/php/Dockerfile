@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y vim git curl wget grep \
         libfreetype6-dev \
         libcurl4-openssl-dev \
         libssl-dev \
-        libpq-dev \
-        && pecl install redis-4.0.1 \
+        libpq-dev
+RUN        pecl install redis-4.0.1 \
         && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
        && pecl install xdebug-2.6.0 \
        && pecl install memcached-3.0.4 \

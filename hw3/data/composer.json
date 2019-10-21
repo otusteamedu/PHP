@@ -1,5 +1,5 @@
 {
-    "name": "ruslan/hw3",
+    "name": "ruslan/hw3_",
     "description": "Home work3",
     "type": "library",
     "license": "MIT",
@@ -10,11 +10,11 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "ruslangr/hw3": "dev-master"
+    },
     "autoload": {
         "psr-4": {
-            "Pack\\" : "src",
-            "Pack\\Lessons\\" : "src/Pack/Lessons"
         }
     }
 }

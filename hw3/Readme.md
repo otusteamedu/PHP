@@ -22,3 +22,12 @@ connect:
  
     composer install
     composer dump-autoload
+
+ Install:
+ 
+    winpty docker exec -it php bash
+    composer install ruslangr/hw3
+    or
+    git clone https://github.com/notRuslan/dz3.git .
+    
+    
