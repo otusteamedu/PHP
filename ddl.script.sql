@@ -91,3 +91,15 @@ CREATE TABLE public.tickets
         ON DELETE CASCADE
         NOT VALID
 )
+
+
+
+CREATE INDEX idx_film_name ON film(film_name);
+CREATE INDEX idx_attributes ON attributes(id);
+CREATE INDEX idx_date ON attributes_value(date_val);
+
+
+
+CREATE INDEX idx_filmId ON film(id);
+CREATE INDEX idx_attributes_value_Id_attributes ON  attributes_value(id_attributes);
+CREATE INDEX idx_attributes_id_type ON  attributes(id_type);

@@ -17,7 +17,8 @@ from (select film_name, date_val , attr_name  from attributes_value
 		   join attributes on attributes_value.id_attributes=attributes.id
 	  where attributes_value.date_val>= current_date+interval '20 days') as forward_date   
 	  on  now_date.film_name=forward_date.film_name
-      
+
+
       CREATE VIEW marketing AS
 select 
 film.film_name, 
@@ -33,3 +34,4 @@ inner join attributes
 on attributes_value.id_attributes=attributes.id
 inner join attributes_types
 on attributes.id_type=attributes_types.id
+
