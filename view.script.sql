@@ -26,6 +26,8 @@ attributes_types.type_name,
 attributes_value.text_val,
 attributes_value.boolean_val ,
 attributes_value.date_val ,
+attributes_value.realis_number_val ,
+attributes_value.float_number_val,
 attributes.attr_name
 from film 
 inner join attributes_value
