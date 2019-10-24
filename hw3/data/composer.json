@@ -1,0 +1,20 @@
+{
+    "name": "ruslan/hw3_",
+    "description": "Home work3",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ruslan Gr.",
+            "email": "ruslangr@yahoo.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ruslangr/hw3": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+        }
+    }
+}
