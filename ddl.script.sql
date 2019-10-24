@@ -25,6 +25,8 @@ CREATE TABLE public.attributes_value
     text_val text COLLATE pg_catalog."default",
     boolean_val boolean,
     date_val timestamp(6) without time zone,
+    realis_number_val numeric(10,0),
+    float_number_val double precision,
     CONSTRAINT attributes_value_pkey PRIMARY KEY (id),
     CONSTRAINT foreign_key_1 FOREIGN KEY (id_attributes)
         REFERENCES public.attributes (id) MATCH SIMPLE
