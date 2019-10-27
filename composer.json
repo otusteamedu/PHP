@@ -1,0 +1,6 @@
+{
+    "name": "benderoki/otus",
+    "require": {
+        "benderoki/testpackage": "^0.0.1"
+    }
+}

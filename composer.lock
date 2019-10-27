@@ -1,0 +1,48 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1355dd918b77018687ac09841984a19e",
+    "packages": [
+        {
+            "name": "benderoki/testpackage",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benderoki/testpackage.git",
+                "reference": "828cdabaffed08334d5f06adb06b7e3ff3be1668"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/benderoki/testpackage/zipball/828cdabaffed08334d5f06adb06b7e3ff3be1668",
+                "reference": "828cdabaffed08334d5f06adb06b7e3ff3be1668",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Benderoki\\TestPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Test package for OTUS",
+            "keywords": [
+                "otus"
+            ],
+            "time": "2019-10-13T17:56:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
