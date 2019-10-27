@@ -1,7 +1,31 @@
 version: "3.7"
 
 services:
-  php:
+  php1:
+    image: php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./app:/src/app
+      - ./bootstrap:/src/bootstrap
+      - ./config:/src/config
+      - ./database:/src/database
+      - ./public:/src/public
+      - ./resources:/src/resources
+      - ./routes:/src/routes
+      - ./storage:/src/storage
+      - ./tests:/src/tests
+      - ./artisan:/src/artisan
+      - ./composer.json:/src/composer.json
+      - ./composer.lock:/src/composer.lock
+      - ./package.json:/src/package.json
+      - ./phpunit.xml:/src/phpunit.xml
+      - ./server.php:/src/server.php
+      - ./webpack.mix.js:/src/webpack.mix.js
+  php2:
     image: php
     build:
       context: .
@@ -28,7 +52,8 @@ services:
   web:
     image: nginx:latest
     depends_on:
-      - php
+      - php1
+      - php2
     ports:
       - "80:80"
     volumes:
