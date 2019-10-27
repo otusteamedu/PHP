@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController');
+
+Route::get('/email', 'EmailController@index')->name('email.index');
+Route::post('/email', 'EmailController@check')->name('email.check');
