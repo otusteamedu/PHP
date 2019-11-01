@@ -1,0 +1,6 @@
+.idea/
+vendor/
+logs/
+phpinfo.php
+env.php
+test.php

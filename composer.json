@@ -1,0 +1,19 @@
+{
+  "name": "aivanow/otus-backend-php-hw4-unix-sockets",
+  "description": "Homework 4. Client & server on unix-sockets",
+  "authors": [
+    {
+      "name": "Aleksey Ivanov",
+      "email": "ai@proto.uz"
+    }
+  ],
+  "require": {
+    "ext-sockets": "*",
+    "ext-pcntl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "AI\\backend_php_hw4\\": "src/AI"
+    }
+  }
+}
