@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  php:
+    build: ./php
+    volumes:
+      - ../app:/opt/app
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGODB_USER="test"
+      - MONGODB_PASS="test"
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db

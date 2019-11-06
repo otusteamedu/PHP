@@ -1,0 +1,333 @@
+[
+    [0] => MongoDB\Model\BSONDocument Object
+        (
+            [storage:ArrayObject:private] => Array
+                (
+                    [_id] => MongoDB\BSON\ObjectId Object
+                        (
+                            [oid] => 5dc2dedcee2c973d184a22e2
+                        )
+
+                    [name] => Борцовский Клуб
+                    [description] => Канал «Борцовский клуб» – это видео-проекты, программы, реалити-шоу, новости, обсуждения, сюжеты с разных уголков земного шара, реальные истории бойцов, общение со звездами профессионального спорта и признанными мастерами единоборств.
+
+Наша цель - собрать в одном месте все интересное о боевом спорте, показать мир единоборств каким вы его еще не видели, пролить свет на то, что обычно остается скрытым от глаз болельщиков.
+Окунитесь в атмосферу мужества, дисциплины и самоотдачи; станьте свидетелем громких побед, досадных неудач, изнурительных тренировок и крутых поворотов в карьере и жизни бойцов.
+Предупреждение к просмотру: некоторые видео содержат жестокие сцены боев и спаррингов. Не рекомендуется к просмотру лицам без защитной экипировки (боксерские перчатки, шлем, капа).
+                    [videos] => MongoDB\Model\BSONArray Object
+                        (
+                            [storage:ArrayObject:private] => Array
+                                (
+                                    [0] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Тренировки с Борцовским Клубом - Сломанные уши
+                                                    [likes] => 1880
+                                                    [dislikes] => 71
+                                                )
+
+                                        )
+
+                                    [1] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Тренировки с Борцовским Клубом - Бросок через грудь с зашагиванием ногой
+                                                    [likes] => 944
+                                                    [dislikes] => 8
+                                                )
+
+                                        )
+
+                                    [2] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Тренировки с Борцовским Клубом - Проход в одну ногу и варианты бросков
+                                                    [likes] => 573
+                                                    [dislikes] => 4
+                                                )
+
+                                        )
+
+                                    [3] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => БК LIFE - Салон красоты Борцовского клуба)
+                                                    [likes] => 2728
+                                                    [dislikes] => 140
+                                                )
+
+                                        )
+
+                                    [4] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Испытание боем. Сезон 2. Борцовский клуб #14
+                                                    [likes] => 370
+                                                    [dislikes] => 6
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [1] => MongoDB\Model\BSONDocument Object
+        (
+            [storage:ArrayObject:private] => Array
+                (
+                    [_id] => MongoDB\BSON\ObjectId Object
+                        (
+                            [oid] => 5dc2deddee2c973d184a22e3
+                        )
+
+                    [name] => BellatorMMA
+                    [description] => UPCOMING FIGHT CARDS: http://www.bellator.com/events
+
+Download the Bellator APP: http://www.bellator.com/app
+
+Bellator MMA is about the fighters and the fans. It’s the fighters who put it all on the line each day, leaving every ounce of themselves inside the cage. Our mission is to create, promote and produce the most exciting, competitive and entertaining Mixed Martial Arts competition in the world.
+
+Bellator MMA is available to nearly 500 million homes worldwide in over 140 countries. In the United States, Bellator can be seen on Paramount Network, the MMA television leader. Based in Santa Monica, California and owned by entertainment giant Viacom, home to the world's premier entertainment brands.
+                    [videos] => MongoDB\Model\BSONArray Object
+                        (
+                            [storage:ArrayObject:private] => Array
+                                (
+                                    [0] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Bellator 170: In Focus | Chael Sonnen
+                                                    [likes] => 4796
+                                                    [dislikes] => 73
+                                                )
+
+                                        )
+
+                                    [1] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Bellator 116 Feature - Blagoi Ivanov
+                                                    [likes] => 1473
+                                                    [dislikes] => 17
+                                                )
+
+                                        )
+
+                                    [2] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Highlights | Toby Imada vs Jorge Masvidal - Reverse Triangle Choke!
+                                                    [likes] => 7417
+                                                    [dislikes] => 165
+                                                )
+
+                                        )
+
+                                    [3] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => All Angles | Chandler vs Pitbull - Bellator 221 Weigh Ins
+                                                    [likes] => 2119
+                                                    [dislikes] => 78
+                                                )
+
+                                        )
+
+                                    [4] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Highlight | Rick Hawn Judo Throw TKO
+                                                    [likes] => 2214
+                                                    [dislikes] => 76
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [2] => MongoDB\Model\BSONDocument Object
+        (
+            [storage:ArrayObject:private] => Array
+                (
+                    [_id] => MongoDB\BSON\ObjectId Object
+                        (
+                            [oid] => 5dc2dedeee2c973d184a22e4
+                        )
+
+                    [name] => M-1 Global
+                    [description] => M-1 OFFICIAL MMA VIDEO - официальный канал М-1. Только самые актуальные и интересные видео с турниров M-1, мастер-классов, интервью с участием известнейших бойцов, таких как Федор Емельяненко, Джефф Монсон, Александр Емельяненко, Кенни Гарнер, Андрей Семенов, Гурам Гугенишвили, Марио Миранда, Даниэль Вайхель, Виктор Немков и другие.
+
+Подписывайтесь на канал М-1  - https://www.youtube.com/user/M1GlobalRussia
+Читайте свежие новости из мира MMA на http://mixfight.ru
+Подписывайтесь на нашу группу в VK - https://vk.com/m1_mixfight
+Следите за нашими новостями в FB - https://facebook.com/M1GlobalNews
+Смотрите наши фото в Instagram - https://instagram.com/m1global/
+Читайте нас в Твиттер - https://twitter.com/m_1_russia
+                    [videos] => MongoDB\Model\BSONArray Object
+                        (
+                            [storage:ArrayObject:private] => Array
+                                (
+                                    [0] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Дамир Исмагулов: &quot;Пояс в Оренбурге, куда он изначально должен был приехать&quot;
+                                                    [likes] => 1210
+                                                    [dislikes] => 44
+                                                )
+
+                                        )
+
+                                    [1] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Дамир Исмагулов: &quot;Дайте мне титульный бой!&quot;
+                                                    [likes] => 1007
+                                                    [dislikes] => 42
+                                                )
+
+                                        )
+
+                                    [2] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Памяти Амара Сулоева | In memory of Amar Suloev
+                                                    [likes] => 380
+                                                    [dislikes] => 11
+                                                )
+
+                                        )
+
+                                    [3] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Дамир Исмагулов: я еще вернусь, в два раза сильнее | M-1 Challenge 61
+                                                    [likes] => 704
+                                                    [dislikes] => 25
+                                                )
+
+                                        )
+
+                                    [4] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Бусурманкул Абдибаит Уулу: Я дерусь ради чемпионства!
+                                                    [likes] => 4726
+                                                    [dislikes] => 98
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [3] => MongoDB\Model\BSONDocument Object
+        (
+            [storage:ArrayObject:private] => Array
+                (
+                    [_id] => MongoDB\BSON\ObjectId Object
+                        (
+                            [oid] => 5dc2dedfee2c973d184a22e5
+                        )
+
+                    [name] => UFC - Ultimate Fighting Championship
+                    [description] => Ultimate Fighting Championship® is the world's leading mixed martial arts organization.  Over the past decade, with the help of state athletic commissions throughout the United States, UFC® has morphed itself from a spectacle into a highly respected sports organization.  Major fights between world-renowned mixed martial arts superstars have become some of the most popular sporting events of the year, surpassing pay-per-view records previously held by boxing and professional wrestling.  Sports fans have made their voices heard - they want reality when they watch sports, and UFC is clearly "AS REAL AS IT GETS!"
+
+www.UFC.com
+                    [videos] => MongoDB\Model\BSONArray Object
+                        (
+                            [storage:ArrayObject:private] => Array
+                                (
+                                    [0] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => The Ultimate Fighter 22: McGregor and Faber Mix It Up
+                                                    [likes] => 14611
+                                                    [dislikes] => 424
+                                                )
+
+                                        )
+
+                                    [1] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => The Ultimate Fighter 17: Knockout of the Season
+                                                    [likes] => 38443
+                                                    [dislikes] => 1077
+                                                )
+
+                                        )
+
+                                    [2] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => UFC 207: Cody Garbrandt Heated Exchange with Dominick Cruz
+                                                    [likes] => 10943
+                                                    [dislikes] => 163
+                                                )
+
+                                        )
+
+                                    [3] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => UFC 244 Embedded: Vlog Series - Episode 1
+                                                    [likes] => 14517
+                                                    [dislikes] => 399
+                                                )
+
+                                        )
+
+                                    [4] => MongoDB\Model\BSONDocument Object
+                                        (
+                                            [storage:ArrayObject:private] => Array
+                                                (
+                                                    [name] => Tony Ferguson Top 5 Finishes
+                                                    [likes] => 21852
+                                                    [dislikes] => 863
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+]
