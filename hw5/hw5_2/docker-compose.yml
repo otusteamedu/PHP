@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+    - "80:80"
+    volumes:
+    - ./docker/nginx:/etc/nginx/conf.d
+    - ./www:/var/www/html
+    depends_on:
+    - phpfpm
+  phpfpm:
+    build: ./docker/phpfpm
+    volumes:
+    - ./www:/var/www/html
