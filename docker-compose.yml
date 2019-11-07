@@ -1,0 +1,29 @@
+version: "3.3"
+services:
+    nginxn:
+        build:
+            context: ./docker/
+            dockerfile:  Nginx.Dockerfile
+        ports:
+           - 8083:80
+        links:
+            - fpm
+        volumes:
+            - ./site/:/var/www/html
+    fpm:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        links:
+            - mongo
+        volumes:
+            - ./site/:/var/www/html
+
+    mongo:
+        image: mongo
+        ports:
+          - 27020:27017 # Проброс портов для внешнего доступа 
+        volumes:
+          - mongo-data:/data/db
+volumes:
+  mongo-data:
