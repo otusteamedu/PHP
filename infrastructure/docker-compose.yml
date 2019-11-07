@@ -1,0 +1,16 @@
+version: "3"
+
+volumes:
+  redis_data:
+
+services:
+  php:
+    build: ./php
+    volumes:
+      - ../app:/opt/app
+
+  redis:
+    image: 'redis:alpine'
+    restart: always
+    volumes:
+      - ./redis:/data
