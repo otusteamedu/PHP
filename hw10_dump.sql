@@ -12,7 +12,7 @@
  Target Server Version : 110005
  File Encoding         : 65001
 
- Date: 07/11/2019 10:40:21
+ Date: 07/11/2019 14:03:46
 */
 
 
@@ -20,7 +20,7 @@
 -- Sequence structure for filmSession_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."filmSession_id_seq";
-CREATE SEQUENCE "public"."filmSession_id_seq" 
+CREATE SEQUENCE "public"."filmSession_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -31,7 +31,7 @@ CACHE 1;
 -- Sequence structure for halls_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."halls_id_seq";
-CREATE SEQUENCE "public"."halls_id_seq" 
+CREATE SEQUENCE "public"."halls_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +42,7 @@ CACHE 1;
 -- Sequence structure for places_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."places_id_seq";
-CREATE SEQUENCE "public"."places_id_seq" 
+CREATE SEQUENCE "public"."places_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 9223372036854775807
@@ -53,7 +53,7 @@ CACHE 1;
 -- Sequence structure for relationPlasesSession_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "public"."relationPlasesSession_id_seq";
-CREATE SEQUENCE "public"."relationPlasesSession_id_seq" 
+CREATE SEQUENCE "public"."relationPlasesSession_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 32767
@@ -127,52 +127,52 @@ DROP TABLE IF EXISTS "public"."places";
 CREATE TABLE "public"."places" (
   "id" int2 NOT NULL DEFAULT nextval('places_id_seq'::regclass),
   "num_place" int2 NOT NULL,
-  "idHall" int2 NOT NULL,
-  "cost" int2 NOT NULL
+  "idHall" int2 NOT NULL
 )
 ;
 
 -- ----------------------------
 -- Records of places
 -- ----------------------------
-INSERT INTO "public"."places" VALUES (2, 1, 1, 100);
-INSERT INTO "public"."places" VALUES (3, 2, 1, 100);
-INSERT INTO "public"."places" VALUES (4, 3, 1, 100);
-INSERT INTO "public"."places" VALUES (5, 4, 1, 200);
-INSERT INTO "public"."places" VALUES (6, 5, 1, 300);
-INSERT INTO "public"."places" VALUES (7, 1, 2, 200);
-INSERT INTO "public"."places" VALUES (9, 3, 2, 200);
-INSERT INTO "public"."places" VALUES (10, 4, 2, 100);
-INSERT INTO "public"."places" VALUES (11, 5, 2, 100);
-INSERT INTO "public"."places" VALUES (12, 1, 3, 500);
-INSERT INTO "public"."places" VALUES (13, 2, 3, 500);
-INSERT INTO "public"."places" VALUES (14, 3, 3, 500);
-INSERT INTO "public"."places" VALUES (8, 2, 2, 400);
+INSERT INTO "public"."places" VALUES (2, 1, 1);
+INSERT INTO "public"."places" VALUES (3, 2, 1);
+INSERT INTO "public"."places" VALUES (4, 3, 1);
+INSERT INTO "public"."places" VALUES (5, 4, 1);
+INSERT INTO "public"."places" VALUES (6, 5, 1);
+INSERT INTO "public"."places" VALUES (7, 1, 2);
+INSERT INTO "public"."places" VALUES (9, 3, 2);
+INSERT INTO "public"."places" VALUES (10, 4, 2);
+INSERT INTO "public"."places" VALUES (11, 5, 2);
+INSERT INTO "public"."places" VALUES (12, 1, 3);
+INSERT INTO "public"."places" VALUES (13, 2, 3);
+INSERT INTO "public"."places" VALUES (14, 3, 3);
+INSERT INTO "public"."places" VALUES (8, 2, 2);
 
 -- ----------------------------
--- Table structure for relation_places_session
+-- Table structure for tikets
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."relation_places_session";
-CREATE TABLE "public"."relation_places_session" (
+DROP TABLE IF EXISTS "public"."tikets";
+CREATE TABLE "public"."tikets" (
   "id" int2 NOT NULL DEFAULT nextval('"relationPlasesSession_id_seq"'::regclass),
   "id_film_session" int2 NOT NULL,
   "id_place" int2,
-  "free" bool NOT NULL
+  "buy" bool NOT NULL,
+  "cost" int8
 )
 ;
 
 -- ----------------------------
--- Records of relation_places_session
+-- Records of tikets
 -- ----------------------------
-INSERT INTO "public"."relation_places_session" VALUES (2, 7, 2, 't');
-INSERT INTO "public"."relation_places_session" VALUES (3, 7, 3, 't');
-INSERT INTO "public"."relation_places_session" VALUES (4, 7, 4, 'f');
-INSERT INTO "public"."relation_places_session" VALUES (5, 7, 5, 'f');
-INSERT INTO "public"."relation_places_session" VALUES (6, 7, 6, 'f');
-INSERT INTO "public"."relation_places_session" VALUES (7, 7, 6, 't');
-INSERT INTO "public"."relation_places_session" VALUES (8, 8, 7, 'f');
-INSERT INTO "public"."relation_places_session" VALUES (9, 8, 8, 't');
-INSERT INTO "public"."relation_places_session" VALUES (10, 8, 9, 'f');
+INSERT INTO "public"."tikets" VALUES (11, 7, 2, 't', 100);
+INSERT INTO "public"."tikets" VALUES (12, 7, 3, 't', 100);
+INSERT INTO "public"."tikets" VALUES (13, 7, 4, 'f', 200);
+INSERT INTO "public"."tikets" VALUES (14, 7, 5, 'f', 100);
+INSERT INTO "public"."tikets" VALUES (15, 7, 6, 'f', 300);
+INSERT INTO "public"."tikets" VALUES (16, 7, 6, 't', 500);
+INSERT INTO "public"."tikets" VALUES (17, 8, 7, 'f', 300);
+INSERT INTO "public"."tikets" VALUES (18, 8, 8, 't', 400);
+INSERT INTO "public"."tikets" VALUES (19, 8, 9, 'f', 150);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -187,8 +187,8 @@ ALTER SEQUENCE "public"."places_id_seq"
 OWNED BY "public"."places"."id";
 SELECT setval('"public"."places_id_seq"', 15, true);
 ALTER SEQUENCE "public"."relationPlasesSession_id_seq"
-OWNED BY "public"."relation_places_session"."id";
-SELECT setval('"public"."relationPlasesSession_id_seq"', 11, true);
+OWNED BY "public"."tikets"."id";
+SELECT setval('"public"."relationPlasesSession_id_seq"', 20, true);
 
 -- ----------------------------
 -- Primary Key structure for table film
@@ -218,9 +218,9 @@ ALTER TABLE "public"."halls" ADD CONSTRAINT "halls_pkey" PRIMARY KEY ("id");
 ALTER TABLE "public"."places" ADD CONSTRAINT "places_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
--- Primary Key structure for table relation_places_session
+-- Primary Key structure for table tikets
 -- ----------------------------
-ALTER TABLE "public"."relation_places_session" ADD CONSTRAINT "relationPlasesSession_pkey" PRIMARY KEY ("id");
+ALTER TABLE "public"."tikets" ADD CONSTRAINT "relationPlasesSession_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Foreign Keys structure for table places
@@ -228,7 +228,7 @@ ALTER TABLE "public"."relation_places_session" ADD CONSTRAINT "relationPlasesSes
 ALTER TABLE "public"."places" ADD CONSTRAINT "hall" FOREIGN KEY ("idHall") REFERENCES "public"."halls" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- ----------------------------
--- Foreign Keys structure for table relation_places_session
+-- Foreign Keys structure for table tikets
 -- ----------------------------
-ALTER TABLE "public"."relation_places_session" ADD CONSTRAINT "films" FOREIGN KEY ("id_film_session") REFERENCES "public"."film_session" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE "public"."relation_places_session" ADD CONSTRAINT "place" FOREIGN KEY ("id_place") REFERENCES "public"."places" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."tikets" ADD CONSTRAINT "films" FOREIGN KEY ("id_film_session") REFERENCES "public"."film_session" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."tikets" ADD CONSTRAINT "place" FOREIGN KEY ("id_place") REFERENCES "public"."places" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
