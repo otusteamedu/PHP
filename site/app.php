@@ -1,6 +1,6 @@
 <?php
 
-use App\Models;
+use App\ModelChannel;
 use App\Statistics;
 
 
