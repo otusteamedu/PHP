@@ -18,15 +18,15 @@ CREATE TABLE "place" (
 CREATE TABLE "film" (
   "film_id" int primary key,
   "film_name" varchar(100),
-  "duration" int,
-  "price" numeric(10,2)
+  "duration" int
 );
 
 CREATE TABLE "seance" (
   "seance_id" int primary key,
   "hall_id" int references hall(hall_id),
   "film_id" int references film(film_id),
-  "time_start" timestamp with time zone
+  "time_start" timestamp with time zone,
+  "price" numeric(10,2)
 );
 
 CREATE TABLE "ticket" (
@@ -54,6 +54,7 @@ CREATE TABLE "filmAttrValue" (
   "attr_id" int references "filmAttr"(attr_id),
   "val_date" timestamp with time zone,
   "val_text" text,
-  "val_bool" boolean
+  "val_bool" boolean,
+  "val_num" numeric
 );
 CREATE INDEX ON "filmAttrValue" (val_date);

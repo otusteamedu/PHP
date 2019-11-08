@@ -38,7 +38,7 @@ WHERE t1.evn IS NOT NULL OR t2.evn IS NOT NULL
 /*Маркетинговая вьюха*/
 
 CREATE VIEW marketing
-  AS SELECT f.film_name, t.name AS type, a.name AS atr, concat(v.val_date, v.val_text, v.val_bool) AS val
+  AS SELECT f.film_name, t.name AS type, a.name AS atr, concat(v.val_date, v.val_text, v.val_bool, v.val_num) AS val
 FROM film AS f
 LEFT JOIN "filmAttrValue" AS v USING (film_id)
 LEFT JOIN "filmAttr" AS a ON v.attr_id = a.attr_id
