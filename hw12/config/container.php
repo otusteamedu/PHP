@@ -33,17 +33,17 @@ $container[PDO::class] = function () {
     return $pdo;
 };
 
-$container[FilmGateway::class] = function (Container $c) {
+$container[FilmGateway::class] = $container->factory(function (Container $c) {
     return new FilmGateway($c[PDO::class]);
-};
-$container[GenreGateway::class] = function (Container $c) {
+});
+$container[GenreGateway::class] = $container->factory(function (Container $c) {
     return new GenreGateway($c[PDO::class]);
-};
-$container[FilmFinder::class] = function (Container $c) {
+});
+$container[FilmFinder::class] = $container->factory(function (Container $c) {
     return new FilmFinder($c[PDO::class], $c[FilmGateway::class], $c[GenreFinder::class]);
-};
-$container[GenreFinder::class] = function (Container $c) {
+});
+$container[GenreFinder::class] = $container->factory(function (Container $c) {
     return new GenreFinder($c[PDO::class], $c[GenreGateway::class]);
-};
+});
 
 return $container;
