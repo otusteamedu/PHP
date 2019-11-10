@@ -1,0 +1,26 @@
+version: '3'
+services:
+  php-cli:
+    build:
+      context: ./
+      dockerfile: ./docker/php-cli.docker
+    volumes:
+      - ./:/app
+      - composer:/root/.composer/cache
+    links:
+      - mysql
+    tty: true
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=cinema"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=cinema"
+    ports:
+      - "33061:3306"
+volumes:
+  composer:
+  mysql:

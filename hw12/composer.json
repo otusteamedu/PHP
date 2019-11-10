@@ -1,0 +1,21 @@
+{
+  "require": {
+    "php": ">=7.1",
+    "fzaninotto/faker": "^1.8",
+    "pimple/pimple": "^3.2",
+    "robmorgan/phinx": "^0.11.1",
+    "vlucas/phpdotenv": "^3.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "RowDataGateway\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "process-timeout": 0
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
