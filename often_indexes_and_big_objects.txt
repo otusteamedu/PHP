@@ -1,0 +1,67 @@
+/* Частые индексы */
+
+ tablename |      indexname       | number_of_scans 
+-----------+----------------------+-----------------
+ seance    | seance_pkey          |         1142648
+ place     | place_pkey           |         1142514
+ ticket    | ticket_seance_id_idx |          117177
+ hall      | hall_pkey            |           12320
+ film      | film_pkey            |           11735
+
+
+SELECT
+    t.tablename,
+    indexname,
+    idx_scan AS number_of_scans
+FROM pg_tables t
+LEFT OUTER JOIN pg_class c ON t.tablename=c.relname
+LEFT OUTER JOIN
+       (SELECT indrelid,
+           max(CAST(indisunique AS integer)) AS is_unique
+       FROM pg_index
+       GROUP BY indrelid) x
+       ON c.oid = x.indrelid
+LEFT OUTER JOIN
+    ( SELECT c.relname AS ctablename, ipg.relname AS indexname, x.indnatts AS number_of_columns, idx_scan, idx_tup_read, idx_tup_fetch,indexrelname FROM pg_index x
+           JOIN pg_class c ON c.oid = x.indrelid
+           JOIN pg_class ipg ON ipg.oid = x.indexrelid
+           JOIN pg_stat_all_indexes psai ON x.indexrelid = psai.indexrelid )
+    AS foo
+    ON t.tablename = foo.ctablename
+WHERE t.schemaname='public'
+ORDER BY 3 DESC
+LIMIT 5;
+
+
+
+/* Большие объекты  */
+
+
+
+          relation           |  size  
+-----------------------------+--------
+ public.ticket               | 121 MB
+ public.ticket_pkey          | 44 MB
+ public.ticket_seance_id_idx | 24 MB
+ public.ticket_length_idx    | 24 MB
+ public.seance               | 696 kB
+ pg_toast.pg_toast_2618      | 408 kB
+ public.seance_pkey          | 272 kB
+ public.seance_film_id_idx   | 272 kB
+ public.seance_price_idx     | 272 kB
+ pg_toast.pg_toast_2619      | 40 kB
+ public.place                | 32 kB
+ public.place_pkey           | 32 kB
+ public.film_pkey            | 16 kB
+ public.cinema_pkey          | 16 kB
+ public.hall_pkey            | 16 kB
+
+-----------------------------------------------------------
+
+SELECT nspname || '.' || relname AS "relation",
+    pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+  FROM pg_class C
+  LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+  WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+  ORDER BY pg_relation_size(C.oid) DESC
+  LIMIT 15;
