@@ -7,8 +7,8 @@ class YoutubeContent
 {
 
     private $httpClient;
-    private const API_KEY = 'AIzaSyAajgfDCFPfT6ynTRmwGqbnHSHbIj0-wNQ';
-    private const VIDEO_MAX_RESULTS = 5;
+    private const API_KEY = 'Your_api';
+
 
     public function __construct()
     {
