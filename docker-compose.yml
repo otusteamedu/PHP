@@ -10,6 +10,7 @@ services:
             - fpm
         volumes:
             - ./site/:/var/www/html
+            - "phpsocket:/var/run"
     fpm:
         build:
             context: ./docker/
@@ -18,6 +19,10 @@ services:
             - mongo
         volumes:
             - ./site/:/var/www/html
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
 
     mongo:
         image: mongo
@@ -27,3 +32,4 @@ services:
           - mongo-data:/data/db
 volumes:
   mongo-data:
+  phpsocket:
