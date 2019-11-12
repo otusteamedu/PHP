@@ -1,0 +1,10 @@
+{
+  "name": "eantonov/db_patterns_app",
+  "description": "DB patterns demo application",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
