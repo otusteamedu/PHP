@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "mongodb/mongodb": "1.2"
+        "mongodb/mongodb": "1.2",
+        "guzzlehttp/guzzle": "~6.0"
     }
 }

@@ -1,23 +1,22 @@
 <?php
 
-use App\ModelChannel;
-use App\Statistics;
 
+ use App\YoutubeController;
 
+ $first=new YoutubeController;
 
-
-
-
-$second = new Statistics;
-$chanel='Chanel_ID';
-//echo $second->chanelAllVideoLikeStatistics($chanel);//статистика количество лайков повыбранному каналу
-//echo $second->topChanelStatistics();//топ каналов с разницей по лайкам и дизлайкам
-
-$first = new ModelChannel;
-
-//$first->saveChannel($chanel);
-//$first->deletChannel($chanel);//удаление канала
-function generateRandomString($length = 24) {
+ $idchannel='UCms3ygkJEutytvLUS22VhtA';
+ /*$first->saveChannel($idchannel);//созранение канала
+ $first->saveVideosChannel($idchannel);//сохранения видео канала
+ $first->deleteChannelAllVideos($idchannel)); //удаление одной записи канала и его видио
+*/
+/*foreach ($first->topChanelStatistics() as $value){
+echo $value."</br>"; //топ каналов с разницей по лайкам и дизлайкам
+ }
+*/
+//echo  $first->chanelAllVideoLikeStatistics($chanel);//статистика количество лайков повыбранному каналу
+ 
+ function generateRandomString($length = 24) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -31,4 +30,3 @@ function generateRandomString($length = 24) {
 $string=generateRandomString();
 //генерация рандомной строки
  
-
