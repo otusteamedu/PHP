@@ -8,8 +8,6 @@ class ProductActiveRecord
     private $title;
     private $description;
     private $price;
-    private static $selectQuery = "select id, title, description, price from products where id = ?";
-    private static $selectAllQuery = "select id, title, description, price from products";
 
     public function __construct(\PDO $dbConnection)
     {
@@ -103,7 +101,7 @@ class ProductActiveRecord
      */
     public static function find(\PDO $dbConnection, int $productId): self
     {
-        $selectStmt = $dbConnection->prepare(self::$selectQuery);
+        $selectStmt = $dbConnection->prepare("select * from products where id = ?");
         $selectStmt->execute([$productId]);
         $result = $selectStmt->fetch();
 
@@ -120,7 +118,7 @@ class ProductActiveRecord
      */
     public static function findAll(\PDO $dbConnection): array
     {
-        $selectStmt = $dbConnection->prepare(self::$selectAllQuery);
+        $selectStmt = $dbConnection->prepare("select * from products");
         $selectStmt->execute();
         $result = $selectStmt->fetchAll();
 
