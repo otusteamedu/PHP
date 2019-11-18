@@ -1,7 +1,9 @@
 {
   "name": "eantonov/db_patterns_app",
   "description": "DB patterns demo application",
-  "require": {},
+  "require": {
+    "vlucas/phpdotenv": "^3.6"
+  },
   "autoload": {
     "psr-4": {
       "App\\": "src/"

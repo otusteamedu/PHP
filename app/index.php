@@ -1,13 +1,17 @@
 <?php
 require_once "vendor/autoload.php";
 
-$dbConnector = new \App\Database();
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
+
+$queries = new App\MySQLQueries();
+$dbConnector = new \App\MySQLDatabaseConnector();
 $dbConnection = $dbConnector->connect();
 //create new instance
-$product = new \App\ProductActiveRecord($dbConnection);
+$product = new \App\ProductActiveRecord($dbConnection, $queries);
 //get by id
-$chair = $product::find($dbConnection,2);
-//var_dump($chair);
+$chair = $product->findByID(2);
+var_dump($chair);
 
 //update
 //$chair->setPrice(2500);
@@ -25,4 +29,4 @@ $chair = $product::find($dbConnection,2);
 //var_dump($chair->isExpensive());
 
 //get all items
-//var_dump($product::findAll($dbConnection));
+//var_dump($product->findAll());

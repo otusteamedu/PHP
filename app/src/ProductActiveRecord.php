@@ -8,18 +8,16 @@ class ProductActiveRecord
     private $title;
     private $description;
     private $price;
+    private $queries;
 
-    public function __construct(\PDO $dbConnection)
+    public function __construct(\PDO $dbConnection, MySQLQueries $queries)
     {
         $this->dbConnection = $dbConnection;
+        $this->queries = $queries;
 
-        $this->insertStmt = $dbConnection->prepare(
-            "insert into products (title, description, price) values (?, ?, ?)"
-        );
-        $this->updateStmt = $dbConnection->prepare(
-            "update products set title = ?, description = ?, price = ? where id = ?"
-        );
-        $this->deleteStmt = $dbConnection->prepare("delete from products where id = ?");
+        $this->insertStmt = $dbConnection->prepare($this->queries->insert());
+        $this->updateStmt = $dbConnection->prepare($this->queries->update());
+        $this->deleteStmt = $dbConnection->prepare($this->queries->delete());
     }
 
     /**
@@ -95,17 +93,16 @@ class ProductActiveRecord
     }
 
     /**
-     * @param \PDO $dbConnection
      * @param int $productId
      * @return ProductActiveRecord
      */
-    public static function find(\PDO $dbConnection, int $productId): self
+    public function findByID(int $productId): self
     {
-        $selectStmt = $dbConnection->prepare("select * from products where id = ?");
+        $selectStmt = $this->dbConnection->prepare($this->queries->findByID());
         $selectStmt->execute([$productId]);
         $result = $selectStmt->fetch();
 
-        return (new self($dbConnection))
+        return $this
             ->setId($result['id'])
             ->setTitle($result['title'])
             ->setDescription($result['description'])
@@ -113,19 +110,18 @@ class ProductActiveRecord
     }
 
     /**
-     * @param \PDO $dbConnection
      * @return array
      */
-    public static function findAll(\PDO $dbConnection): array
+    public function findAll(): array
     {
-        $selectStmt = $dbConnection->prepare("select * from products");
+        $selectStmt = $this->dbConnection->prepare($this->queries->findAll());
         $selectStmt->execute();
         $result = $selectStmt->fetchAll();
 
         $products = [];
 
         foreach ($result as $product) {
-            $products[] = (new self($dbConnection))
+            $products[] = $this
                 ->setId($product['id'])
                 ->setTitle($product['title'])
                 ->setDescription($product['description'])
