@@ -1,0 +1,23 @@
+{
+    "name": "punches/otus-hw16-1",
+    "description": "MongoDB",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Punches",
+            "email": "punches@ya.ru"
+        }
+    ],
+    "require": {
+        "php": "~7.3",
+        "mongodb/mongodb": "~1.5",
+        "google/apiclient": "~2.0",
+        "mathieuviossat/arraytotexttable": "~1.0",
+        "punches/otus-hv-4.2": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ymdb\\": "html/src"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./hosts:/etc/nginx/conf.d
+            - ./html:/var/www/html
+        links:
+            - php
+    php:
+        build: ./php
+        volumes:
+            - ./html:/var/www/html
+        links:
+            - mongodb
+    mongodb:
+        image: mongo:latest
+        restart: always
+        volumes:
+            - ./mongodb:/data/db
