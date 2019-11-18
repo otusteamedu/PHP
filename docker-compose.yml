@@ -1,0 +1,40 @@
+version: "3.3"
+services:
+    nginxn:
+        build:
+            context: ./docker/
+            dockerfile:  Nginx.Dockerfile
+        ports:
+           - 8083:80
+        depends_on:
+            - fpm
+        volumes:
+            - ./site/:/var/www/html
+            - "phpsocket:/var/run"
+    fpm:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        depends_on:
+            - redis
+        volumes:
+            - ./site/:/var/www/html
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
+    redis:
+        image: redis
+        restart: always
+        ports:
+            - 6380:6379 # Проброс портов для внешнего доступа
+    phpredisadmin:
+        image: erikdubbelboer/phpredisadmin:latest
+
+        ports:
+           - "8085:80"
+        environment:
+           REDIS_1_HOST: redis
+           REDIS_1_PORT: 6379
+volumes:
+  phpsocket:
