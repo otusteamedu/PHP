@@ -1,0 +1,51 @@
+version: "3.3"
+services:
+    nginxn:
+        build:
+            context: ./docker/
+            dockerfile:  Nginx.Dockerfile
+        ports:
+           - 8083:80
+        depends_on:
+            - fpm
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - "phpsocket:/var/run"
+    fpm:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        depends_on:
+            - postgres
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
+    postgres:
+        image: postgres
+        ports:
+            - "6543:5432"
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - postgres-data:${DB_PATH_CONTAINER}
+        restart: unless-stopped
+
+    pgadmin:
+        image: dpage/pgadmin4
+        depends_on:
+            - postgres
+        ports:
+            - "5555:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        restart: unless-stopped
+
+volumes:
+  postgres-data:
+  phpsocket:
