@@ -3,34 +3,40 @@
 use App\Database;
 use App\ActiveRecord;
 use App\LazyLoad;
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
 
 class App
 {
     public static function init()
-    {
-        $dotenv = Dotenv\Dotenv::create(__DIR__);
-        $dotenv->load();
-        $LazyLoad = new LazyLoad;
+
+    {   $reqest=false;
+
         $pdo = Database::init();
-        echo 'var_dump(ActiveRecord::getById($pdo, 4))';
-        echo '<pre>';
-        var_dump(ActiveRecord::getById($pdo, 4)->getName());
-        echo '</pre>';
-        echo 'var_dump(ActiveRecord::getByNamesLikeAUsers($pdo)->getNames())';
-        echo '<pre>';
-        var_dump(ActiveRecord::getByNamesLikeAUsers($pdo)->getNames());
-        echo '</pre>';
-        echo 'var_dump(ActiveRecord::getByDateBetweenUsers($pdo)->getNames())';
-        echo '<pre>';
-        var_dump(ActiveRecord::getByDateBetweenUsers($pdo)->getNames());
-        echo '</pre>';
-        echo 'var_dump(ActiveRecord::getByAdmins($pdo)->getCountAdmins())';
-        echo '<pre>';
-        var_dump(ActiveRecord::getByAdmins($pdo)->getCountAdmins());
-        echo '</pre>';
-        echo '$LazyLoadActiveRecor ';
+
+
+        if($_POST['id']==1){
+            echo ActiveRecord::getById($pdo, 4)->getName();
+            $reqest=true;
+
+        }
+        if($_POST['namesA']==1){
+           echo ActiveRecord::getByNamesLikeAUsers($pdo)->getNames();
+            $reqest=true;
+        }
+
+        if($_POST['DateBetween']==1){
+            echo ActiveRecord::getByDateBetweenUsers($pdo)->getNames();
+            $reqest=true;
+        }
+        if($_POST['CointAdmins']==1){
+            echo ActiveRecord::getByAdmins($pdo)->getCountAdmins();
+            $reqest=true;
+        }
+        $LazyLoad = new LazyLoad;
         $LazyLoadActiveRecord = $LazyLoad->getActiveRecord();
-        echo $insertActiveRecord = ($LazyLoadActiveRecord)
+        if($_POST['insertUser']==1){
+           echo $insertActiveRecord = ($LazyLoadActiveRecord)
             ->setName('andrew')
             ->setLogin('Rayan')
             ->setLastName('Grey')
@@ -42,8 +48,10 @@ class App
             ->setPassword('12345')
             ->setAge(30)
             ->insert();
-        echo '$updateActiveRecord ';
-        echo $updateActiveRecord = ($LazyLoadActiveRecord)
+            $reqest=true;
+        }
+        if($_POST['updateUser']==1){
+            echo $updateActiveRecord = ($LazyLoadActiveRecord)
             ->setLogin('New Homer')
             ->setName('Simson')
             ->setLastName('vinmm')
@@ -56,9 +64,20 @@ class App
             ->setPassword('7909')
             ->setId(2)
             ->update();
-        echo '$deleteActiveRecord';
-        echo $deleteActiveRecord = ($LazyLoadActiveRecord)
+            $reqest=true;
+
+        }
+        if($_POST['deleteUser']==1){
+
+           echo $deleteActiveRecord = ($LazyLoadActiveRecord)
             ->setId(12)
             ->delete();
+            $reqest=true;
+
+        }
+        if(!$reqest){
+            echo 'Wrong reqest';
+        }
+
     }
 }
