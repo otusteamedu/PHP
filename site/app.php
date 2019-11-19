@@ -6,21 +6,26 @@ class App
 {
     public static function init()
     {
-        $first = new Event();
-        echo "hello" . "<br>";
-        $first->deleteAllEvents();
-        $first->setName('andrew');
-        $first->setPriority(5000);
-        $first->setConditions(['param1' => 1, 'param2' => 2]);
-        echo $first->save() . "<br>";
-        $first->setName('Len');
-        $first->setPriority(6000);
-        $first->setConditions(['param1' => 1]);
-        echo $first->save() . "<br>";
-        $first->setName('Den');
-        $first->setPriority(9000);
-        $first->setConditions(['param1' => 2, 'param2' => 2]);
-        echo $first->save() . "<br>";
-        echo $first->getPriorityEvent(['params' => ['param1' => 1, 'param2' => 2, 'param3' => 1554]]) . "<br>";
+        $event = new Event();
+        $reqest=false;
+        if($_POST['name']&&$_POST['priority']&&$_POST['conditions']){
+            $event->setName($_POST['name']);
+            $event->setPriority($_POST['priority']);
+            $event->setConditions($_POST['conditions']);
+           echo $event->save() ;
+           $reqest=true;
+        }
+        if($_POST['params']){
+          echo  $event->getPriorityEvent(['params' => $_POST['params']]);
+          $reqest=true;
+        }
+        if($_POST['delete']==1){
+            $event->deleteAllEvents();
+            $reqest=true;
+        }
+        if(!$reqest){
+            echo 'Wrong reqest';
+        }
+
     }
 }
