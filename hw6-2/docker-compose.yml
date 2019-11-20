@@ -1,11 +1,12 @@
 version: '3'
 services:
     nginx:
-        image: nginx
+        build: Docker/nginx
         container_name: nginx
         volumes:
+            - app-data:/var/www/html
+            - sockets-data:/sockets
             - ./Docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - ./html:/var/www/html
         ports:
             - 8000:80
         links:
@@ -16,4 +17,12 @@ services:
         image: php:hw6-2
         container_name: php
         volumes:
-            - ./html:/var/www/html
+            - app-data:/var/www/html
+            - sockets-data:/sockets
+            - ./Docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            
+volumes:
+    app-data:
+        driver: local
+    sockets-data:
+        driver: local
