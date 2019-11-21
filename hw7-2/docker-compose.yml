@@ -1,0 +1,35 @@
+version: '3'
+services:
+    balancer:
+        image: nginx
+        container_name: balancer
+        volumes:
+            - ./Docker/nginx/balancer.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - 80:80
+    
+    nginx1:
+        image: nginx
+        container_name: nginx1
+        volumes:
+            - ./html:/var/www/html
+            - ./Docker/nginx/nginx1.conf:/etc/nginx/conf.d/default.conf
+        
+    nginx2:
+        image: nginx
+        container_name: nginx2
+        volumes:
+            - ./html:/var/www/html
+            - ./Docker/nginx/nginx2.conf:/etc/nginx/conf.d/default.conf
+        
+    phpfpm1:
+        image: php:7.3-fpm
+        container_name: phpfpm1
+        volumes:
+            - ./html:/var/www/html
+    
+    phpfpm2:
+        image: php:7.3-fpm
+        container_name: phpfpm2
+        volumes:
+            - ./html:/var/www/html
