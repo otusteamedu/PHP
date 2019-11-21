@@ -1,0 +1,11 @@
+[
+  {
+    "request": "/",
+    "page": "pages/HomeView.html"
+  },
+  {
+    "request": "/text/validate",
+    "controller": "Text",
+    "method": "validate"
+  }
+]
