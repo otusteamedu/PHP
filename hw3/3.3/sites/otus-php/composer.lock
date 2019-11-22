@@ -1,0 +1,43 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7fa31bfefa6f9ee6b7409d11ed86dcdb",
+    "packages": [
+        {
+            "name": "websys-forever/gettextimg",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websys-forever/getTextImg.git",
+                "reference": "1f764dd64eadc52b90f3bf28fc042ce35147a0cc"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebsysForever\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "WebsysForever",
+                    "email": "websys.forever@gmail.com"
+                }
+            ],
+            "description": "return text in image",
+            "time": "2019-11-17T19:42:51+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "websys-forever/gettextimg": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
