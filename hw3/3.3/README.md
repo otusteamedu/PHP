@@ -1,8 +1,8 @@
 #### Запуск проекта
 
-    docker-compose up -d
+    docker-compose up -d && docker-compose exec php composer install
 
-В проект уже добавлен пакет из задания 3.2. Протестировать пакет можно так:    
+Протестировать пакет можно так:    
     
     http://localhost:8081/?text=Tes&x=150&y=200
      
