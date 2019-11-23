@@ -7,15 +7,20 @@ then
 fi
 num1=$1
 num2=$2
-sum=0
-if [[ $num1 =~ ^[0-9]+$ && $num2 =~ ^[0-9]+$ ]]
+
+if ! [[ $num1 =~ ^[+-]?([0-9]*[.])?[0-9]+$ && $num2 =~ ^[+-]?([0-9]*[.])?[0-9]+$ ]]
 then
-    sum=$(($num1 + $num2))
-else
-    echo 'Введите целые числа'
+    echo 'Введите числа'
     echo "Вы ввели $*"
     exit 1
 fi
 
-echo $sum
+awkCalcCommands='
+BEGIN {
+print num1 + num2
+}
+';
+
+awk -v num1=$num1 -v num2=$num2 "$awkCalcCommands"
+
 exit 0
