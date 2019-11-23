@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ../src/:/etc/nginx/conf.d/
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: ./php-fpm
