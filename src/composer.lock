@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "30283c86752af9937ccf3a94384648b2",
+    "packages": [
+        {
+            "name": "richieseagull/email-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RichiSeagull/email-validator.git",
+                "reference": "819c8781d292627c23bcf259f998810adeec5615"
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Utils\\Validators\\": "src/utils/validator"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Richie Seagull",
+                    "role": "Student",
+                    "email": "richie.seagull@gmail.com",
+                    "homepage": "https://github.com/RichiSeagull"
+                }
+            ],
+            "description": "email addresses validation class",
+            "time": "2019-11-24T07:44:31+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "richieseagull/email-validator": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-json": "*",
+        "php": ">=7.2"
+    },
+    "platform-dev": []
+}

@@ -1,0 +1,66 @@
+version: "2.2"
+
+services:
+  nginx-balancer:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    links:
+      - backend1
+      - backend2
+    volumes:
+      - ./nginx.balancer.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+
+  backend1:
+    image: nginx:alpine
+    links:
+      - php1
+    volumes:
+      - ./nginx.backend1.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive1:/var/run"
+
+  backend2:
+    image: nginx:alpine
+    links:
+      - php2
+    volumes:
+      - ./nginx.backend2.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive2:/var/run"
+
+  backend3:
+          image: nginx:alpine
+          links:
+            - php3
+          volumes:
+            - ./nginx.backend3.conf:/etc/nginx/conf.d/default.conf
+            - ./src/:/var/www/html
+            - "sockdrive3:/var/run"
+
+  php1:
+    image: php:fpm
+    volumes:
+      - ./src/:/var/www/html
+      - ./php.www.1.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "sockdrive1:/var/run"
+
+  php2:
+    image: php:fpm
+    volumes:
+      - ./src/:/var/www/html
+      - ./php.www.2.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "sockdrive2:/var/run"
+
+  php3:
+    image: php:fpm
+    volumes:
+      - ./src/:/var/www/html
+      - ./php.www.3.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "sockdrive3:/var/run"
+
+volumes:
+  sockdrive1:
+  sockdrive2:
+  sockdrive3:

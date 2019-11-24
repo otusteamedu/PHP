@@ -1,0 +1,25 @@
+[
+  {
+    "request": "/",
+    "page": "pages/HomePage.html"
+  },
+  {
+    "request": "/emails",
+    "page": "pages/EmailChecker.php",
+    "controller": "EmailCheckerPageController"
+  },
+  {
+    "request": "/emails/validate",
+    "controller": "Email",
+    "method": "validateAddr"
+  },
+  {
+    "request": "/strings",
+    "page": "pages/StringsView.html"
+  },
+  {
+    "request": "/strings/validate",
+    "controller": "Text",
+    "method": "validate"
+  }
+]

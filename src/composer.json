@@ -1,0 +1,22 @@
+{
+  "name": "OtusEdu",
+  "description": "Homework #7 - EmailAddr validator",
+  "require": {
+    "ext-json": "*",
+    "php": ">=7.2",
+    "richieseagull/email-validator": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/RichiSeagull/email-validator.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Core\\": "app/core",
+      "Utils\\": "app/utils",
+      "Controllers\\": "app/controllers"
+    }
+  }
+}
