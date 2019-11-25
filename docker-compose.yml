@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+    nginxn:
+        build:
+            context: ./docker/
+            dockerfile:  Nginx.Dockerfile
+        ports:
+           - 8083:80
+        links:
+            - fpm
+        volumes:
+            - ./site/:/var/www/html
+            - "phpsocket:/var/run"
+    fpm:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        links:
+            - mongo
+        volumes:
+            - ./site/:/var/www/html
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
+
+    mongo:
+        image: mongo
+        ports:
+          - 27020:27017 # Проброс портов для внешнего доступа 
+        volumes:
+          - mongo-data:/data/db
+volumes:
+  mongo-data:
+  phpsocket:

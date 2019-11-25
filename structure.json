@@ -1,0 +1,53 @@
+[
+{//video structure
+    "id": "fgfdgSAD3#", //ObjectId
+    "channelId": "gfdgfdgf343",//string
+    "description":"rererere",
+    "publishedAt": "2017-30-04",//timestamp
+    "title":"fsdfDSD2323",//string
+    "channelTitle":"name",//string
+    "categoryId":323,//integer
+    "privacyStatus": "name",//string
+    "publicStatsViewable]":1,//integer
+    "viewCount":3232,//integer
+    "likeCount":23,//integer
+    "dislikeCount": 43,//integer
+    "favoriteCount":32,//integer
+    "commentCount":323//integer
+
+},
+//index
+//id
+//channelId
+//title
+//channelTitle
+{ //channel structure
+"id":"fgfdgSAD3#",//ObjectId
+"title":"fdfd",//string
+"description":"fdfd",//string
+"publishedAt":"2017-30-04",//timestamp
+"viewCount":432432,//integer
+"commentCount":323,//integer
+"subscruberCount":323,//integer
+"hidenSubscruberCount":323,//integer
+"videoCount": 3434,//integer
+"privaceStatus":"fdfdf",//string
+"videoId":[]//array
+//index
+//id
+//title
+//videoId
+
+},
+{
+   "id":"dsdsds",//string
+   "channelName":"dsadsd",//string
+   "sumLike":323232,//integer
+   "sumDislike":323232,//integer
+   "difLike":3232323//integer
+
+
+
+
+}
+]
