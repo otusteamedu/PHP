@@ -12,7 +12,7 @@ class YoutubeContent implements YoutubeChannelData,YoutubeVideoData
 {
 
     private $httpClient;
-    private const API_KEY = 'AIzaSyDspmtrreJevOeoy7hYae77xl1Idy3kXRU';
+    private const API_KEY = 'You api';
 
 
     public function __construct()
