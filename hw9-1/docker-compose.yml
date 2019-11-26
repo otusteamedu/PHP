@@ -1,0 +1,31 @@
+version: '3'
+services:
+    nginx:
+        build: Docker/nginx
+        image: hw9-1-nginx
+        container_name: nginx
+        volumes:
+            - hw9-1-data:/var/www/html
+            - hw9-1-sockets-data:/sockets
+            - ./Docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./public:/var/www/html/public
+        ports:
+            - 80:80
+        links:
+            - php
+            
+    php:
+        build: Docker/php
+        image: hw9-1-php
+        container_name: php
+        volumes:
+            - hw9-1-data:/var/www/html
+            - hw9-1-sockets-data:/sockets
+            - ./Docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./public:/var/www/html/public
+            
+volumes:
+    hw9-1-data:
+        driver: local
+    hw9-1-sockets-data:
+        driver: local
