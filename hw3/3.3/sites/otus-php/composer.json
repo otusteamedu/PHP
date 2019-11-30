@@ -1,0 +1,11 @@
+{
+  "repositories": [
+    {
+      "url": "https://github.com/websys-forever/getTextImg.git",
+      "type": "git"
+    }
+  ],
+  "require": {
+    "websys-forever/gettextimg": "dev-master"
+  }
+}
