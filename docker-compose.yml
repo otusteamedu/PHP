@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www/html
+      - ./logs:/var/log/nginx
+    links:
+      - php
+
+  php:
+    image: php:7.3-fpm
+    volumes:
+      - ./www:/var/www/html
