@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    web:
+        image: nginx:alpine
+        container_name: vlyagusha_web
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - .:/var/www/html
+            - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+        links:
+          - php
+    php:
+        image: php:7-fpm
+        container_name: vlyagusha_php
+        volumes:
+            - .:/var/www/html
