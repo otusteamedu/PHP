@@ -10,7 +10,7 @@ RUN apk update --no-cache && \
 
 WORKDIR /var/www
 
-COPY ./conf/nginx/hosts/mysite.local.conf /etc/nginx/sites-enabled/mysite.local.conf
+COPY ./conf/nginx/hosts/mysite.local.conf /etc/nginx/conf.d/mysite.local.conf
 
 COPY ./files/index.html /var/www/mysite.local/index.html
 
