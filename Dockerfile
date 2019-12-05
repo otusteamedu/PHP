@@ -4,7 +4,9 @@
 ARG BASEIMAGE_VERION="3.10.3"
 FROM alpine:${BASEIMAGE_VERION} as alpine-nginx
 
-RUN apk add --no-cache nginx tzdata
+RUN apk update --no-cache && \
+    mkdir -p /run/nginx && \
+    apk add --no-cache nginx tzdata
 
 WORKDIR /var/www
 
