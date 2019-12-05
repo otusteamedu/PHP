@@ -6,10 +6,13 @@ FROM alpine:${BASEIMAGE_VERION} as alpine-nginx
 
 ENV TZ=Europe/Moscow
 
-RUN apk update --no-cache && \
+RUN apk update && \
+    apk upgrade --available && \
     mkdir -p /run/nginx && \
     apk add --no-cache nginx tzdata && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    rm -rf /var/cache/apk/*
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /var/www
 
