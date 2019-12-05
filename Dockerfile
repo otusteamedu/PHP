@@ -4,9 +4,12 @@
 ARG BASEIMAGE_VERION="3.10.3"
 FROM alpine:${BASEIMAGE_VERION} as alpine-nginx
 
+ENV TZ=Europe/Moscow
+
 RUN apk update --no-cache && \
     mkdir -p /run/nginx && \
-    apk add --no-cache nginx tzdata
+    apk add --no-cache nginx tzdata && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /var/www
 
