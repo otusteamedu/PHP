@@ -9,7 +9,7 @@ ENV TZ=Europe/Moscow
 RUN apk update && \
     apk upgrade --available && \
     mkdir -p /run/nginx && \
-    apk add --no-cache nginx tzdata && \
+    apk add nginx tzdata && \
     rm -rf /var/cache/apk/*
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
