@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+    web:
+        container_name: "alpine-nginx"
+        image: alpine-nginx
+        ports:
+            - "127.0.0.1:81:80"
+        networks:
+            - webnet
+
+networks:
+    webnet:
