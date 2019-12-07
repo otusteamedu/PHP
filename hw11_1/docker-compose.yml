@@ -1,0 +1,45 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx.docker
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "8082:80"
+    links:
+      - php-fpm
+  php-cli:
+    build:
+      context: ./
+      dockerfile: ./docker/php-cli.docker
+    volumes:
+      - ./:/app
+      - composer:/root/.composer/cache
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    tty: true
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm.docker
+    volumes:
+      - ./:/app
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - ./docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: db
+      MONGO_COLLECTION: youtube_channels_stat
+    ports:
+      - "27018:27017"
+    tty: true
+volumes:
+  composer:

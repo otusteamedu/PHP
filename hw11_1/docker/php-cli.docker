@@ -1,0 +1,15 @@
+FROM php:7.3-cli
+
+RUN apt-get update && apt-get install -y gnupg2 wget libcurl4-openssl-dev pkg-config libssl-dev
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+RUN apt-get update && apt-get install -y git libzip-dev unzip iputils-ping mongodb-org-shell mongodb-org-tools && \
+    docker-php-ext-install mbstring zip && \
+    pecl install mongodb && \
+    echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+WORKDIR /app
