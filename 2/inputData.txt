@@ -4,3 +4,11 @@ id user city phone
 3 test3 Tver 4352124
 4 test4 Milan 7990923
 5 test5 Moscow 908213
+6 test5 Moscow 908213
+7 test5 Moscow 908213
+8 test5 Moscow 908213
+9 test5 Moscow 908213
+10 test5 Moscow 908213
+10 test5 Moscow 908213
+11 test Moscow 908213
+12 test5 Moscow 908213
