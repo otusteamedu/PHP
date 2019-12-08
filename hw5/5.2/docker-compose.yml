@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    container_name: otus-nginx-hw5.2
+    depends_on:
+      - php
+    volumes:
+      - ./nginx-conf/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./sites/otus-php:/var/www
+      - ./sockets:/var/run
+  php:
+    build: ./docker_images/php
+    volumes:
+      - ./docker_images/php/40-custom.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ./docker_images/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./sites/otus-php:/var/www
+      - ./sockets:/var/run
+    ports:
+      - "9000:9000"
+    container_name: otus-php-hw5.2
+
+
