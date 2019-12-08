@@ -9,17 +9,17 @@ if [[ -z "$value_1" || -z "$value_2" ]]; then
   exit 1
 fi
 
-if [[ ! "$(echo $value_1 | grep -E $regexpNumber)" ]]; then
+if [[ ! "$value_1" =~ $regexpNumber ]]; then
   echo "Первый параметр не число"
   exit 1
 fi
 
-if [[ ! "$(echo $value_2 | grep -E $regexpNumber)" ]]; then
+if [[ ! "$value_2" =~ $regexpNumber ]]; then
   echo "Второй параметр не число"
   exit 1
 fi
 
 sum=$(echo "$value_1 + $value_2" | bc)
-echo $sum
+echo "$sum"
 
 exit 0
