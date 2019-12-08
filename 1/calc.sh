@@ -20,6 +20,6 @@ if [[ ! "$(echo $value_2 | grep -E $regexpNumber)" ]]; then
 fi
 
 sum=$(echo "$value_1 + $value_2" | bc)
-echo "Сумма чисел = $sum"
+echo $sum
 
 exit 0
