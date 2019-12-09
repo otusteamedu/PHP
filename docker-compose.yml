@@ -1,0 +1,14 @@
+nginx:
+  build: .
+  ports:
+    - 80:80
+    - 443:443
+  links:
+    - php
+  volumes:
+    - c:/otus/PHP/site:/usr/share/nginx/html
+php:
+  image: 'bitnami/php-fpm:latest'
+  volumes:
+    - c:/otus/PHP/site:/app
+
