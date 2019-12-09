@@ -10,8 +10,6 @@ $container = require dirname(__FILE__) . '/config/container.php';
 
 /** @var YouTubeSpider $spider */
 $spider = $container[YouTubeSpider::class];
-/** @var Storage $storage */
-$storage = $container[Storage::class];
 /** @var Output $output */
 $output = $container[Output::class];
 
@@ -21,7 +19,7 @@ if ($category === null) {
     exit();
 }
 
-$output->writeLn('Saving the channels to storage, please wait...');
+$output->writeLn('Saving a channels to the storage, please wait...');
 
 $spider->saveCategoryChannels($category, $container[Storage::class]);
 

@@ -2,20 +2,18 @@
 
 namespace App\Contracts;
 
-use App\Entities\YouTubeChannel;
-
 interface Storage
 {
     /**
-     * @return YouTubeChannel[]
+     * @return array
      */
     public function getAll(): array;
 
     /**
-     * @param $id
-     * @return YouTubeChannel|null
+     * @param string $id
+     * @return object|null
      */
-    public function getById($id): ?YouTubeChannel;
+    public function getById(string $id);
 
     /**
      * @param array $data
@@ -24,14 +22,17 @@ interface Storage
     public function insert(array $data);
 
     /**
-     * @param array $data
-     * @return mixed
+     * @param string $id
      */
-    public function update(array $data);
+    public function delete(string $id): void;
 
     /**
-     * @param array $data
+     * @param string $categoryId
+     */
+    public function deleteByCategory(string $categoryId): void;
+
+    /**
      * @return mixed
      */
-    public function delete(array $data);
+    public function deleteAll(): void;
 }

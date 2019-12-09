@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Storage;
 
 use App\Contracts\Storage;
-use App\Entities\YouTubeChannel;
 use MongoDB\Client;
-use MongoDB\Collection;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Exception\Exception;
 use MongoDB\Driver\Manager;
@@ -19,10 +17,6 @@ class MongoStorage implements Storage
      * @var Client
      */
     private $manager;
-    /**
-     * @var Collection
-     */
-    private $dbCollection;
     /**
      * @var string
      */
@@ -51,24 +45,16 @@ class MongoStorage implements Storage
         $query = new Query([]);
 
         try {
-            $rows = $this->manager->executeQuery($this->namespace, $query)->toArray();
+            return $this->manager->executeQuery($this->namespace, $query)->toArray();
         } catch (Exception $e) {
             throw new \RuntimeException('Error while reading all rows.', 0, $e);
         }
-
-        $channels = [];
-
-        foreach ($rows as $row) {
-            $channels[] = YouTubeChannel::createFromObject($row);
-        }
-
-        return $channels;
     }
 
     /**
      * @inheritDoc
      */
-    public function getById($id): ?YouTubeChannel
+    public function getById(string $id)
     {
         $query = new Query(['id' => $id]);
 
@@ -81,7 +67,7 @@ class MongoStorage implements Storage
         if (empty($rows)) {
             return null;
         } else {
-            return YouTubeChannel::createFromObject($rows[0]);
+            return $rows[0];
         }
     }
 
@@ -106,16 +92,33 @@ class MongoStorage implements Storage
     /**
      * @inheritDoc
      */
-    public function update(array $data)
+    public function delete(string $id): void
     {
-        //
+        $bulk = new BulkWrite;
+        $bulk->delete(['id' => $id]);
+
+        $this->manager->executeBulkWrite($this->namespace, $bulk);
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(array $data)
+    public function deleteByCategory(string $categoryId): void
     {
-        //
+        $bulk = new BulkWrite;
+        $bulk->delete(['category.id' => $categoryId]);
+
+        $this->manager->executeBulkWrite($this->namespace, $bulk);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteAll(): void
+    {
+        $bulk = new BulkWrite;
+        $bulk->delete([]);
+
+        $this->manager->executeBulkWrite($this->namespace, $bulk);
     }
 }

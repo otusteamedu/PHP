@@ -49,7 +49,8 @@ class YouTubeStatistics
         $this->output->info("Select the channel (1-$countResult):");
         foreach ($channels as $key => $channel) {
             $optionNum = $key + 1;
-            $this->output->writeLn("{$optionNum}. {$channel->getTitle()}");
+            $obj = YouTubeChannel::createFromObject($channel);
+            $this->output->writeLn("{$optionNum}. {$obj->getTitle()}");
         }
 
         $continue = true;
@@ -74,7 +75,7 @@ class YouTubeStatistics
                 continue;
             }
 
-            $channel = $channels[$key];
+            $channel = YouTubeChannel::createFromObject($channels[$key]);
 
             $this->output->info("Channel \"{$channel->getTitle()}\" selected.");
             $continue = false;
@@ -90,6 +91,7 @@ class YouTubeStatistics
     public function getStatisticsOfChannelVideos(string $channelId): array
     {
         $channel = $this->storage->getById($channelId);
+        $channel = YouTubeChannel::createFromObject($channel);
 
         return [
             'channel' => [
@@ -118,6 +120,7 @@ class YouTubeStatistics
         $data = [];
 
         foreach ($channels as $channel) {
+            $channel = YouTubeChannel::createFromObject($channel);
             $data[] = [
                 'channel' => [
                     'id' => $channel->getId(),

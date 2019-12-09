@@ -90,6 +90,8 @@ class YouTubeSpider
      */
     public function saveCategoryChannels(YouTubeCategory $category, Storage $storage): void
     {
+        $storage->deleteByCategory($category->getId());
+
         $channels = $this->driver->getCategoryChannels($category);
 
         foreach ($channels as $channel) {
