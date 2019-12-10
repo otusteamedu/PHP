@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "195b3bdb73ec23ea58b35874a3e8ada8",
+    "content-hash": "cc3a3faf51005d4b3ade53286882adeb",
     "packages": [
         {
             "name": "vlyagusha/otus",
             "version": "v0.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vlyagusha/otus",
+                "url": "https://github.com/vlyagusha/otus.git",
                 "reference": "7f565fad10a7f0ff6bfba09fe73459bb62d2fbec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlyagusha/otus/zipball/7f565fad10a7f0ff6bfba09fe73459bb62d2fbec",
+                "reference": "7f565fad10a7f0ff6bfba09fe73459bb62d2fbec",
+                "shasum": ""
             },
             "require": {
                 "php": "~7.1"
@@ -23,6 +29,7 @@
                     "Otus\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
