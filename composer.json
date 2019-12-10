@@ -1,0 +1,14 @@
+{
+  "name": "vlyagusha/otus_demo",
+  "type": "project",
+  "description": "Otus homework project",
+  "repositories": [
+    {
+      "url": "https://github.com/vlyagusha/otus",
+      "type": "git"
+    }
+  ],
+  "require": {
+    "vlyagusha/otus": "^0.0"
+  }
+}

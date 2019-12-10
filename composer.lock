@@ -1,0 +1,47 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "195b3bdb73ec23ea58b35874a3e8ada8",
+    "packages": [
+        {
+            "name": "vlyagusha/otus",
+            "version": "v0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlyagusha/otus",
+                "reference": "7f565fad10a7f0ff6bfba09fe73459bb62d2fbec"
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Otus\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vyacheslav Lyagusha",
+                    "email": "vlyagusha@gmail.com"
+                }
+            ],
+            "description": "Otus homework",
+            "time": "2019-12-10T20:40:24+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
