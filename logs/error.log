@@ -1,0 +1,2 @@
+2019/12/11 18:48:24 [error] 6#6: *1 connect() to unix:/var/run/php7-fpm.sock failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: hm2, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php7-fpm.sock:", host: "127.0.0.1"
+2019/12/11 18:48:25 [error] 6#6: *1 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.29.0.1, server: hm2, request: "GET /favicon.ico HTTP/1.1", host: "127.0.0.1", referrer: "http://127.0.0.1/"
