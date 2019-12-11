@@ -8,7 +8,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./hosts/hm2.conf:/etc/nginx/conf.d/hm2.conf
+      - ./hosts:/etc/nginx/conf.d
       - ./www:/var/www/html
       - ./logs:/var/log/nginx
       - phpsocket:/var/run
@@ -21,7 +21,7 @@ services:
     image: php:7.3-fpm
     volumes:
       - ./www:/var/www/html
-      - ./hosts/php.conf:/usr/local/etc/php-fpm.d/php.conf
+      - ./config/php/php.conf:/usr/local/etc/php-fpm.d/php.conf
       - phpsocket:/var/run
 
 networks:
