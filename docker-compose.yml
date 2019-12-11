@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./:/app
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ./public:/app/public
+
+  apache:
+    build:
+      context: ./docker/apache
+    ports:
+      - ${APACHE_PORT}:80
+    volumes:
+      - ./:/app
+
+  nginx-unit:
+    build:
+      context: ./docker/nginx-unit
+    ports:
+      - ${NGINX_UNIT_PORT}:8888
+    volumes:
+      - ./:/app
