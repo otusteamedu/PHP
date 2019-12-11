@@ -10,4 +10,4 @@ use Composer\Autoload\ClassLoader;
 $loader = require __DIR__.'/../vendor/autoload.php';
 
 $app = new App();
-$app->say();
+$app->sayToMe('Vyacheslav');

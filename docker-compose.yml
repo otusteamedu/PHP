@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    container_name: vlyagusha-web
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/mysite.local
+    links:
+      - php
+  php:
+    image: php:7-fpm
+    container_name: vlyagusha-php
