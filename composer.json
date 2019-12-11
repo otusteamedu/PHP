@@ -4,6 +4,11 @@
   "description": "Otus homework project",
   "repositories": [
   ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
   "require": {
     "vlyagusha/otus": "^0.0"
   }
