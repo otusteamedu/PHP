@@ -26,24 +26,22 @@ RUN apk add php7-dev \
             echo "alias composer='composer'" >> /root/.bashrc && \
             composer \
     && pecl install -of xdebug \
-    && docker-php-ext-enable xdebug \
+    && docker-php-ext-enable --ini-name 00-xdebug.ini xdebug \
     && pecl install -of redis \
-    && docker-php-ext-enable redis \
+    && docker-php-ext-enable --ini-name 01-redis.ini redis \
     && pecl install memcached \
-    && docker-php-ext-enable memcached \
+    && docker-php-ext-enable --ini-name 02-memcached.ini memcached \
     && pecl install -of raphf \
-    && docker-php-ext-enable raphf \
+    && docker-php-ext-enable --ini-name 03-raphf.ini raphf \
     && pecl install -of propro \
-    && docker-php-ext-enable propro \
+    && docker-php-ext-enable --ini-name 04-propro.ini propro \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_pgsql \
-    && docker-php-ext-enable pdo \
-    && docker-php-ext-install sockets
-
-RUN pecl install -of pecl_http \
-    && docker-php-ext-enable http
-
-RUN addgroup -g 101 -S nginx \
+    && docker-php-ext-enable --ini-name 05-pdo.ini pdo \
+    && docker-php-ext-install sockets \
+    && pecl install -of pecl_http \
+    && docker-php-ext-enable --ini-name 06-http.ini http \
+    && addgroup -g 101 -S nginx \
     && adduser -u 101 -D -S -G nginx nginx \
     && rm -rf /tmp/*
 
