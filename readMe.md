@@ -1,1 +1,2 @@
-примененные патерны simple factory, singleton, Dependency injection, Data Mapper, Builder
+примененные патерны simple factory, singleton, Dependency injection, Data Mapper, Builder, factory
+method
