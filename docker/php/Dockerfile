@@ -1,25 +1,24 @@
-FROM php:7.3-fpm-alpine
+FROM php:7-fpm-alpine
 WORKDIR /home/www/mysite.local
-ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 
 COPY ./php.ini /usr/local/etc/php/
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/
 
 RUN apk add php7-dev \
-    && apk add bash \
-    && apk add gcc \
-    && apk add g++ \
-    && apk add make \
-    && apk add nano \
-    && apk add curl \
-    && apk add git \
-    && apk add wget \
-    && apk add grep \
-    && apk add libmemcached-dev \
-    && apk add zlib-dev \
-    && apk add curl-dev \
-    && apk add libpq \
-    && apk add postgresql-dev \
+        bash \
+        gcc \
+        g++ \
+        make \
+        nano \
+        curl \
+        git \
+        wget \
+        grep \
+        libmemcached-dev \
+        zlib-dev \
+        curl-dev \
+        libpq \
+        postgresql-dev \
     && curl -sS https://getcomposer.org/installer | php -- \
             --filename=composer \
             --install-dir=/usr/local/bin && \
@@ -36,7 +35,7 @@ RUN apk add php7-dev \
     && pecl install -of propro \
     && docker-php-ext-enable propro \
     && pecl install -of pecl_http \
-    && docker-php-ext-enable pecl_http \
+    && docker-php-ext-enable http \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-enable pdo \
