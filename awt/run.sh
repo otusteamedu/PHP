@@ -1,0 +1,1 @@
+tail file.csv -n+2 | awk '{print $3}' | sort | uniq -ci | sort -rnk1 | head -n 3
