@@ -1,31 +1,41 @@
-FROM php:fpm
-
-RUN apt-get update && apt-get install -y \
-        wget \
-        git \
-            --no-install-recommends
-
-RUN pecl install -of xdebug \
-        redis \
-#        memcached \
-        pecl_http \
-#        pdo_pgsql \
-    && rm -rf /tmp/pear
+FROM php:7.3-fpm-alpine
+WORKDIR /home/www/mysite.local
+ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 
 COPY ./install-composer.sh /
 COPY ./php.ini /usr/local/etc/php/
-COPY ./www.conf /usr/local/etc/php/
+COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/
 
-RUN apt-get purge -y g++ \
-    && apt-get autoremove -y \
-    && rm -r /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
+RUN apk add --no-cache \
+        bash \
+        wget \
+        git \
+		$PHPIZE_DEPS \
+		$MEMCACHED_DEPS \
+		openssl-dev
+
+RUN pecl install -of \
+        xdebug \
+        redis \
+##        pecl_http \
+##        pdo_pgsql \
+        memcached
+
+RUN docker-php-ext-enable \
+        xdebug \
+        redis \
+##        pecl_http \
+##        pdo_pgsql \
+        memcached
+
+RUN docker-php-ext-install sockets
+
+RUN set -x \
+	&& addgroup -g 101 -S nginx \
+	&& adduser -u 101 -D -S -G nginx nginx \
     && sh /install-composer.sh \
-    && rm /install-composer.sh
-
-RUN usermod -u 1000 www-data
-
-WORKDIR /home/www/mysite.local
+    && rm /install-composer.sh \
+    && rm -rf /tmp/*
 
 EXPOSE 9000
 CMD ["php-fpm"]

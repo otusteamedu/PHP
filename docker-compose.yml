@@ -5,7 +5,7 @@ services:
     build: docker/php
     volumes:
       - ./:/home/www/mysite.local
-
+      - phpsocket:/var/run
   nginx:
     container_name: vlyagusha-nginx
     image: nginx:alpine
@@ -14,5 +14,8 @@ services:
     volumes:
       - ./:/home/www/mysite.local
       - ./docker/nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpsocket:/var/run
     depends_on:
       - app
+volumes:
+  phpsocket:
