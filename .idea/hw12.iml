@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/site/src/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/collection" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/core" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/database" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/datasource" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/log" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/cakephp/utility" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/fzaninotto/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/psr/simple-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/robmorgan/phinx" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/config" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/console" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/polyfill-php73" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/service-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/site/vendor/vlucas/phpdotenv" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/site/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/site/vendor/robmorgan/phinx" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/site/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/site/vendor/composer" />
+      <path value="$PROJECT_DIR$/site/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/site/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/site/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/site/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/site/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/site/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/core" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/cache" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/datasource" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/log" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/database" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/collection" />
+      <path value="$PROJECT_DIR$/site/vendor/cakephp/utility" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
+</project>
