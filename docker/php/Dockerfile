@@ -19,6 +19,7 @@ RUN apk add php7-dev \
         curl-dev \
         libpq \
         postgresql-dev \
+        icu-dev \
     && curl -sS https://getcomposer.org/installer | php -- \
             --filename=composer \
             --install-dir=/usr/local/bin && \
@@ -34,13 +35,15 @@ RUN apk add php7-dev \
     && docker-php-ext-enable raphf \
     && pecl install -of propro \
     && docker-php-ext-enable propro \
-    && pecl install -of pecl_http \
-    && docker-php-ext-enable http \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-enable pdo \
-    && docker-php-ext-install sockets \
-    && addgroup -g 101 -S nginx \
+    && docker-php-ext-install sockets
+
+RUN pecl install -of pecl_http \
+    && docker-php-ext-enable http
+
+RUN addgroup -g 101 -S nginx \
     && adduser -u 101 -D -S -G nginx nginx \
     && rm -rf /tmp/*
 
