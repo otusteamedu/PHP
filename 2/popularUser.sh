@@ -12,7 +12,7 @@ if [[ ! -f "$file" || ! -s "$file" ]]; then
     exit 1
 fi
 
-data=$( head -n-0 -q "$file" | tail -n+2 | sort -ik2 -k3 -k4 | uniq --skip-fields=1 )
+data=$( tail -n+2 "$file" | sort -t " " -i -k2 -k3 -k4 -k1n | uniq --skip-fields=1 | awk -f ./script.awk | sort -t " " -k1nr | head -n3 | awk -F " " '{print $2}' )
 echo "$data"
 
 exit 0
