@@ -2,9 +2,9 @@ version: '3'
 services:
   app:
     container_name: vlyagusha-app
-    build: docker/php
+    build: php
     volumes:
-      - ./:/home/www/mysite.local
+      - ../:/home/www/mysite.local
       - phpsocket:/var/run
   nginx:
     container_name: vlyagusha-nginx
@@ -12,8 +12,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./:/home/www/mysite.local
-      - ./docker/nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ../:/home/www/mysite.local
+      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
       - phpsocket:/var/run
     depends_on:
       - app
