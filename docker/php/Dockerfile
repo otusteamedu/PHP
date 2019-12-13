@@ -9,7 +9,6 @@ RUN apk add php7-dev \
         gcc \
         g++ \
         make \
-        nano \
         curl \
         git \
         wget \
