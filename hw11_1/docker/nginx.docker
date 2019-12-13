@@ -2,4 +2,9 @@ FROM nginx:1.13
 
 ADD ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
+ARG UID
+
+RUN /usr/sbin/groupadd --gid $UID --system app
+RUN /usr/sbin/useradd --uid $UID --system --shell /usr/sbin/nologin --gid $UID app
+
 WORKDIR /var/www

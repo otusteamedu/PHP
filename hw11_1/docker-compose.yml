@@ -4,8 +4,11 @@ services:
     build:
       context: ./
       dockerfile: docker/nginx.docker
+      args:
+        UID: "3000"
     volumes:
-      - ./:/var/www:delegated
+      - ./:/var/www
+      - ./docker/sock/:/sock
     ports:
       - "8082:80"
     links:
@@ -26,8 +29,12 @@ services:
     build:
       context: ./
       dockerfile: docker/php-fpm.docker
+      args:
+        UID: "3000"
     volumes:
       - ./:/app
+      - ./docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/sock:/sock
   mongodb:
     image: mongo
     restart: always
