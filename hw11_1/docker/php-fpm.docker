@@ -1,0 +1,8 @@
+FROM php:7.3-fpm
+
+ARG UID
+
+RUN /usr/sbin/groupadd --gid $UID --system app
+RUN /usr/sbin/useradd --uid $UID --system --shell /usr/sbin/nologin --gid $UID app
+
+WORKDIR /var/www
