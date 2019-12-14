@@ -11,19 +11,16 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-openssl-dev \
     libpq-dev \
-    libz-dev \
+    libz-dev
 
-RUN pecl install -of redis
-RUN pecl install -of memcached
-
-RUN pecl install -of raphf
-RUN docker-php-ext-enable raphf
-RUN pecl install -of propro
-RUN docker-php-ext-enable propro
-RUN pecl install -of pecl_http
-RUN docker-php-ext-install pdo pdo_pgsql pgsql
-
-RUN docker-php-ext-enable redis
-RUN docker-php-ext-enable memcached
-RUN docker-php-ext-enable http
-#RUN docker-php-ext-enable pdo_pgsql
+RUN pecl install -of redis \
+    && docker-php-ext-enable redis \
+    && pecl install -of memcached \
+    && docker-php-ext-enable memcached \
+    && pecl install -of raphf \
+    && docker-php-ext-enable raphf \
+    && pecl install -of propro \
+    && docker-php-ext-enable propro \
+    && pecl install -of pecl_http \
+    && docker-php-ext-enable http \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
