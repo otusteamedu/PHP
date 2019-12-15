@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Composer\Autoload\ClassLoader;
+use Socket\Socket;
+
+/**
+ * @var ClassLoader $loader
+ */
+$loader = require __DIR__.'/../vendor/autoload.php';
+
+$options = getopt('r::', ['response::']);
+$settings = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
+
+$response = 'Response';
+if (isset($options['r'])) {
+    $response = (string)$options['r'];
+}
+if (isset($options['response'])) {
+    $response = (string)$options['response'];
+}
+
+$socket = new Socket(AF_UNIX, SOCK_DGRAM);
+$socket->bind($settings['socket']['server_socket']);
+
+while (true) {
+    $buf = '';
+    $from = '';
+    echo "Ready to receive...\n";
+    $bytesReceived = $socket->listen($buf, $from);
+    echo "Received \"$buf\" from $from\n";
+
+    $buf .= '->' . $response;
+    $len = strlen($buf);
+    $bytesSent = $socket->send($buf, $len, $from);
+    echo "Sent \"$buf\" to $from\n";
+
+    echo "Request processed\n";
+}

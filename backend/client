@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Composer\Autoload\ClassLoader;
+use Socket\Socket;
+
+/**
+ * @var ClassLoader $loader
+ */
+$loader = require __DIR__.'/../vendor/autoload.php';
+
+$options = getopt('m::', ['message::']);
+$settings = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
+
+$message = 'Message';
+if (isset($options['m'])) {
+    $message = (string)$options['m'];
+}
+if (isset($options['message'])) {
+    $message = (string)$options['message'];
+}
+
+$socket = new Socket(AF_UNIX, SOCK_DGRAM);
+$clientSocket = $settings['socket']['client_socket'];
+$socket->bind($clientSocket);
+
+$serverSocket = $settings['socket']['server_socket'];
+$len = strlen($message);
+$bytesSent = $socket->send($message, $len, $serverSocket);
+echo "Sent \"$message\" to $serverSocket\n";
+
+$buf = '';
+$from = '';
+$bytesReceived = $socket->listen($buf, $from);
+echo "Received \"$buf\" from $from\n";
+
+$socket->close();
+
+echo "Client exits\n\n";
