@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sheronov/TestComposerPackage.git",
-                "reference": "f4249eaa390c3e801d2453ec74c1a2fdc8b080f3"
+                "reference": "5a6e13495d735cf70c1fe764390e7e8c98274552"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sheronov/TestComposerPackage/zipball/f4249eaa390c3e801d2453ec74c1a2fdc8b080f3",
-                "reference": "f4249eaa390c3e801d2453ec74c1a2fdc8b080f3",
+                "url": "https://api.github.com/repos/sheronov/TestComposerPackage/zipball/5a6e13495d735cf70c1fe764390e7e8c98274552",
+                "reference": "5a6e13495d735cf70c1fe764390e7e8c98274552",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +43,7 @@
                 "source": "https://github.com/sheronov/TestComposerPackage/tree/master",
                 "issues": "https://github.com/sheronov/TestComposerPackage/issues"
             },
-            "time": "2019-12-15T13:44:50+00:00"
+            "time": "2019-12-15T13:52:50+00:00"
         }
     ],
     "packages-dev": [],
