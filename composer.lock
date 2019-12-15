@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9644856619c51be24cf37969ce2da2de",
+    "packages": [
+        {
+            "name": "sheronov/test-composer-package",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sheronov/TestComposerPackage.git",
+                "reference": "f4249eaa390c3e801d2453ec74c1a2fdc8b080f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sheronov/TestComposerPackage/zipball/f4249eaa390c3e801d2453ec74c1a2fdc8b080f3",
+                "reference": "f4249eaa390c3e801d2453ec74c1a2fdc8b080f3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebRush\\": "src/WebRush"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Evgeniy Sheronov",
+                    "email": "webrush@bk.ru"
+                }
+            ],
+            "description": "First composer project for my education",
+            "support": {
+                "source": "https://github.com/sheronov/TestComposerPackage/tree/master",
+                "issues": "https://github.com/sheronov/TestComposerPackage/issues"
+            },
+            "time": "2019-12-15T13:44:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "sheronov/test-composer-package": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

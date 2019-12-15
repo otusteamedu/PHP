@@ -1,0 +1,12 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/sheronov/TestComposerPackage"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "sheronov/test-composer-package": "dev-master"
+  }
+}
