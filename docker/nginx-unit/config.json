@@ -1,0 +1,14 @@
+{
+  "listeners": {
+    "*:8888": {
+      "pass": "applications/php_app"
+    }
+  },
+  "applications": {
+    "php_app": {
+      "type": "php 7.0",
+      "root": "/app/public",
+      "script": "index.php"
+    }
+  }
+}
