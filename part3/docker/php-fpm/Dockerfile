@@ -1,5 +1,5 @@
-FROM php:7.4-fpm
+FROM php:fpm-alpine
 
-COPY php.ini $PHP_INI_DIR/
+COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-RUN  apt-get update
+CMD ["php-fpm","--nodaemonize"]

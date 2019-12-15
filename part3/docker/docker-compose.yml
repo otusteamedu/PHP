@@ -1,0 +1,20 @@
+version: "3.4"
+
+services:
+  php-fpm:
+    build:
+      context: "php-fpm"
+    volumes:
+      - "phpsocket:/run/php"
+      - "../src:/var/www"
+  nginx:
+    build:
+      context: "nginx"
+    volumes:
+      - "phpsocket:/run/php"
+      - "../src:/var/www"
+    ports:
+      - "80:8080"
+      - "443:443"
+volumes:
+  phpsocket:
