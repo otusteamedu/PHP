@@ -1,0 +1,5 @@
+1) команда для клонирования с гита
+git clone https://github.com/webFarrock/ChkBrakets.git
+
+2) команда для установки через composer
+composer require webfarrock/brackets-chk 1.0.0
