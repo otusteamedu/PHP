@@ -1,0 +1,25 @@
+{
+  "description": "OTUS homework 3",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Negrey Sergey",
+      "email": "sanerrus@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/sanerrus/otushw3"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "sanerrus/otushw3": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
