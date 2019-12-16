@@ -9,5 +9,8 @@
 </head>
 <body>
 Hello world!
+<?php
+echo 'Current time from php: '.time();
+?>
 </body>
 </html>
