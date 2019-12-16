@@ -1,0 +1,20 @@
+version: '3'
+
+volumes:
+  phpfpm-socket:
+
+services:
+  web:
+    build: nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./mysite:/var/www/mysite.local
+      - ./nginx/conf/nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpfpm-socket:/var/run
+  php-fpm:
+    build: php-fpm
+    volumes:
+      - ./mysite:/var/www/mysite.local
+      - ./php-fpm/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - phpfpm-socket:/var/run
