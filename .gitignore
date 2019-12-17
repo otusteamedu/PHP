@@ -1,0 +1,10 @@
+# Environment
+/.env
+# composer vendor dir
+/vendor/
+# windows thumbnail cache
+Thumbs.db
+# phpstorm project files
+/.idea/
+# Mac DS_Store Files
+.DS_Store
