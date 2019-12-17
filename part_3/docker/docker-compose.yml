@@ -1,0 +1,34 @@
+version: "3.4"
+ 
+services:
+
+  composer:
+    restart: 'no'
+    image: composer/composer:php7
+    command: install
+    volumes: 
+      - ./app:/app
+ 
+  socket_php:
+    build:
+      context: "php"
+    hostname: "socket-php"
+    working_dir: "/app"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+ 
+  socket_nginx:
+    build:
+      context: "nginx"
+    hostname: "socket-nginx"
+    working_dir: "/app"
+    ports:
+      - "6080:8080"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
