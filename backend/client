@@ -11,10 +11,10 @@ use Socket\Socket;
  */
 $loader = require __DIR__.'/../vendor/autoload.php';
 
+$socketConfig = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
 $options = getopt('m::', ['message::']);
-$settings = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
 
-$message = 'Message';
+$message = null;
 if (isset($options['m'])) {
     $message = (string)$options['m'];
 }
@@ -23,19 +23,5 @@ if (isset($options['message'])) {
 }
 
 $socket = new Socket(AF_UNIX, SOCK_DGRAM);
-$clientSocket = $settings['socket']['client_socket'];
-$socket->bind($clientSocket);
-
-$serverSocket = $settings['socket']['server_socket'];
-$len = strlen($message);
-$bytesSent = $socket->send($message, $len, $serverSocket);
-echo "Sent \"$message\" to $serverSocket\n";
-
-$buf = '';
-$from = '';
-$bytesReceived = $socket->listen($buf, $from);
-echo "Received \"$buf\" from $from\n";
-
-$socket->close();
-
-echo "Client exits\n\n";
+$app = new App($socket, $socketConfig['client']['address'], $socketConfig['server']['address']);
+$app->send($message);

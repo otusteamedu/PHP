@@ -12,7 +12,7 @@ use Socket\Socket;
 $loader = require __DIR__.'/../vendor/autoload.php';
 
 $options = getopt('r::', ['response::']);
-$settings = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
+$socketConfig = parse_ini_file('config/socket.ini', true, INI_SCANNER_TYPED);
 
 $response = 'Response';
 if (isset($options['r'])) {
@@ -23,7 +23,7 @@ if (isset($options['response'])) {
 }
 
 $socket = new Socket(AF_UNIX, SOCK_DGRAM);
-$socket->bind($settings['socket']['server_socket']);
+$socket->bind($socketConfig['server']['address']);
 
 while (true) {
     $buf = '';
