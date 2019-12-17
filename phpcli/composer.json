@@ -1,0 +1,19 @@
+{
+  "name": "sanerrus/otushw4",
+  "description": "OTUS homework 4",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Negrey Sergey",
+      "email": "sanerrus@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Commands\Commands;
+
+$shortopts = "c:";
+$longopts = [
+    "command:",
+];
+
+$options = getopt($shortopts, $longopts);
+
+if (!isset($options['c']) && !isset($options['command'])) {
+    throw new \InvalidArgumentException("ERROR: please set option -c or --command");
+}
+
+$command = new Commands();
+$cmd = $command->getCommand($options['c'] ?? $options['command']);
+$shortopts .= $cmd->getShortOptions();
+$longopts = array_merge($longopts, $cmd->getLongOptions());
+$result = $cmd->run(getopt($shortopts, $longopts));
+
+
+echo $result->getStringResult() . "\n";
