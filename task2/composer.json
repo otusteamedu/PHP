@@ -1,0 +1,11 @@
+{
+    "require": {
+        "azatnizam/pacaz": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/azat-nizam/pacaz.git"
+        }
+    ]
+}
