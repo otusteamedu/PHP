@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9f9ce0e37378041985883bf1ef9c0cbe",
+    "packages": [
+        {
+            "name": "vvp33/testPackage",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vvp33/testPackage.git",
+                "reference": "5a4c1017147c0ebdd280f378e22df6bd42dce457"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vvp33/testPackage/zipball/5a4c1017147c0ebdd280f378e22df6bd42dce457",
+                "reference": "5a4c1017147c0ebdd280f378e22df6bd42dce457",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TestPackage\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "TestPackage Library",
+            "support": {
+                "source": "https://github.com/vvp33/testPackage/tree/master",
+                "issues": "https://github.com/vvp33/testPackage/issues"
+            },
+            "time": "2019-12-17T13:33:47+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "vvp33/testpackage": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
