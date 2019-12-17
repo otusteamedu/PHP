@@ -1,0 +1,11 @@
+{
+  "require": {
+    "vvp33/testPackage": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:vvp33/testPackage.git"
+    }
+  ]
+}
