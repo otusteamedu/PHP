@@ -170,16 +170,3 @@ PACKAGE VERSION STATE
 mcrypt  1.0.3   stable
 
 =========================================
-/etc/php/7.2/cli/conf.d/mcrypt.ini
-Registered Stream Filters => zlib.*, string.rot13, string.toupper, string.tolower, string.strip_tags, convert.*, consumed, dechunk, convert.iconv.*, mcrypt.*, mdecrypt.*
-mcrypt
-mcrypt support => enabled
-mcrypt_filter support => enabled
-mcrypt.algorithms_dir => no value => no value
-mcrypt.modes_dir => no value => no value
-=========================================
-Unable to remove "extension=mcrypt.so" from php.ini
-uninstall ok: channel://pecl.php.net/mcrypt-1.0.3
-=========================================
-(no packages installed from channel pecl.php.net)
-(no packages installed from channel pecl.php.net)

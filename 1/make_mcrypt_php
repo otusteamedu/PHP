@@ -1,0 +1,12 @@
+
+/etc/php/7.2/cli/conf.d/mcrypt.ini
+Registered Stream Filters => zlib.*, string.rot13, string.toupper, string.tolower, string.strip_tags, convert.*, consumed, dechunk, convert.iconv.*, mcrypt.*, mdecrypt.*
+mcrypt
+mcrypt support => enabled
+mcrypt_filter support => enabled
+mcrypt.algorithms_dir => no value => no value
+mcrypt.modes_dir => no value => no value
+OLDPWD => /home/wolodin/VVP/REPOSITORY/otusteamedu-PHP/1/mcrypt
+PWD => /home/wolodin/VVP/REPOSITORY/otusteamedu-PHP/1/mcrypt/mcrypt-1.0.3
+$_SERVER['OLDPWD'] => /home/wolodin/VVP/REPOSITORY/otusteamedu-PHP/1/mcrypt
+$_SERVER['PWD'] => /home/wolodin/VVP/REPOSITORY/otusteamedu-PHP/1/mcrypt/mcrypt-1.0.3
