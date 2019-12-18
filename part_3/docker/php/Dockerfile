@@ -1,19 +1,24 @@
 FROM php:7.4.0-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
-        grep \
+RUN apk update && apk add --no-cache \
+	$PHPIZE_DEPS \
+	grep \
 	git \
-	curl \
+	curl-dev \
 	wget \
-	composer \
+	zlib-dev \
+	libmemcached-dev \ 
+	autoconf \
+    	cyrus-sasl-dev
 
 RUN pecl install redis-5.1.1 \
     && pecl install xdebug-2.8.1 \
-    && pecl install memcached \
+    && pecl install memcached-3.1.5 \
+    && pecl install raphf \
+    && pecl install propro \
+    && docker-php-ext-enable redis xdebug memcached raphf propro \
     && pecl install pecl_http \
-    && pecl install pdo \
-    && pecl install pdo_pgsql \
-    && docker-php-ext-enable redis xdebug memcached pecl_http pdo pdo_pgsql
+    && docker-php-ext-enable http
 
 RUN addgroup -g 1000 -S ruben
 RUN adduser -u 1000 -S -G ruben ruben

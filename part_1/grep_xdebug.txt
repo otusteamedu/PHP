@@ -1,2 +1,0 @@
-PWD => /Users/ruben/Desktop/PHP/xdebug-2.1.0
-$_SERVER['PWD'] => /Users/ruben/Desktop/PHP/xdebug-2.1.0
