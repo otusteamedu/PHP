@@ -12,7 +12,6 @@
   "require": {
     "ext-sockets": "*",
     "ext-http": "*",
-    "ext-pcntl": "*",
-    "vlyagusha/bracketed": "dev-master"
+    "ext-pcntl": "*"
   }
 }

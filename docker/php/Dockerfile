@@ -19,6 +19,7 @@ RUN apk add php7-dev \
         libpq \
         postgresql-dev \
         icu-dev \
+        libzip-dev \
     && curl -sS https://getcomposer.org/installer | php -- \
             --filename=composer \
             --install-dir=/usr/local/bin && \
@@ -41,6 +42,14 @@ RUN apk add php7-dev \
     && docker-php-ext-install pcntl \
     && pecl install -of pecl_http \
     && docker-php-ext-enable --ini-name 06-http.ini http \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-enable --ini-name 07-bcmath.ini bcmath \
+    && docker-php-ext-install ctype \
+    && docker-php-ext-enable --ini-name 08-ctype.ini ctype \
+    && docker-php-ext-install json \
+    && docker-php-ext-enable --ini-name 09-json.ini json \
+    && docker-php-ext-install zip \
+    && docker-php-ext-enable --ini-name 10-zip.ini zip \
     && addgroup -g 101 -S nginx \
     && adduser -u 101 -D -S -G nginx nginx \
     && rm -rf /tmp/*
