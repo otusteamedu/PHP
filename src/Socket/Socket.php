@@ -20,22 +20,22 @@ class Socket
     /**
      * @var int
      */
-    private $domain;
+    private int $domain;
 
     /**
      * @var int
      */
-    private $type;
+    private int $type;
 
     /**
      * @var string
      */
-    private $address;
+    private string $address;
 
     /**
      * @var int|null
      */
-    private $port;
+    private ?int $port;
 
     /**
      * Socket constructor.
