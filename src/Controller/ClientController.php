@@ -23,7 +23,6 @@ class ClientController implements ControllerInterface
     public function __construct(SocketProvider $socketProvider, ConfigProvider $configProvider)
     {
         $this->socket = $socketProvider->createSocket();
-
         $this->clientSocketAddress = $configProvider->getClientSocketAddress();
         $this->serverSocketAddress = $configProvider->getServerSocketAddress();
     }
