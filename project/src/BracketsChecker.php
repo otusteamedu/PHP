@@ -1,14 +1,21 @@
 <?php
-    $postStr = $_POST['string'];
-    if (checkBrackets($postStr)) {
-        http_response_code(200);
-        echo 'Tasty brackets, thx';
-    } else {
-        http_response_code(400);
-        echo 'Error in brackets occurred';
-    }
 
-    exit();
+
+namespace Checkers;
+
+
+class BracketsChecker extends Checker
+{
+    private static $glyphs = [
+        '[' => 1,
+        '{' => 1,
+        '<' => 1,
+        '(' => 1,
+        ']' => -1,
+        '}' => -1,
+        '>' => -1,
+        ')' => -1,
+    ];
 
     function checkBrackets($string) {
         if (!empty($string)) {
@@ -19,11 +26,8 @@
 
                     return false;
                 }
-                switch ($char) {
-                    case ')':
-                        $bracketCounter--; break;
-                    case '(':
-                        $bracketCounter++; break;
+                if (!empty(BracketsChecker::$glyphs[$char])) {
+                    $bracketCounter += BracketsChecker::$glyphs[$char];
                 }
             }
             if ($bracketCounter === 0) {
@@ -34,3 +38,4 @@
 
         return false;
     }
+}

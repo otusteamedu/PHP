@@ -5,8 +5,8 @@ services:
     build:
       context: ./nginx
     volumes:
-      - ../src:/var/www/public
-      - ../src/:/etc/nginx/conf.d/
+      - ../project/public:/var/www/site/public
+      - ../conf/:/etc/nginx/conf.d/
     ports:
       - 80:80
       - 443:443
@@ -17,4 +17,4 @@ services:
     build:
       context: ./php-fpm
     volumes:
-      - ../src:/var/www/public
+      - ../project:/var/www/site/
