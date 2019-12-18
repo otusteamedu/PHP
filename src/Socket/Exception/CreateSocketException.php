@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Socket\Exception;
 
-class CreateSocketException extends \Exception
+use Exception;
+
+class CreateSocketException extends Exception
 {
 
 }
