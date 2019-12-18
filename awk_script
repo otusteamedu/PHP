@@ -1,8 +1,0 @@
-{
-    cities[$3] += $4
-}
-END {
-    for (city in cities) {
-        print city " - " cities[city]
-    }
-}
