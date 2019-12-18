@@ -3,7 +3,7 @@ MAINTAINER WebFarrock <webfarrock@mail.ru>
 WORKDIR /var/www/app.local
 
 COPY ./php.ini /usr/local/etc/php/
-COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/
+COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 RUN apk add php7-dev \
         bash \
@@ -25,8 +25,6 @@ RUN apk add php7-dev \
             --install-dir=/usr/local/bin && \
             echo "alias composer='composer'" >> /root/.bashrc && \
             composer \
-    && pecl install -of xdebug \
-    && docker-php-ext-enable --ini-name 00-xdebug.ini xdebug \
     && pecl install -of redis \
     && docker-php-ext-enable --ini-name 01-redis.ini redis \
     && pecl install memcached \
@@ -41,9 +39,6 @@ RUN apk add php7-dev \
     && docker-php-ext-install sockets \
     && pecl install -of pecl_http \
     && docker-php-ext-enable --ini-name 06-http.ini http \
-    && addgroup -g 101 -S nginx \
-    && adduser -u 101 -D -S -G nginx nginx \
     && rm -rf /tmp/*
 
-EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["php-fpm","--nodaemonize"]
