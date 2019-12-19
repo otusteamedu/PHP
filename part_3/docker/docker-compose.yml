@@ -1,13 +1,6 @@
 version: "3.4"
  
 services:
-
-  composer:
-    restart: 'no'
-    image: composer/composer:php7
-    command: install
-    volumes: 
-      - ./app:/app
  
   socket_php:
     build:
