@@ -1,0 +1,6 @@
+{
+    "name": "webfarrck/applocal",
+    "require": {
+        "webfarrock/brackets-chk": "1.0.*"
+    }
+}

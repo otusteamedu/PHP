@@ -2,8 +2,9 @@ FROM php:7-fpm-alpine
 MAINTAINER WebFarrock <webfarrock@mail.ru>
 WORKDIR /var/www/app.local
 
-COPY ./php.ini /usr/local/etc/php/
-COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./docker/php/php.ini /usr/local/etc/php/
+COPY ./docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./app/composer.json /var/www/app.local/composer.json
 
 RUN apk add php7-dev \
         bash \
@@ -41,4 +42,5 @@ RUN apk add php7-dev \
     && docker-php-ext-enable --ini-name 06-http.ini http \
     && rm -rf /tmp/*
 
+RUN composer install
 CMD ["php-fpm","--nodaemonize"]

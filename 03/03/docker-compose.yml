@@ -3,9 +3,11 @@ version: '3'
 services:
 
   php:
-    build: ./docker/php
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
     volumes:
-      - ./app:/var/www/app.local
+      - ./app/public_html:/var/www/app.local/public_html
       - phpsocket:/run/php
 
   nginx:
@@ -13,7 +15,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./app:/var/www/app.local
+      - ./app/public_html:/var/www/app.local/public_html
       - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
       - phpsocket:/run/php
     depends_on:
