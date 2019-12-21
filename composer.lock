@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0686df41fa4a969dedc242ed53ef5bc3",
+    "packages": [
+        {
+            "name": "vlyagusha/mailchecker",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlyagusha/mailchecker.git",
+                "reference": "fc92c1c32cd0936827e439a02cace8edc97e1555"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlyagusha/mailchecker/zipball/fc92c1c32cd0936827e439a02cace8edc97e1555",
+                "reference": "fc92c1c32cd0936827e439a02cace8edc97e1555",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailChecker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vyacheslav Lyagusha",
+                    "email": "vlyagusha@gmail.com"
+                }
+            ],
+            "description": "Library to validate email",
+            "time": "2019-12-21T19:35:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.2",
+        "ext-sockets": "*",
+        "ext-http": "*",
+        "ext-pcntl": "*"
+    },
+    "platform-dev": []
+}

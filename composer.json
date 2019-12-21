@@ -1,0 +1,19 @@
+{
+  "name": "vlyagusha/otus_hw6",
+  "type": "project",
+  "description": "Otus homework project",
+  "repositories": [
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "ext-sockets": "*",
+    "ext-http": "*",
+    "ext-pcntl": "*",
+    "vlyagusha/mailchecker": "~1.0"
+  }
+}
