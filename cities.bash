@@ -10,7 +10,4 @@ if [[ ! -f ${1} ]]; then
     exit
 fi
 
-tail -n+2 ${1} \
-| awk '{cities[$3] += $4}END {for (city in cities) {print city " - " cities[city]}}' \
-| sort -rnk3 \
-| head -n 3
+tail -n+2 $1 | awk '{print $3}' | sort | uniq -c | sort -k1nr | head -n3
