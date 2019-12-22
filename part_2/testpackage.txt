@@ -1,0 +1,2 @@
+git clone https://github.com/RubenAkhmadiev/testpackage.git
+composer create-project ruben/composer-package
