@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRESS_PASSWORD}
+    volumes:
+      - ./1_movie_eav_ddl.sql:/docker-entrypoint-initdb.d/1_movie_eav_ddl.sql
+      - ./2_movie_eav_data.sql:/docker-entrypoint-initdb.d/2_movie_eav_data.sql
+      - ./3_movie_eav_views.sql:/docker-entrypoint-initdb.d/3_movie_eav_views.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
