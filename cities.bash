@@ -10,4 +10,4 @@ if [[ ! -f ${1} ]]; then
     exit
 fi
 
-tail -n+2 $1 | awk '{print $3}' | sort | uniq -c | sort -k1nr | head -n3
+tail -n+2 $1 | awk '{print $3}' | sort | uniq -c | sort -k1nr | head -n3 | awk '{print $2}'
