@@ -1,0 +1,8 @@
+SELECT fs."filmId",f."name" ,SUM (t."cost") as summ
+FROM tikets as t
+LEFT JOIN places as pl ON pl."id" = t.id_place
+LEFT JOIN film_session as fs ON fs."id"=t.id_film_session
+LEFT JOIN film as f ON f."id"=fs."filmId"
+WHERE t."buy"=TRUE
+GROUP BY fs."filmId",f."name"
+ORDER BY summ DESC LIMIT 1
