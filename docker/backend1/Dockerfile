@@ -45,5 +45,4 @@ RUN apk add php7-dev \
     && adduser -u 101 -D -S -G nginx nginx \
     && rm -rf /tmp/*
 
-EXPOSE 9000
 CMD ["php-fpm"]
