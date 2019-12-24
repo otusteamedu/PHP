@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    container_name: new_home
+    build: .
+    restart: always
+    volumes:
+        - ./scripts:/home
+    ports:
+      - '81:80'
+     

@@ -1,0 +1,3 @@
+FROM nginx
+WORKDIR '/home'
+COPY  ./scripts .
