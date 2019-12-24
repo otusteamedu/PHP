@@ -1,0 +1,11 @@
+{
+    "repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/rudinandrey/Homework3"
+    }
+    ],
+    "require": {
+        "rudin/otus": ">=1.0.0"
+    }
+}
