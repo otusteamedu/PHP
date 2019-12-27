@@ -42,4 +42,4 @@ RUN apk add php7-dev \
     && docker-php-ext-enable --ini-name 06-http.ini http \
     && rm -rf /tmp/*
 
-CMD composer install; php-fpm --nodaemonize
+CMD composer install;  cp ./.env.example ./.env; php-fpm --nodaemonize
