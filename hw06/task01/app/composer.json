@@ -1,0 +1,6 @@
+{
+  "name": "webfarrck/applocal",
+  "require": {
+    "webfarrock/email-checker": "1.0.*"
+  }
+}
