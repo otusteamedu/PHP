@@ -1,0 +1,4 @@
+INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
+=========================================
+PACKAGE VERSION STATE
+redis   5.1.1   stable
