@@ -1,0 +1,64 @@
+server {
+#    listen %MAPPING_PORT_443% ssl http2 reuseport;
+#    listen [::]:%MAPPING_PORT_443% ssl http2 ipv6only=on reuseport;
+    listen %MAPPING_PORT_80% reuseport;
+    listen [::]:%MAPPING_PORT_80% ipv6only=on reuseport;
+
+    set $serverName mysite.local;
+    server_name .$serverName www.$serverName;
+    set $base_path /home/%PROJECTS_USERNAME%/www/$serverName;
+    set $pool_php vvp;
+    set $version_php 7.3;
+    disable_symlinks if_not_owner from=$base_path;
+    root $base_path/public;
+    charset utf-8;
+
+    # $url, index.php
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    access_log    /dev/stdout;
+    error_log     /dev/stderr error;
+    rewrite_log   on;
+
+#    include snippets/_ssl.conf;
+    include snippets/_php.conf;
+    include snippets/_general.conf;
+
+#    listen [::]:%MAPPING_PORT_443% ssl http2 ipv6only=on reuseport; # managed by Certbot
+#    listen %MAPPING_PORT_443% ssl http2 reuseport; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/$serverName/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/$serverName/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# HTTPS subdomains redirect
+#server {
+#    listen 443 ssl http2;
+#    listen [::]:443 ssl http2;
+#
+#    set $serverName example.local;
+#    server_name www.$serverName;
+#
+#    ssl_certificate /etc/letsencrypt/live/$serverName/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/$serverName/privkey.pem;
+#    ssl_trusted_certificate /etc/letsencrypt/live/example.ru/fullchain.pem;
+#
+#    include snippets/_ssl.conf;
+#    include snippets/_letsencrypt.conf;
+#
+#    return 301 https://$serverName$request_uri;
+#}
+
+# HTTP redirect
+#server {
+#    listen %MAPPING_PORT_80% http2 reuseport;
+#    listen [::]:%MAPPING_PORT_80% http2 ipv6only=on reuseport;
+
+#    set $serverName example.local;
+#    server_name .$serverName www.$serverName;
+
+#    return 301 https://$serverName$request_uri;
+#}

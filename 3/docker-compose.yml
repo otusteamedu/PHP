@@ -1,19 +1,24 @@
 version: "3.6"
 services:
-  nginx:
+  frontend:
     container_name: "nginx-container"
     restart: unless-stopped
     image: wolodin/lemp-nginx:latest
     volumes:
-      - ./web:/home/projects-data/web:rw
-      - ./tools:/tools:ro
-    entrypoint: '/tools/web-entrypoint.sh'
+      - "./web:/home/projects-data/web:rw"
+      - "./tools:/tools:ro"
+      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled:ro"
+    entrypoint: ["/tools/web-entrypoint.sh"]
+    command: ["nginx", "-g", "daemon off;"]
+    working_dir: "/home/projects-data"
+#    depends_on:
+#      - php
     environment:
-      VOLUME: '/home/projects-data'
-      DOCKER_USER: 'projects-data'
-      DOCKER_GROUP: 'projects-data'
-      HOST_USER_ID: 1000
-      HOST_GROUP_ID: 1000
+      VOLUME: "/home/projects-data"
+      DOCKER_USER: "projects-data"
+      DOCKER_GROUP: "projects-data"
+      HOST_USER_ID: "1000"
+      HOST_GROUP_ID: "1000"
     ports:
       - "127.0.0.1:80:8080"
     networks:
