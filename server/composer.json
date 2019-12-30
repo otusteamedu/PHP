@@ -1,0 +1,7 @@
+{
+  "name": "evrimedont/otus-php-hw4-server",
+  "type": "project",
+  "require": {
+    "clue/socket-raw": "^1.4"
+  }
+}
