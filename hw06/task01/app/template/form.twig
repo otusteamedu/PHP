@@ -1,0 +1,9 @@
+{# template/form.twig #}
+{% extends 'layout.twig' %}
+{% block title %}Проверка email{% endblock %}
+{% block content %}
+    <form action="/check" novalidate method="post">
+        <input type="email" name="email"/>
+        <input type="submit"/>
+    </form>
+{% endblock %}

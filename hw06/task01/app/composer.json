@@ -1,6 +1,16 @@
 {
   "name": "webfarrck/applocal",
   "require": {
-    "webfarrock/email-checker": "1.0.*"
+    "webfarrock/email-checker": "1.0.*",
+    "slim/slim": "4.0.0-beta",
+    "slim/psr7": "~0.3",
+    "ultra-lite/container": "^6.2",
+    "symfony/console": "^4.2",
+    "twig/twig": "^2.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app"
+    }
   }
 }
