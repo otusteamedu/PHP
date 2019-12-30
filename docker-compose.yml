@@ -1,0 +1,110 @@
+
+version: "3.7"
+services:
+    nginx-main:
+        build:
+            context: ./docker/
+            dockerfile: Nginx-main.Dockerfile
+        ports:
+            - 8083:80
+        depends_on:
+            - nginx-1
+            - nginx-2
+            - nginx-3
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - "phpsocket:/var/run"
+    nginx-1:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile
+        depends_on:
+            - fpm
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - "phpsocket:/var/run"
+    nginx-2:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile
+        depends_on:
+            - fpm
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - "phpsocket:/var/run"
+    nginx-3:
+        build:
+            context: ./docker/
+            dockerfile: Nginx.Dockerfile
+        depends_on:
+            - fpm
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - "phpsocket:/var/run"
+    fpm:
+        build:
+            context: ./docker/
+            dockerfile: Fpm.Dockerfile
+        depends_on:
+            - postgres
+            - php_receiver
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+            - ./config-php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+            - ./www/www.conf:/usr/local/etc/php-fpm.d/www.conf
+            - ./zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run"
+    php_receiver:
+        build:
+            context: ./docker/
+            dockerfile: Php-Cli.Dockerfile
+        command: "php /var/www/html/ReceiverQueueRpcServer.php"
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+        environment:
+            - HOSTNAMERABBIT=rabbitmq
+        restart: on-failure
+        depends_on:
+            - rabbitmq
+            - postgres
+
+    postgres:
+        image: postgres
+        ports:
+            - "6543:5432"
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - postgres-data:${DB_PATH_CONTAINER}
+        restart: unless-stopped
+
+    pgadmin:
+        image: dpage/pgadmin4
+        depends_on:
+            - postgres
+        ports:
+            - "5555:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        restart: unless-stopped
+    rabbitmq:
+        build:
+            context: ./docker/
+            dockerfile: RabbitMQ.Dockerfile
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:15672"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+        volumes:
+            - rabbitmq-data:/var/lib/rabbitmq
+volumes:
+  postgres-data:
+  phpsocket:
+  rabbitmq-data:

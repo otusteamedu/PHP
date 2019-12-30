@@ -1,0 +1,16 @@
+# curl POST "http://mysite.local:8083/find" -d "name=5e08a5f821aa9"
+POST http://mysite.local:8083/find
+Content-Type: application/x-www-form-urlencoded
+
+name=5e08a5f821aa9
+
+###
+# curl POST "http://mysite.local:8083/send" -d "type=1&client=1&coupon=1&deliveryService=1&products[]=1&product s[]=2"
+POST http://mysite.local:8083/send
+Content-Type: application/x-www-form-urlencoded
+
+type=1&client=1&coupon=1&deliveryService=1&products[]=1&product s[]=2
+
+###
+
+
