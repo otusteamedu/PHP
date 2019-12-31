@@ -1,0 +1,13 @@
+{
+    "name": "rudin/php",
+    "type": "project",
+    "require": {
+        "rudin/otus": "1.0.0"
+    },
+    "authors": [
+        {
+            "name": "rudinandrey",
+            "email": "rudinandrey@yandex.ru"
+        }
+    ]
+}
