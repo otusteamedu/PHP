@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     image: wolodin/lemp-nginx:latest
     volumes:
-      - "./web:/home/projects-data/web:rw"
+      - "./mysite.local:/home/projects-data/www/mysite.local:rw"
       - "./tools:/tools:ro"
       - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
     entrypoint: ["/tools/web-entrypoint.sh"]
