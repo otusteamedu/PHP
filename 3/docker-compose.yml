@@ -7,7 +7,7 @@ services:
     volumes:
       - "./web:/home/projects-data/web:rw"
       - "./tools:/tools:ro"
-      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled:ro"
+      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
     entrypoint: ["/tools/web-entrypoint.sh"]
     command: ["nginx", "-g", "daemon off;"]
     working_dir: "/home/projects-data"
