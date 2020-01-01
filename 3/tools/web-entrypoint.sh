@@ -6,9 +6,9 @@ set -euo pipefail
 : "${DC_GROUP_ID:=}"
 : "${BACKEND_HOST_PORT:=9000}"
 
-if [[ -d /etc/nginx/sites-includes.ro ]] ; then
-    rm -rf /etc/nginx/sites-includes
-    cp -r /etc/nginx/sites-includes.ro /etc/nginx/sites-includes
+if [[ -d /etc/nginx/sites-available.ro ]] ; then
+    rm -rf /etc/nginx/sites-available
+    cp -r /etc/nginx/sites-available.ro /etc/nginx/sites-available
 fi
 if [[ -d /etc/nginx/sites-enabled.ro ]] ; then
     rm -rf /etc/nginx/sites-enabled
