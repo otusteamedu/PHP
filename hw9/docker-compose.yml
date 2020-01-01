@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  postgresql-hw9-t1:
+    image: postgres:latest
+    ports:
+      - 54320:5432
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./some_scripts:/some_scripts
+    environment:
+      POSTGRES_PASSWORD: 'password'
