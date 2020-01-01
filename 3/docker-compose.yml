@@ -9,7 +9,7 @@ services:
       - "./tools:/tools:ro"
       - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
     entrypoint: ["/tools/web-entrypoint.sh"]
-    command: ["nginx", "-g", "daemon off;"]
+#    command: ["nginx", "-g", "daemon off;"]
     working_dir: "/home/web"
 #    depends_on:
 #      - php
