@@ -5,7 +5,11 @@ set -euo pipefail
 : "${HOST_USER_ID:=1000}"
 : "${HOST_GROUP_ID:=1000}"
 : "${DOCKER_USERNAME_ENV:=web}"
+: "${DOCKER_WORKDIR_ENV:=/home/web}"
 : "${BACKEND_HOST_PORT:=9000}"
+: "${UNPRIVILEGUE_PORT_MAPPING_80_ENV:=8080}"
+: "${UNPRIVILEGUE_PORT_MAPPING_443_ENV:=8443}"
+: "${DIR_RUN_ENV:=}"
 
 if [[ -d /etc/nginx/sites-available.ro ]] ; then
     rm -rf /etc/nginx/sites-available/*.conf
@@ -26,7 +30,7 @@ done <<< "$(find /etc/nginx/sites-available -type f -name '*.conf' && find /etc/
 
 echo "Setting permissions for the docker container..."
 /tools/permission_fix.sh || true
-chown -R ${DOCKER_USERNAME_ENV}:${DOCKER_USERNAME_ENV} ${VOLUME} || true
+chown -R ${DOCKER_USERNAME_ENV}:${DOCKER_USERNAME_ENV} ${DOCKER_WORKDIR_ENV} || true
 echo "Done."
 
 exec "$@"
