@@ -9,7 +9,6 @@ set -euo pipefail
 : "${BACKEND_HOST_PORT:=9000}"
 : "${UNPRIVILEGUE_PORT_MAPPING_80_ENV:=8080}"
 : "${UNPRIVILEGUE_PORT_MAPPING_443_ENV:=8443}"
-: "${DIR_RUN_ENV:=}"
 
 if [[ -d /etc/nginx/sites-available.ro ]] ; then
     rm -rf /etc/nginx/sites-available/*.conf
@@ -22,7 +21,6 @@ fi
 
 while IFS= read -r filePath ; do
     [[ -n "$filePath" ]] || continue
-    sed -i -e "s@%RUN_DIR%@${DIR_RUN_ENV}@g" "$filePath"
     sed -i -e "s@%USERNAME%@${DOCKER_USERNAME_ENV}@g" "$filePath"
     sed -i -e "s@%MAPPING_PORT_80%@${UNPRIVILEGUE_PORT_MAPPING_80_ENV}@g" "$filePath"
     sed -i -e "s@%MAPPING_PORT_443%@${UNPRIVILEGUE_PORT_MAPPING_443_ENV}@g" "$filePath"
