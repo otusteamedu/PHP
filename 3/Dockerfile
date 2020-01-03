@@ -38,14 +38,14 @@ RUN APT_INSTALL="apt-get install -qq --no-install-recommends" && \
             ca-certificates \
             git mercurial subversion \
             nano sed \
-            libssl1.0.0 libssl-dev \
+            libssl-dev \
             supervisor supervisor-doc \
             cron \
             curl wget \
             grep dpkg \
             inetutils-ping \
             tmux man htop mc \
-            tar gzip bzip2 zip unzip rar unrar \
+            tar gzip bzip2 zip unzip \
             libglib2.0-0 \
             && \
         localedef -i ${LOCALE_LANGUAGE_ENV} -c -f ${LOCALE_CHARSET_ENV} -A /usr/share/locale/locale.alias ${LOCALE_LANGUAGE_ENV}.${LOCALE_CHARSET_ENV} \
