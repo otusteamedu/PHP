@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+    web:
+        image: nginx:1.17
+        ports:
+            - 80:80
+        volumes:
+            - ./server/socket:/var/run
+            - ./app:/var/app
+            - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    php:
+        build: ./server/php
+        working_dir: /var/app
+        volumes:
+            - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./app:/var/app
+            - ./server/socket:/var/run
