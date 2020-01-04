@@ -10,7 +10,6 @@ services:
       - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
     command: ["/tools/web-entrypoint.sh"]
-    working_dir: "/home/web"
     depends_on:
       - php-fpm
     user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
@@ -30,13 +29,14 @@ services:
     build:
       dockerfile: Dockerfile
       context: "."
-      args:
-        HOST_USER_ID_ARG: "${HOST_USER_ID:-1000}"
-        HOST_GROUP_ID_ARG: "${HOST_GROUP_ID:-1000}"
     volumes:
       - "./socks:/socks:rw"
-      - "./config/php/php-fpm.d:/usr/local/etc/php-fpm.d:ro"
+      - "./tools:/tools:ro"
+      - "./config/php/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
     working_dir: "/home/web"
     networks:
       - webnet
