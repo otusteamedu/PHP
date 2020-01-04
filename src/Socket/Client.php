@@ -26,10 +26,8 @@ class Client extends Socket
                 $this->send($line, $this->getServerSocket());
                 $this->block();
                 $this->get();
-                echo $this->getMessage();
-                echo PHP_EOL;
+                yield $this->getMessage();
             }
-
         }
     }
 }

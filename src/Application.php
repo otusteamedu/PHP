@@ -7,11 +7,6 @@ use Tirei01\Hw4\Socket\Server;
 
 class Application
 {
-    public function __construct()
-    {
-
-    }
-
     public function run()
     {
         echo "Enter \"server\" or \"client\"";
@@ -23,17 +18,25 @@ class Application
                     echo 'init server' . PHP_EOL;
                     $obConf = new Config('server');
                     $obServer = new Server($obConf->get('socket_name'));
-                    $obServer->loop();
+                    $messages = $obServer->loop();
                     break;
                 case 'client':
                     echo 'init client' . PHP_EOL;
                     $obConf = new Config('client');
                     $obClint = new Client($obConf->get('socket_name'));
-                    $obClint->loop();
+                    $messages = $obClint->loop();
                     break;
                 case 'exit':
                     break 2;
                     break;
+            }
+            if (!is_null($messages) && $messages instanceof \Generator) {
+                foreach ($messages as $message) {
+                    if ($message) {
+                        echo $message;
+                        echo PHP_EOL;
+                    }
+                }
             }
         }
     }

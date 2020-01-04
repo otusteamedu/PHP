@@ -15,8 +15,7 @@ class Server extends Socket
         while (true) {
             $this->block();
             $this->get();
-            echo $this->getMessage();
-            echo PHP_EOL;
+            yield $this->getMessage();
             $this->nonBlock();
             $this->sendConferm();
         }
