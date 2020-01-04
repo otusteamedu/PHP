@@ -44,7 +44,7 @@ RUN APT_INSTALL="apt-get install -qq --no-install-recommends" && \
             curl wget \
             grep dpkg \
             inetutils-ping \
-            tmux man htop mc \
+            procps tmux man htop mc \
             tar gzip bzip2 zip unzip \
             libglib2.0-0 \
             && \

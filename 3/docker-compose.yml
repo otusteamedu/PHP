@@ -31,10 +31,11 @@ services:
       dockerfile: Dockerfile
       context: "."
       args:
-        HOST_USER_ID: "${HOST_USER_ID:-1000}"
-        HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+        HOST_USER_ID_ARG: "${HOST_USER_ID:-1000}"
+        HOST_GROUP_ID_ARG: "${HOST_GROUP_ID:-1000}"
     volumes:
       - "./socks:/socks:rw"
+      - "./config/php/php-fpm.d:/usr/local/etc/php-fpm.d:ro"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
     working_dir: "/home/web"
     networks:
