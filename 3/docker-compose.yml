@@ -12,7 +12,7 @@ services:
     command: ["/tools/web-entrypoint.sh"]
     working_dir: "/home/web"
     depends_on:
-      - php
+      - php-fpm
     user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
     environment:
       UNPRIVILEGUE_PORT_MAPPING_80_ENV: "8080"
@@ -23,21 +23,20 @@ services:
       - webnet
     extra_hosts:
       - "mysite.local:127.0.0.1"
-  php:
-    container_name: "php-container"
+
+  php-fpm:
+    container_name: "php-fpm-container"
     restart: unless-stopped
     build:
       dockerfile: Dockerfile
-      context: .
+      context: "."
+      args:
+        HOST_USER_ID: "${HOST_USER_ID:-1000}"
+        HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
     volumes:
-      - "./tools:/tools:ro"
       - "./socks:/socks:rw"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
-    #command: ["/tools/php-entrypoint.sh"]
     working_dir: "/home/web"
-    #user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
-#    ports:
-#      - "127.0.0.1:80:8080"
     networks:
       - webnet
     extra_hosts:
