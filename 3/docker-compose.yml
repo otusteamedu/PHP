@@ -34,6 +34,8 @@ services:
       - "./tools:/tools:ro"
       - "./config/php/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php-fpm"]
     environment:
       HOST_USER_ID: "${HOST_USER_ID:-1000}"
       HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
