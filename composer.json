@@ -1,0 +1,20 @@
+{
+  "name": "AMostovoy/Hw4",
+  "description": "home work #4",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alexey",
+      "email": "mostovoi@bk.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tirei01\\Hw4\\": "src"
+    }
+  },
+  "require": {
+    "ext-sockets": "*"
+  }
+}
