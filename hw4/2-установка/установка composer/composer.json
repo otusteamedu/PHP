@@ -1,0 +1,5 @@
+{
+    "require": {
+        "shaydurov/test": "dev-master"
+    }
+}

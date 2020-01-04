@@ -1,0 +1,2 @@
+172.19.0.1 - - [03/Jan/2020:06:00:44 +0000] "GET / HTTP/1.1" 200 103051 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+172.19.0.1 - - [03/Jan/2020:06:00:45 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
