@@ -30,7 +30,12 @@ RUN apt-get install -y libgnutls28-dev
 RUN pecl install -of pecl_http \
 && docker-php-ext-enable --ini-name 06-http.ini http \
 && rm -rf /tmp/*
-
+RUN apt-get install -y libzip-dev \
+&& docker-php-ext-install zip
 
 
 WORKDIR /app
+
+RUN composer global require laravel/installer
+RUN echo "export PATH=$PATH:/root/.composer/vendor/bin" >> /root/.bashrc
+

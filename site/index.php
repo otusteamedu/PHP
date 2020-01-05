@@ -10,6 +10,7 @@ try {
     foreach($arr as $a) {
         if($a == "(") $status += 1;
         if($a == ")") $status -= 1;
+        if($status < 0) throw new Exception("Неправильный порядок скобок");
     }
 
     if($status != 0) throw new Exception("Количество открытых и закрытых скобок различно");
