@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  #PHP Service
+  php-lara:
+    volumes:
+      - ./App:/var/www
+      - ./sh:/var/sh
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    working_dir: /var/www
+    build: ./php
+    image: php:7.4-fpm
+    container_name: php-lara
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    networks:
+      - lara-network
+
+  #Nginx Service
+  web-lara:
+    image: nginx:alpine
+    container_name: web-lara
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+      - "8043:443"
+    volumes:
+      - ./App:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - lara-network
+
+#Docker Networks
+networks:
+  lara-network:
+    driver: bridge
