@@ -1,18 +1,39 @@
 version: "3"
 
 services:
-  php:
-    build: ./php
+  php1:
+    build: ./php1
     volumes:
       - ./site/:/app/
-      - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - ./php/sock/:/sock/
-  nginx:
-    build: ./nginx
+      - ./php1/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./php1/sock/:/sock/
+  nginx1:
+    build: ./nginx1
     volumes:
-      - ./php/sock/:/sock/
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./php1/sock/:/sock/
+      - ./nginx1/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx1/default.conf:/etc/nginx/conf.d/default.conf
       - ./site/:/usr/share/nginx/html/
+  php2:
+    build: ./php2
+    volumes:
+      - ./site/:/app/
+      - ./php2/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./php2/sock/:/sock/
+  nginx2:
+    build: ./nginx2
+    volumes:
+      - ./php2/sock/:/sock/
+      - ./nginx2/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx2/default.conf:/etc/nginx/conf.d/default.conf
+      - ./site/:/usr/share/nginx/html/
+  
+  nginx3:
+    build: ./nginx3
+    volumes:
+      - ./nginx3/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nginx1
+      - nginx2
     ports:
       - 80:80
