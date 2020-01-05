@@ -1,0 +1,18 @@
+{
+  "name": "aivanow/otus-backend-php-hw5.1-web-app-brakets",
+  "description": "Homework 5.1. Web application with brakets checker",
+  "authors": [
+    {
+      "name": "Aleksey Ivanov",
+      "email": "ai@proto.uz"
+    }
+  ],
+  "require": {
+    "ext-curl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "AI\\backend_php_hw5_1\\": "src/AI"
+    }
+  }
+}
