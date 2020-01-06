@@ -1,0 +1,18 @@
+relation                                                                |total_size|
+------------------------------------------------------------------------|----------|
+public . film_attribute_value                                           |903 MB    |
+public . ticket_v2                                                      |804 MB    |
+public . ticket                                                         |636 MB    |
+public . film_attribute_value_pkey                                      |436 MB    |
+public . ticket_v2_session_id_id_client_id_film_id_hall_id_place_pri_idx|281 MB    |
+public . ticket_v2_pkey                                                 |236 MB    |
+public . client_ticket                                                  |194 MB    |
+public . ticket_session_id_id_place_price_idx                           |194 MB    |
+public . ticket_pkey                                                    |193 MB    |
+public . session                                                        |170 MB    |
+public . film_all_attributes                                            |134 MB    |
+public . client_ticket_pkey                                             |95 MB     |
+public . client                                                         |74 MB     |
+public . session_pkey                                                   |39 MB     |
+public . session_start_id_film_id_hall_id_idx                           |39 MB     |
+

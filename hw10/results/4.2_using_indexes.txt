@@ -1,0 +1,19 @@
+Наиболее используемые индексы
+
+tablename|indexname                           |num_rows|table_size|index_size|unique|number_of_scans|tuples_read|tuples_fetched|max_used_value|
+---------|------------------------------------|--------|----------|----------|------|---------------|-----------|--------------|--------------|
+session  |session_start_id_film_id_hall_id_idx| 1000000|50 MB     |39 MB     |Y     |             61|    2015691|             0|       2015691|
+ticket   |ticket_session_id_id_place_price_idx| 5000000|249 MB    |194 MB    |Y     |            402|        878|           878|           878|
+session  |session_pkey                        | 1000000|50 MB     |39 MB     |Y     |            256|        256|           256|           256|
+film     |film_pkey                           |  100000|5096 kB   |3976 kB   |Y     |            186|        186|           186|           186|
+hall     |hall_pkey                           |   10000|512 kB    |416 kB    |Y     |            122|        122|           122|           122|
+
+Наименее используемые индексы
+
+tablename              |indexname                           |num_rows|table_size|index_size|unique|number_of_scans|tuples_read|tuples_fetched|min_used_value|
+-----------------------|------------------------------------|--------|----------|----------|------|---------------|-----------|--------------|--------------|
+session                |session_start_id_film_id_hall_id_idx| 1000000|50 MB     |39 MB     |Y     |             61|    2015691|             0|             0|
+parted_sessions_2019_07|parted_sessions_2019_07_pkey        |   72455|3696 kB   |2240 kB   |Y     |              0|          0|             0|             0|
+parted_sessions_older  |parted_sessions_older_pkey          |       0|0 bytes   |8192 bytes|Y     |              0|          0|             0|             0|
+parted_sessions_2019_04|parted_sessions_2019_04_pkey        |   70665|3608 kB   |2184 kB   |Y     |              0|          0|             0|             0|
+session                |session_date_part_idx               | 1000000|50 MB     |21 MB     |Y     |              0|          0|             0|             0|
