@@ -32,3 +32,4 @@
 172.20.0.1 - - [05/Jan/2020:10:20:41 +0000] "GET /server.php HTTP/1.1" 200 1375 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
 172.20.0.1 - - [05/Jan/2020:10:21:21 +0000] "GET /server.php HTTP/1.1" 200 1381 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
 172.20.0.1 - - [05/Jan/2020:10:38:38 +0000] "GET /server.php HTTP/1.1" 200 1381 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
+172.20.0.1 - - [06/Jan/2020:03:44:49 +0000] "GET /favicon.ico HTTP/1.1" 500 579 "http://localhost/server.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"
