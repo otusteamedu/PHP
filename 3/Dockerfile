@@ -83,6 +83,7 @@ RUN pecl update-channels && \
     pecl install raphf propro && \
     docker-php-ext-enable raphf propro && \
     pecl install pecl_http && \
+    docker-php-ext-enable pecl_http && \
     rm -rf /tmp/pear
 
 WORKDIR ${DOCKER_WORKDIR_ENV}
