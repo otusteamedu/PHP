@@ -48,7 +48,7 @@ RUN APT_INSTALL="apt-get install -qq --no-install-recommends" && \
             procps tmux man htop mc \
             tar gzip bzip2 zip unzip \
             libglib2.0-0 \
-            libmemcached-dev zlib1g-dev libcurl4-gnutls-dev libghc-gnutls-dev \
+            libmemcached-dev zlib1g-dev libcurl4-gnutls-dev libghc-gnutls-dev libpq-dev \
             && \
         localedef -i ${LOCALE_LANGUAGE_ENV} -c -f ${LOCALE_CHARSET_ENV} -A /usr/share/locale/locale.alias ${LOCALE_LANGUAGE_ENV}.${LOCALE_CHARSET_ENV} \
             && \
@@ -84,6 +84,7 @@ RUN pecl update-channels && \
     docker-php-ext-enable raphf propro && \
     pecl install pecl_http && \
     docker-php-ext-enable http && \
+    docker-php-ext-install pdo_pgsql && \
     rm -rf /tmp/pear
 
 WORKDIR ${DOCKER_WORKDIR_ENV}
