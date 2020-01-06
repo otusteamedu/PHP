@@ -48,6 +48,7 @@ RUN APT_INSTALL="apt-get install -qq --no-install-recommends" && \
             procps tmux man htop mc \
             tar gzip bzip2 zip unzip \
             libglib2.0-0 \
+            libmemcached-dev zlib1g-dev libcurl4-gnutls-dev libghc-gnutls-dev \
             && \
         localedef -i ${LOCALE_LANGUAGE_ENV} -c -f ${LOCALE_CHARSET_ENV} -A /usr/share/locale/locale.alias ${LOCALE_LANGUAGE_ENV}.${LOCALE_CHARSET_ENV} \
             && \
@@ -73,5 +74,14 @@ RUN mkdir -p /socks && \
     eval "${EDIT_PHP_FPM_CONFIG} sed -i -e 's@%UNIX_PHP_SOCK%@${UNIX_PHP_SOCK_ENV}@g' '{}' \;"
 
 COPY ./config/php/php-fpm73.ini /usr/local/etc/php/php.ini
+
+# Install extension
+RUN pecl update-channels && \
+    pecl install memcached && \
+    pecl install redis && \
+    docker-php-ext-enable memcached redis && \
+    docker-php-ext-enable raphf propro && \
+    pecl install pecl_http
+
 
 WORKDIR ${DOCKER_WORKDIR_ENV}
