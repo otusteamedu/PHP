@@ -1,0 +1,2 @@
+2020/01/03 06:00:45 [error] 6#6: *2 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: project.loc, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2020/01/06 03:44:49 [crit] 6#6: *69 open() "/var/www/html/favicon.ico" failed (11: Resource temporarily unavailable), client: 172.20.0.1, server: project.loc, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/server.php"
