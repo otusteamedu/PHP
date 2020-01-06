@@ -16,6 +16,7 @@ ENV LANG=C.${LOCALE_CHARSET_ENV} LC_ALL=C.${LOCALE_CHARSET_ENV}
 ENV DOCKER_USERNAME_ENV=${DOCKER_USERNAME_ARG}
 ENV ROOT_USERNAME_ENV="root"
 ENV DOCKER_WORKDIR_ENV=/home/${DOCKER_USERNAME_ENV}
+ENV UNIX_PHP_SOCK_ENV="/socks/php7.3-fpm.sock"
 
 USER ${ROOT_USERNAME_ENV}:${ROOT_USERNAME_ENV}
 
@@ -63,5 +64,14 @@ ENV LANG=${LOCALE_LANGUAGE_ENV}.${LOCALE_CHARSET_ENV} LC_ALL=${LOCALE_LANGUAGE_E
 # Set zoneinfo
 RUN ln -snf /usr/share/zoneinfo/${TZ_ENV} /etc/localtime && echo ${TZ_ENV} > /etc/timezone
 
-WORKDIR ${DOCKER_WORKDIR_ENV}
+COPY ./config/php/php-fpm.d/ /usr/local/etc/php-fpm.d/
 
+RUN mkdir -p /socks && \
+    EDIT_PHP_FPM_CONFIG="find /usr/local/etc/php-fpm.d/ -name '*' -type f -exec " && \
+    eval "${EDIT_PHP_FPM_CONFIG} sed -i -e 's@%USERNAME%@${DOCKER_USERNAME_ENV}@g' '{}' \;" && \
+    eval "${EDIT_PHP_FPM_CONFIG} sed -i -e 's@%GROUPNAME%@${DOCKER_USERNAME_ENV}@g' '{}' \;" && \
+    eval "${EDIT_PHP_FPM_CONFIG} sed -i -e 's@%UNIX_PHP_SOCK%@${UNIX_PHP_SOCK_ENV}@g' '{}' \;"
+
+COPY ./config/php/php-fpm73.ini /usr/local/etc/php/php.ini
+
+WORKDIR ${DOCKER_WORKDIR_ENV}

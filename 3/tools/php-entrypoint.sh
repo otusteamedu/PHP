@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -eu
-#o pipefail
 
 : "${DOCKER_USERNAME_ENV:=web}"
 : "${DOCKER_WORKDIR_ENV:=/home/web}"
