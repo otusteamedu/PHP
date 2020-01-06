@@ -81,7 +81,8 @@ RUN pecl update-channels && \
     pecl install redis && \
     docker-php-ext-enable memcached redis && \
     docker-php-ext-enable raphf propro && \
-    pecl install pecl_http
+    pecl install pecl_http && \
+    rm -rf /tmp/pear
 
 
 WORKDIR ${DOCKER_WORKDIR_ENV}
