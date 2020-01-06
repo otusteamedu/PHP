@@ -32,7 +32,7 @@ services:
     volumes:
       - "./socks:/socks:rw"
       - "./tools:/tools:ro"
-      - "./config/php/php-fpm73.ini-production:/usr/local/etc/php/php.ini:ro"
+      - "./config/php/php-fpm73.ini-development:/usr/local/etc/php/php.ini:ro"
       - "./mysite.local:/home/web/www/mysite.local:rw,cached"
     entrypoint: ["/tools/php-entrypoint.sh"]
     command: ["php-fpm"]
