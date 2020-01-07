@@ -88,3 +88,7 @@ RUN pecl update-channels && \
     rm -rf /tmp/pear
 
 WORKDIR ${DOCKER_WORKDIR_ENV}
+
+# Composer
+RUN wget https://getcomposer.org/installer -O - -q | php -- --quiet && \
+    mv composer.phar /usr/local/bin/composer
