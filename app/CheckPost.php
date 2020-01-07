@@ -2,9 +2,6 @@
 
 namespace Otus\Azatnizam;
 
-
-use http\Exception;
-
 class CheckPost {
     protected $postBody;
 
@@ -49,7 +46,7 @@ class CheckPost {
         if ( strlen($this->postBody) > 0 ) {
             return true;
         } else {
-            throw new \Exception('ERROR in POST request (error of body length)');
+            throw new \Exception('ERROR in POST request (empty body)');
         }
     }
 
@@ -81,7 +78,7 @@ class CheckPost {
             }
         }
 
-        if ($open == $close) {
+        if ( ($open == $close) && ($open > 0) ) {
             return true;
         }
 
