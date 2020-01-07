@@ -1,0 +1,633 @@
+Общие изменения
+
+Первоначальные b-tree индексы заменены на покрывающие b-tree индексы
+
+alter table session add primary key (id) include (film_id, hall_id, start);
+create index on session (start desc nulls last) include (id, film_id, hall_id);
+alter table client_ticket add primary key (client_id, ticket_id) include (client_id, ticket_id);
+create index on ticket (session_id);
+alter table film_attribute add primary key (id) include (name, type_id);
+alter table film_attribute_value add primary key (id) include (attribute_id, film_id, val_date, val_text, val_int, val_decimal, val_bool);
+alter table client add primary key (id) include (name);
+alter table hall add primary key (id) include (name, size);
+alter table film add primary key (id) include (name);
+alter table film_attribute_type add primary key (id) include (name);
+
+
+-- 1) выбрать все сеансы определенных фильмов
+
+id   |film_id|hall_id|start              |
+-----|-------|-------|-------------------|
+    2|      1|      1|2020-01-01 18:00:00|
+16767|      1|   5323|2019-04-18 13:37:49|
+13226|    111|   7535|2019-01-02 03:20:56|
+10075|    999|   6608|2019-06-10 17:15:37|
+14918|    999|   4636|2019-04-03 23:22:06|
+16422|    999|   2867|2019-08-23 09:42:15|
+
+
+После установки покрывающих индексов
+
+alter table session add primary key (id) include (film_id, hall_id, start);
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                   |
+-----------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=13099.46..13102.72 rows=28 width=18) (actual time=87.476..90.459 rows=20 loops=1)                        |
+  Workers Planned: 2                                                                                                         |
+  Workers Launched: 2                                                                                                        |
+  ->  Sort  (cost=12099.43..12099.47 rows=14 width=18) (actual time=57.426..57.427 rows=7 loops=3)                           |
+        Sort Key: film_id                                                                                                    |
+        Sort Method: quicksort  Memory: 25kB                                                                                 |
+        Worker 0:  Sort Method: quicksort  Memory: 25kB                                                                      |
+        Worker 1:  Sort Method: quicksort  Memory: 25kB                                                                      |
+        ->  Parallel Seq Scan on session s  (cost=0.00..12099.17 rows=14 width=18) (actual time=5.476..57.357 rows=7 loops=3)|
+              Filter: (film_id = ANY ('{1,111,999}'::integer[]))                                                             |
+              Rows Removed by Filter: 333327                                                                                 |
+Planning Time: 0.099 ms                                                                                                      |
+Execution Time: 90.481 ms                                                                                                    |
+
+
+После увеличения параметров конфигурации запрос ускорился
+
+set work_mem='150MB';
+set shared_buffers='1GB';
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                   |
+-----------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=13099.46..13102.72 rows=28 width=18) (actual time=66.049..69.033 rows=20 loops=1)                        |
+  Workers Planned: 2                                                                                                         |
+  Workers Launched: 2                                                                                                        |
+  ->  Sort  (cost=12099.43..12099.47 rows=14 width=18) (actual time=62.019..62.020 rows=7 loops=3)                           |
+        Sort Key: film_id                                                                                                    |
+        Sort Method: quicksort  Memory: 25kB                                                                                 |
+        Worker 0:  Sort Method: quicksort  Memory: 25kB                                                                      |
+        Worker 1:  Sort Method: quicksort  Memory: 25kB                                                                      |
+        ->  Parallel Seq Scan on session s  (cost=0.00..12099.17 rows=14 width=18) (actual time=9.275..61.932 rows=7 loops=3)|
+              Filter: (film_id = ANY ('{1,111,999}'::integer[]))                                                             |
+              Rows Removed by Filter: 333327                                                                                 |
+Planning Time: 0.195 ms                                                                                                      |
+Execution Time: 69.073 ms                                                                                                    |
+
+
+-- 2) выбрать все сеансы в определенных залах 
+
+id   |film_id|hall_id|start              |
+-----|-------|-------|-------------------|
+    2|      1|      1|2020-01-01 18:00:00|
+19909|   3677|      1|2020-01-22 17:21:54|
+19065|   2227|    222|2019-05-15 12:06:01|
+15853|   8963|    222|2019-09-03 17:26:42|
+12401|   9432|    222|2019-01-19 13:41:22|
+19561|   7417|    876|2019-08-24 12:48:33|
+15344|   6363|    876|2020-01-17 03:14:41|
+
+
+После установки покрывающих индексов
+
+alter table session add primary key (id) include (film_id, hall_id, start);
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                     |
+-------------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=13103.54..13132.71 rows=250 width=18) (actual time=88.471..91.631 rows=288 loops=1)                        |
+  Workers Planned: 2                                                                                                           |
+  Workers Launched: 2                                                                                                          |
+  ->  Sort  (cost=12103.52..12103.83 rows=125 width=18) (actual time=57.746..57.755 rows=96 loops=3)                           |
+        Sort Key: hall_id                                                                                                      |
+        Sort Method: quicksort  Memory: 36kB                                                                                   |
+        Worker 0:  Sort Method: quicksort  Memory: 31kB                                                                        |
+        Worker 1:  Sort Method: quicksort  Memory: 29kB                                                                        |
+        ->  Parallel Seq Scan on session s  (cost=0.00..12099.17 rows=125 width=18) (actual time=0.764..57.642 rows=96 loops=3)|
+              Filter: (hall_id = ANY ('{1,222,876}'::integer[]))                                                               |
+              Rows Removed by Filter: 333237                                                                                   |
+Planning Time: 0.108 ms                                                                                                        |
+Execution Time: 91.668 ms                                                                                                      |
+
+
+После увеличения параметров конфигурации запрос ускорился
+
+set work_mem='150MB';
+set shared_buffers='1GB';
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                     |
+-------------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=13103.54..13132.71 rows=250 width=18) (actual time=66.854..69.901 rows=288 loops=1)                        |
+  Workers Planned: 2                                                                                                           |
+  Workers Launched: 2                                                                                                          |
+  ->  Sort  (cost=12103.52..12103.83 rows=125 width=18) (actual time=62.884..62.895 rows=96 loops=3)                           |
+        Sort Key: hall_id                                                                                                      |
+        Sort Method: quicksort  Memory: 32kB                                                                                   |
+        Worker 0:  Sort Method: quicksort  Memory: 33kB                                                                        |
+        Worker 1:  Sort Method: quicksort  Memory: 32kB                                                                        |
+        ->  Parallel Seq Scan on session s  (cost=0.00..12099.17 rows=125 width=18) (actual time=1.152..62.755 rows=96 loops=3)|
+              Filter: (hall_id = ANY ('{1,222,876}'::integer[]))                                                               |
+              Rows Removed by Filter: 333237                                                                                   |
+Planning Time: 0.120 ms                                                                                                        |
+Execution Time: 69.938 ms                                                                                                      |
+
+
+
+-- 3) выбрать все билеты определенных сеансов
+
+id  |session_id|place|price|
+----|----------|-----|-----|
+5235|     10100| 2436| 2423|
+7501|     10100| 1825|  253|
+1469|     14000| 5724| 5000|
+6272|     14000| 2019| 3945|
+  54|     20000| 1752|  906|
+
+
+После установки индекса по полю session_id в таблице ticket. Измененные параметры конфигурации заметного эффекта не дали.
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                        |
+----------------------------------------------------------------------------------------------------------------------------------|
+Index Scan using ticket_session_id_idx on ticket t  (cost=0.43..85.60 rows=18 width=20) (actual time=0.022..0.043 rows=10 loops=1)|
+  Index Cond: (session_id = ANY ('{10100,14000,20000}'::integer[]))                                                               |
+Planning Time: 0.114 ms                                                                                                           |
+Execution Time: 0.060 ms                                                                                                          |
+
+
+
+-- 4) выбрать все билеты определенных клиентов на сеансы следующей недели
+
+name            |name          |start              |hall_name     |hall_place|
+----------------|--------------|-------------------|--------------|----------|
+Client Name 150 |Film Name 4207|2020-01-03 19:59:30|Hall Name 7069|       950|
+Client Name 8308|Film Name 8923|2020-01-03 22:07:38|Hall Name 1106|      3808|
+Client Name 2372|Film Name 4522|2020-01-03 22:16:17|Hall Name 2965|      6735|
+Client Name 4928|Film Name 4522|2020-01-03 22:16:17|Hall Name 2965|      6735|
+Client Name 5515|Film Name 8427|2020-01-03 23:10:58|Hall Name 3073|      8796|
+Client Name 9255|Film Name 9231|2020-01-04 01:39:09|Hall Name 5769|      2804|
+Client Name 7294|Film Name 9231|2020-01-04 01:39:09|Hall Name 5769|      2804|
+Client Name 2817|Film Name 4002|2020-01-04 02:47:35|Hall Name 1436|      6463|
+Client Name 8229|Film Name 4002|2020-01-04 02:47:35|Hall Name 1436|      6463|
+Client Name 2077|Film Name 7674|2020-01-04 03:53:59|Hall Name 218 |      5745|
+Client Name 8490|Film Name 7674|2020-01-04 03:53:59|Hall Name 218 |      5745|
+Client Name 3649|Film Name 5892|2020-01-04 04:50:16|Hall Name 5114|       638|
+Client Name 7965|Film Name 6954|2020-01-04 07:03:25|Hall Name 3250|      3471|
+Client Name 960 |Film Name 6954|2020-01-04 07:03:25|Hall Name 3250|      3471|
+
+
+Получилось немного ускорить запрос, было ~1100-1300 ms, стало ~960-1050 ms.
+Пробовал переделывать исходный запрос через разные индексы, но т.к. таблицы большие в основном планировщик выбирал
+сканирование таблицы.
+Пробовал делать партиционирование таблицы session по месяцам, но это увеличило выполнение в несколько раз до 4000 ms.
+Пробовал переделать с использованием with для выбора ИД сессий ограниченных нужными датами, а потом фильтрации
+остальных данных ограниченных этими сессиями. Почти все данные удавалось получить за ~750 ms, но при join с таблицей
+client_ticket выполнение увеличивалось до ~1200 ms как при изначальном варианте.
+После этого решил добавить нужные ИДшники сразу в таблицу билетов, возможно получается слишком грамоздко, но это дало
+увеличение скорости выполнения.
+Также в дальнейшем, думаю можно попробовать создать аналитическую таблицу
+ticket_include и хранить в ней всю необходимую информацию, id_билета, имя_клиента, название фильма, дата-время начала
+сеанса, название зала, место в зале. Это позволит убрать join'ы совсем, что должно ускорить выполнение запроса.
+
+Новый вариант таблицы
+
+create table ticket_v2 (
+	id bigserial not null,
+	session_id int not null,
+	client_id int not null,
+	film_id int not null,
+	hall_id int not null,
+	place int not null,
+	price int not null
+);
+
+Определение внешних ключей и индексов
+
+alter table ticket_v2 add foreign key (session_id) references session (id);
+alter table ticket_v2 add foreign key (client_id) references client (id);
+alter table ticket_v2 add foreign key (film_id) references film (id);
+alter table ticket_v2 add foreign key (hall_id) references hall (id);
+alter table ticket_v2 add primary key (id) include (session_id, client_id, film_id, hall_id, place, price);
+
+
+Новый запрос
+
+explain (ANALYZE, BUFFERS)
+select
+	c.name,
+	f.name,
+	s.start,
+	h.name as hall_name,
+	tv2.place as hall_place
+from ticket_v2 as tv2
+join client as c on c.id = tv2.client_id
+join session as s on s.id = tv2.session_id
+join film as f on f.id = tv2.film_id
+join hall as h on h.id = tv2.hall_id
+where s.start >= (CURRENT_TIMESTAMP)
+	and s.start <= (CURRENT_TIMESTAMP + interval '14 days')
+order by s.start
+;
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                           |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=96845.99..112841.17 rows=137092 width=51) (actual time=874.586..932.101 rows=165293 loops=1)                                                                                     |
+  Workers Planned: 2                                                                                                                                                                                 |
+  Workers Launched: 2                                                                                                                                                                                |
+  Buffers: shared hit=16320 read=33909, temp read=1433 written=1439                                                                                                                                  |
+  ->  Sort  (cost=95845.97..96017.33 rows=68546 width=51) (actual time=830.887..843.060 rows=55098 loops=3)                                                                                          |
+        Sort Key: s.start                                                                                                                                                                            |
+        Sort Method: external merge  Disk: 3864kB                                                                                                                                                    |
+        Worker 0:  Sort Method: external merge  Disk: 3848kB                                                                                                                                         |
+        Worker 1:  Sort Method: external merge  Disk: 3752kB                                                                                                                                         |
+        Buffers: shared hit=16320 read=33909, temp read=1433 written=1439                                                                                                                            |
+        ->  Hash Join  (cost=76118.35..87995.08 rows=68546 width=51) (actual time=593.582..786.315 rows=55098 loops=3)                                                                               |
+              Hash Cond: (tv2.hall_id = h.id)                                                                                                                                                        |
+              Buffers: shared hit=16306 read=33909                                                                                                                                                   |
+              ->  Parallel Hash Join  (cost=75829.35..87526.07 rows=68546 width=41) (actual time=563.840..733.099 rows=55098 loops=3)                                                                |
+                    Hash Cond: (tv2.film_id = f.id)                                                                                                                                                  |
+                    Buffers: shared hit=16054 read=33909                                                                                                                                             |
+                    ->  Parallel Hash Join  (cost=71763.43..83280.20 rows=68546 width=30) (actual time=542.678..683.747 rows=55098 loops=3)                                                          |
+                          Hash Cond: (c.id = tv2.client_id)                                                                                                                                          |
+                          Buffers: shared hit=14865 read=33909                                                                                                                                       |
+                          ->  Parallel Seq Scan on client c  (cost=0.00..9668.67 rows=416667 width=14) (actual time=0.230..40.635 rows=333333 loops=3)                                               |
+                                Buffers: shared hit=1924 read=3578                                                                                                                                   |
+                          ->  Parallel Hash  (cost=70906.60..70906.60 rows=68546 width=24) (actual time=541.844..541.844 rows=55098 loops=3)                                                         |
+                                Buckets: 262144  Batches: 1  Memory Usage: 11168kB                                                                                                                   |
+                                Buffers: shared hit=12941 read=30331                                                                                                                                 |
+                                ->  Parallel Hash Join  (cost=7839.50..70906.60 rows=68546 width=24) (actual time=16.290..518.421 rows=55098 loops=3)                                                |
+                                      Hash Cond: (tv2.session_id = s.id)                                                                                                                             |
+                                      Buffers: shared hit=12941 read=30331                                                                                                                           |
+                                      ->  Parallel Seq Scan on ticket_v2 tv2  (cost=0.00..57598.33 rows=2083333 width=20) (actual time=0.388..207.267 rows=1666667 loops=3)                          |
+                                            Buffers: shared hit=6434 read=30331                                                                                                                      |
+                                      ->  Parallel Hash  (cost=7668.13..7668.13 rows=13709 width=12) (actual time=15.637..15.637 rows=10991 loops=3)                                                 |
+                                            Buckets: 65536  Batches: 1  Memory Usage: 2112kB                                                                                                         |
+                                            Buffers: shared hit=6507                                                                                                                                 |
+                                            ->  Parallel Bitmap Heap Scan on session s  (cost=989.68..7668.13 rows=13709 width=12) (actual time=3.328..11.731 rows=10991 loops=3)                    |
+                                                  Recheck Cond: ((start >= CURRENT_TIMESTAMP) AND (start <= (CURRENT_TIMESTAMP + '14 days'::interval)))                                              |
+                                                  Heap Blocks: exact=2528                                                                                                                            |
+                                                  Buffers: shared hit=6507                                                                                                                           |
+                                                  ->  Bitmap Index Scan on session_start_id_film_id_hall_id_idx  (cost=0.00..981.45 rows=32902 width=0) (actual time=3.788..3.788 rows=32974 loops=1)|
+                                                        Index Cond: ((start >= CURRENT_TIMESTAMP) AND (start <= (CURRENT_TIMESTAMP + '14 days'::interval)))                                          |
+                                                        Buffers: shared hit=165                                                                                                                      |
+                    ->  Parallel Hash  (cost=3545.08..3545.08 rows=41667 width=19) (actual time=20.786..20.787 rows=33333 loops=3)                                                                   |
+                          Buckets: 131072  Batches: 1  Memory Usage: 6560kB                                                                                                                          |
+                          Buffers: shared hit=1173                                                                                                                                                   |
+                          ->  Parallel Index Only Scan using film_pkey on film f  (cost=0.42..3545.08 rows=41667 width=19) (actual time=0.033..16.923 rows=50000 loops=2)                            |
+                                Heap Fetches: 100000                                                                                                                                                 |
+                                Buffers: shared hit=1173                                                                                                                                             |
+              ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=29.640..29.640 rows=10000 loops=3)                                                                                    |
+                    Buckets: 16384  Batches: 1  Memory Usage: 615kB                                                                                                                                  |
+                    Buffers: shared hit=192                                                                                                                                                          |
+                    ->  Seq Scan on hall h  (cost=0.00..164.00 rows=10000 width=16) (actual time=26.188..27.673 rows=10000 loops=3)                                                                  |
+                          Buffers: shared hit=192                                                                                                                                                    |
+Planning Time: 1.304 ms                                                                                                                                                                              |
+JIT:                                                                                                                                                                                                 |
+  Functions: 117                                                                                                                                                                                     |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                                                      |
+  Timing: Generation 15.189 ms, Inlining 0.000 ms, Optimization 3.359 ms, Emission 74.075 ms, Total 92.623 ms                                                                                        |
+Execution Time: 947.719 ms
+
+
+После увеличения параметров конфигурации запрос немного ускорился
+
+set work_mem='150MB';
+set shared_buffers='1GB';
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                           |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Gather Merge  (cost=93327.40..109332.86 rows=137180 width=51) (actual time=863.379..914.996 rows=165402 loops=1)                                                                                     |
+  Workers Planned: 2                                                                                                                                                                                 |
+  Workers Launched: 2                                                                                                                                                                                |
+  Buffers: shared hit=16604 read=34363                                                                                                                                                               |
+  ->  Sort  (cost=92327.38..92498.86 rows=68590 width=51) (actual time=817.187..825.054 rows=55134 loops=3)                                                                                          |
+        Sort Key: s.start                                                                                                                                                                            |
+        Sort Method: quicksort  Memory: 9189kB                                                                                                                                                       |
+        Worker 0:  Sort Method: quicksort  Memory: 9297kB                                                                                                                                            |
+        Worker 1:  Sort Method: quicksort  Memory: 9383kB                                                                                                                                            |
+        Buffers: shared hit=16604 read=34363                                                                                                                                                         |
+        ->  Hash Join  (cost=74940.50..86817.65 rows=68590 width=51) (actual time=604.584..787.525 rows=55134 loops=3)                                                                               |
+              Hash Cond: (tv2.hall_id = h.id)                                                                                                                                                        |
+              Buffers: shared hit=16590 read=34363                                                                                                                                                   |
+              ->  Hash Join  (cost=74651.50..86348.52 rows=68590 width=41) (actual time=574.398..734.342 rows=55134 loops=3)                                                                         |
+                    Hash Cond: (tv2.film_id = f.id)                                                                                                                                                  |
+                    Buffers: shared hit=16338 read=34363                                                                                                                                             |
+                    ->  Parallel Hash Join  (cost=71764.50..83281.46 rows=68590 width=30) (actual time=536.979..670.741 rows=55134 loops=3)                                                          |
+                          Hash Cond: (c.id = tv2.client_id)                                                                                                                                          |
+                          Buffers: shared hit=14411 read=34363                                                                                                                                       |
+                          ->  Parallel Seq Scan on client c  (cost=0.00..9668.67 rows=416667 width=14) (actual time=0.017..37.077 rows=333333 loops=3)                                               |
+                                Buffers: shared hit=5502                                                                                                                                             |
+                          ->  Parallel Hash  (cost=70907.13..70907.13 rows=68590 width=24) (actual time=536.382..536.382 rows=55134 loops=3)                                                         |
+                                Buckets: 262144  Batches: 1  Memory Usage: 11136kB                                                                                                                   |
+                                Buffers: shared hit=8909 read=34363                                                                                                                                  |
+                                ->  Parallel Hash Join  (cost=7840.02..70907.13 rows=68590 width=24) (actual time=9.928..513.470 rows=55134 loops=3)                                                 |
+                                      Hash Cond: (tv2.session_id = s.id)                                                                                                                             |
+                                      Buffers: shared hit=8909 read=34363                                                                                                                            |
+                                      ->  Parallel Seq Scan on ticket_v2 tv2  (cost=0.00..57598.33 rows=2083333 width=20) (actual time=0.041..206.991 rows=1666667 loops=3)                          |
+                                            Buffers: shared hit=2402 read=34363                                                                                                                      |
+                                      ->  Parallel Hash  (cost=7668.55..7668.55 rows=13718 width=12) (actual time=9.731..9.731 rows=10995 loops=3)                                                   |
+                                            Buckets: 65536  Batches: 1  Memory Usage: 2080kB                                                                                                         |
+                                            Buffers: shared hit=6507                                                                                                                                 |
+                                            ->  Parallel Bitmap Heap Scan on session s  (cost=989.89..7668.55 rows=13718 width=12) (actual time=5.287..20.885 rows=32986 loops=1)                    |
+                                                  Recheck Cond: ((start >= CURRENT_TIMESTAMP) AND (start <= (CURRENT_TIMESTAMP + '14 days'::interval)))                                              |
+                                                  Heap Blocks: exact=6342                                                                                                                            |
+                                                  Buffers: shared hit=6507                                                                                                                           |
+                                                  ->  Bitmap Index Scan on session_start_id_film_id_hall_id_idx  (cost=0.00..981.66 rows=32923 width=0) (actual time=4.165..4.165 rows=32986 loops=1)|
+                                                        Index Cond: ((start >= CURRENT_TIMESTAMP) AND (start <= (CURRENT_TIMESTAMP + '14 days'::interval)))                                          |
+                                                        Buffers: shared hit=165                                                                                                                      |
+                    ->  Hash  (cost=1637.00..1637.00 rows=100000 width=19) (actual time=37.065..37.065 rows=100000 loops=3)                                                                          |
+                          Buckets: 131072  Batches: 1  Memory Usage: 6103kB                                                                                                                          |
+                          Buffers: shared hit=1911                                                                                                                                                   |
+                          ->  Seq Scan on film f  (cost=0.00..1637.00 rows=100000 width=19) (actual time=0.033..15.038 rows=100000 loops=3)                                                          |
+                                Buffers: shared hit=1911                                                                                                                                             |
+              ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=30.091..30.092 rows=10000 loops=3)                                                                                    |
+                    Buckets: 16384  Batches: 1  Memory Usage: 615kB                                                                                                                                  |
+                    Buffers: shared hit=192                                                                                                                                                          |
+                    ->  Seq Scan on hall h  (cost=0.00..164.00 rows=10000 width=16) (actual time=26.733..28.203 rows=10000 loops=3)                                                                  |
+                          Buffers: shared hit=192                                                                                                                                                    |
+Planning Time: 1.398 ms                                                                                                                                                                              |
+JIT:                                                                                                                                                                                                 |
+  Functions: 120                                                                                                                                                                                     |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                                                      |
+  Timing: Generation 13.748 ms, Inlining 0.000 ms, Optimization 3.106 ms, Emission 75.972 ms, Total 92.826 ms                                                                                        |
+Execution Time: 928.983 ms                                                                                                                                                                           |
+
+
+
+-- 5) вывести данные о продажах билетов по месяцам за год 
+-- (кол-во билетов за месяц, сумма)
+
+year|january|february|march  |april  |may    |june   |july   |august |september|october|november|december|
+----|-------|--------|-------|-------|-------|-------|-------|-------|---------|-------|--------|--------|
+2020| 104271|        |       |       |       |       |       |       |         |       |        |        |
+2019|1673561| 1709902|1732064|1728721|1807702|1707193|1782716|1473832|  1939172|1957753| 1737787| 1938811|                                                                                                                                             |
+
+
+Пробовал вариант создания индекса по выражению со своими функциями, но это только увеличило время выполнения на ~2600 ms
+
+Создавал встроенные функции с параметром IMMUTABLE
+CREATE OR REPLACE FUNCTION getSessionYear(some_time timestamptz)
+RETURNS double precision as $$
+	begin
+		return extract(year from some_time);
+	end;
+$$ LANGUAGE plpgsql
+IMMUTABLE;
+
+CREATE OR REPLACE FUNCTION getSessionMonth(some_time timestamptz)
+RETURNS double precision as $$
+	begin
+		return extract(year from some_time);
+	end;
+$$ LANGUAGE plpgsql
+IMMUTABLE;
+
+create index on session (getSessionYear(start));
+create index on session (getSessionMonth(start));
+
+
+Пробовал вариант создания индекса по выражению с встроенной функцией date_part, но это также увеличило время выполнения
+ на ~600 ms
+
+create index on session (date_part('year', DATE(TIMEZONE('UTC'::text, start))));
+create index on session (date_part('month', DATE(TIMEZONE('UTC'::text, start))));
+
+
+Самым действенным способом оказалось увеличение параметров конфигурации, запрос ускорился на ~600-700 ms
+
+set work_mem='150MB';
+set shared_buffers='1GB';
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Finalize GroupAggregate  (cost=190089.30..488881.71 rows=857060 width=104) (actual time=3625.335..3625.338 rows=2 loops=1)                                                |
+  Group Key: (date_part('year'::text, s.start))                                                                                                                           |
+  ->  Gather Merge  (cost=190089.30..431744.36 rows=1428434 width=104) (actual time=3598.060..3661.552 rows=6 loops=1)                                                    |
+        Workers Planned: 2                                                                                                                                                |
+        Workers Launched: 2                                                                                                                                               |
+        ->  Partial GroupAggregate  (cost=189089.28..265867.61 rows=714217 width=104) (actual time=3536.768..3563.083 rows=2 loops=3)                                     |
+              Group Key: (date_part('year'::text, s.start))                                                                                                               |
+              ->  Sort  (cost=189089.28..190874.82 rows=714217 width=20) (actual time=2040.911..2083.744 rows=571420 loops=3)                                             |
+                    Sort Key: (date_part('year'::text, s.start))                                                                                                          |
+                    Sort Method: quicksort  Memory: 70217kB                                                                                                               |
+                    Worker 0:  Sort Method: quicksort  Memory: 69047kB                                                                                                    |
+                    Worker 1:  Sort Method: quicksort  Memory: 68392kB                                                                                                    |
+                    ->  Parallel Hash Join  (cost=51706.85..119645.95 rows=714217 width=20) (actual time=541.454..1901.098 rows=571420 loops=3)                           |
+                          Hash Cond: (t.session_id = s.id)                                                                                                                |
+                          ->  Parallel Hash Join  (cost=31498.00..95464.05 rows=833333 width=8) (actual time=275.715..1191.942 rows=666667 loops=3)                       |
+                                Hash Cond: (t.id = ct.ticket_id)                                                                                                          |
+                                ->  Parallel Seq Scan on ticket t  (cost=0.00..52681.33 rows=2083333 width=16) (actual time=0.020..192.980 rows=1666667 loops=3)          |
+                                ->  Parallel Hash  (cost=21081.33..21081.33 rows=833333 width=8) (actual time=272.289..272.290 rows=666667 loops=3)                       |
+                                      Buckets: 2097152  Batches: 1  Memory Usage: 94688kB                                                                                 |
+                                      ->  Parallel Seq Scan on client_ticket ct  (cost=0.00..21081.33 rows=833333 width=8) (actual time=0.029..92.855 rows=666667 loops=3)|
+                          ->  Parallel Hash  (cost=15745.00..15745.00 rows=357108 width=12) (actual time=262.599..262.599 rows=285746 loops=3)                            |
+                                Buckets: 1048576  Batches: 1  Memory Usage: 48448kB                                                                                       |
+                                ->  Parallel Seq Scan on session s  (cost=0.00..15745.00 rows=357108 width=12) (actual time=29.195..174.583 rows=285746 loops=3)          |
+                                      Filter: ((start <= CURRENT_TIMESTAMP) AND (start >= (CURRENT_TIMESTAMP - '1 year'::interval)))                                      |
+                                      Rows Removed by Filter: 47588                                                                                                       |
+Planning Time: 0.899 ms                                                                                                                                                   |
+JIT:                                                                                                                                                                      |
+  Functions: 78                                                                                                                                                           |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                           |
+  Timing: Generation 14.454 ms, Inlining 0.000 ms, Optimization 3.196 ms, Emission 83.064 ms, Total 100.714 ms                                                            |
+Execution Time: 3671.304 ms                                                                                                                                               |
+
+
+
+-- 6) запрос атрибутов по фильмам, которые показывались на прошлой и будующей неделе
+-- для показа этих данных в афише на сайте
+
+
+Заменил 'group by f.name' на 'group by f.id'
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                           |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+GroupAggregate  (cost=1816855.35..2585395.20 rows=100000 width=83) (actual time=14001.502..40196.842 rows=27874 loops=1)                                                                             |
+  Group Key: f.id                                                                                                                                                                                    |
+  ->  Merge Join  (cost=1816855.35..2074116.45 rows=15685500 width=86) (actual time=14000.352..21847.625 rows=16483434 loops=1)                                                                      |
+        Merge Cond: (f.id = fav.film_id)                                                                                                                                                             |
+        ->  Sort  (cost=99696.83..100088.97 rows=156855 width=45) (actual time=1424.698..1460.771 rows=164824 loops=1)                                                                               |
+              Sort Key: s.film_id                                                                                                                                                                    |
+              Sort Method: quicksort  Memory: 19021kB                                                                                                                                                |
+              ->  Gather  (cost=11982.16..86160.97 rows=156855 width=45) (actual time=868.143..1373.479 rows=164824 loops=1)                                                                         |
+                    Workers Planned: 2                                                                                                                                                               |
+                    Workers Launched: 2                                                                                                                                                              |
+                    ->  Hash Join  (cost=10982.16..69475.47 rows=65356 width=45) (actual time=629.599..1130.075 rows=54941 loops=3)                                                                  |
+                          Hash Cond: (s.hall_id = h.id)                                                                                                                                              |
+                          ->  Hash Join  (cost=10693.16..69014.83 rows=65356 width=33) (actual time=48.884..525.795 rows=54941 loops=3)                                                              |
+                                Hash Cond: (s.film_id = f.id)                                                                                                                                        |
+                                ->  Parallel Hash Join  (cost=7806.16..65956.26 rows=65356 width=14) (actual time=13.629..465.636 rows=54941 loops=3)                                                |
+                                      Hash Cond: (t.session_id = s.id)                                                                                                                               |
+                                      ->  Parallel Seq Scan on ticket t  (cost=0.00..52681.33 rows=2083333 width=4) (actual time=0.019..185.761 rows=1666667 loops=3)                                |
+                                      ->  Parallel Hash  (cost=7642.77..7642.77 rows=13071 width=18) (actual time=13.417..13.418 rows=11024 loops=3)                                                 |
+                                            Buckets: 32768  Batches: 1  Memory Usage: 2112kB                                                                                                         |
+                                            ->  Parallel Bitmap Heap Scan on session s  (cost=945.99..7642.77 rows=13071 width=18) (actual time=3.101..15.339 rows=16536 loops=2)                    |
+                                                  Recheck Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                        |
+                                                  ->  Bitmap Index Scan on session_start_id_film_id_hall_id_idx  (cost=0.00..938.14 rows=31371 width=0) (actual time=4.544..4.544 rows=33071 loops=1)|
+                                                        Index Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                    |
+                                ->  Hash  (cost=1637.00..1637.00 rows=100000 width=19) (actual time=34.867..34.868 rows=100000 loops=3)                                                              |
+                                      Buckets: 131072  Batches: 1  Memory Usage: 6103kB                                                                                                              |
+                                      ->  Seq Scan on film f  (cost=0.00..1637.00 rows=100000 width=19) (actual time=0.037..13.175 rows=100000 loops=3)                                              |
+                          ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=580.604..580.604 rows=10000 loops=3)                                                                      |
+                                Buckets: 16384  Batches: 1  Memory Usage: 615kB                                                                                                                      |
+                                ->  Seq Scan on hall h  (cost=0.00..164.00 rows=10000 width=16) (actual time=577.545..578.788 rows=10000 loops=3)                                                    |
+        ->  Materialize  (cost=1717152.16..1767152.16 rows=10000000 width=49) (actual time=12575.622..16812.033 rows=23695268 loops=1)                                                               |
+              ->  Sort  (cost=1717152.16..1742152.16 rows=10000000 width=49) (actual time=12575.616..14451.959 rows=9999907 loops=1)                                                                 |
+                    Sort Key: fav.film_id                                                                                                                                                            |
+                    Sort Method: external merge  Disk: 401344kB                                                                                                                                      |
+                    ->  Hash Join  (cost=329.50..212677.83 rows=10000000 width=49) (actual time=3.391..6237.813 rows=10000000 loops=1)                                                               |
+                          Hash Cond: (fa.type_id = fat.id)                                                                                                                                           |
+                          ->  Hash Join  (cost=299.00..186286.08 rows=10000000 width=51) (actual time=3.098..4114.039 rows=10000000 loops=1)                                                         |
+                                Hash Cond: (fav.attribute_id = fa.id)                                                                                                                                |
+                                ->  Seq Scan on film_attribute_value fav  (cost=0.00..159726.00 rows=10000000 width=34) (actual time=0.047..1310.584 rows=10000000 loops=1)                          |
+                                ->  Hash  (cost=174.00..174.00 rows=10000 width=25) (actual time=3.021..3.021 rows=10000 loops=1)                                                                    |
+                                      Buckets: 16384  Batches: 1  Memory Usage: 695kB                                                                                                                |
+                                      ->  Seq Scan on film_attribute fa  (cost=0.00..174.00 rows=10000 width=25) (actual time=0.013..1.267 rows=10000 loops=1)                                       |
+                          ->  Hash  (cost=18.00..18.00 rows=1000 width=2) (actual time=0.279..0.279 rows=1000 loops=1)                                                                               |
+                                Buckets: 1024  Batches: 1  Memory Usage: 42kB                                                                                                                        |
+                                ->  Seq Scan on film_attribute_type fat  (cost=0.00..18.00 rows=1000 width=2) (actual time=0.021..0.142 rows=1000 loops=1)                                           |
+Planning Time: 4.138 ms                                                                                                                                                                              |
+JIT:                                                                                                                                                                                                 |
+  Functions: 118                                                                                                                                                                                     |
+  Options: Inlining true, Optimization true, Expressions true, Deforming true                                                                                                                        |
+  Timing: Generation 21.279 ms, Inlining 190.708 ms, Optimization 984.871 ms, Emission 555.387 ms, Total 1752.244 ms                                                                                 |
+Execution Time: 40612.048 ms
+
+
+Удалил date_trunc('minute', s.start)) оставил только 's.start', это можно будет сделать на фронте, запрос ускорился
+на ~3600 ms
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                           |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+GroupAggregate  (cost=1816855.35..2546181.45 rows=100000 width=83) (actual time=13762.943..36876.372 rows=27876 loops=1)                                                                             |
+  Group Key: f.id                                                                                                                                                                                    |
+  ->  Merge Join  (cost=1816855.35..2074116.45 rows=15685500 width=86) (actual time=13761.841..21472.540 rows=16483406 loops=1)                                                                      |
+        Merge Cond: (f.id = fav.film_id)                                                                                                                                                             |
+        ->  Sort  (cost=99696.83..100088.97 rows=156855 width=45) (actual time=1404.599..1442.550 rows=164825 loops=1)                                                                               |
+              Sort Key: s.film_id                                                                                                                                                                    |
+              Sort Method: quicksort  Memory: 19021kB                                                                                                                                                |
+              ->  Gather  (cost=11982.16..86160.97 rows=156855 width=45) (actual time=874.841..1351.591 rows=164825 loops=1)                                                                         |
+                    Workers Planned: 2                                                                                                                                                               |
+                    Workers Launched: 2                                                                                                                                                              |
+                    ->  Hash Join  (cost=10982.16..69475.47 rows=65356 width=45) (actual time=640.481..1112.155 rows=54942 loops=3)                                                                  |
+                          Hash Cond: (s.hall_id = h.id)                                                                                                                                              |
+                          ->  Hash Join  (cost=10693.16..69014.83 rows=65356 width=33) (actual time=50.330..498.519 rows=54942 loops=3)                                                              |
+                                Hash Cond: (s.film_id = f.id)                                                                                                                                        |
+                                ->  Parallel Hash Join  (cost=7806.16..65956.26 rows=65356 width=14) (actual time=15.451..439.037 rows=54942 loops=3)                                                |
+                                      Hash Cond: (t.session_id = s.id)                                                                                                                               |
+                                      ->  Parallel Seq Scan on ticket t  (cost=0.00..52681.33 rows=2083333 width=4) (actual time=0.019..184.394 rows=1666667 loops=3)                                |
+                                      ->  Parallel Hash  (cost=7642.77..7642.77 rows=13071 width=18) (actual time=15.198..15.198 rows=11025 loops=3)                                                 |
+                                            Buckets: 65536 (originally 32768)  Batches: 1 (originally 1)  Memory Usage: 2624kB                                                                       |
+                                            ->  Parallel Bitmap Heap Scan on session s  (cost=945.99..7642.77 rows=13071 width=18) (actual time=3.558..16.152 rows=16538 loops=2)                    |
+                                                  Recheck Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                        |
+                                                  ->  Bitmap Index Scan on session_start_id_film_id_hall_id_idx  (cost=0.00..938.14 rows=31371 width=0) (actual time=4.636..4.636 rows=33075 loops=1)|
+                                                        Index Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                    |
+                                ->  Hash  (cost=1637.00..1637.00 rows=100000 width=19) (actual time=34.516..34.516 rows=100000 loops=3)                                                              |
+                                      Buckets: 131072  Batches: 1  Memory Usage: 6103kB                                                                                                              |
+                                      ->  Seq Scan on film f  (cost=0.00..1637.00 rows=100000 width=19) (actual time=0.038..13.188 rows=100000 loops=3)                                              |
+                          ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=590.043..590.044 rows=10000 loops=3)                                                                      |
+                                Buckets: 16384  Batches: 1  Memory Usage: 615kB                                                                                                                      |
+                                ->  Seq Scan on hall h  (cost=0.00..164.00 rows=10000 width=16) (actual time=586.806..588.112 rows=10000 loops=3)                                                    |
+        ->  Materialize  (cost=1717152.16..1767152.16 rows=10000000 width=49) (actual time=12357.203..16607.140 rows=23695051 loops=1)                                                               |
+              ->  Sort  (cost=1717152.16..1742152.16 rows=10000000 width=49) (actual time=12357.197..14257.324 rows=9999907 loops=1)                                                                 |
+                    Sort Key: fav.film_id                                                                                                                                                            |
+                    Sort Method: external merge  Disk: 401344kB                                                                                                                                      |
+                    ->  Hash Join  (cost=329.50..212677.83 rows=10000000 width=49) (actual time=3.370..6117.585 rows=10000000 loops=1)                                                               |
+                          Hash Cond: (fa.type_id = fat.id)                                                                                                                                           |
+                          ->  Hash Join  (cost=299.00..186286.08 rows=10000000 width=51) (actual time=3.075..4039.951 rows=10000000 loops=1)                                                         |
+                                Hash Cond: (fav.attribute_id = fa.id)                                                                                                                                |
+                                ->  Seq Scan on film_attribute_value fav  (cost=0.00..159726.00 rows=10000000 width=34) (actual time=0.062..1290.364 rows=10000000 loops=1)                          |
+                                ->  Hash  (cost=174.00..174.00 rows=10000 width=25) (actual time=2.981..2.981 rows=10000 loops=1)                                                                    |
+                                      Buckets: 16384  Batches: 1  Memory Usage: 695kB                                                                                                                |
+                                      ->  Seq Scan on film_attribute fa  (cost=0.00..174.00 rows=10000 width=25) (actual time=0.016..1.355 rows=10000 loops=1)                                       |
+                          ->  Hash  (cost=18.00..18.00 rows=1000 width=2) (actual time=0.284..0.284 rows=1000 loops=1)                                                                               |
+                                Buckets: 1024  Batches: 1  Memory Usage: 42kB                                                                                                                        |
+                                ->  Seq Scan on film_attribute_type fat  (cost=0.00..18.00 rows=1000 width=2) (actual time=0.021..0.144 rows=1000 loops=1)                                           |
+Planning Time: 3.599 ms                                                                                                                                                                              |
+JIT:                                                                                                                                                                                                 |
+  Functions: 118                                                                                                                                                                                     |
+  Options: Inlining true, Optimization true, Expressions true, Deforming true                                                                                                                        |
+  Timing: Generation 15.717 ms, Inlining 186.073 ms, Optimization 1010.036 ms, Emission 562.422 ms, Total 1774.248 ms                                                                                |
+Execution Time: 36956.303 ms                                                                                                                                                                         |
+
+
+Для большего ускорения решил сделать вспомогательную таблицу с уже заполненными атрибутами фильмов.
+
+Новая таблица
+
+create table film_all_attributes(
+	id	serial not null,
+	film_id int not null,
+	film_attributes text
+);
+
+Новый запрос
+
+select
+	f1.name,
+	f1.sessions,
+	faa.film_attributes
+from (
+	select
+	    f.id,
+		f.name,
+		string_agg(concat(h.name, ': ', s.start), '; ') as sessions
+	from ticket as t
+	join session as s on s.id = t.session_id
+	join hall as h on h.id = s.hall_id
+	join film as f on f.id = s.film_id
+	where s.start >= (CURRENT_TIMESTAMP - interval '7 days')
+		and s.start <= (CURRENT_TIMESTAMP + interval '7 days')
+		group by f.id
+) as f1
+join film_all_attributes as faa on faa.film_id = f1.id
+;
+
+Это позволило значительно ускорить запрос на ~35000 ms
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                                       |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Hash Join  (cost=104764.33..123214.84 rows=100000 width=1352) (actual time=923.570..971.764 rows=27888 loops=1)                                                                                                  |
+  Hash Cond: (faa.film_id = f1.id)                                                                                                                                                                               |
+  ->  Seq Scan on film_all_attributes faa  (cost=0.00..18188.00 rows=100000 width=1309) (actual time=34.896..62.979 rows=100000 loops=1)                                                                         |
+  ->  Hash  (cost=103514.33..103514.33 rows=100000 width=51) (actual time=888.444..888.445 rows=27888 loops=1)                                                                                                   |
+        Buckets: 131072  Batches: 1  Memory Usage: 10063kB                                                                                                                                                       |
+        ->  Subquery Scan on f1  (cost=99695.83..103514.33 rows=100000 width=51) (actual time=727.126..878.550 rows=27888 loops=1)                                                                               |
+              ->  GroupAggregate  (cost=99695.83..102514.33 rows=100000 width=51) (actual time=727.124..875.538 rows=27888 loops=1)                                                                              |
+                    Group Key: f.id                                                                                                                                                                              |
+                    ->  Sort  (cost=99695.83..100087.95 rows=156850 width=41) (actual time=727.080..748.622 rows=164928 loops=1)                                                                                 |
+                          Sort Key: f.id                                                                                                                                                                         |
+                          Sort Method: quicksort  Memory: 19030kB                                                                                                                                                |
+                          ->  Gather  (cost=11982.14..86160.44 rows=156850 width=41) (actual time=65.212..674.486 rows=164928 loops=1)                                                                           |
+                                Workers Planned: 2                                                                                                                                                               |
+                                Workers Launched: 2                                                                                                                                                              |
+                                ->  Hash Join  (cost=10982.14..69475.44 rows=65354 width=41) (actual time=77.988..616.730 rows=54976 loops=3)                                                                    |
+                                      Hash Cond: (s.film_id = f.id)                                                                                                                                              |
+                                      ->  Hash Join  (cost=8095.14..66416.87 rows=65354 width=26) (actual time=13.261..523.507 rows=54976 loops=3)                                                               |
+                                            Hash Cond: (s.hall_id = h.id)                                                                                                                                        |
+                                            ->  Parallel Hash Join  (cost=7806.14..65956.24 rows=65354 width=14) (actual time=9.494..494.582 rows=54976 loops=3)                                                 |
+                                                  Hash Cond: (t.session_id = s.id)                                                                                                                               |
+                                                  ->  Parallel Seq Scan on ticket t  (cost=0.00..52681.33 rows=2083333 width=4) (actual time=0.015..183.307 rows=1666667 loops=3)                                |
+                                                  ->  Parallel Hash  (cost=7642.75..7642.75 rows=13071 width=18) (actual time=9.304..9.305 rows=11030 loops=3)                                                   |
+                                                        Buckets: 32768  Batches: 1  Memory Usage: 2080kB                                                                                                         |
+                                                        ->  Parallel Bitmap Heap Scan on session s  (cost=945.98..7642.75 rows=13071 width=18) (actual time=5.351..20.490 rows=33090 loops=1)                    |
+                                                              Recheck Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                        |
+                                                              Heap Blocks: exact=6332                                                                                                                            |
+                                                              ->  Bitmap Index Scan on session_start_id_film_id_hall_id_idx  (cost=0.00..938.13 rows=31370 width=0) (actual time=4.165..4.165 rows=33090 loops=1)|
+                                                                    Index Cond: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval)))                    |
+                                            ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=3.665..3.665 rows=10000 loops=3)                                                                    |
+                                                  Buckets: 16384  Batches: 1  Memory Usage: 615kB                                                                                                                |
+                                                  ->  Seq Scan on hall h  (cost=0.00..164.00 rows=10000 width=16) (actual time=0.041..1.678 rows=10000 loops=3)                                                  |
+                                      ->  Hash  (cost=1637.00..1637.00 rows=100000 width=19) (actual time=64.143..64.143 rows=100000 loops=3)                                                                    |
+                                            Buckets: 131072  Batches: 1  Memory Usage: 6092kB                                                                                                                    |
+                                            ->  Seq Scan on film f  (cost=0.00..1637.00 rows=100000 width=19) (actual time=18.871..37.835 rows=100000 loops=3)                                                   |
+Planning Time: 1.182 ms                                                                                                                                                                                          |
+JIT:                                                                                                                                                                                                             |
+  Functions: 104                                                                                                                                                                                                 |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                                                                  |
+  Timing: Generation 19.251 ms, Inlining 0.000 ms, Optimization 3.760 ms, Emission 86.412 ms, Total 109.422 ms                                                                                                   |
+Execution Time: 982.161 ms                                                                                                                                                                                       |

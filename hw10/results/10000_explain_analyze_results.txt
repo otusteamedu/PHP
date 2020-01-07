@@ -1,0 +1,233 @@
+-- 1) выбрать все сеансы определенных фильмов
+
+id   |film_id|hall_id|start              |
+-----|-------|-------|-------------------|
+    2|      1|      1|2020-01-01 18:00:00|
+16767|      1|   5323|2019-04-18 13:37:49|
+13226|    111|   7535|2019-01-02 03:20:56|
+10075|    999|   6608|2019-06-10 17:15:37|
+14918|    999|   4636|2019-04-03 23:22:06|
+16422|    999|   2867|2019-08-23 09:42:15|
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                       |
+---------------------------------------------------------------------------------------------------------------------------------|
+Sort  (cost=30.06..30.08 rows=5 width=18) (actual time=0.041..0.042 rows=6 loops=1)                                              |
+  Sort Key: film_id                                                                                                              |
+  Sort Method: quicksort  Memory: 25kB                                                                                           |
+  ->  Bitmap Heap Scan on session s  (cost=12.90..30.01 rows=5 width=18) (actual time=0.026..0.034 rows=6 loops=1)               |
+        Recheck Cond: (film_id = ANY ('{1,111,999}'::integer[]))                                                                 |
+        Heap Blocks: exact=6                                                                                                     |
+        ->  Bitmap Index Scan on session_film_id_idx  (cost=0.00..12.90 rows=5 width=0) (actual time=0.019..0.019 rows=6 loops=1)|
+              Index Cond: (film_id = ANY ('{1,111,999}'::integer[]))                                                             |
+Planning Time: 0.110 ms                                                                                                          |
+Execution Time: 0.068 ms                                                                                                         |
+
+
+
+-- 2) выбрать все сеансы в определенных залах 
+
+id   |film_id|hall_id|start              |
+-----|-------|-------|-------------------|
+    2|      1|      1|2020-01-01 18:00:00|
+19909|   3677|      1|2020-01-22 17:21:54|
+19065|   2227|    222|2019-05-15 12:06:01|
+15853|   8963|    222|2019-09-03 17:26:42|
+12401|   9432|    222|2019-01-19 13:41:22|
+19561|   7417|    876|2019-08-24 12:48:33|
+15344|   6363|    876|2020-01-17 03:14:41|
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                       |
+---------------------------------------------------------------------------------------------------------------------------------|
+Sort  (cost=30.06..30.08 rows=5 width=18) (actual time=0.065..0.066 rows=7 loops=1)                                              |
+  Sort Key: hall_id                                                                                                              |
+  Sort Method: quicksort  Memory: 25kB                                                                                           |
+  ->  Bitmap Heap Scan on session s  (cost=12.90..30.01 rows=5 width=18) (actual time=0.040..0.055 rows=7 loops=1)               |
+        Recheck Cond: (hall_id = ANY ('{1,222,876}'::integer[]))                                                                 |
+        Heap Blocks: exact=7                                                                                                     |
+        ->  Bitmap Index Scan on session_hall_id_idx  (cost=0.00..12.90 rows=5 width=0) (actual time=0.030..0.030 rows=7 loops=1)|
+              Index Cond: (hall_id = ANY ('{1,222,876}'::integer[]))                                                             |
+Planning Time: 0.162 ms                                                                                                          |
+Execution Time: 0.107 ms                                                                                                         |                                                                                                        |
+
+
+
+-- 3) выбрать все билеты определенных сеансов
+
+id  |session_id|place|price|
+----|----------|-----|-----|
+5235|     10100| 2436| 2423|
+7501|     10100| 1825|  253|
+1469|     14000| 5724| 5000|
+6272|     14000| 2019| 3945|
+  54|     20000| 1752|  906|
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                         |
+-----------------------------------------------------------------------------------------------------------------------------------|
+Sort  (cost=28.84..28.85 rows=5 width=20) (actual time=0.046..0.047 rows=5 loops=1)                                                |
+  Sort Key: session_id                                                                                                             |
+  Sort Method: quicksort  Memory: 25kB                                                                                             |
+  ->  Bitmap Heap Scan on ticket t  (cost=12.90..28.78 rows=5 width=20) (actual time=0.031..0.039 rows=5 loops=1)                  |
+        Recheck Cond: (session_id = ANY ('{10100,14000,20000}'::integer[]))                                                        |
+        Heap Blocks: exact=5                                                                                                       |
+        ->  Bitmap Index Scan on ticket_session_id_idx  (cost=0.00..12.90 rows=5 width=0) (actual time=0.023..0.023 rows=5 loops=1)|
+              Index Cond: (session_id = ANY ('{10100,14000,20000}'::integer[]))                                                    |
+Planning Time: 0.118 ms                                                                                                            |
+Execution Time: 0.077 ms                                                                                                           |
+
+
+
+-- 4) выбрать все билеты определенных клиентов на сеансы следующей недели
+
+name            |name          |start              |hall_name     |hall_place|
+----------------|--------------|-------------------|--------------|----------|
+Client Name 150 |Film Name 4207|2020-01-03 19:59:30|Hall Name 7069|       950|
+Client Name 8308|Film Name 8923|2020-01-03 22:07:38|Hall Name 1106|      3808|
+Client Name 2372|Film Name 4522|2020-01-03 22:16:17|Hall Name 2965|      6735|
+Client Name 4928|Film Name 4522|2020-01-03 22:16:17|Hall Name 2965|      6735|
+Client Name 5515|Film Name 8427|2020-01-03 23:10:58|Hall Name 3073|      8796|
+Client Name 9255|Film Name 9231|2020-01-04 01:39:09|Hall Name 5769|      2804|
+Client Name 7294|Film Name 9231|2020-01-04 01:39:09|Hall Name 5769|      2804|
+Client Name 2817|Film Name 4002|2020-01-04 02:47:35|Hall Name 1436|      6463|
+Client Name 8229|Film Name 4002|2020-01-04 02:47:35|Hall Name 1436|      6463|
+Client Name 2077|Film Name 7674|2020-01-04 03:53:59|Hall Name 218 |      5745|
+Client Name 8490|Film Name 7674|2020-01-04 03:53:59|Hall Name 218 |      5745|
+Client Name 3649|Film Name 5892|2020-01-04 04:50:16|Hall Name 5114|       638|
+Client Name 7965|Film Name 6954|2020-01-04 07:03:25|Hall Name 3250|      3471|
+Client Name 960 |Film Name 6954|2020-01-04 07:03:25|Hall Name 3250|      3471|
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                          |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Sort  (cost=1499.27..1500.11 rows=339 width=56) (actual time=10.963..10.985 rows=360 loops=1)                                                                       |
+  Sort Key: s.start                                                                                                                                                 |
+  Sort Method: quicksort  Memory: 75kB                                                                                                                              |
+  ->  Nested Loop  (cost=1077.62..1485.02 rows=339 width=56) (actual time=8.074..10.799 rows=360 loops=1)                                                           |
+        ->  Hash Join  (cost=1077.34..1369.73 rows=339 width=44) (actual time=8.061..9.955 rows=360 loops=1)                                                        |
+              Hash Cond: (f.id = s.film_id)                                                                                                                         |
+              ->  Seq Scan on film f  (cost=0.00..164.00 rows=10000 width=18) (actual time=0.011..0.852 rows=10000 loops=1)                                         |
+              ->  Hash  (cost=1073.10..1073.10 rows=339 width=34) (actual time=8.042..8.042 rows=360 loops=1)                                                       |
+                    Buckets: 1024  Batches: 1  Memory Usage: 32kB                                                                                                   |
+                    ->  Hash Join  (cost=805.73..1073.10 rows=339 width=34) (actual time=5.965..7.970 rows=360 loops=1)                                             |
+                          Hash Cond: (h.id = s.hall_id)                                                                                                             |
+                          ->  Seq Scan on hall h  (cost=0.00..163.99 rows=9999 width=16) (actual time=0.007..0.861 rows=10000 loops=1)                              |
+                          ->  Hash  (cost=801.49..801.49 rows=339 width=22) (actual time=5.952..5.952 rows=360 loops=1)                                             |
+                                Buckets: 1024  Batches: 1  Memory Usage: 27kB                                                                                       |
+                                ->  Hash Join  (cost=551.59..801.49 rows=339 width=22) (actual time=4.037..5.887 rows=360 loops=1)                                  |
+                                      Hash Cond: (ct.ticket_id = t.id)                                                                                              |
+                                      ->  Seq Scan on client_ticket ct  (cost=0.00..209.01 rows=10001 width=12) (actual time=0.003..0.742 rows=10001 loops=1)       |
+                                      ->  Hash  (cost=547.35..547.35 rows=339 width=26) (actual time=3.975..3.975 rows=357 loops=1)                                 |
+                                            Buckets: 1024  Batches: 1  Memory Usage: 30kB                                                                           |
+                                            ->  Hash Join  (cost=357.10..547.35 rows=339 width=26) (actual time=1.758..3.906 rows=357 loops=1)                      |
+                                                  Hash Cond: (t.session_id = s.id)                                                                                  |
+                                                  ->  Seq Scan on ticket t  (cost=0.00..163.99 rows=9999 width=16) (actual time=0.006..0.937 rows=9999 loops=1)     |
+                                                  ->  Hash  (cost=352.87..352.87 rows=339 width=18) (actual time=1.741..1.741 rows=342 loops=1)                     |
+                                                        Buckets: 1024  Batches: 1  Memory Usage: 25kB                                                               |
+                                                        ->  Seq Scan on session s  (cost=0.00..352.87 rows=339 width=18) (actual time=0.057..1.663 rows=342 loops=1)|
+                                                              Filter: ((start >= CURRENT_TIMESTAMP) AND (start <= (CURRENT_TIMESTAMP + '14 days'::interval)))       |
+                                                              Rows Removed by Filter: 9652                                                                          |
+        ->  Index Scan using client_pkey on client c  (cost=0.29..0.34 rows=1 width=20) (actual time=0.002..0.002 rows=1 loops=360)                                 |
+              Index Cond: (id = ct.client_id)                                                                                                                       |
+Planning Time: 1.190 ms                                                                                                                                             |
+Execution Time: 11.047 ms                                                                                                                                           |
+
+
+
+-- 5) вывести данные о продажах билетов по месяцам за год 
+-- (кол-во билетов за месяц, сумма)
+
+year|january|february|march  |april  |may    |june   |july   |august |september|october|november|december|
+----|-------|--------|-------|-------|-------|-------|-------|-------|---------|-------|--------|--------|
+2020| 104271|        |       |       |       |       |       |       |         |       |        |        |
+2019|1673561| 1709902|1732064|1728721|1807702|1707193|1782716|1473832|  1939172|1957753| 1737787| 1938811|
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                          |
+------------------------------------------------------------------------------------------------------------------------------------|
+HashAggregate  (cost=1825.01..1932.11 rows=8568 width=104) (actual time=50.214..50.272 rows=2 loops=1)                              |
+  Group Key: date_part('year'::text, s.start)                                                                                       |
+  ->  Hash Join  (cost=748.94..1031.91 rows=8574 width=20) (actual time=9.926..22.072 rows=8626 loops=1)                            |
+        Hash Cond: (t.session_id = s.id)                                                                                            |
+        ->  Hash Join  (cost=288.98..524.25 rows=10001 width=8) (actual time=3.508..9.437 rows=10001 loops=1)                       |
+              Hash Cond: (ct.ticket_id = t.id)                                                                                      |
+              ->  Seq Scan on client_ticket ct  (cost=0.00..209.01 rows=10001 width=8) (actual time=0.008..1.074 rows=10001 loops=1)|
+              ->  Hash  (cost=163.99..163.99 rows=9999 width=16) (actual time=3.478..3.478 rows=9999 loops=1)                       |
+                    Buckets: 16384  Batches: 1  Memory Usage: 636kB                                                                 |
+                    ->  Seq Scan on ticket t  (cost=0.00..163.99 rows=9999 width=16) (actual time=0.013..1.876 rows=9999 loops=1)   |
+        ->  Hash  (cost=352.87..352.87 rows=8568 width=12) (actual time=6.390..6.390 rows=8565 loops=1)                             |
+              Buckets: 16384  Batches: 1  Memory Usage: 497kB                                                                       |
+              ->  Seq Scan on session s  (cost=0.00..352.87 rows=8568 width=12) (actual time=0.009..4.804 rows=8565 loops=1)        |
+                    Filter: ((start <= CURRENT_TIMESTAMP) AND (start >= (CURRENT_TIMESTAMP - '1 year'::interval)))                  |
+                    Rows Removed by Filter: 1429                                                                                    |
+Planning Time: 0.849 ms                                                                                                             |
+Execution Time: 50.444 ms                                                                                                           |
+
+
+
+-- 6) запрос атрибутов по фильмам, которые показывались на прошлой и будующей неделе
+-- для показа этих данных в афише на сайте
+
+name                  |sessions                                                                                                                                                                                                                                                       |attrs                                                                                                                                                            
+----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Film Name 1050        |Hall Name 1719: 2019-12-29 12:19:00+05; Hall Name 1719: 2019-12-29 12:19:00+05; Hall Name 1719: 2019-12-29 12:19:00+05; Hall Name 1719: 2019-12-29 12:19:00+05                                                                                                 |Film attribute 435: 15; Film attribute 438: 26.1068851557775; Film attribute 435: 15; Film attribute 438: 26.1068851557775                                       
+Film Name 121         |Hall Name 6613: 2020-01-07 19:36:00+05; Hall Name 6613: 2020-01-07 19:36:00+05                                                                                                                                                                                 |Film attribute 24: 46.0094390849602; Film attribute 679: 2019-09-04                                                                                              
+Film Name 1274        |Hall Name 7603: 2019-12-29 15:20:00+05; Hall Name 7603: 2019-12-29 15:20:00+05; Hall Name 7603: 2019-12-29 15:20:00+05                                                                                                                                         |Film attribute 451: 2019-11-29; Film attribute 451: 2019-11-29; Film attribute 451: 2019-11-29                                                                   
+Film Name 1303        |Hall Name 3871: 2020-01-07 12:26:00+05                                                                                                                                                                                                                         |Film attribute 273: false                                                                                                                                        
+Film Name 1328        |Hall Name 6832: 2020-01-07 22:26:00+05; Hall Name 6832: 2020-01-07 22:26:00+05                                                                                                                                                                                 |Film attribute 944: 13; Film attribute 944: 13                                                                                                                   
+Film Name 151         |Hall Name 1961: 2020-01-01 18:16:00+05; Hall Name 1961: 2020-01-01 18:16:00+05                                                                                                                                                                                 |Film attribute 516: a56621a1f835fb45f326c8b37d053361; Film attribute 709: 22.0917325146677                                                                       
+Film Name 1614        |Hall Name 796: 2020-01-07 21:07:00+05; Hall Name 796: 2020-01-07 21:07:00+05                                                                                                                                                                                   |Film attribute 407: 2019-05-06; Film attribute 407: 2019-05-06                                                                                                   
+Film Name 1626        |Hall Name 1012: 2020-01-06 17:09:00+05; Hall Name 1012: 2020-01-06 17:09:00+05                                                                                                                                                                                 |Film attribute 804: 49.6817578100519; Film attribute 355: cfc0f7c825300e2423a3f10918b26b0d                                                                       
+Film Name 1788        |Hall Name 6251: 2020-01-03 16:30:00+05; Hall Name 6251: 2020-01-03 16:30:00+05                                                                                                                                                                                 |Film attribute 685: 3; Film attribute 299: 9.20897296529992                                                                                                      
+Film Name 1892        |Hall Name 8329: 2019-12-28 17:09:00+05; Hall Name 8329: 2019-12-28 17:09:00+05                                                                                                                                                                                 |Film attribute 319: 2019-03-09; Film attribute 319: 2019-03-09                                                                                                   
+Film Name 1993        |Hall Name 5541: 2020-01-01 17:19:00+05; Hall Name 5541: 2020-01-01 17:19:00+05                                                                                                                                                                                 |Film attribute 210: 126f262b5ce7b65bf31e030178928c31; Film attribute 436: false                                                                                  
+Film Name 2077        |Hall Name 1534: 2019-12-29 12:56:00+05; Hall Name 1534: 2019-12-29 12:56:00+05                                                                                                                                                                                 |Film attribute 691: 17; Film attribute 691: 17                                                                                                                   
+
+
+EXPLAIN ANALYZE
+QUERY PLAN                                                                                                                                                                                |
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+GroupAggregate  (cost=1305.81..1320.91 rows=302 width=78) (actual time=12.737..13.510 rows=121 loops=1)                                                                                   |
+  Group Key: f.name                                                                                                                                                                       |
+  ->  Sort  (cost=1305.81..1306.57 rows=302 width=109) (actual time=12.706..12.735 rows=446 loops=1)                                                                                      |
+        Sort Key: f.name                                                                                                                                                                  |
+        Sort Method: quicksort  Memory: 97kB                                                                                                                                              |
+        ->  Hash Join  (cost=880.51..1293.37 rows=302 width=109) (actual time=8.431..11.831 rows=446 loops=1)                                                                             |
+              Hash Cond: (fa.type_id = fat.id)                                                                                                                                            |
+              ->  Hash Join  (cost=877.26..1289.30 rows=302 width=111) (actual time=8.394..11.635 rows=446 loops=1)                                                                       |
+                    Hash Cond: (fav.attribute_id = fa.id)                                                                                                                                 |
+                    ->  Nested Loop  (cost=846.76..1258.00 rows=302 width=94) (actual time=7.940..10.989 rows=446 loops=1)                                                                |
+                          ->  Hash Join  (cost=846.47..1138.50 rows=303 width=44) (actual time=7.927..10.041 rows=312 loops=1)                                                            |
+                                Hash Cond: (f.id = s.film_id)                                                                                                                             |
+                                ->  Seq Scan on film f  (cost=0.00..164.00 rows=10000 width=18) (actual time=0.007..0.956 rows=10000 loops=1)                                             |
+                                ->  Hash  (cost=842.68..842.68 rows=303 width=26) (actual time=7.914..7.914 rows=312 loops=1)                                                             |
+                                      Buckets: 1024  Batches: 1  Memory Usage: 27kB                                                                                                       |
+                                      ->  Hash Join  (cost=575.67..842.68 rows=303 width=26) (actual time=5.937..7.858 rows=312 loops=1)                                                  |
+                                            Hash Cond: (h.id = s.hall_id)                                                                                                                 |
+                                            ->  Seq Scan on hall h  (cost=0.00..163.99 rows=9999 width=16) (actual time=0.006..0.851 rows=10000 loops=1)                                  |
+                                            ->  Hash  (cost=571.89..571.89 rows=303 width=14) (actual time=5.926..5.926 rows=312 loops=1)                                                 |
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 23kB                                                                                           |
+                                                  ->  Hash Join  (cost=381.64..571.89 rows=303 width=14) (actual time=4.018..5.876 rows=312 loops=1)                                      |
+                                                        Hash Cond: (t.session_id = s.id)                                                                                                  |
+                                                        ->  Seq Scan on ticket t  (cost=0.00..163.99 rows=9999 width=4) (actual time=0.006..0.836 rows=9999 loops=1)                      |
+                                                        ->  Hash  (cost=377.85..377.85 rows=303 width=18) (actual time=4.008..4.008 rows=302 loops=1)                                     |
+                                                              Buckets: 1024  Batches: 1  Memory Usage: 23kB                                                                               |
+                                                              ->  Seq Scan on session s  (cost=0.00..377.85 rows=303 width=18) (actual time=0.006..3.948 rows=302 loops=1)                |
+                                                                    Filter: ((start >= (CURRENT_TIMESTAMP - '7 days'::interval)) AND (start <= (CURRENT_TIMESTAMP + '7 days'::interval))) |
+                                                                    Rows Removed by Filter: 9692                                                                                          |
+                          ->  Index Scan using film_attribute_value_film_id_idx on film_attribute_value fav  (cost=0.29..0.37 rows=2 width=62) (actual time=0.002..0.002 rows=1 loops=312)|
+                                Index Cond: (film_id = f.id)                                                                                                                              |
+                    ->  Hash  (cost=18.00..18.00 rows=1000 width=25) (actual time=0.449..0.449 rows=1000 loops=1)                                                                         |
+                          Buckets: 1024  Batches: 1  Memory Usage: 66kB                                                                                                                   |
+                          ->  Seq Scan on film_attribute fa  (cost=0.00..18.00 rows=1000 width=25) (actual time=0.006..0.189 rows=1000 loops=1)                                           |
+              ->  Hash  (cost=2.00..2.00 rows=100 width=2) (actual time=0.031..0.032 rows=100 loops=1)                                                                                    |
+                    Buckets: 1024  Batches: 1  Memory Usage: 12kB                                                                                                                         |
+                    ->  Seq Scan on film_attribute_type fat  (cost=0.00..2.00 rows=100 width=2) (actual time=0.009..0.018 rows=100 loops=1)                                               |
+Planning Time: 1.902 ms                                                                                                                                                                   |
+Execution Time: 13.588 ms                                                                                                                                                                 |
