@@ -1,6 +1,10 @@
 {
-    "require": {
-        "workerman/workerman": "^3.5",
-      "ext-sockets": "*"
-    }
+    "autoload": {
+      "psr-4": {
+        "App\\": "src/"
+      }
+    },
+  "require": {
+    "ext-sockets": "*"
+  }
 }
