@@ -5,6 +5,7 @@ services:
         image: nginx:1.17
         ports:
             - 80:80
+        working_dir: /var/app
         volumes:
             - ./server/socket:/var/run
             - ./app:/var/app

@@ -1,5 +1,8 @@
-FROM php:7.4-fpm
+FROM php:7.2-fpm
 RUN apt-get update && apt-get install -y \
+    unzip \
+    vim \
+    mc \
     git \
     wget \
     curl \
@@ -11,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-openssl-dev \
     libpq-dev \
-    libz-dev
+    libz-dev \
+    libzip-dev
 
 RUN pecl install -of redis \
     && docker-php-ext-enable redis \
@@ -23,7 +27,7 @@ RUN pecl install -of redis \
     && docker-php-ext-enable propro \
     && pecl install -of pecl_http \
     && docker-php-ext-enable http \
-    && docker-php-ext-install pdo pdo_pgsql pgsql sockets
+    && docker-php-ext-install pdo pdo_pgsql pgsql sockets zip
 
 RUN wget https://getcomposer.org/composer-stable.phar \
     && mv /var/www/html/composer-stable.phar /usr/bin/composer \
