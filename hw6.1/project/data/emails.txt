@@ -1,0 +1,16 @@
+  test@test.com
+example@gmail.com
+example@.gmail.com
+        example@.gmail,com
+te+st@mail.ru
+abcd@yandex.ru
+
+ abcd@yan-dex.ru
+abcd@yan---dex.ru
+abc d@yandex.ru
+
+abcd@yan dex.ru
+ex@mple@gmail.com
+qazqaz
+@
+my@localhost
