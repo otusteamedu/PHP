@@ -19,22 +19,11 @@
         crossorigin="anonymous"></script>
 <form method="get" action="index.php">
     <div class="form-group">
-        <label for="emailForm">Email address</label>
-        <input type="email" class="form-control" style="width: 30%" id="emailForm" name="email" required placeholder="Enter email">
+        <label for="emailForm">Email адрес(а)</label>
+        <textarea class="form-control" style="width: 30%" id="emailForm" name="emails" required>
+        </textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<script>
-    $(document).ready(function() {
-        $('#emailForm').on('change', function () {
-            let email = $(this).val();
-
-            if (email.length > 0
-                && (email.match(/.+?\@.+/g) || []).length !== 1) {
-                alert('Вы ввели некорректный e-mail!');
-            }
-        });
-    });
-</script>
 </body>
 </html>
