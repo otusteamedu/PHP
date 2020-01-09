@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  balancer:
+    build: ./docker/nginx00-balancer
+    ports:
+      - 80:80
+    links:
+      - nginx01
+      - nginx02
+      - nginx03
+    volumes:
+      - ./app:/var/www/
+      - ./docker/nginx00-balancer/balancer.conf:/etc/nginx/conf.d/balancer.conf
+
+  nginx01:
+    build: ./docker/nginx01
+    links:
+      - php01
+    volumes:
+      - ./app:/var/www/
+      - ./docker/nginx01/nginx01.conf:/etc/nginx/conf.d/nginx01.conf
+
+  nginx02:
+    build: ./docker/nginx02
+    links:
+      - php02
+    volumes:
+      - ./app:/var/www/
+      - ./docker/nginx02/nginx02.conf:/etc/nginx/conf.d/nginx02.conf
+
+  nginx03:
+    build: ./docker/nginx03
+    links:
+      - php03
+    volumes:
+      - ./app:/var/www/
+      - ./docker/nginx03/nginx03.conf:/etc/nginx/conf.d/nginx03.conf
+
+  php01:
+    build: ./docker/php01
+    volumes:
+      - ./app:/var/www/
+
+  php02:
+    build: ./docker/php02
+    volumes:
+      - ./app:/var/www/
+
+  php03:
+    build: ./docker/php03
+    volumes:
+      - ./app:/var/www/
