@@ -32,7 +32,9 @@ RUN echo "xdebug.remote_enable=1 \nxdebug.idekey=PHPSTORM \nxdebug.default_enabl
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && adduser --disabled-password --gecos "" user \
-    && rm /usr/local/etc/php-fpm.d/zz-docker.conf
+    && rm /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && mkdir /socket \
+    && chown user:user /socket
 
 USER user
 

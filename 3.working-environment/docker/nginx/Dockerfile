@@ -9,6 +9,8 @@ RUN touch /var/run/nginx.pid \
     && chown -Rf user:user \
     /var/cache/nginx \
     /var/log/nginx \
-    /var/run/nginx.pid
+    /var/run/nginx.pid \
+    && mkdir /socket \
+    && chown user:user /socket
 
 USER user

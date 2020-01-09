@@ -1,0 +1,5 @@
+{
+  "require": {
+    "alexander-vasiliev/packagist-person-package": ">=1.2"
+  }
+}
