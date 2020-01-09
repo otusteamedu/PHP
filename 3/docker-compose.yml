@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    container_name: php
+    build: php
+    volumes:
+      - ./app:/home/www/
+      - phpsocket:/var/run
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/home/www/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - phpsocket:/var/run
+    depends_on:
+      - app
+volumes:
+  phpsocket:
