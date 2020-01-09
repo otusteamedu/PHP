@@ -5,7 +5,6 @@ services:
   socket_php:
     build:
       context: "php"
-    hostname: "socket-php"
     working_dir: "/app"
     volumes:
       - "..:/app"
@@ -17,7 +16,6 @@ services:
   socket_php_2:
     build:
       context: "php"
-    hostname: "socket-php-2"
     working_dir: "/app"
     volumes:
       - "..:/app"
@@ -29,7 +27,6 @@ services:
   socket_nginx:
     build:
       context: "nginx"
-    hostname: "socket-nginx"
     working_dir: "/app"
     volumes:
       - "..:/app"
@@ -41,7 +38,6 @@ services:
   socket_nginx_2:
     build:
       context: "nginx"
-    hostname: "socket-nginx"
     working_dir: "/app"
     volumes:
       - "..:/app"
@@ -54,12 +50,9 @@ services:
   socket_nginx_balancer:
     build:
       context: "nginx_balancer"
-    hostname: "socket-nginx"
-    working_dir: "/app"
     ports:
       - "8080:8080"
     volumes:
-      - "..:/app"
       - "../docker/socket:/socket"
     environment:
       PS1: "\\u@\\h:\\w\\$$ "
