@@ -1,0 +1,7 @@
+- прислать команду для клонирования с гита
+
+$ git clone https://github.com/bimosprog/Lesson3.git
+
+- прислать команду для установки через composer
+
+$ composer require bimosprog/lesson3
