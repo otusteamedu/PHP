@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+
+  php:
+    build:
+      context: 'php'
+    container_name: php
+    working_dir: '/app'
+    volumes:
+      - ../code/:/app
+      - ../docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - socket:/socket
+
+  nginx:
+    build:
+      context: 'nginx'
+    container_name: nginx
+    ports:
+      - 80:8080
+    volumes:
+      - ../code/:/app
+      - ../docker/nginx/app.conf:/etc/nginx/conf.d/default.conf
+      - ../docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - socket:/socket
+
+volumes:
+  socket:

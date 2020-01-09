@@ -1,0 +1,5 @@
+Packagist
+> composer require alexander-vasiliev/packagist-person-package
+
+Git
+> git clone git@github.com:AlexanderVasiliev23/packagist-person-package.git
