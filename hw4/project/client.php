@@ -10,7 +10,7 @@ if (!$socket) {
 
 // same socket will be later used in recv_from
 // no binding is required if you wish only send and never receive
-$client_side_sock = dirname(__FILE__)."/client.sock";
+$client_side_sock = "/tmp/client.sock";
 if (!socket_bind($socket, $client_side_sock)) {
     die("Unable to bind to $client_side_sock");
 }
@@ -20,8 +20,8 @@ if (!socket_set_nonblock($socket)) {
     die('Unable to set nonblocking mode for socket');
 }
 // server side socket filename is known apriori
-$server_side_sock = dirname(__FILE__)."/server.sock";
-$msg = "Message";
+$server_side_sock =  "/tmp/server.sock";
+$msg = $argv[1];
 $len = strlen($msg);
 // at this point 'server' process must be running and bound to receive from serv.sock
 $bytes_sent = socket_sendto($socket, $msg, $len, 0, $server_side_sock);

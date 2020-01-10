@@ -22,4 +22,3 @@ services:
       - ./project:/var/www/html
 volumes:
   socket: {}
-
