@@ -1,5 +1,7 @@
 <?php
-$handle = fopen("file.txt", "w");
+// $handle = fopen("file.txt", "w");
+echo dirname(__FILE__) . './././socket/socket';
+
 if (!extension_loaded('sockets')) {
     die('The sockets extension is not loaded.');
 }
@@ -10,7 +12,7 @@ if (!$socket) {
 }
 
 // same socket will be used in recv_from and send_to
-$server_side_sock = dirname(__FILE__)."/server.sock";
+$server_side_sock = "/socket";
 if (!socket_bind($socket, $server_side_sock)) {
     die("Unable to bind to $server_side_sock");
 }
