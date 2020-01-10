@@ -1,0 +1,58 @@
+version: "3.4"
+
+services:
+
+  socket_php:
+    build:
+      context: "php"
+    working_dir: "/app"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+      SOCK: 'php-fpm.sock'
+
+  socket_php_2:
+    build:
+      context: "php"
+    working_dir: "/app"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+      SOCK: 'php-fpm-2.sock'
+
+  socket_nginx:
+    build:
+      context: "nginx"
+    working_dir: "/app"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+      SOCK: 'php-fpm.sock'
+
+  socket_nginx_2:
+    build:
+      context: "nginx"
+    working_dir: "/app"
+    volumes:
+      - "..:/app"
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+      SOCK: 'php-fpm-2.sock'
+
+
+  socket_nginx_balancer:
+    build:
+      context: "nginx_balancer"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "../docker/socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
