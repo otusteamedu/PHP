@@ -1,0 +1,10 @@
+{
+  "name": "evrimedont/otus-php-hw4-client",
+  "type": "project",
+  "require": {
+    "clue/socket-raw": "^1.4",
+    "league/climate": "^3.5",
+    "hassankhan/config": "^2.1",
+    "symfony/yaml": "^5.0"
+  }
+}

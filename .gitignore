@@ -1,0 +1,4 @@
+/.idea/
+/server/vendor/
+/client/vendor/
+/.env

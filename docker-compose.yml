@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./docker/php-cli
+      args:
+        UID: "${uid}"
+        GID: "${gid}"
+    tty: true
+    volumes:
+      - ./server:/app
+      - socket:/socket
+    networks:
+      - otus-php
+
+  client:
+    build:
+      context: ./docker/php-cli
+      args:
+        UID: "${uid}"
+        GID: "${gid}"
+    tty: true
+    volumes:
+      - ./client:/app
+      - socket:/socket
+    networks:
+      - otus-php
+
+volumes:
+  socket:
+
+networks:
+  otus-php:
+    driver: bridge
