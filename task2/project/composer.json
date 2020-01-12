@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "ushakovme/amocrm": "^0.3.28"
     },
     "repositories": [
         {
