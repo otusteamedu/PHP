@@ -12,8 +12,7 @@ RUN apt-get update \
     && pecl install -of raphf && docker-php-ext-enable raphf \
     && pecl install -of propro && docker-php-ext-enable propro \
     && pecl install -of pecl_http && echo "extension=http.so" >> /usr/local/etc/php/conf.d/docker-php-ext-zhttp.ini
-VOLUME [ "/socket" ]
-RUN chmod 777 /socket
 
 WORKDIR /var/www/html
+
 CMD ["php-fpm"]

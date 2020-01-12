@@ -1,0 +1,18 @@
+{
+    "name": "sacram/unix-sockets",
+    "authors": [
+        {
+            "name": "Andrey Artyushenko",
+            "email": "work.a.andrey@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "UnixSockets\\": "lib/"
+        }
+    }
+}
