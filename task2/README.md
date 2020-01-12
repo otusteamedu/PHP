@@ -18,5 +18,10 @@ git clone git@github.com:ushakovme/amocrm.git
 
 В качестве примера это есть в папке ``project``. Теперь для загрузки библиотеки запустим composer:
 ```bash
- composer require ushakovme/amocrm
+ composer install
+```
+
+И сможем запустить проект
+```bash
+ php index.php
 ```
