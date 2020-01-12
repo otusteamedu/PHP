@@ -1,0 +1,8 @@
+version: '3'
+services:
+  php:
+    build: .
+    container_name: php7.3-dev
+    hostname: project_php
+    volumes:
+      - ./dir:/var/www/html
