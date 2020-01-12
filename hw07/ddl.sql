@@ -3,8 +3,8 @@ CREATE TABLE halls
     hall_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     name    VARCHAR(32)                                  NOT NULL
 );
-COMMENT ON TABLE halls IS ''Кинозады'';
-COMMENT ON COLUMN halls.name IS ''Название зала'';
+COMMENT ON TABLE halls IS 'Кинозады';
+COMMENT ON COLUMN halls.name IS 'Название зала';
 
 CREATE TABLE hall_places
 (
@@ -12,8 +12,8 @@ CREATE TABLE hall_places
     hall_id        INT REFERENCES halls (hall_id)               NOT NULL,
     hall_place_num INT                                          NOT NULL
 );
-COMMENT ON TABLE hall_places IS ''Места в кинозале'';
-COMMENT ON COLUMN hall_places.hall_place_num IS ''Номер места в зале'';
+COMMENT ON TABLE hall_places IS 'Места в кинозале';
+COMMENT ON COLUMN hall_places.hall_place_num IS 'Номер места в зале';
 
 CREATE TABLE film_sessions
 (
@@ -24,10 +24,10 @@ CREATE TABLE film_sessions
     time_to         TIMESTAMP                                    NOT NULL
 );
 
-COMMENT ON TABLE film_sessions IS ''Сеансы'';
-COMMENT ON COLUMN film_sessions.name IS ''Название фильма'';
-COMMENT ON COLUMN film_sessions.time_from IS ''Начало фильма'';
-COMMENT ON COLUMN film_sessions.time_to IS ''Конец фильма'';
+COMMENT ON TABLE film_sessions IS 'Сеансы';
+COMMENT ON COLUMN film_sessions.name IS 'Название фильма';
+COMMENT ON COLUMN film_sessions.time_from IS 'Начало фильма';
+COMMENT ON COLUMN film_sessions.time_to IS 'Конец фильма';
 
 CREATE TABLE place_prices
 (
@@ -37,7 +37,7 @@ CREATE TABLE place_prices
     price           FLOAT                                          NOT NULL
 );
 
-COMMENT ON TABLE place_prices IS ''Стоимость мест на сеансах'';
+COMMENT ON TABLE place_prices IS 'Стоимость мест на сеансах';
 
 CREATE TABLE clients
 (
@@ -47,7 +47,7 @@ CREATE TABLE clients
     birth_date DATE
 );
 
-COMMENT ON TABLE clients IS ''Клиенты'';
+COMMENT ON TABLE clients IS 'Клиенты';
 
 
 CREATE TABLE orders
@@ -58,7 +58,7 @@ CREATE TABLE orders
     datetime   TIMESTAMP                                      NOT NULL DEFAULT now()
 );
 
-COMMENT ON TABLE orders IS ''Заказы'';
+COMMENT ON TABLE orders IS 'Заказы';
 
 CREATE TABLE order_details
 (
@@ -68,4 +68,4 @@ CREATE TABLE order_details
     hall_place_id   INT REFERENCES hall_places (hall_place_id)     NOT NULL
 );
 
-COMMENT ON TABLE order_details IS ''Состав заказа'';
+COMMENT ON TABLE order_details IS 'Состав заказа';
