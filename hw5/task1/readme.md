@@ -1,18 +1,21 @@
 1. composer
     ```bash
-    composer dump-autoload
+    composer install
     ``` 
-
+2. 
+```bash
+mv .env.example .env
+```
 2. Начните принимать сообщения:
 
     ```bash
-    php server.php
+    php app.php server
     ```
 
 3. Подключите клиента
 
     ```bash
-    php client.php
+    php app.php client
     ```
 
 4. Отпрвляйте сообщения с клиента

@@ -12,5 +12,8 @@
     "psr-4": {
       "Ushakov\\": "src/"
     }
+  },
+  "require": {
+    "vlucas/phpdotenv": "^4.1"
   }
 }

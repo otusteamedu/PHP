@@ -66,7 +66,7 @@ class Client
 
     public function closeConnection()
     {
-        socket_write($this->socket, Messages::QUIT_MESSAGE);
+        socket_write($this->socket, Server::QUIT_MESSAGE);
         socket_close($this->socket);
     }
 
