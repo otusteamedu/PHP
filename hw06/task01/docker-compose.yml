@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket:/run/php
+
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket:/run/php
+    depends_on:
+      - php
+volumes:
+  phpsocket:

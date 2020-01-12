@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  balancer:
+    build: ./docker/balancer
+    ports:
+      - 80:80
+    links:
+      - nginx01
+      - nginx02
+      - nginx03
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/balancer/app.local.conf:/etc/nginx/conf.d/app.local.conf
+
+  nginx01:
+    build: ./docker/nginx01
+    links:
+      - php01
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx01/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket01:/run/php
+
+  nginx02:
+    build: ./docker/nginx02
+    links:
+      - php02
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx02/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket02:/run/php
+
+  nginx03:
+    build: ./docker/nginx03
+    links:
+      - php03
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx03/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket03:/run/php
+
+  php01:
+    build: ./docker/php01
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket01:/run/php
+
+  php02:
+    build: ./docker/php02
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket02:/run/php
+
+  php03:
+    build: ./docker/php03
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket03:/run/php
+
+
+volumes:
+  phpsocket01:
+  phpsocket02:
+  phpsocket03:

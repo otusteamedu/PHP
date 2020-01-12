@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+// bin/console
+
+use App\Support\CommandMap;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+/** @var ContainerInterface $container */
+$container = require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+
+$loader = new ContainerCommandLoader($container, $container->get(CommandMap::class)->getMap());
+$app = new Application();
+$app->setCommandLoader($loader);
+/** @noinspection PhpUnhandledExceptionInspection */
+$app->run(new ArgvInput(), new ConsoleOutput());

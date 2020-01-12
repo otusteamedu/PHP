@@ -1,0 +1,6 @@
+.idea
+/config/*
+/vendor/*
+/var/cache/*
+!/config/app.ini
+!/var/cache/.gitkeep
