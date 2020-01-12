@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c768869989214b5043c3177687ad1df1",
+    "content-hash": "947100b7286548465301cd37aac5add4",
     "packages": [
         {
             "name": "clue/socket-raw",

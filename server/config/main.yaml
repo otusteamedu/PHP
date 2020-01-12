@@ -1,0 +1,2 @@
+socket_file: /socket/app.sock
+max_message_byte: 256

@@ -1,5 +1,10 @@
 <?php
 
+use Noodlehaus\Config;
+
+set_time_limit (0);
+ob_implicit_flush ();
+
 require 'vendor/autoload.php';
 
 if (PHP_SAPI !== 'cli') {
@@ -7,27 +12,52 @@ if (PHP_SAPI !== 'cli') {
     echo PHP_EOL;
 }
 
-set_time_limit (0);
-ob_implicit_flush ();
+$config = Config::load('config/main.yaml');
+$socketFile = $config->get('socket_file');
+$maxMessageByte = $config->get('max_message_byte');
 
-//$factory = new \Socket\Raw\Factory();
-//$socket = $factory->createClient('unix:///socket/socket.sock');
-
-$socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-if (!$socket) {
-    exit('Unable to create socket.');
+if (file_exists($socketFile)) {
+    unlink($socketFile);
 }
 
-$socketFile = "/socket/app.sock";
+$socketBot = new \App\SocketBot();
 
-if (!socket_bind($socket, $socketFile)) {
-    exit("Unable to bind to $socketFile");
+$factory = new \Socket\Raw\Factory();
+$server = $factory->createServer("unix://{$socketFile}");
+
+$server->setBlocking(false);
+
+echo 'Сервер ждёт соединений...' . PHP_EOL;
+
+while (true) {
+
+    if ($server->selectRead(1)) {
+
+        $client = $server->accept();
+
+        echo 'Установлено новое соединение' . PHP_EOL;
+
+        do {
+            $message = $client->read($maxMessageByte);
+            echo '[client]: ' . $message . PHP_EOL;
+
+            if (($message !== 'пока')) {
+                if ($client->selectWrite(1)) {
+                    $client->send($socketBot->sayReplyTo($message), 0);
+                }
+            }
+
+        } while ($message !== 'пока');
+
+        $client->close();
+
+        echo 'Соединение закрыто' . PHP_EOL;
+    }
+
+    usleep(100000);
 }
 
-socket_close($socket);
+$server->shutdown();
+$server->close();
+
 unlink($socketFile);
-
-
-
-//socket_sendto($socket, "Hello World!", 12, 0, "/socket/app.sock", 0);
-//echo "sent\n";
