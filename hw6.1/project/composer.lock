@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leadorub/ai-email-validator",
-                "reference": "6198d168318e2e1cb180c3d6896e04bf8380f194"
+                "reference": "7897162e1e265d92894757111253fa46e5d7ce5e"
             },
             "require": {
                 "php": "^7.4"
@@ -33,7 +33,7 @@
                 }
             ],
             "description": "The package validates e-mail addresses without sending confirmations",
-            "time": "2020-01-08T18:21:59+00:00"
+            "time": "2020-01-12T21:21:44+00:00"
         }
     ],
     "packages-dev": [],

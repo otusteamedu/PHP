@@ -3,21 +3,17 @@
 namespace AI\backend_php_hw6_1;
 
 
+use AI\backend_php_hw6_1\Settings\IniFileHandler;
 use AI\EmailValidator\EmailValidator;
 
 class App
 {
     private EmailValidator $validator;
 
-    public function __construct()
+    public function __construct(string $configFile)
     {
-        $rules = [
-            new \AI\EmailValidator\Rules\SimpleRegexpRule(),
-            new \AI\EmailValidator\Rules\MxRecordRule(),
-            new \AI\backend_php_hw6_1\CustomEmailValidatorRules\PhpFilterRule(),
-            new \AI\backend_php_hw6_1\CustomEmailValidatorRules\Rfc822RegexpRule(),
-        ];
-
+        $iniFile = new IniFileHandler($configFile);
+        $rules = $iniFile->getSettings()['rules'] ?? [];
         $this->validator = new EmailValidator($rules);
     }
 
