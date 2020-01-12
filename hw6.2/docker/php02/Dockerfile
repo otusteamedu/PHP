@@ -3,8 +3,9 @@ FROM php:7.4-fpm
 WORKDIR /var/www/app.local
 
 COPY php.ini /usr/local/etc/php/
+COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-RUN apt-get update && apt-get install -y git curl wget grep nano mc procps sudo \
+RUN apt-get update && apt-get install -y git curl wget grep mc procps sudo \
     zip unzip \
     build-essential \
     libzip-dev \
@@ -19,5 +20,4 @@ RUN apt-get update && apt-get install -y git curl wget grep nano mc procps sudo 
     && docker-php-ext-install pdo_mysql zip exif pcntl \
     && apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
-EXPOSE 9000
 CMD php-fpm --nodaemonize

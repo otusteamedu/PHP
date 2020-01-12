@@ -20,6 +20,7 @@ services:
     volumes:
       - ./app:/var/www/
       - ./docker/nginx01/nginx01.conf:/etc/nginx/conf.d/nginx01.conf
+      - socket01:/run/php
 
   nginx02:
     build: ./docker/nginx02
@@ -28,6 +29,7 @@ services:
     volumes:
       - ./app:/var/www/
       - ./docker/nginx02/nginx02.conf:/etc/nginx/conf.d/nginx02.conf
+      - socket02:/run/php
 
   nginx03:
     build: ./docker/nginx03
@@ -36,18 +38,27 @@ services:
     volumes:
       - ./app:/var/www/
       - ./docker/nginx03/nginx03.conf:/etc/nginx/conf.d/nginx03.conf
+      - socket03:/run/php
 
   php01:
     build: ./docker/php01
     volumes:
       - ./app:/var/www/
+      - socket01:/run/php
 
   php02:
     build: ./docker/php02
     volumes:
       - ./app:/var/www/
+      - socket02:/run/php
 
   php03:
     build: ./docker/php03
     volumes:
       - ./app:/var/www/
+      - socket03:/run/php
+
+volumes:
+  socket01:
+  socket02:
+  socket03:
