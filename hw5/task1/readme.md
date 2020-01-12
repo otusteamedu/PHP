@@ -2,7 +2,7 @@
     ```bash
     composer install
     ``` 
-2. 
+2. Копируем конфиг
 ```bash
 mv .env.example .env
 ```
