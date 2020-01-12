@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./docker/nginx/balancer:/etc/nginx/conf.d
+    links:
+      - nginx-backend-1
+      - nginx-backend-2
+        
+  nginx-backend-1:
+    image: nginx:latest
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/nginx/backend:/etc/nginx/conf.d
+      - ./www:/var/www
+    restart: always
+    links:
+      - php-1
+      - php-2
+      - php-3
+
+  nginx-backend-2:
+    image: nginx:latest
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/nginx/backend:/etc/nginx/conf.d
+      - ./www:/var/www
+    restart: always
+    links:
+      - php-1
+      - php-2
+      - php-3
+
+  php-1:
+    build: ./docker/phpfpm
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www
+    restart: always
+
+  php-2:
+    build: ./docker/phpfpm
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www
+    restart: always
+
+  php-3:
+    build: ./docker/phpfpm
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www
+    restart: always
