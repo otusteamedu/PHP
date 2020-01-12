@@ -1,6 +1,7 @@
 Запускаем докер
 
 ```bash
+cd task3/docker
 docker-compose up
 ```
 
