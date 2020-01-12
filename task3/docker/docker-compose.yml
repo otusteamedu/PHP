@@ -7,7 +7,8 @@ services:
       - 9000
     volumes:
       - ../src:/var/www/ushakov
-      - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./php/php.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - sock:/var/sockets
   nginx:
     build:
       context: nginx
@@ -15,4 +16,8 @@ services:
       - 8080:80
     volumes:
       - ../src:/var/www/ushakov
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/ushakov.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ushakov.conf:/etc/nginx/conf.d/ushakov.conf
+      - sock:/var/sockets
+volumes:
+  sock:

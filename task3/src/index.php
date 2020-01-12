@@ -1,2 +1,2 @@
 <?php
-echo "hi";
+echo "hi" . PHP_EOL;
