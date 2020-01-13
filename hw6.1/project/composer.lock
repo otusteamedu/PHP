@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "830ab6cc2b5252e92979f9392e78035b",
+    "packages": [
+        {
+            "name": "ai/email-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leadorub/ai-email-validator",
+                "reference": "7897162e1e265d92894757111253fa46e5d7ce5e"
+            },
+            "require": {
+                "php": "^7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AI\\EmailValidator\\": "src/AI/EmailValidator"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksey Ivanov",
+                    "email": "ai@proto.uz"
+                }
+            ],
+            "description": "The package validates e-mail addresses without sending confirmations",
+            "time": "2020-01-12T21:21:44+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ai/email-validator": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.4"
+    },
+    "platform-dev": []
+}

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    build: ./nginx
+    container_name: nginx-hw6.1
+    hostname: email_verifier_nginx
+    ports:
+      - "127.0.0.2:80:80"
+      - "127.0.0.2:443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./project:/var/www
+      - ./logs:/var/log/nginx
+      - socket:/run/php
+    links:
+      - php
+
+  php:
+    build: ./php
+    container_name: php7.4-hw6.1
+    hostname: email_verifier_php
+    volumes:
+      - ./project:/var/www
+      - socket:/run/php
+    working_dir: /var/www
+
+volumes:
+  socket:

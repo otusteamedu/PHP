@@ -1,0 +1,26 @@
+{
+  "name": "aivanow/otus-backend-php-hw6.1-email-verification",
+  "license": "MIT",
+  "description": "Homework 6.1. E-mail verification service",
+  "authors": [
+    {
+      "name": "Aleksey Ivanov",
+      "email": "ai@proto.uz"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ai/email-validator": "dev-master"
+  },
+  "repositories":[
+    {
+      "type": "git",
+      "url": "https://github.com/leadorub/ai-email-validator"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "AI\\backend_php_hw6_1\\": "src/AI"
+    }
+  }
+}
