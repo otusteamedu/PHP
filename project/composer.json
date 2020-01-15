@@ -2,8 +2,8 @@
     "name": "sacram/unix-sockets",
     "authors": [
         {
-            "name": "Andrey Artyushenko",
-            "email": "work.a.andrey@gmail.com"
+            "name": "Dmitriy Shaydurov",
+            "email": "dmitriy.shaydurov@gmail.com"
         }
     ],
     "minimum-stability": "dev",

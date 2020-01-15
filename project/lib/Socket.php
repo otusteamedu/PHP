@@ -13,14 +13,13 @@ abstract class Socket
 
     abstract protected function Act();
     
-    public function __construct($config, $server = true, $message = '')
+    public function __construct($server = true, $message = '')
     {
         $this->message = $message;
-        $this->config = $config;
+        $this->config = require_once __DIR__ . '/../app/config.php';
         $this->server = $server;
-
-        $this->pathToSocket = ($server ? $config['server_socket_file_path'] : $config['client_socket_file_path']);
-        $this->messageLength = $config['message_length'];
+        $this->pathToSocket = ($server ? $this->config['server_socket_file_path'] :  $this->config['client_socket_file_path']);
+        $this->messageLength =  $this->config['message_length'];
         
         $this->deleteSocketFile();
 
