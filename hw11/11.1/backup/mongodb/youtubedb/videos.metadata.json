@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"youtubedb.videos"},{"v":{"$numberInt":"2"},"key":{"channel_url":{"$numberDouble":"1.0"}},"name":"channel_url_1","ns":"youtubedb.videos"}],"uuid":"cee983fd556743959c620bfbcb735191"}
