@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: cinema
+      POSTGRES_USER: cinema
+      POSTGRES_DB: cinema
+    volumes:
+      - ./postgresql-cinema:/docker-entrypoint-initdb.d
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 80:8080
