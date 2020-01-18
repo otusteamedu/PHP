@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Services;
 
 use MongoDB\Database;
 use MongoDB\Driver\Cursor;

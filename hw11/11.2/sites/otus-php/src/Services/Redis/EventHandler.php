@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Services\Redis;
 
 use App\Validators\EventValidator;
 use Predis\Collection\Iterator;
@@ -36,7 +36,7 @@ class EventHandler
             $dbResponse = $this->db->executeRaw(['JSON.SET', $key, '.', $validEvent]);
 
             if (!$dbResponse == 'OK') {
-                throw new \Exception("Event didn't added. Error: {$dbResponse}");
+                throw new \Exception("Событие не было добавлено. Ошибка: {$dbResponse}");
             }
 
             return $key;
@@ -45,7 +45,7 @@ class EventHandler
     /**
      * @throws \Exception
      */
-    public function query(string $query): string
+    public function query($query): string
     {
         $validQuery = $this->validator->validateQuery($query);
         $events = $this->getEvents();

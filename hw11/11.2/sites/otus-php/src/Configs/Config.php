@@ -19,9 +19,16 @@ class Config
         if ($this->config['environment'] == 'dev') {
             error_reporting(E_ALL);
             ini_set('display_errors', 'on');
+        } else {
+            ini_set('display_errors', 'off');
         }
+
+        set_exception_handler('App\Kernel\ExceptionHandler::errorHandler');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function createDbClient(): object
     {
         if (empty($this->config['storage'])) {
@@ -34,6 +41,7 @@ class Config
                 if (empty($this->config['mongo_db_user'])
                     || empty($this->config['mongo_db_password'])
                     || empty($this->config['mongo_db'])
+                    || empty($this->config['mongo_db_port'])
                 ) {
                     throw new \Exception('Установите параметры доступа к хранилищу данных');
                 }
@@ -41,7 +49,8 @@ class Config
                 $user = $this->config['mongo_db_user'];
                 $pwd = $this->config['mongo_db_password'];
                 $dbName = $this->config['mongo_db'];
-                $mongoClient = new MongoDB\Client("mongodb://{$user}:{$pwd}@mongodb:27017");
+                $dbPort = $this->config['mongo_db_port'];
+                $mongoClient = new MongoDB\Client("mongodb://{$user}:{$pwd}@mongodb:{$dbPort}");
 
                 return $mongoClient->$dbName;
 
@@ -49,10 +58,20 @@ class Config
 
             case 'redis':
 
-                return new Predis\Client('tcp://redis:6379');
+                if (empty($this->config['redis_port'])) {
+                    throw new \Exception('Установите параметры доступа к хранилищу данных');
+                }
+
+                $dbPort = $this->config['redis_port'];
+
+                return new Predis\Client("tcp://redis:{$dbPort}");
 
                 break;
         }
     }
 
+    public function getEnvironment(): ?string
+    {
+        return isset($this->config['environment']) ? $this->config['environment'] : null ;
+    }
 }

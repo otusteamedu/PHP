@@ -4,15 +4,15 @@
 
         docker-compose up -d
 
-2. Заполнение данные Redis через php-скрипт:
+2. Заполнение данными Redis через php-скрипт:
 
-        localhost/redis_init.php
+        localhost/redis/load_data
      
 #### Проверка
 
 1. Добавление событий реализовано через GET параметр для удобства проверки:    
 
-        localhost/redis.php?add_event=<{данные события}>     
+        localhost/redis/add_event/?event=<{данные события}>     
 
 add_event - принимает строку с описанием события,    
  можно вставить шаблон указанный ниже:         
@@ -29,13 +29,11 @@ add_event - принимает строку с описанием события
 
 2. Удаление доступных событий:    
 
-        localhost/redis.php?drop_events=true     
- 
-drop_events - для удаления должно быть указано true
+        localhost/redis/drop_events    
 
 3. Ответ на запрос пользователя подходящим событием:   
 
-        localhost/redis.php?query=<{запрос}>     
+        localhost/redis/query_event/?query=<{запрос}>     
 
 query - принимает строку с параметрами,    
  можно вставить шаблон указанный ниже:     
@@ -43,38 +41,7 @@ query - принимает строку с параметрами,
     { 
         "params": {
             "param1": 1,
-            "param1": 3,
+            "param1": 2,
             "param2": 2
         }
     }
-    
-
-
-
-
-
-    
-    
-
-    
-    
-    
-    
-    
-add_event={
-    "priority": 1000, 
-    "conditions": {
-        "param1": 1
-    }, 
-    "event": {
-        "name": "Название события"
-        }
-}
-    
-query={ 
-    "params": {
-        "param1": 1,
-        "param1": 3,
-        "param2": 2
-    }
-}

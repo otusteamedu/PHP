@@ -4,9 +4,9 @@
 
     docker-compose up -d && make mongo_restore
 
-Также данные можно создать через php-скрипт:
+Данные уже добавлено, но если что-то удалили можно создать через php-скрипт:
 
-    localhost/index_init.php
+    localhost/load_data
  
 #### Модели данных
 
@@ -47,14 +47,14 @@
 
 1. Проверка запросы "Суммарное кол-во лайков и дизлайков для канала по всем его видео":    
 
-        localhost/sum_likes.php?channel_url=<url_катала>     
+        localhost/sum_likes/?channel_url=<url_катала>     
 
 channel_url - url канала,    
 если не указать то будут возвращены данные для канала "channel_1_url"
 
 2. Проверка запроса "Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков":    
 
-        localhost/top_rate_channels.php?limit=<5>
+        localhost/top_channels/?limit=<5>
         
 limit - количество выводимых Топ каналов,    
 если не указать то будут возвращены данные для Топ 5 каналов     

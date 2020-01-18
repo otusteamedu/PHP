@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Kernel;
 
 class Request
 {
     private $get = [];
 
-    public function __construct(array $request)
+    public function __construct()
     {
-        $this->get = $request;
+        $this->get = $_GET;
     }
 
     public function get(string $key): ?string

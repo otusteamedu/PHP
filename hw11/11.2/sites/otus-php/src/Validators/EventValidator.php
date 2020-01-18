@@ -6,11 +6,24 @@ namespace App\Validators;
 
 class EventValidator
 {
+    /**
+     * @throws \Exception
+     */
     public function isJson($str)
     {
+        if (empty($str)) {
+            throw new \Exception("Вы передали пустую строку");
+        }
+
         $json = json_decode($str);
 
-        return $json !== false && !is_null($json) && $str != $json;
+        $result = $json !== false && !is_null($json) && $str != $json;
+
+        if (!$result) {
+            throw new \Exception("Вы передали строку не формате JSON");
+        }
+
+        return $result;
     }
 
     /**
@@ -18,9 +31,7 @@ class EventValidator
      */
     public function validateEvent($event): string
     {
-        if (!$this->isJson($event)) {
-            throw new \Exception("Event isn't valid JSON");
-        }
+        $this->isJson($event);
 
         $newEvent = json_decode($event, true);
         $badFields = [];
@@ -61,9 +72,8 @@ class EventValidator
      */
     public function validateQuery($query): array
     {
-        if (!$this->isJson($query)) {
-            throw new \Exception("Query isn't valid JSON");
-        }
+        $this->isJson($query);
+
         $arQuery = json_decode($query, true);
         $badFields = [];
 
