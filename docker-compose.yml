@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+     - 80:8080
+    volumes:
+     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+     - ./nginx/conf/:/etc/nginx/conf.d/
+    working_dir: ${APP_PATH_CONTAINER}
+    links:
+      - php
+  php:
+    image: php:7.4.1-fpm-buster
+    ports:
+      - 9001:9000
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
