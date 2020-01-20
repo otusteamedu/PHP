@@ -66,157 +66,72 @@ ALTER TABLE bookings
 
 CREATE TABLE movie_attribute_types (
     id SERIAL,
-    title VARCHAR(512),
+    title VARCHAR(64) NOT NULL,
+    comment TEXT,
     PRIMARY KEY (id)
 );
 CREATE UNIQUE INDEX movie_attribute_type_titles_unique ON movie_attribute_types (lower(title));
 
-CREATE TABLE movie_attribute_text (
+CREATE TABLE movie_attributes (
     id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value TEXT NOT NULL,
+    type_id INT NOT NULL,
+    title VARCHAR(512) NOT NULL,
     PRIMARY KEY (id)
 );
-ALTER TABLE movie_attribute_text
-    ADD CONSTRAINT fk_movie_attribute_text_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_text
-    ADD CONSTRAINT fk_movie_attribute_text_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_text_movie_id_attribute_type_id ON movie_attribute_text(movie_id, attribute_type_id);
+CREATE UNIQUE INDEX movie_attributes_titles_unique ON movie_attributes (lower(title));
+ALTER TABLE movie_attributes
+    ADD CONSTRAINT fk_movie_attributes_movie_attributes_types FOREIGN KEY (type_id)
+        REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
-CREATE TABLE movie_attribute_date_service (
+CREATE TABLE movie_attribute_values (
     id SERIAL,
     movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value DATE NOT NULL,
+    attribute_id INT NOT NULL,
+    value_text VARCHAR,
+    value_date DATE,
+    value_bool BOOLEAN,
+    value_int INT,
+    value_float NUMERIC,
+    value_money MONEY,
     PRIMARY KEY (id)
 );
-ALTER TABLE movie_attribute_date_service
-    ADD CONSTRAINT fk_movie_attribute_date_service_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_date_service
-    ADD CONSTRAINT fk_movie_attribute_date_service_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_date_service_movie_id_attribute_type_id ON movie_attribute_date_service(movie_id, attribute_type_id);
-
-CREATE TABLE movie_attribute_date_public (
-    id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value DATE NOT NULL,
-    PRIMARY KEY (id)
-);
-ALTER TABLE movie_attribute_date_public
-    ADD CONSTRAINT fk_movie_attribute_date_public_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_date_public
-    ADD CONSTRAINT fk_movie_attribute_date_public_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_date_public_movie_id_attribute_type_id ON movie_attribute_date_public(movie_id, attribute_type_id);
-
-CREATE TABLE movie_attribute_bool (
-    id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value BOOLEAN NOT NULL DEFAULT true,
-    PRIMARY KEY (id)
-);
-ALTER TABLE movie_attribute_bool
-    ADD CONSTRAINT fk_movie_attribute_bool_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_bool
-    ADD CONSTRAINT fk_movie_attribute_bool_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_bool_movie_id_attribute_type_id ON movie_attribute_bool(movie_id, attribute_type_id);
-
-CREATE TABLE movie_attribute_int (
-    id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value INT NOT NULL,
-    PRIMARY KEY (id)
-);
-ALTER TABLE movie_attribute_int
-    ADD CONSTRAINT fk_movie_attribute_int_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_int
-    ADD CONSTRAINT fk_movie_attribute_int_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_int_movie_id_attribute_type_id ON movie_attribute_int(movie_id, attribute_type_id);
-
-CREATE TABLE movie_attribute_money (
-    id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value MONEY NOT NULL,
-    PRIMARY KEY (id)
-);
-ALTER TABLE movie_attribute_money
-    ADD CONSTRAINT fk_movie_attribute_money_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_money
-    ADD CONSTRAINT fk_movie_attribute_money_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_money_movie_id_attribute_type_id ON movie_attribute_money(movie_id, attribute_type_id);
-
-CREATE TABLE movie_attribute_float (
-    id SERIAL,
-    movie_id INT NOT NULL,
-    attribute_type_id INT NOT NULL,
-    value NUMERIC NOT NULL,
-    PRIMARY KEY (id)
-);
-ALTER TABLE movie_attribute_float
-    ADD CONSTRAINT fk_movie_attribute_float_movie FOREIGN KEY (movie_id)
-       REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE movie_attribute_float
-    ADD CONSTRAINT fk_movie_attribute_float_attribute_type FOREIGN KEY (attribute_type_id)
-       REFERENCES movie_attribute_types(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-CREATE UNIQUE INDEX movie_attribute_float_movie_id_attribute_type_id ON movie_attribute_float(movie_id, attribute_type_id);
+CREATE UNIQUE INDEX movie_attribute_values_unique ON movie_attribute_values (movie_id, attribute_id);
+ALTER TABLE movie_attribute_values
+    ADD CONSTRAINT fk_movie_attribute_values_movie FOREIGN KEY (movie_id)
+        REFERENCES movies(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE movie_attribute_values
+    ADD CONSTRAINT fk_movie_attribute_values_attribute FOREIGN KEY (attribute_id)
+        REFERENCES movie_attributes(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 CREATE MATERIALIZED VIEW movie_public_info AS (
-    SELECT m.title as movie, mat.title as attribute, mab.value::text as value
+    SELECT m.title  as movie,
+           ma.title as attribute,
+           CASE mat.title
+               WHEN 'date' THEN mav.value_date::text
+               WHEN 'float' THEN mav.value_float::text
+               WHEN 'text' THEN mav.value_text::text
+               WHEN 'boolean' THEN mav.value_bool::text
+               WHEN 'integer' THEN mav.value_int::text
+               WHEN 'money' THEN mav.value_money::text
+               END AS value
     FROM movies m
-         INNER JOIN movie_attribute_bool mab on m.id = mab.movie_id
-         INNER JOIN movie_attribute_types mat on mab.attribute_type_id = mat.id
-    UNION ALL
-    SELECT m.title as movie, mat.title as attribute, matx.value::text as value
-    FROM movies m
-         INNER JOIN movie_attribute_text matx on m.id = matx.movie_id
-         INNER JOIN movie_attribute_types mat on matx.attribute_type_id = mat.id
-    UNION ALL
-    SELECT m.title as movie, mat.title as attribute, madp.value::text as value
-    FROM movies m
-         INNER JOIN movie_attribute_date_public madp on m.id = madp.movie_id
-         INNER JOIN movie_attribute_types mat on madp.attribute_type_id = mat.id
-    UNION ALL
-    SELECT m.title as movie, mat.title as attribute, maf.value::text as value
-    FROM movies m
-         INNER JOIN movie_attribute_float maf on m.id = maf.movie_id
-         INNER JOIN movie_attribute_types mat on maf.attribute_type_id = mat.id
-    UNION ALL
-    SELECT m.title as movie, mat.title as attribute, mai.value::text as value
-    FROM movies m
-         INNER JOIN movie_attribute_int mai on m.id = mai.movie_id
-         INNER JOIN movie_attribute_types mat on mai.attribute_type_id = mat.id
-    UNION ALL
-    SELECT m.title as movie, mat.title as attribute, mam.value::text as value
-    FROM movies m
-         INNER JOIN movie_attribute_money mam on m.id = mam.movie_id
-         INNER JOIN movie_attribute_types mat on mam.attribute_type_id = mat.id);
-
+        INNER JOIN movie_attribute_values mav on m.id = mav.movie_id
+        INNER JOIN movie_attributes ma on mav.attribute_id = ma.id
+        INNER JOIN movie_attribute_types mat on ma.type_id = mat.id
+    WHERE mat.title != 'service date'
+    ORDER BY m.title, ma.title
+);
 SELECT * FROM movie_public_info;
 
 CREATE OR REPLACE VIEW movie_service_info AS (
-    SELECT
-       m.title,
-       string_agg(CASE WHEN mads.value = now()::date THEN mat.title END, ', ') AS task_for_now,
-       string_agg(CASE WHEN mads.value = (now() + INTERVAL '20 days')::date THEN mat.title END, ', ') AS task_for_20_days
-    FROM movies m
-       INNER JOIN movie_attribute_date_service mads ON m.id = mads.movie_id
-       INNER JOIN movie_attribute_types mat ON mads.attribute_type_id = mat.id
-    GROUP BY m.title
-    );
+     SELECT m.title,
+            string_agg(CASE WHEN value_date = now()::date THEN ma.title END, '; ') AS tasks_for_now,
+            string_agg(CASE WHEN value_date = (now() + INTERVAL '20 days')::date THEN ma.title END, '; ') AS tasks_for_20_days
+     FROM movies m
+              INNER JOIN movie_attribute_values mav on m.id = mav.movie_id
+              INNER JOIN movie_attributes ma on mav.attribute_id = ma.id
+              INNER JOIN movie_attribute_types mat on ma.type_id = mat.id
+     WHERE mat.title = 'service date'
+     GROUP BY m.title
+);
 SELECT * FROM movie_service_info;
