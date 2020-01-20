@@ -1,5 +1,7 @@
 <?php
-require 'EmailValidator.php';
+require "vendor/autoload.php";
+
+use Ushakov\EmailValidator\EmailValidator;
 
 $emails = [
     "ilya@ushakov.me",
