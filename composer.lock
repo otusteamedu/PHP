@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/azat-nizam/email.git",
-                "reference": "49b320137a60e758b865c14bbcf2f24b21c75a74"
+                "reference": "e733ac5902db7c6d04a3a0b5df14f63e7b9948c3"
             },
             "type": "library",
             "autoload": {
@@ -30,7 +30,7 @@
                 }
             ],
             "description": "Email validator",
-            "time": "2020-01-16T16:05:06+00:00"
+            "time": "2020-01-20T12:26:45+00:00"
         }
     ],
     "packages-dev": [],
