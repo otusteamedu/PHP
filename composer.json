@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Otus\\HW7\\": "app/src"
+            "Otus\\HW6\\": "app/src"
         }
     }
 }

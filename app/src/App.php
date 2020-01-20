@@ -1,6 +1,6 @@
 <?php
 
-namespace Otus\HW7;
+namespace Otus\HW6;
 
 use Azatnizam\Email\Validator;
 
