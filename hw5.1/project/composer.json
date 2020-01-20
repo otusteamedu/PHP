@@ -1,0 +1,19 @@
+{
+    "name": "shaydurov/http-client-server",
+    "description": "Homework 5.1. Web application with brackets checker",
+    "authors": [
+        {
+            "name": "Dmitriy Shaydurov",
+            "email": "dmitriy.shaydurov@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "shaydurov\\brackets\\": "lib/"
+        }
+    }
+}
