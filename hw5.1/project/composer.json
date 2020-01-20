@@ -1,9 +1,10 @@
 {
-    "name": "sacram/unix-sockets",
+    "name": "shaydurov/http-client-server",
+    "description": "Homework 5.1. Web application with brackets checker",
     "authors": [
         {
-            "name": "Andrey Artyushenko",
-            "email": "work.a.andrey@gmail.com"
+            "name": "Dmitriy Shaydurov",
+            "email": "dmitriy.shaydurov@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -12,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "UnixSockets\\": "lib/"
+            "shaydurov\\brackets\\": "lib/"
         }
     }
 }
