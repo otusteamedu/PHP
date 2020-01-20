@@ -1,0 +1,46 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "15c6ec0d6fa922fe711c70d0d5587478",
+    "packages": [
+        {
+            "name": "azatnizam/email",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/azat-nizam/email.git",
+                "reference": "e733ac5902db7c6d04a3a0b5df14f63e7b9948c3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Azatnizam\\Email\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Azat Nizameev",
+                    "email": "azat.nizam@gmail.com"
+                }
+            ],
+            "description": "Email validator",
+            "time": "2020-01-20T12:26:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "azatnizam/email": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

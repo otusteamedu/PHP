@@ -1,0 +1,19 @@
+{
+    "require": {
+        "azatnizam/email": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/azat-nizam/email.git"
+        }
+    ],
+    "config": {
+        "vendor-dir": "app/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\HW6\\": "app/src"
+        }
+    }
+}
