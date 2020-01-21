@@ -38,8 +38,9 @@ CREATE TABLE public."session" (
 CREATE TABLE public.ticket (
 	ticket_id serial NOT NULL,
 	session_id int4 NULL,
-	"row" int4 NULL,
-	place int4 NULL,
+	hall_row int4 NULL,
+	hall_place int4 NULL,
+	price money NOT NULL DEFAULT 0,
 	CONSTRAINT ticket_pkey PRIMARY KEY (ticket_id),
 	CONSTRAINT ticket_fk FOREIGN KEY (session_id) REFERENCES session(session_id)
 );
@@ -47,4 +48,4 @@ CREATE TABLE public.ticket (
 -- самый прибыльный фильм
 select movie.movie_name, sum("session".price) as sum from ticket
 left join "session" ON "session".session_id = ticket.session_id
-left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id;
+left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id order by sum desc limit 1;
