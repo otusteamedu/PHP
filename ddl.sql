@@ -27,11 +27,12 @@ CREATE TABLE public."session" (
 	"start" time NULL,
 	hall_id int4 NULL,
 	movie_id int4 NULL,
-	price numeric(2) NOT NULL,
+	price money NOT NULL,
 	CONSTRAINT session_pkey PRIMARY KEY (session_id),
 	CONSTRAINT session_fk FOREIGN KEY (movie_id) REFERENCES movie(movie_id),
 	CONSTRAINT session_fk_1 FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
 );
+
 
 
 
