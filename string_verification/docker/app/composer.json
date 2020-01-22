@@ -1,0 +1,20 @@
+{
+    "name": "ruben/composer-package",
+    "description": "My test composer package",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ruben.Ahmadiev",
+            "email": "Ruben.Ahmadiev@tatar.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Own": "src/"
+        }
+    }
+}
