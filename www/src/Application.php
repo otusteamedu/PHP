@@ -1,85 +1,96 @@
 <?php
 
-namespace Tirei\Hw6;
+namespace Tirei01\Hw6;
 
 class Application
 {
-    protected $post;
-    protected $isError;
+    protected array $arEmails;
+    protected array $arErrors;
 
-    public function __construct(?array $post = null)
+    public function __construct(?array $arEmails)
     {
-        $this->post = $post;
-        $this->isError = true;
+        $this->arEmails = $arEmails;
     }
 
     /**
+     * Провека email
      *
+     * @param string $email
+     *
+     * @return bool
      */
-    protected function validate(): void
+    private function checkEmail(string $email): bool
     {
-        $tmp = $this->post['string'];
-        $tmp = preg_replace('/[^\(\)]/', '', $tmp);
-        $length = strlen($tmp);
-        if ($length % 2 === 0) {
-            $i = 0;
-            while (true) {
-                $startLength = strlen($tmp);
-                $tmp = str_replace('()', '', $tmp);
-                $replaseLength = strlen($tmp);
-                if (strlen($tmp) === 0) {
-                    $this->isError = false;
-                    break;
-                } elseif ($replaseLength === $startLength) {
-                    break;
-                }
-                $i++;
-                if ($i > 10000) {
-                    break;
-                }
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+            $this->arErrors[$email] = 'Некорректный ' . $email;
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Проветка mx записей
+     *
+     * @param string $email
+     *
+     * @return boolean
+     */
+    private function checkMx(string $email): bool
+    {
+        $arEmail = explode('@', $email);
+        $arMx = array();
+        $checkMx = getmxrr($arEmail[1], $arMx);
+        if ($checkMx === false || count($arMx) === 0) {
+            $this->arErrors[$email] = 'У ' . $email . ' некорректная MX-запись';
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Проверка email
+     * @return void
+     */
+    public function validateEmails(): void
+    {
+        foreach ($this->arEmails as $email) {
+            if ($this->checkEmail($email)) {
+                $this->checkMx($email);
             }
         }
     }
 
     /**
-     *
+     * Получить ошибки
+     * @return array
      */
+    public function getErrors(): array
+    {
+        return $this->arErrors;
+    }
+
     public function run(): void
     {
-        $this->validate();
-        if ($this->isError === true) {
-            echo $this->sendError();
-        } else {
-            echo $this->sendSuccess();
+        $this->validateEmails();
+        $arErrors = $this->getErrors();
+        if (count($arErrors) > 0) {
+            foreach ($arErrors as $error) {
+                echo $error . PHP_EOL;
+            }
         }
+
+        // TODO DEL THIS
+        echo "<pre style='color:red; clear: both;'>";
+        print_r($this->getIp());
+        echo "</pre>";
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function sendError()
+    protected function getIp() : ?string
     {
-        return $this->sendAnswer(400, '400 Bad Reuest', "Everything is bad " . $this->post['string']);
+        return $_SERVER['SERVER_ADDR'];
     }
 
-    /**
-     * @return string
-     */
-    public function sendSuccess()
-    {
-        return $this->sendAnswer(200, '200 OK', "Everything is Success " . $this->post['string']);
-    }
-
-    /**
-     * @param int    $http_code
-     * @param string $httpText
-     * @param string $messate
-     *
-     * @return string
-     */
-    protected function sendAnswer($http_code = 200, $httpText = '200 OK', $messate = '')
-    {
-        \header($httpText, true, $http_code);
-        return $messate;
-    }
 }

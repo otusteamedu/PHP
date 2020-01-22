@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Tirei01\\Hw5\\": "src"
+      "Tirei01\\Hw6\\": "src"
     }
   }
 }
