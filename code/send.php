@@ -1,5 +1,5 @@
 <?php
 while (true){
     echo 123;
-    sleep(1);
+    sleep(10);
 }

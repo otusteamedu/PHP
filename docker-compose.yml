@@ -16,6 +16,7 @@ services:
     working_dir: "/home/web"
     networks:
       - webnet
+
   php-cli73-send:
     container_name: "php73-send-container"
     restart: unless-stopped
@@ -32,6 +33,6 @@ services:
     working_dir: "/home/web"
     networks:
       - webnet
-      -
+
 networks:
   webnet:
