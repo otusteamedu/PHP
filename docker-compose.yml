@@ -1,19 +1,64 @@
-version: '3'
+version: '3.7'
 
 services:
-  nginx:
+  nginxbalans:
     image: nginx
     ports:
-     - 80:8080
+     - 80:8085
+    volumes:
+     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+     - ./nginxbalans/conf/:/etc/nginx/conf.d/
+    working_dir: ${APP_PATH_CONTAINER}
+  nginx_1:
+    image: nginx
+    ports:
+     - 8082:8080
     volumes:
      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
      - ./nginx/conf/:/etc/nginx/conf.d/
     working_dir: ${APP_PATH_CONTAINER}
     links:
-      - php
-  php:
+      - php_1
+
+  php_1:
+    image: php:7.4.1-fpm-buster
+    ports:
+      - 9000:9000
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+
+  nginx_2:
+    image: nginx
+    ports:
+      - 8083:8080
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ./nginx/conf/:/etc/nginx/conf.d/
+    working_dir: ${APP_PATH_CONTAINER}
+    links:
+      - php_2
+
+  php_2:
     image: php:7.4.1-fpm-buster
     ports:
       - 9001:9000
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+
+  nginx_3:
+    image: nginx
+    ports:
+      - 8084:8080
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ./nginx/conf/:/etc/nginx/conf.d/
+    working_dir: ${APP_PATH_CONTAINER}
+    links:
+      - php_3
+
+  php_3:
+    image: php:7.4.1-fpm-buster
+    ports:
+      - 9003:9000
     volumes:
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
