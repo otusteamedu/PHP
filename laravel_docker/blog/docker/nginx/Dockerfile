@@ -11,5 +11,8 @@ RUN touch /var/run/nginx.pid \
     /var/run/nginx.pid \
     /var/cache/nginx \
     /var/log/nginx
- 
+
+RUN mkdir /var/run/socket/
+RUN chown ruben:ruben /var/run/socket/
+
 USER ruben

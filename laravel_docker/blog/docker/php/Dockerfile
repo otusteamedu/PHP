@@ -39,7 +39,9 @@ RUN adduser -u 1000 -S -G ruben ruben
  
 COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf
- 
+RUN mkdir /var/run/socket/
+RUN chown ruben:ruben /var/run/socket/
+
 USER ruben
  
 CMD ["php-fpm", "--nodaemonize"]

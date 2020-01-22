@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.7"
  
 services:
  
@@ -6,10 +6,10 @@ services:
     build:
       context: "php"
     hostname: "socket-php"
-    working_dir: "/var/www"
+    working_dir: "/var/www/app"
     volumes:
       - "..:/var/www/app"
-      - "../docker/socket:/socket"
+      - socket:/var/run/socket
     environment:
       PS1: "\\u@\\h:\\w\\$$ "
  
@@ -17,11 +17,14 @@ services:
     build:
       context: "nginx"
     hostname: "socket-nginx"
-    working_dir: "/var/www"
+    working_dir: "/var/www/app"
     ports:
-      - "6080:8080"
+      - "8080:8080"
     volumes:
       - "..:/var/www/app"
-      - "../docker/socket:/socket"
+      - socket:/var/run/socket
     environment:
       PS1: "\\u@\\h:\\w\\$$ "
+
+volumes:
+  socket:
