@@ -8,3 +8,4 @@ Thumbs.db
 .idea/
 # Mac DS_Store Files
 .DS_Store
+*.sock
