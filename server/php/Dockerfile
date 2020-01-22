@@ -11,7 +11,10 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-openssl-dev \
     libpq-dev \
-    libz-dev
+    libz-dev \
+    nginx \
+    vim \
+    mc
 
 RUN pecl install -of redis \
     && docker-php-ext-enable redis \
@@ -28,3 +31,5 @@ RUN pecl install -of redis \
 RUN wget https://getcomposer.org/composer-stable.phar \
     && mv /var/www/html/composer-stable.phar /usr/bin/composer \
     && chmod a+x /usr/bin/composer
+
+CMD ["sh", "-c", "nginx && php-fpm"]
