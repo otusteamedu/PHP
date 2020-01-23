@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+    loadbalancer:
+        image: nginx:1.17
+        volumes:
+            - ./server/loadbalancer/lb.nginx.conf:/etc/nginx/conf.d/lb.nginx.conf
+        ports:
+            - 80:80
+        links:
+            - webserver1
+            - webserver2
     webserver1:
         build: ./server/php
         ports:
@@ -14,7 +23,7 @@ services:
     webserver2:
         build: ./server/php
         ports:
-            - 80:80
+            - 82:80
         working_dir: /var/app
         volumes:
             - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
