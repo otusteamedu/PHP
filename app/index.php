@@ -1,4 +1,4 @@
 <?php
-print("<pre>");
-print_r($_SERVER);
-print("</pre>");
+
+print '<p>Webserver node address: ' . $_SERVER["SERVER_ADDR"] . '</p>';
+print '<p>Balancer address: ' . $_SERVER["REMOTE_ADDR"] . '</p>';

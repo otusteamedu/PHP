@@ -6,24 +6,32 @@ services:
         volumes:
             - ./server/loadbalancer/lb.nginx.conf:/etc/nginx/conf.d/lb.nginx.conf
         ports:
-            - 80:80
+            - 80:8080
         links:
             - webserver1
             - webserver2
+            - webserver3
+
     webserver1:
         build: ./server/php
-        ports:
-            - 81:80
         working_dir: /var/app
         volumes:
             - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
             - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./app:/var/app
+
     webserver2:
         build: ./server/php
-        ports:
-            - 82:80
+        working_dir: /var/app
+        volumes:
+            - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./app:/var/app
+
+    webserver3:
+        build: ./server/php
         working_dir: /var/app
         volumes:
             - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
