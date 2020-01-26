@@ -65,7 +65,8 @@ CREATE TABLE order_details
     order_detail_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY   NOT NULL,
     order_id        INT REFERENCES orders (order_id)               NOT NULL,
     film_session_id INT REFERENCES film_sessions (film_session_id) NOT NULL,
-    hall_place_id   INT REFERENCES hall_places (hall_place_id)     NOT NULL
+    hall_place_id   INT REFERENCES hall_places (hall_place_id)     NOT NULL,
+    price           FLOAT                                          NOT NULL
 );
 
 COMMENT ON TABLE order_details IS 'Состав заказа';
