@@ -1,0 +1,19 @@
+{
+    "name": "mstepanova/hw3",
+    "description": "hw3 composer",
+    "authors": [
+        {
+            "name": "Stepanova Maria",
+            "email": "mstepanova@ecias.ru"
+        }
+    ],
+    "require": {
+        "stepanova/demopackage": "dev-master"
+    },
+    "repositories":[
+        {
+            "type": "git",
+            "url": "https://github.com/stmadm/php-package.git"
+        }
+    ]
+}
