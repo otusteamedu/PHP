@@ -1,0 +1,1 @@
+awk '{if(NR>1) print $3}' hw2-2-source.txt | sort -k3 | uniq -c |  sort -nr  | head -n 3 | awk '{print $2 " - Количество абонентов: " $1}'
