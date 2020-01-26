@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     id SERIAL PRIMARY KEY,
     place_id INT NOT NULL,
     session_id INT NOT NULL,
-    price INT NOT NULL,
+    price NUMERIC NOT NULL CHECK (price > 0),
     FOREIGN KEY (place_id) REFERENCES places (id),
     FOREIGN KEY (session_id) REFERENCES sessions (id)
 );
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tickets (
 CREATE TABLE IF NOT EXISTS places (
     id SERIAL PRIMARY KEY,
     hall_id INT NOT NULL,
-    place_tariff NUMERIC NOT NULL,
+    place_tariff NUMERIC  NOT NULL CHECK (place_tariff > 0),
     FOREIGN KEY (hall_id) REFERENCES halls (id)
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS sessions (
     id SERIAL PRIMARY KEY,
     hall_id INT NOT NULL,
     movie_id INT NOT NULL,
-    session_tariff NUMERIC NOT NULL,
+    session_tariff NUMERIC NOT NULL CHECK (session_tariff > 0),
     date TIMESTAMP NOT NULL,
     FOREIGN KEY (hall_id) REFERENCES halls (id),
     FOREIGN KEY (movie_id) REFERENCES movies (id)
