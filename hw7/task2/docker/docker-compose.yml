@@ -1,0 +1,47 @@
+version: '3.5'
+services:
+  balancer:
+    image: nginx
+    volumes:
+      - ./balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ./balancer/balancer.conf:/etc/nginx/conf.d/balancer.conf
+    ports:
+      - 8080:80
+  nginx_server_1:
+    build:
+      context: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ushakov1.conf:/etc/nginx/conf.d/ushakov.conf
+      - ../src:/var/www/ushakov
+      - ./sockets:/var/sockets
+  nginx_server_2:
+    build:
+      context: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ushakov2.conf:/etc/nginx/conf.d/ushakov.conf
+      - ../src:/var/www/ushakov
+      - ./sockets:/var/sockets
+  php_1:
+    build:
+      context: php
+    volumes:
+      - ../src:/var/www/ushakov
+      - ./sockets:/var/sockets
+      - ./php/php.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    environment:
+      - SERVER_INDEX=1
+  php_2:
+    build:
+      context: php
+    volumes:
+      - ../src:/var/www/ushakov
+      - ./sockets:/var/sockets
+      - ./php/php.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    environment:
+      - SERVER_INDEX=2
+
+
+
+
