@@ -47,8 +47,9 @@ CREATE TABLE public.ticket (
 -- самый прибыльный фильм
 select movie.movie_name, sum("session".price) as sum from ticket
 left join "session" ON "session".session_id = ticket.session_id
-left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id; --  ----- 
---  -----
+left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id; 
+
+-- Добавление EAV для фильмов
 
 CREATE TYPE movie_attributes AS ENUM (
 	'string',
