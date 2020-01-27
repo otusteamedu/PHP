@@ -11,10 +11,7 @@ use Socket\Ruvik\Exception\RuntimeException;
 
 class Router
 {
-    /**
-     * @var IniManager
-     */
-    private $iniManager;
+    private IniManager $iniManager;
     /**
      * @var SocketConfig
      */

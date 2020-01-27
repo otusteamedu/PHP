@@ -16,8 +16,8 @@ class IniManager
     public const CLIENT_SOCKET_ENV = 'client';
 
 
-    protected static $routeConfig = null;
-    protected static $socketConfig = null;
+    protected static ?RouteConfig $routeConfig = null;
+    protected static ?SocketConfig $socketConfig = null;
 
     public function getSocketConfig(): SocketConfig
     {
