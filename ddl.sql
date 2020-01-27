@@ -104,3 +104,37 @@ select movie_name, attr_name, attr_value, attr_type from movie left join movie_a
 left join movie_attr ma on ma.ma_id = mav.ma_id 
 where movie.movie_id = 1;
 
+-- расширяем функциональность EAV
+
+alter table public.movie_attr_value add column attr_value_id int4 null;
+
+delete from movie_attr_value;
+
+alter table public.movie_attr_value add column attr_value_id int4 null;
+
+delete from movie_attr_value;
+
+insert into movie_attr (attr_name, attr_type) values ('Жанры', 'array');
+insert into movie_attr (attr_name, attr_type) values ('Постеры', 'array');
+
+drop INDEX movie_attr_value_m_id_idx;
+
+CREATE UNIQUE INDEX movie_attr_value_m_id_idx2 ON public.movie_attr_value (m_id,ma_id,attr_value);
+
+insert into movie_attr_value (m_id, ma_id, attr_value ) values (1, 1, '2019-12-26');
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 2, 'Клим Алексеевич Шипенко', 8170244);
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 3, 'Милош Бикович', 8326160);
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 3, 'Иван Охлобыстин', 8090093);
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 3, 'Александра Бортич', 8322161);
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 3, 'Кирилл Нагиев', 8353018);
+
+insert into movie_attr_value (m_id, ma_id, attr_value) values (1, 4, 'комедия');
+
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 5, 'https://static.kinoafisha.info/k/movie_shots/canvas/600x400/upload/movie_shots/8/1/4/8330418/68e7a1415e36c35bd7f7ca0016e41f80.jpeg', 117823);
+insert into movie_attr_value (m_id, ma_id, attr_value, attr_value_id ) values (1, 5, 'https://static.kinoafisha.info/k/movie_shots/canvas/600x400/upload/movie_shots/8/1/4/8330418/031361e60ad777573f033b2a0113b4ed.jpeg', 117920);
+
+select movie_name, attr_name, attr_type, attr_value, attr_value_id from movie left join movie_attr_value mav on mav.m_id = movie.movie_id
+left join movie_attr ma on ma.ma_id = mav.ma_id 
+where movie.movie_id = 1;
+
+-- получаем красивую таблицу со списком значений, которая кроме того имеет ID внешних объектов, названия таблиц можно добавить в таблицу movie_attr и по ней запрашивать уже дополнительные свойства по их ID
