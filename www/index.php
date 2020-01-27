@@ -12,3 +12,13 @@ $arEmail = array(
 );
 $app = new Tirei01\Hw6\Application($arEmail);
 $app->run();
+$arErrors = $app->getErrors();
+if (count($arErrors) > 0) {
+    foreach ($arErrors as $error) {
+        echo $error . PHP_EOL;
+    }
+}
+// TODO DEL THIS
+echo "<pre style='color:red; clear: both;'>";
+var_dump($_SERVER['SERVER_ADDR']);
+echo "</pre>";

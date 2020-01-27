@@ -41,7 +41,6 @@ class Application
         $arMx = array();
         $checkMx = getmxrr($arEmail[1], $arMx);
         if ($checkMx === false || count($arMx) === 0) {
-            $this->arErrors[$email] = 'У ' . $email . ' некорректная MX-запись';
             return false;
         }
         return true;
@@ -55,7 +54,9 @@ class Application
     {
         foreach ($this->arEmails as $email) {
             if ($this->checkEmail($email)) {
-                $this->checkMx($email);
+                if ($this->checkMx($email) === false) {
+                    $this->arErrors[$email] = 'У ' . $email . ' некорректная MX-запись';
+                }
             }
         }
     }
@@ -72,25 +73,5 @@ class Application
     public function run(): void
     {
         $this->validateEmails();
-        $arErrors = $this->getErrors();
-        if (count($arErrors) > 0) {
-            foreach ($arErrors as $error) {
-                echo $error . PHP_EOL;
-            }
-        }
-
-        // TODO DEL THIS
-        echo "<pre style='color:red; clear: both;'>";
-        print_r($this->getIp());
-        echo "</pre>";
     }
-
-    /**
-     * @return string|null
-     */
-    protected function getIp() : ?string
-    {
-        return $_SERVER['SERVER_ADDR'];
-    }
-
 }
