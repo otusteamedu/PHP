@@ -27,7 +27,7 @@ CREATE TABLE public."session" (
 	"start" time NULL,
 	hall_id int4 NULL,
 	movie_id int4 NULL,
-	price numeric(2) NOT NULL,
+	price money NOT NULL,
 	CONSTRAINT session_pkey PRIMARY KEY (session_id),
 	CONSTRAINT session_fk FOREIGN KEY (movie_id) REFERENCES movie(movie_id),
 	CONSTRAINT session_fk_1 FOREIGN KEY (hall_id) REFERENCES hall(hall_id)
@@ -35,11 +35,13 @@ CREATE TABLE public."session" (
 
 
 
+
 CREATE TABLE public.ticket (
 	ticket_id serial NOT NULL,
 	session_id int4 NULL,
-	"row" int4 NULL,
-	place int4 NULL,
+	hall_row int4 NULL,
+	hall_place int4 NULL,
+	price money NOT NULL DEFAULT 0,
 	CONSTRAINT ticket_pkey PRIMARY KEY (ticket_id),
 	CONSTRAINT ticket_fk FOREIGN KEY (session_id) REFERENCES session(session_id)
 );
@@ -47,7 +49,7 @@ CREATE TABLE public.ticket (
 -- самый прибыльный фильм
 select movie.movie_name, sum("session".price) as sum from ticket
 left join "session" ON "session".session_id = ticket.session_id
-left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id; 
+left join movie on movie.movie_id = "session".movie_id group by "movie".movie_id order by sum desc limit 1;
 
 -- Добавление EAV для фильмов
 
@@ -58,7 +60,6 @@ CREATE TYPE movie_attributes AS ENUM (
 	'float',
 	'boolean',
 	'array');
-
 
 
 CREATE TABLE public.movie_attr (
@@ -104,4 +105,3 @@ insert into movie_attr_value (m_id, ma_id, attr_value ) values (1, 3, 'Клим 
 select movie_name, attr_name, attr_value, attr_type from movie left join movie_attr_value mav on mav.m_id = movie.movie_id
 left join movie_attr ma on ma.ma_id = mav.ma_id 
 where movie.movie_id = 1;
-
