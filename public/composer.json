@@ -1,0 +1,19 @@
+{
+    "name": "andriiruvik/sockets",
+    "description": "Sockets",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Andrii Rukavchuk",
+            "email": "ruvik313@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Socket\\Ruvik\\": "src"
+        }
+    },
+    "require": {
+      "ext-sockets": "*"
+    }
+}
