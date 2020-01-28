@@ -107,8 +107,11 @@ CREATE TABLE movie_attr_values
     movie_attr_id        INT REFERENCES movie_attr (movie_attr_id)    NOT NULL,
     movie_id             INT REFERENCES movies (movie_id)             NOT NULL,
     val_date             DATE,
-    val_text             VARCHAR,
-    val_num              NUMERIC
+    val_short_text       VARCHAR,
+    val_text             TEXT,
+    val_int              INT,
+    val_num              NUMERIC,
+    val_bool             BOOLEAN
 );
 
 COMMENT ON TABLE movie_attr_values IS 'Значения атрибутов фильмов';
