@@ -1,0 +1,9 @@
+{
+    "name": "umasyr/hw4",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "UnixSockets\\": "src/unix-sockets"
+        }
+    }
+}
