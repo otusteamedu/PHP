@@ -1,0 +1,62 @@
+{
+  "properties": [
+    {
+      "channelId": "hashId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Идентификатор канала на Youtube"
+    },
+    {
+      "name": "hashId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Идентификатор видео ролика на Youtube"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Название видео ролика "
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "default": null,
+      "description": "Описание видео ролика"
+    },
+    {
+      "name": "likesCount",
+      "type": "string",
+      "required": false,
+      "default": 0,
+      "description": "Кол-во лайков"
+    },
+    {
+      "name": "dislikesCount",
+      "type": "string",
+      "required": false,
+      "default": 0,
+      "description": "Кол-во дизлайков"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "hashId",
+      "fields": [
+        "hashId"
+      ],
+      "unique": true
+    },
+    {
+      "name": "channelId",
+      "fields": [
+        "channelId"
+      ],
+      "unique": false
+    }
+  ]
+}

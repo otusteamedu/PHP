@@ -1,0 +1,110 @@
+html {
+    font: 12px/1.5em normal Calibri, sans-serif;
+}
+
+body {
+    margin: 1.5em 5em;
+}
+
+.int05 {
+    margin-top: 0.5em;
+}
+
+.int1 {
+    margin-top: 1em;
+}
+
+.int15 {
+    margin-top: 1.5em;
+}
+
+.int2 {
+    margin-top: 2em;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 1px solid darkgrey;
+    padding: 3px 5px;
+}
+
+table thead tr {
+    background: #dfdff7;
+}
+
+table tbody tr:nth-child(even) {
+    background: #f7f7f7;
+}
+
+table tbody tr:nth-child(odd) {
+    background: #f7f6f1;
+}
+
+table tbody tr:hover {
+    background: #f2f3f7;
+}
+
+.rate_scale {
+    background: darkred;
+    width: 100%;
+    min-width: 120px;
+    height: 16px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    z-index: 0;
+}
+
+.rate_value {
+    left: 0;
+    top: 0;
+    background: darkgreen;
+    height: 16px;
+    position: absolute;
+    overflow: visible;
+    z-index: -1;
+}
+
+.like {
+    contain: content;
+    content: url("/img/like.svg");
+    height: 20px;
+}
+
+.dislike {
+    contain: content;
+    content: url("/img/like.svg");
+    height: 20px;
+    transform: rotate(180deg);
+}
+
+.title {
+    color: dodgerblue;
+}
+
+.description {
+    color: grey;
+    font-style: italic;
+    font-size: 94%;
+}
+
+.event_manager {
+    width: 640px;
+}
+
+section {
+    border: solid 1px darkgrey;
+    border-radius: 5px;
+    /*background: #f3f3f3;*/
+    padding: 1em;
+}
+
+.nowrap {
+    white-space: nowrap;
+    margin-right: 10px;
+    line-height: 2.5em;
+}

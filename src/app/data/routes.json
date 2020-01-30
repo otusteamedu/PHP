@@ -1,0 +1,74 @@
+[
+  {
+    "request": "/",
+    "page": "pages/HomeView.html"
+  },
+  {
+    "request": "/youtube",
+    "page": "YoutubeChannels.php",
+    "controller": "YoutubePageController"
+  },
+  {
+    "request": "/youtube/channels",
+    "controller": "YoutubeChannelsController"
+  },
+  {
+    "request": "/youtube/channels/delete",
+    "controller": "YoutubeChannelsController",
+    "method": "delete"
+  },
+  {
+    "request": "/youtube/channels/import",
+    "controller": "YoutubeChannelsController",
+    "method": "import",
+    "content-type": "text/plain"
+  },
+  {
+    "request": "/youtube/videos",
+    "controller": "YoutubeVideosController"
+  },
+  {
+    "request": "/youtube/channel/videos",
+    "page": "YoutubeVideos.php",
+    "controller": "YoutubeVideosPageController"
+  },
+  {
+    "request": "/youtube/videos/delete",
+    "controller": "YoutubeVideosController",
+    "method": "delete"
+  },
+  {
+    "request": "/youtube/channels/top",
+    "controller": "YoutubeTopChannelsPageController",
+    "page": "YoutubeTopChannels.php"
+  },
+  {
+    "request": "/events",
+    "controller": "EventsController"
+  },
+  {
+    "request": "/events/get",
+    "controller": "EventsController"
+  },
+  {
+    "request": "/events/priority",
+    "controller": "EventsController",
+    "method": "getPriorityEvent"
+  },
+  {
+    "request": "/events/priority_html",
+    "controller": "PriorityEventPageController",
+    "page": "PriorityEvent.php"
+  },
+  {
+    "request": "/events/manager",
+    "controller": "EventsManagerPageController",
+    "page": "EventsManager.php"
+  },
+  {
+    "request": "/events/delete",
+    "controller": "EventsController",
+    "method": "delete",
+    "content-type": "text/plain"
+  }
+]
