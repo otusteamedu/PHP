@@ -140,3 +140,10 @@ left join movie_attr ma on ma.ma_id = mav.ma_id
 where movie.movie_id = 1;
 
 -- получаем красивую таблицу со списком значений, которая кроме того имеет ID внешних объектов, названия таблиц можно добавить в таблицу movie_attr и по ней запрашивать уже дополнительные свойства по их ID
+
+
+ALTER TABLE public.movie_attr_value RENAME COLUMN attr_value TO attr_text;
+ALTER TABLE public.movie_attr_value ADD attr_int int NULL;
+ALTER TABLE public.movie_attr_value ADD attr_date date NULL;
+ALTER TABLE public.movie_attr_value ADD attr_float float8 NULL;
+ALTER TABLE public.movie_attr_value ADD attr_boolean boolean NULL;
