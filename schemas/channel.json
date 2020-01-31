@@ -1,0 +1,48 @@
+{
+  "properties": [
+    {
+      "name": "hashId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Идентификатор канала на Youtube"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Название канала"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "default": null,
+      "description": "Описание канала"
+    },
+    {
+      "name": "likesCount",
+      "type": "string",
+      "required": false,
+      "default": 0,
+      "description": "Суммарное кол-во лайков (избыточно)"
+    },
+    {
+      "name": "dislikesCount",
+      "type": "string",
+      "required": false,
+      "default": 0,
+      "description": "Суммарное кол-во дизлайков (избыточно)"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "hashId",
+      "fields": [
+        "hashId"
+      ],
+      "unique": true
+    }
+  ]
+}
