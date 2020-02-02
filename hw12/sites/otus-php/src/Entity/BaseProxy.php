@@ -25,6 +25,11 @@ class BaseProxy extends BaseEntity
 
         $currentClass = get_class($this);
         $metaDataClassName = str_replace('Proxy', 'MetaData', $currentClass);
+        
+        if (!class_exists($metaDataClassName)) {
+            throw new Exception("Класс {$metaDataClassName} не существует");
+        }
+        
         $metaData = new $metaDataClassName();
 
         $repository = $metaData->getRepository();
