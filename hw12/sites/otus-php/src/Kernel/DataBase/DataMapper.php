@@ -48,7 +48,12 @@ class DataMapper
         $this->db = Application::getCurrent()->getDb();
         $this->entity = $entity;
         $this->entityName = get_class($this->entity);
+        
         $metaDataClassName = get_class($entity) . 'MetaData';
+        if (!class_exists($metaDataClassName)) {
+            throw new Exception("Класс {$metaDataClassName} не существует");
+        }
+        
         $this->entityMetaData = new $metaDataClassName();
         $this->entityProperties = $this->getEntityProperties($this->entityMetaData);
     }
