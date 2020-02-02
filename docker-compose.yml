@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:12.1
+        restart: always
+        environment:
+            POSTGRES_DB: hw8
+            POSTGRES_USER: hw8
+            POSTGRES_PASSWORD: hw8
