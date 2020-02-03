@@ -1,0 +1,19 @@
+{
+    "name": "ushakovilya/project",
+    "description": "Test Project",
+    "authors": [
+        {
+            "name": "Ilya",
+            "email": "whitecomp777@yandex.ru"
+        }
+    ],
+    "require": {
+        "ushakovme/amocrm": "^0.3.28"
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/ushakovme/amocrm",
+            "type": "vcs"
+        }
+    ]
+}
