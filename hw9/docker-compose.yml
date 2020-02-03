@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+
+  postgres:
+    image: postgres:11.5
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cinema
+      PGDATA: /var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    ports:
+      - 8080:8080
