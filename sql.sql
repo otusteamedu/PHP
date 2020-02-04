@@ -1,12 +1,12 @@
 -- The most profitable movie
-select
-    tFilm.id,
-    tFilm.name,
-    sum(tBasket.price) as summ
+select tFilm.id,
+       tFilm.name,
+       sum(tBasket.price) as summ
 from cinema.basket as tBasket
          join cinema.film as tFilm on tBasket.film_id = tFilm.id
          join cinema.order as tOrder on tBasket.order_id = tOrder.id
-where order_id is not null and tOrder.date_pay is not null
+where order_id is not null
+  and tOrder.date_pay is not null
 
 group by tFilm.id
 order by summ desc
