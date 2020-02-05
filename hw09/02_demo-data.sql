@@ -1,4 +1,20 @@
 --
+-- Очистка
+--
+TRUNCATE TABLE movie_attr_values RESTART IDENTITY CASCADE;
+TRUNCATE TABLE movie_attr RESTART IDENTITY CASCADE;
+TRUNCATE TABLE movie_attr_type RESTART IDENTITY CASCADE;
+TRUNCATE TABLE order_details RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE orders RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE clients RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE place_prices RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE film_sessions RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE movies RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE hall_places RESTART IDENTITY  CASCADE;
+TRUNCATE TABLE halls RESTART IDENTITY  CASCADE;
+
+
+--
 -- Вспомогательные функции для генерации корректно связанных данных
 --
 CREATE OR REPLACE FUNCTION get_random_string(length INTEGER) RETURNS TEXT AS
@@ -106,19 +122,23 @@ $$ LANGUAGE plpgsql;
 
 INSERT INTO halls(name)
 SELECT get_random_string(10)
-FROM generate_series(1, 10);
+FROM generate_series(1, 10)
+ON CONFLICT DO NOTHING;
 
 INSERT INTO hall_places(hall_id, hall_place_num)
 SELECT get_random_hall_id(), random() * 100
-FROM generate_series(1, 100);
+FROM generate_series(1, 1000)
+ON CONFLICT DO NOTHING;
 
 INSERT INTO movies(name)
 SELECT get_random_string(200)
-FROM generate_series(1, 1000);
+FROM generate_series(1, 10000)
+ON CONFLICT DO NOTHING;
 
 INSERT INTO film_sessions(hall_id, time_from, time_to, movie_id)
 SELECT get_random_hall_id(), get_random_date_time(), get_random_date_time(), get_random_movie_id()
-FROM generate_series(1, 10000);
+FROM generate_series(1, 10000)
+ON CONFLICT DO NOTHING;
 
 INSERT INTO place_prices(hall_place_id, film_session_id, price)
 SELECT get_random_hall_place_id(), get_random_film_session_id(), random() * 1000::FLOAT
@@ -127,12 +147,15 @@ ON CONFLICT DO NOTHING;
 
 INSERT INTO clients(first_name, last_name)
 SELECT get_random_string(5), get_random_string(7)
-FROM generate_series(1, 1000);
+FROM generate_series(1, 10000)
+ON CONFLICT DO NOTHING;
 
-INSERT INTO orders(client_id, film_session_id, datetime)
-SELECT get_random_client_id(), get_random_film_session_id(), get_random_date_time()
-FROM generate_series(1, 1000);
+INSERT INTO orders(client_id, datetime)
+SELECT get_random_client_id(), get_random_date_time()
+FROM generate_series(1, 500000)
+ON CONFLICT DO NOTHING;
 
 INSERT INTO order_details(order_id, film_session_id, hall_place_id, price)
 SELECT get_random_order_id(), get_random_film_session_id(), get_random_hall_place_id(), random() * 1000::FLOAT
-FROM generate_series(1, 1000);
+FROM generate_series(1, 500000)
+ON CONFLICT DO NOTHING;

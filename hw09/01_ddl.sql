@@ -78,7 +78,6 @@ CREATE TABLE orders
 (
     order_id        INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY   NOT NULL,
     client_id       INT REFERENCES clients (client_id)             NOT NULL,
-    film_session_id INT REFERENCES film_sessions (film_session_id) NOT NULL,
     datetime        TIMESTAMP                                      NOT NULL DEFAULT now()
 );
 
