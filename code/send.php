@@ -6,7 +6,8 @@ $factory = new \Socket\Raw\Factory();
 $socket = $factory->createClient(getenv('SOCKET_PATH') ?: 'unix:///socks/server.sock');
 
 while (true) {
-    
-    echo 123;
-    sleep(10);
+    $data = fgets(STDIN);
+    $socket->send($data, MSG_EOF);
 }
+
+$socket->close();

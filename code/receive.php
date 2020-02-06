@@ -5,7 +5,11 @@ $factory = new \Socket\Raw\Factory();
 // create stream connection socket server
 $socket = $factory->createServer(getenv('SOCKET_PATH') ?: 'unix:///socks/server.sock');
 
-while (true){
-    echo 123;
-    sleep(10);
+while ($connect = $socket->accept()){
+    while ($data = $connect->read(1024)) {
+        echo $data;
+    }
+    $connect->close();
 }
+
+$socket->close();
