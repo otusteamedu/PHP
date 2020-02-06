@@ -1,0 +1,36 @@
+version: '3'
+services:
+  nginx:
+    container_name: vlyagusha-nginx
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ../:/home/www/mysite.local
+      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpsocket:/var/run
+    links:
+      - app
+  app:
+    container_name: vlyagusha-app
+    build: php
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    links:
+      - mongo
+  mongo:
+    container_name: vlyagusha-mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - 27017:27017
+    volumes:
+      - ../data/db:/data/db
+      - ../docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+volumes:
+  phpsocket:
