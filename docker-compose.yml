@@ -1,0 +1,38 @@
+version: "3.6"
+services:
+  php-cli73-receive:
+    container_name: "php73-receive-container"
+    restart: unless-stopped
+    image: wolodin/php73-fpm-debian:latest
+    volumes:
+      - "./socks:/socks:rw"
+      - "./tools:/tools:ro"
+      - "./code:/home/web/code:rw,cached"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php", "-f", "/home/web/code/receive.php"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
+    networks:
+      - webnet
+
+  php-cli73-send:
+    container_name: "php73-send-container"
+    restart: unless-stopped
+    image: wolodin/php73-fpm-debian:latest
+    volumes:
+      - "./socks:/socks:rw"
+      - "./tools:/tools:ro"
+      - "./code:/home/web/code:rw,cached"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php", "-f", "/home/web/code/send.php"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
+    networks:
+      - webnet
+
+networks:
+  webnet:
