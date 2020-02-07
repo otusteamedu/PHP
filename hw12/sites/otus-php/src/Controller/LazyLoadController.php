@@ -38,7 +38,9 @@ class LazyLoadController
             $filmName = $film->getProperty('name');
         }
 
-        return new Response($findResult);
+        $response = new Response($findResult);
+
+        $response->send();
     }
 }
 
