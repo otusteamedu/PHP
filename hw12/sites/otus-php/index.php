@@ -10,5 +10,5 @@ require 'vendor/autoload.php';
  * @var Application $app
  */
 $app = new Application();
-$result = $app->run();
-$result->send();
+$app->run();
+

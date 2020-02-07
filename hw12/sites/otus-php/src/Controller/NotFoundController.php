@@ -13,7 +13,9 @@ class NotFoundController
     {
         $errorUri = Application::getCurrent()->request->get('uri');
 
-        return new Response("Адрес {$errorUri} не доступен");
+        $response = new Response("Адрес {$errorUri} не доступен");
+
+        $response->send();
     }
 }
 

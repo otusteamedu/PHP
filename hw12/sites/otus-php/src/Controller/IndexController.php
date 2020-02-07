@@ -31,7 +31,9 @@ class IndexController
 
         $result = $this->ticketRepository->find($filter);
 
-        return new Response($result);
+        $response = new Response($result);
+
+        $response->send();
     }
 }
 
