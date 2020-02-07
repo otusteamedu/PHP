@@ -5,9 +5,7 @@ namespace Entity\Youtube;
 class Channel implements \JsonSerializable
 {
     private string $title;
-
-    private string $url;
-
+    private string $channelId;
     private array $videos = [];
 
     public function getTitle(): string
@@ -20,14 +18,14 @@ class Channel implements \JsonSerializable
         $this->title = $title;
     }
 
-    public function getUrl(): string
+    public function getChannelId(): string
     {
-        return $this->url;
+        return $this->channelId;
     }
 
-    public function setUrl(string $url): void
+    public function setChannelId(string $channelId): void
     {
-        $this->url = $url;
+        $this->channelId = $channelId;
     }
 
     /**
@@ -49,7 +47,7 @@ class Channel implements \JsonSerializable
     public function handleArray(array $channel): void
     {
         $this->setTitle($channel['title']);
-        $this->setUrl($channel['url']);
+        $this->setChannelId($channel['channelId']);
 
         $videos = [];
         foreach ($channel['videos'] as $item) {
@@ -64,7 +62,7 @@ class Channel implements \JsonSerializable
     {
         $channel = [
             'title' => $this->getTitle(),
-            'url' => $this->getUrl(),
+            'channelId' => $this->getChannelId(),
         ];
         foreach ($this->getVideos() as $video) {
             $channel['videos'][] = $video->jsonSerialize();

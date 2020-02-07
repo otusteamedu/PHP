@@ -9,9 +9,7 @@ use MongoDB\Collection;
 class MongoDatabase implements DatabaseInterface
 {
     private string $database;
-
     private string $collectionName;
-
     private Client $client;
 
     public function __construct()

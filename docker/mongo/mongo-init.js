@@ -6,11 +6,11 @@ db.getCollection("youtube-channels").insertMany(
     [
         {
             "title" : "Channel 1",
-            "url" : "https://channel1.com",
+            "channelId" : "channel1.com",
             "videos" : [
                 {
                     "title" : "Video 1",
-                    "url" : "https://channel1.com/video1",
+                    "videoId" : "channel1.com/video1",
                     "likes" : NumberInt(10),
                     "dislikes" : NumberInt(5)
                 }
@@ -18,11 +18,11 @@ db.getCollection("youtube-channels").insertMany(
         },
         {
             "title" : "Channel 2",
-            "url" : "https://channel2.com",
+            "channelId" : "channel2.com",
             "videos" : [
                 {
                     "title" : "Video 1",
-                    "url" : "https://channel2.com/video1",
+                    "videoId" : "channel2.com/video1",
                     "likes" : NumberInt(9),
                     "dislikes" : NumberInt(8)
                 }
@@ -30,23 +30,23 @@ db.getCollection("youtube-channels").insertMany(
         },
         {
             "title" : "Channel 3",
-            "url" : "https://channel3.com",
+            "channelId" : "channel3.com",
             "videos" : [
                 {
                     "title" : "Video 1",
-                    "url" : "https://channel3.com/video1",
+                    "videoId" : "channel3.com/video1",
                     "likes" : NumberInt(8),
                     "dislikes" : NumberInt(18)
                 },
                 {
                     "title" : "Video 2",
-                    "url" : "https://channel3.com/video2",
+                    "videoId" : "channel3.com/video2",
                     "likes" : NumberInt(6),
                     "dislikes" : NumberInt(2)
                 },
                 {
                     "title" : "Video 3",
-                    "url" : "https://channel3.com/video3",
+                    "videoId" : "channel3.com/video3",
                     "likes" : NumberInt(20),
                     "dislikes" : NumberInt(15)
                 }
@@ -54,23 +54,23 @@ db.getCollection("youtube-channels").insertMany(
         },
         {
             "title" : "Channel 4",
-            "url" : "https://channel4.com",
+            "channelId" : "channel4.com",
             "videos" : [
                 {
                     "title" : "Video 1",
-                    "url" : "https://channel4.com/video1",
+                    "videoId" : "channel4.com/video1",
                     "likes" : NumberInt(10),
                     "dislikes" : NumberInt(11)
                 },
                 {
                     "title" : "Video 2",
-                    "url" : "https://channel4.com/video2",
+                    "videoId" : "channel4.com/video2",
                     "likes" : NumberInt(5),
                     "dislikes" : NumberInt(5)
                 },
                 {
                     "title" : "Video 3",
-                    "url" : "https://channel4.com/video3",
+                    "videoId" : "channel4.com/video3",
                     "likes" : NumberInt(15),
                     "dislikes" : NumberInt(10)
                 }
@@ -78,23 +78,23 @@ db.getCollection("youtube-channels").insertMany(
         },
         {
             "title" : "Channel 5",
-            "url" : "https://channel5.com",
+            "channelId" : "channel5.com",
             "videos" : [
                 {
                     "title" : "Video 1",
-                    "url" : "https://channel5.com/video1",
+                    "videoId" : "channel5.com/video1",
                     "likes" : NumberInt(15),
                     "dislikes" : NumberInt(1)
                 },
                 {
                     "title" : "Video 2",
-                    "url" : "https://channel5.com/video2",
+                    "videoId" : "channel5.com/video2",
                     "likes" : NumberInt(55),
                     "dislikes" : NumberInt(55)
                 },
                 {
                     "title" : "Video 3",
-                    "url" : "https://channel5.com/video3",
+                    "videoId" : "channel5.com/video3",
                     "likes" : NumberInt(1),
                     "dislikes" : NumberInt(1)
                 }

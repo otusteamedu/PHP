@@ -11,6 +11,10 @@ services:
       - phpsocket:/var/run
     links:
       - app
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
   app:
     container_name: vlyagusha-app
     build: php
@@ -19,6 +23,10 @@ services:
       - phpsocket:/var/run
     links:
       - mongo
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
   mongo:
     container_name: vlyagusha-mongo
     image: mongo
@@ -32,5 +40,13 @@ services:
     volumes:
       - ../data/db:/data/db
       - ../docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
 volumes:
   phpsocket:
+
+networks:
+  localnet:
+    driver: bridge

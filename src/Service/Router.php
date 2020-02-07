@@ -5,6 +5,7 @@ namespace Service;
 use Controller\ChannelsController;
 use Controller\Stats\SumController;
 use Controller\Stats\TopController;
+use Controller\YoutubeSpiderController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,5 +31,14 @@ class Router
         }
 
         throw new Exception('Bad request', Response::HTTP_BAD_REQUEST);
+    }
+
+    public function resolveCommand(string $command): callable
+    {
+        if ($command === 'spider/run') {
+            return [new YoutubeSpiderController(), 'runAction'];
+        } else {
+            throw new Exception("Command {$command} not found");
+        }
     }
 }

@@ -9,7 +9,6 @@ class App
     public function run(Request $request): Response
     {
         $router = new Router();
-
         try {
             $controller = $router->handleRequest($request);
 

@@ -5,11 +5,8 @@ namespace Entity\Youtube;
 class Video implements \JsonSerializable
 {
     private string $title;
-
-    private string $url;
-
+    private string $videoId;
     private int $likes = 0;
-
     private int $dislikes = 0;
 
     public function getTitle(): string
@@ -22,14 +19,14 @@ class Video implements \JsonSerializable
         $this->title = $title;
     }
 
-    public function getUrl(): string
+    public function getVideoId(): string
     {
-        return $this->url;
+        return $this->videoId;
     }
 
-    public function setUrl(string $url): void
+    public function setVideoId(string $videoId): void
     {
-        $this->url = $url;
+        $this->videoId = $videoId;
     }
 
     public function getLikes(): int
@@ -55,7 +52,7 @@ class Video implements \JsonSerializable
     public function handleArray(array $video): void
     {
         $this->setTitle($video['title']);
-        $this->setUrl($video['url']);
+        $this->setVideoId($video['videoId']);
         $this->setLikes($video['likes'] ?? 0);
         $this->setDislikes($video['dislikes'] ?? 0);
     }
@@ -64,7 +61,7 @@ class Video implements \JsonSerializable
     {
         return [
             'title' => $this->getTitle(),
-            'url' => $this->getUrl(),
+            'videoId' => $this->getVideoId(),
             'likes' => $this->getLikes(),
             'dislikes' => $this->getDislikes(),
         ];

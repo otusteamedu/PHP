@@ -14,7 +14,7 @@
     "mongodb/mongodb": "^1.5",
     "symfony/http-foundation": "^5.0",
     "ext-json": "*",
-    "ext-mongo": "*",
-    "ext-mongodb": "*"
+    "ext-mongodb": "*",
+    "guzzlehttp/guzzle": "^6.5"
   }
 }
