@@ -2,7 +2,6 @@
 
 namespace Controller;
 
-use HttpException;
 use Repository\EventsRepository;
 use Service\RedisKeyResolver;
 use Symfony\Component\HttpFoundation\Request;
