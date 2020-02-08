@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW public."movies_attr_data_view" AS
         CASE
             WHEN at.name = 'Рецензии' THEN av.value_string::text
             WHEN at.name = 'Премия' THEN av.value_bool::text
-            WHEN at.name = 'Рейтинги' THEN av.value_numeric::text
+            WHEN at.name = 'Рейтинги' THEN av.value_float::text
             WHEN at.name = 'Важные даты' THEN av.value_date::text
             WHEN at.name = 'Служебные даты' THEN av.value_date::text
             WHEN at.name = 'Возрастные ограничения' THEN av.value_int::text

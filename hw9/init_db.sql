@@ -65,7 +65,7 @@ CREATE TABLE public.movies_attr_value (
     value_string varchar NULL,
     value_date timestamp NULL,
     value_bool boolean NULL,
-    value_numeric numeric NULL,
+    value_float float NULL,
     value_int int NULL,
     CONSTRAINT movies_attr_value_pk PRIMARY KEY (id),
     CONSTRAINT movies_attr_value_fk FOREIGN KEY (movie_id) REFERENCES public.movies(id),

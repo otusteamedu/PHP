@@ -10,8 +10,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: cinema
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
       PGDATA: /var/lib/postgresql/data
 
   pgadmin:

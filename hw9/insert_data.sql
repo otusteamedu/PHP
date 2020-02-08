@@ -77,12 +77,12 @@ BEGIN
         then
             if (movies_record.movie_id = 1 or movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                     (movies_record.movie_id, movies_record.movie_attr_id, 'Отличный фильм', null, null, null, null),
                     (movies_record.movie_id, movies_record.movie_attr_id, 'Шедевр', null, null, null, null);
             else
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                     (movies_record.movie_id, movies_record.movie_attr_id, 'Ужасная игра актеров', null, null, null, null),
                     (movies_record.movie_id, movies_record.movie_attr_id, 'Плохой видеомонтаж', null, null, null, null);
@@ -93,11 +93,11 @@ BEGIN
         then
             if (movies_record.movie_id = 1 or movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                     (movies_record.movie_id, movies_record.movie_attr_id, null, null, true, null, null);
             else
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                     (movies_record.movie_id, movies_record.movie_attr_id, null, null, false, null, null);
             end if;
@@ -107,11 +107,11 @@ BEGIN
         then
             if (movies_record.movie_id = 1 or movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, true, null, null);
             else
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, false, null, null);
             end if;
@@ -121,11 +121,11 @@ BEGIN
         then
             if (movies_record.movie_id = 1 or movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, false, null, null);
             else
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, true, null, null);
             end if;
@@ -135,11 +135,11 @@ BEGIN
         then
             if (movies_record.movie_id = 1 or movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, 9.2, null);
             else
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, 5.1, null);
             end if;
@@ -149,19 +149,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-11 03:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2019-04-15 00:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-05 00:00:00', null, null, null);
             end if;
@@ -171,19 +171,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-02 03:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-12-12 00:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-02 00:00:00', null, null, null);
             end if;
@@ -193,19 +193,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, current_date, null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 00:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 00:00:00', null, null, null);
             end if;
@@ -214,19 +214,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 03:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, current_date, null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, current_date + interval '20 day', null, null, null);
             end if;
@@ -235,19 +235,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 03:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 00:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, current_date, null, null, null);
             end if;
@@ -257,19 +257,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 03:00:00', null, null, null);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, current_date + interval '20 day', null, null, null);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, '2020-02-01 00:00:00', null, null, null);
             end if;
@@ -278,19 +278,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 6);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 2);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 12);
             end if;
@@ -299,19 +299,19 @@ BEGIN
         then
             if (movies_record.movie_id = 1)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 12);
             end if;
             if (movies_record.movie_id = 2)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 10);
             end if;
             if (movies_record.movie_id = 3)
             then
-                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_numeric, value_int)
+                INSERT INTO movies_attr_value (movie_id, movie_attr_id, value_string, value_date, value_bool, value_float, value_int)
                 VALUES
                 (movies_record.movie_id, movies_record.movie_attr_id, null, null, null, null, 18);
             end if;
