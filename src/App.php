@@ -14,7 +14,7 @@ class App
 
             return call_user_func($controller, $request);
         } catch (Throwable $exception) {
-            return new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new Response($exception->getMessage(), $exception->getCode());
         }
     }
 }

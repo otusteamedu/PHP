@@ -2,14 +2,47 @@
 
 namespace Repository\Youtube;
 
-use Repository\AbstractRepository;
-use Service\Database\DatabaseInterface;
+use MongoDB\BSON\ObjectId;
+use Service\Database\MongoDatabase;
 
-class ChannelRepository extends AbstractRepository
+class ChannelRepository
 {
-    public function __construct(DatabaseInterface $database)
+    private MongoDatabase $database;
+
+    public function __construct()
     {
-        parent::__construct($database, 'youtube-channels');
+        $this->database = new MongoDatabase();
+        $this->database->setCollectionName('youtube-channels');
+    }
+
+    public function saveOne(object $object): string
+    {
+        $collection = $this->database->getCollection();
+        $result = $collection->insertOne($this->prepareDocument($object));
+
+        return $result->getInsertedId()->__toString();
+    }
+
+    public function findOne(string $id): ?object
+    {
+        $collection = $this->database->getCollection();
+
+        return $collection->findOne(['_id' => new ObjectId($id)]);
+    }
+
+    public function find(array $filter): array
+    {
+        $collection = $this->database->getCollection();
+        $cursor = $collection->find($filter);
+
+        return $cursor->toArray();
+    }
+
+    public function deleteOne(string $id): int
+    {
+        $collection = $this->database->getCollection();
+
+        return $collection->deleteOne(['_id' => new ObjectId($id)])->getDeletedCount();
     }
 
     public function getSummaryStat(): array
@@ -81,5 +114,10 @@ class ChannelRepository extends AbstractRepository
         ]);
 
         return $cursor->toArray();
+    }
+
+    private function prepareDocument(object $object): array
+    {
+        return json_decode(json_encode($object), true);
     }
 }

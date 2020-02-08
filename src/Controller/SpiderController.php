@@ -7,7 +7,7 @@ use Entity\Youtube\Video;
 use Service\SelfApiClient;
 use Service\YoutubeApiClient;
 
-class YoutubeSpiderController
+class SpiderController
 {
     public function runAction(array $arguments): void
     {

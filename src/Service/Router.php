@@ -3,9 +3,10 @@
 namespace Service;
 
 use Controller\ChannelsController;
+use Controller\EventsController;
 use Controller\Stats\SumController;
 use Controller\Stats\TopController;
-use Controller\YoutubeSpiderController;
+use Controller\SpiderController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class Router
         '/\\/channels\\/?[a-zA-Z0-9_\\-]*/' => ChannelsController::class,
         '/\\/stats\\/sum\\/?/' => SumController::class,
         '/\\/stats\\/top\\/?/' => TopController::class,
+        '/\\/events\\/?[a-zA-Z0-9_\\-]*/' => EventsController::class,
     ];
 
     public function handleRequest(Request $request): callable
@@ -36,7 +38,7 @@ class Router
     public function resolveCommand(string $command): callable
     {
         if ($command === 'spider/run') {
-            return [new YoutubeSpiderController(), 'runAction'];
+            return [new SpiderController(), 'runAction'];
         } else {
             throw new Exception("Command {$command} not found");
         }

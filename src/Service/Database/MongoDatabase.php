@@ -2,11 +2,10 @@
 
 namespace Service\Database;
 
-use MongoDB\BSON\ObjectId;
 use MongoDB\Client;
 use MongoDB\Collection;
 
-class MongoDatabase implements DatabaseInterface
+class MongoDatabase
 {
     private string $database;
     private string $collectionName;
@@ -23,43 +22,8 @@ class MongoDatabase implements DatabaseInterface
         $this->collectionName = $collectionName;
     }
 
-    public function saveOne(object $object): string
-    {
-        $collection = $this->client->selectCollection($this->database, $this->collectionName);
-        $result = $collection->insertOne($this->prepareDocument($object));
-
-        return $result->getInsertedId()->__toString();
-    }
-
-    public function getOne(string $id): ?object
-    {
-        $collection = $this->client->selectCollection($this->database, $this->collectionName);
-
-        return $collection->findOne(['_id' => new ObjectId($id)]);
-    }
-
-    public function get(array $filter): array
-    {
-        $collection = $this->client->selectCollection($this->database, $this->collectionName);
-        $cursor = $collection->find($filter);
-
-        return $cursor->toArray();
-    }
-
-    public function deleteOne(string $id): int
-    {
-        $collection = $this->client->selectCollection($this->database, $this->collectionName);
-
-        return $collection->deleteOne(['_id' => new ObjectId($id)])->getDeletedCount();
-    }
-
     public function getCollection(): Collection
     {
         return $this->client->selectCollection($this->database, $this->collectionName);
-    }
-
-    private function prepareDocument(object $object): array
-    {
-        return json_decode(json_encode($object), true);
     }
 }

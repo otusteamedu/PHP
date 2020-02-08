@@ -9,8 +9,6 @@ services:
       - ../:/home/www/mysite.local
       - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
       - phpsocket:/var/run
-    links:
-      - app
     networks:
       localnet:
         aliases:
@@ -21,8 +19,6 @@ services:
     volumes:
       - ../:/home/www/mysite.local
       - phpsocket:/var/run
-    links:
-      - mongo
     networks:
       localnet:
         aliases:
@@ -38,8 +34,20 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ../data/db:/data/db
+      - ../data/mongo:/data/db
       - ../docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  redis:
+    container_name: vlyagusha-redis
+    image: redis
+    command: ["sh", "-c", "exec redis-server"]
+    ports:
+      - 6379:6379
+    volumes:
+      - ../data/redis:/data
     networks:
       localnet:
         aliases:
