@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+    site:
+      container_name: static-site
+      build: .
+      ports:
+      - '90:8080'
+      restart: always
