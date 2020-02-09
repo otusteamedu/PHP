@@ -1,0 +1,31 @@
+version: '3'
+
+volumes:
+  redis_data:
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/nginx/backend:/etc/nginx/conf.d
+      - ./www:/var/www
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - php
+  php:
+    build: ./docker/phpfpm
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www
+    restart: always
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - ./redis:/data
