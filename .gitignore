@@ -7,3 +7,7 @@ shemaDBCinema/cinema.pdf
 shemaDBCinema/comments.txt
 EAV/cinema.pdf
 EAV/cooments.txt 
+indexesDB/partitions-28065-4df18d.sql
+indexesDB/random_string-28065-21713e.sql
+indexesDB/trigger-28065-a0b23a.sql
+indexesDB/work
