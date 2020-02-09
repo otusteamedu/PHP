@@ -54,6 +54,9 @@ class ChannelRepository
             [
                 '$group' => [
                     '_id' => '$_id',
+                    'channelId' => [
+                        '$first' => '$channelId'
+                    ],
                     'title' => [
                         '$first' => '$title'
                     ],
@@ -79,6 +82,9 @@ class ChannelRepository
             [
                 '$group' => [
                     '_id' => '$_id',
+                    'channelId' => [
+                        '$first' => '$channelId'
+                    ],
                     'title' => [
                         '$first' => '$title'
                     ],
@@ -93,6 +99,7 @@ class ChannelRepository
             [
                 '$project' => [
                     'title' => 1,
+                    'channelId' => 1,
                     'weight' => [
                         '$round' => [
                             [

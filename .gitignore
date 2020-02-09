@@ -2,3 +2,5 @@
 composer.phar
 vendor
 data
+.env
+config/config.ini

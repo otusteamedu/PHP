@@ -4,8 +4,10 @@ namespace Controller;
 
 use Entity\Youtube\Channel;
 use Entity\Youtube\Video;
+use Service\Config\AppConfigIniProvider;
 use Service\SelfApiClient;
 use Service\YoutubeApiClient;
+use Service\Config\YoutubeApiConfigIniProvider;
 
 class SpiderController
 {
@@ -16,8 +18,8 @@ class SpiderController
         }
         $query = $arguments[0];
         $maxResults = (int)($arguments[1] ?? 10);
-        $youtubeApiClient = new YoutubeApiClient();
-        $selfApiClient = new SelfApiClient();
+        $youtubeApiClient = new YoutubeApiClient(new YoutubeApiConfigIniProvider('config/config.ini'));
+        $selfApiClient = new SelfApiClient(new AppConfigIniProvider('config/config.ini'));
 
         $channels = $youtubeApiClient->getChannelsList($query, $maxResults);
         foreach ($channels['items'] ?? [] as $channel) {

@@ -6,15 +6,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class App
 {
-    public function run(Request $request): Response
+    public function run(): Response
     {
+        $request = Request::createFromGlobals();
         $router = new Router();
         try {
             $controller = $router->handleRequest($request);
-
-            return call_user_func($controller, $request);
+            $response = call_user_func($controller, $request);
         } catch (Throwable $exception) {
-            return new Response($exception->getMessage(), $exception->getCode());
+            $response = new Response($exception->getMessage(), $exception->getCode());
         }
+
+        return $response->send();
     }
 }

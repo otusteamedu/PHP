@@ -1,0 +1,8 @@
+[app]
+base_url = http://mysite.local
+
+[youtube]
+api_key = AIzaSyAAnt7kjNqCouYAPeW4R7USUReIpgoO66U
+api_base_url = https://www.googleapis.com
+api_path_search = /youtube/v3/search
+api_path_videos = /youtube/v3/videos

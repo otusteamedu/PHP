@@ -3,23 +3,26 @@
 namespace Service;
 
 use GuzzleHttp\Client;
+use Service\Config\YoutubeConfigProviderInterface;
 
 class YoutubeApiClient
 {
     private Client $client;
     private string $apiKey;
+    private YoutubeConfigProviderInterface $configProvider;
 
-    public function __construct()
+    public function __construct(YoutubeConfigProviderInterface $configProvider)
     {
-        $this->apiKey = 'AIzaSyAAnt7kjNqCouYAPeW4R7USUReIpgoO66U';
+        $this->configProvider = $configProvider;
+        $this->apiKey = $this->configProvider->getApiKey();
         $this->client = new Client([
-            'base_uri' => 'https://www.googleapis.com'
+            'base_uri' => $this->configProvider->getApiBaseUrl()
         ]);
     }
 
     public function getChannelsList(string $query, int $maxResults = 10): array
     {
-        $response = $this->client->request('get', '/youtube/v3/search', [
+        $response = $this->client->request('get', $this->configProvider->getSearchApiPath(), [
             'query' => [
                 'key' => $this->apiKey,
                 'part' => 'snippet',
@@ -35,7 +38,7 @@ class YoutubeApiClient
 
     public function getVideosList(string $channelId, int $maxResults = 10): array
     {
-        $response = $this->client->request('get', '/youtube/v3/search', [
+        $response = $this->client->request('get', $this->configProvider->getSearchApiPath(), [
             'query' => [
                 'key' => $this->apiKey,
                 'part' => 'snippet',
@@ -50,7 +53,7 @@ class YoutubeApiClient
 
     public function getVideoStatistics(string $videoId): ?array
     {
-        $response = $this->client->request('get', '/youtube/v3/videos', [
+        $response = $this->client->request('get', $this->configProvider->getVideosApiPath(), [
             'query' => [
                 'key' => $this->apiKey,
                 'part' => 'statistics',

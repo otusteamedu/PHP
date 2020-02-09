@@ -11,7 +11,7 @@ class TopController
     public function getAction(Request $request): Response
     {
         $channelRepository = new ChannelRepository();
-        $limit = (int)explode('/', $request->getBasePath())[3];
+        $limit = (int)explode('/', $request->getPathInfo())[3];
 
         return new Response(json_encode($channelRepository->getTopChannels($limit)));
     }
