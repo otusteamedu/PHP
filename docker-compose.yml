@@ -1,0 +1,28 @@
+version: "3.5"
+
+services:
+  nginx:
+    container_name: "nginx"
+    image: nginx:alpine
+    ports:
+      - 80:80
+    links:
+      - php
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive:/var/run"
+
+  php:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: "php"
+    env_file:
+      - .env
+    volumes:
+      - ./src/:/var/www/html
+      - ./php.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - "sockdrive:/var/run"
+volumes:
+  sockdrive:

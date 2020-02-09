@@ -1,0 +1,15 @@
+{
+  "name": "richie-seagull/php-db",
+  "description": "ДЗ: Реализация одного из паттернов работы с хранилищем данных",
+  "require": {
+    "php": "^7.4.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "app/core",
+      "Controller\\": "app/controllers",
+      "Entity\\": "app/entities",
+      "Entity\\Filter\\": "app/entities/filters"
+    }
+  }
+}
