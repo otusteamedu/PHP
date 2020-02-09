@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/nginx/backend:/etc/nginx/conf.d
+      - ./www:/var/www
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - php
+  php:
+    build: ./docker/phpfpm
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www
+    restart: always
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGODB_USER=${HW11_MONGODB_USER}
+      - MONGODB_PASS=${HW11_MONGODB_PASS}
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db

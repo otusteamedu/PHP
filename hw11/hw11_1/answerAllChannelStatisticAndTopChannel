@@ -1,0 +1,78 @@
+Array
+(
+    [title] => mitski mitski
+    [likes] => 49661
+    [disLikes] => 376
+)
+Array
+(
+    [title] => Crystal Castles official
+    [likes] => 322574
+    [disLikes] => 5190
+)
+Array
+(
+    [title] => Краснознаменная дивизия имени моей бабушки
+    [likes] => 8612
+    [disLikes] => 304
+)
+Array
+(
+    [title] => Scott Robertson
+    [likes] => 19914
+    [disLikes] => 151
+)
+Array
+(
+    [title] => Sonic Youth
+    [likes] => 19998
+    [disLikes] => 324
+)
+Array
+(
+    [title] => The National
+    [likes] => 216771
+    [disLikes] => 6275
+)
+Array
+(
+    [title] => björk
+    [likes] => 288505
+    [disLikes] => 6884
+)
+
+Array
+(
+    [0] => Array
+        (
+            [title] => mitski mitski
+            [proportionLikeDisLike] => 132.07712765957
+            [likes] => 49661
+            [disLikes] => 376
+        )
+
+    [1] => Array
+        (
+            [title] => Scott Robertson
+            [proportionLikeDisLike] => 131.88079470199
+            [likes] => 19914
+            [disLikes] => 151
+        )
+
+    [2] => Array
+        (
+            [title] => Crystal Castles official
+            [proportionLikeDisLike] => 62.152986512524
+            [likes] => 322574
+            [disLikes] => 5190
+        )
+
+    [3] => Array
+        (
+            [title] => Sonic Youth
+            [proportionLikeDisLike] => 61.722222222222
+            [likes] => 19998
+            [disLikes] => 324
+        )
+
+)

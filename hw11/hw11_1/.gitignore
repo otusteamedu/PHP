@@ -1,0 +1,4 @@
+.env
+mongo
+docker/socket/
+/www/vendor
