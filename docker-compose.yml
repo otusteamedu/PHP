@@ -2,8 +2,6 @@ version: "3.7"
 
 services:
     web:
-        image: nginx:latest
+        build: .
         ports:
             - "80:80"
-        volumes:
-            - /files/:/usr/share/nginx/html/
