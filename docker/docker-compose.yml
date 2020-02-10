@@ -1,0 +1,60 @@
+version: '3'
+services:
+  nginx:
+    container_name: vlyagusha-nginx
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ../:/home/www/mysite.local
+      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpsocket:/var/run
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  app:
+    container_name: vlyagusha-app
+    build: php
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  mongo:
+    container_name: vlyagusha-mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    ports:
+      - 27017:27017
+    volumes:
+      - ../data/mongo:/data/db
+      - ../docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  redis:
+    container_name: vlyagusha-redis
+    image: redis
+    command: ["sh", "-c", "exec redis-server"]
+    ports:
+      - 6379:6379
+    volumes:
+      - ../data/redis:/data
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+volumes:
+  phpsocket:
+
+networks:
+  localnet:
+    driver: bridge
