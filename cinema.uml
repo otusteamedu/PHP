@@ -3,105 +3,88 @@
   <ID>DATABASE</ID>
   <OriginalElement>95b47112-9805-4744-8228-4e18ec22b340.SCHEMA:hw7.cinema</OriginalElement>
   <nodes>
-    <node x="47.5" y="53.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film</node>
-    <node x="628.5" y="533.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall</node>
-    <node x="1704.0" y="1031.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket</node>
-    <node x="904.0" y="761.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place</node>
-    <node x="912.0" y="1351.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket</node>
-    <node x="290.5" y="281.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session</node>
-    <node x="1197.0" y="1656.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.user</node>
-    <node x="1424.0" y="1401.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.order</node>
+    <node x="1087.5" y="253.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film</node>
+    <node x="1304.0" y="468.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place_price</node>
+    <node x="1588.5" y="1053.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall</node>
+    <node x="424.0" y="711.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket</node>
+    <node x="1584.0" y="68.5">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place</node>
+    <node x="770.5" y="761.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session</node>
+    <node x="117.0" y="736.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.user</node>
+    <node x="104.0" y="1081.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.order</node>
   </nodes>
   <notes />
   <edges>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session">
-      <point x="-30.0" y="-129.0" />
-      <point x="1770.0" y="360.0" />
-      <point x="109.5" y="0.0" />
+      <point x="80.0" y="-129.0" />
+      <point x="600.0" y="640.0" />
+      <point x="840.0" y="640.0" />
+      <point x="-40.0" y="-79.0" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film">
-      <point x="-10.0" y="-129.0" />
-      <point x="1790.0" y="120.0" />
-      <point x="72.5" y="0.0" />
-    </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket">
-      <point x="20.0" y="-129.0" />
-      <point x="1020.0" y="960.0" />
-      <point x="1720.0" y="960.0" />
-      <point x="-80.0" y="-129.0" />
+      <point x="40.0" y="-129.0" />
+      <point x="560.0" y="200.0" />
+      <point x="1160.0" y="200.0" />
+      <point x="0.0" y="-66.5" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.user">
-      <point x="0.0" y="129.0" />
-      <point x="1800.0" y="1720.0" />
-      <point x="83.0" y="-40.0" />
+      <point x="-40.0" y="-129.0" />
+      <point x="480.0" y="640.0" />
+      <point x="200.0" y="640.0" />
+      <point x="0.0" y="-104.0" />
     </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.user">
-      <point x="0.0" y="129.0" />
-      <point x="1000.0" y="1920.0" />
-      <point x="1280.0" y="1920.0" />
-      <point x="0.0" y="104.0" />
-    </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film">
-      <point x="-88.0" y="0.0" />
-      <point x="0.0" y="1480.0" />
-      <point x="0.0" y="120.0" />
-      <point x="-72.5" y="0.0" />
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place_price" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place">
+      <point x="96.0" y="0.0" />
+      <point x="1640.0" y="560.0" />
+      <point x="-40.0" y="91.5" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.order">
-      <point x="-40.0" y="129.0" />
-      <point x="1760.0" y="1480.0" />
-      <point x="96.0" y="0.0" />
-    </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session">
-      <point x="-88.0" y="-40.0" />
-      <point x="400.0" y="1440.0" />
-      <point x="0.0" y="79.0" />
+      <point x="-96.0" y="40.0" />
+      <point x="360.0" y="880.0" />
+      <point x="360.0" y="1120.0" />
+      <point x="96.0" y="-40.0" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place">
-      <point x="-60.0" y="-129.0" />
-      <point x="1740.0" y="840.0" />
-      <point x="96.0" y="0.0" />
+      <point x="20.0" y="-129.0" />
+      <point x="540.0" y="160.0" />
+      <point x="-96.0" y="0.0" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.basket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall">
-      <point x="-50.0" y="-129.0" />
-      <point x="1750.0" y="600.0" />
-      <point x="91.5" y="0.0" />
+      <point x="0.0" y="129.0" />
+      <point x="520.0" y="1240.0" />
+      <point x="1680.0" y="1240.0" />
+      <point x="0.0" y="66.5" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.order" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.user">
-      <point x="0.0" y="79.0" />
-      <point x="1520.0" y="1680.0" />
-      <point x="83.0" y="-80.0" />
+      <point x="0.0" y="-79.0" />
+      <point x="0.0" y="104.0" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall">
-      <point x="109.5" y="40.0" />
-      <point x="680.0" y="400.0" />
+      <point x="109.5" y="0.0" />
+      <point x="1640.0" y="840.0" />
       <point x="-40.0" y="-66.5" />
     </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall">
-      <point x="0.0" y="-79.0" />
-      <point x="1000.0" y="640.0" />
-      <point x="91.5" y="40.0" />
+      <point x="0.0" y="91.5" />
+      <point x="0.0" y="-66.5" />
     </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.order">
-      <point x="88.0" y="0.0" />
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place_price" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session">
       <point x="-96.0" y="0.0" />
+      <point x="960.0" y="560.0" />
+      <point x="80.0" y="-79.0" />
     </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.hall">
-      <point x="-88.0" y="-80.0" />
-      <point x="720.0" y="1400.0" />
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place_price" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film">
+      <point x="-96.0" y="-40.0" />
+      <point x="1160.0" y="520.0" />
       <point x="0.0" y="66.5" />
     </edge>
-    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.ticket" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.place">
-      <point x="0.0" y="-129.0" />
-      <point x="0.0" y="79.0" />
-    </edge>
     <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.session" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw7.cinema.film">
-      <point x="-109.5" y="0.0" />
-      <point x="160.0" y="360.0" />
-      <point x="40.0" y="66.5" />
+      <point x="40.0" y="-79.0" />
+      <point x="920.0" y="440.0" />
+      <point x="1120.0" y="440.0" />
+      <point x="-40.0" y="66.5" />
     </edge>
   </edges>
-  <settings layout="Orthogonal" zoom="0.342512908777969" x="495.0" y="837.0" />
+  <settings layout="Orthogonal" zoom="0.8" x="1036.0" y="502.25" />
   <SelectedNodes />
   <Categories>
     <Category>Key columns</Category>
