@@ -1,0 +1,13 @@
+web:
+    image: nginx:alpine
+    ports:
+        - "8080:80"
+    volumes:
+        - ./data:/data
+        - ./conf/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    links:
+        - php
+php:
+    image: php:7-fpm
+    volumes:
+        - ./data:/data
