@@ -1,0 +1,19 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+    - "82:80"
+    volumes:
+    - ./sites:/etc/nginx/conf.d
+    - ./app:/var/www
+    - ./logs:/var/log/nginx
+    - ./sock:/sock
+    depends_on:
+    - php
+  php:
+    image: php:7.3-fpm
+    volumes:
+    - ./app:/var/www
+    - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    - ./sock:/sock

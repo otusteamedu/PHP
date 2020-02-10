@@ -1,0 +1,10 @@
+{
+    "name": "BracketValidator",
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "App\\":"src/"
+        }
+    }
+}
