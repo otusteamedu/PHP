@@ -1,0 +1,41 @@
+version: '3'
+
+volumes:
+  db_data:
+  sockets:
+
+services:
+  web:
+    image: "nginx:alpine"
+    ports:
+      - 80:80
+    volumes:
+      - sockets:/sockets
+      - ./code/public:/var/www/laravel
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+    depends_on:
+      - php
+
+  db:
+    image: "postgres:alpine"
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+
+  php:
+    build:
+      context: ./docker/php  
+    volumes:
+      - sockets:/sockets
+      - ./docker/php/app.local.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./code:/var/www/laravel
+      - ./.env:/var/www/laravel/.env
+    depends_on:
+      - db
+
