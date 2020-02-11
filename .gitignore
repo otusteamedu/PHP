@@ -1,0 +1,22 @@
+# directories
+/.idea/
+/tmp/
+/node_modules/
+/docs/.vuepress/dist/
+
+# keep
+!.gitkeep
+
+# debug/cache
+npm-debug.log
+bash.exe.stackdump
+nohup.out
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

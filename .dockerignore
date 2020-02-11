@@ -1,0 +1,5 @@
+/.git/
+/.idea/
+/tmp/
+/node_modules/
+/docs/.vuepress/dist/
