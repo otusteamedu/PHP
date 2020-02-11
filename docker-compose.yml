@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  php:
+    build: .
+    image: 7.4-fpm-alpine
+    ports:
+      - 8080:80

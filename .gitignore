@@ -1,0 +1,12 @@
+#IDE SETTINGS
+.idea
+
+#DOCKER
+docker-compose.override.yml
+
+#COMPOSER
+vendor
+bin
+
+#LOGS
+logs/*
