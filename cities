@@ -1,2 +1,2 @@
 #!/bin/bash
-sort cities.txt | uniq -c | sort -nr  | tail -n +2 | head -n 3 | awk '{print $4}'
+cat cities.txt | awk '{print $3}'| sort | uniq -c | sort -nrk1 | head -n 3
