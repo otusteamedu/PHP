@@ -3,7 +3,7 @@ RUN apk update
 RUN apk add  nginx
 RUN mkdir -p /run/nginx
 WORKDIR /var/www
-COPY my_site.conf /etc/nginx/sites-enabled/
-COPY first_docker/* /var/www/test/
-EXPOSE 8081
+RUN mkdir test && echo "hello from docker" > test/index.html
+COPY my_site.conf /etc/nginx/conf.d/
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
