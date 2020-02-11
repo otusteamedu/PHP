@@ -1,0 +1,10 @@
+#!/bin/bash
+reg='^[+-]?[0-9]+([.][0-9]+)?$'
+if [[ $1 =~ $reg && $2 =~ $reg ]]
+then
+awk -v a="$1" -v b="$2" 'BEGIN {print "SUM =  " a+b} '
+else
+echo "Error need only numbers"
+exit 1
+
+fi

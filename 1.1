@@ -1,0 +1,14 @@
+#!/bin/bash
+echo 'enter first variable'
+read var1
+echo 'enter second variable'
+read var2
+reg='^[+-]?[0-9]+([.][0-9]+)?$'
+if [[ $var1 =~ $reg && $var2 =~ $reg ]]
+then
+echo "sum = $(($var1 + $var2))"
+else
+echo "Error need only numbers"
+exit 1
+
+fi
