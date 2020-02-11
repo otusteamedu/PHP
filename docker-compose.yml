@@ -8,7 +8,8 @@ services:
       - "./tools:/tools:ro"
       - "./socks:/socks:rw"
       - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
-      - "./hello-world.local:/home/web/www/hello-world.local:rw,cached"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./laravel.local:/home/web/www/laravel.local:rw,cached"
     command: ["/tools/web-entrypoint.sh"]
     depends_on:
       - php-fpm73
@@ -31,7 +32,8 @@ services:
       - "./tools:/tools:ro"
       - "./config/php/php.ini/php-fpm73.ini:/usr/local/etc/php/php.ini:ro"
       - "./config/php/php.ini/php-cli73.ini:/usr/local/etc/php/php-cli.ini:ro"
-      - "./hello-world.local:/home/web/www/hello-world.local:rw,cached"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./laravel.local:/home/web/www/laravel.local:rw,cached"
       #- "./config/php/php-fpm.d/zz-docker.override.conf:/usr/local/etc/php-fpm.d/zz-docker.override.conf:ro"
       #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
       #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
