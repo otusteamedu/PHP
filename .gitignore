@@ -13,6 +13,7 @@ Thumbs.db
 .idea/
 # Mac DS_Store Files
 .DS_Store
-socks/
+socks/*.*
+!socks/.gitkeep
 # Override docker
 docker-compose.override.yml
