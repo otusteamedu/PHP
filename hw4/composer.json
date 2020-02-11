@@ -1,0 +1,15 @@
+{
+    "name": "stepanova/unix-sockets",
+    "authors": [
+        {
+            "name": "Stepanova Maria",
+            "email": "mstepanova@ecias.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "UnixSockets\\": "src/unix-sockets"
+        }
+    }
+}

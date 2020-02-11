@@ -1,0 +1,17 @@
+[
+  { //channel structure
+    "id":"UC-GjYlrAWIHgwNDnbFHZ77g", //string
+    "login":"whoismitski", //string
+    "title":"mitski mitski", //string
+    "description":"", //string
+    "videoIds":["p8FDl_tMs4Y","MpAQJYh3ljI","ohxu-pA7o64","Bfurc6KcMwk","zgI56IFtQto","5F_k5uBnYGo","4y0O7gAQEFU","1-kO12tP3SE"] //array
+  },
+  { //video structure
+    "channelId":"UC-GjYlrAWIHgwNDnbFHZ77g", //string
+    "id":"p8FDl_tMs4Y", //string
+    "title":"Mitski - A Pearl", //string
+    "description":"A collaboration with Spotify for \"A Pearl\". Listen to the album now https://spoti.fi/2RsbAm5", //string
+    "dislike":230,  //int
+    "like":27010 //int
+  }
+]
