@@ -1,6 +1,5 @@
 <?php
 
-use Entities\InputData;
 use Responses\ResponseSuccess;
 use Exceptions\RequestException;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +24,15 @@ class App
             if (empty($data)) {
                 throw new RequestException('Error input data: empty string');
             }
-    
+            
+            $checkBrackets = new \Library\CheckBrackets();
+            if (!$checkBrackets->isValid($data)) {
+                throw new RequestException('Error input data: incorrect string');
+            }
+            
             $result = new ResponseSuccess();
             $result->status = 'ok';
-            $result->result = $data;
+            $result->result = "String: {$data} is valid";
             
             return $result;
         }
