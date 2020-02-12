@@ -1,0 +1,5 @@
+place	place_pkey	0	0	2
+hall	unique_hall_name	0	0	7
+hall	hall_pkey	0	0	7
+row	hall_row_uq	0	0	8
+row	row_pkey	0	0	8

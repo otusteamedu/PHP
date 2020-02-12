@@ -1,0 +1,11 @@
+attribute	497
+attribute_value	422
+film	422
+session	0
+tickets_sold	0
+marketing_data_for_film	0
+row	0
+row_has_place	0
+hall	0
+service_data_for_film	0
+place	0
