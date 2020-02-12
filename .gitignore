@@ -1,3 +1,4 @@
 .idea/
 *.log
 hw4/vendor/*
+hw9/.env
