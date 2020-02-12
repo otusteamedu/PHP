@@ -1,0 +1,22 @@
+!/bin/bash
+
+re='^[0-9]+$'
+
+echo "введите x"
+read x
+
+if ! [[ $x =~ $re ]] ; then
+  echo "error: Не число" >&2; exit 1
+fi
+
+echo "введите y"
+read y
+
+if ! [[ $y =~ $re ]] ; then
+  echo "error: Не число" >&2; exit 1
+fi
+ 
+sum=$(($x+$y))
+
+echo "сумма чисел"
+echo $sum

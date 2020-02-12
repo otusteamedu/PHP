@@ -1,0 +1,2 @@
+# !/bin/bash
+cat table.txt | awk '{print $3}' | sort | uniq -c | sort -r -k1 | head -n3
