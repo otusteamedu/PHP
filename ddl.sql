@@ -31,12 +31,32 @@ CREATE TABLE public.film_session (
 	CONSTRAINT film_session_hall_fk FOREIGN KEY (hall_id) REFERENCES hall(id)
 );
 
+DROP TABLE IF exists public.place_type;
+CREATE TABLE public.place_type (
+    id serial NOT null UNIQUE,
+    price_percent float DEFAULT 1
+);
+
+DROP TABLE IF exists public.place CASCADE;
+CREATE TABLE public.place (
+    id serial NOT NULL UNIQUE,
+    hall_id int NOT NULL,
+    row int NOT NULL,
+    seat int NOT NULL,
+    place_type_id int NOT NULL,
+    CONSTRAINT place_hall_fk FOREIGN KEY (hall_id) REFERENCES hall(id),
+    CONSTRAINT place_place_type_fk FOREIGN KEY (place_type_id) REFERENCES place_type(id)
+);
+
 DROP TABLE IF exists public.ticket CASCADE;
 CREATE TABLE public.ticket (
 	id serial NOT NULL,
     film_session_id int NOT NULL,
     customer_id int NOT NULL,
+    place_id int NOT NULL,
+    sale_date date,
     CONSTRAINT ticket_pk PRIMARY KEY (id),
     CONSTRAINT ticket_film_session_fk FOREIGN KEY (film_session_id) REFERENCES film_session(id),
-    CONSTRAINT ticket_customer_fk FOREIGN KEY (customer_id) REFERENCES customer(id)
+    CONSTRAINT ticket_customer_fk FOREIGN KEY (customer_id) REFERENCES customer(id),
+    CONSTRAINT ticket_place_fk FOREIGN KEY (place_id) REFERENCES place(id)
 );
