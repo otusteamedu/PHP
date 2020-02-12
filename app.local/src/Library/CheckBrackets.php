@@ -11,17 +11,18 @@ class CheckBrackets
         if (empty($data)) {
             return false;
         }
+        
+        $pattern = '#(\([^()]*\))+#';
+        if (preg_match($pattern, $data)) {
+            $dataWithoutBrackets     = preg_replace('#(\([^()]*\))+#', '', $data);
+            $dataWithoutBracketsTrim = trim($dataWithoutBrackets);
+            if (empty($dataWithoutBracketsTrim)) {
+                return true;
+            }
     
-        if (strpos($data, ')') === false || strpos($data, '(') === false) {
-            return false;
+            return $this->isValid($dataWithoutBracketsTrim);
         }
         
-        $dataWithoutBrackets = preg_replace('#(\([^()]*\))+#', '', $data);
-        $dataWithoutBracketsTrim = trim($dataWithoutBrackets);
-        if (empty($dataWithoutBracketsTrim)) {
-            return true;
-        }
-        
-        return $this->isValid($dataWithoutBracketsTrim);
+        return false;
     }
 }
