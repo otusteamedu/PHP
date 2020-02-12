@@ -1,0 +1,5 @@
+#!/bin/bash
+
+file="users.txt"
+
+echo "$(sed '1d' ${file} | awk '{print $3}' | sort | uniq -c | sort -nk1 -r | awk '{print $2}' | head -n 3)"

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function is_number {
+  [[ "$1" =~ ^[[:digit:]]+$ ]]
+}
+
+if ! is_number $1 || ! is_number $2 ; then
+echo "incorrect parameters"
+exit
+fi
+
+echo $(( $1 + $2 ))
