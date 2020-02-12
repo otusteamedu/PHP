@@ -1,5 +1,10 @@
 # Environment
 .env
+# Custom config files
+config/nginx/sites-enabled/*.conf
+!config/nginx/sites-enabled/*.local.conf
+*.override.conf
+*.override.ini
 # composer vendor dir
 vendor/
 # windows thumbnail cache
@@ -8,3 +13,7 @@ Thumbs.db
 .idea/
 # Mac DS_Store Files
 .DS_Store
+socks/*.*
+!socks/.gitkeep
+# Override docker
+docker-compose.override.yml
