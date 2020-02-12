@@ -6,8 +6,9 @@ define('ROOT', realpath(__DIR__));
 
 require_once ROOT . '/vendor/autoload.php';
 
-if (is_file(ROOT.'/.env')) {
-    Dotenv::create(ROOT)->load();
+$dotEnvDir = ROOT.'/../';
+if (is_file($dotEnvDir . '.env')) {
+    Dotenv::create($dotEnvDir)->load();
 }
 
 error_reporting((int) (getenv('ERROR_REPORTING') ? : E_ALL));
