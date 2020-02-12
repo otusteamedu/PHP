@@ -12,7 +12,7 @@ class CheckBrackets
             return false;
         }
     
-        if (strpos($data, ')') === false && strpos($data, '(') === false) {
+        if (strpos($data, ')') === false || strpos($data, '(') === false) {
             return false;
         }
         
