@@ -16,21 +16,24 @@ class App
      *
      * @return ResponseSuccess
      * @throws RequestException
-     * @throws \Exceptions\ConvertException
      */
     public function exec(Request $request): ResponseSuccess
     {
-        $result = new ResponseSuccess();
-        
         //Проверяем что метод POST и авторизацию
         if ($request->isMethod(Request::METHOD_POST)) {
-        
-        } else {
-            throw new RequestException('Error input data: empty string');
+            $data = $request->get('string');
+            if (empty($data)) {
+                throw new RequestException('Error input data: empty string');
+            }
+    
+            $result = new ResponseSuccess();
+            $result->status = 'ok';
+            $result->result = $data;
+            
+            return $result;
         }
         
-        return $result;
+        throw new RequestException('Not POST request');
     }
-    
     
 }
