@@ -52,5 +52,9 @@ if ! grep ${DOCKER_INTERNAL_HOST} /etc/hosts > /dev/null ; then
     echo "Added ${DOCKER_INTERNAL_HOST} to hosts /etc/hosts"
 fi
 
+# composer install
+sudo -u ${DOCKER_USERNAME_ENV} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/app.local/ install
+sudo -u ${DOCKER_USERNAME_ENV} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/laravel.local/ install
+
 # start
 exec "$@"
