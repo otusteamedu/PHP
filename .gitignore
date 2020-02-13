@@ -1,4 +1,4 @@
 .idea
-src/composer.phar
-src/vendor
+composer.phar
+vendor
 .env

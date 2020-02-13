@@ -8,4 +8,5 @@ if (PHP_SAPI === 'cli') {
         $argv[2]
     );
     parse_str($_SERVER['QUERY_STRING'] ?? '', $_GET);
+    $_SERVER['REQUEST_METHOD'] = $argv[1] ?? 'GET';
 }

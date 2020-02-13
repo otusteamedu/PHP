@@ -1,0 +1,39 @@
+body {
+    margin: 1.5em;
+    font: normal 10pt/1.4em Calibri, sans-serif;
+}
+
+.content {
+    width: 80%;
+    min-width: 800px;
+    max-width: 1280px;
+    margin: auto auto;
+}
+
+.int1 {
+    margin-top: 1em;
+}
+
+.int15 {
+    margin-top: 1.5em;
+}
+
+.int2 {
+    margin-top: 2em;
+}
+
+table {
+    border: solid 1px lightgrey;
+    border-collapse: collapse;
+    empty-cells: show;
+}
+
+td, th {
+    padding: 4px 8px;
+    border: solid 1px lightgrey;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #e5e6ed;
+}

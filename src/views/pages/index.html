@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Домашняя работа #17 PHP и базы данных</title>
+    <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+<div class="content">
+    <h1>Домашняя работа #17 PHP и базы данных</h1>
+    <h3 class="int15">Фильмы</h3>
+    <table id="films">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Заголвоок</th>
+            <th>Продолжительность</th>
+            <th>Жанры</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <a target="_blank" href="/films">as JSON</a>
+    <h3 class="int15">Жанры</h3>
+    <table id="genres">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <a target="_blank" href="/genres">as JSON</a>
+
+    <h3 class="int15">Добавление фильма</h3>
+    <form target="_blank" action="/films" method="post">
+        <input name="title" required="required" maxlength="255"
+               placeholder="заголовок"/>
+        <input name="duration" type="number" maxlength="3"
+               placeholder="продолжительность"/>
+        <select multiple="multiple" id="genre_select" name="genre_id[]">
+            <option value="">Не выбран</option>
+        </select>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <h3 class="int15">Добавление жанра</h3>
+    <form target="_blank" action="/genres" method="post">
+        <input name="name" required="required" maxlength="255"
+               placeholder="название"/>
+        <button type="submit">Добавить</button>
+    </form>
+
+</div>
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/index.js"></script>
+
+</body>
+</html>
