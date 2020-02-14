@@ -6,9 +6,9 @@ RUN apk update \
 
 WORKDIR /var/www
 
-COPY ./conf/nginx/test.local.conf /etc/nginx/conf.d/
+COPY ./conf/nginx/test.local.conf /etc/nginx/conf.d/default.conf
 COPY ./files/index.html /var/www/test.local/index.html
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
