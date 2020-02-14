@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src:/var/www:rw
+      - ./var:/var/run:rw
     networks:
       - backend-network
     links:
@@ -44,8 +45,9 @@ services:
     depends_on:
       - *php-fpm
     volumes:
-      - ./src:/var/www
-      - ./log/nginx:/var/log/nginx
+      - ./src:/var/www:rw
+      - ./var:/var/run:rw
+      - ./log/nginx:/var/log/nginx:rw
     ports:
       - "80:80"
       - "443:443"
