@@ -52,9 +52,23 @@ if ! grep ${DOCKER_INTERNAL_HOST} /etc/hosts > /dev/null ; then
     echo "Added ${DOCKER_INTERNAL_HOST} to hosts /etc/hosts"
 fi
 
+SUDO_WEB="sudo -u ${DOCKER_USERNAME_ENV}"
+
 # composer install
-sudo -u ${DOCKER_USERNAME_ENV} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/app.local/ install
-sudo -u ${DOCKER_USERNAME_ENV} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/laravel.local/ install
+${SUDO_WEB} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/app.local/ install
+${SUDO_WEB} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/laravel.local/ install
+
+# env
+EnvAppFile="/home/${DOCKER_USERNAME_ENV}/www/app.local/.env"
+if [[ ! -f "${EnvAppFile}" ]]; then
+    ${SUDO_WEB} cp -n "${EnvAppFile}.example" "${EnvAppFile}"
+fi
+
+EnvLaravelFile="/home/${DOCKER_USERNAME_ENV}/www/laravel.local/.env"
+if [[ ! -f "${EnvLaravelFile}" ]]; then
+    ${SUDO_WEB} cp -n "${EnvLaravelFile}.example" "${EnvLaravelFile}"
+    ${SUDO_WEB} php "/home/${DOCKER_USERNAME_ENV}/www/laravel.local/artisan" key:generate
+fi
 
 # start
 exec "$@"
