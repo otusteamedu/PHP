@@ -1,0 +1,55 @@
+version: "3"
+volumes:
+  mysql-data:
+networks:
+  backend-network:
+    driver: bridge
+services:
+  &mysql8 mysql8:
+    container_name: *mysql8
+    hostname: *mysql8
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    volumes:
+      - ./log/mysql:/var/log/mysql:rw
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend-network
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  &php-fpm php-fpm:
+    container_name: *php-fpm
+    hostname: *php-fpm
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www:rw
+    networks:
+      - backend-network
+    links:
+      - *mysql8
+    depends_on:
+      - *mysql8
+  &nginx nginx:
+    container_name: *nginx
+    hostname: *nginx
+    restart: always
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - *php-fpm
+    volumes:
+      - ./src:/var/www
+      - ./log/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - *php-fpm
+    networks:
+      - backend-network
