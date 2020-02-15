@@ -1,8 +1,12 @@
 <?php
 
 use App\EmailValidator;
+use App\EmailValidatorException;
+use App\EmailValidators\BlockedHostValidator;
+use App\EmailValidators\DNSMXRecordValidator;
 use App\EmailValidators\EmailDNSmxValidator;
 use App\EmailValidators\EmailPhpFilterValidator;
+use App\EmailValidators\PhpFilterValidator;
 
 require_once 'vendor/autoload.php';
 
@@ -22,13 +26,27 @@ $emailsToCheck = [
     'email@example.co.jp',
     'firstname-lastname@example.com',
     '@sdf',
+    'asdasd@yandex.ru',
 ];
 
-$emailValidator = (new EmailValidator())
-    ->addValidator(new EmailPhpFilterValidator())
-    ->addValidator(new EmailDNSmxValidator());
+$phpFilterValidator   = new PhpFilterValidator();
+$dnsMxRecordValidator = new DNSMXRecordValidator();
+$blockedHostValidator = new BlockedHostValidator(['yandex.ru']);
 
-$emailValidator->runBatch($emailsToCheck);
-$result = $emailValidator->getResults();
+$phpFilterValidator
+    ->setNext($dnsMxRecordValidator)
+    ->setNext($blockedHostValidator);
 
-exit;
+$validationResult = [];
+foreach ($emailsToCheck as $email) {
+    try {
+        $phpFilterValidator->validate($email);
+        $validationResult[$email] = 'Ok';
+    } catch (EmailValidatorException $exception) {
+        $validationResult[$email] = $exception->getMessage();
+    } catch (Throwable $exception) {
+        $validationResult[$email] = 'Неожиданная ошибка: ' . $exception->getMessage();
+    }
+}
+
+print_r($validationResult);
