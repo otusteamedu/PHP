@@ -61,7 +61,7 @@ class CustomerMapper
         }
 
         $customer = new Customer();
-        $customer->setId($result['id']);
+        $customer->setId((int)$result['id']);
         $customer->setName($result['name']);
         $customer->setAddress($result['address']);
 

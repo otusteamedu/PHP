@@ -6,21 +6,21 @@ class DatabaseConfigProvider
 {
     private string $configFilename;
 
-    private array $apiConfig;
+    private array $databaseConfig;
 
     public function __construct(string $configFilename)
     {
         $this->configFilename = $configFilename;
-        $this->apiConfig = parse_ini_file($this->configFilename, true, INI_SCANNER_TYPED);
+        $this->databaseConfig = parse_ini_file($this->configFilename, true, INI_SCANNER_TYPED);
     }
 
     public function getPostgresDsn(): string
     {
-        return $this->apiConfig['postgres']['dsn'];
+        return $this->databaseConfig['postgres']['dsn'];
     }
 
     public function getMysqlDsn(): string
     {
-        return $this->apiConfig['mysql']['dsn'];
+        return $this->databaseConfig['mysql']['dsn'];
     }
 }

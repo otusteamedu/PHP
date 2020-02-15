@@ -68,6 +68,21 @@ services:
       localnet:
         aliases:
           - mysite.local
+  mysql:
+    container_name: vlyagusha-mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+      - ../data/mysql:/var/lib/mysql
+      - ../docker/mysql:/docker-entrypoint-initdb.d
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
 
 volumes:
   phpsocket:
