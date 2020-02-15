@@ -52,6 +52,23 @@ services:
       localnet:
         aliases:
           - mysite.local
+  postgres:
+    container_name: vlyagusha-postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+      - ../docker/postgres:/docker-entrypoint-initdb.d
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+
 volumes:
   phpsocket:
 

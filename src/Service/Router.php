@@ -4,6 +4,8 @@ namespace Service;
 
 use Controller\ChannelsController;
 use Controller\EventsController;
+use Controller\Shop\CustomersController;
+use Controller\Shop\OrdersController;
 use Controller\Stats\SumController;
 use Controller\Stats\TopController;
 use Controller\SpiderController;
@@ -18,6 +20,8 @@ class Router
         '/\\/stats\\/sum\\/?/' => SumController::class,
         '/\\/stats\\/top\\/?/' => TopController::class,
         '/\\/events\\/?[a-zA-Z0-9_\\-]*/' => EventsController::class,
+        '/\\/shop\\/orders\\/?[a-zA-Z0-9_\\-]*/' => OrdersController::class,
+        '/\\/shop\\/customers\\/?[a-zA-Z0-9_\\-]*/' => CustomersController::class,
     ];
 
     public function handleRequest(Request $request): callable
