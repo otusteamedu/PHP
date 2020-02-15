@@ -11,5 +11,5 @@ function isNumeric {
 isNumeric $1
 isNumeric $2
 
-echo $1*$2 | bc
+echo "$1 + $2" | bc
 exit 0
