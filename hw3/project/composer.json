@@ -1,0 +1,12 @@
+{
+  "name": "khalecky/project",
+  "version": "1.0.0",
+  "description": "Test project for study composer mechanism",
+  "require": {
+    "php": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {"core\\": "src/core/"}
+  }
+
+}
