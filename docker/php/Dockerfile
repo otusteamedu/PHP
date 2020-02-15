@@ -18,6 +18,7 @@ RUN apk add php7-dev \
         curl-dev \
         libpq \
         postgresql-dev \
+        mysql-dev \
         icu-dev \
     && curl -sS https://getcomposer.org/installer | php -- \
             --filename=composer \
@@ -36,6 +37,7 @@ RUN apk add php7-dev \
     && docker-php-ext-enable --ini-name 04-propro.ini propro \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pdo_pgsql \
+    && docker-php-ext-install pdo_mysql \
     && docker-php-ext-enable --ini-name 05-pdo.ini pdo \
     && docker-php-ext-install sockets \
     && docker-php-ext-install pcntl \
