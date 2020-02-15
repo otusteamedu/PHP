@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "Test project for study composer mechanism",
   "require": {
-    "php": "^7.2"
+     "php": "^7.2"
   },
+  "authors": [
+    {
+      "name": "Roman Khalecky",
+      "email": "halecky@mai.ru"
+    }
+  ],
   "autoload": {
-    "psr-4": {"core\\": "src/core/"}
+    "psr-4": {"core": "src/core"}
   }
 
 }
