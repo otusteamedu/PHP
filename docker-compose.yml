@@ -1,0 +1,50 @@
+version: "3.6"
+services:
+  frontend:
+    container_name: "nginx-container"
+    restart: unless-stopped
+    image: wolodin/lemp-nginx:latest
+    volumes:
+      - "./tools:/tools:ro"
+      - "./socks:/socks:rw"
+      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./laravel.local:/home/web/www/laravel.local:rw,cached"
+    command: ["/tools/web-entrypoint.sh"]
+    depends_on:
+      - php-fpm73
+    user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
+    expose:
+      - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
+      - ${UNPRIVILEGUE_PORT_MAPPING_443:-8443}
+    ports:
+      - "${LISTEN_HOST_IP:-127.0.0.1}:80:${UNPRIVILEGUE_PORT_MAPPING_80:-8080}"
+      - "${LISTEN_HOST_IP:-127.0.0.1}:443:${UNPRIVILEGUE_PORT_MAPPING_443:-8443}"
+    networks:
+      - webnet
+
+  php-fpm73:
+    container_name: "php-fpm73-container"
+    restart: unless-stopped
+    image: wolodin/php73-fpm-debian:latest
+    volumes:
+      - "./socks:/socks:rw"
+      - "./tools:/tools:ro"
+      - "./config/php/php.ini/php-fpm73.ini:/usr/local/etc/php/php.ini:ro"
+      - "./config/php/php.ini/php-cli73.ini:/usr/local/etc/php/php-cli.ini:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./laravel.local:/home/web/www/laravel.local:rw,cached"
+      #- "./config/php/php-fpm.d/zz-docker.override.conf:/usr/local/etc/php-fpm.d/zz-docker.override.conf:ro"
+      #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
+      #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php-fpm"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
+    networks:
+      - webnet
+
+networks:
+  webnet:
