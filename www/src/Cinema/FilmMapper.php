@@ -22,9 +22,9 @@ class FilmMapper extends Mapper
         //$dbh = new \PDO($dsn, $user, $password);
         //$dbh = new PDO("mysql:host=$servername;port=3306;dbname=sitemanager;charset=utf8", $user, $password);
         parent::__construct($dbh);
-        $this->selectStmt = $this->pdo->prepare("SELECT * FROM b_user WHERE ID=?");
-        $this->updateStmt = $this->pdo->prepare("UPDATE b_user SET NAME=?, ID=? WHERE ID=?");
-        $this->insertStmt = $this->pdo->prepare("INSERT INTO b_user (NAME) VALUES ( ? )");
+        $this->selectStmt = $this->pdo->prepare("SELECT * FROM film WHERE id=?");
+        $this->updateStmt = $this->pdo->prepare("UPDATE film SET name=?, ID=? WHERE ID=?");
+        $this->insertStmt = $this->pdo->prepare("INSERT INTO film (name) VALUES ( ? )");
     }
 
     public function update(DomainObject $object)
@@ -35,7 +35,7 @@ class FilmMapper extends Mapper
 
     protected function doCreateObject(array $raw): DomainObject
     {
-        return new Film($raw['ID'], $raw['NAME']);
+        return new Film($raw['id'], $raw['name']);
     }
 
     protected function doInsert(DomainObject $object)
