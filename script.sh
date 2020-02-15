@@ -1,0 +1,1 @@
+awk 'NR > 1 {print $3}' cities.txt |sort|uniq -c|sort -rn|awk '{print $0}'|head -3
