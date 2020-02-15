@@ -1,10 +1,20 @@
 version: '3'
+
 services:
     nginx:
+        container_name: otus-php-nginx
         build:
             context: ./docker
             dockerfile: nginx.docker
         ports:
-            - "8081:80"
+            - 8081:80
+        volumes:
+            - ./public:/var/www/public
+
+    php:
+        container_name: otus-php-php
+        build:
+            context: ./docker
+            dockerfile: php.docker
         volumes:
             - ./public:/var/www/public

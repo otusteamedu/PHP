@@ -1,0 +1,58 @@
+FROM php:7.3-fpm-alpine
+
+ENV XDEBUG_VER 2.9.2
+ENV MEMCACHED_VER 3.1.5
+ENV REDIS_VER 5.1.1
+
+RUN apk update \
+    && apk --no-cache add \
+        autoconf \
+        git \
+        curl \
+        g++ \
+        zlib-dev \
+        curl-dev \
+        make \
+        libmemcached-dev \
+        postgresql-dev
+
+RUN pecl install \
+    xdebug-$XDEBUG_VER \
+    redis-$REDIS_VER \
+    igbinary \
+    msgpack \
+    memcached-$MEMCACHED_VER
+
+RUN docker-php-ext-install \
+    pdo_pgsql
+
+RUN docker-php-ext-enable \
+    xdebug \
+    redis \
+    igbinary \
+    msgpack \
+    memcached
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \
+    && docker-php-source delete \
+    && rm -rf /tmp/* /var/cache/apk/*
+
+WORKDIR /var/www/public
+
+#RUN pecl install
+#        raphf
+#        propro \
+#    && docker-php-ext-enable
+#        raphf
+#        propro
+
+# RUN pecl install -fo pecl_http
+#    && docker-php-ext-enable http
+
+
+
+
+
+
+
