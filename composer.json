@@ -1,0 +1,17 @@
+{
+    "name": "otus/php-info",
+    "description": "Lesson 4 PHP info",
+    "type": "package",
+    "authors": [
+        {
+            "name": "Vlad Duplin",
+            "email": "vlad.duplin@ya.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/"
+        }
+    }
+}
