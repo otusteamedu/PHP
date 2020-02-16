@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket:/run/php
+    networks:
+      localnet:
+        aliases:
+          - app.local
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/mongo
+    networks:
+      localnet:
+        aliases:
+          - app.local
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket:/run/php
+    depends_on:
+      - php
+volumes:
+  phpsocket:
+
+networks:
+  localnet:
+    driver: bridge
