@@ -14,24 +14,21 @@ RUN apk update \
         curl-dev \
         make \
         libmemcached-dev \
-        postgresql-dev
-
-RUN pecl install \
-    xdebug-$XDEBUG_VER \
-    redis-$REDIS_VER \
-    igbinary \
-    msgpack \
-    memcached-$MEMCACHED_VER
-
-RUN docker-php-ext-install \
-    pdo_pgsql
-
-RUN docker-php-ext-enable \
-    xdebug \
-    redis \
-    igbinary \
-    msgpack \
-    memcached
+        postgresql-dev \
+    && pecl install \
+        xdebug-$XDEBUG_VER \
+        redis-$REDIS_VER \
+        igbinary \
+        msgpack \
+        memcached-$MEMCACHED_VER \
+    && docker-php-ext-install \
+        pdo_pgsql \
+    && docker-php-ext-enable \
+        xdebug \
+        redis \
+        igbinary \
+        msgpack \
+        memcached
 
 COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
@@ -44,20 +41,3 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
 WORKDIR /var/www
 
 CMD ["php-fpm", "--nodaemonize"]
-
-#RUN pecl install
-#        raphf
-#        propro \
-#    && docker-php-ext-enable
-#        raphf
-#        propro
-
-# RUN pecl install -fo pecl_http
-#    && docker-php-ext-enable http
-
-
-
-
-
-
-
