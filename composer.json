@@ -2,6 +2,7 @@
     "name": "otus/phpinfo",
     "description": "Lesson 4 PHP info",
     "type": "package",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Vlad Duplin",
