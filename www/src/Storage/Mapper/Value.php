@@ -43,7 +43,7 @@ class Value extends Mapper
      */
     protected function doInsert(DomainObject $object)
     {
-        $value = array($object->getProperty()->getId(), $object->getCategory()->getId(), $object->getValue(), $object->getValue());
+        $value = array($object->getProperty()->getId(), $object->getCategory()->getId(), $object->getStringValue(), $object->getNumericValue());
         $this->insertStmt->execute($value);
         $id = $this->pdo->lastInsertId();
         $object->setId($id);

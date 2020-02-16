@@ -155,7 +155,13 @@ try {
     echo "<pre style='color:red; clear: both;'>";
     print_r($value);
     echo "</pre>";
-    $valueMapper = new
+    $valueMapper = new \Tirei01\Hw12\Storage\Mapper\Value($conn);
+    //$valueMapper->insert($value);
+
+    // TODO DEL THIS
+    echo "<pre style='color:red; clear: both;'>";
+    print_r($value);
+    echo "</pre>";
 
 } catch (PDOException $e) {
     // report error message

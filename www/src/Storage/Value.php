@@ -8,7 +8,40 @@ class Value extends DomainObject
 {
     private Property $property;
     private Category $category;
-    private $value;
+    private ?int $numericValue = null;
+    private ?string $stringValue = null;
+    /**
+     * @return int
+     */
+    public function getNumericValue(): ?int
+    {
+        return $this->numericValue;
+    }
+
+    /**
+     * @param int $numericValue
+     */
+    public function setNumericValue(?int $numericValue): void
+    {
+        $this->numericValue = $numericValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue(): ?string
+    {
+        return $this->stringValue;
+    }
+
+    /**
+     * @param string $stringValue
+     */
+    public function setStringValue(?string $stringValue): void
+    {
+        $this->stringValue = $stringValue;
+    }
+
     public function __construct(
         int $id,
         Property $property,
@@ -22,32 +55,13 @@ class Value extends DomainObject
         }else{
             $this->setCategory($category->getCategory());
         }
-        // TODO DEL THIS
-        echo "<pre style='color:red; clear: both;'>";
-        var_dump($property->getType());
-        echo "</pre>";
         if($property->getType() === 'int'){
-            $this->setValue(intval($value));
+            $this->setNumericValue(intval($value));
         }else{
-            $this->setValue(strval($value));
+            $this->setStringValue(strval($value));
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value): void
-    {
-        $this->value = $value;
-    }
     /**
      * @return Property
      */
