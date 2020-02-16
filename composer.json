@@ -1,5 +1,5 @@
 {
-    "name": "otus/php-info",
+    "name": "otus/phpinfo",
     "description": "Lesson 4 PHP info",
     "type": "package",
     "authors": [
