@@ -1,0 +1,6 @@
+command for git:
+git clone https://github.com/Khalecky/test_php.git
+
+command for composer:
+composer require khalecky/otus1
+
