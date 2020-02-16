@@ -33,7 +33,7 @@ class Hall
     /**
      * @var \PDOStatement
      */
-    private static $selectPlacesQuery = "SELECT hall_place_id, hall_place_num FROM hall_places WHERE hall_id = ? order by hall_place_num asc";
+    private static $selectPlacesQuery = "SELECT hall_place_id, hall_place_num FROM hall_places WHERE hall_id = ? ORDER BY hall_place_num ASC";
 
     /**
      * @var \PDOStatement
@@ -148,7 +148,7 @@ class Hall
 
         $places = $this->getPlaces();
 
-        foreach($places as $place){
+        foreach ($places as $place) {
             $place->delete();
         }
 
@@ -167,10 +167,6 @@ class Hall
     {
 
         if ($force || null === $this->places) {
-
-            echo '<pre>';
-            print_r('get from DB');
-            echo '</pre>';
 
             $selectStmt = $this->pdo->prepare(self::$selectPlacesQuery);
             $selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
