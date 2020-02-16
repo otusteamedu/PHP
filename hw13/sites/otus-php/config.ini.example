@@ -1,0 +1,19 @@
+# 'dev' or 'prod'
+environment=dev
+
+# 'mongodb' or 'redis' or 'postgres'
+storage=postgres
+
+postgres_user=postgres
+postgres_password=password
+postgres_db=postgres
+postgres_host=postgresql-hw13-t1
+postgres_port=5432
+
+mongo_db=youtubedb
+mongo_db_user=root
+mongo_db_password=password
+mongo_db_port=27017
+
+redis_port=6379
+

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>/home/user/Documents/phpstorm_projects/otus-php/hw13</OriginalElement>
+  <nodes>
+    <node x="761.25" y="76.0">\App\Entity\Hall\Hall</node>
+    <node x="769.0" y="816.0">\App\Exceptions\ExceptionHandler</node>
+    <node x="662.25" y="76.0">\App\Entity\Session\Session</node>
+    <node x="0.0" y="598.0">\App\Kernel\DataBase\RedisClientCreator</node>
+    <node x="532.0" y="745.0">\App\Repository\SessionRepository</node>
+    <node x="155.0" y="745.0">\App\Controller\LazyLoadController</node>
+    <node x="579.75" y="299.0">\App\Entity\BaseMetaData</node>
+    <node x="0.0" y="152.0">\IteratorAggregate</node>
+    <node x="331.0" y="745.0">\App\Controller\NotFoundController</node>
+    <node x="570.25" y="76.0">\App\Entity\Ticket\Ticket</node>
+    <node x="208.0" y="816.0">\App\Kernel\ResponseInterface</node>
+    <node x="568.0" y="152.0">\App\Entity\Hall\HallProxy</node>
+    <node x="183.0" y="451.0">\App\Exceptions\KernelException</node>
+    <node x="10.5" y="228.0">\App\Kernel\DataBase\DataCollection</node>
+    <node x="645.0" y="375.0">\App\Entity\Session\SessionMetaData</node>
+    <node x="849.0" y="745.0">\App\Repository\TicketRepository</node>
+    <node x="683.5" y="669.0">\App\Repository\RepositoryInterface</node>
+    <node x="0.0" y="816.0">\App\Kernel\DataBase\DataMapperInterface</node>
+    <node x="239.5" y="892.0">\App\Kernel\Response</node>
+    <node x="306.99999999999994" y="152.0">\App\Entity\Ticket\TicketProxy</node>
+    <node x="31.5" y="0.0">\iterable</node>
+    <node x="433.5" y="892.0">\App\Kernel\Request</node>
+    <node x="556.25" y="0.0">\App\Entity\BaseEntity</node>
+    <node x="21.0" y="76.0">\Traversable</node>
+    <node x="379.24999999999994" y="76.0">\App\Entity\BaseProxy</node>
+    <node x="172.5" y="522.0">\App\Kernel\DataBase\ClientCreatorInterface</node>
+    <node x="701.0" y="745.0">\App\Repository\FilmRepository</node>
+    <node x="31.5" y="892.0">\App\Kernel\DataBase\DataMapper</node>
+    <node x="151.5" y="669.0">\App\Controller\ControllerInterface</node>
+    <node x="589.0" y="816.0">\App\Kernel\RouterInterface</node>
+    <node x="152.0" y="963.0">\App\Configs\Config</node>
+    <node x="363.00000000000006" y="375.0">\App\Entity\Film\FilmMetaData</node>
+    <node x="800.0" y="375.0">\App\Entity\Hall\HallMetaData</node>
+    <node x="0.0" y="745.0">\App\Controller\IndexController</node>
+    <node x="433.99999999999994" y="152.0">\App\Entity\Session\SessionProxy</node>
+    <node x="0.0" y="451.0">\App\Exceptions\ExistClassException</node>
+    <node x="373.0" y="598.0">\App\Kernel\DataBase\MongoClientCreator</node>
+    <node x="0.0" y="963.0">\App\Kernel\Application</node>
+    <node x="492.24999999999994" y="76.0">\App\Entity\Film\Film</node>
+    <node x="119.5" y="375.0">\Exception</node>
+    <node x="176.0" y="598.0">\App\Kernel\DataBase\PostgresClientCreator</node>
+    <node x="119.5" y="299.0">\Throwable</node>
+    <node x="402.0" y="816.0">\App\Kernel\RequestInterface</node>
+    <node x="497.00000000000006" y="375.0">\App\Entity\Ticket\TicketMetaData</node>
+    <node x="193.99999999999994" y="152.0">\App\Entity\Film\FilmProxy</node>
+    <node x="620.5" y="892.0">\App\Kernel\Router</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\App\Entity\Ticket\Ticket" target="\App\Entity\BaseEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Exceptions\KernelException" target="\Exception">
+      <point x="0.0" y="-13.0" />
+      <point x="250.5" y="426.0" />
+      <point x="189.25" y="426.0" />
+      <point x="23.25" y="13.0" />
+    </edge>
+    <edge source="\App\Repository\TicketRepository" target="\App\Repository\RepositoryInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="920.0" y="720.0" />
+      <point x="819.3333333333334" y="720.0" />
+      <point x="54.33333333333337" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\Router" target="\App\Kernel\RouterInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Hall\HallMetaData" target="\App\Entity\BaseMetaData">
+      <point x="0.0" y="-13.0" />
+      <point x="857.0" y="345.0" />
+      <point x="679.5" y="345.0" />
+      <point x="42.75" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Ticket\TicketMetaData" target="\App\Entity\BaseMetaData">
+      <point x="0.0" y="-13.0" />
+      <point x="561.0" y="355.0" />
+      <point x="622.5" y="355.0" />
+      <point x="-14.25" y="13.0" />
+    </edge>
+    <edge source="\App\Repository\SessionRepository" target="\App\Repository\RepositoryInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="606.5" y="720.0" />
+      <point x="710.6666666666666" y="720.0" />
+      <point x="-54.33333333333337" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\DataBase\DataCollection" target="\IteratorAggregate">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Repository\FilmRepository" target="\App\Repository\RepositoryInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\BaseProxy" target="\App\Entity\BaseEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="425.74999999999994" y="46.0" />
+      <point x="566.25" y="46.0" />
+      <point x="-40.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Session\Session" target="\App\Entity\BaseEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="701.75" y="56.0" />
+      <point x="626.25" y="56.0" />
+      <point x="20.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Film\FilmMetaData" target="\App\Entity\BaseMetaData">
+      <point x="0.0" y="-13.0" />
+      <point x="420.00000000000006" y="345.0" />
+      <point x="594.0" y="345.0" />
+      <point x="-42.75" y="13.0" />
+    </edge>
+    <edge source="\App\Controller\NotFoundController" target="\App\Controller\ControllerInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="409.0" y="720.0" />
+      <point x="287.33333333333337" y="720.0" />
+      <point x="54.33333333333337" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Film\FilmProxy" target="\App\Entity\BaseProxy">
+      <point x="0.0" y="-13.0" />
+      <point x="240.49999999999994" y="122.0" />
+      <point x="390.87499999999994" y="122.0" />
+      <point x="-34.875" y="13.0" />
+    </edge>
+    <edge source="\IteratorAggregate" target="\Traversable">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Exceptions\ExistClassException" target="\Exception">
+      <point x="0.0" y="-13.0" />
+      <point x="81.5" y="426.0" />
+      <point x="142.75" y="426.0" />
+      <point x="-23.25" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\DataBase\MongoClientCreator" target="\App\Kernel\DataBase\ClientCreatorInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="451.0" y="573.0" />
+      <point x="325.83333333333337" y="573.0" />
+      <point x="61.33333333333337" y="13.0" />
+    </edge>
+    <edge source="\App\Controller\LazyLoadController" target="\App\Controller\ControllerInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\Response" target="\App\Kernel\ResponseInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Hall\HallProxy" target="\App\Entity\BaseProxy">
+      <point x="0.0" y="-13.0" />
+      <point x="614.5" y="122.0" />
+      <point x="460.62499999999994" y="122.0" />
+      <point x="34.875" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Session\SessionMetaData" target="\App\Entity\BaseMetaData">
+      <point x="0.0" y="-13.0" />
+      <point x="712.5" y="355.0" />
+      <point x="651.0" y="355.0" />
+      <point x="14.25" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\DataBase\RedisClientCreator" target="\App\Kernel\DataBase\ClientCreatorInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="78.0" y="573.0" />
+      <point x="203.16666666666666" y="573.0" />
+      <point x="-61.33333333333334" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Ticket\TicketProxy" target="\App\Entity\BaseProxy">
+      <point x="0.0" y="-13.0" />
+      <point x="360.49999999999994" y="132.0" />
+      <point x="414.12499999999994" y="132.0" />
+      <point x="-11.625" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\Request" target="\App\Kernel\RequestInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Film\Film" target="\App\Entity\BaseEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="521.25" y="56.0" />
+      <point x="586.25" y="56.0" />
+      <point x="-20.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Hall\Hall" target="\App\Entity\BaseEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="790.25" y="46.0" />
+      <point x="646.25" y="46.0" />
+      <point x="40.0" y="13.0" />
+    </edge>
+    <edge source="\Traversable" target="\iterable">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\DataBase\DataMapper" target="\App\Kernel\DataBase\DataMapperInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Controller\IndexController" target="\App\Controller\ControllerInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="67.5" y="720.0" />
+      <point x="178.66666666666666" y="720.0" />
+      <point x="-54.33333333333334" y="13.0" />
+    </edge>
+    <edge source="\Exception" target="\Throwable">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Kernel\DataBase\PostgresClientCreator" target="\App\Kernel\DataBase\ClientCreatorInterface">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="\App\Entity\Session\SessionProxy" target="\App\Entity\BaseProxy">
+      <point x="0.0" y="-13.0" />
+      <point x="490.99999999999994" y="132.0" />
+      <point x="437.37499999999994" y="132.0" />
+      <point x="11.625" y="13.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="407.0815295815297" y="224.5" />
+  <SelectedNodes />
+  <Categories />
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
