@@ -1,0 +1,16 @@
+{
+    "name": "velibegov/otus",
+    "authors": [
+        {
+            "name": "velibegov",
+            "email": "velibegov@mail.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Otus\\" : "src/Otus"
+        }
+    },
+    "require": {}
+	
+}
