@@ -38,7 +38,7 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && docker-php-source delete \
     && rm -rf /tmp/* /var/cache/apk/*
 
-WORKDIR /var/www/public
+WORKDIR /var/www
 
 #RUN pecl install
 #        raphf

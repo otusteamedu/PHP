@@ -9,7 +9,7 @@ services:
         ports:
             - 8081:80
         volumes:
-            - ./public:/var/www/public
+            - ./:/var/www
 
     php:
         container_name: otus-php-php
@@ -17,4 +17,4 @@ services:
             context: ./docker
             dockerfile: php.docker
         volumes:
-            - ./public:/var/www/public
+            - ./:/var/www
