@@ -8,7 +8,15 @@
             "email": "vlad.duplin@ya.ru"
         }
     ],
-    "require": {},
+    "repositories": [
+        {
+            "type":"git",
+            "url":"https://github.com/bjlag/otus-phpinfo"
+        }
+    ],
+    "require": {
+        "bjlag/phpinfo": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "src/"
