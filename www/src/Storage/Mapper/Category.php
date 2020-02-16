@@ -1,16 +1,18 @@
 <?php
 
-namespace Tirei01\Hw12\Property\Mapper;
+namespace Tirei01\Hw12\Storage\Mapper;
 
+use Tirei01\Hw12\Collection;
 use Tirei01\Hw12\DomainObject;
 use Tirei01\Hw12\Mapper;
-use Tirei01\Hw12\Property\Category as PropertyCategoryDomain;
+use Tirei01\Hw12\Storage\Category as StorageCategoryDomain;
 
 class Category extends Mapper
 {
     private $selectStmt;
     private $updateStmt;
     private $insertStmt;
+    private $insertAllStmt;
 
     public function __construct(\PDO $dbh)
     {
@@ -18,10 +20,12 @@ class Category extends Mapper
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM category WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE category SET name=?, code=?, sort=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare("INSERT INTO category (name, code, sort) VALUES ( ? , ? , ? )");
+        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM category");
     }
 
+
     /**
-     * @param PropertyCategoryDomain $object
+     * @param StorageCategoryDomain $object
      */
     public function update( DomainObject $object)
     {
@@ -32,15 +36,15 @@ class Category extends Mapper
     /**
      * @param array $raw
      *
-     * @return PropertyCategoryDomain
+     * @return StorageCategoryDomain
      */
-    protected function doCreateObject(array $raw): PropertyCategoryDomain
+    protected function doCreateObject(array $raw): StorageCategoryDomain
     {
-        return new PropertyCategoryDomain($raw['id'], $raw['name'], $raw['sort'], strval($raw['code']));
+        return new StorageCategoryDomain($raw['id'], $raw['name'], $raw['sort'], strval($raw['code']));
     }
 
     /**
-     * @param PropertyCategoryDomain $object
+     * @param StorageCategoryDomain $object
      */
     protected function doInsert(DomainObject $object)
     {
@@ -58,5 +62,20 @@ class Category extends Mapper
     protected function targetClass(): string
     {
         return static::class;
+    }
+
+    protected function selectAllStmt(): \PDOStatement
+    {
+        return $this->insertAllStmt;
+    }
+
+    protected function getCollection(array $raw): Collection
+    {
+        return new \Tirei01\Hw12\Storage\Collection\Category($raw, $this);
+    }
+
+    protected function getTable(): string
+    {
+        return 'category';
     }
 }

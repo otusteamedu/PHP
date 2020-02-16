@@ -1,5 +1,5 @@
 <?php
-namespace Tirei01\Hw12\Property;
+namespace Tirei01\Hw12\Storage;
 use Tirei01\Hw12\DomainObject;
 
 class Category extends DomainObject
@@ -45,5 +45,23 @@ class Category extends DomainObject
     public function setCode(string $code): void
     {
         $this->code = $code;
+    }
+
+    protected $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 }

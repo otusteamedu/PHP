@@ -11,9 +11,18 @@ abstract class Mapper
         $this->pdo = $pdo;
     }
 
+    /**
+     * @return \PDO
+     */
+    protected function getPdo(): \PDO
+    {
+        return $this->pdo;
+    }
+
     public function find($id)
     {
         $this->selectStmt()->execute([$id]);
+
         $row = $this->selectStmt()->fetch(\PDO::FETCH_ASSOC);
         $this->selectStmt()->closeCursor();
         if (!is_array($row)) {
@@ -36,6 +45,11 @@ abstract class Mapper
         $this->doInsert($object);
     }
 
+    public function findAll() : Collection {
+        $this->selectAllStmt()->execute(array());
+        return $this->getCollection($this->selectAllStmt()->fetchAll(\PDO::FETCH_ASSOC));
+    }
+
     abstract public function update(DomainObject $object);
 
     abstract protected function doCreateObject(array $raw): DomainObject;
@@ -45,4 +59,10 @@ abstract class Mapper
     abstract protected function selectStmt(): \PDOStatement;
 
     abstract protected function targetClass(): string;
+
+    abstract protected function selectAllStmt() : \PDOStatement;
+
+    abstract protected function getCollection(array $raw): Collection;
+
+    //abstract protected function getTable() : string;
 }
