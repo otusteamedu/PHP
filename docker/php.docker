@@ -38,6 +38,19 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && docker-php-source delete \
     && rm -rf /tmp/* /var/cache/apk/*
 
+RUN pecl install raphf \
+    && echo "extension=raphf.so" >> /usr/local/etc/php/php.ini \
+    && pecl install propro \
+    && echo "extension=propro.so" >> /usr/local/etc/php/php.ini
+
+#RUN pecl install raphf \
+#    && docker-php-ext-enable raphf \
+#    && pecl install propro \
+#    && docker-php-ext-enable propro
+
+RUN pecl install pecl_http \
+    && echo "extension=http.so" >> /usr/local/etc/php/php.ini
+
 WORKDIR /var/www
 
 CMD ["php-fpm", "--nodaemonize"]
