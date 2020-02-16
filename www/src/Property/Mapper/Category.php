@@ -15,9 +15,9 @@ class Category extends Mapper
     public function __construct(\PDO $dbh)
     {
         parent::__construct($dbh);
-        $this->selectStmt = $this->pdo->prepare("SELECT * FROM property_category WHERE id=?");
-        $this->updateStmt = $this->pdo->prepare("UPDATE property_category SET name=?, code=?, sort=? WHERE id=?");
-        $this->insertStmt = $this->pdo->prepare("INSERT INTO property_category (name) VALUES ( ? )");
+        $this->selectStmt = $this->pdo->prepare("SELECT * FROM category WHERE id=?");
+        $this->updateStmt = $this->pdo->prepare("UPDATE category SET name=?, code=?, sort=? WHERE id=?");
+        $this->insertStmt = $this->pdo->prepare("INSERT INTO category (name, code, sort) VALUES ( ? , ? , ? )");
     }
 
     /**
@@ -29,9 +29,14 @@ class Category extends Mapper
         $this->updateStmt->execute($values);
     }
 
+    /**
+     * @param array $raw
+     *
+     * @return PropertyCategoryDomain
+     */
     protected function doCreateObject(array $raw): PropertyCategoryDomain
     {
-        return new PropertyCategoryDomain($raw['id'], $raw['name'], $raw['sort'], $raw['code']);
+        return new PropertyCategoryDomain($raw['id'], $raw['name'], $raw['sort'], strval($raw['code']));
     }
 
     /**
@@ -39,12 +44,8 @@ class Category extends Mapper
      */
     protected function doInsert(DomainObject $object)
     {
-        $value = array($object->getName());
-        $resss = $this->insertStmt->execute($value);
-        // TODO DEL THIS
-        echo "<pre style='color:red; clear: both;'>";
-        var_dump($resss);
-        echo "</pre>";
+        $value = array($object->getName(), $object->getCode(), $object->getSort());
+        $this->insertStmt->execute($value);
         $id = $this->pdo->lastInsertId();
         $object->setId($id);
     }

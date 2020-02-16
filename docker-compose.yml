@@ -30,9 +30,12 @@ services:
   db:
     image: postgres
     restart: always
+    volumes:
+      - ./database/:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: newDAy01
-
+    ports:
+      - 5432:5432
   adminer:
     image: adminer
     restart: always
