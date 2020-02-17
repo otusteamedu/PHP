@@ -1,0 +1,15 @@
+#!/bin/bash
+
+re='^[-+]?[0-9]*[.]?[0-9]+$'
+
+if ! [[ $1 =~ $re ]] ; then
+  echo "error: Не число" >&2; exit 1
+fi
+
+if ! [[ $2 =~ $re ]] ; then
+  echo "error: Не число" >&2; exit 1
+fi
+
+echo "сумма чисел"
+
+echo $1+$2 | bc -l
