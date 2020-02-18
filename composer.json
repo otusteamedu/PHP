@@ -1,0 +1,20 @@
+{
+    "name": "bjlag/sockets",
+    "description": "Otus PHP Lesson 5",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vlad Duplin",
+            "email": "vlad.duplin@ya.ru"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "ext-sockets": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    }
+}
