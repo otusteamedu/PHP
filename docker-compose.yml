@@ -1,0 +1,23 @@
+version: '3'
+services:
+    app:
+        container_name: app
+        build: ./docker/app
+        restart: always
+        #command: tail -f /dev/null
+        volumes:
+            - .:/app
+            - socks:/socks
+    nginx:
+        container_name: nginx
+        build: ./docker/nginx
+        restart: always
+        volumes:
+            - .:/app
+            - socks:/socks
+        ports:
+            - 80:80
+        depends_on:
+            - app
+volumes:
+    socks:

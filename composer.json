@@ -1,0 +1,28 @@
+{
+    "license": "proprietary",
+    "description": "",
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": [
+                "src"
+            ]
+        }
+    },
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^1.0",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "scripts": {
+        "test": "codecept run",
+        "cs_check": "phpcs ./src --standard=PSR12",
+        "cs_fix": "phpcbf ./src --standard=PSR12"
+    }
+}
