@@ -145,15 +145,17 @@ INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (12, 8, '20
 
 -- Views
 CREATE VIEW "Tasks" AS
-    select * from (
-                      select j1."name" as film_name, a."name" as "Задачи на сегодня"
-                      from (film f join attribute_value av on f.id = av.film_id) as j1
-                               join "attribute" as a on j1.attribute_id = a.id
-                      where (j1.val_date = current_date) and (a.type_id = 5)
-                  ) as "1d" right join (
-        select j1."name" as film_name, a."name" as "Задачи на 20 дней"
-        from (film f join attribute_value av on f.id = av.film_id) as j1
-                 join "attribute" a on j1.attribute_id = a.id
-        where (j1.val_date >= (current_date + interval '20 days')) and (a.type_id = 5)
-    ) as "20d" using (film_name)
+    select *
+        from (
+            select j1."name" as film_name, a."name" as "Задачи на сегодня"
+                from (film f join attribute_value av on f.id = av.film_id) as j1
+                    join "attribute" as a on j1.attribute_id = a.id
+                where (j1.val_date = current_date) and (a.type_id = 5)
+        ) as "1d"
+        right join (
+            select j1."name" as film_name, a."name" as "Задачи на 20 дней"
+                from (film f join attribute_value av on f.id = av.film_id) as j1
+                         join "attribute" a on j1.attribute_id = a.id
+                where (j1.val_date >= (current_date + interval '20 days')) and (a.type_id = 5)
+        ) as "20d" using (film_name)
 ;
