@@ -2,3 +2,5 @@
 *.log
 hw4/vendor/*
 hw10/.env
+hw9/.env
+
