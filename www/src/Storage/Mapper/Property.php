@@ -16,9 +16,9 @@ class Property extends Mapper
     private $insertStmt;
     private $insertAllStmt;
     private $findByCategory;
-    public function __construct(\PDO $dbh)
+    public function __construct()
     {
-        parent::__construct($dbh);
+        parent::__construct();
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM property WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE property SET name=?, type=?, category_id=?, sort=?, code=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare("INSERT INTO property (name, type, category_id, sort, code) VALUES ( ? , ? , ? , ? , ? )");
@@ -48,8 +48,8 @@ class Property extends Mapper
      */
     protected function doCreateObject(array $raw): PropertyStorage
     {
-        $category = new Category($this->getPdo());
-        $category->find($raw['category_id']);
+        $category = new Category();
+
         return new PropertyStorage(
             $raw['id'],
             $raw['name'],

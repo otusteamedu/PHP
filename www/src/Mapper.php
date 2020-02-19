@@ -6,17 +6,9 @@ abstract class Mapper
 {
     protected $pdo;
 
-    public function __construct(\PDO $pdo)
+    public function __construct()
     {
-        $this->pdo = $pdo;
-    }
-
-    /**
-     * @return \PDO
-     */
-    protected function getPdo(): \PDO
-    {
-        return $this->pdo;
+        $this->pdo = \Tirei01\Hw12\Connector::getConnection();;
     }
 
     public function find($id)

@@ -45,7 +45,8 @@ class Value extends DomainObject
     public function __construct(
         int $id,
         Property $property,
-        $value,
+        $numericValue,
+        $stringValue,
         Category $category = null
     ) {
         $this->setId($id);
@@ -55,11 +56,8 @@ class Value extends DomainObject
         }else{
             $this->setCategory($category->getCategory());
         }
-        if($property->getType() === 'int'){
-            $this->setNumericValue(intval($value));
-        }else{
-            $this->setStringValue(strval($value));
-        }
+        $this->setNumericValue(intval($numericValue));
+        $this->setStringValue(strval($stringValue));
     }
 
     /**

@@ -16,9 +16,14 @@ class Connector
      * Connect to db
      * @return \PDO
      */
-    public static function getConnection(string $dsn): \PDO
+    public static function getConnection(): \PDO
     {
         if(is_null(static::$connect)){
+            $host = 'db';
+            $db = 'hw5';
+            $username = 'postgres';
+            $password = 'newDAy01';
+            $dsn = "pgsql:host=$host;port=5432;dbname=$db;user=$username;password=$password";
             static::$connect = new \PDO($dsn);
         }
         return static::$connect;

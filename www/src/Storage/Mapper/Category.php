@@ -14,9 +14,9 @@ class Category extends Mapper
     private $insertStmt;
     private $insertAllStmt;
 
-    public function __construct(\PDO $dbh)
+    public function __construct()
     {
-        parent::__construct($dbh);
+        parent::__construct();
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM category WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE category SET name=?, code=?, sort=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare("INSERT INTO category (name, code, sort) VALUES ( ? , ? , ? )");
@@ -74,8 +74,4 @@ class Category extends Mapper
         return new \Tirei01\Hw12\Storage\Collection\Category($raw, $this);
     }
 
-    protected function getTable(): string
-    {
-        return 'category';
-    }
 }
