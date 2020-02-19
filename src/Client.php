@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Client
+final class Client
 {
     private Socket $socket;
 

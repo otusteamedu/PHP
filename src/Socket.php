@@ -16,7 +16,6 @@ final class Socket
      */
     public function __construct(int $domain, int $type, int $protocol = 0)
     {
-        // create unix udp socket
         $this->sock = @socket_create($domain, $type, $protocol);
         if (!$this->sock) {
             throw new SocketException('Unable to create AF_UNIX socket');
@@ -55,7 +54,6 @@ final class Socket
      */
     public function setBlock(): self
     {
-        // use socket to send data
         if (!@socket_set_block($this->sock)) {
             throw new SocketException('Unable to set blocking mode for socket');
         }
@@ -68,7 +66,6 @@ final class Socket
      */
     public function setNonBlock(): self
     {
-        // use socket to send data
         if (!@socket_set_nonblock($this->sock)) {
             throw new SocketException('Unable to set nonblocking mode for socket');
         }
@@ -85,7 +82,6 @@ final class Socket
      */
     public function sendTo(string $msg, string $addr, int $port = 0, int $flags = 0): self
     {
-        // at this point 'server' process must be running and bound to receive from serv.sock
         $len = strlen($msg);
         $bytes_sent = @socket_sendto($this->sock, $msg, $len, $flags, $addr, $port);
         if ($bytes_sent === -1) {
