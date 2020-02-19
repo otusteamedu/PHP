@@ -134,7 +134,7 @@ INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (8, 7, '199
 INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (11, 7, '2020-02-20');
 INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (12, 7, '2020-02-28');
 
-INSERT INTO attribute_value (attribute_id, film_id, val_text) VALUES (1, 8, '');
+INSERT INTO attribute_value (attribute_id, film_id, val_text) VALUES (1, 8, 'The Circle of Life');
 INSERT INTO attribute_value (attribute_id, film_id, val_numeric) VALUES (2, 8, 10000000);
 INSERT INTO attribute_value (attribute_id, film_id, val_bool) VALUES (4, 8, true);
 INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (8, 8, '1994-05-07');
@@ -161,10 +161,17 @@ CREATE VIEW "Tasks" AS
 ;
 
 CREATE VIEW "Attributes" AS
-    SELECT film."name", attribute_type."type_name", "attribute".attr_name, attribute_value.val_text, attribute_value.val_numeric, attribute_value.val_date, attribute_value.val_bool
+    SELECT film."name", attribute_type."type_name", "attribute".attr_name,
+    CASE
+        WHEN av.val_text::text <> '' THEN av.val_text::text
+        WHEN av.val_numeric::text <> '' THEN av.val_numeric::text
+        WHEN av.val_date::text <> '' THEN av.val_date::text
+        WHEN av.val_bool::text <> '' THEN av.val_bool::text
+        ELSE 'empty'
+    END AS "value"
     FROM (
-          film JOIN attribute_value ON film.id = attribute_value.film_id
-               JOIN "attribute" ON attribute_value.attribute_id = "attribute".id
+          film JOIN attribute_value av ON film.id = av.film_id
+               JOIN "attribute" ON av.attribute_id = "attribute".id
                JOIN attribute_type ON "attribute".type_id = attribute_type.id
     )
 ;
