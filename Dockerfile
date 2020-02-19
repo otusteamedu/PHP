@@ -16,5 +16,6 @@ RUN composer install --no-cache --no-dev
 
 CMD php /app/bin/server.php
 
-ENV SOCKET_SERVER='/tmp/server.sock'
-ENV SOCKET_CLIENT='/tmp/client.sock'
+ENV SERVER_SOCKET='/tmp/server.sock'
+ENV CLIENT_SOCKET='/tmp/client.sock'
+ENV CLIENT_DEFAULT_MESSAGE='None'

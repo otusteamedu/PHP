@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use App\Config;
 use App\Server;
 use App\Socket;
 use Whoops\Handler\PlainTextHandler;
@@ -13,7 +14,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
     ->register();
 
 try {
-    $socket = (new Socket(AF_UNIX, SOCK_DGRAM))->bind(getenv('SOCKET_SERVER'));
+    $socket = (new Socket(AF_UNIX, SOCK_DGRAM))->bind(Config::get('server_socket'));
     (new Server($socket))->run();
 } catch (Throwable $e) {
     throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
