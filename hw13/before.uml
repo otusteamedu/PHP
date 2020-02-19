@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>\App\Database\Database</OriginalElement>
+  <nodes>
+    <node x="580.0" y="299.0">\App\Mappers\UserMapper</node>
+    <node x="0.0" y="0.0">\App\Entities\UserEntity</node>
+    <node x="201.0" y="690.0">\App\Database\Database</node>
+    <node x="686.25" y="0.0">\App\Mappers\AbstractMapper</node>
+    <node x="458.0" y="690.0">\App\Framework\MapperException</node>
+    <node x="0.0" y="690.0">\App\Framework\IdentityMap</node>
+    <node x="334.0" y="690.0">\App\App</node>
+    <node x="789.0" y="430.0">\App\Repository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\App\Repository" target="\App\Mappers\AbstractMapper">
+      <point x="0.0" y="-26.5" />
+      <point x="849.0" y="274.0" />
+      <point x="799.5" y="274.0" />
+      <point x="37.75" y="124.5" />
+    </edge>
+    <edge source="\App\Mappers\UserMapper" target="\App\Mappers\AbstractMapper">
+      <point x="0.0" y="-157.5" />
+      <point x="674.5" y="274.0" />
+      <point x="724.0" y="274.0" />
+      <point x="-37.75" y="124.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="743.2936507936503" y="373.9999999999999" />
+  <SelectedNodes>
+    <node>\App\Mappers\UserMapper</node>
+    <node>\App\Entities\UserEntity</node>
+    <node>\App\Database\Database</node>
+    <node>\App\Mappers\AbstractMapper</node>
+    <node>\App\Framework\MapperException</node>
+    <node>\App\Framework\IdentityMap</node>
+    <node>\App\App</node>
+    <node>\App\Repository</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constants</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
