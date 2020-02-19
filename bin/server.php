@@ -3,7 +3,6 @@
 
 use App\Server;
 use App\Socket;
-use App\SocketException;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Run as ErrorHandler;
 
@@ -16,7 +15,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 try {
     $socket = (new Socket(AF_UNIX, SOCK_DGRAM))->bind(getenv('SOCKET_SERVER'));
     (new Server($socket))->run();
-} catch (SocketException $e) {
+} catch (Throwable $e) {
     throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
 } finally {
     unset($socket);

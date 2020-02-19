@@ -16,15 +16,16 @@ final class Client
 
     /**
      * @param string $message
+     * @param string $addr
      * @return string
      * @throws SocketException
      */
-    public function send(string $message): string
+    public function send(string $message, string $addr): string
     {
         $buf = '';
         $from = '';
         $this->socket
-            ->sendTo($message, getenv('SOCKET_SERVER'))
+            ->sendTo($message, $addr)
             ->recvFrom($buf, $from);
         return $buf;
     }
