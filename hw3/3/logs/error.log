@@ -1,1 +1,0 @@
-2020/02/16 16:49:12 [error] 7#7: *8 open() "/var/www/hello.test/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: hello.test, request: "GET /favicon.ico HTTP/1.1", host: "hello.test:8000", referrer: "http://hello.test:8000/"
