@@ -1,0 +1,9 @@
+version: '3'
+services:
+    app:
+        container_name: app
+        build: .
+        volumes:
+            - .:/app
+            - ./php.dev.ini:/usr/local/etc/php/php.ini
+        command: php /app/bin/server.php
