@@ -2,14 +2,14 @@
 DROP TABLE IF EXISTS attribute_type CASCADE;
 CREATE TABLE attribute_type (
     id serial UNIQUE,
-    name varchar(255) NOT NULL,
+    type_name varchar(255) NOT NULL,
     CONSTRAINT attribute_type_pk PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS attribute CASCADE;
 CREATE TABLE attribute (
     id serial UNIQUE,
-    name varchar(255) NOT NULL,
+    attr_name varchar(255) NOT NULL,
     type_id int,
     CONSTRAINT attribute_pk PRIMARY KEY (id),
     CONSTRAINT attribute_type_fk FOREIGN KEY (type_id) REFERENCES attribute_type(id)
@@ -48,25 +48,25 @@ INSERT INTO film (name) VALUES ('Начало');
 INSERT INTO film (name) VALUES ('Леон');
 INSERT INTO film (name) VALUES ('Король Лев');
 
-INSERT INTO attribute_type (name) VALUES ('Text');
-INSERT INTO attribute_type (name) VALUES ('Numeric');
-INSERT INTO attribute_type (name) VALUES ('Date');
-INSERT INTO attribute_type (name) VALUES ('Boolean');
-INSERT INTO attribute_type (name) VALUES ('Service date');
+INSERT INTO attribute_type (type_name) VALUES ('Text');
+INSERT INTO attribute_type (type_name) VALUES ('Numeric');
+INSERT INTO attribute_type (type_name) VALUES ('Date');
+INSERT INTO attribute_type (type_name) VALUES ('Boolean');
+INSERT INTO attribute_type (type_name) VALUES ('Service date');
 
-INSERT INTO attribute (name, type_id) VALUES ('Слоган', 1);
-INSERT INTO attribute (name, type_id) VALUES ('Бюджет, USD', 2);
-INSERT INTO attribute (name, type_id) VALUES ('Премия.Оскар', 4);
-INSERT INTO attribute (name, type_id) VALUES ('Премия.Золотой глобус', 4);
-INSERT INTO attribute (name, type_id) VALUES ('Премия.Ника', 4);
-INSERT INTO attribute (name, type_id) VALUES ('Премия.Британская академия', 4);
-INSERT INTO attribute (name, type_id) VALUES ('Премия.Эмми', 4);
-INSERT INTO attribute (name, type_id) VALUES ('Премьера (мир)', 3);
-INSERT INTO attribute (name, type_id) VALUES ('Премьера (РФ)', 3);
-INSERT INTO attribute (name, type_id) VALUES ('Заказать рекламу на радио', 5);
-INSERT INTO attribute (name, type_id) VALUES ('Заказать контекстную рекламу', 5);
-INSERT INTO attribute (name, type_id) VALUES ('Старт продажи билетов в кассах', 5);
-INSERT INTO attribute (name, type_id) VALUES ('Старт продажи билетов online', 5);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Слоган', 1);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Бюджет, USD', 2);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премия.Оскар', 4);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премия.Золотой глобус', 4);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премия.Ника', 4);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премия.Британская академия', 4);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премия.Эмми', 4);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премьера (мир)', 3);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Премьера (РФ)', 3);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Заказать рекламу на радио', 5);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Заказать контекстную рекламу', 5);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Старт продажи билетов в кассах', 5);
+INSERT INTO attribute (attr_name, type_id) VALUES ('Старт продажи билетов online', 5);
 
 INSERT INTO attribute_value (attribute_id, film_id, val_text) VALUES (1, 1, 'Страх - это кандалы. Надежда - это свобода');
 INSERT INTO attribute_value (attribute_id, film_id, val_numeric) VALUES (2, 1, 25000000);
@@ -147,15 +147,24 @@ INSERT INTO attribute_value (attribute_id, film_id, val_date) VALUES (12, 8, '20
 CREATE VIEW "Tasks" AS
     select *
         from (
-            select j1."name" as film_name, a."name" as "Задачи на сегодня"
+            select j1."name" as film_name, a."attr_name" as "Задачи на сегодня"
                 from (film f join attribute_value av on f.id = av.film_id) as j1
                     join "attribute" as a on j1.attribute_id = a.id
                 where (j1.val_date = current_date) and (a.type_id = 5)
         ) as "1d"
         right join (
-            select j1."name" as film_name, a."name" as "Задачи на 20 дней"
+            select j1."name" as film_name, a."attr_name" as "Задачи на 20 дней"
                 from (film f join attribute_value av on f.id = av.film_id) as j1
                          join "attribute" a on j1.attribute_id = a.id
                 where (j1.val_date >= (current_date + interval '20 days')) and (a.type_id = 5)
         ) as "20d" using (film_name)
+;
+
+CREATE VIEW "Attributes" AS
+    SELECT film."name", attribute_type."type_name", "attribute".attr_name, attribute_value.val_text, attribute_value.val_numeric, attribute_value.val_date, attribute_value.val_bool
+    FROM (
+          film JOIN attribute_value ON film.id = attribute_value.film_id
+               JOIN "attribute" ON attribute_value.attribute_id = "attribute".id
+               JOIN attribute_type ON "attribute".type_id = attribute_type.id
+    )
 ;
