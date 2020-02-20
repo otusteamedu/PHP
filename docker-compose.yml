@@ -3,7 +3,7 @@ services:
   frontend:
     container_name: "nginx-container-frontend"
     restart: unless-stopped
-    image: wolodin/lemp-nginx:latest
+    image: wolodin/lemp-nginx-full:latest
     volumes:
       - "./tools:/tools:ro"
       - "./config/nginx/sites-enabled-frontend:/etc/nginx/sites-enabled.ro:ro"
