@@ -20,11 +20,11 @@ class App
     {
         //Проверяем что метод POST и авторизацию
         if ($request->isMethod(Request::METHOD_GET)) {
-            $data = $_SERVER['REMOTE_ADDR'];
+            $data = $_SERVER['SERVER_ADDR'];
 
             $result         = new ResponseSuccess();
             $result->status = 'ok';
-            $result->result = "String: {$data} is valid";
+            $result->result = "IP: {$data}";
 
             return $result;
         }
