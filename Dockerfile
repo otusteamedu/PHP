@@ -14,8 +14,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . .
 RUN composer install --no-cache --no-dev
 
-CMD php /app/bin/server.php
-
-ENV SERVER_SOCKET='/tmp/server.sock'
-ENV CLIENT_SOCKET='/tmp/client.sock'
-ENV CLIENT_DEFAULT_MESSAGE='None'
+CMD php /app/index.php --server

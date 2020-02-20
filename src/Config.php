@@ -6,8 +6,6 @@ use InvalidArgumentException;
 
 final class Config
 {
-    private static array $ini_file_vals = [];
-
     /**
      * @param string $name
      * @param mixed $default_value
@@ -22,12 +20,8 @@ final class Config
         if (false !== $value) {
             return $value;
         }
-        if (!self::$ini_file_vals) {
-            self::$ini_file_vals = parse_ini_file(__DIR__ . '/../app.ini');
-        }
-        $value = self::$ini_file_vals[$name] ?? $default_value;
-        if (null !== $value) {
-            return $value;
+        if (null !== $default_value) {
+            return $default_value;
         }
         throw new InvalidArgumentException('Unknown config var name');
     }

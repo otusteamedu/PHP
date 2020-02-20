@@ -8,7 +8,7 @@ docker run --rm --name app -d app
 
 Отправка сообщения
 ```bash
-docker exec app php ./bin/client.php abrakadabra
+docker exec app php ./index.php abrakadabra
 ```
 
 Просмотр логов сервера

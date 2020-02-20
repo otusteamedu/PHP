@@ -6,4 +6,4 @@ services:
         volumes:
             - .:/app
             - ./php.dev.ini:/usr/local/etc/php/php.ini
-        command: php /app/bin/server.php
+        command: php /app/index.php --server
