@@ -6,24 +6,20 @@ class Application
 {
     const CONFIG_FILE = "config.ini.php";
     const CMD_QUIT = "quit";
-    const CMD_QUIT_ON_DEMAND = "quit_demand";
 
-    const MODE_SERVER = 1;
-    const MODE_CLIENT = 2;
+    private static $CONFIG = array();
 
-    private static $_CONFIG = array();
+    private $fileSock = "";
+    private $fileSockOther = "";
 
-    private $_fileSock = "";
-    private $_fileSockOther = "";
-
-    private $_socket = null;
-    private $_mode = self::MODE_SERVER;
+    private $socket = null;
+    private $mode = 0;
 
 
     public static function create()
     {
         $inst = new static();
-        self::$_CONFIG = require_once(self::CONFIG_FILE);
+        self::$CONFIG = require_once(self::CONFIG_FILE);
 
         if (!$inst->connect())
             return null;
@@ -32,15 +28,15 @@ class Application
 
     private function reciev()
     {
-        socket_set_block($this->_socket);
+        socket_set_block($this->socket);
         echo "wait for message..." . PHP_EOL;
-        socket_recvfrom($this->_socket, $buf, 100, 0, $this->_fileSockOther);
+        socket_recvfrom($this->socket, $buf, 100, 0, $this->fileSockOther);
         return $buf;
     }
 
     private function getConsoleMsg()
     {
-        echo "Your message(type 'quit' to close application): ";
+        echo "Your message(type " . self::CMD_QUIT . " to close application): ";
         $str = fgets(STDIN);
         $str = substr($str, 0, strlen($str)-1);
         return $str;
@@ -49,16 +45,16 @@ class Application
 
     private function send($msg)
     {
-        if (!file_exists($this->_fileSockOther))
+        if (!file_exists($this->fileSockOther))
             return false;
 
-        socket_set_nonblock($this->_socket);
-        return socket_sendto($this->_socket, $msg, strlen($msg), 0, $this->_fileSockOther);
+        socket_set_nonblock($this->socket);
+        return socket_sendto($this->socket, $msg, strlen($msg), 0, $this->fileSockOther);
     }
 
     private function isServer()
     {
-        return $this->_mode == self::MODE_SERVER;
+        return $this->mode == 0;
     }
 
 
@@ -71,7 +67,7 @@ class Application
             if ($isInit) {
                 $resp = $this->reciev();
 
-                if ($resp == self::CMD_QUIT_ON_DEMAND) {
+                if ($resp == self::CMD_QUIT) {
                     $this->printCloseMsg();
                     break;
                 }
@@ -84,7 +80,7 @@ class Application
             $msg = $this->getConsoleMsg();
 
             if ($msg == self::CMD_QUIT) {
-                $this->send(self::CMD_QUIT_ON_DEMAND); //send closing signal to other
+                $this->send(self::CMD_QUIT); //send closing signal to other
                 $this->printCloseMsg();
                 break;
             }
@@ -106,33 +102,27 @@ class Application
 
     public function __destruct()
     {
-        socket_close($this->_socket);
-        unlink($this->_fileSock);
+        socket_close($this->socket);
+        unlink($this->fileSock);
     }
 
 
     private function connect()
     {
-        $this->_socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
-        if ($this->_socket === FALSE)
+        $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
+        if ($this->socket === FALSE)
             return false;
 
-        for ($mode = self::MODE_SERVER; $mode <= self::MODE_CLIENT; $mode++) {
+        for ($mode = 0; $mode < 2; $mode++) {
 
             $fileSock = $this->getSockFile($mode);
-            //echo "------ $fileSock --------".PHP_EOL.PHP_EOL;
-            $fileSockOther = '';
-
-            if ($mode == self::MODE_CLIENT)
-                $fileSockOther = $this->getSockFile(self::MODE_SERVER);
+            $fileSockOther = $mode == 0 ? '': $fileSockOther = $this->getSockFile(0);
 
             if (!file_exists($fileSock)) {
-                echo "------ $fileSock --------".PHP_EOL.PHP_EOL;
-                $this->_mode = $mode;
-                $this->_fileSock = $fileSock;
-                $this->_fileSockOther = $fileSockOther;
-                socket_bind($this->_socket, $this->_fileSock);
-                return true;
+                $this->mode = $mode;
+                $this->fileSock = $fileSock;
+                $this->fileSockOther = $fileSockOther;
+                return socket_bind($this->socket, $this->fileSock);
             }
         }
 
@@ -142,7 +132,7 @@ class Application
 
     private function getSockFile($mode)
     {
-        $dir = self::$_CONFIG['socket_dir'];
+        $dir = self::$CONFIG['socket_dir'];
         return "$dir/file" . $mode . ".sock";
     }
 
