@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   frontend:
-    container_name: "nginx-container"
+    container_name: "nginx-container-frontend"
     restart: unless-stopped
     image: wolodin/lemp-nginx:latest
     volumes:
