@@ -6,12 +6,11 @@ services:
     image: wolodin/lemp-nginx:latest
     volumes:
       - "./tools:/tools:ro"
-      - "./socks:/socks:rw"
-      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
-      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./config/nginx/sites-enabled-frontend:/etc/nginx/sites-enabled.ro:ro"
     command: ["/tools/web-entrypoint.sh"]
     depends_on:
-      - php-fpm73
+      - backend1
+      - backend2
     user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
     expose:
       - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
@@ -22,8 +21,56 @@ services:
     networks:
       - webnet
 
-  php-fpm73:
-    container_name: "php-fpm73-container"
+  backend1:
+    container_name: "nginx-container-backend1"
+    restart: unless-stopped
+    image: wolodin/lemp-nginx:latest
+    volumes:
+      - "./tools:/tools:ro"
+      - "./socks:/socks:rw"
+      - "./config/nginx/sites-enabled-backend:/etc/nginx/sites-enabled.ro:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+    command: ["/tools/web-entrypoint.sh"]
+    depends_on:
+      - php-fpm73-back1
+    user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
+    environment:
+      UNIX_PHP_SOCK: "unix:/socks/php7.3-fpm-1.sock"
+    expose:
+      - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
+      - ${UNPRIVILEGUE_PORT_MAPPING_443:-8443}
+    ports:
+      - "127.0.0.1:81:${UNPRIVILEGUE_PORT_MAPPING_80:-8080}"
+      - "127.0.0.1:444:${UNPRIVILEGUE_PORT_MAPPING_443:-8443}"
+    networks:
+      - webnet
+
+  backend2:
+    container_name: "nginx-container-backend2"
+    restart: unless-stopped
+    image: wolodin/lemp-nginx:latest
+    volumes:
+      - "./tools:/tools:ro"
+      - "./socks:/socks:rw"
+      - "./config/nginx/sites-enabled-backend:/etc/nginx/sites-enabled.ro:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+    command: ["/tools/web-entrypoint.sh"]
+    depends_on:
+      - php-fpm73-back2
+    user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
+    environment:
+      UNIX_PHP_SOCK: "unix:/socks/php7.3-fpm-2.sock"
+    expose:
+      - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
+      - ${UNPRIVILEGUE_PORT_MAPPING_443:-8443}
+    ports:
+      - "127.0.0.1:82:${UNPRIVILEGUE_PORT_MAPPING_80:-8080}"
+      - "127.0.0.1:445:${UNPRIVILEGUE_PORT_MAPPING_443:-8443}"
+    networks:
+      - webnet
+
+  php-fpm73-back1:
+    container_name: "php-fpm73-container-back1"
     restart: unless-stopped
     image: wolodin/php73-fpm-debian:latest
     volumes:
@@ -32,7 +79,7 @@ services:
       - "./config/php/php.ini/php-fpm73.ini:/usr/local/etc/php/php.ini:ro"
       - "./config/php/php.ini/php-cli73.ini:/usr/local/etc/php/php-cli.ini:ro"
       - "./app.local:/home/web/www/app.local:rw,cached"
-      #- "./config/php/php-fpm.d/zz-docker.override.conf:/usr/local/etc/php-fpm.d/zz-docker.override.conf:ro"
+      - "./config/php/php-fpm.d/zz-docker-1.conf:/usr/local/etc/php-fpm.d/zz-docker.override.conf:ro"
       #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
       #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
     entrypoint: ["/tools/php-entrypoint.sh"]
@@ -40,6 +87,29 @@ services:
     environment:
       HOST_USER_ID: "${HOST_USER_ID:-1000}"
       HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
+    networks:
+      - webnet
+
+  php-fpm73-back2:
+    container_name: "php-fpm73-container-back2"
+    restart: unless-stopped
+    image: wolodin/php73-fpm-debian:latest
+    volumes:
+      - "./socks:/socks:rw"
+      - "./tools:/tools:ro"
+      - "./config/php/php.ini/php-fpm73.ini:/usr/local/etc/php/php.ini:ro"
+      - "./config/php/php.ini/php-cli73.ini:/usr/local/etc/php/php-cli.ini:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      - "./config/php/php-fpm.d/zz-docker-2.conf:/usr/local/etc/php-fpm.d/zz-docker.override.conf:ro"
+      #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
+      #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php-fpm"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+      UNIX_PHP_SOCK: "unix:/socks/php7.3-fpm-2.sock"
     working_dir: "/home/web"
     networks:
       - webnet

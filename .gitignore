@@ -15,5 +15,7 @@ Thumbs.db
 .DS_Store
 socks/*.*
 !socks/.gitkeep
+socks2/*.*
+!socks2/.gitkeep
 # Override docker
 docker-compose.override.yml
