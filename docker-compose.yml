@@ -7,3 +7,5 @@ services:
             - .:/app
             - ./php.dev.ini:/usr/local/etc/php/php.ini
         command: php /app/index.php --server
+        environment:
+            - CLIENT_DEFAULT_MESSAGE='None'
