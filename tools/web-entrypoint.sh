@@ -5,7 +5,7 @@ set -euo pipefail
 : "${DOCKER_USERNAME_ENV:=web}"
 : "${UNPRIVILEGUE_PORT_MAPPING_80_ENV:=8080}"
 : "${UNPRIVILEGUE_PORT_MAPPING_443_ENV:=8443}"
-: "${UNIX_PHP_SOCK:=unix:/socks/php7.3-fpm-1.sock}"
+: "${UNIX_PHP_SOCK:=unix:/socks/php7.3-fpm.sock}"
 
 # Copy nginx config
 if [[ -d /etc/nginx/sites-available.ro ]] ; then
