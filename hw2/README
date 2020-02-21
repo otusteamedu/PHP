@@ -1,0 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+
+
+##Home work 2
+###2.1
+bash add.sh 2 6
+###2.2
+awk 'NR>1 { print  }' db.txt | sort | uniq -c | sort -r | head -n3
