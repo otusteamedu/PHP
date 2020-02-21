@@ -13,13 +13,14 @@ use App\Kernel\Application;
 use App\Kernel\RequestInterface;
 use App\Kernel\Response;
 use App\Kernel\ResponseInterface;
+use App\Repository\RepositoryInterface;
 use App\Repository\TicketRepository;
 use ReflectionException;
 
 class LazyLoadController implements ControllerInterface
 {
     /**
-     * @var RepositoryIn
+     * @var RepositoryInterface
      */
     private $ticketRepository;
 
@@ -34,7 +35,7 @@ class LazyLoadController implements ControllerInterface
      */
     public function __construct(TicketRepository $ticketRepository)
     {
-        $this->request = Application::get('request');
+        $this->request = Application::getInstance('request');
         $this->ticketRepository = $ticketRepository;
     }
 

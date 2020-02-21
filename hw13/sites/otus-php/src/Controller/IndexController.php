@@ -29,7 +29,7 @@ class IndexController implements ControllerInterface
      */
     public function __construct(TicketRepository $ticketRepository)
     {
-        $this->request = Application::get('request');
+        $this->request = Application::getInstance('request');
         $this->ticketRepository = $ticketRepository;
     }
 

@@ -43,7 +43,7 @@ class Application
         $container = new Container();
         $app = $container->get(Application::class);
 
-        $router = $app::get('router');
+        $router = $app::getInstance('router');
 
         $controllerClass = $router->findController();
         $controller = $container->get($controllerClass);
@@ -56,7 +56,7 @@ class Application
      * @return object
      * @throws KernelException
      */
-    public static function get($service = 'app'): object
+    public static function getInstance($service = 'app'): object
     {
         if (!isset(self::$services[$service])) {
             throw new KernelException("Service {$service} not found");

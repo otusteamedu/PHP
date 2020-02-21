@@ -18,7 +18,7 @@ class ExceptionHandler
      */
     public static function errorHandler(Throwable $e)
     {
-        if (Application::get()->isDev() == 'dev') {
+        if (Application::getInstance()->isDev() == 'dev') {
             $exceptionClass = get_class($e);
             $data = [
                 'error' => "{$exceptionClass}: {message: {$e->getMessage()}, file: {$e->getFile()}, line: {$e->getLine()}"
