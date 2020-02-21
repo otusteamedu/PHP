@@ -1,8 +1,3 @@
-# To build an image
-# docker build -t otus .
-# To run the container
-# docker run --rm -p 8989:80 otus
-
 FROM alpine
 RUN apk update && apk add nginx
 WORKDIR /srv/www/hw1
