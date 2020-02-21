@@ -1,0 +1,9 @@
+#OTUS PHP-backend home works
+##Home work 1
+To build an image
+
+    docker build -t otus .
+
+To run the container
+
+    docker run --rm -p 8989:80 otus
