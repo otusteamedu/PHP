@@ -49,7 +49,7 @@ class DataMapper implements DataMapperInterface
      */
     public function __construct($entity)
     {
-        $this->db = Application::get('db');
+        $this->db = Application::getInstance('db');
         $this->entity = $entity;
         $this->entityName = get_class($this->entity);
 

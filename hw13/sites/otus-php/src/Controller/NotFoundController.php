@@ -17,7 +17,7 @@ class NotFoundController implements ControllerInterface
      */
     public function handler()
     {
-        $request = Application::get('request');
+        $request = Application::getInstance('request');
         $errorUri = $request->get('uri');
 
         $response = new Response("Адрес {$errorUri} не доступен");
