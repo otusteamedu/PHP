@@ -11,6 +11,7 @@
     "require": {
         "php": "~7.3",
         "ext-pcntl": "*",
+        "ext-posix": "*",
         "ext-readline": "*",
         "ext-sockets": "*",
         "symfony/dotenv": "^5.0"

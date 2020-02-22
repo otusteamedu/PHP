@@ -14,6 +14,8 @@ class Server implements Command
 
     public function process(): void
     {
+        $this->detached();
+
         Message::info('Запуск сервера');
 
         $socket = new Socket(getenv(self::ENV_SOCKET_SERVER));
@@ -36,5 +38,17 @@ class Server implements Command
         }
 
         $socket->close();
+    }
+
+    /**
+     * Отвязываем скрипт от консоли.
+     */
+    private function detached(): void
+    {
+        if (pcntl_fork()) {
+            exit();
+        }
+
+        posix_setsid();
     }
 }
