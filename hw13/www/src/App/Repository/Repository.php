@@ -18,7 +18,7 @@ class Repository extends AbstractMapper
       return $this->identityMap->getObject($entity);
     }
 
-    $this->identityMap->set($entity, new $entity($this->pdo, $this->queries));
+    $this->identityMap->set($entity, new $entity());
 
     return $this->identityMap->getObject($entity);
   }

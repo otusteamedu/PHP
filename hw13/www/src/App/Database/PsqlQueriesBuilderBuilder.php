@@ -3,7 +3,7 @@
 
 namespace App\Database;
 
-class PsqlQueries implements DataBaseQueriesInterface
+class PsqlQueriesBuilderBuilder implements DataBaseQueriesBuilderInterface
 {
     /**
      * @param string $table

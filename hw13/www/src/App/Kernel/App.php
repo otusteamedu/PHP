@@ -2,8 +2,7 @@
 
 namespace App\Kernel;
 
-use App\Database\PsqlDatabaseConnection;
-use App\Database\PsqlQueries;
+use App\Config\Config;
 use App\Repository\Repository;
 
 class App
@@ -11,38 +10,52 @@ class App
     /**
      * @var \PDO
      */
-    private $pdo;
-    /**
-     * @var PsqlQueries
-     */
-    private $queries;
+    private static $pdo;
     /**
      * @var Request
      */
-    private $request;
+    private static $request;
+    /**
+     * @var Config
+     */
+    private static $config;
 
     /**
      * App constructor.
+     * @throws \Exception
      */
     public function __construct()
     {
-        $this->pdo = (new PsqlDatabaseConnection)->connect();
-        $this->queries = new PsqlQueries();
-        $this->request = new Request();
+        self::$config = new Config();
+        self::$pdo = self::$config->createDbClient();
+        self::$request = new Request();
     }
 
     public function run()
     {
-        $repository = new Repository($this->pdo, $this->queries);
-        $mapper = $repository->load($this->request->getEntity());
+        $repository = new Repository();
+        $mapper = $repository->load(self::$request->getEntity());
 
         // todo Router - Strategy
 
         // example
-        $item = $mapper->findById((int) $this->request->get("id"));
-
+        $item = $mapper->findById((int) self::$request->get("id"));
         $view = new Response();
         $view->renderView(($item->getFirstName()));
         $view->send();
+    }
+
+    /**
+     * @param string $component
+     * @return object
+     * @throws \Exception
+     */
+    public function getInstance(string $component): object
+    {
+        if (!self::$$component) {
+            throw new \Exception("Component {$component} not found");
+        }
+
+        return self::$$component;
     }
 }

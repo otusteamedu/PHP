@@ -22,6 +22,12 @@ services:
       - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
       - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./www:/var/www:rw
+    environment:
+      DATABASE_STORAGE: ${DATABASE_STORAGE}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_HOST: ${DATABASE_HOST}
     restart: always
     links:
       - db

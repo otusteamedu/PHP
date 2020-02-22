@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>\App\Config\Config</OriginalElement>
+  <nodes>
+    <node x="580.0" y="408.0">\App\Repository\Repository</node>
+    <node x="732.5" y="896.0">\App\Database\PsqlDatabaseConnection</node>
+    <node x="704.0" y="233.0">\App\Mappers\UserMapper</node>
+    <node x="961.25" y="0.0">\App\Framework\IdentityMapInterface</node>
+    <node x="751.25" y="32.0">\App\Mappers\DataMapperInterface</node>
+    <node x="294.0" y="793.0">\App\Kernel\ResponseInterface</node>
+    <node x="0.0" y="793.0">\App\Database\DataBaseQueriesBuilderInterface</node>
+    <node x="490.0" y="793.0">\App\Kernel\App</node>
+    <node x="0.0" y="103.0">\App\Entities\UserEntity</node>
+    <node x="599.5" y="0.0">\App\Mappers\AbstractMapper</node>
+    <node x="175.5" y="0.0">\App\Entities\BaseEntity</node>
+    <node x="21.0" y="1006.0">\App\Database\PsqlQueriesBuilderBuilder</node>
+    <node x="715.0" y="793.0">\App\Database\DatabaseConnectionInterface</node>
+    <node x="300.0" y="896.0">\App\Kernel\Response</node>
+    <node x="1178.25" y="0.0">\App\Kernel\RequestInterface</node>
+    <node x="981.0" y="793.0">\App\Config\Config</node>
+    <node x="1183.75" y="125.0">\App\Kernel\Request</node>
+    <node x="977.25" y="191.0">\App\Framework\IdentityMap</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\App\Kernel\Request" target="\App\Kernel\RequestInterface">
+      <point x="0.0" y="-146.5" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="\App\Mappers\UserMapper" target="\App\Mappers\AbstractMapper">
+      <point x="-43.25" y="-201.5" />
+      <point x="747.25" y="208.0" />
+      <point x="697.0" y="208.0" />
+      <point x="32.5" y="91.5" />
+    </edge>
+    <edge source="\App\Database\PsqlDatabaseConnection" target="\App\Database\DatabaseConnectionInterface">
+      <point x="0.0" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Database\PsqlQueriesBuilderBuilder" target="\App\Database\DataBaseQueriesBuilderInterface">
+      <point x="0.0" y="-81.5" />
+      <point x="0.0" y="81.5" />
+    </edge>
+    <edge source="\App\Entities\UserEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-322.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Kernel\Response" target="\App\Kernel\ResponseInterface">
+      <point x="0.0" y="-59.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Repository\Repository" target="\App\Mappers\AbstractMapper">
+      <point x="0.0" y="-26.5" />
+      <point x="-32.5" y="91.5" />
+    </edge>
+    <edge source="\App\Framework\IdentityMap" target="\App\Framework\IdentityMapInterface">
+      <point x="0.0" y="-124.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="\App\Mappers\UserMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="43.25" y="-201.5" />
+      <point x="0.0" y="59.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.46149914821124377" x="990.5702101864247" y="610.3475297373166" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constants</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

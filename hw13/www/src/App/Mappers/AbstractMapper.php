@@ -2,9 +2,10 @@
 
 namespace App\Mappers;
 
-use App\Database\DataBaseQueriesInterface;
+use App\Config\Config;
 use App\Framework\IdentityMap;
 use App\Framework\IdentityMapInterface;
+use App\Kernel\App;
 
 abstract class AbstractMapper
 {
@@ -14,39 +15,19 @@ abstract class AbstractMapper
     protected $pdo;
 
     /**
-     * @var \PDOStatement
-     */
-    protected $selectStmt;
-
-    /**
-     * @var \PDOStatement
-     */
-    protected $insertStmt;
-
-    /**
-     * @var \PDOStatement
-     */
-    protected $updateStmt;
-
-    /**
-     * @var \PDOStatement
-     */
-    protected $deleteStmt;
-
-    /**
      * @var IdentityMapInterface
      */
     protected $identityMap;
 
     /**
-     * @var DataBaseQueriesInterface
+     * @var object
      */
     protected $queries;
 
-    public function __construct(\PDO $pdo, DataBaseQueriesInterface $queries)
+    public function __construct()
     {
-        $this->pdo = $pdo;
-        $this->queries = $queries;
+        $this->pdo = App::getInstance('pdo');
+        $this->queries = Config::createQueriesBuilder();
         $this->identityMap = new IdentityMap();
     }
 

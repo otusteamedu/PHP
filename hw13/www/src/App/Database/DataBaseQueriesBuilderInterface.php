@@ -4,7 +4,7 @@
 namespace App\Database;
 
 
-interface DataBaseQueriesInterface
+interface DataBaseQueriesBuilderInterface
 {
     public function findById(string $table);
     public function findAll(string $table);

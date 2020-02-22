@@ -2,36 +2,55 @@
 
 namespace App\Mappers;
 
-use App\Database\DataBaseQueriesInterface;
+use App\Database\DataBaseQueriesBuilderInterface;
 use App\Entities\UserEntity;
 use Exception;
 
-class UserMapper extends AbstractMapper
+class UserMapper extends AbstractMapper implements DataMapperInterface
 {
+    /**
+     * @var \PDOStatement
+     */
+    protected $selectStmt;
+
+    /**
+     * @var \PDOStatement
+     */
+    protected $insertStmt;
+
+    /**
+     * @var \PDOStatement
+     */
+    protected $updateStmt;
+
+    /**
+     * @var \PDOStatement
+     */
+    protected $deleteStmt;
+
     /**
      * @var bool|\PDOStatement
      */
     protected $selectStmtByName;
 
     protected $tableName = 'users';
-
     protected $tableFields = ['username', 'first_name', 'last_name', 'city', 'created_at', 'updated_at', 'password'];
 
     /**
      * UserMapper constructor.
      * @param \PDO $pdo
-     * @param DataBaseQueriesInterface $queries
+     * @param DataBaseQueriesBuilderInterface $queries
+     * @throws Exception
      */
-    public function __construct(\PDO $pdo, DataBaseQueriesInterface $queries)
+    public function __construct()
     {
-        parent::__construct($pdo, $queries);
+        parent::__construct();
 
-        $this->selectStmt = $pdo->prepare($this->queries->findById($this->getTableName()));
-        $this->selectStmtByName = $pdo->prepare($this->queries->findBy($this->getTableName(), 'first_name'));
-        $this->insertStmt = $pdo->prepare($this->queries->insert($this->getTableName(), $this->getTableFields()));
-        $this->updateStmt = $pdo->prepare($this->queries->update($this->getTableName(), $this->getTableFields()));
-        $this->deleteStmt = $pdo->prepare($this->queries->delete($this->getTableName()));
-        $this->pdo = $pdo;
+        $this->selectStmt = $this->pdo->prepare($this->queries->findById($this->getTableName()));
+        $this->selectStmtByName = $this->pdo->prepare($this->queries->findBy($this->getTableName(), 'first_name'));
+        $this->insertStmt = $this->pdo->prepare($this->queries->insert($this->getTableName(), $this->getTableFields()));
+        $this->updateStmt = $this->pdo->prepare($this->queries->update($this->getTableName(), $this->getTableFields()));
+        $this->deleteStmt = $this->pdo->prepare($this->queries->delete($this->getTableName()));
     }
 
     /**
@@ -106,7 +125,7 @@ class UserMapper extends AbstractMapper
      * @return int
      * @throws Exception
      */
-    public function insert(UserEntity $userEntity): int
+    public function insert($userEntity): int
     {
         if (true === $this->identityMap->hasObject($userEntity)) {
             throw new Exception('Object has an ID, cannot insert.');
@@ -129,11 +148,11 @@ class UserMapper extends AbstractMapper
     }
 
     /**
-     * @param UserEntity $object
+     * @param $userEntity
      * @return bool
      * @throws Exception
      */
-    public function update(UserEntity $userEntity): bool
+    public function update($userEntity): bool
     {
         if (false === $this->identityMap->hasObject($userEntity)) {
             throw new Exception('Object has no ID, cannot update.');
@@ -163,7 +182,7 @@ class UserMapper extends AbstractMapper
      * @return bool
      * @throws Exception
      */
-    public function delete(UserEntity $userEntity): bool
+    public function delete($userEntity): bool
     {
         if (false === $this->identityMap->hasObject($userEntity)) {
             throw new \Exception('Object has no ID, cannot delete.');
