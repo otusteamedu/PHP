@@ -45,4 +45,4 @@ RUN apk add php7-dev \
     && docker-php-ext-install zip \
     && rm -rf /tmp/*
 
-CMD php-fpm --nodaemonize;
+CMD composer install; php-fpm --nodaemonize

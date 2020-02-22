@@ -1,44 +1,32 @@
 <?
-require 'autoload.php';
+require '../vendor/autoload.php';
 
 use App\Entities\Hall;
+use App\Config;
 
 try {
-    $host = 'app.local';
-    $port = 5432;
-    $dbname = 'postgres';
+
+    $config = new Config();
+
+    $host = $config->db_host_name;
+    $port = $config->db_port;
+    $dbname = $config->db_name;
     $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
-    $username = 'postgres';
-    $passwd = 'postgres';
+    $username = $config->db_username;
+    $passwd = $config->db_password;
     $dbconn = new PDO($dsn, $username, $passwd);
 
     $hall = new Hall($dbconn);
 
-    $res = $hall->getById($dbconn, 2);
+    $res = $hall->getById($dbconn, 3);
 
-    echo '<pre>';
-    print_r($res);
-    echo '</pre>';
+    var_dump($res);
 
-    $result  =$res->delete();
-
-    echo '<pre>';
-    var_dump($result);
-    echo '</pre>';
-
-    die();
+    // lazyload
     $places = $res->getPlaces();
+    var_dump($places);
 
-    $res->getPlaces();
-    $res->getPlaces(true);
 
-    foreach($places as $place){
-
-        $place->setHallPlaceNum($place->getHallPlaceNum()+1)->update();
-
-    }
-
-    $res->setName('name for two')->update();
 
 
 }catch (PDOException $e){
