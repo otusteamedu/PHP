@@ -12,6 +12,7 @@ class Element extends Mapper
     private $updateStmt;
     private $insertStmt;
     private $insertAllStmt;
+    private $findByCategory;
 
     public function __construct()
     {
@@ -19,13 +20,20 @@ class Element extends Mapper
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM element WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE element SET name=?, category_id=?, sort=?, code=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare(
-            "INSERT INTO element (name, category_id, sort, code) VALUES ( ? , ? , ? , ? , ? )"
+            "INSERT INTO element (name, category_id, sort, code) VALUES ( ? , ? , ? , ? )"
         );
         $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM element");
+        $this->findByCategory = $this->pdo->prepare("SELECT * FROM element where category_id=?");
     }
+
+    public function findByCategory(\Tirei01\Hw12\Storage\Category $category){
+        $this->findByCategory->execute(array($category->getId()));
+        return $this->getCollection($this->findByCategory->fetchAll(\PDO::FETCH_ASSOC));
+    }
+
     public function update(DomainObject $object)
     {
-        $value = array($object->getName(), $object->getType(), $object->getCategory()->getId(), $object->getSort(), $object->getCode(), $object->getId());
+        $value = array($object->getName(), $object->getCategory()->getId(), $object->getSort(), $object->getCode(), $object->getId());
         $this->updateStmt->execute($value);
     }
 
@@ -39,6 +47,7 @@ class Element extends Mapper
             $raw['sort'],
             $raw['code']
         );
+        return $element;
     }
 
     protected function doInsert(DomainObject $object)
@@ -56,7 +65,7 @@ class Element extends Mapper
 
     protected function targetClass(): string
     {
-        return static::class;
+        return \Tirei01\Hw12\Storage\Element::class;
     }
 
     protected function selectAllStmt(): \PDOStatement
@@ -66,6 +75,6 @@ class Element extends Mapper
 
     protected function getCollection(array $raw): Collection
     {
-       return new \Tirei01\Hw12\Storage\Collection\Element($raw);
+       return new \Tirei01\Hw12\Storage\Collection\Element($raw, $this);
     }
 }

@@ -13,8 +13,11 @@ abstract class Mapper
 
     public function find($id)
     {
+        $cacheObject = $this->getFromCache($id);
+        if($cacheObject !== null){
+            return $cacheObject;
+        }
         $this->selectStmt()->execute([$id]);
-
         $row = $this->selectStmt()->fetch(\PDO::FETCH_ASSOC);
         $this->selectStmt()->closeCursor();
         if (!is_array($row)) {
@@ -29,12 +32,14 @@ abstract class Mapper
 
     public function createObject(array $raw): DomainObject
     {
-        $obj = $this->doCreateObject($raw);
-        return $obj;
+        $object = $this->doCreateObject($raw);
+        $this->addToCache($object);
+        return $object;
     }
 
     public function insert(DomainObject $object){
         $this->doInsert($object);
+        $this->addToCache($object);
     }
 
     public function findAll() : Collection {
@@ -56,5 +61,11 @@ abstract class Mapper
 
     abstract protected function getCollection(array $raw): Collection;
 
-    //abstract protected function getTable() : string;
+    private function getFromCache($id) : ?DomainObject {
+        return CacheObject::get($this->targetClass(), $id);
+    }
+
+    private function addToCache(DomainObject $object) : void {
+        CacheObject::add($object);
+    }
 }

@@ -6,6 +6,23 @@ use Tirei01\Hw12\DomainObject;
 
 class Value extends DomainObject
 {
+    private Element $element;
+
+    /**
+     * @return Element
+     */
+    public function getElement(): Element
+    {
+        return $this->element;
+    }
+
+    /**
+     * @param Element $element
+     */
+    public function setElement(Element $element): void
+    {
+        $this->element = $element;
+    }
     private Property $property;
     private Category $category;
     private ?int $numericValue = null;
@@ -45,16 +62,18 @@ class Value extends DomainObject
     public function __construct(
         int $id,
         Property $property,
+        Element $element,
         $numericValue,
         $stringValue,
         Category $category = null
     ) {
         $this->setId($id);
         $this->setProperty($property);
+        $this->setElement($element);
         if($category === null){
             $this->setCategory($property->getCategory());
         }else{
-            $this->setCategory($category->getCategory());
+            $this->setCategory($category);
         }
         $this->setNumericValue(intval($numericValue));
         $this->setStringValue(strval($stringValue));

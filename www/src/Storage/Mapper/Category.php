@@ -61,7 +61,7 @@ class Category extends Mapper
 
     protected function targetClass(): string
     {
-        return static::class;
+        return \Tirei01\Hw12\Storage\Category::class;
     }
 
     protected function selectAllStmt(): \PDOStatement
