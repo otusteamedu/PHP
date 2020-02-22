@@ -34,7 +34,7 @@ class Main
             throw new \RuntimeException('Не загружено расширение PHP sockets.');
         }
 
-        if (file_exists('.env')) {
+        if (file_exists(dirname(__DIR__) . '/.env')) {
             (new Dotenv(true))->load(dirname(__DIR__) . '/.env');
         } else {
             throw new \RuntimeException('Не определен файл окружения .env.');

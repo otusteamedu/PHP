@@ -13,4 +13,9 @@ class Message
     {
         echo "Ошибка: $message" . PHP_EOL;
     }
+
+    public static function log(string $message): void
+    {
+        echo '[' . getmypid() . '] ' . date('Y-m-d H:i:s') . " $message" . PHP_EOL;
+    }
 }

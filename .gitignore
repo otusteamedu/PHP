@@ -2,3 +2,4 @@
 /vendor
 .env
 .DS_Store
+/logs
