@@ -16,14 +16,13 @@ class Client implements Command
     {
         Message::info('Запуск клиента');
 
-        $socket = new Socket($this->getName());
+        $socket = new Socket(getenv('SOCKET_CLIENT'));
         $socket->create();
 
-        // todo: получить данные сервера из ENV
-        $serverAddress = '/var/run/chat/server.sock';
+        $addressTo = getenv('SOCKET_SERVER');
         $message = "Message 1234";
 
-        $socket->send($message, $serverAddress);
+        $socket->send($message, $addressTo);
         $socket->block();
 
         $bucket = $socket->receive();

@@ -10,7 +10,7 @@ class Socket
     private $socket;
 
     /** @var string */
-    private $name;
+    private $address;
 
     /** @var string */
     private $dir;
@@ -22,23 +22,34 @@ class Socket
     private $errorMsg;
 
     /**
-     * @param string $name
+     * @param string $address
      */
-    public function __construct(string $name)
+    public function __construct(string $address)
     {
-        $this->name = strtolower($name) . '.sock';
-        $this->dir = getenv('SOCKET_DIR') ?: '/var/run/chat';
+        if (strlen($address) === 0) {
+            throw new \RuntimeException('Неверный адрес сокета.');
+        }
+
+        $this->address = $address;
     }
 
     public function create(): self
     {
-        $socket = socket_create(AF_UNIX, SOCK_DGRAM, self::PROTOCOL_UDP);
+        $socket = socket_create(AF_UNIX, SOCK_DGRAM, self::SOCKET_PROTOCOL);
         if (!$socket) {
             $this->setLastError();
             throw new \DomainException("Не могу создать AF_UNIX сокет: [$this->errorCode] $this->errorMsg");
         }
 
-        if (!socket_bind($socket, $this->getAddress())) {
+        if (file_exists($this->address)) {
+            unlink($this->address);
+        }
+
+        if (!is_dir(dirname($this->address))) {
+            mkdir(dirname($this->address), 0777, true);
+        }
+
+        if (!socket_bind($socket, $this->address)) {
             $this->setLastError();
             throw new \DomainException("Не могу привязаться к сокету: [$this->errorCode] $this->errorMsg");
         }
@@ -81,7 +92,7 @@ class Socket
             ->setData($data)
             ->setLength(strlen($data))
             ->setFrom($from)
-            ->setTo($this->dir . '/' . $this->name);
+            ->setTo($this->address);
     }
 
     public function send(string $data, string $address): void
@@ -98,21 +109,7 @@ class Socket
     public function close(): void
     {
         socket_close($this->socket);
-        unlink($this->dir . '/' . $this->name);
-    }
-
-    private function getAddress(): string
-    {
-        if (!is_dir($this->dir)) {
-            mkdir($this->dir, 0777, true);
-        }
-
-        $address = $this->dir . '/' . $this->name;
-        if (file_exists($address)) {
-            unlink($address);
-        }
-
-        return $address;
+        unlink($this->address);
     }
 
     private function setLastError(): void
