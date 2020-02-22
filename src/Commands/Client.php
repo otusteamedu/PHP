@@ -7,11 +7,6 @@ use App\Services\Socket;
 
 class Client implements Command
 {
-    public static function getName(): string
-    {
-        return 'Client';
-    }
-
     public function process(): void
     {
         Message::info('Запуск клиента');

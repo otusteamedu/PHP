@@ -5,10 +5,12 @@ namespace App\Services;
 use App\Commands\Client;
 use App\Commands\Command;
 use App\Commands\Server;
+use App\Commands\ServerStop;
 
 class Cli
 {
     private const OPTION_SERVER = 'server';
+    private const OPTION_SERVER_STOP = 'server-stop';
     private const OPTION_CLIENT = 'client';
 
     /** @var array */
@@ -29,6 +31,10 @@ class Cli
             return new Server();
         }
 
+        if (isset($this->options[self::OPTION_SERVER_STOP])) {
+            return new ServerStop();
+        }
+
         if (isset($this->options[self::OPTION_CLIENT])) {
             return new Client();
         }
@@ -41,6 +47,7 @@ class Cli
         $shortOpts = '';
         $longOpts = [
             self::OPTION_SERVER,
+            self::OPTION_SERVER_STOP,
             self::OPTION_CLIENT,
         ];
 
@@ -52,6 +59,8 @@ class Cli
         $msg = 'Неправильный синтаксис команды!' . PHP_EOL;
         $msg .= '  Запуск сервера' . PHP_EOL;
         $msg .= '  php app.php --server' . PHP_EOL;
+        $msg .= '  Остановка сервера' . PHP_EOL;
+        $msg .= '  php app.php --server-stop' . PHP_EOL;
         $msg .= '  Запуск клиента' . PHP_EOL;
         $msg .= '  php app.php --client';
 

@@ -9,6 +9,9 @@ use App\Services\Socket;
 
 class Server implements Command
 {
+    /** @var string */
+    private $pidFile;
+
     /** @var bool */
     private $needStopServer = false;
 
@@ -21,13 +24,17 @@ class Server implements Command
     /** @var resource */
     private $stderr;
 
-    public static function getName(): string
+    public function __construct()
     {
-        return 'Server';
+        $this->pidFile = getenv(self::ENV_PID_FILE) ?: '/tmp/server.pid';
     }
 
     public function process(): void
     {
+        if ($this->isServerRunning()) {
+            throw new \RuntimeException('Сервер уже запущен');
+        }
+
         $this->detached();
 
         Message::log('Запуск сервера');
@@ -52,6 +59,10 @@ class Server implements Command
         }
 
         Message::log('Сервер остановлен');
+
+        if (file_exists($this->pidFile)) {
+            unlink($this->pidFile);
+        }
 
         $socket->close();
     }
@@ -81,6 +92,8 @@ class Server implements Command
         $this->stderr = fopen($dir . '/server_error.log', 'ab');
 
         pcntl_signal(SIGTERM, [$this, 'signalHandler']);
+
+        file_put_contents($this->pidFile, getmypid());
     }
 
     private function needStopServer(): bool
@@ -92,8 +105,23 @@ class Server implements Command
     {
         switch ($signo) {
             case SIGTERM:
+            case SIGHUP:
+            case SIGINT:
                 $this->needStopServer = true;
                 break;
         }
+    }
+
+    private function isServerRunning(): bool
+    {
+        if (is_file($this->pidFile)) {
+            $pid = file_get_contents($this->pidFile);
+            if (posix_kill($pid, SIG_BLOCK)) {
+                return true;
+            }
+            unlink($this->pidFile);
+        }
+
+        return false;
     }
 }
