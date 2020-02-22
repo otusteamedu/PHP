@@ -1,5 +1,7 @@
 <?php
 
+declare(ticks=1);
+
 namespace App\Commands;
 
 use App\Services\Message;
@@ -7,6 +9,9 @@ use App\Services\Socket;
 
 class Server implements Command
 {
+    /** @var bool */
+    private $needStopServer = false;
+
     /** @var resource */
     private $stdin;
 
@@ -30,7 +35,7 @@ class Server implements Command
         $socket = new Socket(getenv(self::ENV_SOCKET_SERVER));
         $socket->create();
 
-        while (true) {
+        while (!$this->needStopServer()) {
             $socket->block();
 
             Message::log('Готов к получению данных...');
@@ -45,6 +50,8 @@ class Server implements Command
 
             Message::log('Запрос выполнен');
         }
+
+        Message::log('Сервер остановлен');
 
         $socket->close();
     }
@@ -72,5 +79,21 @@ class Server implements Command
         $this->stdin = fopen('/dev/null', 'r');
         $this->stdout = fopen($dir . '/server.log', 'ab');
         $this->stderr = fopen($dir . '/server_error.log', 'ab');
+
+        pcntl_signal(SIGTERM, [$this, 'signalHandler']);
+    }
+
+    private function needStopServer(): bool
+    {
+        return $this->needStopServer === true;
+    }
+
+    private function signalHandler(int $signo): void
+    {
+        switch ($signo) {
+            case SIGTERM:
+                $this->needStopServer = true;
+                break;
+        }
     }
 }

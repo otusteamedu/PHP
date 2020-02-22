@@ -4,7 +4,7 @@ namespace App\Services;
 
 class Socket
 {
-    const SOCKET_PROTOCOL = 0;
+    private const SOCKET_PROTOCOL = 0;
 
     /** @var resource */
     private $socket;
@@ -98,7 +98,7 @@ class Socket
         $bytesSent = socket_sendto($this->socket, $data, $len, MSG_WAITALL, $address);
         if ($bytesSent === false) {
             throw new \RuntimeException('Ошибка при отправке данных в сокет.');
-        } else if ($bytesSent != $len) {
+        } elseif ($bytesSent != $len) {
             throw new \RuntimeException($bytesSent . ' байт было отправлено, ожидалось ' . $len . ' байт');
         }
     }
