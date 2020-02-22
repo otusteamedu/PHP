@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $1 ]]; then
-	cat $1 | sort -rnk4 | awk -F' ' {'print $4,$3'} | head -n 3
+	cat $1 | awk '{print $3}' | sort | uniq -c | sort -r | head -3
 else
 	echo "not arguments"
 fi
