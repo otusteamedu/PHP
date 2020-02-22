@@ -30,7 +30,7 @@ class Server implements Command
 
             $socket->unblock();
 
-            $socket->send($bucket->getData() . "->Response", $bucket->getFrom());
+            $socket->send('OK', $bucket->getFrom());
 
             Message::info('Запрос выполнен');
         }

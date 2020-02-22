@@ -39,10 +39,9 @@ class Client implements Command
             try {
                 $socket->send($message, $addressTo);
                 $socket->block();
-
                 $bucket = $socket->receive();
 
-                Message::info("Получено {$bucket->getData()} от {$bucket->getFrom()}");
+                Message::info("Статус: {$bucket->getData()}. От {$bucket->getFrom()}");
             } catch (\RuntimeException $e) {
                 Message::error($e->getMessage());
             } finally {
