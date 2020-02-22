@@ -9,7 +9,7 @@ RUN apk update \
         make \
     && pecl install xdebug-$XDEBUG_VER \
     && docker-php-ext-enable xdebug \
-    && docker-php-ext-install sockets \
+    && docker-php-ext-install sockets pcntl \
     && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \
     && docker-php-source delete \

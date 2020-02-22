@@ -10,8 +10,9 @@
     ],
     "require": {
         "php": "~7.3",
-        "ext-sockets": "*",
+        "ext-pcntl": "*",
         "ext-readline": "*",
+        "ext-sockets": "*",
         "symfony/dotenv": "^5.0"
     },
     "autoload": {
