@@ -6,6 +6,9 @@ use App\Services\Message;
 
 class ServerStop implements Command
 {
+    /**
+     * Выполняем команду.
+     */
     public function process(): void
     {
         $pidFile = getenv(self::ENV_PID_FILE) ?: '/tmp/server.pid';

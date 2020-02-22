@@ -7,6 +7,9 @@ use App\Services\Socket;
 
 class Client implements Command
 {
+    /**
+     * Выполняем команду.
+     */
     public function process(): void
     {
         Message::info('Запуск клиента');
@@ -49,6 +52,11 @@ class Client implements Command
         Message::info('Клиент закрыт!');
     }
 
+    /**
+     * Принимаем сообщение из консоли.
+     *
+     * @return string
+     */
     private function readMessage(): string
     {
         return readline('> ');

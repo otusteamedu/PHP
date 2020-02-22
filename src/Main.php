@@ -18,6 +18,9 @@ class Main
         $this->cli = new Cli();
     }
 
+    /**
+     * Запускаем приложение.
+     */
     public function run(): void
     {
         try {
@@ -28,6 +31,9 @@ class Main
         }
     }
 
+    /**
+     * Инициализируем приложение.
+     */
     private function init(): void
     {
         if (!extension_loaded('sockets')) {

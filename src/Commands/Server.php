@@ -29,6 +29,9 @@ class Server implements Command
         $this->pidFile = getenv(self::ENV_PID_FILE) ?: '/tmp/server.pid';
     }
 
+    /**
+     * Выполняем команду.
+     */
     public function process(): void
     {
         if ($this->isServerRunning()) {
@@ -96,11 +99,19 @@ class Server implements Command
         file_put_contents($this->pidFile, getmypid());
     }
 
+    /**
+     * @return bool
+     */
     private function needStopServer(): bool
     {
         return $this->needStopServer === true;
     }
 
+    /**
+     * Обработчик сигналов.
+     *
+     * @param int $signo
+     */
     private function signalHandler(int $signo): void
     {
         switch ($signo) {
@@ -112,6 +123,11 @@ class Server implements Command
         }
     }
 
+    /**
+     * Проверяем запущен ли сервер.
+     *
+     * @return bool
+     */
     private function isServerRunning(): bool
     {
         if (is_file($this->pidFile)) {

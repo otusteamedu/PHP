@@ -17,6 +17,8 @@ class Cli
     private $options = [];
 
     /**
+     * Роутинг.
+     *
      * @return Command
      */
     public function getCommand(): Command
@@ -42,6 +44,9 @@ class Cli
         throw new \DomainException($this->getHowUse());
     }
 
+    /**
+     * Читаем опции команды.
+     */
     private function read(): void
     {
         $shortOpts = '';
@@ -54,6 +59,11 @@ class Cli
         $this->options = getopt($shortOpts, $longOpts);
     }
 
+    /**
+     * Выводим хелп.
+     *
+     * @return string
+     */
     private function getHowUse(): string
     {
         $msg = 'Неправильный синтаксис команды!' . PHP_EOL;
