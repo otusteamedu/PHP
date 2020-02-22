@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "^7.3",
-        "ext-sockets": "*"
+        "ext-sockets": "*",
+        "symfony/dotenv": "^5.0"
     },
     "autoload": {
         "psr-4": {

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Services\Cli;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Main
 {
@@ -30,6 +31,12 @@ class Main
     {
         if (!extension_loaded('sockets')) {
             throw new \RuntimeException('Не загружено расширение PHP sockets.');
+        }
+
+        if (file_exists('.env')) {
+            (new Dotenv(true))->load(dirname(__DIR__) . '/.env');
+        } else {
+            throw new \RuntimeException('Не определен файл окружения .env.');
         }
     }
 }

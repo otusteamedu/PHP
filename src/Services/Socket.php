@@ -26,9 +26,8 @@ class Socket
      */
     public function __construct(string $name)
     {
-        // todo: прописать в ENV
         $this->name = strtolower($name) . '.sock';
-        $this->dir = '/var/run/chat';
+        $this->dir = getenv('SOCKET_DIR') ?: '/var/run/chat';
     }
 
     public function create(): self
