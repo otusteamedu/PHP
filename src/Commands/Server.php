@@ -16,7 +16,7 @@ class Server implements Command
     {
         Message::info('Запуск сервера');
 
-        $socket = new Socket(getenv('SOCKET_SERVER'));
+        $socket = new Socket(getenv(self::ENV_SOCKET_SERVER));
         $socket->create();
 
         while (true) {

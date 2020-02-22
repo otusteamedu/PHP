@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Services\Cli;
+use App\Services\Message;
 use Symfony\Component\Dotenv\Dotenv;
 
 class Main
@@ -23,7 +24,7 @@ class Main
             $command = $this->cli->getCommand();
             $command->process();
         } catch (\Exception $e) {
-            echo $e->getMessage() . PHP_EOL;
+            Message::error($e->getMessage());
         }
     }
 

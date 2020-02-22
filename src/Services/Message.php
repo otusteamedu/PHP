@@ -8,4 +8,9 @@ class Message
     {
         echo $message . PHP_EOL;
     }
+
+    public static function error(string $message): void
+    {
+        echo "Ошибка: $message" . PHP_EOL;
+    }
 }

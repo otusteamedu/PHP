@@ -16,21 +16,47 @@ class Client implements Command
     {
         Message::info('Запуск клиента');
 
-        $socket = new Socket(getenv('SOCKET_CLIENT'));
+        $addressTo = getenv(self::ENV_SOCKET_SERVER);
+        if (empty($addressTo)) {
+            throw new \RuntimeException('Неверный путь к сокету сервера.');
+        }
+
+        $socket = new Socket(getenv(self::ENV_SOCKET_CLIENT));
         $socket->create();
 
-        $addressTo = getenv('SOCKET_SERVER');
-        $message = "Message 1234";
+        Message::info('Введите сообщение (для выхода \'exit\'):');
 
-        $socket->send($message, $addressTo);
-        $socket->block();
+        $message = $this->readMessage();
 
-        $bucket = $socket->receive();
+        while ($message !== self::COMMAND_EXIT) {
+            if (empty($message)) {
+                Message::error('Сообщение не может быть пустым!');
+                $message = $this->readMessage();
 
-        Message::info("Получено {$bucket->getData()} от {$bucket->getFrom()}");
+                continue;
+            }
+
+            try {
+                $socket->send($message, $addressTo);
+                $socket->block();
+
+                $bucket = $socket->receive();
+
+                Message::info("Получено {$bucket->getData()} от {$bucket->getFrom()}");
+            } catch (\RuntimeException $e) {
+                Message::error($e->getMessage());
+            } finally {
+                $message = $this->readMessage();
+            }
+        }
 
         $socket->close();
 
         Message::info('Клиент закрыт!');
+    }
+
+    private function readMessage(): string
+    {
+        return readline('> ');
     }
 }

@@ -4,16 +4,13 @@ namespace App\Services;
 
 class Socket
 {
-    const PROTOCOL_UDP = 0;
+    const SOCKET_PROTOCOL = 0;
 
     /** @var resource */
     private $socket;
 
     /** @var string */
     private $address;
-
-    /** @var string */
-    private $dir;
 
     /** @var int */
     private $errorCode;
@@ -38,7 +35,7 @@ class Socket
         $socket = socket_create(AF_UNIX, SOCK_DGRAM, self::SOCKET_PROTOCOL);
         if (!$socket) {
             $this->setLastError();
-            throw new \DomainException("Не могу создать AF_UNIX сокет: [$this->errorCode] $this->errorMsg");
+            throw new \RuntimeException("Не могу создать AF_UNIX сокет: [$this->errorCode] $this->errorMsg");
         }
 
         if (file_exists($this->address)) {
@@ -51,7 +48,7 @@ class Socket
 
         if (!socket_bind($socket, $this->address)) {
             $this->setLastError();
-            throw new \DomainException("Не могу привязаться к сокету: [$this->errorCode] $this->errorMsg");
+            throw new \RuntimeException("Не могу привязаться к сокету: [$this->errorCode] $this->errorMsg");
         }
 
         $this->socket = $socket;
@@ -63,7 +60,7 @@ class Socket
     {
         if (!socket_set_block($this->socket)) {
             $this->setLastError();
-            throw new \DomainException("Не могу устанавить блокировку сокета: [$this->errorCode] $this->errorMsg");
+            throw new \RuntimeException("Не могу устанавить блокировку сокета: [$this->errorCode] $this->errorMsg");
         }
 
         return $this;
@@ -73,7 +70,7 @@ class Socket
     {
         if (!socket_set_nonblock($this->socket)) {
             $this->setLastError();
-            throw new \DomainException("Не могу снять блокировку с сокета: [$this->errorCode] $this->errorMsg");
+            throw new \RuntimeException("Не могу снять блокировку с сокета: [$this->errorCode] $this->errorMsg");
         }
 
         return $this;
@@ -84,8 +81,8 @@ class Socket
         $data = '';
         $from = '';
 
-        if (socket_recvfrom($this->socket, $data, 65536, 0, $from) === false) {
-            throw new \DomainException('Ошибка при получении данных из сокета.');
+        if (socket_recvfrom($this->socket, $data, 65536, MSG_WAITALL, $from) === false) {
+            throw new \RuntimeException('Ошибка при получении данных из сокета.');
         }
 
         return (new SocketData())
@@ -98,11 +95,11 @@ class Socket
     public function send(string $data, string $address): void
     {
         $len = strlen($data);
-        $bytesSent = socket_sendto($this->socket, $data, $len, 0, $address);
+        $bytesSent = socket_sendto($this->socket, $data, $len, MSG_WAITALL, $address);
         if ($bytesSent === false) {
-            throw new \DomainException('Ошибка при отправке данных в сокет.');
+            throw new \RuntimeException('Ошибка при отправке данных в сокет.');
         } else if ($bytesSent != $len) {
-            throw new \DomainException($bytesSent . ' байт было отправлено, ожидалось ' . $len . ' байт');
+            throw new \RuntimeException($bytesSent . ' байт было отправлено, ожидалось ' . $len . ' байт');
         }
     }
 
