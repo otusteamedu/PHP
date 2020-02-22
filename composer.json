@@ -1,0 +1,10 @@
+{
+    "name": "mwd/otus-php",
+    "authors": [
+        {
+            "name": "Andrey",
+            "email": "andrey.o@list.ru"
+        }
+    ],
+    "require": {}
+}

@@ -1,9 +1,16 @@
-FROM alpine
-RUN apk update
-RUN apk add  nginx
-RUN mkdir -p /run/nginx
-WORKDIR /var/www
-RUN mkdir test && echo "hello from docker" > test/index.html
-COPY my_site.conf /etc/nginx/conf.d/
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+FROM php:7.4-fpm
+RUN apt-get update \
+    && apt-get install -y \
+    git \
+    curl \
+    wget \
+    grep \
+    # дополнительные библиотеки для pecl
+    php7-dev gcc g++ make \
+    # Качаем composer
+    && curl -sS https://getcomposer.org/installer \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    # Вроде нужно пропускать сообщения както
+    && pecl install redis memcached pecl_http pdo_pgsql \
+    && docker-php-ext-enable redis memcached pecl_http pdo_pgsql \
+
