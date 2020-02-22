@@ -2,15 +2,36 @@
 
 namespace App\Commands;
 
+use App\Services\Message;
+use App\Services\Socket;
+
 class Client implements Command
 {
-    public function getName(): string
+    public static function getName(): string
     {
         return 'Client';
     }
 
     public function process(): void
     {
-        // TODO: Implement process() method.
+        Message::info('Запуск клиента');
+
+        $socket = new Socket($this->getName());
+        $socket->create();
+
+        // todo: получить данные сервера из ENV
+        $serverAddress = '/var/run/chat/server.sock';
+        $message = "Message 1234";
+
+        $socket->send($message, $serverAddress);
+        $socket->block();
+
+        $bucket = $socket->receive();
+
+        Message::info("Получено {$bucket->getData()} от {$bucket->getFrom()}");
+
+        $socket->close();
+
+        Message::info('Клиент закрыт!');
     }
 }
