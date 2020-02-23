@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>\App\Config\Config</OriginalElement>
+  <nodes>
+    <node x="1236.0" y="1104.5">\App\Entities\CouponEntity</node>
+    <node x="0.0" y="1564.0">\App\Framework\IdentityMapInterface</node>
+    <node x="1012.0" y="1564.0">\App\Kernel\ResponseInterface</node>
+    <node x="718.0" y="1564.0">\App\Database\DataBaseQueriesBuilderInterface</node>
+    <node x="1208.0" y="1564.0">\App\Kernel\App</node>
+    <node x="454.0" y="543.0">\App\Mappers\ProductMapper</node>
+    <node x="787.0" y="0.0">\App\Mappers\AbstractMapper</node>
+    <node x="968.5" y="827.0">\App\Entities\BaseEntity</node>
+    <node x="739.0" y="1777.0">\App\Database\PsqlQueriesBuilderBuilder</node>
+    <node x="947.0" y="554.0">\App\Mappers\OrderMapper</node>
+    <node x="609.0" y="554.0">\App\Mappers\DeliveryServiceMapper</node>
+    <node x="1018.0" y="1667.0">\App\Kernel\Response</node>
+    <node x="808.0" y="554.0">\App\Mappers\CouponMapper</node>
+    <node x="1699.0" y="1564.0">\App\Config\Config</node>
+    <node x="222.5" y="1689.0">\App\Kernel\Request</node>
+    <node x="16.0" y="1755.0">\App\Framework\IdentityMap</node>
+    <node x="1269.0" y="587.0">\App\Repository\Repository</node>
+    <node x="1450.5" y="1667.0">\App\Database\PsqlDatabaseConnection</node>
+    <node x="905.0" y="994.5">\App\Entities\DeliveryServiceEntity</node>
+    <node x="571.25" y="98.0">\App\Mappers\DataMapperInterface</node>
+    <node x="1086.0" y="445.0">\App\Mappers\ClientMapper</node>
+    <node x="199.0" y="554.0">\App\Mappers\DeliveryServiceDiscountMapper</node>
+    <node x="319.0" y="961.5">\App\Entities\ProductEntity</node>
+    <node x="1756.0" y="1104.5">\App\Entities\ClientEntity</node>
+    <node x="1557.0" y="1192.0">\App\Entities\ProductDiscountEntity</node>
+    <node x="1433.0" y="1564.0">\App\Database\DatabaseConnectionInterface</node>
+    <node x="650.0" y="1192.0">\App\Entities\DeliveryServiceDiscountEntity</node>
+    <node x="0.0" y="940.0">\App\Entities\OrderEntity</node>
+    <node x="217.0" y="1564.0">\App\Kernel\RequestInterface</node>
+    <node x="406.0" y="1564.0">\App\Entities\OrderBuilder</node>
+    <node x="0.0" y="554.0">\App\Mappers\ProductDiscountMapper</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\App\Mappers\ProductDiscountMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-44.75" y="-59.5" />
+      <point x="44.75" y="365.0" />
+      <point x="583.0357142857142" y="365.0" />
+      <point x="-70.71428571428578" y="59.5" />
+    </edge>
+    <edge source="\App\Mappers\ProductMapper" target="\App\Mappers\AbstractMapper">
+      <point x="33.75" y="-70.5" />
+      <point x="555.25" y="415.0" />
+      <point x="848.25" y="415.0" />
+      <point x="-36.75" y="157.5" />
+    </edge>
+    <edge source="\App\Mappers\CouponMapper" target="\App\Mappers\AbstractMapper">
+      <point x="29.75" y="-59.5" />
+      <point x="12.25" y="157.5" />
+    </edge>
+    <edge source="\App\Mappers\DeliveryServiceDiscountMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-58.75" y="-59.5" />
+      <point x="257.75" y="375.0" />
+      <point x="606.6071428571429" y="375.0" />
+      <point x="-47.14285714285711" y="59.5" />
+    </edge>
+    <edge source="\App\Entities\ProductDiscountEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-37.5" />
+      <point x="1646.5" y="910.0" />
+      <point x="1113.0714285714284" y="910.0" />
+      <point x="52.571428571428555" y="26.5" />
+    </edge>
+    <edge source="\App\Entities\ProductEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-268.0" />
+      <point x="474.5" y="910.0" />
+      <point x="1007.9285714285714" y="910.0" />
+      <point x="-52.571428571428555" y="26.5" />
+    </edge>
+    <edge source="\App\Mappers\OrderMapper" target="\App\Mappers\AbstractMapper">
+      <point x="29.75" y="-59.5" />
+      <point x="1036.25" y="365.0" />
+      <point x="921.75" y="365.0" />
+      <point x="36.75" y="157.5" />
+    </edge>
+    <edge source="\App\Entities\CouponEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-125.0" />
+      <point x="1386.5" y="920.0" />
+      <point x="1086.7857142857142" y="920.0" />
+      <point x="26.285714285714334" y="26.5" />
+    </edge>
+    <edge source="\App\Mappers\ProductDiscountMapper" target="\App\Mappers\AbstractMapper">
+      <point x="44.75" y="-59.5" />
+      <point x="134.25" y="395.0" />
+      <point x="799.25" y="395.0" />
+      <point x="-85.75" y="157.5" />
+    </edge>
+    <edge source="\App\Mappers\CouponMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-29.75" y="-59.5" />
+      <point x="837.75" y="385.0" />
+      <point x="677.3214285714286" y="385.0" />
+      <point x="23.571428571428555" y="59.5" />
+    </edge>
+    <edge source="\App\Mappers\DeliveryServiceMapper" target="\App\Mappers\AbstractMapper">
+      <point x="44.75" y="-59.5" />
+      <point x="743.25" y="425.0" />
+      <point x="872.75" y="425.0" />
+      <point x="-12.25" y="157.5" />
+    </edge>
+    <edge source="\App\Entities\OrderEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-289.5" />
+      <point x="149.5" y="900.0" />
+      <point x="981.6428571428571" y="900.0" />
+      <point x="-78.85714285714289" y="26.5" />
+    </edge>
+    <edge source="\App\Mappers\ClientMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-40.75" y="-168.5" />
+      <point x="1126.75" y="355.0" />
+      <point x="724.4642857142858" y="355.0" />
+      <point x="70.71428571428578" y="59.5" />
+    </edge>
+    <edge source="\App\Entities\ClientEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-125.0" />
+      <point x="1835.0" y="900.0" />
+      <point x="1139.357142857143" y="900.0" />
+      <point x="78.85714285714289" y="26.5" />
+    </edge>
+    <edge source="\App\Database\PsqlDatabaseConnection" target="\App\Database\DatabaseConnectionInterface">
+      <point x="0.0" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Mappers\DeliveryServiceMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-44.75" y="-59.5" />
+      <point x="0.0" y="59.5" />
+    </edge>
+    <edge source="\App\Entities\DeliveryServiceDiscountEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-37.5" />
+      <point x="767.5" y="920.0" />
+      <point x="1034.2142857142858" y="920.0" />
+      <point x="-26.28571428571422" y="26.5" />
+    </edge>
+    <edge source="\App\Kernel\Response" target="\App\Kernel\ResponseInterface">
+      <point x="0.0" y="-59.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Entities\DeliveryServiceEntity" target="\App\Entities\BaseEntity">
+      <point x="0.0" y="-235.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="\App\Repository\Repository" target="\App\Mappers\AbstractMapper">
+      <point x="0.0" y="-26.5" />
+      <point x="1321.0" y="335.0" />
+      <point x="970.75" y="335.0" />
+      <point x="85.75" y="157.5" />
+    </edge>
+    <edge source="\App\Framework\IdentityMap" target="\App\Framework\IdentityMapInterface">
+      <point x="0.0" y="-124.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="\App\Mappers\OrderMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-29.75" y="-59.5" />
+      <point x="976.75" y="375.0" />
+      <point x="700.8928571428571" y="375.0" />
+      <point x="47.14285714285711" y="59.5" />
+    </edge>
+    <edge source="\App\Mappers\ProductMapper" target="\App\Mappers\DataMapperInterface">
+      <point x="-33.75" y="-70.5" />
+      <point x="487.75" y="385.0" />
+      <point x="630.1785714285714" y="385.0" />
+      <point x="-23.571428571428555" y="59.5" />
+    </edge>
+    <edge source="\App\Mappers\ClientMapper" target="\App\Mappers\AbstractMapper">
+      <point x="40.75" y="-168.5" />
+      <point x="1208.25" y="345.0" />
+      <point x="946.25" y="345.0" />
+      <point x="61.25" y="157.5" />
+    </edge>
+    <edge source="\App\Kernel\Request" target="\App\Kernel\RequestInterface">
+      <point x="0.0" y="-146.5" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="\App\Database\PsqlQueriesBuilderBuilder" target="\App\Database\DataBaseQueriesBuilderInterface">
+      <point x="0.0" y="-81.5" />
+      <point x="0.0" y="81.5" />
+    </edge>
+    <edge source="\App\Mappers\DeliveryServiceDiscountMapper" target="\App\Mappers\AbstractMapper">
+      <point x="58.75" y="-59.5" />
+      <point x="375.25" y="405.0" />
+      <point x="823.75" y="405.0" />
+      <point x="-61.25" y="157.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="1458.6785714285706" y="1022.2579365079363" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constants</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
