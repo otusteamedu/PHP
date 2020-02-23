@@ -2,7 +2,7 @@
 namespace App;
 class Config
 {
-    const CONFIG_FILE = '/var/www/app.local/config.ini';
+    const CONFIG_FILE = '../config.ini';
     private $config = [];
 
     public function __construct()
