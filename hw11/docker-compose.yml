@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./app:/var/www/app.local
+      - phpsocket:/run/php
+    networks:
+      localnet:
+        aliases:
+          - app.local
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+    networks:
+      localnet:
+        aliases:
+          - app.local
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/app.local
+      - ./docker/nginx/app.local.conf:/etc/nginx/conf.d/app.local.conf
+      - phpsocket:/run/php
+    depends_on:
+      - php
+volumes:
+  pgdata:
+  phpsocket:
+
+networks:
+  localnet:
+    driver: bridge
