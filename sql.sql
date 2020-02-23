@@ -36,12 +36,12 @@ CREATE TABLE "public"."element" (
 ) WITH (oids = false);
 
 INSERT INTO "element" ("id", "name", "category_id", "sort", "code") VALUES
-(5,	'Девчата!',	18,	10,	'girls'),
-(9,	'Большая перемена',	18,	200,	'big_change'),
 (6,	'Большой зал',	19,	10,	'bit_hall'),
 (8,	'3d Зал',	19,	30,	'3d'),
 (7,	'Малый зал',	19,	20,	'small'),
-(10,	'А зори здесь тихие',	18,	400,	' dawns_here_are_quiet');
+(10,	'А зори здесь тихие',	18,	400,	' dawns_here_are_quiet'),
+(9,	'Большая перемена',	18,	200,	'big_change'),
+(5,	'Девчата!',	18,	10,	'girls');
 
 DROP TABLE IF EXISTS "property";
 DROP SEQUENCE IF EXISTS property_id_seq;
@@ -62,7 +62,9 @@ CREATE TABLE "public"."property" (
 INSERT INTO "property" ("id", "name", "code", "category_id", "type", "sort") VALUES
 (10,	'Год выпуска',	'year',	18,	'string',	20),
 (9,	'Продолжительность',	'duration',	18,	'string',	10),
-(11,	'Количество мест',	'count',	19,	'int',	10);
+(11,	'Количество мест',	'count',	19,	'int',	10),
+(12,	'рецензии',	'reviews',	18,	'string',	600),
+(13,	'премия',	'prize',	18,	'string',	900);
 
 DROP TABLE IF EXISTS "value";
 DROP SEQUENCE IF EXISTS value_id_seq;
@@ -83,14 +85,20 @@ CREATE TABLE "public"."value" (
 ) WITH (oids = false);
 
 INSERT INTO "value" ("id", "property_id", "category_id", "s_value", "i_value", "element_id") VALUES
-(18,	10,	18,	'1962',	0,	5),
-(19,	9,	18,	'92 минуты',	0,	5),
-(20,	10,	18,	'1971',	0,	9),
-(21,	9,	18,	'258 мин.',	0,	9),
 (22,	11,	19,	'',	50,	6),
 (23,	11,	19,	'',	20,	8),
 (24,	11,	19,	'',	25,	7),
 (25,	10,	18,	'1972',	0,	10),
-(26,	9,	18,	'3 часа 8 минут',	0,	10);
+(26,	9,	18,	'3 часа 8 минут',	0,	10),
+(27,	12,	18,	'отличный фильм',	0,	10),
+(28,	13,	18,	'гремми',	0,	10),
+(20,	10,	18,	'1971',	0,	9),
+(21,	9,	18,	'258 мин.',	0,	9),
+(29,	12,	18,	'тяжелый фильм',	0,	9),
+(30,	13,	18,	'оскар',	0,	9),
+(18,	10,	18,	'1962',	0,	5),
+(19,	9,	18,	'92 минуты',	0,	5),
+(31,	12,	18,	'Отличная комедия',	0,	5),
+(32,	13,	18,	'Золотая маска',	0,	5);
 
--- 2020-02-23 15:48:26.665571+00
+-- 2020-02-23 18:50:55.717327+00
