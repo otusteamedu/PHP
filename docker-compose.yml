@@ -3,7 +3,7 @@ services:
   frontend:
     container_name: "nginx-container-frontend"
     restart: unless-stopped
-    image: wolodin/lemp-nginx-full:latest
+    image: wolodin/lemp-nginx:latest
     volumes:
       - "./tools:/tools:ro"
       - "./config/nginx/sites-enabled-frontend:/etc/nginx/sites-enabled.ro:ro"
@@ -39,9 +39,6 @@ services:
     expose:
       - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
       - ${UNPRIVILEGUE_PORT_MAPPING_443:-8443}
-    ports:
-      - "0.0.0.0:81:${UNPRIVILEGUE_PORT_MAPPING_80:-8080}"
-      - "0.0.0.0:444:${UNPRIVILEGUE_PORT_MAPPING_443:-8443}"
     networks:
       - webnet
 
@@ -63,9 +60,6 @@ services:
     expose:
       - ${UNPRIVILEGUE_PORT_MAPPING_80:-8080}
       - ${UNPRIVILEGUE_PORT_MAPPING_443:-8443}
-    ports:
-      - "0.0.0.0:82:${UNPRIVILEGUE_PORT_MAPPING_80:-8080}"
-      - "0.0.0.0:445:${UNPRIVILEGUE_PORT_MAPPING_443:-8443}"
     networks:
       - webnet
 
