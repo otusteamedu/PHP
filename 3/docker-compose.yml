@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+  frontend:
+    container_name: "nginx-container"
+    restart: unless-stopped
+    image: wolodin/lemp-nginx:latest
+    volumes:
+      - "./tools:/tools:ro"
+      - "./socks:/socks:rw"
+      - "./config/nginx/sites-enabled:/etc/nginx/sites-enabled.ro:ro"
+      - "./mysite.local:/home/web/www/mysite.local:rw,cached"
+    command: ["/tools/web-entrypoint.sh"]
+    depends_on:
+      - php-fpm
+    user: ${HOST_USER_ID:-1000}:${HOST_GROUP_ID:-1000}
+    environment:
+      UNPRIVILEGUE_PORT_MAPPING_80_ENV: "8080"
+      UNPRIVILEGUE_PORT_MAPPING_443_ENV: "8443"
+    ports:
+      - "127.0.0.1:80:8080"
+    networks:
+      - webnet
+    extra_hosts:
+      - "mysite.local:127.0.0.1"
+
+  php-fpm:
+    container_name: "php-fpm-container"
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: "."
+    volumes:
+      - "./socks:/socks:rw"
+      - "./tools:/tools:ro"
+      - "./config/php/php-fpm73.ini-development:/usr/local/etc/php/php.ini:ro"
+      - "./mysite.local:/home/web/www/mysite.local:rw,cached"
+    entrypoint: ["/tools/php-entrypoint.sh"]
+    command: ["php-fpm"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
+    networks:
+      - webnet
+    extra_hosts:
+      - "mysite.local:127.0.0.1"
+
+networks:
+  webnet:

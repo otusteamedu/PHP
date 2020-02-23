@@ -1,0 +1,6 @@
+.gitignore
+.idea/
+docker-compose.yml
+tools/
+web/
+socks/

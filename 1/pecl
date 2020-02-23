@@ -1,0 +1,172 @@
+Updating channel "doc.php.net"
+Channel "doc.php.net" is up to date
+Updating channel "pear.php.net"
+Channel "pear.php.net" is up to date
+Updating channel "pecl.php.net"
+Channel "pecl.php.net" is up to date
+downloading mailparse-3.0.3.tgz ...
+Starting to download mcrypt-1.0.3.tgz (33,590 bytes)
+..........................................................................................................................................................................................done: 940,370 bytes
+6 source files, building
+running: phpize
+sh: 1: phpize: not found
+ERROR: `phpize' failed
+downloading mcrypt-1.0.3.tgz ...
+Starting to download mcrypt-1.0.3.tgz (33,590 bytes)
+.........done: 33,590 bytes
+6 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20170718
+Zend Module Api No:      20170718
+Zend Extension Api No:   320170718
+libmcrypt prefix? [autodetect] : building in /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3
+running: /tmp/pear/temp/mcrypt/configure --with-php-config=/usr/bin/php-config --with-mcrypt
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking whether cc understands -c and -o together... yes
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for PHP prefix... /usr
+checking for PHP includes... -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib
+checking for PHP extension directory... /usr/lib/php/20170718
+checking for PHP installed headers prefix... /usr/include/php/20170718
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for re2c... no
+configure: WARNING: You will need re2c 0.13.4 or later if you want to regenerate PHP parsers.
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking for mcrypt support... yes, shared
+checking for libmcrypt version... >= 2.5.6
+checking for mcrypt_module_open in -lmcrypt... yes
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /bin/sed
+checking for fgrep... /bin/grep -F
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking for gawk... (cached) nawk
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for sysroot... no
+checking for a working dd... /bin/dd
+checking how to truncate binary pipes... /bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC -DPIC
+checking if cc PIC flag -fPIC -DPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking if cc supports -c -o file.o... (cached) yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+configure: creating ./config.status
+config.status: creating config.h
+config.status: executing libtool commands
+running: make
+/bin/bash /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/libtool --mode=compile cc -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -I. -I/tmp/pear/temp/mcrypt -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/include -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/main -I/tmp/pear/temp/mcrypt -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/mcrypt/mcrypt.c -o mcrypt.lo
+libtool: compile:  cc -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -I. -I/tmp/pear/temp/mcrypt -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/include -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/main -I/tmp/pear/temp/mcrypt -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/mcrypt/mcrypt.c  -fPIC -DPIC -o .libs/mcrypt.o
+/bin/bash /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/libtool --mode=compile cc -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -I. -I/tmp/pear/temp/mcrypt -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/include -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/main -I/tmp/pear/temp/mcrypt -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/mcrypt/mcrypt_filter.c -o mcrypt_filter.lo
+libtool: compile:  cc -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1 -I. -I/tmp/pear/temp/mcrypt -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/include -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/main -I/tmp/pear/temp/mcrypt -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/mcrypt/mcrypt_filter.c  -fPIC -DPIC -o .libs/mcrypt_filter.o
+/bin/bash /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/libtool --mode=link cc -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/include -I/tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/main -I/tmp/pear/temp/mcrypt -I/usr/include/php/20170718 -I/usr/include/php/20170718/main -I/usr/include/php/20170718/TSRM -I/usr/include/php/20170718/Zend -I/usr/include/php/20170718/ext -I/usr/include/php/20170718/ext/date/lib  -DHAVE_CONFIG_H  -g -O2    -o mcrypt.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules  mcrypt.lo mcrypt_filter.lo -lmcrypt -lltdl
+libtool: link: cc -shared  -fPIC -DPIC  .libs/mcrypt.o .libs/mcrypt_filter.o   /usr/lib/libmcrypt.so /usr/lib/x86_64-linux-gnu/libltdl.so  -g -O2   -Wl,-soname -Wl,mcrypt.so -o .libs/mcrypt.so
+libtool: link: ( cd ".libs" && rm -f "mcrypt.la" && ln -s "../mcrypt.la" "mcrypt.la" )
+/bin/bash /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/libtool --mode=install cp ./mcrypt.la /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules
+libtool: install: cp ./.libs/mcrypt.so /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules/mcrypt.so
+libtool: install: cp ./.libs/mcrypt.lai /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules/mcrypt.la
+libtool: finish: PATH="/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin" ldconfig -n /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-rootp9J2uT/mcrypt-1.0.3/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the '-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the 'LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the 'LD_RUN_PATH' environment variable
+     during linking
+   - use the '-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to '/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3" install
+Installing shared extensions:     /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr/lib/php/20170718/
+running: find "/tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3" | xargs ls -dils
+10758048   4 drwxr-xr-x 3 root root   4096 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3
+10758071   4 drwxr-xr-x 3 root root   4096 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr
+10758072   4 drwxr-xr-x 3 root root   4096 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr/lib
+10758073   4 drwxr-xr-x 3 root root   4096 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr/lib/php
+10758074   4 drwxr-xr-x 2 root root   4096 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr/lib/php/20170718
+10758069 188 -rwxr-xr-x 1 root root 189064 дек 17 13:48 /tmp/pear/temp/pear-build-rootp9J2uT/install-mcrypt-1.0.3/usr/lib/php/20170718/mcrypt.so
+
+Build process completed successfully
+Installing '/usr/lib/php/20170718/mcrypt.so'
+install ok: channel://pecl.php.net/mcrypt-1.0.3
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=mcrypt.so" to php.ini
+=============================
+INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
+=========================================
+PACKAGE VERSION STATE
+mcrypt  1.0.3   stable
+
+=========================================
