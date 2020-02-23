@@ -1,10 +1,13 @@
 {
-    "name": "mwd/otus-php",
-    "authors": [
-        {
-            "name": "Andrey",
-            "email": "andrey.o@list.ru"
-        }
-    ],
-    "require": {}
-}
+    "name": "evrimedont/otus-php-hw3",
+    "type": "project",
+    "require": {
+      "evrimedont/test-composer-library": "*"
+    },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/Evrimedont/test-composer-library.git"
+      }
+    ]
+  } 
