@@ -4,8 +4,8 @@ namespace App;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class YoutubeChannels extends Model
+class YoutubeChannel extends Model
 {
     protected $collection = 'youtube_channels';
-    protected $fillable = ['title','code'];
+    protected $fillable = ['title','code', 'created_at'];
 }

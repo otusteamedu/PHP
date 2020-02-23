@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\YoutubeChannels;
-use App\Car;
+use App\YoutubeChannel;
 use Illuminate\Http\Request;
 
 class YoutubeChannelsController extends Controller
@@ -15,16 +14,7 @@ class YoutubeChannelsController extends Controller
      */
     public function index()
     {
-
-
-        $articles =  YoutubeChannels::all();
-        //$articles = [];
-        echo '<pre>';
-        print_r($articles);
-        echo '</pre>';
-
-
-        //return view('todos.index')->with('todos', Todo::orderBy('created_at', 'desc')->get());
+        return view('youtube_channels.index')->with('channels', YoutubeChannel::orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -34,7 +24,7 @@ class YoutubeChannelsController extends Controller
      */
     public function create()
     {
-        //return view('todos.create');
+        return view('youtube_channels.create');
     }
 
     /**
@@ -45,20 +35,19 @@ class YoutubeChannelsController extends Controller
      */
     public function store(Request $request)
     {
-        /*$this->validate($request, [
-            'text' => 'required',
+        $this->validate($request, [
+            'title' => 'required',
+            'code' => 'required',
         ]);
 
-        $todo = new Todo;
+        $channel = new YoutubeChannel();
 
-        $todo->text = $request->input('text');
-        $todo->body = $request->input('body');
-        $todo->due = $request->input('due');
+        $channel->title = $request->input('title');
+        $channel->code = $request->input('code');
 
-        $todo->save();
+        $channel->save();
 
-        return redirect('/')->with('success', 'Todo Created');
-        */
+        return redirect('/')->with('success', 'Channel added');
     }
 
     /**
@@ -69,7 +58,7 @@ class YoutubeChannelsController extends Controller
      */
     public function show($id)
     {
-        //return view('todos.show')->with('todo', Todo::find($id));
+        return view('youtube_channels.show')->with('channel', YoutubeChannel::find($id));
     }
 
     /**
@@ -80,7 +69,7 @@ class YoutubeChannelsController extends Controller
      */
     public function edit($id)
     {
-        //return view('todos.edit')->with('todo', Todo::find($id));
+        return view('youtube_channels.edit')->with('channel', YoutubeChannel::find($id));
     }
 
     /**
@@ -92,19 +81,19 @@ class YoutubeChannelsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*$this->validate($request, [
-            'text' => 'required',
+        $this->validate($request, [
+            'title' => 'required',
+            'code' => 'required',
         ]);
 
-        $todo = Todo::find($id);
+        $channel = YoutubeChannel::find($id);
 
-        $todo->text = $request->input('text');
-        $todo->body = $request->input('body');
-        $todo->due = $request->input('due');
+        $channel->title = $request->input('title');
+        $channel->code = $request->input('code');
 
-        $todo->save();
+        $channel->save();
 
-        return redirect('/')->with('success', 'Todo Updated');*/
+        return redirect('/')->with('success', 'Channel Updated');
     }
 
     /**
@@ -115,10 +104,9 @@ class YoutubeChannelsController extends Controller
      */
     public function destroy($id)
     {
-       /* $todo = Todo::find($id);
-        $todo->delete();
+        $channel = YoutubeChannel::find($id);
+        $channel->delete();
 
-        return redirect('/')->with('success', 'Todo Deleted');
-       */
+        return redirect('/')->with('success', 'Channel Deleted');
     }
 }

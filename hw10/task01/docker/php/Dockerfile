@@ -46,4 +46,4 @@ RUN apk add php7-dev \
     && docker-php-ext-install zip \
     && rm -rf /tmp/*
 
-CMD composer install;  cp ./.env.example ./.env; php-fpm --nodaemonize;
+CMD composer install;  cp ./.env.example ./.env; php-fpm --nodaemonize; npm run watch;

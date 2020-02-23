@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'YoutubeChannelsController@index');
+
+Route::resource('youtube_channels', 'YoutubeChannelsController');

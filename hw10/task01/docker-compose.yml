@@ -36,6 +36,10 @@ services:
       - phpsocket:/run/php
     depends_on:
       - php
+  nodejs:
+    build: ./docker/nodejs
+    volumes:
+      - ./app:/var/www/app.local
 volumes:
   phpsocket:
 
