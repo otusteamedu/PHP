@@ -6,15 +6,9 @@
             "email": "velibegov@mail.ru"
         }
     ],
-		
-    "autoload": {
-        "psr-4" : {
-            "Otus\\" : "src/Otus"
-        }
-    }
-		,
-	
+
     "require": {
 	"rvelibegov/otus_hw3" : "dev-master"
 	}	
 }
+ 
