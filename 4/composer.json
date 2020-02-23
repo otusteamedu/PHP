@@ -1,0 +1,19 @@
+{
+    "name": "mazay98/unix-sockets",
+    "description": "Library from unix-sockets",
+    "authors": [
+        {
+            "name": "Vladimir Zaitsev",
+            "email": "zavolod@yandex.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sockets\\": "src/"
+        }
+    }
+}
