@@ -1,0 +1,8 @@
+version: '2'
+volumes:
+  socks: {}
+services:
+  php:
+    build: ./
+    volumes:
+      - ./www:/var/www
