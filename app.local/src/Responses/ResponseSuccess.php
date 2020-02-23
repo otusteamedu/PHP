@@ -14,4 +14,9 @@ class ResponseSuccess
      * @var string
      */
     public $result;
+    
+    /**
+     * @var string
+     */
+    public $ip;
 }

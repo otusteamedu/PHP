@@ -20,11 +20,12 @@ class App
     {
         //Проверяем что метод POST и авторизацию
         if ($request->isMethod(Request::METHOD_GET)) {
-            $data = $_SERVER['SERVER_ADDR'];
+            $ip = $_SERVER['SERVER_ADDR'];
 
             $result         = new ResponseSuccess();
             $result->status = 'ok';
-            $result->result = "IP: {$data}";
+            $result->result = "";
+            $result->ip = $ip;
 
             return $result;
         }
