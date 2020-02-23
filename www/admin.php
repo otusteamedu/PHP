@@ -135,7 +135,7 @@ try {
             }
 
             ?></ul>
-        <h2>Добавить свощйство</h2>
+        <h2>Добавить свойство</h2>
         <form method="post">
         <input type="hidden" name="action" value="add_property">
         <div class="form-group">

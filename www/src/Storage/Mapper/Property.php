@@ -27,9 +27,11 @@ class Property extends Mapper
     }
 
     public function findByCategory(CategoryStorage $category): Collection {
-        $this->findByCategory->execute(array($category->getId()));
-        $arProps = $this->findByCategory->fetchAll(\PDO::FETCH_ASSOC);
-        return new PropertyCollection($arProps, $this);
+        return new \Tirei01\Hw12\Storage\Collection\Prorogue\Property(
+            $this,
+            $this->findByCategory,
+            array($category->getId())
+        );
     }
 
     /**
@@ -87,11 +89,6 @@ class Property extends Mapper
     protected function getCollection(array $raw): Collection
     {
         return new PropertyCollection($raw, $this);
-    }
-
-    protected function getTable(): string
-    {
-        return 'property';
     }
 
     protected function targetClass(): string

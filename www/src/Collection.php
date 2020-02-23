@@ -22,7 +22,6 @@ abstract class Collection implements \Iterator
 
     public function add(DomainObject $object)
     {
-        //$class = $this->targetClass();
         $this->notifyAccess();
         $this->objects[$this->total] = $object;
         $this->total++;
