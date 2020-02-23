@@ -1,0 +1,12 @@
+{
+  "name": "socket",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\" : "src/"
+    }
+  },
+  "require": {
+    "vlucas/phpdotenv": "^4.1"
+  }
+}
