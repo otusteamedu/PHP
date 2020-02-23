@@ -1,0 +1,38 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c4d7cac30904e23b9113db2bd6d5458e",
+    "packages": [
+        {
+            "name": "rvelibegov/otus_hw3",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/velibegov/Otus_hw3.git",
+                "reference": "9b7279a3759c2a61a15ce8aa9cd9ba5bdaef59ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/velibegov/Otus_hw3/zipball/9b7279a3759c2a61a15ce8aa9cd9ba5bdaef59ab",
+                "reference": "9b7279a3759c2a61a15ce8aa9cd9ba5bdaef59ab",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2020-02-23T06:36:05+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "rvelibegov/otus_hw3": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
