@@ -1,5 +1,6 @@
 select element.name as film,
-       p.code       as prop_name,
+       p.code       as attr_name,
+       p.type       as attr_typ,
        case
            when p.type = 'int' then v.i_value::text
            else
