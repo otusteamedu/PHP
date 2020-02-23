@@ -1,0 +1,47 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "299d26ef7b1e08d6708c88e8b63e6176",
+    "packages": [
+        {
+            "name": "mazay98/brackets",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Mazay98/brackets.git",
+                "reference": "2978486b8069586107ecd2a3b88272a5a662c707"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Mazay98/brackets/zipball/2978486b8069586107ecd2a3b88272a5a662c707",
+                "reference": "2978486b8069586107ecd2a3b88272a5a662c707",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/Brackets/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "library created with to check open parentheses to mathematical expression",
+            "time": "2020-02-16T18:58:37+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "mazay98/brackets": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
