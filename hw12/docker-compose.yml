@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/nginx/backend:/etc/nginx/conf.d
+      - ./www:/var/www:rw
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - php
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/phpfpm/Dockerfile
+    volumes:
+      - ./docker/socket:/var/run
+      - ./docker/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/zz-docker/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/var/www:rw
+    restart: always
+    links:
+      - db
+  db:
+    image: postgres:11.5
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data
+      - ./docker/database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    environment:
+      POSGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PGDATA: /var/lib/postgresql/data

@@ -1,0 +1,5 @@
+.env
+www/phinx.yml
+www/.env
+docker/socket/
+/www/vendor
