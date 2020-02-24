@@ -35,7 +35,8 @@ class CreateType extends AbstractMigration
         $type->addColumn('name','string')
             ->addColumn('lft', 'integer')
             ->addColumn('rht', 'integer')
-            ->addColumn('level', 'integer', array('default'=>0))
+            ->addColumn('lvl', 'integer')
+            ->addColumn('parent_id', 'integer', array('default'=>0))
             ->addIndex(['lft', 'rht', 'level'])
             ->create();
     }

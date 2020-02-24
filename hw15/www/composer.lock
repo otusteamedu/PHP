@@ -4,8 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfa3504efb4b616f8f14e06c4dccffec",
+    "content-hash": "b95c03f38bfba68dbebc8ba45fb3eb52",
     "packages": [
+        {
+            "name": "ben-nsng/nestedset-php",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ben-nsng/nestedset-php.git",
+                "reference": "e98d22a5236c2b625a0e84947a1d6f01e35b4ab3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ben-nsng/nestedset-php/zipball/e98d22a5236c2b625a0e84947a1d6f01e35b4ab3",
+                "reference": "e98d22a5236c2b625a0e84947a1d6f01e35b4ab3",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ng",
+                    "email": "ben.nsng@gmail.com"
+                }
+            ],
+            "description": "A PDO plugin implementing the nested set pattern",
+            "time": "2015-06-24T09:50:58+00:00"
+        },
         {
             "name": "cakephp/cache",
             "version": "3.8.10",
