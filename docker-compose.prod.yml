@@ -1,0 +1,22 @@
+version: '3'
+services:
+    app:
+        container_name: app
+        build: .
+        restart: always
+        volumes:
+            - socks:/socks
+        environment:
+            - APP_ENV=dev
+    nginx:
+        container_name: nginx
+        build: ./docker/nginx
+        restart: always
+        volumes:
+            - socks:/socks
+        ports:
+            - 80:80
+        depends_on:
+            - app
+volumes:
+    socks:
