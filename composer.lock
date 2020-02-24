@@ -1,0 +1,44 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "148a8518ad204f1b02eff104de5ac8e6",
+    "packages": [
+        {
+            "name": "evrimedont/test-composer-library",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Evrimedont/test-composer-library.git",
+                "reference": "95e8ee249ce58c5119c3fdad110cb7d9c28c7507"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Evrimedont/test-composer-library/zipball/95e8ee249ce58c5119c3fdad110cb7d9c28c7507",
+                "reference": "95e8ee249ce58c5119c3fdad110cb7d9c28c7507",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Evrimedont\\": "src"
+                }
+            },
+            "support": {
+                "source": "https://github.com/Evrimedont/test-composer-library/tree/1.0.0",
+                "issues": "https://github.com/Evrimedont/test-composer-library/issues"
+            },
+            "time": "2019-12-24T21:02:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
