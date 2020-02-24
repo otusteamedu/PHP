@@ -1,8 +1,8 @@
-Тестовый пакет:
+РўРµСЃС‚РѕРІС‹Р№ РїР°РєРµС‚:
 
 git clone https://github.com/AlekseyZarikhin/demopackage.git
 
-Пример composer.json для подключения пакета:
+РџСЂРёРјРµСЂ composer.json РґР»СЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ РїР°РєРµС‚Р°:
 
 {
     "name": "otus/a_zarikhin",
