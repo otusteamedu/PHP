@@ -4,6 +4,8 @@ ENV XDEBUG_VER 2.9.2
 ENV MEMCACHED_VER 3.1.5
 ENV REDIS_VER 5.1.1
 
+COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
+
 RUN apk update \
     && apk --no-cache add \
         autoconf \
@@ -12,6 +14,7 @@ RUN apk update \
         g++ \
         zlib-dev \
         curl-dev \
+        icu-dev \
         make \
         libmemcached-dev \
         postgresql-dev \
@@ -28,28 +31,18 @@ RUN apk update \
         redis \
         igbinary \
         msgpack \
-        memcached
+        memcached \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && pecl install raphf propro \
+    && echo "extension=raphf.so" >> /usr/local/etc/php/php.ini \
+    && echo "extension=propro.so" >> /usr/local/etc/php/php.ini \
+    && pecl install pecl_http \
+    && echo "extension=http.so" >> /usr/local/etc/php/php.ini
 
-COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
-
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && rm /usr/local/etc/php-fpm.d/zz-docker.conf \
+RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
     && wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \
     && docker-php-source delete \
     && rm -rf /tmp/* /var/cache/apk/*
-
-RUN pecl install raphf \
-    && echo "extension=raphf.so" >> /usr/local/etc/php/php.ini \
-    && pecl install propro \
-    && echo "extension=propro.so" >> /usr/local/etc/php/php.ini
-
-#RUN pecl install raphf \
-#    && docker-php-ext-enable raphf \
-#    && pecl install propro \
-#    && docker-php-ext-enable propro
-
-RUN pecl install pecl_http \
-    && echo "extension=http.so" >> /usr/local/etc/php/php.ini
 
 WORKDIR /var/www
 

@@ -12,8 +12,8 @@ services:
             - ./:/var/www
             - ./docker/socket:/var/run/php
 
-    php:
-        container_name: otus-php-php
+    php-fpm:
+        container_name: otus-php-fpm
         build:
             context: ./docker
             dockerfile: php.docker
