@@ -1,0 +1,34 @@
+# laravel
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+# directories
+/.idea/
+/tmp/
+/vendor/
+
+# keep
+!.gitkeep
+
+# debug/cache
+bash.exe.stackdump
+.php_cs.cache
+nohup.out
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
