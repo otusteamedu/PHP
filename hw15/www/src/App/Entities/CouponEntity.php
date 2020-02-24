@@ -8,6 +8,15 @@ class CouponEntity extends BaseEntity
     protected $discountCouponRub;
     protected $active;
 
+    public function __construct(
+        $discountCouponRub,
+        $active = true
+    )
+    {
+        $this->discountCouponRub = $discountCouponRub;
+        $this->active = $active;
+    }
+
     /**
      * @return mixed
      */

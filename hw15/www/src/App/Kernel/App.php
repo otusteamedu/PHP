@@ -4,7 +4,7 @@ namespace App\Kernel;
 
 use App\Config\Config;
 use App\Entities\OrderBuilder;
-use App\Repository\Repository;
+use App\Repository\MapperFactory;
 
 class App
 {
@@ -34,9 +34,10 @@ class App
 
     public function run()
     {
-        $repository = new Repository();
+        $repository = new MapperFactory();
 
-        $clientMapper = $repository->load('Client');
+        // add order example
+        $clientMapper = $repository->createMapper('Client');
 
         $client = $clientMapper->findById((int) 'client_id');
 
@@ -44,11 +45,11 @@ class App
             $client
         );
 
-        $productMapper = $repository->load('Product');
+        $productMapper = $repository->createMapper('Product');
 
         $productByType = $productMapper->findByType('type');
 
-        $couponMapper = $repository->load('Coupon');
+        $couponMapper = $repository->createMapper('Coupon');
         $coupon = $couponMapper->getById((int)'coupon_id');
         $orderBuilder->addCouponId($coupon);
 
@@ -58,14 +59,14 @@ class App
         $orderBuilder->addProduct($product1);
         $orderBuilder->addProduct($product2);
 
-        $deliveryServiceMapper = $repository->load('DeliveryService');
+        $deliveryServiceMapper = $repository->createMapper('DeliveryService');
         $deliveryService = $deliveryServiceMapper->getById((int)'id');
 
         $orderBuilder->addDeliveryServiceList();
 
         $order = $orderBuilder->build();
 
-        $orderMapper = $repository->load('Order');
+        $orderMapper = $repository->createMapper('Order');
         $orderMapper->insert($order);
     }
 

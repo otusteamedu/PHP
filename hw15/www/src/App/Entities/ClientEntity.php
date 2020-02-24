@@ -9,15 +9,29 @@ class ClientEntity extends BaseEntity
     protected $address;
 
     /**
-     * @return mixed
+     * ClientEntity constructor.
+     * @param string $name
+     * @param string $address
      */
-    public function getId()
+    public function __construct(
+        string $name,
+        string $address
+    )
+    {
+        $this->name = $name;
+        $this->address = $address;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
     public function setId($id): void
     {
@@ -25,15 +39,15 @@ class ClientEntity extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name): void
     {
@@ -41,7 +55,7 @@ class ClientEntity extends BaseEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAddress()
     {
@@ -49,7 +63,7 @@ class ClientEntity extends BaseEntity
     }
 
     /**
-     * @param mixed $address
+     * @param string $address
      */
     public function setAddress($address): void
     {

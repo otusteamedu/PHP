@@ -24,4 +24,8 @@ class DeliveryServiceMapper extends AbstractMapper implements DataMapperInterfac
     {
         // TODO: Implement delete() method.
     }
+
+    public function findLowCostDelivery($size) {
+        // todo
+    }
 }

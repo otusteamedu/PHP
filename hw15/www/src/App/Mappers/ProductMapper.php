@@ -32,4 +32,9 @@ class ProductMapper extends AbstractMapper implements DataMapperInterface
         // todo возвращает продукты по типу
         // Для определения типа используется алгоритм Nested Sets
     }
+
+    public function getByOrder($order_id): array
+    {
+        // todo возвращает продукты заказа
+    }
 }
