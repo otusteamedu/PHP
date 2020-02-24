@@ -20,6 +20,3 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN rm -rf /usr/local/etc/php-fpm.d
 COPY ./docker/app/conf/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/
 COPY ./docker/app/conf/php/custom.ini /usr/local/etc/php/conf.d/
-COPY . .
-
-RUN composer install --no-cache --no-dev
