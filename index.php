@@ -1,11 +1,50 @@
 <?php
+$ip = '127.0.0.1:8000';
 
-use Evrimedont\CalculatorService;
+if (PHP_SAPI === "cli") {
+    $shortopts = "";
+    $shortopts .= "s";
+    $shortopts .= "c";
 
-require dirname(__DIR__).'/vendor/autoload.php';
+    $longopts = [
+        "server",
+        "client",
+    ];
 
-$calculator = new CalculatorService();
+    $options = getopt($shortopts, $longopts);
+    if (isset($options['client']) || isset($options['c'])) {
+        echo "start client chat " . PHP_EOL;
+        client_start($ip);
+    }
+    if (isset($options['server']) || isset($options['s'])) {
+        echo "start server chat" . PHP_EOL;
+        server_start($ip);
+    }
+}
+;
 
-$sum = $calculator->addition(10, 20);
+function client_start($ip)
+{
+    $line = "";
+    $stdin = fopen("php://stdin", "r");
+    while ($line != 1) {
+        $line = fgets($stdin);
+        $response = shell_exec("curl $ip");
+        echo $response . PHP_EOL;
+    }
+    fclose($stdin);
+}
 
-echo $sum; 
+function server_start($ip)
+{
+    $socket = stream_socket_server("tcp://$ip", $errno, $errstr);
+    if (!$socket) {
+        die("$errstr ($errno)\n");
+    }
+    while ($connect = stream_socket_accept($socket, -1)) {
+        echo $connect;
+        fwrite($connect, "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nConnection: close\r\n\r\nПривет");
+        fclose($connect);
+        // fclose($socket);
+    }
+}
