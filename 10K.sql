@@ -80,13 +80,29 @@ INSERT INTO film ("name", "comment")
     SELECT random_string( (7 + 30*random())::int ), random_string( (15 + 50*random())::int ) FROM generate_series(1, 20) AS gs(id);
 
 INSERT INTO attribute_value (attribute_id, film_id, val_text)
-    SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_string( (7 + 30*random())::int ) FROM generate_series(1, 50);
+    SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_string( (7 + 30*random())::int ) FROM generate_series(1, 5000);
 
 INSERT INTO attribute_value (attribute_id, film_id, val_numeric)
-    SELECT (1 + 9*random())::int, (1 + 19*random())::int, (1000 + 19000*random())::int FROM generate_series(1, 20);
+    SELECT (1 + 9*random())::int, (1 + 19*random())::int, (1000 + 19000*random())::int FROM generate_series(1, 2000);
 
 INSERT INTO attribute_value (attribute_id, film_id, val_bool)
-    SELECT (1 + 9*random())::int, (1 + 19*random())::int, TRUE FROM generate_series(1, 10);
+    SELECT (1 + 9*random())::int, (1 + 19*random())::int, TRUE FROM generate_series(1, 1000);
 
 INSERT INTO attribute_value (attribute_id, film_id, val_date)
-    SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_date() FROM generate_series(1, 20);
+    SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_date() FROM generate_series(1, 2000);
+
+
+-- Explain
+-- Simple queries
+EXPLAIN SELECT * FROM attribute_value;
+
+EXPLAIN INSERT INTO attribute_value (attribute_id, film_id, val_bool) VALUES (8, 12, TRUE);
+
+EXPLAIN DELETE FROM attribute_value WHERE id > 4000;
+
+-- Hard queries
+EXPLAIN SELECT av.*, film."name" FROM attribute_value av INNER JOIN film ON av.film_id = film.id WHERE film.id = 2;
+
+EXPLAIN SELECT * FROM attribute_value av INNER JOIN film ON av.film_id = film.id;
+
+EXPLAIN SELECT av.film_id, SUM(av.val_numeric) FROM attribute_value av WHERE av.film_id = 10 GROUP BY (av.film_id);
