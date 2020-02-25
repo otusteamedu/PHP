@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -e
 
 : "${DOCKER_USERNAME_ENV:=web}"
 : "${HOST_USER_ID:=1000}"

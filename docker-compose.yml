@@ -124,7 +124,8 @@ services:
       #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
       #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
     entrypoint: ["/tools/php-cli-entrypoint.sh"]
-    command: ["cron"]
+    command: ["tail", "-f", "/dev/null"]
+    #command: ["cron", "-f"]
     environment:
       HOST_USER_ID: "${HOST_USER_ID:-1000}"
       HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
