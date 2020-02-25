@@ -27,38 +27,13 @@ class AppTest extends Unit
         restore_error_handler();
     }
 
-    public function testIsStringValid(): void
+    public function testConstructor(): void
     {
-        $method = $this->tester::getReflectionMethod(App::class, 'isStringValid');
+        $this->assertInstanceOf(App::class, new App());
+    }
 
-        $res = $method->invokeArgs(null, ['a']);
-        $this->assertTrue($res);
-
-        $res = $method->invokeArgs(null, ['(a)']);
-        $this->assertTrue($res);
-
-        $res = $method->invokeArgs(null, ['(a)']);
-        $this->assertTrue($res);
-
-        $res = $method->invokeArgs(null, ['aa(aa)aa']);
-        $this->assertTrue($res);
-
-        $res = $method->invokeArgs(null, ['(((a)(a))(()()))']);
-        $this->assertTrue($res);
-
-        $res = $method->invokeArgs(null, ['']);
-        $this->assertFalse($res);
-
-        $res = $method->invokeArgs(null, ['(']);
-        $this->assertFalse($res);
-
-        $res = $method->invokeArgs(null, ['((a)']);
-        $this->assertFalse($res);
-
-        $res = $method->invokeArgs(null, ['(()()()()))((((()()()))(()()()(((()))))))']);
-        $this->assertFalse($res);
-
-        $res = $method->invokeArgs(null, [')(']);
-        $this->assertFalse($res);
+    public function testRun(): void
+    {
+        (new App())->run();
     }
 }
