@@ -78,6 +78,8 @@ services:
       #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
     entrypoint: ["/tools/php-entrypoint.sh"]
     command: ["php-fpm"]
+    depends_on:
+      - php-cli73
     environment:
       HOST_USER_ID: "${HOST_USER_ID:-1000}"
       HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
@@ -100,6 +102,8 @@ services:
       #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
     entrypoint: ["/tools/php-entrypoint.sh"]
     command: ["php-fpm"]
+    depends_on:
+      - php-cli73
     environment:
       HOST_USER_ID: "${HOST_USER_ID:-1000}"
       HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
@@ -107,6 +111,24 @@ services:
     working_dir: "/home/web"
     networks:
       - webnet
+
+  php-cli73:
+    container_name: "php-cli73-container"
+    restart: unless-stopped
+    image: wolodin/php73-fpm-debian:latest
+    volumes:
+      - "./tools:/tools:ro"
+      - "./config/php/php.ini/php-fpm73.ini:/usr/local/etc/php/php.ini:ro"
+      - "./config/php/php.ini/php-cli73.ini:/usr/local/etc/php/php-cli.ini:ro"
+      - "./app.local:/home/web/www/app.local:rw,cached"
+      #- "./config/php/php.ini/zz-set-devmode.ini:/usr/local/etc/php/conf.d/zz-set-devmode.ini:ro"
+      #- "./config/php/php.ini/zz-php73.override.ini:/usr/local/etc/php/conf.d/zz-override.ini:ro"
+    entrypoint: ["/tools/php-cli-entrypoint.sh"]
+    command: ["cron"]
+    environment:
+      HOST_USER_ID: "${HOST_USER_ID:-1000}"
+      HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+    working_dir: "/home/web"
 
 networks:
   webnet:

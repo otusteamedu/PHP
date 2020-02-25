@@ -52,5 +52,16 @@ if ! grep ${DOCKER_INTERNAL_HOST} /etc/hosts > /dev/null ; then
     echo "Added ${DOCKER_INTERNAL_HOST} to hosts /etc/hosts"
 fi
 
+SUDO_WEB="sudo -u ${DOCKER_USERNAME_ENV}"
+
+# composer install
+${SUDO_WEB} composer --working-dir=/home/${DOCKER_USERNAME_ENV}/www/app.local/ install
+
+# env
+EnvAppFile="/home/${DOCKER_USERNAME_ENV}/www/app.local/.env"
+if [[ ! -f "${EnvAppFile}" ]]; then
+    ${SUDO_WEB} cp -n "${EnvAppFile}.example" "${EnvAppFile}"
+fi
+
 # start
 exec "$@"
