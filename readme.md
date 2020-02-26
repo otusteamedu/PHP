@@ -27,6 +27,7 @@ email: test@gmail.com
 ```json
 {
     "status": "error",
-    "message": "Текст ошибки"
+    "message": "Текст ошибки",
+    "ip": "IP node"
 }
 ```

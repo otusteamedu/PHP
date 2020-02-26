@@ -20,6 +20,7 @@ class ErrorResponse extends JsonResponse
         $responseData = [
             'status' => 'error',
             'message' => $message ?: '',
+            'ip' => $_SERVER['SERVER_ADDR'],
         ];
 
         parent::__construct($responseData, $status, $headers, $json);
