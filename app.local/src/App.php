@@ -1,7 +1,9 @@
 <?php
 
+use Library\CheckEmail;
 use Responses\ResponseSuccess;
 use Exceptions\RequestException;
+use Library\CheckEmailException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,13 +22,19 @@ class App
     {
         //Проверяем что метод POST и авторизацию
         if ($request->isMethod(Request::METHOD_GET)) {
-            $ip = $_SERVER['SERVER_ADDR'];
-
+            $email = $request->get('email');
+            if ($email === null) {
+                throw new RequestException('Empty email');
+            }
+            $ip           = $_SERVER['SERVER_ADDR'];
+            $checkEmail   = new CheckEmail();
+            $isValidEmail = $checkEmail->isValid($email);
+            
             $result         = new ResponseSuccess();
             $result->status = 'ok';
-            $result->result = "";
-            $result->ip = $ip;
-
+            $result->result = $isValidEmail ? "{$email} is valid" : "{$email} is not valid";
+            $result->ip     = $ip;
+            
             return $result;
         }
         

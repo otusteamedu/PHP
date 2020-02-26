@@ -1,6 +1,5 @@
 Add hosts:
 127.0.0.1   app.local
-127.0.0.1   laravel.local
 
 Create .env from .env.example
 
@@ -8,10 +7,9 @@ Create .env from .env.example
 
 ```http request 
 http://app.local/
-POST / HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+GET / HTTP/1.1
 
-string: (()()()()))((((()()()))(()()()(((()))))))
+email: test@gmail.com
 ```
 
 ### Ответ
@@ -19,7 +17,7 @@ string: (()()()()))((((()()()))(()()()(((()))))))
 ```json
 {
     "status": "ok",
-    "result": "String: {string} is valid"
+    "result": "{email} is valid"
 }
 ```
 
