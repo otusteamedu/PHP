@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e8016ae28566491cc595e3471419e678",
+    "packages": [
+        {
+            "name": "ksenofontovs/test-date",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksenofontovs/test-date.git",
+                "reference": "f3125d78cd6b47a03d50e04e66fd487f4f352e9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksenofontovs/test-date/zipball/f3125d78cd6b47a03d50e04e66fd487f4f352e9d",
+                "reference": "f3125d78cd6b47a03d50e04e66fd487f4f352e9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TestDate\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "s.ksenofontov",
+                    "email": "ksenofontovsm@yandex.ru"
+                }
+            ],
+            "description": "TestDate library",
+            "support": {
+                "source": "https://github.com/ksenofontovs/test-date/tree/master",
+                "issues": "https://github.com/ksenofontovs/test-date/issues"
+            },
+            "time": "2020-02-24T12:36:14+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ksenofontovs/test-date": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

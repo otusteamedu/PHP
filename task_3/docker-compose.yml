@@ -1,0 +1,22 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm
+    build: php-fpm
+    volumes:
+      - ./data:/home/www/mysite.local
+      - phpsocket:/var/run
+
+  nginx:
+    container_name: nginx
+    build: nginx
+    volumes:
+      - ./data:/home/www/mysite.local
+      - phpsocket:/var/run
+    depends_on:
+      - php-fpm
+    ports:
+      - "8080:80"
+
+volumes:
+  phpsocket:
