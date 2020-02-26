@@ -1,0 +1,33 @@
+version: '2'
+
+volumes:
+  php_socket:
+  app-data:
+    driver: local
+services:
+  nginx:
+    # используем последний стабильный образ nginx
+    image: nginx:latest
+    # маршрутизируем порты
+    ports:
+      - "8000:80"
+    # монтируем директории, слева директории на основной машине, справа - куда они монтируются в контейнере
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+      - app-data:/var/www
+      - ./images/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - php_socket:/run
+    # nginx должен общаться с php контейнером
+    links:
+      - php
+  php:
+    # у нас свой образ для PHP, указываем путь к нему и говорим что его надо собрать
+    build: ./images/php
+    volumes:
+      - ./socket:/socket
+      - app-data:/var/www
+      - ./images/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./images/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - php_socket:/run
