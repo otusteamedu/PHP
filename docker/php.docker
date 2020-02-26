@@ -1,0 +1,49 @@
+FROM php:7.3-fpm-alpine
+
+ENV XDEBUG_VER 2.9.2
+ENV MEMCACHED_VER 3.1.5
+ENV REDIS_VER 5.1.1
+
+COPY ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+RUN apk update \
+    && apk --no-cache add \
+        autoconf \
+        git \
+        curl \
+        g++ \
+        zlib-dev \
+        curl-dev \
+        icu-dev \
+        make \
+        libmemcached-dev \
+        postgresql-dev \
+    && pecl install \
+        xdebug-$XDEBUG_VER \
+        redis-$REDIS_VER \
+        igbinary \
+        msgpack \
+        memcached-$MEMCACHED_VER \
+    && docker-php-ext-install \
+        pdo_pgsql \
+    && docker-php-ext-enable \
+        xdebug \
+        redis \
+        igbinary \
+        msgpack \
+        memcached \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && pecl install raphf propro \
+    && echo "extension=raphf.so" >> /usr/local/etc/php/php.ini \
+    && echo "extension=propro.so" >> /usr/local/etc/php/php.ini \
+    && pecl install pecl_http \
+    && echo "extension=http.so" >> /usr/local/etc/php/php.ini
+
+RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \
+    && docker-php-source delete \
+    && rm -rf /tmp/* /var/cache/apk/*
+
+WORKDIR /var/www
+
+CMD ["php-fpm", "--nodaemonize"]
