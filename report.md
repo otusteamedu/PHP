@@ -3,7 +3,7 @@
 План выполнения при объеме данных 10 000 записей и 10 000 000 записей в таблице `attribute_value`.
 
 ## До оптимизации
-# | Запрос | План выполнения при 10K | План выполнения при 10M
+№ | Запрос | План выполнения при 10K | План выполнения при 10M
 --- | ---  | --- | ---
 1|`EXPLAIN SELECT * FROM attribute_value;`|Seq Scan on attribute_value  (cost=0.00..170.00 rows=10000 width=46)|Seq Scan on attribute_value  (cost=0.00..169805.46 rows=10005746 width=45)
 2|`EXPLAIN INSERT INTO attribute_value (attribute_id, film_id, val_bool) VALUES (8, 12, TRUE);`|Insert on attribute_value  (cost=0.00..0.01 rows=1 width=81)<br /> ->  Result  (cost=0.00..0.01 rows=1 width=81)|Insert on attribute_value  (cost=0.00..0.01 rows=1 width=81)<br />  ->  Result  (cost=0.00..0.01 rows=1 width=81)
@@ -20,7 +20,7 @@
 
 План выполнения при объеме данных 10 000 000 записей в таблице `attribute_value`.
 
-# | Запрос | План до оптимизации | План после оптимизации
+№ | Запрос | План до оптимизации | План после оптимизации
 --- | ---  | --- | ---
 4|`EXPLAIN SELECT av.*, film."name" FROM attribute_value av INNER JOIN film ON av.film_id = film.id WHERE film.id = 2;`|Nested Loop  (cost=1000.14..181899.93 rows=536641 width=561)<br />  ->  Index Scan using film_pk on film  (cost=0.14..8.16 rows=1 width=520)<br />        Index Cond: (id = 2)<br />  ->  Gather  (cost=1000.00..176525.36 rows=536641 width=45)<br />        Workers Planned: 2<br />        ->  Parallel Seq Scan on attribute_value av  (cost=0.00..121861.26 rows=223600 width=45)<br />              Filter: (film_id = 2)<br />JIT:<br />  Functions: 6<br />  Options: Inlining false, Optimization false, Expressions true, Deforming true|Nested Loop  (cost=9808.41..154150.77 rows=523333 width=561)<br />  ->  Index Scan using film_pk on film  (cost=0.14..8.16 rows=1 width=520)<br />        Index Cond: (id = 2)<br />  ->  Bitmap Heap Scan on attribute_value av  (cost=9808.27..148909.28 rows=523333 width=45)<br />        Recheck Cond: (film_id = 2)<br />        ->  Bitmap Index Scan on av_film_id_index  (cost=0.00..9677.43 rows=523333 width=0)<br />              Index Cond: (film_id = 2)<br />JIT:<br />  Functions: 7<br />  Options: Inlining false, Optimization false, Expressions true, Deforming true
 5|`EXPLAIN SELECT * FROM attribute_value av INNER JOIN film ON av.film_id = film.id;`|Hash Join  (cost=13.15..196878.80 rows=10005746 width=597)<br />  Hash Cond: (av.film_id = film.id)<br />  ->  Seq Scan on attribute_value av  (cost=0.00..169805.46 rows=10005746 width=45)<br />  ->  Hash  (cost=11.40..11.40 rows=140 width=552)<br />        ->  Seq Scan on film  (cost=0.00..11.40 rows=140 width=552)<br />JIT:<br />  Functions: 10<br />  Options: Inlining false, Optimization false, Expressions true, Deforming true|Hash Join  (cost=13.15..196808.80 rows=10000000 width=597)<br />  Hash Cond: (av.film_id = film.id)<br />  ->  Seq Scan on attribute_value av  (cost=0.00..169751.00 rows=10000000 width=45)<br />  ->  Hash  (cost=11.40..11.40 rows=140 width=552)<br />        ->  Seq Scan on film  (cost=0.00..11.40 rows=140 width=552)<br />JIT:<br />  Functions: 10<br />  Options: Inlining false, Optimization false, Expressions true, Deforming true
