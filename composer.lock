@@ -4,40 +4,16 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2c62364a5a063cc7334978b43444a92",
-    "packages": [
-        {
-            "name": "bjlag/phpinfo",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bjlag/otus-phpinfo",
-                "reference": "ba90536a29a7f9bb5e109e7e33c659d39f14450f"
-            },
-            "type": "package",
-            "autoload": {
-                "psr-4": {
-                    "Bjlag\\": "src/"
-                }
-            },
-            "authors": [
-                {
-                    "name": "Vlad Duplin",
-                    "email": "vlad.duplin@ya.ru"
-                }
-            ],
-            "description": "Lesson 4 PHP info",
-            "time": "2020-02-16T12:32:03+00:00"
-        }
-    ],
+    "content-hash": "2c55b9bed09bb6f38f05343957890400",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "bjlag/phpinfo": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-http": "*"
+    },
     "platform-dev": []
 }
