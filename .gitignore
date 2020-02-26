@@ -1,3 +1,5 @@
 .idea
 .DS_store
 hw5/2/logs/*.log
+hw5/1/logs/*.log
+hw5/1/www/project/vendor
