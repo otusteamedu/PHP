@@ -1,0 +1,23 @@
+{
+    "name": "ksenofontovs/otus-hw3",
+    "type": "project",
+    "authors": [
+        {
+            "name": "s.ksenofontov",
+            "email": "ksenofontovsm@yandex.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "ksenofontovs/test-date": "dev-master"
+    },
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/ksenofontovs/test-date.git"
+    }]
+
+}
