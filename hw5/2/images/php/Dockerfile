@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
 	git \
 	grep \
 	libpq-dev \
+	zip \
+	unzip \
 	libz-dev \
 	libmemcached-dev \
 	libcurl4-nss-dev \
@@ -29,18 +31,8 @@ ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 # Указываем рабочую директорию для PHP
 WORKDIR /var/www
 
-RUN rm -rf /var/www/
-
-RUN apt-get install -y \
-    zip \
-    unzip
-RUN composer create-project --prefer-dist laravel/laravel laravel --ignore-platform-reqs
-
-RUN apt-get install -y \
-    nano
-
-# set permissions for laravel
-RUN chown -R www-data:www-data laravel/storage && \
+RUN composer create-project --prefer-dist laravel/laravel laravel --ignore-platform-reqs && \
+	chown -R www-data:www-data laravel/storage && \
     chown -R www-data:www-data laravel/bootstrap/cache && \
     chgrp -R www-data laravel/storage && \
     chgrp -R www-data laravel/bootstrap/cache && \
