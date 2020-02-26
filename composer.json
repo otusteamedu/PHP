@@ -1,0 +1,19 @@
+{
+    "name": "otus/php",
+    "description": "Lesson 6",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vlad Duplin",
+            "email": "vlad.duplin@ya.ru"
+        }
+    ],
+    "require": {
+        "ext-http": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
