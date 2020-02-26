@@ -9,7 +9,7 @@ services:
         ports:
             - 8081:80
         volumes:
-            - ./:/var/www
+            - ./blog:/var/www
             - ./docker/socket:/var/run/php
 
     php-fpm:
@@ -18,7 +18,7 @@ services:
             context: ./docker
             dockerfile: php.docker
         volumes:
-            - ./:/var/www
+            - ./blog:/var/www
             - ./docker/socket:/var/run/php
         environment:
             XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
