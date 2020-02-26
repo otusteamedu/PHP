@@ -17,7 +17,8 @@ email: test@gmail.com
 ```json
 {
     "status": "ok",
-    "result": "{email} is valid"
+    "result": "{email} is valid",
+    "ip": "IP node"
 }
 ```
 
