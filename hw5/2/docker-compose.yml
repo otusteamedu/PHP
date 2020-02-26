@@ -26,7 +26,6 @@ services:
     # у нас свой образ для PHP, указываем путь к нему и говорим что его надо собрать
     build: ./images/php
     volumes:
-      - ./socket:/socket
       - app-data:/var/www
       - ./images/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./images/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
