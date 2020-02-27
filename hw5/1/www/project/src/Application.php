@@ -6,31 +6,19 @@ class Application {
 
     public function start()
     {
-        if(!$_SERVER["CONTENT_LENGTH"] || !$_POST || !$_POST['string']) {
-            $this->sendMessage(400, 'Bad request');
+        if(!$_SERVER["CONTENT_LENGTH"] ||
+            !$_POST ||
+            !$_POST['string'] ||
+            !is_string($_POST['string'])) {
+            return Message::sendError();
         }
 
-        if(!$this->checkBracket($_POST['string'])) {
-            $this->sendMessage(400, 'Bad request');
+        $string = preg_replace("/[^()]+/", "", $_POST['string']);
+
+        if(!$this->checkBracket($string)) {
+            return Message::sendError();
         }
-
-        $this->sendMessage(200, 'OK');
-    }
-
-    /**
-     * @param $status
-     * @param $message
-     * @throws \Exception
-     */
-    private function sendMessage($status, $message)
-    {
-        http_response_code($status);
-        $error = [];
-        $error['status'] = $status;
-        $error['message'] = $message;
-        header('Content-type: application/json');
-        echo json_encode($error);
-        die();
+        return Message::sendOk();
     }
 
     private function checkBracket($string)
