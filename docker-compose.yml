@@ -1,0 +1,9 @@
+version: '3'
+services:
+    db:
+        image: postgres:12.1
+        restart: always
+        environment:
+            POSTGRES_DB: otus
+            POSTGRES_USER: otus
+            POSTGRES_PASSWORD: otus
