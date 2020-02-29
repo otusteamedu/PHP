@@ -1,19 +1,28 @@
-FROM php:7.3-alpine
+FROM php:7.3-fpm
 
-RUN apk update && \
-    apk add git curl wget grep composer zstd-dev php7-dev gcc g++ make libmemcached-dev postgresql-dev curl-dev
+RUN apt-get update
 
-RUN pecl install -of raphf && docker-php-ext-enable raphf && \
-    pecl install -of propro && docker-php-ext-enable propro && \
-    pecl install pecl_http && docker-php-ext-enable http && \
-    pecl install -of igbinary && docker-php-ext-enable igbinary && \
-    pecl install -of zstd && docker-php-ext-enable zstd && \
-    pecl install -of redis docker-php-ext-enable redis && \
-    pecl install -of msgpack docker-php-ext-enable msgpack && \
-    pecl install -of memcached docker-php-ext-enable memcached
+# Main packege
+RUN apt-get install -y wget git unzip curl grep libpq-dev libz-dev libmemcached-dev
 
-RUN docker-php-ext-install pdo_pgsql
+# Composer
+
+RUN wget https://getcomposer.org/installer -O - -q \
+    | php -- --install-dir=/bin --filename=composer --quiet
+
+# PGSQL_PDO
+RUN docker-php-ext-install pdo \
+    && docker-php-ext-install pdo_pgsql
+
+# Xdebug
+RUN pecl install xdebug-2.7.1 && docker-php-ext-enable xdebug
+
+# Memcashed
+RUN pecl install -of memcached \
+    && docker-php-ext-enable memcached
+
+# Redis
+RUN pecl install -of redis \
+        && docker-php-ext-enable redis
 
 WORKDIR /var/www/html
-
-EXPOSE 80:80
