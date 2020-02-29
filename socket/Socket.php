@@ -7,14 +7,15 @@ use Ozycast\Socket\Server;
 
 class Socket
 {
+    const ERROR_CODE_DISCONNECT = 10054;
     protected $path = "temp/sock.sock";
 
-    public final function run($argv)
+    public final function run()
     {
-        if (!isset($argv[1]))
+        if (!isset($_SERVER['argv'][1]))
             return "Empty argument";
 
-        if ($argv[1] == "server")
+        if ($_SERVER['argv'][1] == "server")
             (new Server())->start();
         else
             (new Client())->start();

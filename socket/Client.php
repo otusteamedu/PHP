@@ -15,7 +15,7 @@ class Client extends Socket
 
         while (true) {
             $this->read($this->connect);
-            if (($error = socket_last_error($this->connect)) == 10054) {
+            if (($error = socket_last_error($this->connect)) == $this::ERROR_CODE_DISCONNECT) {
                 echo "Server $this->connect has disconnected", PHP_EOL;
                 break;
             }
