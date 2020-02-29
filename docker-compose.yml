@@ -1,0 +1,58 @@
+version: '3'
+services:
+    balancer:
+        container_name: balancer
+        image: edmitry/nginx
+        restart: always
+        volumes:
+            - ./balancer.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - 80:80
+        depends_on:
+            - app1
+    app1:
+        container_name: app1
+        image: edmitry/php-fpm
+        restart: always
+        volumes:
+            - socks1:/socks
+    app2:
+        container_name: app2
+        image: edmitry/php-fpm
+        restart: always
+        volumes:
+            - socks2:/socks
+    app3:
+        container_name: app3
+        image: edmitry/php-fpm
+        restart: always
+        volumes:
+            - socks3:/socks
+    nginx1:
+        container_name: nginx1
+        image: edmitry/nginx
+        restart: always
+        volumes:
+            - socks1:/socks
+        depends_on:
+            - app1
+    nginx2:
+        container_name: nginx2
+        image: edmitry/nginx
+        restart: always
+        volumes:
+            - socks2:/socks
+        depends_on:
+            - app2
+    nginx3:
+        container_name: nginx3
+        image: edmitry/nginx
+        restart: always
+        volumes:
+            - socks3:/socks
+        depends_on:
+            - app3
+volumes:
+    socks1:
+    socks2:
+    socks3:

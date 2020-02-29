@@ -1,0 +1,61 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: app
+spec:
+    rules:
+        -   host: localhost
+            http:
+                paths:
+                    -   backend:
+                            serviceName: app
+                            servicePort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: app
+spec:
+    type: ClusterIP
+    selector:
+        app: app
+    ports:
+        -   port: 80
+            targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: app
+spec:
+    selector:
+        matchLabels:
+            app: app
+    replicas: 3
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+    template:
+        metadata:
+            labels:
+                app: app
+        spec:
+            containers:
+                -   image: edmitry/nginx
+                    name: nginx
+                    ports:
+                        -   containerPort: 80
+                    volumeMounts:
+                        -   name: socks
+                            mountPath: /socks
+                -   image: edmitry/php-fpm
+                    name: app
+                    volumeMounts:
+                        -   name: socks
+                            mountPath: /socks
+            volumes:
+                -   name: socks
+                    emptyDir: {}
