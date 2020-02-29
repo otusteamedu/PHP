@@ -1,0 +1,91 @@
+version: '3.7'
+
+services:
+
+  nginx-balancer:
+    build:
+      context: nginx
+    container_name: nginx-balancer
+    ports:
+      - 80:8080
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/balancer-config.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - nginx_1
+      - nginx_2
+      - nginx_3
+
+  nginx_1:
+    build:
+      context: nginx
+    container_name: nginx_1
+    volumes:
+      - ../app:/app
+      - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - php-socket-1:/socket
+    user: user
+
+  php_1:
+    build:
+      context: php
+    container_name: php_1
+    volumes:
+      - ../app:/app
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - php-socket-1:/socket
+    user: user
+    command: php-fpm --nodaemonize
+    working_dir: /app
+
+  nginx_2:
+    build:
+      context: nginx
+    container_name: nginx_2
+    volumes:
+      - ../app:/app
+      - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - php-socket-2:/socket
+    user: user
+
+  php_2:
+    build:
+      context: php
+    container_name: php_2
+    volumes:
+      - ../app:/app
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - php-socket-2:/socket
+    user: user
+    command: php-fpm --nodaemonize
+    working_dir: /app
+
+  nginx_3:
+    build:
+      context: nginx
+    container_name: nginx_3
+    volumes:
+      - ../app:/app
+      - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - php-socket-3:/socket
+    user: user
+
+  php_3:
+    build:
+      context: php
+    container_name: php_3
+    volumes:
+      - ../app:/app
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - php-socket-3:/socket
+    user: user
+    command: php-fpm --nodaemonize
+    working_dir: /app
+
+volumes:
+  php-socket-1:
+  php-socket-2:
+  php-socket-3:

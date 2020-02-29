@@ -1,11 +1,8 @@
 <?php
 
-use App\EmailValidator;
 use App\EmailValidatorException;
 use App\EmailValidators\BlockedHostValidator;
 use App\EmailValidators\DNSMXRecordValidator;
-use App\EmailValidators\EmailDNSmxValidator;
-use App\EmailValidators\EmailPhpFilterValidator;
 use App\EmailValidators\PhpFilterValidator;
 
 require_once 'vendor/autoload.php';
@@ -49,4 +46,6 @@ foreach ($emailsToCheck as $email) {
     }
 }
 
-print_r($validationResult);
+?>
+
+<pre><?= print_r($validationResult) ?></pre>
