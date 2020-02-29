@@ -1,1 +1,1 @@
-tail -n +2 tbl | awk '{print $3}' | sort | uniq -c | sort -r | head -3
+tail -n +2 tbl | awk '{print $3}' | sort | uniq -c | sort -nr | head -3
