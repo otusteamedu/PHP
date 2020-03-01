@@ -1,2 +1,4 @@
 .idea
 hw6/1/logs/*.log
+hw6/2/logs/*.log
+hw6/2/www/project/vendor

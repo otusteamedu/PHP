@@ -1,0 +1,74 @@
+version: '2'
+
+volumes:
+  sockdrive1:
+  sockdrive2:
+  sockdrive3:
+
+services:
+  nginx_balancer:
+    # используем последний стабильный образ nginx
+    image: nginx:latest
+    # маршрутизируем порты
+    ports:
+      - "80:80"
+    # монтируем директории, слева директории на основной машине, справа - куда они монтируются в контейнере
+    volumes:
+      - ./images/nginx/balancer/hosts:/etc/nginx/conf.d
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+      - ./www:/var/www
+    # nginx должен общаться с php контейнером
+    links:
+      - backend1
+      - backend2
+      - backend3
+  backend1:
+    image: nginx:latest
+    links:
+      - php1
+    volumes:
+      - ./images/nginx/1/hosts:/etc/nginx/conf.d
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./www:/var/www
+      - "sockdrive1:/var/run"
+  backend2:
+    image: nginx:latest
+    links:
+      - php2
+    volumes:
+      - ./images/nginx/2/hosts:/etc/nginx/conf.d
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./www:/var/www
+      - "sockdrive2:/var/run"
+  backend3:
+    image: nginx:latest
+    links:
+      - php3
+    volumes:
+      - ./images/nginx/3/hosts:/etc/nginx/conf.d
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./www:/var/www
+      - "sockdrive3:/var/run"
+  php1:
+    build: ./images/php/main
+    volumes:
+      - ./www:/var/www
+      - ./images/php/1/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./images/php/1/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - "sockdrive1:/var/run"
+  php2:
+    build: ./images/php/main
+    volumes:
+      - ./www:/var/www
+      - ./images/php/2/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./images/php/2/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - "sockdrive2:/var/run"
+  php3:
+    build: ./images/php/main
+    volumes:
+      - ./www:/var/www
+      - ./images/php/3/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./images/php/3/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - "sockdrive3:/var/run"
+
