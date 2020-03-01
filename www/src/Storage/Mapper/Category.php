@@ -20,7 +20,7 @@ class Category extends Mapper
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM category WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE category SET name=?, code=?, sort=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare("INSERT INTO category (name, code, sort) VALUES ( ? , ? , ? )");
-        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM category");
+        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM category order by sort asc");
     }
 
 

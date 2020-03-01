@@ -22,8 +22,8 @@ class Element extends Mapper
         $this->insertStmt = $this->pdo->prepare(
             "INSERT INTO element (name, category_id, sort, code) VALUES ( ? , ? , ? , ? )"
         );
-        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM element");
-        $this->findByCategory = $this->pdo->prepare("SELECT * FROM element where category_id=?");
+        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM element order by sort asc");
+        $this->findByCategory = $this->pdo->prepare("SELECT * FROM element where category_id=? order by sort asc");
     }
 
     public function findByCategory(\Tirei01\Hw12\Storage\Category $category){

@@ -2,9 +2,12 @@ select element.name as film,
        p.code       as attr_name,
        p.type       as attr_typ,
        case
-           when p.type = 'int' then v.i_value::text
+           when p.type = 'integer' then v.value_integer::text
+           when p.type = 'date' then v.value_date::text
+           when p.type = 'bool' then v.value_bool::text
+           when p.type = 'float' then v.value_float::text
            else
-               v.s_value
+               v.value_text
            end      as val
 from element
          left join category as cat on cat.id = element.category_id

@@ -7,6 +7,25 @@ use Tirei01\Hw12\DomainObject;
 class Value extends DomainObject
 {
     private Element $element;
+    private Property $property;
+    private Category $category;
+    private $value = null;
+
+    /**
+     * @return null
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param null $value
+     */
+    public function setValue($value): void
+    {
+        $this->value = $value;
+    }
 
     /**
      * @return Element
@@ -23,48 +42,12 @@ class Value extends DomainObject
     {
         $this->element = $element;
     }
-    private Property $property;
-    private Category $category;
-    private ?int $numericValue = null;
-    private ?string $stringValue = null;
-    /**
-     * @return int
-     */
-    public function getNumericValue(): ?int
-    {
-        return $this->numericValue;
-    }
-
-    /**
-     * @param int $numericValue
-     */
-    public function setNumericValue(?int $numericValue): void
-    {
-        $this->numericValue = $numericValue;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStringValue(): ?string
-    {
-        return $this->stringValue;
-    }
-
-    /**
-     * @param string $stringValue
-     */
-    public function setStringValue(?string $stringValue): void
-    {
-        $this->stringValue = $stringValue;
-    }
 
     public function __construct(
         int $id,
         Property $property,
         Element $element,
-        $numericValue,
-        $stringValue,
+        $value = null,
         Category $category = null
     ) {
         $this->setId($id);
@@ -75,8 +58,7 @@ class Value extends DomainObject
         }else{
             $this->setCategory($category);
         }
-        $this->setNumericValue(intval($numericValue));
-        $this->setStringValue(strval($stringValue));
+        $this->setValue($value);
     }
 
     /**

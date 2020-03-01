@@ -84,7 +84,7 @@ CREATE TABLE "public"."value" (
                                   CONSTRAINT "value_property_id_fkey" FOREIGN KEY (property_id) REFERENCES property(id) NOT DEFERRABLE
 ) WITH (oids = false);
 
-INSERT INTO "value" ("id", "property_id", "category_id", "s_value", "i_value", "element_id") VALUES
+INSERT INTO "value" ("id", "property_id", "category_id", value_text, value_integer, "element_id") VALUES
 (22,	11,	19,	'',	50,	6),
 (23,	11,	19,	'',	20,	8),
 (24,	11,	19,	'',	25,	7),

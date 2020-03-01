@@ -22,8 +22,8 @@ class Property extends Mapper
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM property WHERE id=?");
         $this->updateStmt = $this->pdo->prepare("UPDATE property SET name=?, type=?, category_id=?, sort=?, code=? WHERE id=?");
         $this->insertStmt = $this->pdo->prepare("INSERT INTO property (name, type, category_id, sort, code) VALUES ( ? , ? , ? , ? , ? )");
-        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM property");
-        $this->findByCategory = $this->pdo->prepare("SELECT * FROM property WHERE category_id=?");
+        $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM property order by sort asc");
+        $this->findByCategory = $this->pdo->prepare("SELECT * FROM property WHERE category_id=? order by sort asc");
     }
 
     public function findByCategory(CategoryStorage $category): Collection {

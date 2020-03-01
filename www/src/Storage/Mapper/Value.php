@@ -19,10 +19,6 @@ class Value extends Mapper
     {
         parent::__construct();
         $this->selectStmt = $this->pdo->prepare("SELECT * FROM value WHERE id=?");
-        $this->updateStmt = $this->pdo->prepare("UPDATE value SET s_value=?, i_value=? WHERE id=?");
-        $this->insertStmt = $this->pdo->prepare(
-            "INSERT INTO value (property_id, category_id, s_value, i_value, element_id) VALUES ( ? , ? , ? , ? , ? )"
-        );
         $this->insertAllStmt = $this->pdo->prepare("SELECT * FROM value");
         $this->findByElementCategoryProperty =
             $this->pdo->prepare("SELECT * FROM value WHERE element_id=? and category_id=? and property_id=?");
@@ -34,7 +30,8 @@ class Value extends Mapper
      *
      * @return \Tirei01\Hw12\Storage\Element
      */
-    public function findByElem(\Tirei01\Hw12\Storage\Element $element, \Tirei01\Hw12\Storage\Property $property){
+    public function findByElem(\Tirei01\Hw12\Storage\Element $element, \Tirei01\Hw12\Storage\Property $property)
+    {
         $element_id = $element->getId();
         $category_id = $element->getCategory()->getId();
         $property_id = $property->getId();
@@ -55,7 +52,9 @@ class Value extends Mapper
      */
     public function update(DomainObject $object)
     {
-        $value = array($object->getStringValue(), $object->getNumericValue(), $object->getId());
+        $value = array($object->getValue(), $object->getId());
+        $value_code = 'value_' . $object->getProperty()->getType();
+        $this->updateStmt = $this->pdo->prepare("UPDATE value SET " . $value_code . "=? WHERE id=?");
         $this->updateStmt->execute($value);
     }
 
@@ -65,12 +64,9 @@ class Value extends Mapper
         $prop = $obProp->find($raw['property_id']);
         $obElem = new Element();
         $elem = $obElem->find($raw['element_id']);
+        $type = $prop->getType();
         return new \Tirei01\Hw12\Storage\Value(
-            $raw['id'],
-            $prop,
-            $elem,
-            $raw['i_value'],
-            $raw['s_value']
+            $raw['id'], $prop, $elem, $raw['value_' . $type]
         );
     }
 
@@ -82,9 +78,12 @@ class Value extends Mapper
         $value = array(
             $object->getProperty()->getId(),
             $object->getCategory()->getId(),
-            $object->getStringValue(),
-            $object->getNumericValue(),
+            $object->getValue(),
             $object->getElement()->getId(),
+        );
+        $value_code = 'value_' . $object->getProperty()->getType();
+        $this->insertStmt = $this->pdo->prepare(
+            "INSERT INTO value (property_id, category_id, " . $value_code . ", element_id) VALUES ( ? , ? , ? , ? )"
         );
         $this->insertStmt->execute($value);
         $id = $this->pdo->lastInsertId();

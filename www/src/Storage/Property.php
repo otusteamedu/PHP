@@ -6,8 +6,15 @@ class Property extends Category
 {
     private string $type;
     private Category $category;
-    public function __construct(int $id, string $name, string $type, Category $category, int $sort = 500, string $code = '')
-    {
+
+    public function __construct(
+        int $id,
+        string $name,
+        string $type,
+        Category $category,
+        int $sort = 500,
+        string $code = ''
+    ) {
         parent::__construct($id, $name, $sort, $code);
         $this->setType($type);
         $this->setCategory($category);
@@ -45,4 +52,14 @@ class Property extends Category
         $this->category = $category;
     }
 
+    public static function getTypes()
+    {
+        return array(
+            'text',
+            'integer',
+            'date',
+            'bool',
+            'float',
+        );
+    }
 }
