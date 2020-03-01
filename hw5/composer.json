@@ -1,0 +1,16 @@
+{
+    "name": "sergey/otus-hw5",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sergey",
+            "email": "dante.fxx@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sergey\\Otus\\": "src"
+        }
+    },
+    "require": {}
+}
