@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+  nginx-upstream:
+    depends_on:
+      - server1
+      - server2
+      - server3
+    image: nginx:latest
+    container_name: nginx-upstream
+    ports:
+      - 80:80
+    volumes:
+      - ./config/upstream.nginx.conf:/etc/nginx/nginx.conf
+
+  server1:
+    image: nginx:latest
+    container_name: server1
+    ports:
+      - 8001:8001
+    volumes:
+      - ./config/server1.nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+      - socket1:/var/run
+    links:
+      - php1
+
+  php1:
+    image: php:fpm
+    container_name: php1
+    volumes:
+      - ./src:/var/www/html
+      - ./php.www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket1:/var/run
+
+  server2:
+    image: nginx:latest
+    container_name: server2
+    ports:
+      - 8002:8002
+    volumes:
+      - ./config/server2.nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+      - socket2:/var/run
+    links:
+      - php2
+
+  php2:
+    image: php:fpm
+    container_name: php2
+    volumes:
+      - ./src:/var/www/html
+      - ./php.www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket2:/var/run
+
+  server3:
+    image: nginx:latest
+    container_name: server3
+    ports:
+      - 8003:8003
+    volumes:
+      - ./config/server3.nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+      - socket3:/var/run
+    links:
+      - php2
+
+  php3:
+    image: php:fpm
+    container_name: php3
+    volumes:
+      - ./src:/var/www/html
+      - ./php.www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket3:/var/run
+
+volumes:
+  socket1:
+  socket2:
+  socket3:
