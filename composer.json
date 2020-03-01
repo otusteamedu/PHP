@@ -13,5 +13,7 @@
             "Sergey\\Otus\\": "src"
         }
     },
-    "require": {}
+    "require": {
+        "geerlingguy/ping": "^1.2"
+    }
 }
