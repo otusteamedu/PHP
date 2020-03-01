@@ -25,4 +25,15 @@ RUN pecl install -of memcached \
 RUN pecl install -of redis \
         && docker-php-ext-enable redis
 
-WORKDIR /var/www/html
+# Propro && raphf
+RUN pecl install -of raphf propro \
+    && docker-php-ext-enable raphf propro
+
+RUN apt-get install -y zlib1g-dev libcurl4-openssl-dev libbrotli-dev libevent-dev libicu-dev libidn11-dev libidn2-0-dev
+
+# HTTP
+RUN pecl install -of pecl_http \
+#    && docker-php-ext-enable http
+
+#WORKDIR /var/www/html
+
