@@ -1,0 +1,17 @@
+version: "3"
+services:
+  nginx:
+    build: ./images/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./socket:/socket
+    links:
+      - php
+  php:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+      - ./socket:/socket
