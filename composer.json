@@ -1,0 +1,19 @@
+{
+    "name": "sergey/otus",
+    "description": "Otus PHP-dev homework 3.2",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sergey",
+            "email": "dante.fxx@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sergey\\Otus\\": "src"
+        }
+    },
+    "require": {
+        "geerlingguy/ping": "^1.2"
+    }
+}
