@@ -29,11 +29,10 @@ RUN pecl install -of redis \
 RUN pecl install -of raphf propro \
     && docker-php-ext-enable raphf propro
 
-RUN apt-get install -y zlib1g-dev libcurl4-openssl-dev libbrotli-dev libevent-dev libicu-dev libidn11-dev libidn2-0-dev
+RUN apt-get install -y zlib1g libzip-dev libcurl4-gnutls-dev libgnutls28-dev libssl-dev
 
 # HTTP
 RUN pecl install -of pecl_http \
-#    && docker-php-ext-enable http
+    && docker-php-ext-enable http
 
-#WORKDIR /var/www/html
-
+WORKDIR /var/www/html
