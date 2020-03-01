@@ -1,0 +1,12 @@
+{
+  "name": "ozycast/bracket",
+  "license": "MIT",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Ozycast\\Bracket\\": "bracket"
+    }
+  },
+  "version": "1.0.0",
+  "minimum-stability": "dev"
+}
