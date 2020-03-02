@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HW 25</title>
+</head>
+<body>
+
+<h2>Скидки</h2>
+<ul>
+    <li>
+        Справочник скидок
+        <a target="_blank" href="/discounts">/discounts</a>
+    </li>
+    <li>
+        Скидки по заказу c ID=4
+        <a target="_blank"
+           href="/discounts?order_id=4">/discounts?order_id=4</a>
+    </li>
+</ul>
+
+<h2>Службы доставки</h2>
+<ul>
+    <li>
+        Справочник сервисов доставки
+        <a target="_blank" href="/deliveries">/deliveries</a>
+    </li>
+    <li>
+        Службы доставки по заказу c ID=3
+        <a target="_blank"
+           href="/deliveries?order_id=3">/deliveries?order_id=3</a>
+    </li>
+</ul>
+
+
+<h2>Клиенты</h2>
+<ul>
+    <li>
+        Частные покупатели
+        <a target="_blank" href="/clients?type=b2c">/clients?type=b2c</a>
+    </li>
+    <li>
+        Корпоративные заказчики
+        <a target="_blank" href="/clients?type=b2b">/clients?type=b2b</a>
+    </li>
+</ul>
+
+
+<h2>Товары</h2>
+<ul>
+    <li>
+        Все товары
+        <a target="_blank" href="/products">/products</a>
+    </li>
+    <li>
+        Товары стоимостью 1000 и дороже
+        <a target="_blank" href="/products?min_price=1000">/products?min_price=1000</a>
+    </li>
+    <li>
+        Товары массой 0.5 и более и дешевле 500
+        <a target="_blank" href="/products?max_price=500&min_weight=0.5">/products?max_price=500&min_weight=0.5</a>
+    </li>
+    <li>
+        Товары из заказа с ID=2
+        <a target="_blank" href="/products?order_id=2">/products?order_id=2</a>
+    </li>
+</ul>
+
+<h2>Заказы</h2>
+<ul>
+    <li>
+        Все заказы
+        <a target="_blank" href="/orders">/orders</a>
+    </li>
+    <li>
+        Заказы 2b2
+        <a target="_blank" href="/orders?type=b2b">/orders?type=b2b</a>
+    </li>
+    <li>
+        Заказы 2bc
+        <a target="_blank" href="/orders?type=b2c">/orders?type=b2c</a>
+    </li>
+    <li>
+        Заказы по клиенту ID=3
+        <a target="_blank" href="/orders?client_id=3">/orders?client_id=3</a>
+    </li>
+</ul>
+
+<h2>Примеры</h2>
+<div>
+    <a target="_blank" href="/orders/example/1">Пример 1</a>
+    Новый клиент
+</div>
+
+<div>
+    <a target="_blank" href="/orders/example/2">Пример 2</a>
+    Существующий клиент
+</div>
+
+</body>
+</html>

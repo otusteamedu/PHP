@@ -1,0 +1,14 @@
+{
+  "name": "richie-seagull/hw25",
+  "description": "Домашнее задание к вебинару #25: 1). Паттерны и алгоритмы; 2). Алгоритмы",
+  "require": {
+    "php": "^7.4",
+    "ext-pdo": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "App"
+    }
+  }
+}
