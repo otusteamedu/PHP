@@ -1,0 +1,9 @@
+example@example.com
+john.doe-max+pain@example.com
+test@gmail.com
+mail@serverfault.com
+hello@
+@test
+email@gmail
+problem@test@gmail.com
+вася@мыло.рф
