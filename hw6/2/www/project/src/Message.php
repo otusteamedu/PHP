@@ -24,7 +24,7 @@ class Message
     public static function sendJsonOk()
     {
         header("HTTP/1.1 ".self::STATUS_OK." ". self::$httpStatuses[self::STATUS_OK]);
-        echo $_SERVER;
+        echo $_SERVER['SERVER_NAME'];
         return true;
     }
 
