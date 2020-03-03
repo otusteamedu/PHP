@@ -57,8 +57,3 @@
         <input type="submit" class="btn btn-primary" value="сохранить">
     </form>
     <a href="<?php echo $data['back_url']; ?>">Ксписку</a>
-<?php
-// TODO DEL THIS
-echo "<pre style='color:red; clear: both;'>";
-var_dump($data);
-echo "</pre>";

@@ -13,5 +13,8 @@
     "psr-4": {
       "Tirei01\\Hw12\\": "src"
     }
+  },
+  "require": {
+    "fzaninotto/faker": "^1.9@dev"
   }
 }

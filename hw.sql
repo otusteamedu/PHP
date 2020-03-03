@@ -12,7 +12,19 @@ select element.name as film,
 from element
          left join category as cat on cat.id = element.category_id
          left join property p on cat.id = p.category_id
-         left join value v on element.id = v.element_id and p.id = v.property_id
+         left join value v on element.id = v.element_id
 where cat.code = 'film'
+  and p.id = v.property_id
 order by film
 ;
+
+select e.name as film,
+       val.value_date
+
+from value as val
+         join element e on val.element_id = e.id
+         join category c on val.category_id = c.id
+         join property p on val.property_id = p.id
+where val.value_date in ('2020-01-10', '2020-03-27')
+  and p.code = 'event1'
+  and c.code = 'film';
