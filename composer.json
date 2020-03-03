@@ -1,0 +1,13 @@
+{
+    "name": "velibegov/otus_hw4",
+    "authors": [
+        {
+            "name": "velibegov",
+            "email": "velibegov@mail.ru"
+        }
+    ],
+
+    "require": {
+	"rvelibegov/otus_hw4" : "dev-master"
+	}	
+}
