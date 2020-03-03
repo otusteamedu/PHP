@@ -1,0 +1,67 @@
+<?php
+namespace Tirei01\Hw12\Storage;
+use Tirei01\Hw12\DomainObject;
+
+class Category extends DomainObject
+{
+    private int $sort;
+    private string $code;
+
+    public function __construct(int $id, string $name, int $sort = 500, string $code = '')
+    {
+        $this->setId($id);
+        $this->setName($name);
+        $this->setSort($sort);
+        $this->setCode($code);
+    }
+
+    /**
+     * @return int
+     */
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param int $sort
+     */
+    public function setSort(int $sort): void
+    {
+        $this->sort = $sort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
+
+    protected $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+}

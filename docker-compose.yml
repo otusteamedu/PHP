@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      args:
+       UID: "3000"
+    ports:
+     - 80:8080
+    volumes:
+     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+     - ./nginx/conf/:/etc/nginx/conf.d/
+     - ./sock/:/sock
+    working_dir: ${APP_PATH_CONTAINER}
+    links:
+      - web
+    depends_on:
+      - web
+  web:
+   build:
+     context: ./php
+     args:
+      UID: "3000"
+   volumes:
+     - ./sock/:/sock
+     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+     - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+   working_dir: ${APP_PATH_CONTAINER}
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./database/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: newDAy01
+    ports:
+      - 5432:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

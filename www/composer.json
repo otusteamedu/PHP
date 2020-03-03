@@ -1,0 +1,20 @@
+{
+  "name": "AMostovoy/hw12",
+  "description": "home work #12",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alexey",
+      "email": "mostovoi@bk.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tirei01\\Hw12\\": "src"
+    }
+  },
+  "require": {
+    "fzaninotto/faker": "^1.9@dev"
+  }
+}

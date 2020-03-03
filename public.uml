@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>95b47112-9805-4744-8228-4e18ec22b340.SCHEMA:hw5.public</OriginalElement>
+  <nodes>
+    <node x="13.200350867435873" y="395.24167157733234">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.value</node>
+    <node x="418.584283864388" y="343.9732872559431">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.property</node>
+    <node x="0.0" y="9.097463705335372">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.element</node>
+    <node x="383.95161168102794" y="0.0">95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.category</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.property" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.category">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.value" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.category">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.element" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.category">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.value" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.property">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.value" target="95b47112-9805-4744-8228-4e18ec22b340.TABLE:hw5.public.element">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Circular" zoom="1.0" x="295.0" y="304.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
