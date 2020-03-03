@@ -1,0 +1,16 @@
+{
+  "name": "rhaletsky/hw6",
+  "authors": [
+    {
+      "name": "romario",
+      "email": "halecky@mail.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "HW\\": "src"
+    }
+  }
+
+}
