@@ -1,0 +1,112 @@
+version: "2.1"
+services:
+  front:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./web-app:/usr/share/nginx/html/
+
+  api_nginx:
+    image: nginx:alpine
+    container_name: "api_nginx"
+    ports:
+      - 8080:8080
+    links:
+      - api_php
+    volumes:
+      - ./.env/nginx.api.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive_api:/var/run"
+  api_php:
+    build:
+      context: ./.env/
+      dockerfile: Dockerfile
+    container_name: "api_php"
+    env_file:
+      - ./.env/.env
+    volumes:
+      - ./.env/php.api.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./src/:/var/www/html
+      - "sockdrive_api:/var/run"
+
+  backend_balancer:
+    image: nginx:alpine
+    ports:
+      - 9090:80
+    links:
+      - backend_nginx_1
+      - backend_nginx_2
+      - backend_nginx_3
+    volumes:
+      - ./.env/nginx.backend.balancer.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+
+  backend_nginx_1:
+    image: nginx:alpine
+    container_name: "backend_nginx_1"
+    links:
+      - backend_php_1
+    volumes:
+      - ./.env/nginx.backend_1.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_1:/var/run"
+  backend_php_1:
+    build:
+      context: ./.env/
+      dockerfile: Dockerfile
+    container_name: "backend_php_1"
+    env_file:
+      - ./.env/.env
+    volumes:
+      - ./.env/php.backend_1.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_1:/var/run"
+
+  backend_nginx_2:
+    image: nginx:alpine
+    container_name: "backend_nginx_2"
+    links:
+      - backend_php_2
+    volumes:
+      - ./.env/nginx.backend_2.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_2:/var/run"
+  backend_php_2:
+    build:
+      context: ./.env/
+      dockerfile: Dockerfile
+    container_name: "backend_php_2"
+    env_file:
+      - ./.env/.env
+    volumes:
+      - ./.env/php.backend_2.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_2:/var/run"
+
+  backend_nginx_3:
+    image: nginx:alpine
+    container_name: "backend_nginx_3"
+    links:
+      - backend_php_3
+    volumes:
+      - ./.env/nginx.backend_3.conf:/etc/nginx/conf.d/default.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_3:/var/run"
+  backend_php_3:
+    build:
+      context: ./.env/
+      dockerfile: Dockerfile
+    container_name: "backend_php_3"
+    env_file:
+      - ./.env/.env
+    volumes:
+      - ./.env/php.backend_3.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./src/:/var/www/html
+      - "sockdrive_backend_3:/var/run"
+
+volumes:
+  sockdrive_api:
+  sockdrive_backend_1:
+  sockdrive_backend_2:
+  sockdrive_backend_3:

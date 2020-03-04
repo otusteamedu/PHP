@@ -1,0 +1,17 @@
+{
+  "name": "richie-seagull/hw27",
+  "description": "Домашнее задание к вебинару #27: API",
+  "require": {
+    "php": "^7.4",
+    "guzzlehttp/guzzle": "6.5.2",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-amqp": "*",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "App"
+    }
+  }
+}
