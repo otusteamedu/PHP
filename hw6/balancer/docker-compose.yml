@@ -1,10 +1,11 @@
 version: '3'
 services:
 
-  nginx_balancer:
-    build: ./nginx
+  proxy:
+    build: nginx
     volumes:
       - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./log:/var/log/nginx
 
     ports:
       - 8080:80
