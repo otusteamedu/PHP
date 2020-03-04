@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Bjlag\PhpInfo;
-
 class Main
 {
     public function run(): void
     {
-        (new PhpInfo())->show();
+        echo '<pre>';
+        print_r($_SERVER);
+        echo '</pre>';
     }
 }
