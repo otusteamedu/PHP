@@ -1,6 +1,13 @@
 version: "3"
 
 services:
+    db:
+        image: postgres:12.1
+        restart: always
+        environment:
+            POSTGRES_DB: otus
+            POSTGRES_USER: otus
+            POSTGRES_PASSWORD: otus
     web:
         image: nginx:1.17
         ports:
@@ -10,6 +17,8 @@ services:
             - ./app:/var/app
             - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        links:
+            - db
 
     php:
         build: ./server/php
@@ -18,3 +27,5 @@ services:
             - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
             - ./app:/var/app
             - ./server/socket:/var/run
+        links:
+            - web
