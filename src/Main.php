@@ -6,8 +6,14 @@ class Main
 {
     public function run(): void
     {
-        echo '<pre>';
-        print_r($_SERVER);
-        echo '</pre>';
+        echo "Ответил сервер: <b>{$this->getServerName()}</b>";
+    }
+
+    /**
+     * @return string
+     */
+    private function getServerName(): string
+    {
+        return $_SERVER['SERVER_NAME'] ?? 'Server undefined';
     }
 }
