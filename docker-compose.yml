@@ -22,8 +22,11 @@ services:
             - ./:/var/www
             - ./var/run:/var/run/php
         environment:
+            SERVER_NAME: "backend-1"
             SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-1.sock"
-        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf && exec nginx -g 'daemon off;'"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
         depends_on:
           - php-fpm-1
 
@@ -36,8 +39,11 @@ services:
             - ./:/var/www
             - ./var/run:/var/run/php
         environment:
+            SERVER_NAME: "backend-2"
             SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-2.sock"
-        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf && exec nginx -g 'daemon off;'"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
         depends_on:
             - php-fpm-2
 
@@ -50,8 +56,11 @@ services:
             - ./:/var/www
             - ./var/run:/var/run/php
         environment:
+            SERVER_NAME: "backend-3"
             SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-3.sock"
-        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf && exec nginx -g 'daemon off;'"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
         depends_on:
             - php-fpm-3
 
