@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class CheckEmailController
 {
-    public function process(Request $request): Response
+    public function process(RequestInterface $request): ResponseInterface
     {
-        return new Response('Check email');
+        return new \Nyholm\Psr7\Response(200, [], 'Check email');
     }
 }

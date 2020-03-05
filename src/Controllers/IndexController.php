@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class IndexController
 {
-    public function process(Request $request): Response
+    public function process(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response('Index page');
+        return new \Nyholm\Psr7\Response(200, [], 'Index page');
     }
 }
