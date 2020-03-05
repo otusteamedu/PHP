@@ -17,7 +17,7 @@ services:
         container_name: nginx-1
         build:
             context: ./docker
-            dockerfile: nginx_backend_1.docker
+            dockerfile: nginx.docker
         volumes:
             - ./:/var/www
             - ./var/run:/var/run/php
@@ -34,7 +34,7 @@ services:
         container_name: nginx-2
         build:
             context: ./docker
-            dockerfile: nginx_backend_2.docker
+            dockerfile: nginx.docker
         volumes:
             - ./:/var/www
             - ./var/run:/var/run/php
@@ -51,7 +51,7 @@ services:
         container_name: nginx-3
         build:
             context: ./docker
-            dockerfile: nginx_backend_3.docker
+            dockerfile: nginx.docker
         volumes:
             - ./:/var/www
             - ./var/run:/var/run/php
