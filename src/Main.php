@@ -2,11 +2,24 @@
 
 namespace App;
 
+use App\Controllers\CheckEmailController;
+use App\Controllers\IndexController;
+use Symfony\Component\HttpFoundation\Request;
+
 class Main
 {
     public function run(): void
     {
-        echo "Ответил сервер: <b>{$this->getServerName()}</b>";
+        $request = Request::createFromGlobals();
+
+        if ($request->get('page') === 'check') {
+            $response = (new CheckEmailController())->process($request);
+        } else {
+            $response = (new IndexController())->process($request);
+        }
+
+        echo $response->getContent()
+            . "<br><br>Ответил сервер: <b>{$this->getServerName()}</b>";
     }
 
     /**

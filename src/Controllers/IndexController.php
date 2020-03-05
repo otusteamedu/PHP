@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Controllers;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class IndexController
+{
+    public function process(Request $request): Response
+    {
+        return new Response('Index page');
+    }
+}

@@ -1,6 +1,6 @@
 {
     "name": "otus/php",
-    "description": "Lesson 6 POST",
+    "description": "Lesson 7 POST",
     "type": "project",
     "authors": [
         {
@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "symfony/http-foundation": "^5.0"
     },
     "autoload": {
         "psr-4": {
