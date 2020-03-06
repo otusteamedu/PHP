@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+
+  socket_php:
+    build:
+      context: "php"
+    hostname: "socket-php"
+    container_name: "socket-php"
+    working_dir: "/app"
+    volumes:
+      - "./app:/app"
+      - "./socket:/socket"
+
+  socket_nginx:
+    build:
+      context: "nginx"
+    hostname: "socket-nginx"
+    container_name: "socket-nginx"
+    working_dir: "/app"
+    ports:
+      - "6080:8080"
+    volumes:
+      - "./app:/app"
+      - "./socket:/socket"
+
