@@ -2,5 +2,5 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-$app = new \App\Main();
+$app = new \Bjlag\App();
 $app->run();

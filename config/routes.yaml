@@ -1,0 +1,7 @@
+index:
+    path: /{name}
+    controller: Bjlag\Controllers\IndexController
+    methods: [GET]
+    defaults: {_action: 'process'}
+    requirements:
+        name: '\w+'
