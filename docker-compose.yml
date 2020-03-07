@@ -1,0 +1,104 @@
+version: '3'
+
+services:
+    balancer:
+        container_name: balancer
+        build:
+            context: ./docker
+            dockerfile: balancer.docker
+        ports:
+            - 8081:80
+        depends_on:
+          - nginx-1
+          - nginx-2
+          - nginx-3
+
+    nginx-1:
+        container_name: nginx-1
+        build:
+            context: ./docker
+            dockerfile: nginx.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SERVER_NAME: "backend-1"
+            SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-1.sock"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
+        depends_on:
+          - php-fpm-1
+
+    nginx-2:
+        container_name: nginx-2
+        build:
+            context: ./docker
+            dockerfile: nginx.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SERVER_NAME: "backend-2"
+            SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-2.sock"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
+        depends_on:
+            - php-fpm-2
+
+    nginx-3:
+        container_name: nginx-3
+        build:
+            context: ./docker
+            dockerfile: nginx.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SERVER_NAME: "backend-3"
+            SOCKET_PHP_FPM: "unix:/var/run/php/php-fpm-3.sock"
+        command: /bin/sh -c "envsubst < /etc/nginx/upstream.template > /etc/nginx/upstream.conf
+            && envsubst '$$SERVER_NAME' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+            && exec nginx -g 'daemon off;'"
+        depends_on:
+            - php-fpm-3
+
+    php-fpm-1:
+        container_name: php-fpm-1
+        build:
+            context: ./docker
+            dockerfile: php.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SOCKET_NAME: "php-fpm-1.sock"
+            XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Docker"
+
+    php-fpm-2:
+        container_name: php-fpm-2
+        build:
+            context: ./docker
+            dockerfile: php.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SOCKET_NAME: "php-fpm-2.sock"
+            XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Docker"
+
+    php-fpm-3:
+        container_name: php-fpm-3
+        build:
+            context: ./docker
+            dockerfile: php.docker
+        volumes:
+            - ./:/var/www
+            - ./var/run:/var/run/php
+        environment:
+            SOCKET_NAME: "php-fpm-3.sock"
+            XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Docker"
