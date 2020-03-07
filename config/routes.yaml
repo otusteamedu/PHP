@@ -2,12 +2,12 @@ index:
     path: /
     controller: Bjlag\Controllers\IndexController
     methods: [GET]
-    defaults: {_action: 'process'}
+    defaults:
+        _action: 'process'
 
 check-email:
-    path: /check-email
+    path: /check-email/{email}
     controller: Bjlag\Controllers\CheckEmailController
     methods: [GET]
-    defaults: {_action: 'process'}
-#    requirements:
-#        name: '\w+'
+    defaults:
+        _action: 'process'
