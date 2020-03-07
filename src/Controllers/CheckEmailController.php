@@ -2,13 +2,15 @@
 
 namespace Bjlag\Controllers;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class CheckEmailController
 {
-    public function process(RequestInterface $request, array $args): ResponseInterface
+    public function process(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        return new \Nyholm\Psr7\Response(200, [], 'Check email');
+        return (new \Bjlag\Response(200, [], 'Check email'))
+            ->withServerName($request)
+            ->get();
     }
 }

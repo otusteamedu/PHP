@@ -58,16 +58,5 @@ class App
         (new HttpFoundationFactory())
             ->createResponse($response)
             ->send();
-
-//        echo $response->getBody()
-//            . "<br><br>Ответил сервер: <b>{$this->getServerName()}</b>";
-    }
-
-    /**
-     * @return string
-     */
-    private function getServerName(): string
-    {
-        return $_SERVER['SERVER_NAME'] ?? 'Server undefined';
     }
 }

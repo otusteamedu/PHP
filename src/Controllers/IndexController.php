@@ -9,6 +9,12 @@ class IndexController
 {
     public function process(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        return new \Nyholm\Psr7\Response(200, [], 'Index page');
+        $body = "
+            Home Work 7
+        ";
+
+        return (new \Bjlag\Response(200, [], $body))
+            ->withServerName($request)
+            ->get();
     }
 }
