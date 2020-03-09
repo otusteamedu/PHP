@@ -1,0 +1,14 @@
+{
+  "name": "ozycast/socket",
+  "license": "MIT",
+  "require": {
+    "ext-sockets": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ozycast\\Socket\\": "socket"
+    }
+  },
+  "version": "1.0.0",
+  "minimum-stability": "dev"
+}
