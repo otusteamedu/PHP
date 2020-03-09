@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HW 27: API</title>
+    <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div class="int1">
+    <h1>Создайте заказ</h1>
+    <form action="http://localhost:8080/api/orders" method="post"
+          id="create_order_form">
+        <label>
+            <input name="client_name" placeholder="Имя клиента" type="text"
+                   value="Андрей"/>
+        </label>
+        <label>
+            <input name="client_address" placeholder="Адрес доставки"
+                   type="text" required="required" value="г. Пермь"/>
+        </label>
+        <label>
+            <input name="client_type" type="radio" value="b2b"
+                   required="required" checked="checked"/>
+            Физическое лицо
+        </label>
+        <label>
+            <input name="client_type" type="radio" value="b2b"
+                   required="required"/>
+            Юридическое лицо
+        </label>
+        <label>
+            <select name="products[]" multiple="multiple" required="required">
+                <option value="1">Товар 1</option>
+                <option value="2" selected="selected">Товар 2</option>
+                <option value="3" selected="selected">Товар 3</option>
+                <option value="4">Товар 4</option>
+                <option value="5" selected="selected">Товар 5</option>
+            </select>
+        </label>
+        <label>
+            <input type="submit" value="Проверить"/>
+        </label>
+    </form>
+</div>
+
+<div class="steps step_wait">
+    Подождите, ваш заказ проверяется, это может занять сколько-то времени<br/>
+    <em class="value"></em>
+</div>
+
+<div class="steps step_error">
+    С вашим заказом что-то не так :(
+    <em class="value">Ошибка</em>
+</div>
+
+<div class="steps step_success">
+    <div>Готово! Спасибо за заказ!<br/>
+        Уважаемый(ая),
+        <span class="client_name"></span>
+        , рады сообщить Вам, что Ваш заказ готов к отправке и ожидает оплаты.
+    </div>
+    <div class="int1">Адрес доставки:</div>
+    <div class="address"></div>
+    <div class="int1">Вы заказали следующие товары:</div>
+    <div class="products"></div>
+    <div>Служба(ы) доставки, и стоимость доставки:</div>
+    <div class="delivery_services"></div>
+    <div class="int1">Ваша скидка(и):</div>
+    <div class="discounts"></div>
+    <div class="int2">Итого к оплате:</div>
+    <div class="total_price"></div>
+</div>
+
+<script src="/js/vendor/jquery-3.4.1.min.js"></script>
+<script src="/js/orders.js"></script>
+</body>
+</html>
