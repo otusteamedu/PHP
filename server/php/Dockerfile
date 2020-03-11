@@ -25,6 +25,9 @@ RUN pecl install -of redis \
     && docker-php-ext-enable http \
     && docker-php-ext-install pdo pdo_pgsql pgsql sockets
 
+RUN pecl install -of ds \
+    && docker-php-ext-enable ds
+
 RUN wget https://getcomposer.org/composer-stable.phar \
     && mv /var/www/html/composer-stable.phar /usr/bin/composer \
     && chmod a+x /usr/bin/composer
