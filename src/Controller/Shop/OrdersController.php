@@ -39,7 +39,6 @@ class OrdersController
         $orderFactory = new OrderFactory();
         $order = $orderFactory->createOrder($orderArray['type']);
         $order->setCreatedAt(new \DateTime());
-        $order->setStatus(AbstractOrder::ORDER_STATUS_NEW);
         $order->setSum(0);
 
         $customer = $customerMapper->findById($orderArray['customer_id']);
@@ -78,7 +77,9 @@ class OrdersController
         }
 
         $discountSum = $order->getDiscount() === null ? 0 : $order->getDiscount()->getValue();
-        $order->setSum(($shipment->getSum() + $productSum) - $discountSum * ($shipment->getSum() + $productSum) / 100);
+
+        //скидка распространяется только на товары
+        $order->setSum($productSum - $discountSum * $productSum / 100 + $shipment->getSum());
         $orderMapper->update($order);
 
         return new Response('OK');

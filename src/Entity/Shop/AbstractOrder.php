@@ -2,7 +2,9 @@
 
 namespace Entity\Shop;
 
-abstract class AbstractOrder implements \JsonSerializable
+use Service\OrderNotifier\NotifierInterface;
+
+abstract class AbstractOrder
 {
     public const ORDER_TYPE_B2B = 'b2b';
     public const ORDER_TYPE_B2C = 'b2c';
@@ -17,13 +19,13 @@ abstract class AbstractOrder implements \JsonSerializable
 
     private float $sum;
 
-    private string $status;
-
-    private string $type;
+    private string $status = self::ORDER_STATUS_NEW;
 
     private Customer $customer;
 
     private ?Discount $discount;
+
+    private NotifierInterface $notifier;
 
     public function getId(): int
     {
@@ -82,21 +84,21 @@ abstract class AbstractOrder implements \JsonSerializable
 
     public function setStatus(string $status): void
     {
+        if ($status !== $this->status) {
+            $this->notifier->notify($this->customer);
+        }
         $this->status = $status;
     }
 
-    abstract public function getType(): string;
-
-    public function jsonSerialize()
+    public function getNotifier(): NotifierInterface
     {
-        return [
-            'id' => $this->getId(),
-            'created_at' => $this->getCreatedAt()->format(DATE_ISO8601),
-            'sum' => $this->getSum(),
-            'status' => $this->getStatus(),
-            'type' => $this->getType(),
-            'customer' => $this->getCustomer(),
-            'discount' => $this->getDiscount(),
-        ];
+        return $this->notifier;
     }
+
+    public function setNotifier(NotifierInterface $notifier): void
+    {
+        $this->notifier = $notifier;
+    }
+
+    abstract public function getType(): string;
 }

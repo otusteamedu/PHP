@@ -6,6 +6,8 @@ use Entity\Shop\AbstractOrder;
 use Entity\Shop\B2bOrder;
 use Entity\Shop\B2cOrder;
 use Service\Exception\OrderFactoryException;
+use Service\OrderNotifier\EmailNotifier;
+use Service\OrderNotifier\SmsNotifier;
 
 class OrderFactory
 {
@@ -13,11 +15,17 @@ class OrderFactory
     {
         switch ($orderType) {
             case AbstractOrder::ORDER_TYPE_B2B:
-                return new B2bOrder();
+                $order = new B2bOrder();
+                $order->setNotifier(new EmailNotifier());
+                break;
             case AbstractOrder::ORDER_TYPE_B2C:
-                return new B2cOrder();
+                $order = new B2cOrder();
+                $order->setNotifier(new SmsNotifier());
+                break;
             default:
                 throw new OrderFactoryException('Incorrect order type');
         }
+
+        return $order;
     }
 }
