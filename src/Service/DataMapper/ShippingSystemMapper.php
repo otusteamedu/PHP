@@ -27,11 +27,11 @@ class ShippingSystemMapper
             return null;
         }
 
-        $discount = new ShippingSystem();
-        $discount->setId((int)$result['id']);
-        $discount->setTitle($result['title']);
-        $discount->setSum($result['sum']);
+        $shippingSystem = new ShippingSystem();
+        $shippingSystem->setId((int)$result['id']);
+        $shippingSystem->setTitle($result['title']);
+        $shippingSystem->setSum((float)$result['sum']);
 
-        return $discount;
+        return $shippingSystem;
     }
 }

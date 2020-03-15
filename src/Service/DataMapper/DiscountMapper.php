@@ -13,14 +13,14 @@ class DiscountMapper
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->selectStatement = $this->pdo->prepare('SELECT * FROM discounts WHERE id = :id');
+        $this->selectStatement = $this->pdo->prepare('SELECT * FROM discounts WHERE promocode = :promocode');
     }
 
-    public function findById(int $id): ?Discount
+    public function findByPromocode(string $promocode): ?Discount
     {
         $this->selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
         $this->selectStatement->execute([
-            'id' => $id
+            'promocode' => $promocode
         ]);
 
         if (($result = $this->selectStatement->fetch()) === false) {
@@ -30,7 +30,7 @@ class DiscountMapper
         $discount = new Discount();
         $discount->setId((int)$result['id']);
         $discount->setPromocode($result['promocode']);
-        $discount->setValue($result['value']);
+        $discount->setValue((int)$result['value']);
 
         return $discount;
     }

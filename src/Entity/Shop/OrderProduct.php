@@ -6,7 +6,7 @@ class OrderProduct
 {
     private int $id;
 
-    private Order $order;
+    private AbstractOrder $order;
 
     private Product $product;
 
@@ -22,12 +22,12 @@ class OrderProduct
         $this->id = $id;
     }
 
-    public function getOrder(): Order
+    public function getOrder(): AbstractOrder
     {
         return $this->order;
     }
 
-    public function setOrder(Order $order): void
+    public function setOrder(AbstractOrder $order): void
     {
         $this->order = $order;
     }

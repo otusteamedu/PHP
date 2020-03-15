@@ -2,8 +2,15 @@
 
 namespace Entity\Shop;
 
-class Order implements \JsonSerializable
+abstract class AbstractOrder implements \JsonSerializable
 {
+    public const ORDER_TYPE_B2B = 'b2b';
+    public const ORDER_TYPE_B2C = 'b2c';
+
+    public const ORDER_STATUS_NEW = 'new';
+    public const ORDER_STATUS_PAID = 'paid';
+    public const ORDER_STATUS_SENT = 'sent';
+
     private int $id;
 
     private \DateTime $createdAt;
@@ -58,26 +65,6 @@ class Order implements \JsonSerializable
         $this->customer = $customer;
     }
 
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): void
-    {
-        $this->status = $status;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
     public function getDiscount(): ?Discount
     {
         return $this->discount;
@@ -88,15 +75,17 @@ class Order implements \JsonSerializable
         $this->discount = $discount;
     }
 
-    public function handleArray(array $order): void
+    public function getStatus(): string
     {
-        if (isset($order['created_at'])) {
-            $this->setCreatedAt(new \DateTime($order['created_at']));
-        }
-        if (isset($order['sum'])) {
-            $this->setSum($order['sum']);
-        }
+        return $this->status;
     }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+    abstract public function getType(): string;
 
     public function jsonSerialize()
     {

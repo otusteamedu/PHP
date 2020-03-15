@@ -22,10 +22,10 @@ class ShipmentMapper
     public function insert(Shipment $shipment): Shipment
     {
         $this->insertStatement->execute([
-            'date' => $shipment->getDate()->format(DATE_ISO8601),
-            'sum' => $shipment->getSum(),
             'shipping_system_id' => $shipment->getShippingSystem()->getId(),
             'order_product_id' => $shipment->getOrderProduct()->getId(),
+            'date' => $shipment->getDate()->format(DATE_ISO8601),
+            'sum' => $shipment->getSum(),
         ]);
         $shipment->setId((int)$this->pdo->lastInsertId());
 

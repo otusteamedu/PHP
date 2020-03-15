@@ -24,6 +24,7 @@ class OrderProductMapper
         $this->insertStatement->execute([
             'order_id' => $orderProduct->getOrder()->getId(),
             'product_id' => $orderProduct->getProduct()->getId(),
+            'sum' => $orderProduct->getSum(),
         ]);
         $orderProduct->setId((int)$this->pdo->lastInsertId());
 

@@ -30,7 +30,7 @@ class ProductMapper
         $product = new Product();
         $product->setId((int)$result['id']);
         $product->setTitle($result['title']);
-        $product->setSum($result['sum']);
+        $product->setSum((float)$result['sum']);
 
         return $product;
     }
