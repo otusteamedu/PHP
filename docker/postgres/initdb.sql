@@ -20,9 +20,13 @@ CREATE TABLE public.shipping_systems (id SERIAL PRIMARY KEY, title VARCHAR(256),
 CREATE TABLE public.shipments (
     id SERIAL PRIMARY KEY,
     shipping_system_id INT REFERENCES public.shipping_systems (id) NOT NULL,
-    order_product_id INT REFERENCES public.order_products (id) NOT NULL,
     date TIMESTAMP,
     sum DECIMAL
+);
+CREATE TABLE public.order_product_shipments (
+    order_product_id INT REFERENCES public.order_products (id),
+    shipment_id INT REFERENCES public.shipments (id),
+    PRIMARY KEY (order_product_id, shipment_id)
 );
 
 INSERT INTO public.customers (name, address) VALUES ('Кайл Брофловски', 'South Park 1');

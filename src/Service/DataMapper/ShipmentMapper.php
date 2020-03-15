@@ -14,8 +14,8 @@ class ShipmentMapper
     {
         $this->pdo = $pdo;
         $this->insertStatement = $this->pdo->prepare('
-            INSERT INTO shipments (shipping_system_id, order_product_id, date, sum) 
-            VALUES (:shipping_system_id, :order_product_id, :date, :sum)
+            INSERT INTO shipments (shipping_system_id, date, sum) 
+            VALUES (:shipping_system_id, :date, :sum)
         ');
     }
 
@@ -23,7 +23,6 @@ class ShipmentMapper
     {
         $this->insertStatement->execute([
             'shipping_system_id' => $shipment->getShippingSystem()->getId(),
-            'order_product_id' => $shipment->getOrderProduct()->getId(),
             'date' => $shipment->getDate()->format(DATE_ISO8601),
             'sum' => $shipment->getSum(),
         ]);

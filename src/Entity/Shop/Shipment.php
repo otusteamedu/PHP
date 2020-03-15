@@ -8,8 +8,6 @@ class Shipment
 
     private ShippingSystem $shippingSystem;
 
-    private OrderProduct $orderProduct;
-
     private \DateTime $date;
 
     private float $sum;
@@ -32,16 +30,6 @@ class Shipment
     public function setShippingSystem(ShippingSystem $shippingSystem): void
     {
         $this->shippingSystem = $shippingSystem;
-    }
-
-    public function getOrderProduct(): OrderProduct
-    {
-        return $this->orderProduct;
-    }
-
-    public function setOrderProduct(OrderProduct $orderProduct): void
-    {
-        $this->orderProduct = $orderProduct;
     }
 
     public function getDate(): \DateTime
