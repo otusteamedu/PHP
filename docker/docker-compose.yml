@@ -23,35 +23,6 @@ services:
       localnet:
         aliases:
           - mysite.local
-  mongo:
-    container_name: vlyagusha-mongo
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
-    ports:
-      - 27017:27017
-    volumes:
-      - ../data/mongo:/data/db
-      - ../docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    networks:
-      localnet:
-        aliases:
-          - mysite.local
-  redis:
-    container_name: vlyagusha-redis
-    image: redis
-    command: ["sh", "-c", "exec redis-server"]
-    ports:
-      - 6379:6379
-    volumes:
-      - ../data/redis:/data
-    networks:
-      localnet:
-        aliases:
-          - mysite.local
   postgres:
     container_name: vlyagusha-postgres
     image: postgres
@@ -64,21 +35,6 @@ services:
     volumes:
       - ../data/postgres:/var/lib/postgresql/data
       - ../docker/postgres:/docker-entrypoint-initdb.d
-    networks:
-      localnet:
-        aliases:
-          - mysite.local
-  mysql:
-    container_name: vlyagusha-mysql
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - 3306:3306
-    volumes:
-      - ../data/mysql:/var/lib/mysql
-      - ../docker/mysql:/docker-entrypoint-initdb.d
     networks:
       localnet:
         aliases:

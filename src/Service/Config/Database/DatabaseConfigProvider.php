@@ -18,9 +18,4 @@ class DatabaseConfigProvider
     {
         return $this->databaseConfig['postgres']['dsn'];
     }
-
-    public function getMysqlDsn(): string
-    {
-        return $this->databaseConfig['mysql']['dsn'];
-    }
 }

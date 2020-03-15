@@ -17,9 +17,4 @@ class PDOFactory
     {
         return new \PDO($this->configProvider->getPostgresDsn());
     }
-
-    public function getMysqlPDO(): \PDO
-    {
-        return new \PDO($this->configProvider->getMysqlDsn());
-    }
 }

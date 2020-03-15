@@ -10,9 +10,13 @@ class Order implements \JsonSerializable
 
     private float $sum;
 
+    private string $status;
+
+    private string $type;
+
     private Customer $customer;
 
-    private \Closure $customerReference;
+    private ?Discount $discount;
 
     public function getId(): int
     {
@@ -46,11 +50,6 @@ class Order implements \JsonSerializable
 
     public function getCustomer(): Customer
     {
-        if (!isset($this->customer)) {
-            $reference = $this->customerReference;
-            $this->customer = $reference();
-        }
-
         return $this->customer;
     }
 
@@ -59,9 +58,34 @@ class Order implements \JsonSerializable
         $this->customer = $customer;
     }
 
-    public function setCustomerReference(\Closure $customerReference): void
+    public function getStatus(): string
     {
-        $this->customerReference = $customerReference;
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getDiscount(): ?Discount
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?Discount $discount): void
+    {
+        $this->discount = $discount;
     }
 
     public function handleArray(array $order): void
@@ -80,7 +104,10 @@ class Order implements \JsonSerializable
             'id' => $this->getId(),
             'created_at' => $this->getCreatedAt()->format(DATE_ISO8601),
             'sum' => $this->getSum(),
-            'customer' => $this->getCustomer()
+            'status' => $this->getStatus(),
+            'type' => $this->getType(),
+            'customer' => $this->getCustomer(),
+            'discount' => $this->getDiscount(),
         ];
     }
 }

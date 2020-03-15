@@ -2,9 +2,9 @@
 
 namespace Service\DataMapper;
 
-use Entity\Shop\Customer;
+use Entity\Shop\Product;
 
-class CustomerMapper
+class ProductMapper
 {
     private \PDO $pdo;
 
@@ -13,24 +13,25 @@ class CustomerMapper
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->selectStatement = $this->pdo->prepare('SELECT * FROM customers WHERE id = :id');
+        $this->selectStatement = $this->pdo->prepare('SELECT * FROM products WHERE id = :id');
     }
 
-    public function findById(int $id): ?Customer
+    public function findById(int $id): ?Product
     {
         $this->selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
         $this->selectStatement->execute([
             'id' => $id
         ]);
+
         if (($result = $this->selectStatement->fetch()) === false) {
             return null;
         }
 
-        $customer = new Customer();
-        $customer->setId((int)$result['id']);
-        $customer->setName($result['name']);
-        $customer->setAddress($result['address']);
+        $product = new Product();
+        $product->setId((int)$result['id']);
+        $product->setTitle($result['title']);
+        $product->setSum($result['sum']);
 
-        return $customer;
+        return $product;
     }
 }
