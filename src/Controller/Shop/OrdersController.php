@@ -59,12 +59,12 @@ class OrdersController
         $shipment->setOrder($order);
         $shipmentMapper->insert($shipment);
 
-//        $shipment = new Shipment();
-//        $shipment->setDate(new \DateTime('+2 day'));
-//        $shipment->setShippingSystem($shippingSystem);
-//        $shipment->setSum($shippingSystem->getSum());
-//        $shipment->setOrder($order);
-//        $shipmentMapper->insert($shipment);
+        $shipment = new Shipment();
+        $shipment->setDate(new \DateTime('+2 day'));
+        $shipment->setShippingSystem($shippingSystem);
+        $shipment->setSum($shippingSystem->getSum());
+        $shipment->setOrder($order);
+        $shipmentMapper->insert($shipment);
 
         $productSum = 0;
         foreach ($orderArray['product_ids'] as $productId) {

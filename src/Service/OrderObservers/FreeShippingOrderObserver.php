@@ -3,7 +3,6 @@
 namespace Service\OrderObservers;
 
 use Entity\Shop\AbstractOrder;
-use Entity\Shop\Shipment;
 use Service\Database\PDOFactory;
 use Service\DataMapper\ShipmentMapper;
 use SplSubject;
@@ -25,13 +24,7 @@ class FreeShippingOrderObserver implements \SplObserver
     {
         /** @var AbstractOrder $subject */
         if ($subject->getSum() >= self::FREE_SHIPPING_THRESHOLD) {
-            $shipments = $this->shipmentMapper->findByOrderId($subject->getId());
-
-            foreach ($shipments as $shipment) {
-                /** @var Shipment $shipment */
-                $shipment->setSum(0);
-                $this->shipmentMapper->update($shipment);
-            }
+            $this->shipmentMapper->setFreeShipping($subject);
         }
     }
 }
