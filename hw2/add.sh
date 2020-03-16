@@ -1,19 +1,14 @@
 #!/bin/bash
 test_for_digit() {
-    if [ "$1" -eq "$1" ] 2>/dev/null; then
-        return 0
-    else
-        return 1
-    fi
+    [[ "$1" =~ ^[+-]?([0-9]+\.?|[0-9]*\.[0-9]+)$ ]] && return 0
 }
 
 echo "Addition script"
-if [[ $# < 2 ]]; then
+if [[ $# -lt 2 ]]; then
     echo "2 parameters needed!"
     exit 1
 else
-    if test_for_digit "$1" && test_for_digit "$2"; then
-        test_for_digit $1
+    if test_for_digit "$1" -eq 0 && test_for_digit "$2" -eq 0; then
         awk "BEGIN { print \"Result:\", $1 + $2; exit }"
         exit 0
     else
@@ -21,4 +16,3 @@ else
         exit 1
     fi
 fi
-
