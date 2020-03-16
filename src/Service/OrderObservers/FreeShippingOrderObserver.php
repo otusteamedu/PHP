@@ -25,6 +25,11 @@ class FreeShippingOrderObserver implements \SplObserver
         /** @var AbstractOrder $subject */
         if ($subject->getSum() >= self::FREE_SHIPPING_THRESHOLD) {
             $this->shipmentMapper->setFreeShipping($subject);
+            $shipments = $subject->getShipments();
+            foreach ($shipments as $shipment) {
+                $shipment->setSum(0);
+            }
+            $subject->setShipments($shipments);
         }
     }
 }

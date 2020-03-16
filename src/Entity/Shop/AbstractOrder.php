@@ -18,8 +18,6 @@ abstract class AbstractOrder implements \SplSubject
 
     private \DateTime $createdAt;
 
-    private float $sum = 0;
-
     private string $status = self::ORDER_STATUS_NEW;
 
     private Customer $customer;
@@ -29,6 +27,10 @@ abstract class AbstractOrder implements \SplSubject
     private NotifierInterface $notifier;
 
     private \SplObjectStorage $observers;
+
+    private array $orderProducts = [];
+
+    private array $shipments = [];
 
     public function __construct()
     {
@@ -57,13 +59,21 @@ abstract class AbstractOrder implements \SplSubject
 
     public function getSum(): float
     {
-        return $this->sum;
-    }
+        $orderSum = 0;
+        foreach ($this->getOrderProducts() as $product) {
+            $orderSum += $product->getSum();
+        }
 
-    public function setSum(float $sum): void
-    {
-        $this->sum = $sum;
-        $this->notify();
+        if ($this->getDiscount() !== null) {
+            $orderSum = $orderSum - $orderSum * $this->getDiscount() / 100;
+        }
+
+        $shippingSum = 0;
+        foreach ($this->getShipments() as $shipment) {
+            $shippingSum += $shipment->getSum();
+        }
+
+        return $orderSum + $shippingSum;
     }
 
     public function getCustomer(): Customer
@@ -107,6 +117,32 @@ abstract class AbstractOrder implements \SplSubject
     public function setNotifier(NotifierInterface $notifier): void
     {
         $this->notifier = $notifier;
+    }
+
+    /**
+     * @return array|OrderProduct[]
+     */
+    public function getOrderProducts(): array
+    {
+        return $this->orderProducts;
+    }
+
+    public function setOrderProducts(array $orderProducts): void
+    {
+        $this->orderProducts = $orderProducts;
+    }
+
+    /**
+     * @return array|Shipment[]
+     */
+    public function getShipments(): array
+    {
+        return $this->shipments;
+    }
+
+    public function setShipments(array $shipments): void
+    {
+        $this->shipments = $shipments;
     }
 
     public function attach(SplObserver $observer)

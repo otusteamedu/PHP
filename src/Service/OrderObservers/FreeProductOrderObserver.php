@@ -31,12 +31,17 @@ class FreeProductOrderObserver implements \SplObserver
     {
         /** @var AbstractOrder $subject */
         if ($subject->getSum() >= self::FREE_PRODUCT_THRESHOLD) {
+            $orderProducts = $subject->getOrderProducts();
+
             $freeProduct = $this->productMapper->findById(self::FREE_PRODUCT_ID);
             $orderProduct = new OrderProduct();
             $orderProduct->setOrder($subject);
             $orderProduct->setProduct($freeProduct);
             $orderProduct->setSum(0);
             $this->orderProductMapper->insert($orderProduct);
+            $orderProducts[] = $orderProduct;
+
+            $subject->setOrderProducts($orderProducts);
         }
     }
 }

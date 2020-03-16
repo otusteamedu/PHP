@@ -6,7 +6,6 @@ CREATE TABLE public.orders (
     customer_id INT REFERENCES public.customers (id) NOT NULL,
     discount_id INT REFERENCES public.discounts (id),
     created_at TIMESTAMP,
-    sum DECIMAL,
     status VARCHAR(32),
     type VARCHAR(32)
 );
