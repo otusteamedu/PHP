@@ -40,6 +40,7 @@ INSERT INTO public.discounts (promocode, value) VALUES ('sale50', 50);
 INSERT INTO public.products (title, sum) VALUES ('Product1', 1000);
 INSERT INTO public.products (title, sum) VALUES ('Product2', 2000);
 INSERT INTO public.products (title, sum) VALUES ('Product3', 3000);
+INSERT INTO public.products (title, sum) VALUES ('Product4', 0);
 
 INSERT INTO public.shipping_systems (title, sum) VALUES ('Курьер', 500);
 INSERT INTO public.shipping_systems (title, sum) VALUES ('Почта России', 200);
