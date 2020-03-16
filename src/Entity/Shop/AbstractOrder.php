@@ -3,8 +3,9 @@
 namespace Entity\Shop;
 
 use Service\OrderNotifier\NotifierInterface;
+use SplObserver;
 
-abstract class AbstractOrder
+abstract class AbstractOrder implements \SplSubject
 {
     public const ORDER_TYPE_B2B = 'b2b';
     public const ORDER_TYPE_B2C = 'b2c';
@@ -17,15 +18,22 @@ abstract class AbstractOrder
 
     private \DateTime $createdAt;
 
-    private float $sum;
+    private float $sum = 0;
 
     private string $status = self::ORDER_STATUS_NEW;
 
     private Customer $customer;
 
-    private ?Discount $discount;
+    private ?Discount $discount = null;
 
     private NotifierInterface $notifier;
+
+    private \SplObjectStorage $observers;
+
+    public function __construct()
+    {
+        $this->observers = new \SplObjectStorage();
+    }
 
     public function getId(): int
     {
@@ -55,6 +63,7 @@ abstract class AbstractOrder
     public function setSum(float $sum): void
     {
         $this->sum = $sum;
+        $this->notify();
     }
 
     public function getCustomer(): Customer
@@ -98,6 +107,24 @@ abstract class AbstractOrder
     public function setNotifier(NotifierInterface $notifier): void
     {
         $this->notifier = $notifier;
+    }
+
+    public function attach(SplObserver $observer)
+    {
+        $this->observers->attach($observer);
+    }
+
+    public function detach(SplObserver $observer)
+    {
+        $this->observers->detach($observer);
+    }
+
+    public function notify()
+    {
+        /** @var SplObserver $observer */
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
     }
 
     abstract public function getType(): string;

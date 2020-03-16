@@ -28,13 +28,14 @@ class OrderMapper
 
     public function insert(AbstractOrder $order): AbstractOrder
     {
+        $discountId = $order->getDiscount() !== null ? $order->getDiscount()->getId() : null;
         $this->insertStatement->execute([
             'created_at' => $order->getCreatedAt()->format(DATE_ISO8601),
             'sum' => $order->getSum(),
             'status' => $order->getStatus(),
             'type' => $order->getType(),
             'customer_id' => $order->getCustomer()->getId(),
-            'discount_id' => $order->getDiscount()->getId(),
+            'discount_id' => $discountId,
         ]);
         $order->setId((int)$this->pdo->lastInsertId());
 
@@ -43,6 +44,8 @@ class OrderMapper
 
     public function update(AbstractOrder $order): bool
     {
+        $discountId = $order->getDiscount() !== null ? $order->getDiscount()->getId() : null;
+
         return $this->updateStatement->execute([
             'id' => $order->getId(),
             'created_at' => $order->getCreatedAt()->format(DATE_ISO8601),
@@ -50,7 +53,7 @@ class OrderMapper
             'status' => $order->getStatus(),
             'type' => $order->getType(),
             'customer_id' => $order->getCustomer()->getId(),
-            'discount_id' => $order->getDiscount()->getId(),
+            'discount_id' => $discountId,
         ]);
     }
 }

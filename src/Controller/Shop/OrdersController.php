@@ -39,7 +39,6 @@ class OrdersController
         $orderFactory = new OrderFactory();
         $order = $orderFactory->createOrder($orderArray['type']);
         $order->setCreatedAt(new \DateTime());
-        $order->setSum(0);
 
         $customer = $customerMapper->findById($orderArray['customer_id']);
         $order->setCustomer($customer);
@@ -57,7 +56,15 @@ class OrdersController
         $shipment->setDate(new \DateTime('+1 day'));
         $shipment->setShippingSystem($shippingSystem);
         $shipment->setSum($shippingSystem->getSum());
+        $shipment->setOrder($order);
         $shipmentMapper->insert($shipment);
+
+//        $shipment = new Shipment();
+//        $shipment->setDate(new \DateTime('+2 day'));
+//        $shipment->setShippingSystem($shippingSystem);
+//        $shipment->setSum($shippingSystem->getSum());
+//        $shipment->setOrder($order);
+//        $shipmentMapper->insert($shipment);
 
         $productSum = 0;
         foreach ($orderArray['product_ids'] as $productId) {

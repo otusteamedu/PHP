@@ -8,6 +8,8 @@ class Shipment
 
     private ShippingSystem $shippingSystem;
 
+    private AbstractOrder $order;
+
     private \DateTime $date;
 
     private float $sum;
@@ -50,5 +52,15 @@ class Shipment
     public function setSum(float $sum): void
     {
         $this->sum = $sum;
+    }
+
+    public function getOrder(): AbstractOrder
+    {
+        return $this->order;
+    }
+
+    public function setOrder(AbstractOrder $order): void
+    {
+        $this->order = $order;
     }
 }

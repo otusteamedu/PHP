@@ -8,6 +8,8 @@ use Entity\Shop\B2cOrder;
 use Service\Exception\OrderFactoryException;
 use Service\OrderNotifier\EmailNotifier;
 use Service\OrderNotifier\SmsNotifier;
+use Service\OrderObservers\FreeProductOrderObserver;
+use Service\OrderObservers\FreeShippingOrderObserver;
 
 class OrderFactory
 {
@@ -25,6 +27,8 @@ class OrderFactory
             default:
                 throw new OrderFactoryException('Incorrect order type');
         }
+        $order->attach(new FreeProductOrderObserver());
+        $order->attach(new FreeShippingOrderObserver());
 
         return $order;
     }

@@ -20,6 +20,7 @@ CREATE TABLE public.shipping_systems (id SERIAL PRIMARY KEY, title VARCHAR(256),
 CREATE TABLE public.shipments (
     id SERIAL PRIMARY KEY,
     shipping_system_id INT REFERENCES public.shipping_systems (id) NOT NULL,
+    order_id INT REFERENCES public.orders (id) NOT NULL,
     date TIMESTAMP,
     sum DECIMAL
 );
