@@ -19,7 +19,7 @@ class ShipmentMapper
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-        //$this->shippingSystemMapper = new ShippingSystemMapper($pdo);
+        $this->shippingSystemMapper = new ShippingSystemMapper($pdo);
         $this->insertStatement = $this->pdo->prepare('
             INSERT INTO shipments (shipping_system_id, date, sum, order_id) 
             VALUES (:shipping_system_id, :date, :sum, :order_id)
