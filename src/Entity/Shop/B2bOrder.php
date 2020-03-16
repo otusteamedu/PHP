@@ -2,7 +2,7 @@
 
 namespace Entity\Shop;
 
-class B2bOrder extends AbstractOrder
+final class B2bOrder extends AbstractOrder
 {
     public function getType(): string
     {
