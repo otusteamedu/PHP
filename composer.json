@@ -1,0 +1,19 @@
+{
+  "name": "vlyagusha/otus_demo",
+  "type": "project",
+  "description": "Otus homework project",
+  "repositories": [
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "ext-sockets": "*",
+    "symfony/http-foundation": "^5.0",
+    "ext-json": "*",
+    "ext-http": "*",
+    "ext-pdo": "*"
+  }
+}

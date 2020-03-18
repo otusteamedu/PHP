@@ -1,0 +1,48 @@
+version: '3'
+services:
+  nginx:
+    container_name: vlyagusha-nginx
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ../:/home/www/mysite.local
+      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpsocket:/var/run
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  app:
+    container_name: vlyagusha-app
+    build: php
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+  postgres:
+    container_name: vlyagusha-postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+      - ../docker/postgres:/docker-entrypoint-initdb.d
+    networks:
+      localnet:
+        aliases:
+          - mysite.local
+
+volumes:
+  phpsocket:
+
+networks:
+  localnet:
+    driver: bridge
