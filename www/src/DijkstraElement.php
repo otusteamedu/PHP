@@ -29,11 +29,25 @@ class DijkstraElement
     }
 
     /**
+     * @param int $lengthPath
+     */
+    public function setLengthPath(int $lengthPath): void
+    {
+        $this->lengthPath = $lengthPath;
+    }
+
+    /**
      * @return bool
      */
     public function isFinish(): bool
     {
         return $this->isFinish;
+    }
+
+
+    public function setFinish(): void
+    {
+        $this->isFinish = true;
     }
 
     /**
@@ -42,6 +56,14 @@ class DijkstraElement
     public function getBackVertex(): ?Vertex
     {
         return $this->backVertex;
+    }
+
+    /**
+     * @param Vertex|null $backVertex
+     */
+    public function setBackVertex(?Vertex $backVertex): void
+    {
+        $this->backVertex = $backVertex;
     }
 
 }

@@ -30,7 +30,13 @@ $graph->setLink(7, 9, 16);
 $graph->setLink(8, 9, 15);
 
 $find = new \Tirei01\Hw15\Dijkstra(1, 9, $graph);
-$find->find();
+$arVertex = $find->find();
+$arTmpVer = array();
+/** @var \Tirei01\Hw15\Vertex $vertex */
+foreach ($arVertex as $vertex) {
+    $arTmpVer[] = $vertex->getNumber();
+}
+echo implode('->', $arTmpVer);
 
 /*
 $graph = new \Tirei01\Hw15\Dijkstra\Graph();
