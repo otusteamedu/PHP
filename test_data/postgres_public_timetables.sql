@@ -1,0 +1,5 @@
+INSERT INTO public.timetables (timetable_id, hall_id, film_id, date_start, date_end, price) VALUES (4, 2, 2, '2020-03-18 13:00:00.000000', '2020-03-18 15:17:00.000000', 120.00);
+INSERT INTO public.timetables (timetable_id, hall_id, film_id, date_start, date_end, price) VALUES (2, 1, 1, '2020-03-18 13:00:00.000000', '2020-03-18 14:47:00.000000', 100.00);
+INSERT INTO public.timetables (timetable_id, hall_id, film_id, date_start, date_end, price) VALUES (3, 2, 2, '2020-03-18 10:00:00.000000', '2020-03-18 12:17:00.000000', 120.00);
+INSERT INTO public.timetables (timetable_id, hall_id, film_id, date_start, date_end, price) VALUES (1, 1, 1, '2020-03-18 10:00:00.000000', '2020-03-18 11:47:00.000000', 100.00);
+INSERT INTO public.timetables (timetable_id, hall_id, film_id, date_start, date_end, price) VALUES (5, 2, 3, '2020-03-18 19:00:00.000000', '2020-03-18 20:49:00.000000', 120.00);
