@@ -14,4 +14,4 @@
 ###2.1
 bash add.sh 2 6
 ###2.2
-awk 'NR>1 { print $3 }' db.txt | sort -k3 -t" " | uniq -c | sort -r | head -n3
+awk 'NR>1 { print $3 }' db.txt | sort -k3 -t" " | uniq -c | sort -nr | head -n3
