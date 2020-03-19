@@ -1,4 +1,4 @@
-SELECT fs.name as film_name, sum(ts.price) as price
+SELECT fs.name as film_name, sum(tt.price) as price
 FROM tickets ts
 INNER JOIN timetables tt ON ts.timetable_id = tt.timetable_id
 INNER JOIN films fs ON tt.film_id = fs.film_id
