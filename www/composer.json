@@ -1,0 +1,17 @@
+{
+  "name": "AMostovoy/hw15",
+  "description": "home work #15",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Alexey",
+      "email": "mostovoi@bk.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tirei01\\Hw15\\": "src"
+    }
+  }
+}
