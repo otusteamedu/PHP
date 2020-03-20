@@ -2,11 +2,59 @@ version: '3'
 services:
 
   proxy:
-    build: nginx
+    build: proxy/nginx
     volumes:
-      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
-      - ./log:/var/log/nginx
+      - ./proxy/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./proxy/log:/var/log/nginx
 
     ports:
       - 8080:80
+
+  nginx1:
+    build: backend1/nginx
+    volumes:
+      - ./backend1/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./backend1/www:/www
+      - sockets1:/var/run
+
+  fpm1:
+    build: backend1/php
+    volumes:
+      - ./backend1/www:/www
+      - ./backend1/php/socket.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - sockets1:/var/run
+
+  nginx2:
+    build: backend2/nginx
+    volumes:
+      - ./backend2/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./backend2/www:/www
+      - sockets2:/var/run
+
+  fpm2:
+    build: backend2/php
+    volumes:
+      - ./backend2/www:/www
+      - ./backend2/php/socket.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - sockets2:/var/run
+
+  nginx3:
+    build: backend3/nginx
+    volumes:
+      - ./backend3/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./backend3/www:/www
+      - sockets3:/var/run
+
+  fpm3:
+    build: backend3/php
+    volumes:
+      - ./backend3/www:/www
+      - ./backend3/php/socket.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - sockets3:/var/run
+
+
+volumes:
+  sockets1:
+  sockets2:
+  sockets3:
 
