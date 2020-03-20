@@ -1,0 +1,21 @@
+[Unit]
+Description=My PHP Daemon Service
+#May your script needs MySQL or other services to run, eg. MySQL Memcached
+#Requires=mysqld.service memcached.service 
+#After=mysqld.service memcached.service
+
+[Service]
+User=root
+Type=simple
+TimeoutSec=0
+PIDFile=/var/run/myphpdaemon.pid
+ExecStart=/usr/bin/php -f /home/astrviktor/myphpdaemon.php arg1 arg2> /dev/null 2>/dev/null
+#ExecStop=/bin/kill -HUP $MAINPID #It's the default you can change whats happens on stop command
+#ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=default.target
