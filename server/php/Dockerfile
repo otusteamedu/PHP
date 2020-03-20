@@ -17,6 +17,10 @@ RUN pecl install -of redis \
     && docker-php-ext-enable redis \
     && pecl install -of memcached \
     && docker-php-ext-enable memcached \
+    && pecl install -of mongodb \
+    && docker-php-ext-enable mongodb \
+    && pecl install -of ds \
+    && docker-php-ext-enable ds \
     && pecl install -of raphf \
     && docker-php-ext-enable raphf \
     && pecl install -of propro \
