@@ -24,7 +24,8 @@ CREATE TABLE films
 (
     id serial primary key,
     name varchar(127),
-    duration integer
+    duration integer,
+    price float
 );
 
 CREATE TABLE sessions
@@ -35,36 +36,27 @@ CREATE TABLE sessions
     time_to time
 );
 
-CREATE TABLE bullets
+CREATE TABLE offers
 (
     id serial primary key,
     session_id integer REFERENCES sessions(id),
-    film_id integer REFERENCES films(id),
-    price float
+    film_id integer REFERENCES films(id)
 );
 
-CREATE TABLE orders
+CREATE TABLE tickets
 (
     id serial primary key,
-    bullet_id integer REFERENCES bullets(id),
+    offer_id integer REFERENCES offers(id),
     place_id integer REFERENCES places(id),
     customer_id integer REFERENCES customers(id),
-    summ float,
     date date
 );
 
 -- самый прибыльный фильм
-SELECT t.total, films.name FROM (
-    SELECT SUM(orders.summ) AS total, b.film_id AS film_id FROM orders
-    LEFT JOIN bullets b on orders.bullet_id = b.id
-    LEFT JOIN films f on b.film_id = f.id
-    GROUP BY b.film_id
-) AS t
-LEFT JOIN films ON films.id = t.film_id
+SELECT SUM(films.price) AS total, films.name AS film_id
+FROM tickets
+LEFT JOIN offers ON tickets.offer_id = offers.id
+LEFT JOIN films on offers.film_id = films.id
+GROUP BY films.id
 ORDER BY total DESC
 FETCH FIRST 1 ROWS ONLY;
-
-
-
-
-
