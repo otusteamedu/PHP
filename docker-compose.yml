@@ -1,6 +1,11 @@
 version: "3"
 
 services:
+    redis:
+        image: redis:6.0-rc
+        ports:
+            - 6379:6379
+
     web:
         image: nginx:1.17
         ports:
@@ -18,3 +23,5 @@ services:
             - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
             - ./app:/var/app
             - ./server/socket:/var/run
+        links:
+            - web

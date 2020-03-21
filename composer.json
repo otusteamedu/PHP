@@ -1,0 +1,16 @@
+{
+    "require": {
+        "predis/predis": "1.1.*"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "5.0.*"
+    },
+    "config": {
+        "vendor-dir": "app/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\HW11\\": "app/src"
+        }
+    }
+}

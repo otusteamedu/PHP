@@ -19,7 +19,8 @@
     {
         priority: 1000,
         conditions: {
-            param1 = 1
+            param1: 1,
+            param2: 2
         },
         event: {
             ::event::
@@ -28,8 +29,8 @@
     {
         priority: 2000,
         conditions: {
-            param1 = 2,
-            param2 = 2
+            param1: 2,
+            param2: 2
         },
         event: {
             ::event::
@@ -38,8 +39,8 @@
     {
         priority: 3000,
         conditions: {
-            param1 = 1,
-            param2 = 2
+            param1: 1,
+            param2: 2
         },
         event: {
             ::event::
@@ -50,8 +51,8 @@
     ```
     {
         params: {
-            param1 = 1,
-            param2 = 2
+            param1: 1,
+            param2: 2
         }
     }
     ```
