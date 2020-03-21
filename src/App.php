@@ -3,13 +3,13 @@
 class App
 {
 
-    public function run(): void
+    public function run(): string
     {
         $stringChecker = new StringChecker();
         try {
-            echo $stringChecker->check($_POST);
+            return $stringChecker->check($_POST);
         } catch (Exception $e) {
-            echo $this->handleException($e);
+            return $this->handleException($e);
         }
     }
 
