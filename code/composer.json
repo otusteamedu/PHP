@@ -1,0 +1,15 @@
+{
+  "name": "rvelibegov/hw5",
+  "type": "hw",
+  "authors": [
+    {
+      "name": "rvelibegov",
+      "email": "velibegov@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }	
+}
