@@ -1,7 +1,7 @@
 <?php
-class Validator
-{
-    private $string;
+namespace code\src;
+class Validator {
+    private  $string;
 
     public function __construct($string) {
         $this->string = $string;
@@ -9,7 +9,6 @@ class Validator
     public function validate () : bool {
         $counter = 0;
         $arr = str_split($this->string);
-
         foreach ($arr as $value) {
             if ($counter < 0) {return false;}
             if ($value == "(") {

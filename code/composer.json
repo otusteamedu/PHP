@@ -7,9 +7,9 @@
       "email": "velibegov@mail.ru"
     }
   ],
-  "autoload": {
-    "psr-4": {
-      "": "src/"
+    "autoload": {
+        "psr-4": {
+            "code\\src\\": "src/"            
+        }
     }
-  }	
 }
