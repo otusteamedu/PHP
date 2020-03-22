@@ -4,14 +4,14 @@ services:
     container_name: php-fpm-laravel
     build: php-fpm
     volumes:
-      - ./www:/var/www
+      - ./app/:/var/www/app
       - phpsocket:/var/run
 
   nginx:
     container_name: nginx-laravel
     build: nginx
     volumes:
-      - ./www:/var/www
+      - ./app/:/var/www/app
       - ./logs:/var/log/nginx
       - phpsocket:/var/run
     depends_on:

@@ -1,6 +1,7 @@
 FROM php:7.4-fpm-alpine
 
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN apk update && apk add php7-dev \
     git \
@@ -45,8 +46,5 @@ RUN apk update && apk add php7-dev \
     && docker-php-ext-enable mbstring \
     && addgroup -g 101 -S nginx \
     && adduser -u 101 -D -S -G nginx nginx
-
-WORKDIR /var/www
-RUN composer create-project --prefer-dist laravel/laravel /var/www/app
 
 CMD ["php-fpm"]
