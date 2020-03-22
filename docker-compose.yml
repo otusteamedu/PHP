@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: otus-nginx
+        build:
+            context: ./docker
+            dockerfile: nginx.docker
+        ports:
+            - 8081:80
+        volumes:
+            - ./:/var/www
+            - ./var/socket:/var/run/php
+
+    php-fpm:
+        container_name: otus-php-fpm
+        build:
+            context: ./docker
+            dockerfile: php.docker
+        volumes:
+            - ./:/var/www
+            - ./var/socket:/var/run/php
+        environment:
+            XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Docker"
+
+    db:
+        image: postgres:12.2-alpine
+        container_name: otus-db
+        ports:
+            - 5432:5432
+        volumes:
+            - ./var/data:/var/lib/postgresql/data
+        restart: always
+        environment:
+            POSTGRES_DB: dev
+            POSTGRES_USER: dev
+            POSTGRES_PASSWORD: dev
