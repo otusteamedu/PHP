@@ -20,7 +20,7 @@ class RedisStorage implements Task2\IStorage
     }
 
 
-    public function setEvent(Task2\Event $event)
+    public function setEvent(\DS\Vector $params, Task2\Event $event)
     {
         if ( is_null($this->client->get('events:count')) ) {
             $this->client->set('events:count', 0);
@@ -30,23 +30,50 @@ class RedisStorage implements Task2\IStorage
 
         // set events fields
         $this->client->set('events:' . $eventsCounter . ':priority', $event->getPriority());
-        $this->client->set('events:' . $eventsCounter . ':event', $event->getEvent());
+        $this->client->set('events:' . $eventsCounter . ':event', $event->getRawData());
 
         // set filter params
-        foreach ($event->getConditions() as $param => $value) {
-            $paramStorageKey = 'conditions:' . $param . ':' . $value;
+        foreach ($params as $param) {
+            $paramStorageKey = 'conditions:' . $param->getName() . ':' . $param->getValue();
             $this->client->sadd($paramStorageKey, [$eventsCounter]);
-            $this->client->lpush('conditions:keys', $paramStorageKey);
+
+            // Save keys for clearing
+            $this->client->sadd('conditions:keys', [$paramStorageKey]);
         }
 
         $this->client->incr('events:count');
-
     }
 
 
-    public function queryExec()
+    /**
+     * @param \DS\Vector $params (collection of \Otus\HW11\Task2\Param)
+     * @return mixed
+     */
+    public function queryExec(\DS\Vector $params)
     {
-        // TODO: Implement queryExec() method.
+        $arSetKeys = [];
+        foreach ($params as $param) {
+            $arSetKeys[] = 'conditions:' . $param->getName() . ':' . $param->getValue();
+        }
+
+        $arEventsId = $this->client->sinter($arSetKeys);
+
+        if ( empty($arEventsId) ) {
+            return null;
+        }
+
+        $arEventPriority = [];
+        foreach ($arEventsId as $eventId) {
+            $arEventPriority[$eventId] = $this->client->get('events:' . $eventId . ':priority');
+        }
+
+        // Search event by max priority
+        $needEventId = array_keys($arEventPriority, max($arEventPriority))[0];
+
+        return new Task2\Event(
+            intval($arEventPriority[$needEventId]),
+            $this->client->get('events:' . $needEventId . ':event')
+        );
     }
 
 
@@ -65,9 +92,7 @@ class RedisStorage implements Task2\IStorage
         }
 
         // clear conditions
-        $conditionsCount = $this->client->llen('conditions:keys');
-        for ($i = 0; $i < $conditionsCount; $i++) {
-            $paramStorageKey = $this->client->lpop('conditions:keys');
+        while ($paramStorageKey = $this->client->spop('conditions:keys')) {
             $this->client->del($paramStorageKey);
         }
 

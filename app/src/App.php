@@ -15,7 +15,7 @@ class App
 
             $this->task1();
 
-        } elseif ($task == 'Task2') {
+        } elseif ($task == 'task2') {
 
             $this->task2();
 
@@ -42,17 +42,26 @@ class App
 
         if ($_POST['action'] == 'setevent') {
 
-            $arParams = $this->extractConditions( strip_tags($_POST['conditions']) );
+            $request = new Task2\Request($_POST);
 
-            $storage->setEvent(new Task2\Event(
-                100,
-                $arParams,
-                $_POST['event']
-            ));
+            $storage->setEvent(
+                $request->getConditions(),
+                $request->getEvent()
+            );
 
             $this->response = 'Adding new event successful';
 
         } elseif ($_GET['action'] == 'getevent') {
+
+            $request = new Task2\Request($_GET);
+            $event = $storage->queryExec( $request->getParams() );
+
+            if ( is_null($event) ) {
+                $this->response = 'Appropriate event not found';
+            } else {
+                print_r($event);
+                $this->response = 'Event extracting successful';
+            }
 
         } elseif ($_POST['action'] == 'clearevents') {
 
@@ -64,25 +73,6 @@ class App
         }
 
         print $this->response;
-
     }
 
-
-    /**
-     * parse string in format 'param1=val1;param2=val2'
-     * @param string $condStr
-     * @return array
-     */
-    protected function extractConditions(string $condStr): array
-    {
-        $arConditions = [];
-        $conditions = explode(';', $condStr);
-
-        foreach ($conditions as $condition) {
-            $arTmp = explode('=', $condition);
-            $arConditions[$arTmp[0]] = $arTmp[1];
-        }
-
-        return $arConditions;
-    }
 }
