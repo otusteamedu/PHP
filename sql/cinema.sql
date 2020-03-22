@@ -29,8 +29,8 @@ CREATE TABLE sessions
     id serial,
     hall_id int NOT NULL,
     movie_id int NOT NULL,
-    start_at int NOT NULL,
-    end_at int NOT NULL,
+    start_at timestamp NOT NULL,
+    end_at timestamp NOT NULL,
     price numeric(7, 2) NOT NULL CHECK ( price > 0 ),
     capacity smallint NOT NULL,
     tickets_count smallint DEFAULT 0,
@@ -58,7 +58,7 @@ CREATE TABLE tickets
     id serial,
     session_id int NOT NULL,
     price numeric(7, 2) NOT NULL CHECK ( price > 0 ),
-    bought_at int NOT NULL,
+    bought_at timestamp NOT NULL,
 
     CONSTRAINT "pk-tickets-id"
         PRIMARY KEY (id),
