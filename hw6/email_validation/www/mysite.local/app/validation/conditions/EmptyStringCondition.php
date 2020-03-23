@@ -2,12 +2,14 @@
 
 namespace App\Validation\Condition;
 
+use App\Exceptions\ValidationErrorException;
+
 class EmptyStringCondition implements ConditionInterface
 {
     public function validate($data)
     {
         if ($data === '') {
-            throw new \RuntimeException('Строка не должна быть пустой');
+            throw new ValidationErrorException('Строка не должна быть пустой');
         }
     }
 }

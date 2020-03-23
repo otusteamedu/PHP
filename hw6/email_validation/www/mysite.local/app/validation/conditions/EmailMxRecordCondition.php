@@ -2,6 +2,7 @@
 
 namespace App\Validation\Condition;
 
+use App\Exceptions\ValidationErrorException;
 use App\Util\EmailHelper;
 
 class EmailMxRecordCondition implements ConditionInterface
@@ -10,14 +11,14 @@ class EmailMxRecordCondition implements ConditionInterface
     {
         $host = EmailHelper::getHostFromEmail((string)$data);
         if ($host === '') {
-            throw new \RuntimeException('Некорректный формат email');
+            throw new ValidationErrorException('Некорректный формат email');
         }
 
         $mxhosts = [];
         getmxrr($host, $mxhosts);
 
         if (empty($mxhosts)) {
-            throw new \RuntimeException('Не найдены mx-записи');
+            throw new ValidationErrorException('Не найдены mx-записи');
         }
     }
 }
