@@ -1,0 +1,12 @@
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (1, 1, 1, '2019-12-03', null, null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (2, 1, 2, null, 'США', null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (3, 1, 3, null, 'Гай Ричи', null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (4, 1, 4, null, 'Гай Ричи', null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (5, 1, 4, null, 'Айван Эткинсон', null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (6, 1, 4, null, 'Марн Дэвис', null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (7, 1, 5, null, null, 36296853);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (8, 1, 6, null, null, 17672668);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (9, 1, 7, '2020-03-23', null, null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (10, 1, 8, '2020-03-23', null, null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (12, 1, 10, '2020-04-12', null, null);
+INSERT INTO public.tfilmsvalues (value_id, film_id, attr_id, val_date, val_text, val_num) VALUES (11, 1, 9, '2020-04-12', null, null);

@@ -1,0 +1,10 @@
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (2, 2, 'страна');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (3, 2, 'режиссер');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (4, 2, 'сценарий');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (5, 3, 'сборы в США ($)');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (6, 3, 'сборы в России ($)');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (8, 5, 'Запустить продажу');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (9, 5, 'Снять с проката');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (1, 4, 'дата выпуска');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (10, 5, 'Посчитать прибыль');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (7, 5, 'Положить листовки');
