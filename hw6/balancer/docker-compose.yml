@@ -1,0 +1,42 @@
+version: "3"
+services:
+  web1-nginx:
+    image: nginx:latest
+    container_name: web1-nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./hosts/web1:/etc/nginx/conf.d
+      - ./www:/var/www
+    links:
+      - web1-php
+  web1-php:
+    image: php:7.2-fpm
+    container_name: web1-php
+    volumes:
+      - ./www:/var/www
+  
+  web2-nginx:
+    image: nginx:latest
+    container_name: web2-nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./hosts/web2:/etc/nginx/conf.d
+      - ./www:/var/www
+    links:
+      - web2-php
+  web2-php:
+    image: php:7.2-fpm
+    container_name: web2-php
+    volumes:
+      - ./www:/var/www
+  
+  balancer:
+    image: nginx:latest
+    container_name: balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./hosts/balancer:/etc/nginx/conf.d
+      - ./www:/var/www
