@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+     - "80:80"
+    volumes:
+     - ./nginx/nginx.conf/:/etc/nginx/nginx.conf/
+     - ./nginx/site.conf/:/etc/nginx/conf.d/default.conf/
+     - ./code/:/code/
+     - /sock/:/sock/
+    links:
+      - php-fpm
+    depends_on:
+      - php-fpm
+  php-fpm:
+   build:
+     context: ./php-fpm
+   volumes:
+     - /sock/:/sock/
+     - ./code/:/code/
+     - ./php-fpm/zz-docker.conf/:/usr/local/etc/php-fpm.d/zz-docker.conf/
+
