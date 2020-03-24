@@ -4,7 +4,7 @@ CREATE TABLE public.tFilms (
     name text NOT NULL
 );
 CREATE INDEX tFilms_film_id_index ON public.tFilms (film_id);
-
+CREATE INDEX tFilms_name_index ON public.tFilms (name);
 
 -- Типы данных атрибутов
 CREATE TABLE public.tTypes (
@@ -13,7 +13,7 @@ CREATE TABLE public.tTypes (
 	comment text
 );
 CREATE INDEX tTypes_type_id_index ON public.tTypes (type_id);
-
+CREATE INDEX tTypes_name_index ON public.tTypes (name);
 
 -- Типы значений атрибутов для фильмов
 CREATE TABLE public.tFilmsAttrs (
@@ -22,6 +22,7 @@ CREATE TABLE public.tFilmsAttrs (
 	name text
 );
 CREATE INDEX tFilmsAttrs_attr_id_index ON public.tFilmsAttrs (attr_id);
+CREATE INDEX tFilmsAttrs_name_index ON public.tFilmsAttrs (name);
 
 -- Значения атрибутов для фильмов
 CREATE TABLE public.tFilmsValues (
@@ -33,3 +34,6 @@ CREATE TABLE public.tFilmsValues (
 	val_num decimal
 );
 CREATE INDEX tFilmsValues_value_id_index ON public.tFilmsValues (value_id);
+CREATE INDEX tFilmsValues_val_date_index ON public.tFilmsValues (val_date);
+CREATE INDEX tFilmsValues_val_text_index ON public.tFilmsValues (val_text);
+CREATE INDEX tFilmsValues_val_num_index ON public.tFilmsValues (val_num);
