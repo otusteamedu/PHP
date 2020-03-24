@@ -1,5 +1,7 @@
 <?php
 namespace code\src;
+use code\src\Exceptions\Hw5ParamException;
+
 class Application {
     private  $validator;
     private  $parameter;
@@ -9,14 +11,14 @@ class Application {
         $this->validator = new Validator($this->parameter);
     }
 
-    public function setMessage ($message) :string {
-        if (!isset($this->parameter)) {$message = 'Everything is VERY BAD';return $message;}
-        if (empty($this->parameter)) {$message = 'Everything is VERY BAD';return $message;}
-        if ($this->validator->validate()) {$message = 'Everything is GOOD';}
-        if (!$this->validator->validate())  {$message = 'Everything is BAD';}
+    public function run () : string {
+        if (!isset($this->parameter) || empty($this->parameter)) {
+            $e = new Hw5ParamException();
+            return $e->__toString();
+        }
+
+        if ($this->validator->validate()) {$message = 'Everything is GOOD => correct bracket sequence'. PHP_EOL;}
+        else  {$message = 'Everything is BAD => incorrect bracket sequence'. PHP_EOL;}
         return $message;
-    }
-    public function run () {
-        echo $this->setMessage($this);
     }
 }
