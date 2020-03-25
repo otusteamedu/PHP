@@ -31,6 +31,19 @@ class App
 
     protected function task1()
     {
+        $client = new \MongoDB\Client("mongodb://mongo:27017");
+        $collection = $client->demo->beers;
+
+        $result = $collection->insertOne( [ 'name' => 'Hinterland', 'brewery' => 'BrewDog' ] );
+
+        echo "Идентификатор вставленного документа '{$result->getInsertedId()}'\n";
+
+        $result = $collection->find( [ 'name' => 'Hinterland', 'brewery' => 'BrewDog' ] );
+
+        foreach ($result as $entry) {
+            echo $entry['_id'], ': ', $entry['name'], "\n";
+        }
+
         $this->response = 'Homework #11, task 1';
         print $this->response;
     }
