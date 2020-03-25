@@ -31,9 +31,13 @@ CREATE TABLE public.tFilmsValues (
 	attr_id int4 NOT NULL CONSTRAINT attr_id_tFilmsAttrs_tFilmsValues_fk REFERENCES public.tFilmsAttrs,
 	val_date date,
 	val_text text,
-	val_num decimal
+	val_float decimal,
+	val_int integer,
+	val_bool boolean
 );
 CREATE INDEX tFilmsValues_value_id_index ON public.tFilmsValues (value_id);
 CREATE INDEX tFilmsValues_val_date_index ON public.tFilmsValues (val_date);
 CREATE INDEX tFilmsValues_val_text_index ON public.tFilmsValues (val_text);
-CREATE INDEX tFilmsValues_val_num_index ON public.tFilmsValues (val_num);
+CREATE INDEX tFilmsValues_val_float_index ON public.tFilmsValues (val_float);
+CREATE INDEX tFilmsValues_val_int_index ON public.tFilmsValues (val_int);
+CREATE INDEX tFilmsValues_val_bool_index ON public.tFilmsValues (val_bool);

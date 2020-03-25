@@ -1,10 +1,28 @@
+-- Функция для boolean
+
+create function bool_to_string(b boolean) returns text as
+$$
+declare
+begin
+  if b then 
+      return 'да';
+  end if;
+  if not b then 
+      return 'нет';
+  end if;
+
+  return null;
+end;
+$$ language plpgsql;
+
+
 -- View для маркетинга
 
 CREATE VIEW films_marketing AS SELECT
        f.name as film_name,
        tt.name as type_name,
        fa.name as attr_name,
-       COALESCE(text(fv.val_date), text(fv.val_num), text(fv.val_text)) as value
+       COALESCE(text(fv.val_date), text(fv.val_float), text(fv.val_text), text(fv.val_int), bool_to_string(fv.val_bool)) as value
 FROM public.tFilms f
 LEFT JOIN public.tFilmsValues fv ON f.film_id = fv.film_id
 LEFT JOIN public.tFilmsAttrs fa ON fv.attr_id = fa.attr_id

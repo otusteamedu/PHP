@@ -8,3 +8,5 @@ INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (9, 5, 'Снят�
 INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (1, 4, 'дата выпуска');
 INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (10, 5, 'Посчитать прибыль');
 INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (7, 5, 'Положить листовки');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (12, 7, 'Подходит для детей');
+INSERT INTO public.tfilmsattrs (attr_id, type_id, name) VALUES (11, 6, 'Продолжительность, мин');
