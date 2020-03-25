@@ -1,0 +1,67 @@
+version: "3"
+services:
+  balancer:
+    container_name: balancer
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    links:
+      - nginx1
+      - nginx2
+      - nginx3
+    volumes:
+      - ../:/home/www/mysite.local
+      - ./balancer.conf:/etc/nginx/conf.d/mysite.local.conf
+
+  php-fpm1:
+    container_name: php-fpm1
+    build: php-fpm
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket1:/var/run
+
+  php-fpm2:
+    container_name: php-fpm2
+    build: php-fpm
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket2:/var/run
+
+  php-fpm3:
+    container_name: php-fpm3
+    build: php-fpm
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket3:/var/run
+
+  nginx1:
+    container_name: nginx1
+    build: nginx
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket1:/var/run
+    depends_on:
+      - php-fpm1
+
+  nginx2:
+    container_name: nginx2
+    build: nginx
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket2:/var/run
+    depends_on:
+      - php-fpm2
+
+  nginx3:
+    container_name: nginx3
+    build: nginx
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket3:/var/run
+    depends_on:
+      - php-fpm3
+
+volumes:
+  phpsocket1:
+  phpsocket2:
+  phpsocket3:

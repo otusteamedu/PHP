@@ -1,0 +1,23 @@
+{
+  "name": "ksenofontovs/otus-hw6",
+  "type": "project",
+  "authors": [
+    {
+      "name": "s.ksenofontov",
+      "email": "ksenofontovsm@yandex.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7",
+    "ksenofontovs/mailchecker": "dev-master"
+  },
+  "repositories": [{
+    "type": "vcs",
+    "url": "https://github.com/ksenofontovs/mailchecker.git"
+  }]
+}
