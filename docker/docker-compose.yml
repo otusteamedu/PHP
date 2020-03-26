@@ -6,23 +6,23 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../:/home/www/mysite.local
-      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ../:/home/www/${APP_HOST}
+      - ./nginx/${APP_HOST}.conf:/etc/nginx/conf.d/${APP_HOST}.conf
       - phpsocket:/var/run
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
   app:
     container_name: vlyagusha-app
     build: php
     volumes:
-      - ../:/home/www/mysite.local
+      - ../:/home/www/${APP_HOST}
       - phpsocket:/var/run
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
   postgres:
     container_name: vlyagusha-postgres
     image: postgres
@@ -38,7 +38,7 @@ services:
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
 
 volumes:
   phpsocket:

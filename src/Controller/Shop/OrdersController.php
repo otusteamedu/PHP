@@ -11,7 +11,8 @@ class OrdersController
     public function postAction(Request $request): Response
     {
         $orderFactory = new OrderFactory();
-        $order = $orderFactory->createOrder($request);
+        $orderData = json_decode($request->getContent(), true);
+        $order = $orderFactory->createOrder($orderData);
 
         return new Response(sprintf('%f', $order->getSum()));
     }

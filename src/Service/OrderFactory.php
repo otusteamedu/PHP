@@ -22,7 +22,6 @@ use Service\OrderNotifier\EmailNotifier;
 use Service\OrderNotifier\SmsNotifier;
 use Service\OrderObservers\FreeProductOrderObserver;
 use Service\OrderObservers\FreeShippingOrderObserver;
-use Symfony\Component\HttpFoundation\Request;
 
 class OrderFactory
 {
@@ -58,11 +57,9 @@ class OrderFactory
         $this->orderProductShipmentMapper = new OrderProductShipmentMapper($postgresPDO);
     }
 
-    public function createOrder(Request $request): AbstractOrder
+    public function createOrder(array $orderData): AbstractOrder
     {
-        $orderArray = json_decode($request->getContent(), true);
-
-        switch ($orderArray['type']) {
+        switch ($orderData['type']) {
             case AbstractOrder::ORDER_TYPE_B2B:
                 $order = new B2bOrder();
                 $order->setNotifier(new EmailNotifier());
@@ -79,17 +76,17 @@ class OrderFactory
 
         $order->setCreatedAt(new \DateTime());
 
-        $customer = $this->customerMapper->findById($orderArray['customer_id']);
+        $customer = $this->customerMapper->findById($orderData['customer_id']);
         $order->setCustomer($customer);
 
-        if (isset($orderArray['promocode'])) {
-            $discount = $this->discountMapper->findByPromocode($orderArray['promocode']);
+        if (isset($orderData['promocode'])) {
+            $discount = $this->discountMapper->findByPromocode($orderData['promocode']);
             $order->setDiscount($discount);
         }
 
         $this->orderMapper->insert($order);
 
-        $shippingSystem = $this->shippingSystemMapper->findById($orderArray['shipping_system_id']);
+        $shippingSystem = $this->shippingSystemMapper->findById($orderData['shipping_system_id']);
 
         $shipment = new Shipment();
         $shipment->setDate(new \DateTime('+1 day'));
@@ -101,7 +98,7 @@ class OrderFactory
         $order->setShipments([$shipment]);
 
         $orderProducts = [];
-        foreach ($orderArray['product_ids'] as $productId) {
+        foreach ($orderData['product_ids'] as $productId) {
             $product = $this->productMapper->findById($productId);
             $orderProduct = new OrderProduct();
             $orderProduct->setOrder($order);
