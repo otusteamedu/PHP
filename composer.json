@@ -15,6 +15,7 @@
     "symfony/http-foundation": "^5.0",
     "ext-json": "*",
     "ext-http": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php-amqplib/php-amqplib": "^2.11"
   }
 }
