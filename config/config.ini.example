@@ -2,4 +2,4 @@
 base_url = http://mysite.local
 
 [postgres]
-dsn = pgsql:host=postgres;port=5432;dbname=postgres;user=postgres;password=postgres
+dsn = "pgsql:host=postgres;port=5432;dbname=postgres;user=postgres;password=postgres"
