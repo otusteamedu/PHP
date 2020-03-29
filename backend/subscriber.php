@@ -2,5 +2,5 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-$consumerApp = new ConsumerApp();
-$consumerApp->run($argv);
+$appSubscriber = new AppSubscriber();
+$appSubscriber->run($argv);

@@ -6,20 +6,23 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
+use Service\Amqp\PublisherInterface;
+use Service\Config\AmqpConfigProvider;
 
-abstract class AbstractProducer
+abstract class AbstractProducer implements PublisherInterface
 {
     protected AMQPStreamConnection $connection;
     protected AMQPChannel $channel;
 
     public function __construct()
     {
+        $configProvider = new AmqpConfigProvider('../config/config.ini');
         $this->connection = new AMQPStreamConnection(
-            'rabbitmq',
-            5672,
-            'rabbitmq',
-            'rabbitmq',
-            '/'
+            $configProvider->getHost(),
+            $configProvider->getPort(),
+            $configProvider->getUser(),
+            $configProvider->getPassword(),
+            $configProvider->getVHost()
         );
         $this->channel = $this->connection->channel();
         $this->channel->queue_declare($this->getQueueName(), false, true, false, false);
@@ -27,13 +30,13 @@ abstract class AbstractProducer
         $this->channel->queue_bind($this->getQueueName(), $this->getExchangeName());
     }
 
-    public function publish(string $payload): void
+    public function publish(string $message): void
     {
-        $message = new AMQPMessage($payload, [
+        $AMQPMessage = new AMQPMessage($message, [
             'content_type' => 'text/plain',
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
         ]);
-        $this->channel->basic_publish($message, $this->getExchangeName());
+        $this->channel->basic_publish($AMQPMessage, $this->getExchangeName());
 
         $this->channel->close();
         $this->connection->close();
