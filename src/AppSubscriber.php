@@ -8,10 +8,17 @@ class AppSubscriber
     public function resolveSubscriber(string $subscriberClass): SubscriberInterface
     {
         $subscriberClass = sprintf('Service\Amqp\Consumer\%sConsumer', $subscriberClass);
+        if (!class_exists($subscriberClass)) {
+            throw new UnknownCommandException(sprintf('Указан несуществующий класс %s', $subscriberClass));
+        }
 
         return new $subscriberClass();
     }
 
+    /**
+     * @param array $args
+     * @throws UnknownCommandException
+     */
     public function run(array $args): void
     {
         if (empty($args[1])) {

@@ -4,5 +4,5 @@ use Service\Router;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$app = new App(new Router());
+$app = new App();
 $app->run();
