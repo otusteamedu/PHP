@@ -13,13 +13,11 @@ RUN pecl channel-update pecl.php.net \
     && apk del --purge .build-deps \
     && pecl clear-cache
 
-RUN mkdir --parents /usr/local/bin \
-    && wget -qcO /usr/local/bin/composer -- https://github.com/composer/composer/releases/download/1.8.6/composer.phar \
-    && chmod +x /usr/local/bin/composer
+FROM <composer-container> as builder
 
-COPY . /var/www/
-
-RUN chown -R www-data /var/www
+COPY . /app/smth # Forgot the default destination in Composer cont, check yourself.
+RUN composer install --ignore-platfrom-reqs --no-interaction --no-ansi --no-progress --prefer-dist laravel/laravel /somewhwere/laravel \
+    && composer clear-cache --no-interaction --no-ansi
 
 FROM php-fpm-base
 
@@ -27,5 +25,4 @@ USER www-data
 
 WORKDIR /var/www
 
-RUN composer create-project --no-interaction --no-ansi --no-progress --prefer-dist laravel/laravel /var/www/laravel \
-    && composer clear-cache --no-interaction --no-ansi
+COPY --from=builder --chown=www-data /somewhwere/laravel /var/www/laravel
