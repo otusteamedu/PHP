@@ -1,21 +1,17 @@
 FROM php:7.3-fpm-alpine as php-fpm-base
 
-RUN apk add --no-cache libpq \
-    && apk add --no-cache --virtual .build-deps postgresql-dev \
-    && docker-php-ext-install pdo_pgsql \
+RUN apk add --no-cache libpq libxml2 \
+    && apk add --no-cache --virtual .build-deps libxml2-dev postgresql-dev \
+    && docker-php-ext-install bcmath pdo_pgsql xml \
     && apk del --purge .build-deps
 
-RUN pecl channel-update pecl.php.net
-
-RUN apk add --no-cache --virtual .build-deps g++ make autoconf \
+RUN pecl channel-update pecl.php.net \
+    && apk add --no-cache --virtual .build-deps g++ make autoconf \
     && pecl install apcu-5.1.17 \
-    && docker-php-ext-enable apcu \
-    && apk del --purge .build-deps
-
-RUN apk add --no-cache --virtual .build-deps g++ make autoconf \
     && pecl install xdebug-2.7.2 \
-    && docker-php-ext-enable xdebug \
-    && apk del --purge .build-deps
+    && docker-php-ext-enable apcu xdebug \
+    && apk del --purge .build-deps \
+    && pecl clear-cache
 
 RUN mkdir --parents /usr/local/bin \
     && wget -qcO /usr/local/bin/composer -- https://github.com/composer/composer/releases/download/1.8.6/composer.phar \
@@ -31,5 +27,5 @@ USER www-data
 
 WORKDIR /var/www
 
-RUN composer install --no-dev --no-interaction --no-progress \
-    && composer clear-cache --no-interaction
+RUN composer create-project --no-interaction --no-ansi --no-progress --prefer-dist laravel/laravel /var/www/laravel \
+    && composer clear-cache --no-interaction --no-ansi
