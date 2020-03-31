@@ -83,7 +83,9 @@ CREATE TABLE  filmsAttrValues
     attr_id integer REFERENCES filmsAttr(id),
     value_str varchar,
     value_date date,
-    value_bool boolean
+    value_bool boolean,
+    value_text text,
+    value_num numeric(10,2)
 );
 CREATE INDEX films_id_index ON filmsAttrValues(film_id);
 
