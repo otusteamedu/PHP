@@ -1,6 +1,7 @@
 <?php
 namespace Otus\HW11;
 
+use \Otus\HW11\Task1;
 use \Otus\HW11\Task2;
 
 class App
@@ -31,20 +32,42 @@ class App
 
     protected function task1()
     {
-        $client = new \MongoDB\Client("mongodb://mongo:27017");
-        $collection = $client->demo->beers;
+        $request = new Task1\Request($_REQUEST);
+        $storage = new Task1\MongoStorage();
 
-        $result = $collection->insertOne( [ 'name' => 'Hinterland', 'brewery' => 'BrewDog' ] );
+        if ( $request->isAddVideo() ) {
 
-        echo "Идентификатор вставленного документа '{$result->getInsertedId()}'\n";
+            $data = json_decode( $request->getJsonData() );
+            $video = new Task1\Video([
+                'name' => $data->name,
+                'url' => $data->url,
+                'likes' => $data->likes,
+                'dislikes' => $data->dislikes
+            ]);
 
-        $result = $collection->find( [ 'name' => 'Hinterland', 'brewery' => 'BrewDog' ] );
+            print_r($video);
 
-        foreach ($result as $entry) {
-            echo $entry['_id'], ': ', $entry['name'], "\n";
+        } elseif ( $request->isAddChannel() ) {
+
+            $data = json_decode( $request->getJsonData() );
+
+            $channel = new Task1\Channel([
+                'name' => $data->name,
+                'url' => $data->url,
+                'subscribers' => $data->subscribers,
+                'videos' => $data->videos
+            ]);
+
+            print_r($channel);
+
+        } elseif ( $request->isShowStatus() ) {
+            $storage->showStatus();
         }
 
+        $storage->init();
+
         $this->response = 'Homework #11, task 1';
+
         print $this->response;
     }
 
