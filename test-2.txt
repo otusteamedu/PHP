@@ -1,0 +1,177 @@
+Тестируем запрос
+
+-- Запрос 2: Посчитать количество атрибутов фильмов у которых тип атрибута = 2
+SELECT count(name)
+FROM public.filmsattrs
+WHERE type_id = 50;
+
+Создаем таблицу без индексов
+
+CREATE TABLE public.filmsattrs (
+  attr_id serial NOT NULL CONSTRAINT attr_id_pk PRIMARY KEY,
+  type_id int4 NOT NULL CONSTRAINT type_id_types_filmsAttrs_fk REFERENCES public.types,
+  name text
+);
+
+Еще понадобится таблица типов types
+
+CREATE TABLE public.types (
+  type_id serial NOT NULL CONSTRAINT type_id_pk PRIMARY KEY,
+    name text NOT NULL,
+  comment text
+);
+
+Заполняем 100 значениями
+
+INSERT INTO public.types (type_id, name, comment)
+SELECT
+    gs.id,
+    random_string((1+random()*40)::integer),
+    random_string((1+random()*40)::integer)
+FROM generate_series(0,99) as gs(id);
+
+
+1. Заполняем таблицу на 10000 строк
+
+Генерируем данные
+
+INSERT INTO public.filmsattrs (attr_id, type_id, name)
+SELECT
+    gs.id,
+    ((random()*99)::integer),
+    random_string((1+random()*40)::integer)
+FROM generate_series(1,10000) as gs(id);
+
+План запроса:
+Aggregate  (cost=201.25..201.26 rows=1 width=8)
+  ->  Seq Scan on filmsattrs  (cost=0.00..201.00 rows=100 width=21)
+        Filter: (type_id = 50)
+
+Добавляем индекс для "attr_id"
+
+CREATE INDEX filmsattrs_attr_id_index ON public.filmsattrs (attr_id);
+
+План запроса:
+Aggregate  (cost=201.25..201.26 rows=1 width=8)
+  ->  Seq Scan on filmsattrs  (cost=0.00..201.00 rows=100 width=21)
+        Filter: (type_id = 50)
+
+Добавляем индекс для "type_id"
+
+CREATE INDEX filmsattrs_type_id_index ON public.filmsattrs (type_id);
+
+План запроса:
+Aggregate  (cost=86.61..86.62 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=5.06..86.36 rows=100 width=21)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..5.04 rows=100 width=0)
+              Index Cond: (type_id = 50)
+
+Добавляем индекс для "name"
+
+CREATE INDEX filmsattrs_name_index ON public.filmsattrs (name);
+
+План запроса:
+Aggregate  (cost=86.61..86.62 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=5.06..86.36 rows=100 width=21)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..5.04 rows=100 width=0)
+              Index Cond: (type_id = 50)
+
+Получилось что индекс filmsattrs_type_id_index помогает, другие не влияют
+
+Удаляем индексы и данные:
+DELETE FROM public.filmsattrs;
+DROP INDEX filmsattrs_attr_id_index;
+DROP INDEX filmsattrs_type_id_index;
+DROP INDEX filmsattrs_name_index;
+
+2. Заполняем таблицу на 1000000 строк
+Попробуем сначала создать индексы а потом удалять
+
+Генерируем данные
+
+INSERT INTO public.filmsattrs (attr_id, type_id, name)
+SELECT
+    gs.id,
+    ((random()*99)::integer),
+    random_string((1+random()*40)::integer)
+FROM generate_series(1,1000000) as gs(id);
+
+План запроса:
+Finalize Aggregate  (cost=13776.90..13776.91 rows=1 width=8)
+  ->  Gather  (cost=13776.68..13776.89 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=12776.68..12776.69 rows=1 width=8)
+              ->  Parallel Seq Scan on filmsattrs  (cost=0.00..12766.33 rows=4139 width=22)
+                    Filter: (type_id = 50)
+
+
+Добавляем индекс для "attr_id"
+
+CREATE INDEX filmsattrs_attr_id_index ON public.filmsattrs (attr_id);
+
+План запроса:
+Finalize Aggregate  (cost=13776.90..13776.91 rows=1 width=8)
+  ->  Gather  (cost=13776.68..13776.89 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=12776.68..12776.69 rows=1 width=8)
+              ->  Parallel Seq Scan on filmsattrs  (cost=0.00..12766.33 rows=4139 width=22)
+                    Filter: (type_id = 50)
+
+
+Добавляем индекс для "type_id"
+
+CREATE INDEX filmsattrs_type_id_index ON public.filmsattrs (type_id);
+
+План запроса:
+Aggregate  (cost=8300.65..8300.66 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=189.41..8275.82 rows=9933 width=22)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..186.92 rows=9933 width=0)
+              Index Cond: (type_id = 50)
+
+
+Добавляем индекс для "name"
+
+CREATE INDEX filmsattrs_name_index ON public.filmsattrs (name);
+
+План запроса:
+Aggregate  (cost=8300.65..8300.66 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=189.41..8275.82 rows=9933 width=22)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..186.92 rows=9933 width=0)
+              Index Cond: (type_id = 50)
+
+
+Скорость увеличилась но не сильно, всего в 13776.90 / 8300.65 = 1,66 раза
+
+Попробуем другой вид индекса
+
+DROP INDEX filmsattrs_type_id_index;
+CREATE INDEX filmsattrs_type_id_index ON public.filmsattrs (type_id int4_ops);
+
+План запроса:
+Aggregate  (cost=8300.65..8300.66 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=189.41..8275.82 rows=9933 width=0)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..186.92 rows=9933 width=0)
+              Index Cond: (type_id = 50)
+
+
+Не помогло
+
+DROP INDEX filmsattrs_type_id_index;
+CREATE INDEX filmsattrs_type_id_index ON public.filmsattrs USING HASH (type_id);
+
+План запроса:
+Aggregate  (cost=8428.22..8428.23 rows=1 width=8)
+  ->  Bitmap Heap Scan on filmsattrs  (cost=316.98..8403.39 rows=9933 width=0)
+        Recheck Cond: (type_id = 50)
+        ->  Bitmap Index Scan on filmsattrs_type_id_index  (cost=0.00..314.50 rows=9933 width=0)
+              Index Cond: (type_id = 50)
+
+Даже немного хуже
+
+
+https://postgrespro.ru/docs/postgresql/9.6/indexes-types
