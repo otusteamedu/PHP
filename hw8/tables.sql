@@ -84,7 +84,7 @@ CREATE TABLE  filmsAttrValues
     value_str varchar,
     value_date date,
     value_bool boolean,
-    value_text text,
+    value_int integer,
     value_num numeric(10,2)
 );
 CREATE INDEX films_id_index ON filmsAttrValues(film_id);
