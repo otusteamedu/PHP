@@ -223,20 +223,27 @@ class MongoStorage implements Task1\IStorage, Task1\IStatistics
     }
 
 
-    public function addVideo(Task1\Video $video)
+    public function addVideo(string $channelId, Task1\Video $video)
     {
         $dbChannels = $this->db->selectCollection('channels');
 
-        // TODO: update channel
-        /*$result = $dbChannels->insertOne([
-            'name' => $channel->getName(),
-            'url' => $channel->getUrl(),
-            'subscribers' => $channel->getSubscribers(),
-            'videos' => $arVideos
-        ]);*/
+        $result = $dbChannels->updateOne(
+            [
+                'url' => $channelId
+            ],
+            [
+                '$addToSet' => [
+                    'videos' => [
+                        'name' => $video->getName(),
+                        'url' => $video->getUrl(),
+                        'likes' => $video->getLikes(),
+                        'dislikes' => $video->getDislikes(),
+                    ]
+                ]
+            ]
+        );
 
-        // TODO: return \MongoDB\UpdateResult::isAcknowledged
-        // return $result->getInsertedCount();
+        return (bool) $result->getModifiedCount();
     }
 
 

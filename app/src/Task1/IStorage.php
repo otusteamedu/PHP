@@ -11,7 +11,7 @@ interface IStorage
 
     public function addChannel(Task1\Channel $chanel);
 
-    public function addVideo(Task1\Video $video);
+    public function addVideo(string $channelId, Task1\Video $video);
 
     public function deleteChannel(Task1\Channel $chanel);
 

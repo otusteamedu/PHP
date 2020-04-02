@@ -45,7 +45,11 @@ class App
                 'dislikes' => $data->dislikes
             ]);
 
-            print_r($video);
+            if ( $storage->addVideo($data->channel_url, $video) ) {
+                $this->response = 'Homework #11, task 1: add video successful';
+            } else {
+                $this->response = 'Homework #11, task 1: add new video failed';
+            }
 
         } elseif ( $request->isAddChannel() ) {
 
@@ -58,6 +62,8 @@ class App
 
             if ( $storage->addChannel($channel) ) {
                 $this->response = 'Homework #11, task 1: add channel successful';
+            } else {
+                $this->response = 'Homework #11, task 1: add new channel failed';
             }
 
         } elseif ( $request->isShowStatus() ) {
@@ -127,6 +133,8 @@ class App
 
             print_r($arChannels);
 
+        } else {
+            $this->response = 'Homework #11, task 1: send action';
         }
 
         print $this->response;
