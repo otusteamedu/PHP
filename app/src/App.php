@@ -33,11 +33,11 @@ class App
     protected function task1()
     {
         $request = new Task1\Request($_REQUEST);
+        $data = json_decode( $request->getJsonData() );
         $storage = new Task1\MongoStorage();
 
         if ( $request->isAddVideo() ) {
 
-            $data = json_decode( $request->getJsonData() );
             $video = new Task1\Video([
                 'name' => $data->name,
                 'url' => $data->url,
@@ -49,8 +49,6 @@ class App
 
         } elseif ( $request->isAddChannel() ) {
 
-            $data = json_decode( $request->getJsonData() );
-
             $channel = new Task1\Channel([
                 'name' => $data->name,
                 'url' => $data->url,
@@ -58,15 +56,78 @@ class App
                 'videos' => $data->videos
             ]);
 
-            print_r($channel);
+            if ( $storage->addChannel($channel) ) {
+                $this->response = 'Homework #11, task 1: add channel successful';
+            }
 
         } elseif ( $request->isShowStatus() ) {
+
             $storage->showStatus();
+
+        } elseif ( $request->isInitDB() ) {
+
+            $storage->init();
+            $this->response = 'Homework #11, task 1: init db successful';
+
+        } elseif ( $request->isDeleteVideo() ) {
+
+            $video = new Task1\Video([
+                'name' => '*',
+                'url' => $data->url,
+                'likes' => 0,
+                'dislikes' => 0
+            ]);
+
+            if ( $storage->deleteVideo($video) ) {
+                $this->response = 'Homework #11, task 1: delete video successful';
+            } else {
+                $this->response = 'Homework #11, task 1: can not delete video: try to send other url of video';
+            }
+
+        } elseif ( $request->isDeleteChannel() ) {
+
+            $channel = new Task1\Channel([
+                'name' => '*',
+                'url' => $data->url,
+                'subscribers' => 0,
+            ]);
+
+            if ( $storage->deleteChannel($channel) ) {
+                $this->response = 'Homework #11, task 1: delete channel successful';
+            } else {
+                $this->response = 'Homework #11, task 1: can not delete channel: try to send other url of channel';
+            }
+
+        } elseif ( $request->isGetStatistics() ) {
+
+            $result = $storage->getStatistics(new Task1\Channel([
+                'name' => '*',
+                'url' => $data->url,
+                'subscribers' => 0
+            ]));
+
+            $this->response = 'Homework #11, task 1: the channel "' . $result->_id . '" has ' . $result->value['likes'] . ' likes and ' . $result->value['dislikes'] . ' dislikes';
+
+        } elseif ( $request->isGetTop() ) {
+
+            $result = $storage->getTop();
+
+            $arChannels = [];
+            foreach ($result as $channelStat) {
+                $arChannels[$channelStat->value['index']] = [
+                    'url' => $channelStat->_id,
+                    'likes' => $channelStat->value['likes'],
+                    'dislikes' => $channelStat->value['dislikes'],
+                    'index' => $channelStat->value['index']
+                ];
+            }
+
+            /** Sorting by relation value (index) */
+            krsort($arChannels);
+
+            print_r($arChannels);
+
         }
-
-        $storage->init();
-
-        $this->response = 'Homework #11, task 1';
 
         print $this->response;
     }

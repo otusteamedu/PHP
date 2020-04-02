@@ -13,9 +13,8 @@ interface IStorage
 
     public function addVideo(Task1\Video $video);
 
-    /*public function setEvent(\DS\Vector $params, \Otus\HW11\Task2\Event $event);
+    public function deleteChannel(Task1\Channel $chanel);
 
-    public function queryExec(\DS\Vector $params);
+    public function deleteVideo(Task1\Video $video);
 
-    public function clearEvents();*/
 }

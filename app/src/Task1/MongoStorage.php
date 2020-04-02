@@ -1,10 +1,12 @@
 <?php
 namespace Otus\HW11\Task1;
 
+use MongoDB\Exception\Exception;
+use MongoDB\Exception\InvalidArgumentException;
 use Otus\HW11\Config;
 use \Otus\HW11\Task1;
 
-class MongoStorage implements Task1\IStorage
+class MongoStorage implements Task1\IStorage, Task1\IStatistics
 {
     protected $client;
 
@@ -183,15 +185,192 @@ class MongoStorage implements Task1\IStorage
     }
 
 
+    /**
+     * @param Channel $channel
+     * @return bool
+     */
     public function addChannel(Task1\Channel $channel)
     {
-        // TODO: Implement addChannel() method.
+        $dbChannels = $this->db->selectCollection('channels');
+
+        $arVideos = [];
+
+        /**
+         * \DS\Vector $videos
+         * Task1\Video $video
+         */
+        if ($channel->getVideos()->count() > 0) {
+
+            foreach ($channel->getVideos() as $video) {
+                $arVideos[] = [
+                    'name' => $video->getName(),
+                    'url' => $video->getUrl(),
+                    'likes' => $video->getlikes(),
+                    'dislikes' => $video->getDislikes()
+                ];
+            }
+
+        }
+
+        $result = $dbChannels->insertOne([
+            'name' => $channel->getName(),
+            'url' => $channel->getUrl(),
+            'subscribers' => $channel->getSubscribers(),
+            'videos' => $arVideos
+        ]);
+
+        return (bool) $result->getInsertedCount();
     }
 
 
     public function addVideo(Task1\Video $video)
     {
-        // TODO: Implement addVideo() method.
+        $dbChannels = $this->db->selectCollection('channels');
+
+        // TODO: update channel
+        /*$result = $dbChannels->insertOne([
+            'name' => $channel->getName(),
+            'url' => $channel->getUrl(),
+            'subscribers' => $channel->getSubscribers(),
+            'videos' => $arVideos
+        ]);*/
+
+        // TODO: return \MongoDB\UpdateResult::isAcknowledged
+        // return $result->getInsertedCount();
     }
 
+
+    /**
+     * @param Channel $chanel
+     * @return bool
+     */
+    public function deleteChannel(Task1\Channel $chanel)
+    {
+        $dbChannels = $this->db->selectCollection('channels');
+        $result = $dbChannels->deleteOne([
+            'url' => $chanel->getUrl()
+        ]);
+
+        return (bool) $result->getDeletedCount();
+    }
+
+
+    /**
+     * @param Video $video
+     * @return bool
+     */
+    public function deleteVideo(Task1\Video $video)
+    {
+        $dbChannels = $this->db->selectCollection('channels');
+
+        $result = $dbChannels->updateOne(
+            [
+                'videos.url' => $video->getUrl()
+            ],
+            [
+                '$pull' => [
+                    "videos" => ["url" => $video->getUrl()]
+                ]
+            ]
+        );
+
+        return (bool) $result->getModifiedCount();
+    }
+
+
+    /**
+     * Return statistics to channel (likes, dislikes)
+     * map-reduce aggregation is used
+     *
+     * @param Channel $channel
+     * @return mixed
+     */
+    public function getStatistics(Task1\Channel $channel)
+    {
+        $dbChannels = $this->db->selectCollection('channels');
+
+        $map = new \MongoDB\BSON\Javascript('
+            function() {
+                var key = this.url;
+                for (var idx = 0; idx < this.videos.length; idx++) {
+                    var value = {
+                        likes: this.videos[idx].likes,
+                        dislikes: this.videos[idx].dislikes
+                    };
+                    emit(key, value);
+               }
+            }
+        ');
+
+        $reduce = new \MongoDB\BSON\Javascript('
+            function(key, value) {
+                reducedVal = {likes: 0, dislikes: 0};
+                for (var idx = 0; idx < value.length; idx++) {
+                    reducedVal.likes += value[idx].likes;
+                    reducedVal.dislikes += value[idx].dislikes;
+               }
+               return reducedVal;
+            }
+        ');
+
+        $options = [
+            'query' => [
+                'url' => $channel->getUrl()
+            ]
+        ];
+
+        $result = $dbChannels->mapReduce($map, $reduce, ['inline' => 1], $options);
+
+        return $result->getIterator()[0];
+    }
+
+
+    /**
+     * Return top channels by relation likes / dislikes
+     * map-reduce aggregation is used
+     *
+     * @return mixed
+     */
+    public function getTop()
+    {
+        $dbChannels = $this->db->selectCollection('channels');
+
+        $map = new \MongoDB\BSON\Javascript('
+            function() {
+                var key = this.url;
+                for (var idx = 0; idx < this.videos.length; idx++) {
+                    var value = {
+                        likes: this.videos[idx].likes,
+                        dislikes: this.videos[idx].dislikes
+                    };
+                    emit(key, value);
+               }
+            }
+        ');
+
+        $reduce = new \MongoDB\BSON\Javascript('
+            function(key, value) {
+                reducedVal = {likes: 0, dislikes: 0};
+                for (var idx = 0; idx < value.length; idx++) {
+                    reducedVal.likes += value[idx].likes;
+                    reducedVal.dislikes += value[idx].dislikes;
+               }
+               return reducedVal;
+            }
+        ');
+
+        $finalize = new \MongoDB\BSON\Javascript('
+            function(key, reducedVal) {
+                reducedVal.index = reducedVal.likes / reducedVal.dislikes;
+                return reducedVal;
+            }
+        ');
+
+        $options = [
+            'finalize' => $finalize,
+            // 'limit' => 5 // mongo can not sorting by aggregated value
+        ];
+
+        return $dbChannels->mapReduce($map, $reduce, ['inline' => 1], $options);
+    }
 }

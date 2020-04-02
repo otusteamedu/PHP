@@ -37,6 +37,38 @@ class Request
         return ($this->route == 'addvideo') && ($_SERVER['REQUEST_METHOD'] == 'POST');
     }
 
+    /**
+     * @return bool
+     */
+    public function isDeleteVideo(): bool
+    {
+        return ($this->route == 'deletevideo') && ($_SERVER['REQUEST_METHOD'] == 'POST');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleteChannel(): bool
+    {
+        return ($this->route == 'deletechannel') && ($_SERVER['REQUEST_METHOD'] == 'POST');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGetStatistics(): bool
+    {
+        return ($this->route == 'getstatistics') && ($_SERVER['REQUEST_METHOD'] == 'GET');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGetTop(): bool
+    {
+        return ($this->route == 'gettop') && ($_SERVER['REQUEST_METHOD'] == 'GET');
+    }
+
 
     /**
      * @return bool
@@ -47,9 +79,18 @@ class Request
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getJsonData(): string
+    public function isInitDB(): bool
+    {
+        return ($this->route == 'initdb') && ($_SERVER['REQUEST_METHOD'] == 'GET');
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getJsonData()
     {
         return $this->data;
     }
