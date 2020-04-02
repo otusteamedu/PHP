@@ -29,7 +29,7 @@
 {
     "name": "ПостНаука",
     "url": "https://www.youtube.com/user/postnauka/",
-    "subscribers": "603000",
+    "subscribers": 603000,
     "videos": [
         {
             "name": "Археи — Елизавета Бонч-Осмоловская / ПостНаука",

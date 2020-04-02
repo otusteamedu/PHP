@@ -30,7 +30,7 @@ class MongoStorage implements Task1\IStorage, Task1\IStatistics
             [
                 'name' => 'ПостНаука',
                 'url' => 'https://www.youtube.com/user/postnauka/',
-                'subscribers' => '603000',
+                'subscribers' => 603000,
                 'videos' => [
                     [
                         'name' => 'Археи — Елизавета Бонч-Осмоловская / ПостНаука',
@@ -55,7 +55,7 @@ class MongoStorage implements Task1\IStorage, Task1\IStatistics
             [
                 'name' => 'National Geographic Россия',
                 'url' => 'https://www.youtube.com/channel/UC77ykkX5UdMhd5ykWknoKmw/',
-                'subscribers' => '42300',
+                'subscribers' => 42300,
                 'videos' => [
                     [
                         'name' => '06 Космическая погода, Юпитер (2013)',
@@ -92,7 +92,7 @@ class MongoStorage implements Task1\IStorage, Task1\IStatistics
             [
                 'name' => 'KhanAcademyRussian',
                 'url' => 'https://www.youtube.com/user/KhanAcademyRussian/',
-                'subscribers' => '299000',
+                'subscribers' => 299000,
                 'videos' => [
                     [
                         'name' => 'Задача на положение точки относительно окружности(видео 61) | Подобие. Геометрия | Математика',
@@ -123,7 +123,7 @@ class MongoStorage implements Task1\IStorage, Task1\IStatistics
             [
                 'name' => 'Serious Science',
                 'url' => 'https://www.youtube.com/user/SeriousScience/',
-                'subscribers' => '57400',
+                'subscribers' => 57400,
                 'videos' => [
                     [
                         'name' => 'Supergravity and Kaluza-Klein Theory – Hadi Godazgar',

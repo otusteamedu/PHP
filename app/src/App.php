@@ -112,7 +112,11 @@ class App
                 'subscribers' => 0
             ]));
 
-            $this->response = 'Homework #11, task 1: the channel "' . $result->_id . '" has ' . $result->value['likes'] . ' likes and ' . $result->value['dislikes'] . ' dislikes';
+            if ( !is_null($result) ) {
+                $this->response = 'Homework #11, task 1: the channel "' . $result->_id . '" has ' . $result->value['likes'] . ' likes and ' . $result->value['dislikes'] . ' dislikes';
+            } else {
+                $this->response = 'Homework #11, task 1: can not retrieve statistics by ' . $data->url;
+            }
 
         } elseif ( $request->isGetTop() ) {
 
