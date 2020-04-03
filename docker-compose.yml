@@ -1,0 +1,76 @@
+--- 
+services: 
+  nginx_1: 
+    image: "nginx:latest"
+    links: 
+      - php_1
+    ports: 
+      - "81:80"
+    volumes:
+      - /sock1/:/sock/    
+      - ./www/:/var/www/
+      - ./nginx/site.conf/:/etc/nginx/conf.d/default.conf/
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf/
+  nginx_2: 
+    image: "nginx:latest"
+    links: 
+      - php_2
+    ports: 
+      - "82:80"
+    volumes:
+      - /sock2/:/sock/    
+      - ./www/:/var/www/
+      - ./nginx/site.conf/:/etc/nginx/conf.d/default.conf/
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf/
+  nginx_3: 
+    image: "nginx:latest"
+    links: 
+      - php_3
+    ports: 
+      - "83:80"
+    volumes:
+      - /sock3/:/sock/    
+      - ./www/:/var/www/
+      - ./nginx/site.conf/:/etc/nginx/conf.d/default.conf/
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf/
+  nginx_balancer: 
+    image: "nginx:latest"
+    links:
+      - nginx_1
+      - nginx_2
+      - nginx_3
+    ports: 
+      - "80:80"
+    volumes: 
+      - ./nginx_balancer/balancer.conf/:/etc/nginx/conf.d/default.conf/
+  php_1:
+    image: "nanoninja/php-fpm"
+    volumes: 
+      - ./www/:/var/www/
+      - /sock1/:/sock/
+      - ./php/zz-docker.conf/:/usr/local/etc/php-fpm.d/zz-docker.conf/
+      - ./php/php-fpm.conf/:/usr/local/etc/php-fpm.conf/
+      - ./php/www.conf/:/usr/local/etc/php-fpm.d/www.conf/
+    working_dir: /var/www/
+    restart: always
+  php_2:
+    image: "nanoninja/php-fpm"
+    volumes: 
+      - ./www/:/var/www/
+      - /sock2/:/sock/
+      - ./php/zz-docker.conf/:/usr/local/etc/php-fpm.d/zz-docker.conf/
+      - ./php/php-fpm.conf/:/usr/local/etc/php-fpm.conf/
+      - ./php/www.conf/:/usr/local/etc/php-fpm.d/www.conf/
+    working_dir: /var/www/
+    restart: always
+  php_3:
+    image: "nanoninja/php-fpm"  
+    volumes: 
+      - ./www/:/var/www/
+      - /sock3/:/sock/
+      - ./php/zz-docker.conf/:/usr/local/etc/php-fpm.d/zz-docker.conf/
+      - ./php/php-fpm.conf/:/usr/local/etc/php-fpm.conf/
+      - ./php/www.conf/:/usr/local/etc/php-fpm.d/www.conf/
+    working_dir: /var/www/
+    restart: always
+version: "3.7"
