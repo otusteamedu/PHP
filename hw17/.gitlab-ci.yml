@@ -1,0 +1,59 @@
+image:
+  name: docker/compose
+  entrypoint: ["/bin/sh", "-c"]
+
+services:
+  - docker:dind
+
+stages:
+  - test_build
+  - release_build
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+
+test_build:
+  stage: test_build
+  script:
+    - docker-compose build php
+    - docker-compose up -d
+    - docker-compose exec -T php composer install
+    - docker-compose exec -T php vendor/bin/php-cs-fixer fix src --dry-run --allow-risky=yes -vvv
+    - docker-compose exec -T php vendor/bin/phpunit tests
+  cache:
+    key: ${CI_COMMIT_REF_NAME}
+    paths:
+      - sites/otus-php/vendor/
+
+release_build:
+  stage: release_build
+  script:
+    - docker-compose build
+    - docker-compose up -d
+    - docker-compose exec -T php composer install
+  artifacts:
+    paths:
+      - ./*
+    when: on_success
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  dependencies:
+    - release_build
+  script:
+    - mkdir ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - which ssh-agent || ( apk update && apk add openssh-client )
+    - eval $(ssh-agent -s)
+    - apk add bash rsync
+    - bash -c "ssh-add <(echo '$SSH_PRIVATE_KEY')"
+    - ssh $SSH_USER_HOST "cp -rL $PROJECT_PATH/www $PROJECT_PATH/$RELEASE_DIR"
+    - rsync -av --exclude-from .rsyncignore --delete . $SSH_USER_HOST:$PROJECT_PATH/$RELEASE_DIR
+    - ssh $SSH_USER_HOST "cd $PROJECT_PATH && ln -sf $RELEASE_DIR www.new"
+    - ssh $SSH_USER_HOST "cd $PROJECT_PATH && mv -T www.new www"
+  only:
+    - master

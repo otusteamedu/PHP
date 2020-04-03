@@ -1,0 +1,5 @@
+.rsyncignore
+.git
+.gitignore
+.gitlab-ci.yml
+README.md

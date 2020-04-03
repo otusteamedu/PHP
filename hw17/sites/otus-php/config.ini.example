@@ -1,0 +1,23 @@
+# 'dev' or 'prod'
+environment=dev
+
+# DB engines
+# 'mongodb' or 'redis' or 'postgres'
+storage=postgres
+
+postgres_user=postgres
+postgres_password=password
+postgres_db=postgres
+postgres_host=postgresql
+postgres_port=5432
+
+redis_port=6379
+
+# Queue brokers
+# 'rabbitmq' or 'new_super_mq'
+queue_broker=rabbitmq
+
+rabbitmq_host=rabbitmq
+rabbitmq_port=5672
+rabbitmq_user=user
+rabbitmq_password=password
