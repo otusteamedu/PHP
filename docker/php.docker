@@ -24,6 +24,7 @@ RUN apk update \
         igbinary \
         msgpack \
         memcached-$MEMCACHED_VER \
+        mongodb \
     && docker-php-ext-install \
         pdo_pgsql \
     && docker-php-ext-enable \
@@ -32,6 +33,7 @@ RUN apk update \
         igbinary \
         msgpack \
         memcached \
+        mongodb \
     && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \

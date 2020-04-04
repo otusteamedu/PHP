@@ -12,5 +12,9 @@
         "psr-4": {
             "Bjlag\\": "src/"
         }
+    },
+    "require": {
+        "ext-mongo": "*",
+        "mongodb/mongodb": "^1.6"
     }
 }

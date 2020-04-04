@@ -31,48 +31,51 @@
 
 Описать в виде JSON с указанием типов полей.
 
+Колекция канала
+channel
 {
-    "channel": {
-        "id": "xxx",
-        "url": "https://...",
-        "name": "xxx",
-        "description": "xxx",
-        "banner": "https://...",
-        "country": "xxx",
-        "registration_data": "2020-01-01",
-        "number_views": 2000000,
-        "number_subscribes": 150000,
-        "links": [
-            {
-                "name": "VK",
-                "url": "xxx"
-            },
-            {
-                "name": "xxx",
-                "url": "xxx"
-            }
-        ]
-    },
-    "video": [
+    "id": "xxx",
+    "url": "https://...",
+    "name": "xxx",
+    "description": "xxx",
+    "banner": "https://...",
+    "country": "xxx",
+    "registration_data": "2020-01-01",
+    "number_views": 2000000,
+    "number_subscribes": 150000,
+    "links": [
         {
-            "id": "xxx",
-            "url": "https://...",
+            "name": "VK",
+            "url": "xxx"
+        },
+        {
             "name": "xxx",
-            "preview_image": "https://...",
-            "description": "xxx",
-            "category": "xxx",
-            "duration": "3000",
-            "post_data": "2020-10-10 10:23:56",
-            "number_like": 2000,
-            "number_dislike": 100,
-            "number_views": 50000
+            "url": "xxx"
         }
     ]
+}
+
+Колекция видео каналов
+video
+{
+    "id": "xxx",
+    "channel_id": "xxx"
+    "url": "https://...",
+    "name": "xxx",
+    "preview_image": "https://...",
+    "description": "xxx",
+    "category": "xxx",
+    "duration": "3000",
+    "post_data": "2020-10-10 10:23:56",
+    "number_like": 2000,
+    "number_dislike": 100,
+    "number_views": 50000
 }
 
 Описать какие индексы понадобятся в данной структуре?
     channel.id unique
     video.id unique
+    video.chanel_id
 
 ------------------
 
