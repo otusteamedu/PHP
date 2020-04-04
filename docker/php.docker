@@ -1,6 +1,6 @@
 FROM php:7.3-fpm-alpine
 
-ENV XDEBUG_VER 2.9.2
+ENV XDEBUG_VER 2.9.4
 ENV MEMCACHED_VER 3.1.5
 ENV REDIS_VER 5.1.1
 
@@ -32,12 +32,7 @@ RUN apk update \
         igbinary \
         msgpack \
         memcached \
-    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && pecl install raphf propro \
-    && echo "extension=raphf.so" >> /usr/local/etc/php/php.ini \
-    && echo "extension=propro.so" >> /usr/local/etc/php/php.ini \
-    && pecl install pecl_http \
-    && echo "extension=http.so" >> /usr/local/etc/php/php.ini
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf \
     && wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet \

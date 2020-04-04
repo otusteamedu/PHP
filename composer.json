@@ -1,6 +1,6 @@
 {
     "name": "otus/php",
-    "description": "Lesson 4",
+    "description": "Lesson 16",
     "type": "project",
     "authors": [
         {
@@ -8,18 +8,9 @@
             "email": "vlad.duplin@ya.ru"
         }
     ],
-    "repositories": [
-        {
-            "type":"git",
-            "url":"https://github.com/bjlag/otus-phpinfo"
-        }
-    ],
-    "require": {
-        "bjlag/phpinfo": "dev-master"
-    },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Bjlag\\": "src/"
         }
     }
 }

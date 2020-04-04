@@ -2,7 +2,7 @@ version: '3'
 
 services:
     nginx:
-        container_name: otus-php-nginx
+        container_name: php-nginx
         build:
             context: ./docker
             dockerfile: nginx.docker
@@ -10,16 +10,16 @@ services:
             - 8081:80
         volumes:
             - ./:/var/www
-            - ./docker/socket:/var/run/php
+            - ./var/socket:/var/run/php
 
     php-fpm:
-        container_name: otus-php-fpm
+        container_name: php-fpm
         build:
             context: ./docker
             dockerfile: php.docker
         volumes:
             - ./:/var/www
-            - ./docker/socket:/var/run/php
+            - ./var/socket:/var/run/php
         environment:
             XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
             PHP_IDE_CONFIG: "serverName=Docker"
