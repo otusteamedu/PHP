@@ -84,9 +84,11 @@ CREATE TABLE public.seats (
 	"row_number" int4 NULL,
 	id serial NOT NULL,
 	id_seat_type int4 NULL,
+	id_price int4 NULL,
 	CONSTRAINT seats_pk PRIMARY KEY (id),
 	CONSTRAINT seats_fk FOREIGN KEY (id_hall) REFERENCES halls(id),
-	CONSTRAINT seats_fk_2 FOREIGN KEY (id_seat_type) REFERENCES seat_types(id)
+	CONSTRAINT seats_fk_2 FOREIGN KEY (id_seat_type) REFERENCES seat_types(id),
+	CONSTRAINT seats_fk_price FOREIGN KEY (id_price) REFERENCES price(id)
 );
 CREATE INDEX seats_id_holl_idx ON public.seats USING btree (id_hall);
 CREATE UNIQUE INDEX seats_id_idx ON public.seats USING btree (id);
@@ -105,11 +107,9 @@ CREATE TABLE public.tickets (
 	is_paid bool NULL DEFAULT false,
 	id_seat int4 NOT NULL,
 	CONSTRAINT tickets_pk PRIMARY KEY (id),
-	CONSTRAINT tickets_fk_1 FOREIGN KEY (id_seance) REFERENCES seances(id),
 	CONSTRAINT tickets_fk_3 FOREIGN KEY (id_seat) REFERENCES seats(id)
 );
 CREATE UNIQUE INDEX tickets_id_idx ON public.tickets USING btree (id);
-CREATE INDEX tickets_id_seance_idx ON public.tickets USING btree (id_seance);
 
 
 -- public.film_attributes definition
@@ -155,9 +155,8 @@ CREATE TABLE public.film_attribute_values (
 -- DROP TABLE public.price;
 
 CREATE TABLE public.price (
-	id_seance int4 NOT NULL,
-	id_seat_type int4 NOT NULL,
 	price numeric NULL,
-	CONSTRAINT price_fk FOREIGN KEY (id_seat_type) REFERENCES seat_types(id),
-	CONSTRAINT price_fk_1 FOREIGN KEY (id_seance) REFERENCES seances(id)
+	id serial NOT NULL,
+	description varchar(50) NULL,
+	CONSTRAINT price_pk PRIMARY KEY (id)
 );
