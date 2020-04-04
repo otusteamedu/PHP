@@ -25,7 +25,9 @@ class Config
         $configPath = $configPath ?: $_SERVER['PWD'] . self::CONFIG_PATH;
         $this->config = parse_ini_file($configPath);
 
-        if ($this->config['environment'] == 'dev') {
+        if ($this->config['environment'] == 'dev'
+            && $this->config['debug'] == true
+        ) {
             error_reporting(E_ALL);
             ini_set('display_errors', 'on');
         } else {

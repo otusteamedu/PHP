@@ -1,5 +1,6 @@
 # 'dev' or 'prod'
 environment=dev
+debug=true
 
 # DB engines
 # 'mongodb' or 'redis' or 'postgres'
