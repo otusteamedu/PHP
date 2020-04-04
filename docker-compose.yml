@@ -2,7 +2,7 @@ version: '3'
 
 services:
     nginx:
-        container_name: php-nginx
+        container_name: nginx
         build:
             context: ./docker
             dockerfile: nginx.docker
@@ -23,3 +23,15 @@ services:
         environment:
             XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
             PHP_IDE_CONFIG: "serverName=Docker"
+
+    mongo:
+        image: mongo:4.2.5-bionic
+        container_name: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        volumes:
+            - ./var/mongo:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: dev
+            MONGO_INITDB_ROOT_PASSWORD: dev
