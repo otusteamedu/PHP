@@ -88,7 +88,22 @@ Models
     Channel
         findById
     Video
-
+Services
+    StatisticService
+Controllers
+    ChannelController
+        indexAction
+        addAction
+        deleteAction
+    VideoController
+    StatisticController
+Templates
+    Channel
+        index.tpl
+        add.tpl
+        delete.tpl
+    Video
+    Statistic
 
 ------------------
 
