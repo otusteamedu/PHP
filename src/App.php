@@ -3,17 +3,37 @@
 namespace Bjlag;
 
 use Bjlag\Db\Store;
+use Bjlag\Template\Template;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 
 class App
 {
+    /** @var string */
+    private static $baseDir;
+
+    /** @var string */
+    private static $templateDir;
+
+    /** @var string */
+    private static $cacheDir;
+
+    /** @var Template */
+    private static $template = null;
+
     /** @var \Bjlag\Db\Store */
     private static $db = null;
 
+    /**
+     * App run.
+     */
     public function run(): void
     {
+        self::$baseDir = dirname(__DIR__);
+        self::$templateDir = self::$baseDir . '/src/Views';
+        self::$cacheDir = self::$baseDir . '/cache';
+
         try {
             $request = ServerRequestFactory::fromGlobals();
             $content = $this->processRequest($request);
@@ -37,15 +57,63 @@ class App
         if (self::$db === null) {
             $uri = 'mongodb://dev:dev@mongo:27017';
             $dbName = 'youtube';
-            $dbAdapter = 'MongoDb';
-            $adapterClass = '\\Bjlag\\Db\\Adapters\\' . $dbAdapter;
+            $adapter = 'MongoDb';
+            $adapterClass = '\\Bjlag\\Db\\Adapters\\' . $adapter;
 
-            /** @var \Bjlag\Db\Store $adapter */
-            $adapter = (new $adapterClass());
-            self::$db = $adapter->getConnection($uri, $dbName);
+            if (!class_exists($adapterClass)) {
+                throw new \RuntimeException("Адаптер БД не найден: {$adapterClass}.");
+            }
+
+            /** @var \Bjlag\Db\Store $db */
+            $db = (new $adapterClass());
+            if (!($db instanceof Template)) {
+                throw new \RuntimeException("Адаптер БД не найден: {$adapterClass}.");
+            }
+
+            self::$db = $db->getConnection($uri, $dbName);
         }
 
         return self::$db;
+    }
+
+    /**
+     * @return \Bjlag\Template\Template
+     */
+    public static function getTemplate(): Template
+    {
+        if (self::$template === null) {
+            $adapter = 'Twig';
+            $adapterClass = '\\Bjlag\\Template\\Adapters\\' . $adapter;
+
+            if (!class_exists($adapterClass)) {
+                throw new \RuntimeException("Шаблонизатор не найзен: {$adapterClass}.");
+            }
+
+            $template = new $adapterClass(self::getCacheDir() . '/twig');
+            if (!($template instanceof Template)) {
+                throw new \RuntimeException("Шаблонизатор не найзен: {$adapterClass}.");
+            }
+
+            self::$template = $template;
+        }
+
+        return self::$template;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTemplateDir(): string
+    {
+        return self::$templateDir;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCacheDir(): string
+    {
+        return self::$cacheDir;
     }
 
     /**

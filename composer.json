@@ -15,6 +15,7 @@
     },
     "require": {
         "mongodb/mongodb": "^1.6",
-        "laminas/laminas-diactoros": "^2.2"
+        "laminas/laminas-diactoros": "^2.2",
+        "twig/twig": "^3.0"
     }
 }

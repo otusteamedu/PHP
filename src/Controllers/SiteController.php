@@ -2,10 +2,12 @@
 
 namespace Bjlag\Controllers;
 
-class SiteController
+use Bjlag\BaseController;
+
+class SiteController extends BaseController
 {
-    public function indexAction()
+    public function indexAction(): string
     {
-        return 'Site index';
+        return $this->render('site/index.twig', ['name' => 'Fabien']);
     }
 }
