@@ -1,0 +1,449 @@
+Тестируем запросы
+
+1) Запрос: Посчитать количество фильмов название которых начинается с 'Терм'
+
+EXPLAIN SELECT count(name)
+FROM public.films
+WHERE name like 'Term%';
+
+- 10000 строк
+
+Aggregate  (cost=196.00..196.01 rows=1 width=8)
+  ->  Seq Scan on films  (cost=0.00..196.00 rows=1 width=21)
+        Filter: (name ~~ 'Term%'::text)
+
+
+- 1000000 строк
+
+Finalize Aggregate  (cost=13271.65..13271.66 rows=1 width=8)
+  ->  Gather  (cost=13271.44..13271.65 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=12271.44..12271.45 rows=1 width=8)
+              ->  Parallel Seq Scan on films  (cost=0.00..12271.33 rows=41 width=21)
+                    Filter: (name ~~ 'Term%'::text)
+
+Идет работа с полем "name", нужно делать индекс по нему
+
+CREATE INDEX films_name_index ON public.films (name text_pattern_ops);
+
+- 1000000 строк (повторный план)
+
+Aggregate  (cost=8.70..8.71 rows=1 width=8)
+  ->  Index Only Scan using films_name_index on films  (cost=0.42..8.45 rows=99 width=21)
+        Index Cond: ((name ~>=~ 'Term'::text) AND (name ~<~ 'Tern'::text))
+        Filter: (name ~~ 'Term%'::text)
+
+Результат: Улучшение в 13271.65 / 8.70 = 1525 раз
+
+
+2) Запрос: Посчитать количество атрибутов фильмов у которых тип атрибута = 3
+
+EXPLAIN SELECT count(name)
+FROM public.filmsattrs
+WHERE type_id = 3;
+
+- 10000 строк
+
+Aggregate  (cost=207.17..207.18 rows=1 width=8)
+  ->  Seq Scan on filmsattrs  (cost=0.00..201.00 rows=2467 width=22)
+        Filter: (type_id = 3)
+
+- 1000000 строк
+
+Finalize Aggregate  (cost=14020.25..14020.26 rows=1 width=8)
+  ->  Gather  (cost=14020.03..14020.24 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=13020.03..13020.04 rows=1 width=8)
+              ->  Parallel Seq Scan on filmsattrs  (cost=0.00..12763.33 rows=102680 width=21)
+                    Filter: (type_id = 3)
+
+Идет работа с полем "type_id", нужно делать индекс по нему
+
+CREATE INDEX filmsattrs_type_id_index ON public.filmsattrs (type_id);
+
+- 1000000 строк (повторный план)
+
+Finalize Aggregate  (cost=14020.25..14020.26 rows=1 width=8)
+  ->  Gather  (cost=14020.03..14020.24 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=13020.03..13020.04 rows=1 width=8)
+              ->  Parallel Seq Scan on filmsattrs  (cost=0.00..12763.33 rows=102680 width=21)
+                    Filter: (type_id = 3)
+
+Результат: Индекс не помог
+
+
+3) Запрос: Выбрать сумму билетов за сентябрь 2020
+
+EXPLAIN SELECT sum(price)
+FROM public.tickets
+WHERE date_buy >= '2020-09-01' AND date_buy <= '2020-09-30';
+
+- 10000 строк
+
+Aggregate  (cost=226.07..226.08 rows=1 width=32)
+  ->  Seq Scan on tickets  (cost=0.00..224.00 rows=826 width=6)
+        Filter: ((date_buy >= '2020-09-01'::date) AND (date_buy <= '2020-09-30'::date))
+
+- 1000000 строк
+
+Finalize Aggregate  (cost=14687.40..14687.41 rows=1 width=32)
+  ->  Gather  (cost=14687.18..14687.39 rows=2 width=32)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=13687.18..13687.19 rows=1 width=32)
+              ->  Parallel Seq Scan on tickets  (cost=0.00..13603.00 rows=33671 width=6)
+                    Filter: ((date_buy >= '2020-09-01'::date) AND (date_buy <= '2020-09-30'::date))
+
+
+Идет работа с полем "date_buy", нужно делать индекс по нему
+
+CREATE INDEX tickets_date_buy_index ON public.tickets (date_buy);
+
+- 1000000 строк (повторный план)
+
+Aggregate  (cost=10483.93..10483.94 rows=1 width=32)
+  ->  Bitmap Heap Scan on tickets  (cost=1716.74..10281.90 rows=80811 width=6)
+        Recheck Cond: ((date_buy >= '2020-09-01'::date) AND (date_buy <= '2020-09-30'::date))
+        ->  Bitmap Index Scan on tickets_date_buy_index  (cost=0.00..1696.54 rows=80811 width=0)
+              Index Cond: ((date_buy >= '2020-09-01'::date) AND (date_buy <= '2020-09-30'::date))
+
+
+Результат: Улучшение в 14687.40 / 10483.93 = 1,4 раз
+
+Поможет дополнительное вычисляемое поле в таблице tickets, если будем считать суммы по месяцам
+
+alter table tickets
+  add month int;
+
+CREATE INDEX tickets_month_index ON public.tickets (month);
+
+EXPLAIN SELECT sum(price)
+FROM public.tickets
+WHERE month = 9;
+
+- 1000000 строк
+
+Aggregate  (cost=7121.88..7121.89 rows=1 width=32)
+  ->  Bitmap Heap Scan on tickets  (cost=95.17..7109.38 rows=5000 width=6)
+        Recheck Cond: (month = 9)
+        ->  Bitmap Index Scan on tickets_month_index  (cost=0.00..93.92 rows=5000 width=0)
+              Index Cond: (month = 9)
+
+Результат: Улучшение в 14687.40 / 7121.88 = 2,1 раз
+
+4) Запрос: Фильм который заработал самую большую сумму
+
+EXPLAIN SELECT fs.name as film_name, sum(ts.price) as price
+FROM tickets ts
+INNER JOIN timetables tt ON ts.timetable_id = tt.timetable_id
+INNER JOIN films fs ON tt.film_id = fs.film_id
+GROUP BY film_name
+ORDER BY price DESC
+LIMIT 1;
+
+- 10000 строк
+
+Limit  (cost=1035.05..1035.05 rows=1 width=53)
+  ->  Sort  (cost=1035.05..1059.84 rows=9916 width=53)
+        Sort Key: (sum(ts.price)) DESC
+        ->  HashAggregate  (cost=861.52..985.47 rows=9916 width=53)
+              Group Key: fs.name
+              ->  Hash Join  (cost=585.00..811.52 rows=10000 width=27)
+                    Hash Cond: (tt.film_id = fs.film_id)
+                    ->  Hash Join  (cost=289.00..489.26 rows=10000 width=10)
+                          Hash Cond: (ts.timetable_id = tt.timetable_id)
+                          ->  Seq Scan on tickets ts  (cost=0.00..174.00 rows=10000 width=10)
+                          ->  Hash  (cost=164.00..164.00 rows=10000 width=8)
+                                ->  Seq Scan on timetables tt  (cost=0.00..164.00 rows=10000 width=8)
+                    ->  Hash  (cost=171.00..171.00 rows=10000 width=25)
+                          ->  Seq Scan on films fs  (cost=0.00..171.00 rows=10000 width=25)
+
+- 1000000 строк
+
+Limit  (cost=234677.98..234677.99 rows=1 width=53)
+  ->  Sort  (cost=234677.98..236257.80 rows=631926 width=53)
+        Sort Key: (sum(ts.price)) DESC
+        ->  Finalize GroupAggregate  (cost=112848.51..231518.35 rows=631926 width=53)
+              Group Key: fs.name
+              ->  Gather Merge  (cost=112848.51..217369.27 rows=833334 width=53)
+                    Workers Planned: 2
+                    ->  Partial GroupAggregate  (cost=111848.49..120181.83 rows=416667 width=53)
+                          Group Key: fs.name
+                          ->  Sort  (cost=111848.49..112890.16 rows=416667 width=27)
+                                Sort Key: fs.name
+                                ->  Parallel Hash Join  (cost=36660.01..62984.18 rows=416667 width=27)
+                                      Hash Cond: (tt.film_id = fs.film_id)
+                                      ->  Parallel Hash Join  (cost=17373.00..35684.42 rows=416667 width=10)
+                                            Hash Cond: (ts.timetable_id = tt.timetable_id)
+                                            ->  Parallel Seq Scan on tickets ts  (cost=0.00..11519.67 rows=416667 width=10)
+                                            ->  Parallel Hash  (cost=10536.67..10536.67 rows=416667 width=8)
+                                                  ->  Parallel Seq Scan on timetables tt  (cost=0.00..10536.67 rows=416667 width=8)
+                                      ->  Parallel Hash  (cost=11229.67..11229.67 rows=416667 width=25)
+                                            ->  Parallel Seq Scan on films fs  (cost=0.00..11229.67 rows=416667 width=25)
+
+
+Идет JOIN по полям, нужно сделать индексы по этим полям
+
+CREATE INDEX tickets_ticket_id_index ON public.tickets (ticket_id);
+CREATE INDEX tickets_timetable_id_index ON public.tickets (timetable_id);
+CREATE INDEX films_film_id_index ON public.films (film_id);
+
+Идет сортировка fs.name, нужно сделать индекс
+
+CREATE INDEX films_name_index_2 ON public.films (name);
+
+Проверим:
+
+- 1000000 строк (повторный план)
+
+Limit  (cost=234677.98..234677.99 rows=1 width=53)
+  ->  Sort  (cost=234677.98..236257.80 rows=631926 width=53)
+        Sort Key: (sum(ts.price)) DESC
+        ->  Finalize GroupAggregate  (cost=112848.51..231518.35 rows=631926 width=53)
+              Group Key: fs.name
+              ->  Gather Merge  (cost=112848.51..217369.27 rows=833334 width=53)
+                    Workers Planned: 2
+                    ->  Partial GroupAggregate  (cost=111848.49..120181.83 rows=416667 width=53)
+                          Group Key: fs.name
+                          ->  Sort  (cost=111848.49..112890.16 rows=416667 width=27)
+                                Sort Key: fs.name
+                                ->  Parallel Hash Join  (cost=36660.01..62984.18 rows=416667 width=27)
+                                      Hash Cond: (tt.film_id = fs.film_id)
+                                      ->  Parallel Hash Join  (cost=17373.00..35684.42 rows=416667 width=10)
+                                            Hash Cond: (ts.timetable_id = tt.timetable_id)
+                                            ->  Parallel Seq Scan on tickets ts  (cost=0.00..11519.67 rows=416667 width=10)
+                                            ->  Parallel Hash  (cost=10536.67..10536.67 rows=416667 width=8)
+                                                  ->  Parallel Seq Scan on timetables tt  (cost=0.00..10536.67 rows=416667 width=8)
+                                      ->  Parallel Hash  (cost=11229.67..11229.67 rows=416667 width=25)
+                                            ->  Parallel Seq Scan on films fs  (cost=0.00..11229.67 rows=416667 width=25)
+
+Результат: Дополнительные индексы не помогли
+
+Поможет дополнительное вычисляемое поле в таблице films
+
+alter table films
+  add sum_money decimal;
+
+CREATE INDEX films_sum_money_index ON public.films (sum_money);
+
+EXPLAIN SELECT name, sum_money
+FROM public.films
+ORDER BY sum_money DESC
+LIMIT 1;
+
+- 1000000 строк 
+
+Limit  (cost=0.42..0.48 rows=1 width=53)
+  ->  Index Scan Backward using films_sum_money_index on films  (cost=0.42..54232.43 rows=1000000 width=53)
+
+Результат: Улучшение в 234677.98 / 0.42 = 558757 раз
+
+5) Запрос: Выборка для марткетинга по фильму id=1001
+
+EXPLAIN SELECT
+    f.name as film_name,
+    tt.name as type_name,
+    fa.name as attr_name,
+    COALESCE(text(fv.val_date), text(fv.val_float), fv.val_text, text(fv.val_int), bool_to_string(fv.val_bool)) as value
+FROM public.films f
+LEFT JOIN public.filmsvalues fv ON f.film_id = fv.film_id
+LEFT JOIN public.filmsattrs fa ON fv.attr_id = fa.attr_id
+LEFT JOIN public.types tt ON fa.type_id = tt.type_id
+WHERE f.film_id = 1001;
+
+- 10000 строк
+
+Nested Loop Left Join  (cost=0.72..204.07 rows=1 width=107)
+  ->  Nested Loop Left Join  (cost=0.57..203.63 rows=1 width=88)
+        ->  Nested Loop Left Join  (cost=0.29..195.33 rows=1 width=66)
+              Join Filter: (f.film_id = fv.film_id)
+              ->  Index Scan using film_id_pk on films f  (cost=0.29..8.30 rows=1 width=25)
+                    Index Cond: (film_id = 1001)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..187.00 rows=2 width=49)
+                    Filter: (film_id = 1001)
+        ->  Index Scan using attr_id_pk on filmsattrs fa  (cost=0.29..8.30 rows=1 width=30)
+              Index Cond: (fv.attr_id = attr_id)
+  ->  Index Scan using type_id_pk on types tt  (cost=0.15..0.17 rows=1 width=36)
+        Index Cond: (fa.type_id = type_id)
+
+- 1000000 строк
+
+Nested Loop Left Join  (cost=0.85..18702.30 rows=1 width=106)
+  Join Filter: (fa.type_id = tt.type_id)
+  ->  Nested Loop Left Join  (cost=0.85..18672.91 rows=1 width=88)
+        ->  Nested Loop Left Join  (cost=0.42..18664.47 rows=1 width=67)
+              Join Filter: (f.film_id = fv.film_id)
+              ->  Index Scan using film_id_pk on films f  (cost=0.42..8.44 rows=1 width=25)
+                    Index Cond: (film_id = 1001)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..18656.00 rows=2 width=50)
+                    Filter: (film_id = 1001)
+        ->  Index Scan using attr_id_pk on filmsattrs fa  (cost=0.42..8.44 rows=1 width=29)
+              Index Cond: (fv.attr_id = attr_id)
+  ->  Seq Scan on types tt  (cost=0.00..18.50 rows=850 width=36)
+
+Идет JOIN по полям, нужно сделать индексы по этим полям
+
+CREATE INDEX films_film_id_index ON public.films (film_id);
+CREATE INDEX types_type_id_index ON public.types (type_id);
+CREATE INDEX filmsattrs_attr_id_index ON public.filmsattrs (attr_id);
+
+Проверим:
+
+- 1000000 строк (повторный план)
+
+Nested Loop Left Join  (cost=0.85..18674.29 rows=1 width=106)
+  Join Filter: (fa.type_id = tt.type_id)
+  ->  Nested Loop Left Join  (cost=0.85..18672.91 rows=1 width=88)
+        ->  Nested Loop Left Join  (cost=0.42..18664.47 rows=1 width=67)
+              Join Filter: (f.film_id = fv.film_id)
+              ->  Index Scan using films_film_id_index on films f  (cost=0.42..8.44 rows=1 width=25)
+                    Index Cond: (film_id = 1001)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..18656.00 rows=2 width=50)
+                    Filter: (film_id = 1001)
+        ->  Index Scan using filmsattrs_attr_id_index on filmsattrs fa  (cost=0.42..8.44 rows=1 width=29)
+              Index Cond: (fv.attr_id = attr_id)
+  ->  Seq Scan on types tt  (cost=0.00..1.05 rows=5 width=36)
+
+
+Результат: Дополнительные индексы не помогли
+
+
+6) Запрос: Выборка для рабочих моментов по "Служебная дата" сегодняшней дате и +20 дней
+
+EXPLAIN SELECT
+    f.name as film_name,
+    fa.name as attr_name,
+    fv.val_date as date
+FROM public.films f
+LEFT JOIN public.filmsvalues fv ON f.film_id = fv.film_id
+LEFT JOIN public.filmsattrs fa ON fv.attr_id = fa.attr_id
+LEFT JOIN public.types tt ON fa.type_id = tt.type_id
+WHERE tt.name = 'Служебная дата' AND fv.val_date in (date(now()), date(now()+'20 day'::interval));
+
+- 10000 строк
+
+Nested Loop  (cost=0.72..392.17 rows=1 width=47)
+  ->  Nested Loop  (cost=0.44..384.31 rows=1 width=30)
+        ->  Nested Loop  (cost=0.29..382.72 rows=9 width=34)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..312.00 rows=9 width=12)
+                    Filter: (val_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+              ->  Index Scan using attr_id_pk on filmsattrs fa  (cost=0.29..7.86 rows=1 width=30)
+                    Index Cond: (attr_id = fv.attr_id)
+        ->  Index Scan using type_id_pk on types tt  (cost=0.15..0.17 rows=1 width=4)
+              Index Cond: (type_id = fa.type_id)
+              Filter: (name = 'Служебная дата'::text)
+  ->  Index Scan using film_id_pk on films f  (cost=0.29..7.86 rows=1 width=25)
+        Index Cond: (film_id = fv.film_id)
+
+- 1000000 строк
+
+Nested Loop  (cost=0.85..39188.87 rows=5 width=46)
+  ->  Nested Loop  (cost=0.42..39151.22 rows=5 width=29)
+        Join Filter: (fa.type_id = tt.type_id)
+        ->  Nested Loop  (cost=0.42..39067.74 rows=1048 width=33)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..31156.00 rows=1048 width=12)
+                    Filter: (val_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+              ->  Index Scan using attr_id_pk on filmsattrs fa  (cost=0.42..7.55 rows=1 width=29)
+                    Index Cond: (attr_id = fv.attr_id)
+        ->  Materialize  (cost=0.00..20.64 rows=4 width=4)
+              ->  Seq Scan on types tt  (cost=0.00..20.62 rows=4 width=4)
+                    Filter: (name = 'Служебная дата'::text)
+  ->  Index Scan using film_id_pk on films f  (cost=0.42..7.53 rows=1 width=25)
+        Index Cond: (film_id = fv.film_id)
+
+Индексы были добавлены в предыдущих запросах
+
+Проверим:
+
+- 1000000 строк (повторный план)
+
+Nested Loop  (cost=0.85..40663.26 rows=210 width=46)
+  ->  Nested Loop  (cost=0.42..39081.90 rows=210 width=29)
+        Join Filter: (fa.type_id = tt.type_id)
+        ->  Seq Scan on types tt  (cost=0.00..1.06 rows=1 width=4)
+              Filter: (name = 'Служебная дата'::text)
+        ->  Nested Loop  (cost=0.42..39067.74 rows=1048 width=33)
+              ->  Seq Scan on filmsvalues fv  (cost=0.00..31156.00 rows=1048 width=12)
+                    Filter: (val_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+              ->  Index Scan using filmsattrs_attr_id_index on filmsattrs fa  (cost=0.42..7.55 rows=1 width=29)
+                    Index Cond: (attr_id = fv.attr_id)
+  ->  Index Scan using films_film_id_index on films f  (cost=0.42..7.53 rows=1 width=25)
+        Index Cond: (film_id = fv.film_id)
+
+Результат: Дополнительные индексы не помогли
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+Дополнительно:
+
+- отсортированный список (15 значений) самых больших по размеру объектов БД
+
+SELECT nspname || '.' || relname as name,
+    pg_size_pretty(pg_total_relation_size(C.OID)) as totalsize,
+    pg_size_pretty(pg_relation_size(C.OID)) as relsize
+FROM pg_class C
+LEFT JOIN pg_namespace N ON N.OID = C.relnamespace
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_total_relation_size(C.OID) DESC 
+LIMIT 15
+
+public.films					         200 MB
+public.tickets					       188 MB
+public.clients					       126 MB
+public.filmsattrs				       123 MB
+public.timetables				       71 MB
+public.filmsvalues				     70 MB
+public.ticket_id_pk				     44 MB
+public.films_name_index		   	 40 MB
+public.films_name_index_2		   40 MB
+public.attr_id_pk				       21 MB
+public.tickets_date_buy_index	 21 MB
+public.timetable_id_pk			   21 MB
+public.client_id_pk				     21 MB
+public.film_id_pk				       21 MB
+public.value_id_pk				     21 MB
+
+
+- отсортированные списки (по 5 значений) самых часто и редко используемых индексов
+
+
+SELECT idstat.relname                                 AS table_name,              -- имя таблицы
+       indexrelname                                   AS index_name,              -- индекс
+       idstat.idx_scan                                AS index_scans_count,       -- число сканирований по этому индексу
+       pg_size_pretty(pg_relation_size(indexrelid))   AS index_size,              -- размер индекса
+       tabstat.idx_scan                               AS table_reads_index_count, -- индексных чтений по таблице
+       tabstat.seq_scan                               AS table_reads_seq_count,   -- последовательных чтений по таблице
+       tabstat.seq_scan + tabstat.idx_scan            AS table_reads_count,       -- чтений по таблице
+       n_tup_upd + n_tup_ins + n_tup_del              AS table_writes_count,      -- операций записи
+       pg_size_pretty(pg_relation_size(idstat.relid)) AS table_size               -- размер таблицы
+FROM pg_stat_user_indexes AS idstat
+         JOIN
+     pg_indexes
+     ON
+             indexrelname = indexname
+             AND
+             idstat.schemaname = pg_indexes.schemaname
+         JOIN
+     pg_stat_user_tables AS tabstat
+     ON
+         idstat.relid = tabstat.relid
+WHERE indexdef !~* 'unique'
+ORDER BY idstat.idx_scan DESC,
+         pg_relation_size(indexrelid) DESC
+
+
+Индексов не очень много, думаю можно одной таблицей
+
+filmsattrs	   filmsattrs_attr_id_index			  6	21 MB
+films		       films_film_id_index					  6	21 MB
+tickets		     tickets_timetable_id_index			4	21 MB
+films		       films_name_index					      0	40 MB
+films		       films_name_index_2					    0	40 MB
+films		       films_sum_money_index				  0	21 MB
+tickets		     tickets_date_buy_index				  0	21 MB
+tickets		     tickets_ticket_id_index				0	21 MB
+filmsattrs	   filmsattrs_type_id_index			  0	21 MB
+tickets		     tickets_month_index					  0	21 MB
+types		       types_type_id_index					  0	16 kB
