@@ -1,0 +1,23 @@
+A    export
+A    export/htdocs
+A    export/htdocs/static
+...
+
+sending incremental file list
+htdocs/
+htdocs/static/
+htdocs/static/main.css
+...
+
+sent 44,951 bytes  received 271 bytes  30,148.00 bytes/sec
+total size is 5,366,759  speedup is 118.68
+Loading composer repositories with package information
+Installing dependencies from lock file
+Nothing to install or update
+Generating autoload files
+> AnrDaemon\CcWeb\Installer::postInstall
+Installing requisites from pear-pear.php.net/html_treemenu...
+Installing requisites from components/jquery...
+Installing requisites from frontpack/lightbox2...
+Installing requisites from ckeditor/ckeditor...
+Installing requisites from anrdaemon/jshttprequest...

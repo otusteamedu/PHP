@@ -1,0 +1,5 @@
+# Deployment options
+DIRBASE="$HOME/Documents/project"
+REMBASE="user@host.example.org::project"
+SVNBASE="https://svn.example.org/project"
+USERBASE="user@host.example.org::uploads"
