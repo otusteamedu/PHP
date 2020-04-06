@@ -1,13 +1,13 @@
 
--- Запрос 1: Посчитать количество фильмов название которых начинается с Терм
+-- Запрос 1: Посчитать количество фильмов название которых начинается с 'Терм'
 SELECT count(name)
 FROM public.films
 WHERE name like 'Term%';
 
--- Запрос 2: Посчитать количество атрибутов фильмов у которых тип атрибута = 2
+-- Запрос 2: Посчитать количество атрибутов фильмов у которых тип атрибута = 3
 SELECT count(name)
 FROM public.filmsattrs
-WHERE type_id = 50;
+WHERE type_id = 3;
 
 -- Запрос 3: Выбрать сумму билетов за сентябрь 2020
 SELECT sum(price) 
@@ -21,9 +21,9 @@ INNER JOIN timetables tt ON ts.timetable_id = tt.timetable_id
 INNER JOIN films fs ON tt.film_id = fs.film_id
 GROUP BY film_name
 ORDER BY price DESC
-LIMIT 1
+LIMIT 1;
 
--- Запрос 5: Выборка для марткетинга по фильму id=1
+-- Запрос 5: Выборка для марткетинга по фильму id=1001
 SELECT
     f.name as film_name,
     tt.name as type_name,
@@ -33,7 +33,7 @@ FROM public.films f
 LEFT JOIN public.filmsvalues fv ON f.film_id = fv.film_id
 LEFT JOIN public.filmsAttrs fa ON fv.attr_id = fa.attr_id
 LEFT JOIN public.types tt ON fa.type_id = tt.type_id
-WHERE f.film_id = 1
+WHERE f.film_id = 1001;
 
 
 -- Запрос 6: Выборка для рабочих моментов по "Служебная дата" сегодняшней дате и +20 дней
@@ -41,9 +41,9 @@ SELECT
     f.name as film_name,
     fa.name as attr_name,
     fv.val_date as date
-FROM public.tFilms f
-LEFT JOIN public.tFilmsValues fv ON f.film_id = fv.film_id
-LEFT JOIN public.tFilmsAttrs fa ON fv.attr_id = fa.attr_id
-LEFT JOIN public.tTypes tt ON fa.type_id = tt.type_id
-WHERE tt.name = 'Служебная дата' AND fv.val_date in (date(now()), date(now()+'20 day'::interval))
+FROM public.films f
+LEFT JOIN public.filmsvalues fv ON f.film_id = fv.film_id
+LEFT JOIN public.filmsattrs fa ON fv.attr_id = fa.attr_id
+LEFT JOIN public.types tt ON fa.type_id = tt.type_id
+WHERE tt.name = 'Служебная дата' AND fv.val_date in (date(now()), date(now()+'20 day'::interval));
 
