@@ -8,12 +8,16 @@
             "email": "vlad.duplin@ya.ru"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "Bjlag\\": "src/"
         }
     },
     "require": {
+        "ext-json": "*",
         "mongodb/mongodb": "^1.6",
         "laminas/laminas-diactoros": "^2.2",
         "twig/twig": "^3.0"

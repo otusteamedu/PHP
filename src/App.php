@@ -3,10 +3,11 @@
 namespace Bjlag;
 
 use Bjlag\Db\Store;
+use Bjlag\Http\Request;
 use Bjlag\Template\Template;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Laminas\Diactoros\ServerRequest;
-use Laminas\Diactoros\ServerRequestFactory;
+use ReflectionMethod;
+use ReflectionParameter;
 
 class App
 {
@@ -35,7 +36,7 @@ class App
         self::$cacheDir = self::$baseDir . '/cache';
 
         try {
-            $request = ServerRequestFactory::fromGlobals();
+            $request = Request::fromGlobals();
             $content = $this->processRequest($request);
             $response = new HtmlResponse($content);
 
@@ -117,13 +118,13 @@ class App
     }
 
     /**
-     * @param \Laminas\Diactoros\ServerRequest $request
+     * @param \Bjlag\Http\Request $request
      * @return string
      * @throws \Exception
      */
-    private function processRequest(ServerRequest $request): string
+    private function processRequest(Request $request): string
     {
-        $query = $request->getQueryParams();
+        $query = $request->get()->getQueryParams();
 
         $path = $query['path'] ?? 'site/index';
         $path = trim($path, '/');
@@ -131,18 +132,48 @@ class App
 
         $controllerName = strtr(ucwords(strtr($pathParts[0], ['-' => ' ', '_' => ' '])), [' ' => '']);
         $controllerAction = $pathParts[1] . 'Action' ?? 'indexAction';
-        $controllerArgs = array_slice($query, 1);
 
         $controllerClass = '\\Bjlag\\Controllers\\' . $controllerName . 'Controller';
         if (!class_exists($controllerClass)) {
             throw new \Exception('404');
         }
 
-        $controller = new $controllerClass();
-        if (!method_exists($controller, $controllerAction)) {
+        if ($request->isPost()) {
+            $controllerArgs = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $controllerArgs = array_slice($query, 1);
+        }
+
+        return $this->executeAction($controllerClass, $controllerAction, $controllerArgs);
+    }
+
+    /**
+     * @param string $class
+     * @param string $action
+     * @param array $args
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    private function executeAction(string $class, string $action, array $args): string
+    {
+        $controller = new $class();
+        if (!method_exists($controller, $action)) {
             throw new \Exception('404');
         }
 
-        return $controller->$controllerAction($controllerArgs);
+        $pass = [];
+        $reflectionMethod = new ReflectionMethod($class, $action);
+
+        /* @var $param ReflectionParameter */
+        foreach ($reflectionMethod->getParameters() as $param) {
+            $name = $param->getName();
+            if (isset($args[$name])) {
+                $pass[] = $args[$name];
+            }
+        }
+
+        return $reflectionMethod->invokeArgs($controller, $pass);
     }
 }
