@@ -19,3 +19,7 @@ group by films.id, films.name order by total;
 
 select tickets.date, count(*) as "tickets", sum(price) from tickets
 left join offers on offers.id = tickets.offer_id group by tickets.date;
+
+--- optimixation ----
+CREATE INDEX idx_tickets_date ON tickets(date);
+CREATE INDEX idx_places ON tickets(place_id);
