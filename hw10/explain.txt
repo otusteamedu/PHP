@@ -1,0 +1,132 @@
+**********************************************************
+1. select customer_id, offer_id, place_id, "date" from tickets where "date" > '2020-04-01' and "date" < '2020-04-07';
+**********************************************************
+******* low data *********
+Seq Scan on tickets  (cost=0.00..257.00 rows=8000 width=16)
+   Filter: ((date > '2020-04-01'::date) AND (date < '2020-04-07'::date))
+******* big data *********
+Seq Scan on tickets  (cost=0.00..2137.00 rows=19973 width=16)
+  Filter: ((date > '2020-04-01'::date) AND (date < '2020-04-07'::date))
+******* after optimization *********
+Index Scan using idx_tickets_date on tickets  (cost=0.42..754.88 rows=19973 width=16)
+  Index Cond: ((date > '2020-04-01'::date) AND (date < '2020-04-07'::date))
+
+**********************************************************
+2. select num_row, num_col from places where hall_id = 1;
+**********************************************************
+******* low data *********
+Seq Scan on places  (cost=0.00..36.00 rows=1000 width=8)
+  Filter: (hall_id = 1)
+******* big data *********
+Seq Scan on places  (cost=0.00..36.00 rows=1000 width=8)
+  Filter: (hall_id = 1)
+
+**********************************************************
+3. select hall_id, count(*) as "places" from places group by hall_id;
+**********************************************************
+******* low data *********
+HashAggregate  (cost=41.00..41.02 rows=2 width=12)
+  Group Key: hall_id
+  ->  Seq Scan on places  (cost=0.00..31.00 rows=2000 width=4)
+******* big data *********
+HashAggregate  (cost=41.00..41.02 rows=2 width=12)
+  Group Key: hall_id
+  ->  Seq Scan on places  (cost=0.00..31.00 rows=2000 width=4)
+******* after optimization *********
+same same
+
+
+**********************************************************
+4. select halls.name, min("date"), max("date") from tickets
+left join places on places.id = tickets.place_id
+left join halls on halls.id = places.hall_id
+group by halls.id;
+**********************************************************
+******* low data *********
+HashAggregate  (cost=438.03..447.73 rows=970 width=60)
+    Group Key: halls.id
+    ->  Hash Left Join  (cost=87.83..348.03 rows=12000 width=56)
+          Hash Cond: (places.hall_id = halls.id)
+          ->  Hash Left Join  (cost=56.00..284.57 rows=12000 width=8)
+                Hash Cond: (tickets.place_id = places.id)
+                ->  Seq Scan on tickets  (cost=0.00..197.00 rows=12000 width=8)
+                ->  Hash  (cost=31.00..31.00 rows=2000 width=8)
+                      ->  Seq Scan on places  (cost=0.00..31.00 rows=2000 width=8)
+          ->  Hash  (cost=19.70..19.70 rows=970 width=52)
+                ->  Seq Scan on halls  (cost=0.00..19.70 rows=970 width=52)
+
+******* big data *********
+HashAggregate  (cost=3001.53..3011.23 rows=970 width=60
+  Group Key: halls.id
+  ->  Hash Left Join  (cost=87.83..2251.53 rows=100000 width=56)
+        Hash Cond: (places.hall_id = halls.id)
+        ->  Hash Left Join  (cost=56.00..1956.06 rows=100000 width=8)
+              Hash Cond: (tickets.place_id = places.id)
+              ->  Seq Scan on tickets  (cost=0.00..1637.00 rows=100000 width=8)
+              ->  Hash  (cost=31.00..31.00 rows=2000 width=8)
+                    ->  Seq Scan on places  (cost=0.00..31.00 rows=2000 width=8)
+        ->  Hash  (cost=19.70..19.70 rows=970 width=52)
+              ->  Seq Scan on halls  (cost=0.00..19.70 rows=970 width=52)
+******* after optimization *********
+same same
+
+
+***********************************************************
+5. select films.id, films.name, sum(price) as total from tickets
+left join offers on offers.id = tickets.offer_id
+left join films on films.id = offers.film_id
+group by films.id, films.name order by total;
+**********************************************************
+******* low data *********
+Sort  (cost=394.10..394.75 rows=260 width=308)
+  Sort Key: (sum(offers.price))
+  ->  HashAggregate  (cost=380.43..383.68 rows=260 width=308)
+        Group Key: films.id
+        ->  Hash Left Join  (cost=59.83..320.43 rows=12000 width=290)
+              Hash Cond: (offers.film_id = films.id)
+              ->  Hash Left Join  (cost=43.98..272.56 rows=12000 width=18)
+                    Hash Cond: (tickets.offer_id = offers.id)
+                    ->  Seq Scan on tickets  (cost=0.00..197.00 rows=12000 width=4)
+                    ->  Hash  (cost=25.10..25.10 rows=1510 width=22)
+                          ->  Seq Scan on offers  (cost=0.00..25.10 rows=1510 width=22)
+              ->  Hash  (cost=12.60..12.60 rows=260 width=276)
+                    ->  Seq Scan on films  (cost=0.00..12.60 rows=260 width=276)
+******* big data *********
+Sort  (cost=2740.52..2741.17 rows=260 width=308)
+  Sort Key: (sum(offers.price))
+  ->  HashAggregate  (cost=2726.84..2730.09 rows=260 width=308)
+        Group Key: films.id
+        ->  Hash Left Join  (cost=59.83..2226.84 rows=100000 width=290)
+              Hash Cond: (offers.film_id = films.id)
+              ->  Hash Left Join  (cost=43.98..1944.21 rows=100000 width=18)
+                    Hash Cond: (tickets.offer_id = offers.id)
+                    ->  Seq Scan on tickets  (cost=0.00..1637.00 rows=100000 width=4)
+                    ->  Hash  (cost=25.10..25.10 rows=1510 width=22)
+                          ->  Seq Scan on offers  (cost=0.00..25.10 rows=1510 width=22)
+              ->  Hash  (cost=12.60..12.60 rows=260 width=276)
+                    ->  Seq Scan on films  (cost=0.00..12.60 rows=260 width=276)
+******* after optimization *********
+same same
+
+**********************************************************
+6. select tickets.date, count(*) as "tickets", sum(price) from tickets
+left join offers on offers.id = tickets.offer_id group by tickets.date
+**********************************************************
+
+******* low data *********
+HashAggregate  (cost=362.56..362.60 rows=3 width=44)
+  Group Key: tickets.date
+  ->  Hash Left Join  (cost=43.98..272.56 rows=12000 width=18)
+        Hash Cond: (tickets.offer_id = offers.id)
+        ->  Seq Scan on tickets  (cost=0.00..197.00 rows=12000 width=8)
+        ->  Hash  (cost=25.10..25.10 rows=1510 width=18)
+              ->  Seq Scan on offers  (cost=0.00..25.10 rows=1510 width=18)
+
+******* big data *********
+HashAggregate  (cost=2694.21..2694.52 rows=25 width=44)
+  Group Key: tickets.date
+  ->  Hash Left Join  (cost=43.98..1944.21 rows=100000 width=18)
+        Hash Cond: (tickets.offer_id = offers.id)
+        ->  Seq Scan on tickets  (cost=0.00..1637.00 rows=100000 width=8)
+        ->  Hash  (cost=25.10..25.10 rows=1510 width=18)
+              ->  Seq Scan on offers  (cost=0.00..25.10 rows=1510 width=18)
