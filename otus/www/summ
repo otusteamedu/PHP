@@ -1,0 +1,21 @@
+#!/bin/bash
+re='^[+-]?[0-9]+([.][0-9]+)?$'
+read -p 'первое число: ' number1
+
+while ! [[ $number1 =~ $re ]]
+do
+    echo 'Введены некорректные данные'
+    read -p 'первое число: ' number1
+done
+
+read -p 'второе число: ' number2
+
+while ! [[ $number2 =~ $re ]]
+do
+    echo 'Введены некорректные данные'
+    read -p 'второе число: ' number2
+done
+
+echo 'Сумма двух чисел:' $(echo "$number1 + $number2" | bc)
+
+
