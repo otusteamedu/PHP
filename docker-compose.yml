@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: edmitry/postgres
+    restart: always
+    volumes:
+      - socks:/socks
+      - postgres_data:/var/lib/postgresql/data
+      - .:/app
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 60
+volumes:
+  socks:
+  postgres_data:
+    external: true
