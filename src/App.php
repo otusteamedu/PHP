@@ -5,8 +5,10 @@ namespace Bjlag;
 use Bjlag\Db\Store;
 use Bjlag\Http\Middleware\BodyParamsMiddleware;
 use Bjlag\Template\Template;
+use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Route\Http\Exception\NotFoundException;
 
 // todo: урл для API /api/channel/create
 // todo: ответ API JSON
@@ -57,14 +59,19 @@ class App
             $request = ServerRequestFactory::fromGlobals();
             $response = $this->router->dispatch($request);
 
-            (new SapiEmitter())->emit($response);
-
 //            $data = self::getDb()->find('channel', ['name', 'source'], ['source' => 'app']);
 //            var_dump($data);
+        } catch (NotFoundException $e) {
+            $response = new Response();
+            $response->withStatus(404);
+            $response->getBody()->write('Страница не найдена');
         } catch (\Throwable $e) {
-            var_dump($e->getMessage());
-            var_dump($e->getTrace());
+            $response = new Response($e->getMessage(), 500);
+            $response->withStatus(500);
+            $response->getBody()->write('Ошибка сервера');
         }
+
+        (new SapiEmitter())->emit($response);
     }
 
     /**
