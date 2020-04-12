@@ -18,8 +18,11 @@
     },
     "require": {
         "ext-json": "*",
-        "mongodb/mongodb": "^1.6",
+        "php": ">=7.3.0",
         "laminas/laminas-diactoros": "^2.2",
+        "league/route": "^4.3",
+        "mongodb/mongodb": "^1.6",
+        "roave/security-advisories": "dev-master",
         "twig/twig": "^3.0"
     }
 }

@@ -3,11 +3,15 @@
 namespace Bjlag;
 
 use Bjlag\Db\Store;
-use Bjlag\Http\Request;
+use Bjlag\Http\Middleware\BodyParamsMiddleware;
 use Bjlag\Template\Template;
-use Laminas\Diactoros\Response\HtmlResponse;
-use ReflectionMethod;
-use ReflectionParameter;
+use Laminas\Diactoros\ServerRequestFactory;
+
+// todo: урл для API /api/channel/create
+// todo: ответ API JSON
+// todo: добавление каналов
+// todo: добавление видео
+// todo: вывод статистики
 
 class App
 {
@@ -26,19 +30,31 @@ class App
     /** @var \Bjlag\Db\Store */
     private static $db = null;
 
-    /**
-     * App run.
-     */
-    public function run(): void
+    /** @var \League\Route\Router */
+    private $router;
+
+    public function __construct()
     {
         self::$baseDir = dirname(__DIR__);
         self::$templateDir = self::$baseDir . '/src/Views';
         self::$cacheDir = self::$baseDir . '/cache';
 
+        $router = new \League\Route\Router();
+        $router->middleware(new BodyParamsMiddleware());
+
+        (include self::getBaseDir() . '/config/routes.php')($router);
+
+        $this->router = $router;
+    }
+
+    /**
+     * App run.
+     */
+    public function run(): void
+    {
         try {
-            $request = Request::fromGlobals();
-            $content = $this->processRequest($request);
-            $response = new HtmlResponse($content);
+            $request = ServerRequestFactory::fromGlobals();
+            $response = $this->router->dispatch($request);
 
             echo $response->getBody();
 
@@ -118,62 +134,10 @@ class App
     }
 
     /**
-     * @param \Bjlag\Http\Request $request
      * @return string
-     * @throws \Exception
      */
-    private function processRequest(Request $request): string
+    public static function getBaseDir(): string
     {
-        $query = $request->get()->getQueryParams();
-
-        $path = $query['path'] ?? 'site/index';
-        $path = trim($path, '/');
-        $pathParts = explode('/', $path);
-
-        $controllerName = strtr(ucwords(strtr($pathParts[0], ['-' => ' ', '_' => ' '])), [' ' => '']);
-        $controllerAction = $pathParts[1] . 'Action' ?? 'indexAction';
-
-        $controllerClass = '\\Bjlag\\Controllers\\' . $controllerName . 'Controller';
-        if (!class_exists($controllerClass)) {
-            throw new \Exception('404');
-        }
-
-        if ($request->isPost()) {
-            $controllerArgs = json_decode(file_get_contents('php://input'), true);
-        } else {
-            $controllerArgs = array_slice($query, 1);
-        }
-
-        return $this->executeAction($controllerClass, $controllerAction, $controllerArgs);
-    }
-
-    /**
-     * @param string $class
-     * @param string $action
-     * @param array $args
-     *
-     * @return string
-     *
-     * @throws \Exception
-     */
-    private function executeAction(string $class, string $action, array $args): string
-    {
-        $controller = new $class();
-        if (!method_exists($controller, $action)) {
-            throw new \Exception('404');
-        }
-
-        $pass = [];
-        $reflectionMethod = new ReflectionMethod($class, $action);
-
-        /* @var $param ReflectionParameter */
-        foreach ($reflectionMethod->getParameters() as $param) {
-            $name = $param->getName();
-            if (isset($args[$name])) {
-                $pass[] = $args[$name];
-            }
-        }
-
-        return $reflectionMethod->invokeArgs($controller, $pass);
+        return self::$baseDir;
     }
 }
