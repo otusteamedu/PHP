@@ -58,9 +58,6 @@ class App
         try {
             $request = ServerRequestFactory::fromGlobals();
             $response = $this->router->dispatch($request);
-
-//            $data = self::getDb()->find('channel', ['name', 'source'], ['source' => 'app']);
-//            var_dump($data);
         } catch (NotFoundException $e) {
             $response = new Response();
             $response->withStatus(404);
@@ -91,7 +88,7 @@ class App
 
             /** @var \Bjlag\Db\Store $db */
             $db = (new $adapterClass());
-            if (!($db instanceof Template)) {
+            if (!($db instanceof Store)) {
                 throw new \RuntimeException("Адаптер БД не найден: {$adapterClass}.");
             }
 

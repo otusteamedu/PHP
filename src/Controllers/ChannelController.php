@@ -3,6 +3,7 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
+use Bjlag\Models\Channel;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,6 +18,8 @@ class ChannelController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
+        $rows = Channel::find(['source']);
+
         $response = new Response();
         $response->getBody()->write('Доступные каналы');
 

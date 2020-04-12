@@ -3,6 +3,7 @@
 namespace Bjlag\Db\Adapters;
 
 use Bjlag\Db\Store;
+use MongoDB\BSON\ObjectId;
 
 class MongoDb implements Store
 {
@@ -39,8 +40,25 @@ class MongoDb implements Store
             $options['projection'] = $columns;
         }
 
+        $result = [];
         $collection = $this->client->selectCollection($this->dbname, $from);
-        return $collection->find($where, $options)->toArray();
+        $rows = $collection->find($where, $options)->toArray();
+
+        foreach ($rows as $row) {
+            $data = [];
+            foreach ($row as $key => $field) {
+                if ($field instanceof ObjectId) {
+                    $field = $field->jsonSerialize();
+                    $data['id'] = $field['$oid'];
+                } else {
+                    $data[$key] = $field;
+                }
+            }
+
+            $result[] = $data;
+        }
+
+        return $result;
     }
 
     public function add()
