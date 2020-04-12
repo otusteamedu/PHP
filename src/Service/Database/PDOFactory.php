@@ -10,7 +10,7 @@ class PDOFactory
 
     public function __construct()
     {
-        $this->configProvider = new DatabaseConfigProvider('../config/config.ini');
+        $this->configProvider = new DatabaseConfigProvider(__DIR__ . '/../../../config/config.ini');
     }
 
     public function getPostgresPDO(): \PDO

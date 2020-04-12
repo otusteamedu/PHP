@@ -9,6 +9,11 @@ CREATE TABLE public.orders (
     status VARCHAR(32),
     type VARCHAR(32)
 );
+CREATE TABLE public.order_requests (
+    id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES public.orders (id),
+    order_payload TEXT
+);
 CREATE TABLE public.order_products(
     id SERIAL PRIMARY KEY,
     order_id INT REFERENCES public.orders (id) NOT NULL,

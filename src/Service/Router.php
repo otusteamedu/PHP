@@ -3,7 +3,8 @@
 namespace Service;
 
 use Controller\Shop\OrdersController;
-use Exception;
+use Controller\Shop\OrderRequestsController;
+use Service\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,6 +12,7 @@ class Router
 {
     private array $routes = [
         '/\\/shop\\/orders\\/?[a-zA-Z0-9_\\-]*/' => OrdersController::class,
+        '/\\/shop\\/order\\/requests\\/?[a-zA-Z0-9_\\-]*/' => OrderRequestsController::class,
     ];
 
     public function handleRequest(Request $request): callable
@@ -25,6 +27,6 @@ class Router
             }
         }
 
-        throw new Exception('Bad request', Response::HTTP_BAD_REQUEST);
+        throw new BadRequestException('Bad request', Response::HTTP_BAD_REQUEST);
     }
 }

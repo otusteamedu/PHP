@@ -6,23 +6,23 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../:/home/www/mysite.local
-      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - ../:/home/www/${APP_HOST}
+      - ./nginx/${APP_HOST}.conf:/etc/nginx/conf.d/${APP_HOST}.conf
       - phpsocket:/var/run
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
   app:
     container_name: vlyagusha-app
     build: php
     volumes:
-      - ../:/home/www/mysite.local
+      - ../:/home/www/${APP_HOST}
       - phpsocket:/var/run
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
   postgres:
     container_name: vlyagusha-postgres
     image: postgres
@@ -38,7 +38,22 @@ services:
     networks:
       localnet:
         aliases:
-          - mysite.local
+          - ${APP_HOST}
+  rabbitmq:
+    container_name: vlyagusha-rabbitmq
+    image: rabbitmq:management
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      localnet:
+        aliases:
+          - ${APP_HOST}
 
 volumes:
   phpsocket:

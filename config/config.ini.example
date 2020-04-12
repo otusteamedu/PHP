@@ -1,5 +1,12 @@
 [app]
-base_url = http://mysite.local
+base_url=http://mysite.local
 
 [postgres]
-dsn = pgsql:host=postgres;port=5432;dbname=postgres;user=postgres;password=postgres
+dsn="pgsql:host=postgres;port=5432;dbname=postgres;user=postgres;password=postgres"
+
+[rabbitmq]
+host="rabbitmq"
+port=5672
+user="rabbitmq"
+password="rabbitmq"
+vhost="/"

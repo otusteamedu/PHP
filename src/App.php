@@ -8,11 +8,14 @@ class App
 {
     public function run(): Response
     {
-        $request = Request::createFromGlobals();
         $router = new Router();
+        $request = Request::createFromGlobals();
         try {
             $controller = $router->handleRequest($request);
             $response = call_user_func($controller, $request);
+            if (!$response instanceof Response) {
+                throw new LogicException(sprintf('The controller must return a response (%s given).', var_export($response, true)), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         } catch (Throwable $exception) {
             $response = new Response($exception->getMessage(), $exception->getCode());
         }
