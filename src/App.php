@@ -6,6 +6,7 @@ use Bjlag\Db\Store;
 use Bjlag\Http\Middleware\BodyParamsMiddleware;
 use Bjlag\Template\Template;
 use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
 // todo: урл для API /api/channel/create
 // todo: ответ API JSON
@@ -56,7 +57,7 @@ class App
             $request = ServerRequestFactory::fromGlobals();
             $response = $this->router->dispatch($request);
 
-            echo $response->getBody();
+            (new SapiEmitter())->emit($response);
 
 //            $data = self::getDb()->find('channel', ['name', 'source'], ['source' => 'app']);
 //            var_dump($data);
