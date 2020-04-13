@@ -4,6 +4,8 @@ namespace Bjlag\Db\Adapters;
 
 use Bjlag\Db\Store;
 use MongoDB\BSON\ObjectId;
+use MongoDB\Model\BSONArray;
+use MongoDB\Model\BSONDocument;
 
 class MongoDb implements Store
 {
@@ -50,12 +52,34 @@ class MongoDb implements Store
                 if ($field instanceof ObjectId) {
                     $field = $field->jsonSerialize();
                     $data['id'] = $field['$oid'];
+                } elseif ($field instanceof BSONArray) {
+                    $data[$key] = $this->extractFields($field);
                 } else {
                     $data[$key] = $field;
                 }
             }
 
             $result[] = $data;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param \MongoDB\Model\BSONArray $value
+     * @return array
+     */
+    private function extractFields(BSONArray $value): array
+    {
+        $result = [];
+
+        $items = $value->jsonSerialize();
+        foreach ($items as $key => $item) {
+            if ($item instanceof BSONArray) {
+                $result[$key] = $this->extractFields($item);
+            } else {
+                $result[$key] = $item instanceof BSONDocument ? (array) $item->jsonSerialize() : $item;
+            }
         }
 
         return $result;

@@ -18,10 +18,14 @@ class ChannelController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = Channel::find(['source']);
+        $rows = Channel::find();
+
+        ob_start();
+        var_dump($rows);
+        $content = ob_get_contents();
 
         $response = new Response();
-        $response->getBody()->write('Доступные каналы');
+        $response->getBody()->write($content);
 
         return $response;
     }
