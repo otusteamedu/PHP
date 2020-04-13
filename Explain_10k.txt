@@ -1,0 +1,123 @@
+------------------------------------------------------------------------------------------------------------------------
+select count(*) from seances where date::time >= '10:00' and date::time <= '19:00';
+------------------------------------------------------------------------------------------------------------------------
+
+Seq Scan on seances  (cost=0.00..264.00 rows=50 width=20) (actual time=0.015..10.473 rows=7132 loops=1)
+  Filter: (((date)::time without time zone >= '10:00:00'::time without time zone) AND ((date)::time without time zone <= '19:00:00'::time without time zone))
+  Rows Removed by Filter: 2868
+Planning Time: 0.092 ms
+Execution Time: 18.055 ms
+
+------------------------------------------------------------------------------------------------------------------------
+select
+    s.*,
+    f.name as film,
+    h.name as hall
+from seances s
+         join films f on f.id = s.id_film
+         join halls h on h.id = s.id_hall
+where date::time >= '10:00' and date::time <= '19:00';
+------------------------------------------------------------------------------------------------------------------------
+Hash Join  (cost=17.20..284.24 rows=50 width=270) (actual time=0.070..75.868 rows=7132 loops=1)
+  Hash Cond: (s.id_hall = h.id)
+  ->  Nested Loop  (cost=0.00..266.91 rows=50 width=52) (actual time=0.037..58.742 rows=7132 loops=1)
+        Join Filter: (s.id_film = f.id)
+        Rows Removed by Join Filter: 7117
+        ->  Seq Scan on seances s  (cost=0.00..264.00 rows=50 width=20) (actual time=0.020..11.143 rows=7132 loops=1)
+              Filter: (((date)::time without time zone >= '10:00:00'::time without time zone) AND ((date)::time without time zone <= '19:00:00'::time without time zone))
+              Rows Removed by Filter: 2868
+        ->  Materialize  (cost=0.00..1.04 rows=3 width=36) (actual time=0.001..0.002 rows=2 loops=7132)
+              ->  Seq Scan on films f  (cost=0.00..1.03 rows=3 width=36) (actual time=0.007..0.010 rows=3 loops=1)
+  ->  Hash  (cost=13.20..13.20 rows=320 width=222) (actual time=0.021..0.022 rows=3 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+        ->  Seq Scan on halls h  (cost=0.00..13.20 rows=320 width=222) (actual time=0.007..0.012 rows=3 loops=1)
+Planning Time: 0.330 ms
+Execution Time: 83.582 ms
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+select * from tickets where price > 310;
+------------------------------------------------------------------------------------------------------------------------
+
+Seq Scan on tickets  (cost=0.00..190.41 rows=4183 width=18) (actual time=0.018..7.103 rows=4183 loops=1)
+  Filter: (price > '310'::numeric)
+  Rows Removed by Filter: 5850
+Planning Time: 0.109 ms
+Execution Time: 11.384 ms
+
+------------------------------------------------------------------------------------------------------------------------
+select
+  t.*,
+  s.date as date,
+  f.name as film,
+  st.name as seat_type
+from tickets t
+  join seances s on s.id = t.id_seance
+  join seats seat on seat.id = t.id_seat
+  join films f on f.id = s.id_film
+  join seat_types st on st.id = seat.id_seat_type
+where price > 310;
+------------------------------------------------------------------------------------------------------------------------
+Hash Join  (cost=732.53..834.55 rows=4183 width=90) (actual time=37.609..76.513 rows=4176 loops=1)
+  Hash Cond: (s.id_film = f.id)
+  ->  Hash Join  (cost=731.46..806.99 rows=4183 width=62) (actual time=37.565..65.608 rows=4176 loops=1)
+        Hash Cond: (t.id_seance = s.id)
+        ->  Merge Join  (cost=442.46..507.01 rows=4183 width=50) (actual time=12.526..28.838 rows=4183 loops=1)
+              Merge Cond: (seat.id = t.id_seat)
+              ->  Nested Loop  (cost=0.44..1983.55 rows=10032 width=36) (actual time=0.039..0.368 rows=13 loops=1)
+                    ->  Index Scan using seats_pk on seats seat  (cost=0.29..260.27 rows=10032 width=8) (actual time=0.023..0.083 rows=13 loops=1)
+                    ->  Index Scan using seat_types_pk on seat_types st  (cost=0.15..0.17 rows=1 width=36) (actual time=0.008..0.008 rows=1 loops=13)
+                          Index Cond: (id = seat.id_seat_type)
+              ->  Sort  (cost=442.03..452.48 rows=4183 width=18) (actual time=12.477..17.680 rows=4183 loops=1)
+                    Sort Key: t.id_seat
+                    Sort Method: quicksort  Memory: 519kB
+                    ->  Seq Scan on tickets t  (cost=0.00..190.41 rows=4183 width=18) (actual time=0.037..7.062 rows=4183 loops=1)
+                          Filter: (price > '310'::numeric)
+                          Rows Removed by Filter: 5850
+        ->  Hash  (cost=164.00..164.00 rows=10000 width=16) (actual time=24.788..24.789 rows=10000 loops=1)
+              Buckets: 16384  Batches: 1  Memory Usage: 597kB
+              ->  Seq Scan on seances s  (cost=0.00..164.00 rows=10000 width=16) (actual time=0.010..12.091 rows=10000 loops=1)
+  ->  Hash  (cost=1.03..1.03 rows=3 width=36) (actual time=0.028..0.029 rows=3 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+        ->  Seq Scan on films f  (cost=0.00..1.03 rows=3 width=36) (actual time=0.012..0.017 rows=3 loops=1)
+Planning Time: 0.710 ms
+Execution Time: 81.468 ms
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+select * from seats where row_number > 2 and seat_number < 24;
+------------------------------------------------------------------------------------------------------------------------
+
+Seq Scan on seats  (cost=0.00..214.48 rows=7492 width=24) (actual time=0.023..10.137 rows=7492 loops=1)
+  Filter: ((row_number > 2) AND (seat_number < 24))
+  Rows Removed by Filter: 2540
+Planning Time: 0.123 ms
+Execution Time: 18.348 ms
+
+------------------------------------------------------------------------------------------------------------------------
+select
+  s.*,
+  p.price,
+  st.name as seat_type
+from seats s
+  join seat_types st on st.id = s.id_seat_type
+  join price p on p.id = s.id_price
+where row_number > 2 and seat_number < 24;
+------------------------------------------------------------------------------------------------------------------------
+Hash Join  (cost=39.76..304.05 rows=7492 width=88) (actual time=0.094..46.307 rows=7492 loops=1)
+  Hash Cond: (s.id_price = p.id)
+  ->  Hash Join  (cost=38.58..272.79 rows=7492 width=56) (actual time=0.043..28.874 rows=7492 loops=1)
+        Hash Cond: (s.id_seat_type = st.id)
+        ->  Seq Scan on seats s  (cost=0.00..214.48 rows=7492 width=24) (actual time=0.012..10.709 rows=7492 loops=1)
+              Filter: ((row_number > 2) AND (seat_number < 24))
+              Rows Removed by Filter: 2540
+        ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.022..0.023 rows=4 loops=1)
+              Buckets: 2048  Batches: 1  Memory Usage: 17kB
+              ->  Seq Scan on seat_types st  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.007..0.014 rows=4 loops=1)
+  ->  Hash  (cost=1.08..1.08 rows=8 width=36) (actual time=0.041..0.042 rows=8 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+        ->  Seq Scan on price p  (cost=0.00..1.08 rows=8 width=36) (actual time=0.016..0.025 rows=8 loops=1)
+Planning Time: 0.259 ms
+Execution Time: 54.157 ms
