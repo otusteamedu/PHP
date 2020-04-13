@@ -10,9 +10,6 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception\NotFoundException;
 
-// todo: урл для API /api/channel/create
-// todo: ответ API JSON
-// todo: добавление каналов
 // todo: добавление видео
 // todo: вывод статистики
 

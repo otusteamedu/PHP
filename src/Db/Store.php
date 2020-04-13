@@ -12,5 +12,5 @@ interface Store
 
     public function update(string $table, array $where, array $data);
 
-    public function delete();
+    public function delete(string $table, array $where);
 }

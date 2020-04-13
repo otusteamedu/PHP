@@ -7,7 +7,6 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
-use MongoDB\UpdateResult;
 
 class MongoDb implements Store
 {
@@ -32,15 +31,20 @@ class MongoDb implements Store
         return $this;
     }
 
-    public function find(string $from, array $select = [], array $where = [], ?int $limit = null, ?int $offset = null): array
-    {
+    public function find(
+        string $from,
+        array $select = [],
+        array $where = [],
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $options = [];
         $columns = [];
         foreach ($select as $column) {
             $columns[$column] = 1;
         }
 
-        if (count($columns) > 0){
+        if (count($columns) > 0) {
             $options['projection'] = $columns;
         }
 
@@ -80,7 +84,7 @@ class MongoDb implements Store
             if ($item instanceof BSONArray) {
                 $result[$key] = $this->extractFields($item);
             } else {
-                $result[$key] = $item instanceof BSONDocument ? (array) $item->jsonSerialize() : $item;
+                $result[$key] = $item instanceof BSONDocument ? (array)$item->jsonSerialize() : $item;
             }
         }
 
@@ -117,11 +121,24 @@ class MongoDb implements Store
         $collection = $this->client->selectCollection($this->dbname, $table);
         $result = $collection->updateOne($where, ['$set' => $data]);
 
-        return $result->getModifiedCount();
+        return $result->getModifiedCount() !== null ? $result->getModifiedCount() : 0;
     }
 
-    public function delete()
+    /**
+     * @param string $table
+     * @param array $where
+     * @return int
+     */
+    public function delete(string $table, array $where): int
     {
-        // TODO: Implement delete() method.
+        if (key_exists('id', $where)) {
+            $where['_id'] = new ObjectId($where['id']);
+            unset($where['id']);
+        }
+
+        $collection = $this->client->selectCollection($this->dbname, $table);
+        $result = $collection->deleteOne($where);
+
+        return $result->getDeletedCount();
     }
 }

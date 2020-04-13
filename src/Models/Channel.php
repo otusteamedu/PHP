@@ -39,4 +39,13 @@ class Channel
     {
         return App::getDb()->update(self::TABLE, $where, $data);
     }
+
+    /**
+     * @param array $where
+     * @return mixed
+     */
+    public static function delete(array $where): int
+    {
+        return App::getDb()->delete(self::TABLE, $where);
+    }
 }

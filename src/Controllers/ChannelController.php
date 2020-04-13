@@ -53,15 +53,26 @@ class ChannelController extends BaseController
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
         $data = $request->getParsedBody();
-
-        Channel::update($data['filter'], $data['data']);
+        $modifiedCount = Channel::update($data['filter'], $data['data']);
 
         return new Response\JsonResponse([
             'is_succeed' => true,
+            'modified_count' => $modifiedCount
         ], 200);
     }
 
-    public function deleteAction()
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function deleteAction(ServerRequestInterface $request): ResponseInterface
     {
+        $data = $request->getParsedBody();
+        $deletedCount = Channel::delete($data['filter']);
+
+        return new Response\JsonResponse([
+            'is_succeed' => true,
+            'deleted_count' => $deletedCount
+        ], 200);
     }
 }
