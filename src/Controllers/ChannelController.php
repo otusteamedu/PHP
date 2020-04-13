@@ -30,11 +30,19 @@ class ChannelController extends BaseController
         return $response;
     }
 
-    public function addAction()
+    /**
+     * Добавление нового канала.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Laminas\Diactoros\Response\JsonResponse
+     */
+    public function addAction(ServerRequestInterface $request): ResponseInterface
     {
+        $id = Channel::add($request->getParsedBody());
+
         return new Response\JsonResponse([
             'is_succeed' => true,
-            'id' => 1,
+            'id' => $id,
         ], 200);
     }
 

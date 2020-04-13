@@ -4,6 +4,7 @@ namespace Bjlag\Db\Adapters;
 
 use Bjlag\Db\Store;
 use MongoDB\BSON\ObjectId;
+use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
 
@@ -85,9 +86,17 @@ class MongoDb implements Store
         return $result;
     }
 
-    public function add()
+    /**
+     * @param string $to
+     * @param array $data
+     * @return mixed
+     */
+    public function add(string $to, array $data)
     {
-        // TODO: Implement add() method.
+        $collection = $this->client->selectCollection($this->dbname, $to);
+        $result = $collection->insertOne($data);
+
+        return $result instanceof InsertOneResult ? $result->getInsertedId()->jsonSerialize()['$oid'] : $result;
     }
 
     public function update()
