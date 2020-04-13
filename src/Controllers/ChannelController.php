@@ -46,8 +46,19 @@ class ChannelController extends BaseController
         ], 200);
     }
 
-    public function editAction()
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function editAction(ServerRequestInterface $request): ResponseInterface
     {
+        $data = $request->getParsedBody();
+
+        Channel::update($data['filter'], $data['data']);
+
+        return new Response\JsonResponse([
+            'is_succeed' => true,
+        ], 200);
     }
 
     public function deleteAction()

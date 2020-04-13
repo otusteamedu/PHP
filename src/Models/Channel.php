@@ -29,4 +29,14 @@ class Channel
     {
         return App::getDb()->add(self::TABLE, $data);
     }
+
+    /**
+     * @param array $where
+     * @param array $data
+     * @return mixed
+     */
+    public static function update(array $where, array $data)
+    {
+        return App::getDb()->update(self::TABLE, $where, $data);
+    }
 }

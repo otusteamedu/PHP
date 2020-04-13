@@ -10,7 +10,7 @@ interface Store
 
     public function add(string $to, array $data);
 
-    public function update();
+    public function update(string $table, array $where, array $data);
 
     public function delete();
 }

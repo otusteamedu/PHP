@@ -7,6 +7,7 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
+use MongoDB\UpdateResult;
 
 class MongoDb implements Store
 {
@@ -99,9 +100,24 @@ class MongoDb implements Store
         return $result instanceof InsertOneResult ? $result->getInsertedId()->jsonSerialize()['$oid'] : $result;
     }
 
-    public function update()
+    /**
+     * @param string $table
+     * @param array $where
+     * @param array $data
+     *
+     * @return int
+     */
+    public function update(string $table, array $where, array $data): int
     {
-        // TODO: Implement update() method.
+        if (key_exists('id', $where)) {
+            $where['_id'] = new ObjectId($where['id']);
+            unset($where['id']);
+        }
+
+        $collection = $this->client->selectCollection($this->dbname, $table);
+        $result = $collection->updateOne($where, ['$set' => $data]);
+
+        return $result->getModifiedCount();
     }
 
     public function delete()
