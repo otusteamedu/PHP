@@ -4,7 +4,6 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Models\Channel;
-use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,10 +23,7 @@ class ChannelController extends BaseController
         var_dump($rows);
         $content = ob_get_contents();
 
-        $response = new Response();
-        $response->getBody()->write($content);
-
-        return $response;
+        return $this->getResponseSimple($content, 200);
     }
 
     /**
@@ -40,7 +36,7 @@ class ChannelController extends BaseController
     {
         $id = Channel::add($request->getParsedBody());
 
-        return new Response\JsonResponse([
+        return $this->getResponseJson([
             'is_succeed' => true,
             'id' => $id,
         ], 200);
@@ -55,7 +51,7 @@ class ChannelController extends BaseController
         $data = $request->getParsedBody();
         $modifiedCount = Channel::update($data['filter'], $data['data']);
 
-        return new Response\JsonResponse([
+        return $this->getResponseJson([
             'is_succeed' => true,
             'modified_count' => $modifiedCount
         ], 200);
@@ -70,7 +66,7 @@ class ChannelController extends BaseController
         $data = $request->getParsedBody();
         $deletedCount = Channel::delete($data['filter']);
 
-        return new Response\JsonResponse([
+        return $this->getResponseJson([
             'is_succeed' => true,
             'deleted_count' => $deletedCount
         ], 200);
