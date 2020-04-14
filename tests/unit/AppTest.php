@@ -33,9 +33,4 @@ class AppTest extends Unit
     {
         $this->assertInstanceOf(App::class, new App());
     }
-
-//    public function testRun(): void
-//    {
-//        (new App())->run();
-//    }
 }
