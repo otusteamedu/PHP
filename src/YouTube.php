@@ -3,37 +3,48 @@
 namespace App;
 
 use RuntimeException;
+use Throwable;
 
 final class YouTube
 {
     public static function search(string $q, int $limit = 5): object
     {
-        return self::curl('search', [
-            'part' => 'snippet',
-            'type' => 'video',
-            'order' => 'relevance', // relevance | rating | viewCount
-            'regionCode' => 'RU',
-            'relevanceLanguage' => 'ru',
-            'maxResults' => $limit,
-            'q' => $q,
-        ]);
+        return self::curl(
+            'search',
+            [
+                'part' => 'snippet',
+                'type' => 'video',
+                'order' => 'relevance', // relevance | rating | viewCount
+                'regionCode' => 'RU',
+                'relevanceLanguage' => 'ru',
+                'maxResults' => $limit,
+                'q' => $q,
+            ]
+        );
     }
 
-    public static function getVideo(string $id): ?object {
-        $data = self::curl('videos', [
-            'part' => 'snippet',
-            'id' => $id,
-        ]);
+    public static function getVideo(string $id): ?object
+    {
+        $data = self::curl(
+            'videos',
+            [
+                'part' => 'snippet',
+                'id' => $id,
+            ]
+        );
         if (empty($data->items[0]->id)) {
             return null;
         }
         $obj = clone $data->items[0]->snippet;
         $obj->_id = $data->items[0]->id;
 
-        $data = self::curl('videos', [
-            'part' => 'statistics',
-            'id' => $id,
-        ]);
+        $data = self::curl(
+            'videos',
+            [
+                'part' => 'statistics',
+                'id' => $id,
+            ]
+        );
         if (empty($data->items[0]->statistics)) {
             return $obj;
         }
@@ -42,11 +53,15 @@ final class YouTube
         return $obj;
     }
 
-    public static function getChannel(string $id): ?object {
-        $data = self::curl('channels', [
-            'part' => 'snippet',
-            'id' => $id,
-        ]);
+    public static function getChannel(string $id): ?object
+    {
+        $data = self::curl(
+            'channels',
+            [
+                'part' => 'snippet',
+                'id' => $id,
+            ]
+        );
         if (empty($data->items[0]->id)) {
             return null;
         }
@@ -55,7 +70,8 @@ final class YouTube
         return $obj;
     }
 
-    private static function curl(string $path, array $request) {
+    private static function curl(string $path, array $request)
+    {
         $base_url = 'https://www.googleapis.com/youtube/v3/';
         $request['key'] = getenv('APP_KEY_YOUTUBE');
 

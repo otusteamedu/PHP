@@ -23,18 +23,16 @@ final class SearchAndFill extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription(
-                'Ищет в YouTube видео и сохраняет в базу информацию о видео и каналах (сортировка по релевантности на русском).'
-            )
+            ->setDescription('Ищет в YouTube видео и сохраняет в базу информацию о видео и каналах.')
             ->addArgument('query', InputArgument::OPTIONAL, 'Строка для поиска', 'php')
             ->setAliases(['fill']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $query = (string) $input->getArgument('query');
-
         $app = new App();
+
+        $query = (string) $input->getArgument('query');
         $res = YouTube::search($query, self::LIMIT);
 
         $videos = [];
@@ -64,8 +62,8 @@ final class SearchAndFill extends Command
 
     private static function validateSchema(&$obj, string $type): void
     {
-        $validator = new Validator;
-        $validator->validate($obj, (object)['$ref' => "file:///app/schema/$type.schema.json"]);
+        $validator = new Validator();
+        $validator->validate($obj, (object) ['$ref' => "file:///app/schema/$type.schema.json"]);
         if (!$validator->isValid()) {
             $msg = 'JSON does not validate. Violations:';
             foreach ($validator->getErrors() as $error) {

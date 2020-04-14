@@ -15,41 +15,41 @@ class ChannelLikes extends Command
 {
     protected static $defaultName = 'app:channel_likes';
 
-    protected function configure(): void {
+    protected function configure(): void
+    {
         $this
             ->setDescription('Суммарное кол-во лайков и дизлайков для канала по всем его видео')
             ->addArgument('id', InputArgument::REQUIRED, 'ID канала')
-            ->setAliases(['chan'])
-        ;
+            ->setAliases(['chan']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $app = new App();
         $id = (string) $input->getArgument('id');
         $pipe = [
             [
-                '$match'=> ['channelId'=> $id]
+                '$match' => ['channelId' => $id],
             ],
             [
-                '$group'=> [
-                    '_id'=> '$channelId',
-                    'like'=> [
-                        '$sum'=> ['$convert'=> ['input'=> '$statistics.likeCount', 'to'=> 'int']]
+                '$group' => [
+                    '_id' => '$channelId',
+                    'like' => [
+                        '$sum' => ['$convert' => ['input' => '$statistics.likeCount', 'to' => 'int']],
                     ],
-                    'dislike'=> [
-                        '$sum'=> ['$convert'=> ['input'=> '$statistics.dislikeCount', 'to'=> 'int']]
+                    'dislike' => [
+                        '$sum' => ['$convert' => ['input' => '$statistics.dislikeCount', 'to' => 'int']],
                     ],
-                ]
+                ],
             ],
             [
-                '$project'=> [
-                    'like'=> '$like',
-                    'dislike'=> '$dislike',
-                    '_id'=> 0,
-                ]
-            ]
+                '$project' => [
+                    'like' => '$like',
+                    'dislike' => '$dislike',
+                    '_id' => 0,
+                ],
+            ],
         ];
-        $app = new App();
         $result = $app->db->aggregate('video', $pipe);
 
         $asArray = [];

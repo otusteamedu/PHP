@@ -25,10 +25,11 @@ class Top extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $app = new App();
         $io = new SymfonyStyle($input, $output);
 
         $limit = $input->getArgument('limit');
-        if (FALSE === filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
+        if (false === filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
             $io->error('Кол-во каналов в топе должна быть целым положительным числом');
             return 0;
         }
@@ -39,50 +40,49 @@ class Top extends Command
                 '$group' => [
                     '_id' => '$channelId',
                     'like' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.likeCount', 'to' => 'int']]
+                        '$sum' => ['$convert' => ['input' => '$statistics.likeCount', 'to' => 'int']],
                     ],
                     'dislike' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.dislikeCount', 'to' => 'int']]
+                        '$sum' => ['$convert' => ['input' => '$statistics.dislikeCount', 'to' => 'int']],
                     ],
-                ]
+                ],
             ],
             [
                 '$project' => [
                     'channelId' => '$_id',
                     'ratio' => ['$divide' => ['$like', ['$cond' => ['$dislike', '$dislike', 1]]]],
-                    '_id' => 0
-                ]
+                    '_id' => 0,
+                ],
             ],
             [
                 '$sort' => [
-                    'ratio' => -1
-                ]
+                    'ratio' => -1,
+                ],
             ],
             [
-                '$limit' => $limit
+                '$limit' => $limit,
             ],
             [
                 '$lookup' => [
                     'from' => 'channel',
                     'localField' => 'channelId',
                     'foreignField' => '_id',
-                    'as' => 'channel'
-                ]
+                    'as' => 'channel',
+                ],
             ],
             [
                 '$project' => [
                     'channel' => ['$arrayElemAt' => ['$channel', 0]],
-                    'ratio' => '$ratio'
-                ]
+                    'ratio' => '$ratio',
+                ],
             ],
             [
                 '$project' => [
                     'channel' => '$channel.title',
-                    'ratio' => '$ratio'
-                ]
-            ]
+                    'ratio' => '$ratio',
+                ],
+            ],
         ];
-        $app = new App();
         $result = $app->db->aggregate('video', $pipe);
 
         $asArray = [];

@@ -13,11 +13,11 @@ class AddIndex extends Command
 {
     protected static $defaultName = 'app:add_index';
 
-    protected function configure(): void {
+    protected function configure(): void
+    {
         $this
             ->setDescription('Добавляет индексы')
-            ->setAliases(['index'])
-        ;
+            ->setAliases(['index']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
