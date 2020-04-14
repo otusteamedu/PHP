@@ -20,12 +20,17 @@
 # Использование
 
 ### Подготовка
+
 ```bash
 docker volume create mongo_data
 docker-compose build
 docker-compose up -d
 docker-compose exec composer install --no-dev
 ```
+
+Также нужно создать .env файл и задать в нем переменную APP_KEY_YOUTUBE.  
+Значение переменной - ключ API для работы с YouTube, подробнее пункты 1-3 по ссылке:  
+https://developers.google.com/youtube/v3/getting-started
 
 ### Поиск и запись в базу данных информации
 Вместо 'php' можно указать любую другую строку.
