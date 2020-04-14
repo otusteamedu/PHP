@@ -19,7 +19,7 @@ class Twig implements Template
     {
         $loader = new FilesystemLoader(App::getTemplateDir());
         $this->twig = new Environment($loader, [
-            'cache' => $cacheDir,
+            'cache' => false,
         ]);
     }
 
@@ -35,7 +35,7 @@ class Twig implements Template
     public function render(string $path, array $params = []): string
     {
         return $this->twig
-            ->load($path)
+            ->load("{$path}.twig")
             ->render($params);
     }
 }

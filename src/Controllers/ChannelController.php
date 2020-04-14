@@ -17,13 +17,9 @@ class ChannelController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = Channel::find();
+        $channels = Channel::find();
 
-        ob_start();
-        var_dump($rows);
-        $content = ob_get_contents();
-
-        return $this->getResponseSimple($content, 200);
+        return $this->getResponseHtml('channel/index', ['channels' => $channels]);
     }
 
     /**
