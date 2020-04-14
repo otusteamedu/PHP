@@ -56,13 +56,11 @@ class App
             $request = ServerRequestFactory::fromGlobals();
             $response = $this->router->dispatch($request);
         } catch (NotFoundException $e) {
-            $response = new Response();
-            $response->withStatus(404);
+            $response = (new Response())->withStatus(404);
             $response->getBody()->write('Страница не найдена');
         } catch (\Throwable $e) {
-            $response = new Response($e->getMessage(), 500);
-            $response->withStatus(500);
-            $response->getBody()->write('Ошибка сервера');
+            $response = (new Response())->withStatus(500);
+            $response->getBody()->write("Ошибка сервера: {$e->getMessage()}");
         }
 
         (new SapiEmitter())->emit($response);

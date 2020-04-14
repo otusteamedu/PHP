@@ -9,9 +9,8 @@ abstract class BaseController
 {
     protected function getResponseSimple(string $content, int $status = 200): ResponseInterface
     {
-        $response = new Response();
+        $response = (new Response())->withStatus($status);
         $response->getBody()->write($content);
-        $response->withStatus($status);
 
         return $response;
     }
@@ -25,9 +24,8 @@ abstract class BaseController
      */
     protected function getResponseHtml(string $template, array $data = [], int $status = 200): ResponseInterface
     {
-        $response = new Response();
+        $response = (new Response())->withStatus($status);
         $response->getBody()->write(App::getTemplate()->render($template, $data));
-        $response->withStatus($status);
 
         return $response;
     }
