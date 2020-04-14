@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/channel.schema.json",
+  "type": "object",
+  "title": "channel",
+  "description": "",
+  "default": {},
+  "additionalProperties": true,
+  "required": [
+    "_id",
+    "title"
+  ],
+  "properties": {
+    "_id": {
+      "$id": "#/properties/_id",
+      "type": "string",
+      "title": "_id",
+      "description": "",
+      "default": "",
+      "examples": [
+        "UC-Od_B3ggmpyNNLNdLAu-3Q"
+      ]
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "title",
+      "description": "",
+      "default": "",
+      "examples": [
+        "OTUS Онлайн - образование"
+      ]
+    }
+  }
+}

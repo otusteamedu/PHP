@@ -1,0 +1,39 @@
+{
+  "license": "proprietary",
+  "description": "",
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "require": {
+    "php": "^7.4",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mongodb": "*",
+    "ext-zend-opcache": "*",
+    "filp/whoops": "^2.7",
+    "justinrainbow/json-schema": "^5.2",
+    "mongodb/mongodb": "^1.6",
+    "symfony/console": "^5.0",
+    "vlucas/phpdotenv": "^4.1"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "ext-ast": "*",
+    "codeception/codeception": "^4.0",
+    "codeception/module-asserts": "^1.0",
+    "phan/phan": "^2.4",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "scripts": {
+    "test": "codecept run --debug",
+    "stan": "phan --color --progress-bar",
+    "cs_check": "phpcs ./src --standard=PSR12",
+    "cs_fix": "phpcbf ./src --standard=PSR12"
+  }
+}

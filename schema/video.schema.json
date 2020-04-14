@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/video.schema.json",
+  "type": "object",
+  "title": "video",
+  "description": "",
+  "default": {},
+  "additionalProperties": true,
+  "required": [
+    "_id",
+    "title",
+    "channelId"
+  ],
+  "properties": {
+    "_id": {
+      "$id": "#/properties/_id",
+      "type": "string",
+      "title": "_id",
+      "description": "",
+      "default": "",
+      "examples": [
+        "ZHzIn1tV0vk"
+      ]
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "title",
+      "description": "",
+      "default": "",
+      "examples": [
+        "PHP-разработчик и Framework Laravel // День открытых дверей OTUS"
+      ]
+    },
+    "channelId": {
+      "$id": "#/properties/channelId",
+      "type": "string",
+      "title": "channelId",
+      "description": "",
+      "default": "",
+      "examples": [
+        "UCNdbNxQe9qDP6EaVTM1Caxg"
+      ]
+    },
+    "statistics": {
+      "$id": "#/properties/statistics",
+      "type": "object",
+      "title": "statistics",
+      "description": "",
+      "default": {},
+      "examples": [
+        {
+          "dislikeCount": "19",
+          "likeCount": "172"
+        }
+      ],
+      "additionalProperties": true,
+      "required": [],
+      "properties": {
+        "likeCount": {
+          "$id": "#/properties/statistics/properties/likeCount",
+          "type": "string",
+          "title": "likeCount",
+          "description": "",
+          "default": "",
+          "examples": [
+            "172"
+          ]
+        },
+        "dislikeCount": {
+          "$id": "#/properties/statistics/properties/dislikeCount",
+          "type": "string",
+          "title": "dislikeCount",
+          "description": "",
+          "default": "",
+          "examples": [
+            "19"
+          ]
+        }
+      }
+    }
+  }
+}
