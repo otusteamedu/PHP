@@ -10,6 +10,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $application = new Application();
 
+if (getenv('APP_ENV') === 'prod') {
+    $application->setCatchExceptions(false);
+}
+
 $application->add(new SearchAndFill());
 $application->add(new AddIndex());
 $application->add(new Top());
