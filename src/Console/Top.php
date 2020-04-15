@@ -5,13 +5,15 @@
 namespace App\Console;
 
 use App\App;
+use App\Db;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Traversable;
 
-class Top extends Command
+final class Top extends Command
 {
     protected static $defaultName = 'app:top';
 
@@ -25,7 +27,6 @@ class Top extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $app = new App();
         $io = new SymfonyStyle($input, $output);
 
         $limit = $input->getArgument('limit');
@@ -33,8 +34,25 @@ class Top extends Command
             $io->error('Кол-во каналов в топе должна быть целым положительным числом');
             return 0;
         }
-        $limit = (int) $limit;
 
+        $data = self::getTop(App::getDb(), $limit);
+
+        $asArray = [];
+        $i = 0;
+        foreach ($data as $row) {
+            $asArray[$i] = [
+                $row['channel'],
+                $row['ratio'],
+            ];
+            $i++;
+        }
+        $io->table(['Channel', 'Ratio'], $asArray);
+
+        return 0;
+    }
+
+    private static function getTop(Db $db, int $limit): Traversable
+    {
         $pipe = [
             [
                 '$group' => [
@@ -83,19 +101,6 @@ class Top extends Command
                 ],
             ],
         ];
-        $result = $app->db->aggregate('video', $pipe);
-
-        $asArray = [];
-        $i = 0;
-        foreach ($result as $row) {
-            $asArray[$i] = [
-                $row['channel'],
-                $row['ratio'],
-            ];
-            $i++;
-        }
-
-        $io->table(['Channel', 'Ratio'], $asArray);
-        return 0;
+        return $db->aggregate('video', $pipe);
     }
 }

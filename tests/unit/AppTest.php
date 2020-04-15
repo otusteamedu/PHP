@@ -8,7 +8,7 @@ class AppTest extends Unit
 {
     protected UnitTester $tester;
 
-    public function testSetErrorRunner(): void
+    public function testSetErrorHandler(): void
     {
         putenv('APP_ENV=dev');
         $method = $this->tester::getReflectionMethod(App::class, 'setErrorHandler');
@@ -17,10 +17,5 @@ class AppTest extends Unit
         $this->assertInstanceOf(ErrorHandler::class, $prev_handler[0]);
         restore_error_handler();
         restore_error_handler();
-    }
-
-    public function testConstructor(): void
-    {
-        $this->assertInstanceOf(App::class, new App());
     }
 }

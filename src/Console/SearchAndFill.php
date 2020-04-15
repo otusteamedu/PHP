@@ -5,6 +5,7 @@
 namespace App\Console;
 
 use App\App;
+use App\Db;
 use App\YouTube;
 use JsonSchema\Validator;
 use RuntimeException;
@@ -30,34 +31,46 @@ final class SearchAndFill extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $app = new App();
-
         $query = (string) $input->getArgument('query');
-        $res = YouTube::search($query, self::LIMIT);
 
         $videos = [];
         $channels = [];
+        self::search($query, $videos, $channels);
+
+        $db = App::getDb();
+        self::saveChannels($db, $channels);
+        self::saveVideos($db, $videos);
+
+        return 0;
+    }
+
+    private static function search(string $query, array &$videos, array &$channels): void
+    {
+        $res = YouTube::search($query, self::LIMIT);
         foreach ($res->items as $video) {
             $videos[$video->id->videoId] = $video->id->videoId;
             $channels[$video->snippet->channelId] = $video->snippet->channelId;
         }
-        unset($res);
+    }
 
+    private static function saveChannels(Db $db, array $channels): void
+    {
         foreach ($channels as $id) {
             if ($data = YouTube::getChannel($id)) {
                 self::validateSchema($data, 'channel');
-                $app->db->save($data, 'channel');
+                $db->save($data, 'channel');
             }
         }
+    }
 
+    private static function saveVideos(Db $db, array $videos): void
+    {
         foreach ($videos as $id) {
             if ($data = YouTube::getVideo($id)) {
                 self::validateSchema($data, 'video');
-                $app->db->save($data, 'video');
+                $db->save($data, 'video');
             }
         }
-
-        return 0;
     }
 
     private static function validateSchema(&$obj, string $type): void
