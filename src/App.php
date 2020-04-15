@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Dotenv\Dotenv;
 use Whoops\Handler\HandlerInterface;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PlainTextHandler;
@@ -15,16 +14,8 @@ final class App
 
     public function __construct()
     {
-        self::setEnv();
         self::setErrorRunner();
         $this->db = new Mongo();
-    }
-
-    private static function setEnv(): void
-    {
-        $dotenv = Dotenv::createImmutable('/app', 'default.env');
-        $dotenv->load();
-        $dotenv->required('APP_ENV')->allowedValues(['prod', 'dev']);
     }
 
     private static function setErrorRunner(): void

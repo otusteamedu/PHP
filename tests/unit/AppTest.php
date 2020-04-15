@@ -8,16 +8,6 @@ class AppTest extends Unit
 {
     protected UnitTester $tester;
 
-    public function testSetEnv(): void
-    {
-        unset($_ENV['APP_ENV'], $_SERVER['APP_ENV']);
-        putenv('APP_ENV');
-        $method = $this->tester::getReflectionMethod(App::class, 'setEnv');
-        $method->invokeArgs(null, []);
-        $this->assertContains(getenv('APP_ENV'), ['prod', 'dev']);
-        putenv('APP_ENV=dev');
-    }
-
     public function testSetErrorRunner(): void
     {
         putenv('APP_ENV=dev');

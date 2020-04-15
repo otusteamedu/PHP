@@ -19,8 +19,7 @@
     "filp/whoops": "^2.7",
     "justinrainbow/json-schema": "^5.2",
     "mongodb/mongodb": "^1.6",
-    "symfony/console": "^5.0",
-    "vlucas/phpdotenv": "^4.1"
+    "symfony/console": "^5.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
