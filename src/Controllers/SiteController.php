@@ -10,6 +10,6 @@ class SiteController extends BaseController
 {
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->getResponseHtml('site/index.twig');
+        return $this->getResponseHtml('site/index');
     }
 }
