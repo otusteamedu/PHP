@@ -88,7 +88,7 @@ CREATE TABLE movie_attr_value (
     id SERIAL,
     movie_id INTEGER NOT NULL,
     attr_id INTEGER NOT NULL,
-	value_text VARCHAR,
+	value_text TEXT,
     value_date DATE,
     value_bool BOOL,
     value_int INT,
