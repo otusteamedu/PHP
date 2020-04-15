@@ -7,21 +7,8 @@
         <p>ID: {{ channel.id }}</p>
         <p>URL: {{ channel.url }}</p>
         <p>Описание: {{ channel.description }}</p>
-        <p>Страна: {{ channel.country }}</p>
-        <p>Дата регистрации: {{ channel.registration_data }}</p>
-        <p>Число просмотров: {{ channel.number_views }}</p>
-        <p>Число подписчиков: {{ channel.number_subscribes }}</p>
-
-        {% if channel.links %}
-            <p><b>Ссылки</b></p>
-            {% for link in channel.links %}
-                <a href="{{ link.url }}">{{ link.name }}</a><br>
-            {% endfor %}
-        {% endif %}
-
+        <p><a href="/channels/{{ channel.id }}">Подробнее</a></p>
     {% endfor %}
 {% else %}
     Нет данных
 {% endif %}
-
-

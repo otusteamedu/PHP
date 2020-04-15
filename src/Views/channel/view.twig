@@ -1,0 +1,20 @@
+<h1>Канал: {{ name }}</h1>
+
+<p>ID: {{ id }}</p>
+<p>Название: {{ name }}</p>
+<p>URL: {{ url }}</p>
+<p>Описание: {{ description }}</p>
+<p>Страна: {{ country }}</p>
+<p>Дата регистрации: {{ registration_data }}</p>
+<p>Число просмотров: {{ number_views }}</p>
+<p>Число подписчиков: {{ number_subscribes }}</p>
+
+{% if links %}
+    <p><b>Ссылки</b></p>
+    {% for link in links %}
+        <a href="{{ link.url }}">{{ link.name }}</a><br>
+    {% endfor %}
+{% endif %}
+
+<p><a href="/channels">Все каналы</a></p>
+

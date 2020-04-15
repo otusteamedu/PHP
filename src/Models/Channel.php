@@ -22,6 +22,16 @@ class Channel
     }
 
     /**
+     * @param string $id
+     * @return array
+     */
+    public static function findById(string $id): array
+    {
+        $data = App::getDb()->find(self::TABLE, [],  ['id' => $id], 1);
+        return $data[0] ?? [];
+    }
+
+    /**
      * @param array $data
      * @return mixed
      */

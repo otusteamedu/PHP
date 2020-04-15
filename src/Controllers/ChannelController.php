@@ -4,6 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Models\Channel;
+use League\Route\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,6 +21,30 @@ class ChannelController extends BaseController
         $channels = Channel::find();
 
         return $this->getResponseHtml('channel/index', ['channels' => $channels]);
+    }
+
+    /**
+     * Вывод подробной информации о канале.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param array $args
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \League\Route\Http\Exception\NotFoundException
+     */
+    public function viewAction(ServerRequestInterface $request, array $args): ResponseInterface
+    {
+        $data = [];
+        $id = $args['id'] ?? null;
+
+        if ($id !== null) {
+            $data = Channel::findById($id);
+        }
+
+        if (empty($data)) {
+            throw new NotFoundException('Канал не найден');
+        }
+
+        return $this->getResponseHtml('channel/view', $data);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Bjlag\Db\Adapters;
 
 use Bjlag\Db\Store;
 use MongoDB\BSON\ObjectId;
+use MongoDB\Driver\Exception\InvalidArgumentException;
 use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONArray;
 use MongoDB\Model\BSONDocument;
@@ -36,16 +37,26 @@ class MongoDb implements Store
         array $select = [],
         array $where = [],
         ?int $limit = null,
-        ?int $offset = null
+        ?int $offset = 0
     ): array {
-        $options = [];
         $columns = [];
         foreach ($select as $column) {
             $columns[$column] = 1;
         }
 
+        $options = [];
         if (count($columns) > 0) {
             $options['projection'] = $columns;
+        }
+
+        if (key_exists('id', $where)) {
+            try {
+                $where['_id'] = new ObjectId($where['id']);
+            } catch (InvalidArgumentException $e) {
+                return [];
+            }
+
+            unset($where['id']);
         }
 
         $result = [];

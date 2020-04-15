@@ -5,6 +5,7 @@ use Bjlag\Controllers;
 return function (\League\Route\Router $router) {
     $router->map('GET', '/', [Controllers\SiteController::class, 'indexAction']);
     $router->map('GET', '/channels', [Controllers\ChannelController::class, 'indexAction']);
+    $router->map('GET', '/channels/{id:slug}', [Controllers\ChannelController::class, 'viewAction']);
     $router->map('GET', '/videos', [Controllers\VideoController::class, 'indexAction']);
 
     $router->group('/api', function (\League\Route\RouteGroup $route) {
