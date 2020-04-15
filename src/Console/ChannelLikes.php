@@ -5,13 +5,11 @@
 namespace App\Console;
 
 use App\App;
-use App\Db;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Traversable;
 
 final class ChannelLikes extends Command
 {
@@ -30,7 +28,7 @@ final class ChannelLikes extends Command
         $io = new SymfonyStyle($input, $output);
 
         $id = (string) $input->getArgument('id');
-        $data = self::getLikes(App::getDb(), $id);
+        $data = App::getDb()->getChannelLikes($id);
 
         $asArray = [];
         $i = 0;
@@ -44,33 +42,5 @@ final class ChannelLikes extends Command
         $io->table(['Like', 'Dislike'], $asArray);
 
         return 0;
-    }
-
-    private static function getLikes(Db $db, string $id): Traversable
-    {
-        $pipe = [
-            [
-                '$match' => ['channelId' => $id],
-            ],
-            [
-                '$group' => [
-                    '_id' => '$channelId',
-                    'like' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.likeCount', 'to' => 'int']],
-                    ],
-                    'dislike' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.dislikeCount', 'to' => 'int']],
-                    ],
-                ],
-            ],
-            [
-                '$project' => [
-                    'like' => '$like',
-                    'dislike' => '$dislike',
-                    '_id' => 0,
-                ],
-            ],
-        ];
-        return $db->aggregate('video', $pipe);
     }
 }

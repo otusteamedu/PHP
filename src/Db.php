@@ -10,5 +10,7 @@ interface Db
 
     public function addIndex(string $collection, string $key, array $options = []): void;
 
-    public function aggregate(string $collection, array $pipeline): Traversable;
+    public function getTopChannels(int $limit): Traversable;
+
+    public function getChannelLikes(string $id): Traversable;
 }

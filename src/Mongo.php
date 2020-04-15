@@ -4,10 +4,11 @@ namespace App;
 
 use MongoDB\Client;
 use MongoDB\Database;
-use Traversable;
 
 final class Mongo implements Db
 {
+    use MongoAggregate;
+
     private ?Database $database = null;
 
     private function init(): void
@@ -27,11 +28,5 @@ final class Mongo implements Db
     {
         $this->init();
         $this->database->$collection->createIndex([$key => 1], $options);
-    }
-
-    public function aggregate(string $collection, array $pipeline): Traversable
-    {
-        $this->init();
-        return $this->database->$collection->aggregate($pipeline);
     }
 }

@@ -5,13 +5,11 @@
 namespace App\Console;
 
 use App\App;
-use App\Db;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Traversable;
 
 final class Top extends Command
 {
@@ -35,7 +33,7 @@ final class Top extends Command
             return 0;
         }
 
-        $data = self::getTop(App::getDb(), $limit);
+        $data = App::getDb()->getTopChannels($limit);
 
         $asArray = [];
         $i = 0;
@@ -49,58 +47,5 @@ final class Top extends Command
         $io->table(['Channel', 'Ratio'], $asArray);
 
         return 0;
-    }
-
-    private static function getTop(Db $db, int $limit): Traversable
-    {
-        $pipe = [
-            [
-                '$group' => [
-                    '_id' => '$channelId',
-                    'like' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.likeCount', 'to' => 'int']],
-                    ],
-                    'dislike' => [
-                        '$sum' => ['$convert' => ['input' => '$statistics.dislikeCount', 'to' => 'int']],
-                    ],
-                ],
-            ],
-            [
-                '$project' => [
-                    'channelId' => '$_id',
-                    'ratio' => ['$divide' => ['$like', ['$cond' => ['$dislike', '$dislike', 1]]]],
-                    '_id' => 0,
-                ],
-            ],
-            [
-                '$sort' => [
-                    'ratio' => -1,
-                ],
-            ],
-            [
-                '$limit' => $limit,
-            ],
-            [
-                '$lookup' => [
-                    'from' => 'channel',
-                    'localField' => 'channelId',
-                    'foreignField' => '_id',
-                    'as' => 'channel',
-                ],
-            ],
-            [
-                '$project' => [
-                    'channel' => ['$arrayElemAt' => ['$channel', 0]],
-                    'ratio' => '$ratio',
-                ],
-            ],
-            [
-                '$project' => [
-                    'channel' => '$channel.title',
-                    'ratio' => '$ratio',
-                ],
-            ],
-        ];
-        return $db->aggregate('video', $pipe);
     }
 }
