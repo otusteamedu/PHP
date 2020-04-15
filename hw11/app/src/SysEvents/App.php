@@ -4,7 +4,9 @@
 namespace SysEvents;
 
 
-class App
+use HW\AppInterface;
+
+class App implements AppInterface
 {
 
     public function run()
@@ -13,7 +15,7 @@ class App
         $this->selectTest();
     }
 
-    public function addTestEvents()
+    private function addTestEvents()
     {
         System::inst()->addEvent(Event::create(1000,   ['id' => 1], ['param1'=> 1, 'param2'=> 2]));
         System::inst()->addEvent(Event::create(400,    ['id' => 2], ['param1'=> 2, 'param2'=> 1]));
@@ -21,18 +23,15 @@ class App
         System::inst()->addEvent(Event::create(100,    ['id' => 4], ['param1'=> 1, 'param2'=> 2]));
     }
 
-    public function selectTest($cond = ['param1'=> 1, 'param2'=> 2])
+    private function selectTest($cond = ['param1'=> 1, 'param2'=> 2])
     {
         $e = System::inst()->selectEvent($cond);
-        echo "<pre>";
         if ($e) {
-            echo "SUCCESS: ";
-            print_r($e->toArray());
+            $result = $e->toArray();
         } else {
-            echo "NOT EXISTS";
+            $result = "NOT EXISTS";
         }
-
-        echo "</pre>";
+        echo json_encode(['result' => $result]);
     }
 
 }

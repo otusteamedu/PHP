@@ -4,43 +4,28 @@
 namespace Youtube;
 
 
+use HW\AppInterface;
 use Youtube\DWH\Dwh;
 
-class App
+class App implements AppInterface
 {
 
     public function run()
-    {
-        $this->printStatistic1();
-        $this->printStatistic2();
-        return;
-    }
-
-    /**
-     * print accumulated likes and dislikes of all videos of random channel
-     */
-    private function printStatistic1()
     {
         $stat = new Statistic();
 
         $channelID = Dwh::getInst()->getChannels()->findOne()['_id'];
 
-        $res = $stat->getSumLikeAndDislike($channelID);
-        echo "<pre>";
-        echo "channelID = $channelID<br>";
-        print_r($res);
-        echo "</pre>";
+        $result1 = [
+            'channelID' => $channelID,
+            'total' => $stat->getSumLikeAndDislike($channelID)
+        ];
 
-    }
+        $result2 = [
+            'top' => $stat->getTop()
+        ];
 
-    private function printStatistic2()
-    {
-        $stat = new Statistic();
-        $res = $stat->getTop();
-        echo "<pre>";
-        print_r($res);
-        echo "</pre>";
-
+        echo json_encode(['result1' => $result1, 'result2' => $result2]);
     }
 
 }
