@@ -1,0 +1,15 @@
+{
+  "collections": [
+    {
+      "name": "channels",
+      "fields": {"_id":"string", "title": "string"}
+    },
+    {
+      "name": "videos",
+      "fields": {"_id": "string", "channel_id": "string", "statistics": {"likes": "int", "dislikes": "int"}}
+    }
+  ],
+  "indexes": [
+    {"table": "videos", "field": "channel_id"}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "rhaletsky/hw11",
+  "authors": [
+    {
+      "name": "romario",
+      "email": "halecky@mail.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+    "mongodb/mongodb": "1.6",
+    "google/apiclient": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "HW\\": "src",
+      "Youtube\\": "src/Youtube",
+      "SysEvents\\": "src/SysEvents"
+    }
+  }
+
+}
