@@ -1,0 +1,62 @@
+POST http://localhost/event
+Content-Type: application/json
+Accept: application/json
+
+{
+    "priority": 1000,
+    "conditions": {
+        "param1": 1
+    },
+    "event": {
+        "::event::": 1
+    }
+}
+
+###
+
+POST http://localhost/event
+Content-Type: application/json
+Accept: application/json
+
+{
+    "priority": 2000,
+    "conditions": {
+        "param1": 2,
+        "param2": 2
+    },
+    "event": {
+        "::event::": 2
+    }
+}
+
+###
+
+POST http://localhost/event
+Content-Type: application/json
+Accept: application/json
+
+{
+    "priority": 3000,
+    "conditions": {
+        "param1": 1,
+        "param2": 2
+    },
+    "event": {
+        "::event::": 3
+    }
+}
+
+###
+
+POST http://localhost/
+Content-Type: application/json
+Accept: application/json
+
+{
+    "params": {
+        "param1": 1,
+        "param2": 2
+    }
+}
+
+###
