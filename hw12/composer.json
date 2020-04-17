@@ -1,0 +1,18 @@
+{
+  "name": "rhaletsky/hw12",
+  "authors": [
+    {
+      "name": "romario",
+      "email": "halecky@mail.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "HW\\": "src"
+    }
+  }
+
+}
