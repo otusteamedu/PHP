@@ -20,8 +20,12 @@ class ChannelController extends BaseController
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
         $channels = Channel::find();
+        $topIds = Statistics::getTop5Channels()->getChannelIds();
 
-        return $this->getResponseHtml('channel/index', ['channels' => $channels]);
+        return $this->getResponseHtml('channel/index', [
+            'channels' => $channels,
+            'top' => Channel::findByIds($topIds),
+        ]);
     }
 
     /**

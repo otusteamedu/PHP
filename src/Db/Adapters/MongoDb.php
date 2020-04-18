@@ -52,7 +52,14 @@ class MongoDb implements Store
 
         if (key_exists('id', $where)) {
             try {
-                $where['_id'] = new ObjectId($where['id']);
+                if (is_array($where['id'])) {
+                    $operation = array_key_first($where['id']);
+                    $where['_id'][$operation] = array_map(function ($value) {
+                        return new ObjectId($value);
+                    }, $where['id'][$operation]);
+                } else {
+                    $where['_id'] = new ObjectId($where['id']);
+                }
             } catch (InvalidArgumentException $e) {
                 return [];
             }

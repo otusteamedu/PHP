@@ -3,6 +3,7 @@
 namespace Bjlag\Models;
 
 use Bjlag\App;
+use MongoDB\BSON\ObjectId;
 
 class Channel
 {
@@ -40,6 +41,24 @@ class Channel
     {
         $data = App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
         return $data[0] ?? [];
+    }
+
+    /**
+     * @param array $ids
+     * @return array
+     */
+    public static function findByIds(array $ids): array
+    {
+        if (count($ids) === 0) {
+            return [];
+        }
+
+        $idsObject = [];
+        foreach ($ids as $key => $id) {
+            $idsObject[] = new ObjectId($id);
+        }
+
+        return App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => ['$in' => $idsObject]]);
     }
 
     /**

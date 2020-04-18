@@ -10,9 +10,6 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception\NotFoundException;
 
-// todo: добавление видео
-// todo: вывод статистики
-
 class App
 {
     /** @var string */
