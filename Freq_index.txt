@@ -1,0 +1,37 @@
+idx_scan ASC
+indexrelname            |idx_scan|idx_tup_read|idx_tup_fetch|
+------------------------|--------|------------|-------------|
+film_attribute_values_pk|       0|           0|            0|
+films_id_idx            |       0|           0|            0|
+seances_id_idx          |       0|           0|            0|
+seances_id_film_idx     |       0|           0|            0|
+seances_id_holl_idx     |       0|           0|            0|
+holls_id_idx            |       0|           0|            0|
+seats_id_idx            |       0|           0|            0|
+seats_id_seat_type_idx  |       0|           0|            0|
+seats_id_price_idx      |       0|           0|            0|
+tickets_id_idx          |       0|           0|            0|
+tickets_pk              |       0|           0|            0|
+film_attribute_types_pk |       0|           0|            0|
+price_pk                |       0|           0|            0|
+tickets_price_idx       |       2|    10008272|            0|
+films_pk                |       5|           5|            5|
+
+idx_scan DESC
+indexrelname          |idx_scan|idx_tup_read|idx_tup_fetch|
+----------------------|--------|------------|-------------|
+holls_pk              |20291207|    20291279|     20291171|
+seats_pk              |10010188|    10011480|     10011449|
+seat_types_pk         |10010108|    10010159|     10010159|
+seats_id_holl_idx     |    2507|    10020048|            0|
+seances_pk            |      79|        7602|         7558|
+tickets_id_seance_idx |       9|    30030105|     30030105|
+films_pk              |       5|           5|            5|
+film_attributes_pk    |       5|           5|            0|
+tickets_price_idx     |       2|    10008272|            0|
+seats_id_seat_type_idx|       0|           0|            0|
+seats_id_price_idx    |       0|           0|            0|
+tickets_id_idx        |       0|           0|            0|
+tickets_pk            |       0|           0|            0|
+holls_id_idx          |       0|           0|            0|
+films_id_idx          |       0|           0|            0|

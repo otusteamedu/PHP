@@ -1,0 +1,45 @@
+------------------------------------------------------------------------------------------------------------------------
+select * from seats where row_number > 2 and seat_number < 24;
+------------------------------------------------------------------------------------------------------------------------
+Seq Scan on seats  (cost=0.00..213907.30 rows=7502077 width=24) (actual time=0.051..12723.674 rows=7507492 loops=1)
+  Filter: ((row_number > 2) AND (seat_number < 24))
+  Rows Removed by Filter: 2502540
+Planning Time: 0.656 ms
+Execution Time: 20403.850 ms
+
+++++++++++
+CREATE INDEX seats_row_number_idx ON public.seats USING btree (row_number, seat_number);
+
+Seq Scan on seats  (cost=0.00..213909.48 rows=7502185 width=24) (actual time=0.022..10182.134 rows=7507492 loops=1)
+  Filter: ((row_number > 2) AND (seat_number < 24))
+  Rows Removed by Filter: 2502540
+Planning Time: 0.611 ms
+Execution Time: 17895.002 ms
+
+
+------------------------------------------------------------------------------------------------------------------------
+select
+    s.*,
+    p.price,
+    st.name as seat_type
+from seats s
+    join seat_types st on st.id = s.id_seat_type
+    join price p on p.id = s.id_price
+where row_number > 2 and seat_number < 24;
+------------------------------------------------------------------------------------------------------------------------
+Hash Join  (cost=39.76..263831.26 rows=7502077 width=88) (actual time=0.222..45364.137 rows=7507492 loops=1)
+  Hash Cond: (s.id_price = p.id)
+  ->  Hash Join  (cost=38.58..233704.55 rows=7502077 width=56) (actual time=0.071..28199.377 rows=7507492 loops=1)
+        Hash Cond: (s.id_seat_type = st.id)
+        ->  Seq Scan on seats s  (cost=0.00..213907.30 rows=7502077 width=24) (actual time=0.020..11116.414 rows=7507492 loops=1)
+              Filter: ((row_number > 2) AND (seat_number < 24))
+              Rows Removed by Filter: 2502540
+        ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.028..0.029 rows=4 loops=1)
+              Buckets: 2048  Batches: 1  Memory Usage: 17kB
+              ->  Seq Scan on seat_types st  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.013..0.020 rows=4 loops=1)
+  ->  Hash  (cost=1.08..1.08 rows=8 width=36) (actual time=0.085..0.086 rows=8 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 9kB
+        ->  Seq Scan on price p  (cost=0.00..1.08 rows=8 width=36) (actual time=0.053..0.065 rows=8 loops=1)
+Planning Time: 1.338 ms
+Execution Time: 53031.919 ms
+

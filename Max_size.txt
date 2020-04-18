@@ -1,0 +1,17 @@
+name                                 |oid  |size_mb|count   |
+-------------------------------------|-----|-------|--------|
+seances                              |16654|   1072| 9996860|
+seances_pk                           |16660|    643|11137779|
+seances_id_idx                       |16657|    643|11137779|
+tickets                              |16427|    498|10010033|
+seats                                |16419|    498|10010032|
+seances_id_holl_idx                  |16659|    403|11137779|
+seances_id_film_idx                  |16658|    403|11137779|
+seats_id_price_idx                   |16676|    214|10010032|
+tickets_id_seance_idx                |16668|    214|10010033|
+tickets_price_idx                    |16666|    214|10010033|
+seats_id_seat_type_idx               |16675|    214|10010032|
+tickets_pk                           |16487|    214|10009887|
+seats_id_idx                         |16438|    214|10009887|
+tickets_id_idx                       |16440|    214|10009887|
+seats_pk                             |16480|    214|10009887|

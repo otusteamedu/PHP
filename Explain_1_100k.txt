@@ -1,0 +1,41 @@
+------------------------------------------------------------------------------------------------------------------------
+select * from seances where date::time >= '10:00' and date::time <= '19:00';
+------------------------------------------------------------------------------------------------------------------------
+Gather  (cost=1000.00..153027.51 rows=50000 width=20) (actual time=10.022..14918.088 rows=7142842 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Parallel Seq Scan on seances  (cost=0.00..147027.51 rows=20833 width=20) (actual time=0.193..8056.307 rows=2380947 loops=3)
+        Filter: (((date)::time without time zone >= '10:00:00'::time without time zone) AND ((date)::time without time zone <= '19:00:00'::time without time zone))
+        Rows Removed by Filter: 952386
+Planning Time: 0.134 ms
+Execution Time: 26608.677 ms
+
+
+------------------------------------------------------------------------------------------------------------------------
+select
+    s.*,
+    f.name as film,
+    h.name as hall
+from seances s
+    join films f on f.id = s.id_film
+    join halls h on h.id = s.id_hall
+where date::time >= '10:00' and date::time <= '19:00';
+------------------------------------------------------------------------------------------------------------------------
+Gather  (cost=1018.27..153233.12 rows=50000 width=270) (actual time=2.912..34134.863 rows=7142842 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Hash Join  (cost=18.27..147233.12 rows=20833 width=270) (actual time=2.046..30037.653 rows=2380947 loops=3)
+        Hash Cond: (s.id_hall = h.id)
+        ->  Hash Join  (cost=1.07..147160.51 rows=20833 width=52) (actual time=1.322..19873.300 rows=2380947 loops=3)
+              Hash Cond: (s.id_film = f.id)
+              ->  Parallel Seq Scan on seances s  (cost=0.00..147027.51 rows=20833 width=20) (actual time=0.291..9603.676 rows=2380947 loops=3)
+                    Filter: (((date)::time without time zone >= '10:00:00'::time without time zone) AND ((date)::time without time zone <= '19:00:00'::time without time zone))
+                    Rows Removed by Filter: 952386
+              ->  Hash  (cost=1.03..1.03 rows=3 width=36) (actual time=0.319..0.323 rows=3 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    ->  Seq Scan on films f  (cost=0.00..1.03 rows=3 width=36) (actual time=0.274..0.280 rows=3 loops=3)
+        ->  Hash  (cost=13.20..13.20 rows=320 width=222) (actual time=0.405..0.407 rows=3 loops=3)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Seq Scan on halls h  (cost=0.00..13.20 rows=320 width=222) (actual time=0.366..0.372 rows=3 loops=3)
+Planning Time: 1.990 ms
+Execution Time: 48019.781 ms

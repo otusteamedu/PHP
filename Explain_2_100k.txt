@@ -1,0 +1,91 @@
+------------------------------------------------------------------------------------------------------------------------
+select * from tickets where price > 310;
+------------------------------------------------------------------------------------------------------------------------
+Seq Scan on tickets  (cost=0.00..188882.59 rows=5024963 width=18) (actual time=0.731..9870.357 rows=5004136 loops=1)
+  Filter: (price > '310'::numeric)
+  Rows Removed by Filter: 5005897
+Planning Time: 2.332 ms
+Execution Time: 15050.790 ms
+
++++++++++
+
+CREATE INDEX tickets_price_idx ON public.tickets USING btree (price);
+
+Bitmap Heap Scan on tickets  (cost=59642.97..186214.93 rows=5025037 width=18) (actual time=672.278..6863.988 rows=5004136 loops=1)
+  Recheck Cond: (price > '310'::numeric)
+  Heap Blocks: exact=63759
+  ->  Bitmap Index Scan on tickets_price_idx  (cost=0.00..58386.71 rows=5025037 width=0) (actual time=654.746..654.747 rows=5004136 loops=1)
+        Index Cond: (price > '310'::numeric)
+Planning Time: 0.138 ms
+Execution Time: 11963.064 ms
+
+------------------------------------------------------------------------------------------------------------------------
+select
+    t.*,
+    s.date as date,
+    f.name as film,
+    st.name as seat_type
+from tickets t
+    join seances s on s.id = t.id_seance
+    join seats seat on seat.id = t.id_seat
+    join films f on f.id = s.id_film
+    join seat_types st on st.id = seat.id_seat_type
+where price > 310;
+------------------------------------------------------------------------------------------------------------------------
+Gather  (cost=352723.40..1086590.36 rows=5024963 width=90) (actual time=60464.720..85434.131 rows=5004129 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Hash Join  (cost=351723.40..583094.06 rows=2093735 width=90) (actual time=60825.513..81818.991 rows=1668043 loops=3)
+        Hash Cond: (seat.id_seat_type = st.id)
+        ->  Hash Join  (cost=351684.82..577541.08 rows=2093735 width=62) (actual time=60824.691..74507.543 rows=1668043 loops=3)
+              Hash Cond: (s.id_film = f.id)
+              ->  Parallel Hash Join  (cost=351683.75..564279.69 rows=2093735 width=34) (actual time=60824.042..67251.853 rows=1668043 loops=3)
+                    Hash Cond: (t.id_seance = s.id)
+                    ->  Parallel Hash Join  (cost=173894.69..336113.57 rows=2093735 width=22) (actual time=30311.320..37307.140 rows=1668045 loops=3)
+                          Hash Cond: (t.id_seat = seat.id)
+                          ->  Parallel Seq Scan on tickets t  (cost=0.00..115893.83 rows=2093735 width=18) (actual time=0.600..7074.980 rows=1668045 loops=3)
+                                Filter: (price > '310'::numeric)
+                                Rows Removed by Filter: 1668632
+                          ->  Parallel Hash  (cost=105466.86..105466.86 rows=4170786 width=8) (actual time=19133.322..19133.327 rows=3336677 loops=3)
+                                Buckets: 4194304  Batches: 8  Memory Usage: 81792kB
+                                ->  Parallel Seq Scan on seats seat  (cost=0.00..105466.86 rows=4170786 width=8) (actual time=0.444..11643.755 rows=3336677 loops=3)
+                    ->  Parallel Hash  (cost=105361.25..105361.25 rows=4166625 width=16) (actual time=18924.265..18924.266 rows=3333333 loops=3)
+                          Buckets: 4194304  Batches: 8  Memory Usage: 91488kB
+                          ->  Parallel Seq Scan on seances s  (cost=0.00..105361.25 rows=4166625 width=16) (actual time=0.199..11363.262 rows=3333333 loops=3)
+              ->  Hash  (cost=1.03..1.03 rows=3 width=36) (actual time=0.258..0.259 rows=3 loops=3)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    ->  Seq Scan on films f  (cost=0.00..1.03 rows=3 width=36) (actual time=0.223..0.229 rows=3 loops=3)
+        ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.376..0.377 rows=4 loops=3)
+              Buckets: 2048  Batches: 1  Memory Usage: 17kB
+              ->  Seq Scan on seat_types st  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.334..0.344 rows=4 loops=3)
+Planning Time: 9.486 ms
+Execution Time: 94887.280 ms
+
++++++++++
+
+CREATE INDEX tickets_id_seance_idx ON public.tickets USING btree (id_seance);
+
+Hash Join  (cost=620965.88..837721.47 rows=5025037 width=90) (actual time=25980.952..88686.203 rows=5004129 loops=1)
+  Hash Cond: (seat.id_seat_type = st.id)
+  ->  Hash Join  (cost=620927.31..824448.16 rows=5025037 width=62) (actual time=25980.892..77155.127 rows=5004129 loops=1)
+        Hash Cond: (s.id_film = f.id)
+        ->  Hash Join  (cost=620926.24..792621.86 rows=5025037 width=34) (actual time=25980.854..65681.068 rows=5004129 loops=1)
+              Hash Cond: (t.id_seat = seat.id)
+              ->  Merge Join  (cost=292842.78..343543.67 rows=5025037 width=30) (actual time=0.073..20743.431 rows=5004129 loops=1)
+                    Merge Cond: (t.id_seance = s.id)
+                    ->  Index Scan using tickets_id_seance_idx on tickets t  (cost=0.44..280635.50 rows=5025037 width=18) (actual time=0.032..9783.840 rows=5004136 loops=1)
+                          Filter: (price > '310'::numeric)
+                          Rows Removed by Filter: 5005897
+                    ->  Index Scan using seances_pk on seances s  (cost=0.44..410803.34 rows=9996860 width=16) (actual time=0.015..3.665 rows=2500 loops=1)
+              ->  Hash  (cost=163857.87..163857.87 rows=10009887 width=8) (actual time=25952.011..25952.012 rows=10010032 loops=1)
+                    Buckets: 4194304  Batches: 8  Memory Usage: 81679kB
+                    ->  Seq Scan on seats seat  (cost=0.00..163857.87 rows=10009887 width=8) (actual time=0.049..13071.773 rows=10010032 loops=1)
+        ->  Hash  (cost=1.03..1.03 rows=3 width=36) (actual time=0.022..0.022 rows=3 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Seq Scan on films f  (cost=0.00..1.03 rows=3 width=36) (actual time=0.010..0.016 rows=3 loops=1)
+  ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.043..0.044 rows=4 loops=1)
+        Buckets: 2048  Batches: 1  Memory Usage: 17kB
+        ->  Seq Scan on seat_types st  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.026..0.033 rows=4 loops=1)
+Planning Time: 1.763 ms
+Execution Time: 93853.673 ms
+
