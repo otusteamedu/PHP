@@ -9,6 +9,7 @@ use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception\NotFoundException;
+use Symfony\Component\Dotenv\Dotenv;
 
 class App
 {
@@ -42,6 +43,12 @@ class App
         (include self::getBaseDir() . '/config/routes.php')($router);
 
         $this->router = $router;
+
+        if (file_exists(self::getBaseDir() . '/.env')) {
+            (new Dotenv(true))->load(self::getBaseDir() . '/.env');
+        } else {
+            throw new \RuntimeException('Не определен файл окружения .env.');
+        }
     }
 
     /**
@@ -69,9 +76,9 @@ class App
     public static function getDb(): Store
     {
         if (self::$db === null) {
-            $uri = 'mongodb://dev:dev@mongo:27017';
-            $dbName = 'youtube';
-            $adapter = 'MongoDb';
+            $uri = getenv('DB_URI');
+            $dbName = getenv('DB_NAME');
+            $adapter = getenv('DB_ADAPTER');
             $adapterClass = '\\Bjlag\\Db\\Adapters\\' . $adapter;
 
             if (!class_exists($adapterClass)) {
