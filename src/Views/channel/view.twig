@@ -1,20 +1,24 @@
-<h1>Канал: {{ name }}</h1>
+<h1>Канал: {{ channel.name }}</h1>
 
-<p>ID: {{ id }}</p>
-<p>Название: {{ name }}</p>
-<p>URL: {{ url }}</p>
-<p>Описание: {{ description }}</p>
-<p>Страна: {{ country }}</p>
-<p>Дата регистрации: {{ registration_data }}</p>
-<p>Число просмотров: {{ number_views }}</p>
-<p>Число подписчиков: {{ number_subscribes }}</p>
+<p>ID: {{ channel.id }}</p>
+<p>Название: {{ channel.name }}</p>
+<p>URL: {{ channel.url }}</p>
+<p>Описание: {{ channel.description }}</p>
+<p>Страна: {{ channel.country }}</p>
+<p>Дата регистрации: {{ channel.registration_data }}</p>
+<p>Число просмотров: {{ channel.number_views }}</p>
+<p>Число подписчиков: {{ channel.number_subscribes }}</p>
 
-{% if links %}
+{% if channel.links %}
     <p><b>Ссылки</b></p>
-    {% for link in links %}
+    {% for link in channel.links %}
         <a href="{{ link.url }}">{{ link.name }}</a><br>
     {% endfor %}
 {% endif %}
+
+<h2>Статиситка</h2>
+<p>Количиство лайков: {{ statistics.like_total }}</p>
+<p>Количиство дизлайков: {{ statistics.dislike_total }}</p>
 
 <p><a href="/channels">Все каналы</a></p>
 

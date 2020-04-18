@@ -4,6 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Models\Channel;
+use Bjlag\Services\Statistics;
 use League\Route\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,16 +34,22 @@ class ChannelController extends BaseController
      */
     public function viewAction(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        $data = [];
         $id = $args['id'] ?? null;
-
         if ($id !== null) {
-            $data = Channel::findById($id);
+            $channel = Channel::findById($id);
         }
 
-        if (empty($data)) {
+        if (empty($channel)) {
             throw new NotFoundException('Канал не найден');
         }
+
+        $statistics = Statistics::calcTotalLikesAndDislikesByChannelId($id);
+
+        $data['channel'] = $channel;
+        $data['statistics'] = [
+            'like_total' => $statistics->getLikesTotal(),
+            'dislike_total' => $statistics->getDislikesTotal(),
+        ];
 
         return $this->getResponseHtml('channel/view', $data);
     }

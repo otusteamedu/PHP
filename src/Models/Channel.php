@@ -6,7 +6,18 @@ use Bjlag\App;
 
 class Channel
 {
-    private const TABLE = 'channel';
+    public const TABLE = 'channel';
+
+    public const FIELD_ID = 'id';
+    public const FIELD_URL = 'url';
+    public const FIELD_NAME = 'name';
+    public const FIELD_DESCRIPTION = 'description';
+    public const FIELD_BANNER = 'banner';
+    public const FIELD_COUNTRY = 'country';
+    public const FIELD_REGISTRATION_DATA = 'registration_data';
+    public const FIELD_NUMBER_VIEWS = 'number_views';
+    public const FIELD_NUMBER_SUBSCRIBES = 'number_subscribes';
+    public const FIELD_LINKS = 'links';
 
     /**
      * @param array $select
@@ -27,7 +38,7 @@ class Channel
      */
     public static function findById(string $id): array
     {
-        $data = App::getDb()->find(self::TABLE, [],  ['id' => $id], 1);
+        $data = App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
         return $data[0] ?? [];
     }
 

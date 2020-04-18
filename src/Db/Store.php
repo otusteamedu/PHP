@@ -4,7 +4,7 @@ namespace Bjlag\Db;
 
 interface Store
 {
-    public function getConnection(string $uri, string $dbname): self;
+    public function getConnection(string $uri, string $dbname);
 
     public function find(
         string $from,

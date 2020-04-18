@@ -4,6 +4,7 @@ namespace Bjlag\Db\Adapters;
 
 use Bjlag\Db\Store;
 use MongoDB\BSON\ObjectId;
+use MongoDB\Collection;
 use MongoDB\Driver\Exception\InvalidArgumentException;
 use MongoDB\InsertOneResult;
 use MongoDB\Model\BSONArray;
@@ -24,7 +25,7 @@ class MongoDb implements Store
      * @param string $dbname
      * @return \Bjlag\Db\Adapters\MongoDb
      */
-    public function getConnection(string $uri, string $dbname): Store
+    public function getConnection(string $uri, string $dbname): self
     {
         $this->client = new \MongoDB\Client($uri);
         $this->dbname = $dbname;
@@ -151,5 +152,14 @@ class MongoDb implements Store
         $result = $collection->deleteOne($where);
 
         return $result->getDeletedCount();
+    }
+
+    /**
+     * @param string $table
+     * @return \MongoDB\Collection
+     */
+    public function getCollection(string $table): Collection
+    {
+        return $this->client->selectCollection($this->dbname, $table);
     }
 }
