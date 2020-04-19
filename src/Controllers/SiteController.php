@@ -10,6 +10,8 @@ class SiteController extends BaseController
 {
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->getResponseSimple('start');
+        return $this->getResponseJson([
+            'API' => '1.0.0',
+        ]);
     }
 }

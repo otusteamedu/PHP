@@ -87,5 +87,6 @@ class Redis implements Store
      */
     public function update(string $table, array $where, array $data)
     {
+        throw new \DomainException('Обновление не реализовано.');
     }
 }
