@@ -2,7 +2,7 @@ version: '3'
 
 services:
     nginx:
-        container_name: php-nginx
+        container_name: nginx
         build:
             context: ./docker
             dockerfile: nginx.docker
