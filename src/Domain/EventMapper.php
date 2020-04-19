@@ -21,6 +21,7 @@ class EventMapper
             $this->delete($event->id);
         }
         $this->redis->set("event:{$event->id}", serialize($event));
+        $this->redis->zAdd('weight', [], $event->priority, $event->id);
         foreach ($event->conditions as $key => $value) {
             $this->redis->sAdd(static::conditionToIndex($key, $value), $event->id);
         }
@@ -41,6 +42,7 @@ class EventMapper
         foreach ($event->conditions as $key => $value) {
             $this->redis->sRem(static::conditionToIndex($key, $value), $event->id);
         }
+        $this->redis->zRem('weight', $event->id);
         $this->redis->del("event:{$event->id}");
     }
 
@@ -60,26 +62,36 @@ class EventMapper
             array_keys($params),
             $params
         );
+        // id событий которые могут нам подойти - без сортировки
         $ids = $this->redis->sUnion(...$keys);
-        $events = array_flip($ids);
-        array_walk(
-            $events,
-            function (&$el, $id) {
-                $el = $this->load($id);
-            }
-        );
-        usort($events, fn($a, $b) => $a->priority < $b->priority);
-        /** @var Event $event */
-        foreach ($events as $event) {
-            if (count(array_intersect($event->conditions, $params)) === count($event->conditions)) {
-                return $event;
+        // временно сохраним их чтобы можно было получить отсортированный вариант
+        $temp_key = uniqid($_SERVER['HOSTNAME'] . '.' . 'temp', true);
+        $temp_set = [];
+        foreach ($ids as $id) {
+            $temp_set[] = 0;
+            $temp_set[] = $id;
+        }
+        $this->redis->zAdd($temp_key, [], ...$temp_set);
+        unset($temp_set, $ids);
+        // получим отсортированный в нужном порядке массив id событий
+        $this->redis->zInterStore($temp_key . '.sorted', ['weight', $temp_key], null, 'MAX');
+        $ids = $this->redis->zRevRange($temp_key . '.sorted', 0, -1);
+        // перебираем до тех пор пока не найдем подходящее событие
+        $result = null;
+        foreach ($ids as $id) {
+            $event = $this->load($id);
+            if ($event && count(array_intersect($event->conditions, $params)) === count($event->conditions)) {
+                $result = $event;
+                break;
             }
         }
-        return null;
+        // удаляем временные записи
+        $this->redis->del($temp_key, $temp_key . '.sorted');
+        return $result;
     }
 
-    public static function conditionToIndex($key, $value): string
+    public static function conditionToIndex(string $key, $value): string
     {
-        return "index:$key:" . base64_encode(serialize($value));
+        return 'index:' . base64_encode($key) . ':' . base64_encode(serialize($value));
     }
 }
