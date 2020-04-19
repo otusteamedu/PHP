@@ -12,8 +12,11 @@
         "sort-packages": true
     },
     "require": {
-        "ext-json": "*",
         "php": ">=7.3.0",
+        "ext-json": "*",
+        "laminas/laminas-diactoros": "^2.2",
+        "laminas/laminas-httphandlerrunner": "^1.1",
+        "league/route": "^4.3",
         "roave/security-advisories": "dev-master"
     },
     "autoload": {
