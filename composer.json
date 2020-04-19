@@ -8,6 +8,14 @@
             "email": "vlad.duplin@ya.ru"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "ext-json": "*",
+        "php": ">=7.3.0",
+        "roave/security-advisories": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "Bjlag\\": "src/"
