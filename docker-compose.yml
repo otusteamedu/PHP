@@ -17,11 +17,6 @@ services:
       - PHP_IDE_CONFIG=serverName=app
     depends_on:
       - redis
-    healthcheck:
-      test: ["CMD", "curl", "-fI", "nginx"]
-      interval: 1s
-      timeout: 1s
-      retries: 10
   nginx:
     container_name: nginx
     image: edmitry/nginx
