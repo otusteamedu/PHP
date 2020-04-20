@@ -1,10 +1,6 @@
 FROM php:7.4-fpm-alpine
-# FROM php:7.4-cli-alpine
 
 RUN addgroup -g 3000 app && adduser --uid 3000 -G app -D app
-
-ARG DEPS="git mc nano vim"
-RUN apk add --no-cache $DEPS
 
 ARG DEPS_PHP="xdebug ast opcache redis"
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
