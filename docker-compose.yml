@@ -1,0 +1,54 @@
+version: '3'
+services:
+  app:
+    container_name: app
+    build: .
+    restart: always
+    volumes:
+      - socks:/socks
+      - .:/app
+      - ./docker/app/conf/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
+      - ./docker/app/conf/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    env_file:
+      - ./.env
+    environment:
+      - PHAN_DISABLE_XDEBUG_WARN=1
+      - PHAN_ALLOW_XDEBUG=0
+      - PHP_IDE_CONFIG=serverName=app
+  nginx:
+    container_name: nginx
+    image: edmitry/nginx
+    restart: always
+    volumes:
+      - socks:/socks
+      - ./public:/web
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "curl", "-fI", "http://localhost/nginx-status"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+  db:
+    container_name: db
+    image: edmitry/postgres
+    restart: always
+    volumes:
+      - socks:/socks
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 60
+volumes:
+  socks:
+  postgres_data:
+    external: true
