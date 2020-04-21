@@ -1,2 +1,3 @@
 <?php
-echo 'works!';
+
+require_once 'vendor/autoload.php';
