@@ -3,15 +3,12 @@
 require_once 'vendor/autoload.php';
 
 use Classes\ClientSocketDataBuilder;
-use Classes\SocketException;
 
-header('Content-Type: text/plain;');
-set_time_limit(0);
-ob_implicit_flush();
+$settings = parse_ini_file('socket.ini');
 
 $client = (new ClientSocketDataBuilder())
-    ->setDomainServerSocketFilePath(__DIR__. '/server.sock')
-    ->setDomainClientSocketFilePath(__DIR__. '/app.sock')
+    ->setDomainServerSocketFilePath($settings['SERVER_SOCK_FILE_PATH'])
+    ->setDomainClientSocketFilePath($settings['CLIENT_SOCK_FILE_PATH'])
     ->setProtocolFamilyForSocket(AF_UNIX)
     ->setTypeOfDataExchange(SOCK_DGRAM)
     ->setProtocol(0)
@@ -20,20 +17,21 @@ $client = (new ClientSocketDataBuilder())
 
 try {
     $socket = $client->socketCreate();
-} catch(Throwable $e){
-    echo $e->getMessage();
-}
+    echo "Сокет создан\n";
 
-try {
     $res = $client->socketBind($socket);
     echo "Сокет успешно связан с адресом и портом\n";
-} catch (Throwable $e) {
+} catch(Throwable $e){
     echo $e->getMessage();
 }
 
 do {
     sleep(2);
-    $out = $client->read($socket);
+    try {
+        $out = $client->read($socket);
+    } catch (\Classes\SocketException $e) {
+        echo $e->getMessage();
+    }
     echo "Сообщение от сервера: $out.\n";
     $msg = 'Принято';
     $client->write($socket, $msg);

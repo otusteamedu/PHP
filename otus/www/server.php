@@ -4,14 +4,11 @@ require_once 'vendor/autoload.php';
 
 use Classes\ServerSocketDataBuilder;
 
-header('Content-Type: text/plain;');
-set_time_limit(0);
-ob_implicit_flush();
-
+$settings = parse_ini_file('socket.ini');
 
 $server = (new ServerSocketDataBuilder())
-    ->setDomainServerSocketFilePath(__DIR__. '/server.sock')
-    ->setDomainClientSocketFilePath(__DIR__. '/app.sock')
+    ->setDomainServerSocketFilePath($settings['SERVER_SOCK_FILE_PATH'])
+    ->setDomainClientSocketFilePath($settings['CLIENT_SOCK_FILE_PATH'])
     ->setProtocolFamilyForSocket(AF_UNIX)
     ->setTypeOfDataExchange(SOCK_DGRAM)
     ->setProtocol(0)
@@ -22,17 +19,13 @@ $server = (new ServerSocketDataBuilder())
 try {
     $socket = $server->socketCreate();
     echo "Сокет создан\n";
-} catch (Throwable $e) {
-    echo $e->getMessage();
-}
 
-try {
-    $res = $server->socketBind($socket);
+    $server->socketBind($socket);
     echo "Сокет успешно связан с адресом и портом\n";
+
 } catch (Throwable $e) {
     echo $e->getMessage();
 }
-
 
 
 do {
@@ -42,7 +35,11 @@ do {
     $server->write($socket, $msg);
 
     do {
-        $socketReadResult = $server->read($socket);
+        try {
+            $socketReadResult = $server->read($socket);
+        } catch (\Classes\SocketException $e) {
+            echo $e->getMessage();
+        }
 
         if (!$socketReadResult) {
             echo 'Ошибка при чтении сообщения от клиента';
