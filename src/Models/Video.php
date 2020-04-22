@@ -22,6 +22,21 @@ class Video
     public const FIELD_NUMBER_DISLIKE = 'number_dislike';
     public const FIELD_NUMBER_VIEWS = 'number_views';
 
+    public const FIELDS = [
+        self::FIELD_ID,
+        self::FIELD_CHANNEL_ID,
+        self::FIELD_URL,
+        self::FIELD_NAME,
+        self::FIELD_PREVIEW_IMAGE,
+        self::FIELD_DESCRIPTION,
+        self::FIELD_CATEGORY,
+        self::FIELD_DURATION,
+        self::FIELD_POST_DATA,
+        self::FIELD_NUMBER_LIKE,
+        self::FIELD_NUMBER_DISLIKE,
+        self::FIELD_NUMBER_VIEWS,
+    ];
+
     /**
      * @param array $select
      * @param array $where
@@ -50,17 +65,45 @@ class Video
      */
     public static function add(VideoDto $data)
     {
-        return App::getDb()->add(self::TABLE, $data->toArray());
+        $addedData = [
+            self::FIELD_CHANNEL_ID => $data->getChannelId(),
+            self::FIELD_URL => $data->getUrl(),
+            self::FIELD_NAME => $data->getName(),
+            self::FIELD_PREVIEW_IMAGE => $data->getPreviewImage(),
+            self::FIELD_DESCRIPTION => $data->getDescription(),
+            self::FIELD_CATEGORY => $data->getCategory(),
+            self::FIELD_DURATION => $data->getDuration(),
+            self::FIELD_POST_DATA => $data->getPostData(),
+            self::FIELD_NUMBER_LIKE => $data->getNumberLike(),
+            self::FIELD_NUMBER_DISLIKE => $data->getNumberDislike(),
+            self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
+        ];
+
+        return App::getDb()->add(self::TABLE, $addedData);
     }
 
     /**
      * @param array $where
-     * @param array $data
+     * @param \Bjlag\Models\Dto\VideoDto $data
      * @return mixed
      */
-    public static function update(array $where, array $data)
+    public static function update(array $where, VideoDto $data)
     {
-        return App::getDb()->update(self::TABLE, $where, $data);
+        $updatedData = [
+            self::FIELD_CHANNEL_ID => $data->getChannelId(),
+            self::FIELD_URL => $data->getUrl(),
+            self::FIELD_NAME => $data->getName(),
+            self::FIELD_PREVIEW_IMAGE => $data->getPreviewImage(),
+            self::FIELD_DESCRIPTION => $data->getDescription(),
+            self::FIELD_CATEGORY => $data->getCategory(),
+            self::FIELD_DURATION => $data->getDuration(),
+            self::FIELD_POST_DATA => $data->getPostData(),
+            self::FIELD_NUMBER_LIKE => $data->getNumberLike(),
+            self::FIELD_NUMBER_DISLIKE => $data->getNumberDislike(),
+            self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
+        ];
+
+        return App::getDb()->update(self::TABLE, $where, $updatedData);
     }
 
     /**

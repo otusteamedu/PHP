@@ -5,6 +5,8 @@ namespace Bjlag\Controllers;
 use Bjlag\BaseController;
 use Bjlag\Models\Dto\VideoDto;
 use Bjlag\Models\Video;
+use League\Route\Http\Exception\BadRequestException;
+use League\Route\Http\Exception\UnprocessableEntityException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -28,59 +30,112 @@ class VideoController extends BaseController
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
         $rawData = $request->getParsedBody();
 
-        $video = (new VideoDto())
-            ->setChannelId($rawData[Video::FIELD_CHANNEL_ID])
-            ->setUrl($rawData[Video::FIELD_URL])
-            ->setName($rawData[Video::FIELD_NAME])
-            ->setPreviewImage($rawData[Video::FIELD_PREVIEW_IMAGE])
-            ->setDescription($rawData[Video::FIELD_DESCRIPTION])
-            ->setCategory($rawData[Video::FIELD_CATEGORY])
-            ->setDuration($rawData[Video::FIELD_DURATION])
-            ->setPostData($rawData[Video::FIELD_POST_DATA])
-            ->setNumberLike($rawData[Video::FIELD_NUMBER_LIKE])
-            ->setNumberDislike($rawData[Video::FIELD_NUMBER_DISLIKE])
-            ->setNumberViews($rawData[Video::FIELD_NUMBER_VIEWS]);
+        $requiredFields = [
+            Video::FIELD_CHANNEL_ID,
+            Video::FIELD_URL,
+            Video::FIELD_NAME,
+            Video::FIELD_PREVIEW_IMAGE,
+            Video::FIELD_DESCRIPTION,
+            Video::FIELD_CATEGORY,
+            Video::FIELD_DURATION,
+            Video::FIELD_POST_DATA,
+            Video::FIELD_NUMBER_LIKE,
+            Video::FIELD_NUMBER_DISLIKE,
+            Video::FIELD_NUMBER_VIEWS,
+        ];
 
-        $id = Video::add($video);
+        $video = $this->getVideoDto($rawData, $requiredFields);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => $id,
+            'id' => Video::add($video),
         ], 200);
     }
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
+     *
+     * @throws \League\Route\Http\Exception\BadRequestException
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
-        $data = $request->getParsedBody();
-        $modifiedCount = Video::update($data['filter'], $data['data']);
+        $rawData = $request->getParsedBody();
+
+        if (!isset($rawData['filter']['id']) || !isset($rawData['data'])) {
+            throw new BadRequestException();
+        }
+
+        $requiredFields = [
+            Video::FIELD_CHANNEL_ID,
+            Video::FIELD_URL,
+            Video::FIELD_NAME,
+            Video::FIELD_PREVIEW_IMAGE,
+            Video::FIELD_DESCRIPTION,
+            Video::FIELD_CATEGORY,
+            Video::FIELD_DURATION,
+            Video::FIELD_POST_DATA,
+            Video::FIELD_NUMBER_LIKE,
+            Video::FIELD_NUMBER_DISLIKE,
+            Video::FIELD_NUMBER_VIEWS,
+        ];
+
+        $video = $this->getVideoDto($rawData['data'], $requiredFields);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'modified_count' => $modifiedCount
+            'modified_count' => Video::update($rawData['filter'], $video)
         ], 200);
     }
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \League\Route\Http\Exception\BadRequestException
      */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface
     {
-        $data = $request->getParsedBody();
-        $deletedCount = Video::delete($data['filter']);
+        $rawData = $request->getParsedBody();
+
+        if (!isset($rawData['filter']['id'])) {
+            throw new BadRequestException();
+        }
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'deleted_count' => $deletedCount
-        ],  200);
+            'deleted_count' =>  Video::delete($rawData['filter'])
+        ], 200);
+    }
+
+    /**
+     * @param array $rawData
+     * @param array $requiredFields
+     * @return \Bjlag\Models\Dto\VideoDto
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
+     */
+    private function getVideoDto(array $rawData, array $requiredFields): VideoDto
+    {
+        $video = new VideoDto();
+
+        foreach ($requiredFields as $field) {
+            if (!isset($rawData[$field])) {
+                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
+            }
+
+            $setterName = strtr($field, ['_' => ' ']);
+            $setterName = ucwords($setterName);
+            $setterName = 'set' . strtr($setterName, [' ' => '']);
+
+            $video->{$setterName}($rawData[$field]);
+        }
+
+        return $video;
     }
 }

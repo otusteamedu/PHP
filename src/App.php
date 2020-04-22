@@ -8,7 +8,10 @@ use Bjlag\Template\Template;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Route\Http\Exception;
+use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
+use League\Route\Http\Exception\UnprocessableEntityException;
 use Symfony\Component\Dotenv\Dotenv;
 
 class App
@@ -62,6 +65,9 @@ class App
         } catch (NotFoundException $e) {
             $response = (new Response())->withStatus(404);
             $response->getBody()->write('Страница не найдена');
+        } catch (Exception $e) {
+            $response = (new Response())->withStatus($e->getStatusCode());
+            $response->getBody()->write($e->getMessage());
         } catch (\Throwable $e) {
             $response = (new Response())->withStatus(500);
             $response->getBody()->write("Ошибка сервера: {$e->getMessage()}");
