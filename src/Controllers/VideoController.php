@@ -3,6 +3,7 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
+use Bjlag\Models\Dto\VideoDto;
 use Bjlag\Models\Video;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,7 +31,22 @@ class VideoController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $id = Video::add($request->getParsedBody());
+        $rawData = $request->getParsedBody();
+
+        $video = (new VideoDto())
+            ->setChannelId($rawData[Video::FIELD_CHANNEL_ID])
+            ->setUrl($rawData[Video::FIELD_URL])
+            ->setName($rawData[Video::FIELD_NAME])
+            ->setPreviewImage($rawData[Video::FIELD_PREVIEW_IMAGE])
+            ->setDescription($rawData[Video::FIELD_DESCRIPTION])
+            ->setCategory($rawData[Video::FIELD_CATEGORY])
+            ->setDuration($rawData[Video::FIELD_DURATION])
+            ->setPostData($rawData[Video::FIELD_POST_DATA])
+            ->setNumberLike($rawData[Video::FIELD_NUMBER_LIKE])
+            ->setNumberDislike($rawData[Video::FIELD_NUMBER_DISLIKE])
+            ->setNumberViews($rawData[Video::FIELD_NUMBER_VIEWS]);
+
+        $id = Video::add($video);
 
         return $this->getResponseJson([
             'is_succeed' => true,

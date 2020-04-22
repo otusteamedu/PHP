@@ -3,6 +3,7 @@
 namespace Bjlag\Models;
 
 use Bjlag\App;
+use Bjlag\Models\Dto\VideoDto;
 
 class Video
 {
@@ -44,12 +45,12 @@ class Video
     }
 
     /**
-     * @param array $data
+     * @param \Bjlag\Models\Dto\VideoDto $data
      * @return mixed
      */
-    public static function add(array $data)
+    public static function add(VideoDto $data)
     {
-        return App::getDb()->add(self::TABLE, $data);
+        return App::getDb()->add(self::TABLE, $data->toArray());
     }
 
     /**
