@@ -16,8 +16,8 @@ final class Router
                 $r->addRoute('GET', '/', [Action\Example::class, 'get']);
             },
             [
-                'cacheFile' => '/tmp/app.route.cache',
-                'cacheDisabled' => 'dev' === App::getEnv(),
+                'cacheFile' => getenv('APP_ROUTE_CACHE') ?: '/tmp/app.route.cache',
+                'cacheDisabled' => 'dev1' === App::getEnv(),
             ]
         );
     }
