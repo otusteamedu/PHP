@@ -4,19 +4,19 @@ namespace App\Domain;
 
 final class Employee
 {
-    private ?int $id = null;
+    private int $id = 0;
     private string $name;
     private string $surname;
     private string $phone;
     private string $job;
     private int $salary;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(?int $id): Employee
+    public function setId(int $id): Employee
     {
         $this->id = $id;
         return $this;

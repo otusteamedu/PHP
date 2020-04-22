@@ -31,7 +31,7 @@ final class EmployeeMapper
 
     public function save(Employee $employee): void
     {
-        if (null === $employee->getId()) {
+        if (0 === $employee->getId()) {
             $this->insert($employee);
         }
         $this->update($employee);
