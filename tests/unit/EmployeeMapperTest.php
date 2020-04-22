@@ -25,7 +25,7 @@ class EmployeeMapperTest extends Unit
     public function testCRUD(): void
     {
         new App();
-        $mapper = new EmployeeMapper(App::getPDO());
+        $mapper = App::get(EmployeeMapper::class);
 
         $employee = static::newEmployee();
         $mapper->save($employee);
@@ -37,14 +37,12 @@ class EmployeeMapperTest extends Unit
 
         $mapper->delete($employee);
         $this->tester->seeNumRecords(0, 'employees', ['id' => $employee->getId()]);
-
-        $this->assertEquals('dev', App::getEnv());
     }
 
     public function testFindById(): void
     {
         new App();
-        $mapper = new EmployeeMapper(App::getPDO());
+        $mapper = App::get(EmployeeMapper::class);
 
         $employee = static::newEmployee();
         $mapper->save($employee);
@@ -56,7 +54,7 @@ class EmployeeMapperTest extends Unit
     public function testFindByName(): void
     {
         new App();
-        $mapper = new EmployeeMapper(App::getPDO());
+        $mapper = App::get(EmployeeMapper::class);
 
         $employee = static::newEmployee()->setName('John');
         $mapper->save($employee);
