@@ -5,7 +5,6 @@ namespace Classes;
 class SocketClient {
 
     private $domainServerSocketFilePath;
-    private $domainClientSocketFilePath;
     private $maxByteForRead;
     private $protocolFamilyForSocket;
     private $typeOfDataExchange;
@@ -14,7 +13,6 @@ class SocketClient {
 
     public function __construct(ClientSocketDataBuilder $builder, LogInterface $logger) {
         $this->domainServerSocketFilePath = $builder->getDomainServerSocketFilePath();
-        $this->domainClientSocketFilePath = $builder->getDomainClientSocketFilePath();
         $this->maxByteForRead = $builder->getMaxByteForRead();
         $this->protocolFamilyForSocket = $builder->getProtocolFamilyForSocket();
         $this->typeOfDataExchange = $builder->getTypeOfDataExchange();
@@ -31,13 +29,13 @@ class SocketClient {
         return $socket;
     }
 
-    public function socketBind($socket) {
-        $bind = socket_bind($socket, $this->domainClientSocketFilePath, 0);
-        if (!$bind) {
-            $this->logger->log('Не получилось связать дискриптор сокета с файлом доменного сокета Unix');
-            throw new SocketException('Не получилось связать дискриптор сокета с файлом доменного сокета Unix');
+    public function connect($socket) {
+        $connection = socket_connect($socket, $this->domainServerSocketFilePath);
+        if (!$connection) {
+            $this->logger->log('Ошибка подключения');
+            throw new SocketException('Ошибка подключения');
         }
-        return $bind;
+        return $socket;
     }
 
     public function read($socket) {
@@ -49,7 +47,7 @@ class SocketClient {
     }
 
     public function write($socket, $msg) {
-        socket_sendto($socket, $msg,  mb_strlen($msg, 'cp1251'), 0, $this->domainServerSocketFilePath, 0);
+        socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
     }
 
     public function socketClose($socket) {

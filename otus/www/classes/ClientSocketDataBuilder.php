@@ -4,18 +4,12 @@ namespace Classes;
 
 class ClientSocketDataBuilder {
 
-    private $domainClientSocketFilePath;
     private $domainServerSocketFilePath;
     private $maxByteForRead;
     private $protocolFamilyForSocket;
     private $typeOfDataExchange;
     private $protocol;
     private $error;
-
-    public function setDomainClientSocketFilePath($domainClientSocketFilePath) {
-        $this->domainClientSocketFilePath = $domainClientSocketFilePath;
-        return $this;
-    }
 
     public function setDomainServerSocketFilePath($domainServerSocketFilePath)
     {
@@ -51,10 +45,6 @@ class ClientSocketDataBuilder {
     }
     private function validate() {
 
-        if (empty($this->domainClientSocketFilePath)) {
-            $this->error[] = 'Не передан путь к файлу клиента доменного сокета Unix';
-        }
-
         if (empty($this->domainServerSocketFilePath)) {
             $this->error[] = 'Не передан путь к файлу сервера доменного сокета Unix';
         }
@@ -83,10 +73,6 @@ class ClientSocketDataBuilder {
             $this->error[] = 'Тип обмена данными, который будет использоваться сокетом должно быть числом';
         }
 
-    }
-
-    public function getDomainClientSocketFilePath() {
-        return $this->domainClientSocketFilePath;
     }
 
     public function getDomainServerSocketFilePath() {

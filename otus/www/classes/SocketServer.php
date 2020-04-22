@@ -7,7 +7,6 @@ class SocketServer {
 
 
     private $domainServerSocketFilePath;
-    private $domainClientSocketFilePath;
     private $maxByteForRead;
     private $protocolFamilyForSocket;
     private $typeOfDataExchange;
@@ -17,7 +16,6 @@ class SocketServer {
     public function __construct(ServerSocketDataBuilder $builder, LogInterface $logger) {
 
         $this->domainServerSocketFilePath = $builder->getDomainServerSocketFilePath();
-        $this->domainClientSocketFilePath = $builder->getDomainClientSocketFilePath();
         $this->maxByteForRead = $builder->getMaxByteForRead();
         $this->protocolFamilyForSocket = $builder->getProtocolFamilyForSocket();
         $this->typeOfDataExchange = $builder->getTypeOfDataExchange();
@@ -44,6 +42,20 @@ class SocketServer {
         return $bind;
     }
 
+    /**
+     * @param $socket
+     * @return bool
+     * @throws SocketException
+     */
+    public function socketListen($socket) {
+        $phone = socket_listen($socket);
+        if (!$phone) {
+            $this->logger->log('Ошибка при попытке прослушивания сокетам');
+            throw new SocketException('Ошибка при попытке прослушивания сокета');
+        }
+        return $phone;
+    }
+
     public function read($socket) {
         $bytes = socket_recv($socket, $message, $this->maxByteForRead, 0);
         if (false === $bytes) {
@@ -53,11 +65,25 @@ class SocketServer {
     }
 
     public function write($socket, $msg) {
-        socket_sendto($socket, $msg,  mb_strlen($msg, 'cp1251'), 0, $this->domainClientSocketFilePath, 0);
+        socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
     }
 
     public function socketClose($socket) {
         socket_close($socket);
         unlink($this->domainServerSocketFilePath);
+    }
+
+    /**
+     * @param $socket
+     * @return resource
+     * @throws SocketException
+     */
+    public function startConnectionWithSocket($socket) {
+        $socketConnection = socket_accept($socket);
+        if (!$socketConnection) {
+            $this->logger->log('Ошибка при старте соединений с сокетом');
+            throw new SocketException('Ошибка при старте соединений с сокетом');
+        }
+        return $socketConnection;
     }
 }
