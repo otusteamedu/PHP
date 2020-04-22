@@ -1,0 +1,49 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm
+    build: php-fpm
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    network_mode: host
+
+  nginx:
+    container_name: nginx
+    build: nginx
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+    network_mode: host
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=youtube
+      - MONGO_INITDB_ROOT_USERNAME=youtube
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo/data:/data/db
+    ports:
+      - "27017:27017"
+    network_mode: host
+
+  redis:
+    container_name: redis
+    image: redis
+    command: ["sh", "-c", "exec redis-server"]
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/data:/data
+    network_mode: host
+
+volumes:
+  phpsocket:

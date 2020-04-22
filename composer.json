@@ -1,0 +1,24 @@
+{
+  "name": "ksenofontovs/hw11",
+  "type": "project",
+  "authors": [
+    {
+      "name": "s.ksenofontov",
+      "email": "ksenofontovsm@yandex.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "ext-sockets": "*",
+    "ext-http": "*",
+    "mongodb/mongodb": "1.6.*",
+    "predis/predis": "1.1.*",
+    "symfony/http-foundation": "5.0.*",
+    "ext-mongodb": "*",
+    "ext-json": "*"
+  }
+}
