@@ -11,17 +11,23 @@ class EmployeeMapperTest extends Unit
 {
     protected UnitTester $tester;
 
+    protected static function newEmployee(): Employee
+    {
+        $faker = Faker\Factory::create('ru_RU');
+        return (new Employee())
+            ->setName($faker->firstName)
+            ->setSurname($faker->lastName)
+            ->setPhone($faker->e164PhoneNumber)
+            ->setJob($faker->word)
+            ->setSalary($faker->randomNumber());
+    }
+
     public function testCRUD(): void
     {
         new App();
         $mapper = new EmployeeMapper(App::getPDO());
 
-        $employee = (new Employee())
-            ->setName('John')
-            ->setSurname('Doe')
-            ->setPhone('+79261234567')
-            ->setJob('programmer')
-            ->setSalary(100);
+        $employee = static::newEmployee();
         $mapper->save($employee);
         $this->tester->seeInDatabase('employees', ['id' => $employee->getId()]);
 
@@ -40,12 +46,7 @@ class EmployeeMapperTest extends Unit
         new App();
         $mapper = new EmployeeMapper(App::getPDO());
 
-        $employee = (new Employee())
-            ->setName('John')
-            ->setSurname('Doe')
-            ->setPhone('+79261234567')
-            ->setJob('programmer')
-            ->setSalary(100);
+        $employee = static::newEmployee();
         $mapper->save($employee);
 
         $result = $mapper->findById($employee->getId());
@@ -57,28 +58,13 @@ class EmployeeMapperTest extends Unit
         new App();
         $mapper = new EmployeeMapper(App::getPDO());
 
-        $employee = (new Employee())
-            ->setName('John')
-            ->setSurname('Doe')
-            ->setPhone('+79261234567')
-            ->setJob('programmer')
-            ->setSalary(100);
+        $employee = static::newEmployee()->setName('John');
         $mapper->save($employee);
 
-        $employee = (new Employee())
-            ->setName('Jane')
-            ->setSurname('Doe')
-            ->setPhone('+79261234567')
-            ->setJob('programmer')
-            ->setSalary(100);
+        $employee = static::newEmployee()->setName('John');
         $mapper->save($employee);
 
-        $employee = (new Employee())
-            ->setName('John')
-            ->setSurname('Smith')
-            ->setPhone('+79261234567')
-            ->setJob('programmer')
-            ->setSalary(100);
+        $employee = static::newEmployee()->setName('Jane');
         $mapper->save($employee);
 
         $result = $mapper->findByName('John');
