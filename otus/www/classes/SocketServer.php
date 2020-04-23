@@ -3,6 +3,8 @@
 namespace Classes;
 
 
+use Throwable;
+
 class SocketServer {
 
 
@@ -23,7 +25,40 @@ class SocketServer {
         $this->logger = $logger;
     }
 
-    public function socketCreate() {
+    public function run()
+    {
+        $serverSocket = $this->serverUp();
+        do {
+            try {
+                $clientSocket = $this->startConnectionWithSocket($serverSocket);
+            } catch (Throwable $e) {
+                echo $e->getMessage();
+            }
+
+            $this->handleClient($clientSocket);
+        } while (true);
+    }
+
+    private function serverUp()
+    {
+        $serverSocket = null;
+        try {
+            $serverSocket = $this->socketCreate();
+            echo "Сокет создан\n";
+
+            $this->socketBind($serverSocket);
+            echo "Сокет успешно связан с адресом\n";
+
+            $this->socketListen($serverSocket);
+            echo "Ждём подключение клиента\n";
+
+        } catch (Throwable $e) {
+            echo $e->getMessage();
+        }
+        return $serverSocket;
+    }
+
+    private function socketCreate() {
         $socket = socket_create($this->protocolFamilyForSocket, $this->typeOfDataExchange, $this->protocol);
         if (!$socket) {
             $this->logger->log('Ошибка создания сокета');
@@ -33,7 +68,7 @@ class SocketServer {
     }
 
 
-    public function socketBind($socket) {
+    private function socketBind($socket) {
         $bind = socket_bind($socket, $this->domainServerSocketFilePath, 0);
         if (!$bind) {
             $this->logger->log('Не получилось связать дискриптор сокета с файлом доменного сокета Unix');
@@ -47,7 +82,7 @@ class SocketServer {
      * @return bool
      * @throws SocketException
      */
-    public function socketListen($socket) {
+    private function socketListen($socket) {
         $phone = socket_listen($socket, 1);
         if (!$phone) {
             $this->logger->log('Ошибка при попытке прослушивания сокетам');
@@ -56,33 +91,12 @@ class SocketServer {
         return $phone;
     }
 
-    public function read($socket) {
-        $bytes = @socket_recv($socket, $message, $this->maxByteForRead, 0);
-        if (false === $bytes) {
-            throw new SocketException('Ошибка при чтении сообщения');
-        }
-        return $message;
-    }
-
-    public function write($socket, $msg) {
-        $written = socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
-        if (false === $written) {
-            throw new SocketException('Ошибка при записи сообщения');
-        }
-        return $written;
-    }
-
-    public function socketClose($socket) {
-        socket_close($socket);
-        unlink($this->domainServerSocketFilePath);
-    }
-
     /**
      * @param $socket
      * @return resource
      * @throws SocketException
      */
-    public function startConnectionWithSocket($socket) {
+    private function startConnectionWithSocket($socket) {
         $socketConnection = socket_accept($socket);
         if (!$socketConnection) {
             $this->logger->log('Ошибка при старте соединений с сокетом');
@@ -90,4 +104,83 @@ class SocketServer {
         }
         return $socketConnection;
     }
+
+    private function handleClient($clientSocket) {
+        $pid = pcntl_fork();
+
+        if ($pid === -1) {
+            /* fork failed */
+            echo "fork failure!\n";
+            die;
+        }
+
+        if ($pid === 0) {
+            /* child process */
+            try {
+                $this->interact($this, $clientSocket);
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+            }
+        }
+
+        socket_close($clientSocket);
+    }
+
+    /**
+     * @param SocketServer $server
+     * @param $clientSocket
+     * @throws SocketException
+     */
+    private function interact(SocketServer $server, $clientSocket) {
+        $msg = 'Привет';
+        $server->write($clientSocket, $msg);
+
+        do {
+            $socketReadResult = $server->read($clientSocket);
+
+            if (!$socketReadResult) {
+                echo 'Ошибка при чтении сообщения от клиента';
+            }
+
+            if ($socketReadResult === 'exit') {
+                $server->socketClose($clientSocket);
+                return;
+            }
+
+            if ($socketReadResult === 'Принято') {
+                echo sprintf("Сообщение %s принято клиентом\n", $msg);
+            }
+
+            try {
+                $msg = random_int(1, 10000);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+
+
+            $server->write($clientSocket, $msg);
+        } while (true);
+    }
+
+    private function write($socket, $msg) {
+        $written = socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
+        if (false === $written) {
+            throw new SocketException('Ошибка при записи сообщения');
+        }
+        return $written;
+    }
+
+    private function read($socket) {
+        $bytes = @socket_recv($socket, $message, $this->maxByteForRead, 0);
+        if (false === $bytes) {
+            throw new SocketException('Ошибка при чтении сообщения');
+        }
+        return $message;
+    }
+
+    public function socketClose($socket) {
+        socket_close($socket);
+        unlink($this->domainServerSocketFilePath);
+    }
+
 }
