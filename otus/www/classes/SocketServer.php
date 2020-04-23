@@ -48,7 +48,7 @@ class SocketServer {
      * @throws SocketException
      */
     public function socketListen($socket) {
-        $phone = socket_listen($socket);
+        $phone = socket_listen($socket, 1);
         if (!$phone) {
             $this->logger->log('Ошибка при попытке прослушивания сокетам');
             throw new SocketException('Ошибка при попытке прослушивания сокета');
@@ -57,7 +57,7 @@ class SocketServer {
     }
 
     public function read($socket) {
-        $bytes = socket_recv($socket, $message, $this->maxByteForRead, 0);
+        $bytes = @socket_recv($socket, $message, $this->maxByteForRead, 0);
         if (false === $bytes) {
             throw new SocketException('Ошибка при чтении сообщения');
         }
@@ -65,7 +65,11 @@ class SocketServer {
     }
 
     public function write($socket, $msg) {
-        socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
+        $written = socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
+        if (false === $written) {
+            throw new SocketException('Ошибка при записи сообщения');
+        }
+        return $written;
     }
 
     public function socketClose($socket) {

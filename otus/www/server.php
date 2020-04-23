@@ -3,8 +3,14 @@
 require_once 'vendor/autoload.php';
 
 use Classes\ServerSocketDataBuilder;
+use Classes\SocketException;
+use Classes\SocketServer;
 
 $settings = parse_ini_file('socket.ini');
+
+if (file_exists($settings['SERVER_SOCK_FILE_PATH'])) {
+    unlink($settings['SERVER_SOCK_FILE_PATH']);
+}
 
 $server = (new ServerSocketDataBuilder())
     ->setDomainServerSocketFilePath($settings['SERVER_SOCK_FILE_PATH'])
@@ -29,7 +35,6 @@ try {
     echo $e->getMessage();
 }
 
-
 do {
     try {
         $clientSocket = $server->startConnectionWithSocket($serverSocket);
@@ -37,36 +42,62 @@ do {
         echo $e->getMessage();
     }
 
-    sleep(2);
+    handle_client($server, $clientSocket);
+} while (true);
+
+function handle_client(SocketServer $server, $clientSocket) {
+    $pid = pcntl_fork();
+
+    if ($pid === -1) {
+        /* fork failed */
+        echo "fork failure!\n";
+        die;
+    }
+
+    if ($pid === 0) {
+        /* child process */
+        try {
+            interact($server, $clientSocket);
+        } catch (\Exception $e) {
+            echo $e->getMessage() . "\n";
+        }
+    }
+
+    socket_close($clientSocket);
+}
+
+/**
+ * @param SocketServer $server
+ * @param $clientSocket
+ * @throws SocketException
+ * @throws Exception
+ */
+function interact(SocketServer $server, $clientSocket) {
     $msg = 'Привет';
     $server->write($clientSocket, $msg);
 
     do {
-        try {
-            $socketReadResult = $server->read($clientSocket);
+        $socketReadResult = $server->read($clientSocket);
 
-            if (!$socketReadResult) {
-                echo 'Ошибка при чтении сообщения от клиента';
-            }
-
-            if ($socketReadResult === 'exit') {
-                $server->socketClose($clientSocket);
-                break 2;
-            }
-
-            if ($socketReadResult === 'Принято') {
-                echo sprintf("Сообщение %s принято клиентом\n", $msg);
-            }
-
-            $msg = random_int(1, 10000);
-
-
-            $server->write($clientSocket, $msg);
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        if (!$socketReadResult) {
+            echo 'Ошибка при чтении сообщения от клиента';
         }
+
+        if ($socketReadResult === 'exit') {
+            $server->socketClose($clientSocket);
+            return;
+        }
+
+        if ($socketReadResult === 'Принято') {
+            echo sprintf("Сообщение %s принято клиентом\n", $msg);
+        }
+
+        $msg = random_int(1, 10000);
+
+
+        $server->write($clientSocket, $msg);
     } while (true);
-} while (true);
+}
 
 if (isset($serverSocket)) {
     $server->socketClose($serverSocket);

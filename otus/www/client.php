@@ -26,7 +26,6 @@ try {
 }
 
 do {
-    sleep(2);
     try {
         $out = $client->read($socket);
     } catch (SocketException $e) {
@@ -35,6 +34,7 @@ do {
     echo "Сообщение от сервера: $out.\n";
     $msg = 'Принято';
     $client->write($socket, $msg);
+    sleep(2);
 } while(true);
 
 
