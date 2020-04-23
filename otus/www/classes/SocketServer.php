@@ -25,6 +25,7 @@ class SocketServer {
         $this->logger = $logger;
     }
 
+
     public function run()
     {
         $serverSocket = $this->serverUp();
@@ -39,9 +40,12 @@ class SocketServer {
         } while (true);
     }
 
+    /**
+     * @return bool|false|resource
+     */
     private function serverUp()
     {
-        $serverSocket = null;
+
         try {
             $serverSocket = $this->socketCreate();
             echo "Сокет создан\n";
@@ -52,12 +56,18 @@ class SocketServer {
             $this->socketListen($serverSocket);
             echo "Ждём подключение клиента\n";
 
+            return $serverSocket;
+
         } catch (Throwable $e) {
             echo $e->getMessage();
+            return false;
         }
-        return $serverSocket;
     }
 
+    /**
+     * @return false|resource
+     * @throws SocketException
+     */
     private function socketCreate() {
         $socket = socket_create($this->protocolFamilyForSocket, $this->typeOfDataExchange, $this->protocol);
         if (!$socket) {
@@ -67,7 +77,11 @@ class SocketServer {
         return $socket;
     }
 
-
+    /**
+     * @param $socket
+     * @return bool
+     * @throws SocketException
+     */
     private function socketBind($socket) {
         $bind = socket_bind($socket, $this->domainServerSocketFilePath, 0);
         if (!$bind) {
@@ -105,6 +119,9 @@ class SocketServer {
         return $socketConnection;
     }
 
+    /**
+     * @param $clientSocket
+     */
     private function handleClient($clientSocket) {
         $pid = pcntl_fork();
 
@@ -162,6 +179,12 @@ class SocketServer {
         } while (true);
     }
 
+    /**
+     * @param $socket
+     * @param $msg
+     * @return false|int
+     * @throws SocketException
+     */
     private function write($socket, $msg) {
         $written = socket_write($socket, $msg, mb_strlen($msg, 'cp1251'));
         if (false === $written) {
@@ -170,6 +193,11 @@ class SocketServer {
         return $written;
     }
 
+    /**
+     * @param $socket
+     * @return mixed
+     * @throws SocketException
+     */
     private function read($socket) {
         $bytes = @socket_recv($socket, $message, $this->maxByteForRead, 0);
         if (false === $bytes) {
@@ -178,6 +206,9 @@ class SocketServer {
         return $message;
     }
 
+    /**
+     * @param $socket
+     */
     public function socketClose($socket) {
         socket_close($socket);
         unlink($this->domainServerSocketFilePath);

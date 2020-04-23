@@ -15,28 +15,7 @@ $client = (new ClientSocketDataBuilder())
     ->setMaxByteForRead(65536)
     ->built();
 
-try {
-    $socket = $client->socketCreate();
-    echo "Сокет создан\n";
-
-    $res = $client->connect($socket);
-    echo "Сокет успешно связан с адресом и портом\n";
-} catch(Throwable $e){
-    echo $e->getMessage();
-}
-
-do {
-    try {
-        $out = $client->read($socket);
-    } catch (SocketException $e) {
-        echo $e->getMessage();
-    }
-    echo "Сообщение от сервера: $out.\n";
-    $msg = 'Принято';
-    $client->write($socket, $msg);
-    sleep(2);
-} while(true);
-
+$client->run();
 
 if (isset($socket)) {
     $client->socketClose($socket);

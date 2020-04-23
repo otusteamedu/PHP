@@ -3,8 +3,6 @@
 require_once 'vendor/autoload.php';
 
 use Classes\ServerSocketDataBuilder;
-use Classes\SocketException;
-use Classes\SocketServer;
 
 $settings = parse_ini_file('socket.ini');
 
