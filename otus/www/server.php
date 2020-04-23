@@ -6,12 +6,12 @@ use Classes\ServerSocketDataBuilder;
 
 $settings = parse_ini_file('socket.ini');
 
-if (file_exists($settings['SERVER_SOCK_FILE_PATH'])) {
-    unlink($settings['SERVER_SOCK_FILE_PATH']);
+if (file_exists($settings['SOCK_FILE_PATH'])) {
+    unlink($settings['SOCK_FILE_PATH']);
 }
 
 $server = (new ServerSocketDataBuilder())
-    ->setDomainServerSocketFilePath($settings['SERVER_SOCK_FILE_PATH'])
+    ->setDomainServerSocketFilePath($settings['SOCK_FILE_PATH'])
     ->setProtocolFamilyForSocket(AF_UNIX)
     ->setTypeOfDataExchange(SOCK_STREAM)
     ->setProtocol(0)
@@ -20,9 +20,3 @@ $server = (new ServerSocketDataBuilder())
 
 
 $server->run();
-
-
-if (isset($serverSocket)) {
-    $server->socketClose($serverSocket);
-    echo 'Сокет успешно закрыт';
-}
