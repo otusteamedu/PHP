@@ -19,6 +19,7 @@ RUN apt-get update \
     && docker-php-ext-install pdo pdo_pgsql pgsql\
     && pecl install xdebug && docker-php-ext-enable xdebug\
     && pecl install memcached && docker-php-ext-enable memcached\
+    && pecl install redis && docker-php-ext-enable redis\
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
