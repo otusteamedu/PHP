@@ -41,9 +41,9 @@ class VideoDto
     private $numberViews;
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
