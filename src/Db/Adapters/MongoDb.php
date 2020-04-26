@@ -79,6 +79,8 @@ class MongoDb implements Store
                     $data['id'] = $field['$oid'];
                 } elseif ($field instanceof BSONArray) {
                     $data[$key] = $this->extractFields($field);
+                } elseif ($field instanceof BSONDocument) {
+                    $data[$key] = $field->jsonSerialize();
                 } else {
                     $data[$key] = $field;
                 }
