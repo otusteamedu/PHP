@@ -3,9 +3,9 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
-use Bjlag\Helpers\DataHelpers;
 use Bjlag\Entities\ChannelEntity;
-use Bjlag\Entities\Dto\ChannelDto;
+use Bjlag\Helpers\DataHelpers;
+use Bjlag\Http\Forms\ChannelCreateForm;
 use Bjlag\Repositories\ChannelRepository;
 use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\BadRequestException;
@@ -94,22 +94,8 @@ class ChannelController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rawData = $request->getParsedBody();
-
-        $requiredFields = [
-            ChannelEntity::FIELD_URL,
-            ChannelEntity::FIELD_NAME,
-            ChannelEntity::FIELD_DESCRIPTION,
-            ChannelEntity::FIELD_BANNER,
-            ChannelEntity::FIELD_COUNTRY,
-            ChannelEntity::FIELD_REGISTRATION_DATA,
-            ChannelEntity::FIELD_NUMBER_VIEWS,
-            ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
-            ChannelEntity::FIELD_LINKS,
-        ];
-
-        $dto = $this->getChannelDto($rawData, $requiredFields);
-        $channelEntity = ChannelEntity::create($dto);
+        $form = (new ChannelCreateForm($request))->fillAndValidate();
+        $channelEntity = ChannelEntity::create($form);
 
         return $this->getResponseJson([
             'is_succeed' => true,
@@ -199,14 +185,14 @@ class ChannelController extends BaseController
      * @param array $rawData
      * @param array $requiredFields
      *
-     * @return \Bjlag\Entities\Dto\ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
-    private function getChannelDto(array $rawData, array $requiredFields): ChannelDto
+    private function getChannelDto(array $rawData, array $requiredFields): ChannelCreateForm
     {
         try {
-            /** @var ChannelDto $result */
-            $result = DataHelpers::fillDto(new ChannelDto(), $rawData, $requiredFields);
+            /** @var ChannelCreateForm $result */
+            $result = DataHelpers::fillDto(new ChannelCreateForm(), $rawData, $requiredFields);
             return $result;
         } catch (\InvalidArgumentException $e) {
             throw new UnprocessableEntityException($e->getMessage());

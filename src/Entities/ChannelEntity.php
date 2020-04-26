@@ -3,7 +3,7 @@
 namespace Bjlag\Entities;
 
 use Bjlag\BaseModel;
-use Bjlag\Entities\Dto\ChannelDto;
+use Bjlag\Http\Forms\ChannelCreateForm;
 
 class ChannelEntity extends BaseModel
 {
@@ -253,27 +253,21 @@ class ChannelEntity extends BaseModel
     }
 
     /**
-     * @param \Bjlag\Entities\Dto\ChannelDto $data
+     * @param \Bjlag\Http\Forms\ChannelCreateForm $form
      * @return static
      */
-    public static function create(ChannelDto $data): self
+    public static function create(ChannelCreateForm $form): self
     {
-        $entity = (new ChannelEntity())
-            ->setUrl($data->getUrl())
-            ->setName($data->getName())
-            ->setDescription($data->getDescription())
-            ->setBanner($data->getBanner())
-            ->setCountry($data->getCountry())
-            ->setRegistrationData($data->getRegistrationData())
-            ->setNumberViews($data->getNumberViews())
-            ->setNumberSubscribes($data->getNumberSubscribes())
-            ->setLinks($data->getLinks());
-
-        if ($data->getId() !== null) {
-            $entity->setId($data->getId());
-        }
-
-        return $entity;
+        return (new ChannelEntity())
+            ->setUrl($form->getUrl())
+            ->setName($form->getName())
+            ->setDescription($form->getDescription())
+            ->setBanner($form->getBanner())
+            ->setCountry($form->getCountry())
+            ->setRegistrationData($form->getRegistrationData())
+            ->setNumberViews($form->getNumberViews())
+            ->setNumberSubscribes($form->getNumberSubscribes())
+            ->setLinks($form->getLinks());
     }
 
     /**

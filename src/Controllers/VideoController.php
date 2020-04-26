@@ -4,7 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Helpers\DataHelpers;
-use Bjlag\Entities\Dto\VideoDto;
+use Bjlag\Entities\Dto\VideoForms;
 use Bjlag\Entities\Video;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\UnprocessableEntityException;
@@ -130,14 +130,14 @@ class VideoController extends BaseController
      * @param array $rawData
      * @param array $requiredFields
      *
-     * @return \Bjlag\Entities\Dto\VideoDto
+     * @return \Bjlag\Entities\Dto\VideoForms
      * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
-    private function getVideoDto(array $rawData, array $requiredFields): VideoDto
+    private function getVideoDto(array $rawData, array $requiredFields): VideoForms
     {
         try {
-            /** @var VideoDto $result */
-            $result = DataHelpers::fillDto(new VideoDto(), $rawData, $requiredFields);
+            /** @var VideoForms $result */
+            $result = DataHelpers::fillDto(new VideoForms(), $rawData, $requiredFields);
             return $result;
         } catch (\InvalidArgumentException $e) {
             throw new UnprocessableEntityException($e->getMessage());

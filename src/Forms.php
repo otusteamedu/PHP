@@ -2,6 +2,6 @@
 
 namespace Bjlag;
 
-interface Dto
+interface Forms
 {
 }

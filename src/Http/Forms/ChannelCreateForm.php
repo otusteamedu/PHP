@@ -1,13 +1,31 @@
 <?php
 
-namespace Bjlag\Entities\Dto;
+namespace Bjlag\Http\Forms;
 
-use Bjlag\Dto;
+use Bjlag\Entities\ChannelEntity;
+use Bjlag\Forms;
+use League\Route\Http\Exception\UnprocessableEntityException;
+use Psr\Http\Message\ServerRequestInterface;
 
-class ChannelDto implements Dto
+class ChannelCreateForm implements Forms
 {
-    /** @var string */
-    private $id;
+    private const FIELDS = [
+        ChannelEntity::FIELD_URL,
+        ChannelEntity::FIELD_NAME,
+        ChannelEntity::FIELD_DESCRIPTION,
+        ChannelEntity::FIELD_BANNER,
+        ChannelEntity::FIELD_COUNTRY,
+        ChannelEntity::FIELD_REGISTRATION_DATA,
+        ChannelEntity::FIELD_NUMBER_VIEWS,
+        ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
+        ChannelEntity::FIELD_LINKS,
+    ];
+
+    /** @var \Psr\Http\Message\ServerRequestInterface */
+    private $request;
+
+    /** @var array */
+    private $body;
 
     /** @var string */
     private $url;
@@ -37,21 +55,12 @@ class ChannelDto implements Dto
     private $links;
 
     /**
-     * @return string|null
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      */
-    public function getId(): ?string
+    public function __construct(ServerRequestInterface $request)
     {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return ChannelDto
-     */
-    public function setId(string $id): ChannelDto
-    {
-        $this->id = $id;
-        return $this;
+        $this->request = $request;
+        $this->body = $request->getParsedBody();
     }
 
     /**
@@ -64,9 +73,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $url
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setUrl(string $url): ChannelDto
+    public function setUrl(string $url): self
     {
         $this->url = $url;
         return $this;
@@ -82,9 +91,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $name
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setName(string $name): ChannelDto
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -100,9 +109,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $description
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setDescription(string $description): ChannelDto
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -118,9 +127,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $banner
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setBanner(string $banner): ChannelDto
+    public function setBanner(string $banner): self
     {
         $this->banner = $banner;
         return $this;
@@ -136,9 +145,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $country
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setCountry(string $country): ChannelDto
+    public function setCountry(string $country): self
     {
         $this->country = $country;
         return $this;
@@ -154,9 +163,9 @@ class ChannelDto implements Dto
 
     /**
      * @param string $registrationData
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setRegistrationData(string $registrationData): ChannelDto
+    public function setRegistrationData(string $registrationData): self
     {
         try {
             $this->registrationData = new \DateTimeImmutable($registrationData);
@@ -177,9 +186,9 @@ class ChannelDto implements Dto
 
     /**
      * @param int $numberViews
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setNumberViews(int $numberViews): ChannelDto
+    public function setNumberViews(int $numberViews): self
     {
         $this->numberViews = $numberViews;
         return $this;
@@ -195,9 +204,9 @@ class ChannelDto implements Dto
 
     /**
      * @param int $numberSubscribes
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setNumberSubscribes(int $numberSubscribes): ChannelDto
+    public function setNumberSubscribes(int $numberSubscribes): self
     {
         $this->numberSubscribes = $numberSubscribes;
         return $this;
@@ -213,11 +222,32 @@ class ChannelDto implements Dto
 
     /**
      * @param array $links
-     * @return ChannelDto
+     * @return \Bjlag\Http\Forms\ChannelCreateForm
      */
-    public function setLinks(array $links): ChannelDto
+    public function setLinks(array $links): self
     {
         $this->links = $links;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
+     */
+    public function fillAndValidate(): self
+    {
+        foreach (self::FIELDS as $field) {
+            if (!isset($this->body[$field])) {
+                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
+            }
+
+            $setterName = strtr($field, ['_' => ' ']);
+            $setterName = ucwords($setterName);
+            $setterName = 'set' . strtr($setterName, [' ' => '']);
+
+            $this->{$setterName}($this->body[$field]);
+        }
+
         return $this;
     }
 }
