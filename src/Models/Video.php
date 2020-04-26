@@ -22,21 +22,6 @@ class Video extends BaseModel
     public const FIELD_NUMBER_DISLIKE = 'number_dislike';
     public const FIELD_NUMBER_VIEWS = 'number_views';
 
-    public const FIELDS = [
-        self::FIELD_ID,
-        self::FIELD_CHANNEL_ID,
-        self::FIELD_URL,
-        self::FIELD_NAME,
-        self::FIELD_PREVIEW_IMAGE,
-        self::FIELD_DESCRIPTION,
-        self::FIELD_CATEGORY,
-        self::FIELD_DURATION,
-        self::FIELD_POST_DATA,
-        self::FIELD_NUMBER_LIKE,
-        self::FIELD_NUMBER_DISLIKE,
-        self::FIELD_NUMBER_VIEWS,
-    ];
-
     /**
      * @param array $select
      * @param array $where
