@@ -3,25 +3,30 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
-use Bjlag\Helpers\DataHelpers;
-use Bjlag\Entities\Dto\VideoForms;
-use Bjlag\Entities\Video;
+use Bjlag\Entities\VideoEntity;
+use Bjlag\Http\Forms\VideoCreateForms;
+use Bjlag\Http\Forms\VideoUpdateForms;
+use Bjlag\Repositories\VideoRepository;
 use League\Route\Http\Exception\BadRequestException;
-use League\Route\Http\Exception\UnprocessableEntityException;
+use League\Route\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class VideoController extends BaseController
 {
-    /** @var \Bjlag\Entities\Video */
+    /** @var \Bjlag\Entities\VideoEntity */
     private $videoModel;
+
+    /** @var \Bjlag\Repositories\VideoRepository */
+    private $videoRepository;
 
     /**
      * VideoController constructor.
      */
     public function __construct()
     {
-        $this->videoModel = new Video();
+        $this->videoModel = new VideoEntity();
+        $this->videoRepository = new VideoRepository();
     }
 
     /**
@@ -30,7 +35,7 @@ class VideoController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = $this->videoModel->find();
+        $rows = $this->videoRepository->find();
 
         ob_start();
         var_dump($rows);
@@ -46,27 +51,12 @@ class VideoController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rawData = $request->getParsedBody();
-
-        $requiredFields = [
-            Video::FIELD_CHANNEL_ID,
-            Video::FIELD_URL,
-            Video::FIELD_NAME,
-            Video::FIELD_PREVIEW_IMAGE,
-            Video::FIELD_DESCRIPTION,
-            Video::FIELD_CATEGORY,
-            Video::FIELD_DURATION,
-            Video::FIELD_POST_DATA,
-            Video::FIELD_NUMBER_LIKE,
-            Video::FIELD_NUMBER_DISLIKE,
-            Video::FIELD_NUMBER_VIEWS,
-        ];
-
-        $video = $this->getVideoDto($rawData, $requiredFields);
+        $form = (new VideoCreateForms($request))->fillAndValidate();
+        $videoEntity = VideoEntity::create($form);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => $this->videoModel->add($video),
+            'id' => $videoEntity->save(),
         ], 200);
     }
 
@@ -75,6 +65,7 @@ class VideoController extends BaseController
      * @return \Psr\Http\Message\ResponseInterface
      *
      * @throws \League\Route\Http\Exception\BadRequestException
+     * @throws \League\Route\Http\Exception\NotFoundException
      * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     public function editAction(ServerRequestInterface $request): ResponseInterface
@@ -85,25 +76,29 @@ class VideoController extends BaseController
             throw new BadRequestException();
         }
 
-        $requiredFields = [
-            Video::FIELD_CHANNEL_ID,
-            Video::FIELD_URL,
-            Video::FIELD_NAME,
-            Video::FIELD_PREVIEW_IMAGE,
-            Video::FIELD_DESCRIPTION,
-            Video::FIELD_CATEGORY,
-            Video::FIELD_DURATION,
-            Video::FIELD_POST_DATA,
-            Video::FIELD_NUMBER_LIKE,
-            Video::FIELD_NUMBER_DISLIKE,
-            Video::FIELD_NUMBER_VIEWS,
-        ];
+        $videoEntity = $this->videoRepository->findById($rawData['filter']['id']);
+        if ($videoEntity === null) {
+            throw new NotFoundException('Видео не найден');
+        }
 
-        $video = $this->getVideoDto($rawData['data'], $requiredFields);
+        $form = (new VideoUpdateForms($request))->fillAndValidate();
+
+        $videoEntity
+            ->setChannelId($form->getChannelId())
+            ->setUrl($form->getUrl())
+            ->setName($form->getName())
+            ->setPreviewImage($form->getPreviewImage())
+            ->setDescription($form->getDescription())
+            ->setCategory($form->getCategory())
+            ->setDuration($form->getDuration())
+            ->setPostData($form->getPostData())
+            ->setNumberLike($form->getNumberLike())
+            ->setNumberDislike($form->getNumberDislike())
+            ->setNumberViews($form->getNumberViews());
+
 
         return $this->getResponseJson([
-            'is_succeed' => true,
-            'modified_count' => $this->videoModel->update($rawData['filter'], $video)
+            'is_succeed' => (bool) $videoEntity->save(),
         ], 200);
     }
 
@@ -111,6 +106,7 @@ class VideoController extends BaseController
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \League\Route\Http\Exception\BadRequestException
+     * @throws \League\Route\Http\Exception\NotFoundException
      */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface
     {
@@ -120,27 +116,13 @@ class VideoController extends BaseController
             throw new BadRequestException();
         }
 
-        return $this->getResponseJson([
-            'is_succeed' => true,
-            'deleted_count' =>  $this->videoModel->delete($rawData['filter'])
-        ], 200);
-    }
-
-    /**
-     * @param array $rawData
-     * @param array $requiredFields
-     *
-     * @return \Bjlag\Entities\Dto\VideoForms
-     * @throws \League\Route\Http\Exception\UnprocessableEntityException
-     */
-    private function getVideoDto(array $rawData, array $requiredFields): VideoForms
-    {
-        try {
-            /** @var VideoForms $result */
-            $result = DataHelpers::fillDto(new VideoForms(), $rawData, $requiredFields);
-            return $result;
-        } catch (\InvalidArgumentException $e) {
-            throw new UnprocessableEntityException($e->getMessage());
+        $videoEntity = $this->videoRepository->findById($rawData['filter']['id']);
+        if ($videoEntity === null) {
+            throw new NotFoundException('Видео не найден');
         }
+
+        return $this->getResponseJson([
+            'is_succeed' => $videoEntity->delete(),
+        ], 200);
     }
 }

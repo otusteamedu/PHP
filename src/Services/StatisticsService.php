@@ -4,7 +4,7 @@ namespace Bjlag\Services;
 
 use Bjlag\App;
 use Bjlag\Db\Store;
-use Bjlag\Entities\Video;
+use Bjlag\Entities\VideoEntity;
 
 class StatisticsService
 {
@@ -57,18 +57,18 @@ class StatisticsService
      */
     private function aggregateLikes(?string $filterByChannel = null, ?int $limit = null): array
     {
-        $collection = $this->db->getCollection(Video::TABLE);
+        $collection = $this->db->getCollection(VideoEntity::TABLE);
 
         $pipeline = [];
 
         if ($filterByChannel !== null) {
-            $pipeline[]['$match'] = [Video::FIELD_CHANNEL_ID => $filterByChannel];
+            $pipeline[]['$match'] = [VideoEntity::FIELD_CHANNEL_ID => $filterByChannel];
         }
 
         $pipeline[]['$group'] = [
-            '_id' => [Video::FIELD_CHANNEL_ID => '$' . Video::FIELD_CHANNEL_ID],
-            'likes_total' => ['$sum' => '$' . Video::FIELD_NUMBER_LIKE],
-            'dislikes_total' => ['$sum' => '$' . Video::FIELD_NUMBER_DISLIKE],
+            '_id' => [VideoEntity::FIELD_CHANNEL_ID => '$' . VideoEntity::FIELD_CHANNEL_ID],
+            'likes_total' => ['$sum' => '$' . VideoEntity::FIELD_NUMBER_LIKE],
+            'dislikes_total' => ['$sum' => '$' . VideoEntity::FIELD_NUMBER_DISLIKE],
         ];
 
         $pipeline[]['$addFields'] = [

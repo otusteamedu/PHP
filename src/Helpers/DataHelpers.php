@@ -2,7 +2,7 @@
 
 namespace Bjlag\Helpers;
 
-use Bjlag\Dto;
+use Bjlag\Forms;
 use InvalidArgumentException;
 
 class DataHelpers
@@ -12,9 +12,9 @@ class DataHelpers
      * @param array $data
      * @param array $requiredFields
      *
-     * @return \Bjlag\Dto
+     * @return \Bjlag\Forms
      */
-    public static function fillDto(Dto $dto, array $data, array $requiredFields): Dto
+    public static function fillDto(Forms $dto, array $data, array $requiredFields): Forms
     {
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {

@@ -175,7 +175,7 @@ class ChannelEntity extends BaseModel
     }
 
     /**
-     * @param array|string $registrationData
+     * @param array|string|object $registrationData
      * @return \Bjlag\Entities\ChannelEntity
      */
     public function setRegistrationData($registrationData): self
@@ -190,7 +190,6 @@ class ChannelEntity extends BaseModel
             } else {
                 throw new \InvalidArgumentException('Неверный формат даты.');
             }
-
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Неверный формат даты.');
         }
@@ -300,7 +299,7 @@ class ChannelEntity extends BaseModel
     public function delete(): bool
     {
         return (bool) $this->db->delete(self::TABLE, [
-            'id' => $this->getId()
+            self::FIELD_ID => $this->getId()
         ]);
     }
 }

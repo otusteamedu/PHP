@@ -1,11 +1,34 @@
 <?php
 
-namespace Bjlag\Entities\Dto;
+namespace Bjlag\Http\Forms;
 
-use Bjlag\Dto;
+use Bjlag\Entities\VideoEntity;
+use Bjlag\Forms;
+use League\Route\Http\Exception\UnprocessableEntityException;
+use Psr\Http\Message\ServerRequestInterface;
 
-class VideoDto implements Dto
+class VideoUpdateForms implements Forms
 {
+    private const FIELDS = [
+        VideoEntity::FIELD_CHANNEL_ID,
+        VideoEntity::FIELD_URL,
+        VideoEntity::FIELD_NAME,
+        VideoEntity::FIELD_PREVIEW_IMAGE,
+        VideoEntity::FIELD_DESCRIPTION,
+        VideoEntity::FIELD_CATEGORY,
+        VideoEntity::FIELD_DURATION,
+        VideoEntity::FIELD_POST_DATA,
+        VideoEntity::FIELD_NUMBER_LIKE,
+        VideoEntity::FIELD_NUMBER_DISLIKE,
+        VideoEntity::FIELD_NUMBER_VIEWS,
+    ];
+
+    /** @var \Psr\Http\Message\ServerRequestInterface */
+    private $request;
+
+    /** @var array */
+    private $body;
+
     /** @var string */
     private $id;
 
@@ -43,6 +66,15 @@ class VideoDto implements Dto
     private $numberViews;
 
     /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     */
+    public function __construct(ServerRequestInterface $request)
+    {
+        $this->request = $request;
+        $this->body = $request->getParsedBody()['data'];
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
@@ -52,9 +84,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $id
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setId(?string $id): VideoDto
+    public function setId(string $id)
     {
         $this->id = $id;
         return $this;
@@ -70,9 +102,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $channelId
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setChannelId(string $channelId): VideoDto
+    public function setChannelId(string $channelId): self
     {
         $this->channelId = $channelId;
         return $this;
@@ -88,9 +120,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $url
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setUrl(string $url): VideoDto
+    public function setUrl(string $url): self
     {
         $this->url = $url;
         return $this;
@@ -106,9 +138,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $name
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setName(string $name): VideoDto
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -124,9 +156,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $previewImage
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setPreviewImage(string $previewImage): VideoDto
+    public function setPreviewImage(string $previewImage): self
     {
         $this->previewImage = $previewImage;
         return $this;
@@ -142,9 +174,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $description
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setDescription(string $description): VideoDto
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -160,9 +192,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $category
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setCategory(string $category): VideoDto
+    public function setCategory(string $category): self
     {
         $this->category = $category;
         return $this;
@@ -178,9 +210,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $duration
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setDuration(string $duration): VideoDto
+    public function setDuration(string $duration): self
     {
         $this->duration = $duration;
         return $this;
@@ -196,9 +228,9 @@ class VideoDto implements Dto
 
     /**
      * @param string $postData
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setPostData(string $postData): VideoDto
+    public function setPostData(string $postData): self
     {
         try {
             $this->postData = new \DateTimeImmutable($postData);
@@ -219,9 +251,9 @@ class VideoDto implements Dto
 
     /**
      * @param int $numberLike
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setNumberLike(int $numberLike): VideoDto
+    public function setNumberLike(int $numberLike): self
     {
         $this->numberLike = $numberLike;
         return $this;
@@ -237,9 +269,9 @@ class VideoDto implements Dto
 
     /**
      * @param int $numberDislike
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setNumberDislike(int $numberDislike): VideoDto
+    public function setNumberDislike(int $numberDislike): self
     {
         $this->numberDislike = $numberDislike;
         return $this;
@@ -255,11 +287,32 @@ class VideoDto implements Dto
 
     /**
      * @param int $numberViews
-     * @return VideoDto
+     * @return \Bjlag\Http\Forms\VideoUpdateForms
      */
-    public function setNumberViews(int $numberViews): VideoDto
+    public function setNumberViews(int $numberViews): self
     {
         $this->numberViews = $numberViews;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
+     */
+    public function fillAndValidate(): self
+    {
+        foreach (self::FIELDS as $field) {
+            if (!isset($this->body[$field])) {
+                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
+            }
+
+            $setterName = strtr($field, ['_' => ' ']);
+            $setterName = ucwords($setterName);
+            $setterName = 'set' . strtr($setterName, [' ' => '']);
+
+            $this->{$setterName}($this->body[$field]);
+        }
+
         return $this;
     }
 }
