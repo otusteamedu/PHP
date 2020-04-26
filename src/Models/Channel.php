@@ -40,7 +40,7 @@ class Channel extends BaseModel
      */
     public function findById(string $id): array
     {
-        $data = App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
+        $data = $this->db->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
         return $data[0] ?? [];
     }
 
@@ -59,7 +59,7 @@ class Channel extends BaseModel
             $idsObject[] = new ObjectId($id);
         }
 
-        return App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => ['$in' => $idsObject]]);
+        return $this->db->find(self::TABLE, [],  [self::FIELD_ID => ['$in' => $idsObject]]);
     }
 
     /**
@@ -68,7 +68,7 @@ class Channel extends BaseModel
      */
     public function add(array $data)
     {
-        return App::getDb()->add(self::TABLE, $data);
+        return $this->db->add(self::TABLE, $data);
     }
 
     /**
@@ -78,7 +78,7 @@ class Channel extends BaseModel
      */
     public function update(array $where, array $data)
     {
-        return App::getDb()->update(self::TABLE, $where, $data);
+        return $this->db->update(self::TABLE, $where, $data);
     }
 
     /**
@@ -87,6 +87,6 @@ class Channel extends BaseModel
      */
     public function delete(array $where): int
     {
-        return App::getDb()->delete(self::TABLE, $where);
+        return $this->db->delete(self::TABLE, $where);
     }
 }
