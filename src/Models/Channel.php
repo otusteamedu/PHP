@@ -3,9 +3,10 @@
 namespace Bjlag\Models;
 
 use Bjlag\App;
+use Bjlag\BaseModel;
 use MongoDB\BSON\ObjectId;
 
-class Channel
+class Channel extends BaseModel
 {
     public const TABLE = 'channel';
 
@@ -28,16 +29,16 @@ class Channel
      *
      * @return array
      */
-    public static function find(array $select = [], array $where = [], int $limit = 20, int $offset = 0): array
+    public function find(array $select = [], array $where = [], int $limit = 20, int $offset = 0): array
     {
-        return App::getDb()->find(self::TABLE, $select, $where, $limit, $offset);
+        return $this->db->find(self::TABLE, $select, $where, $limit, $offset);
     }
 
     /**
      * @param string $id
      * @return array
      */
-    public static function findById(string $id): array
+    public function findById(string $id): array
     {
         $data = App::getDb()->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
         return $data[0] ?? [];
@@ -47,7 +48,7 @@ class Channel
      * @param array $ids
      * @return array
      */
-    public static function findByIds(array $ids): array
+    public function findByIds(array $ids): array
     {
         if (count($ids) === 0) {
             return [];
@@ -65,7 +66,7 @@ class Channel
      * @param array $data
      * @return mixed
      */
-    public static function add(array $data)
+    public function add(array $data)
     {
         return App::getDb()->add(self::TABLE, $data);
     }
@@ -75,7 +76,7 @@ class Channel
      * @param array $data
      * @return mixed
      */
-    public static function update(array $where, array $data)
+    public function update(array $where, array $data)
     {
         return App::getDb()->update(self::TABLE, $where, $data);
     }
@@ -84,7 +85,7 @@ class Channel
      * @param array $where
      * @return mixed
      */
-    public static function delete(array $where): int
+    public function delete(array $where): int
     {
         return App::getDb()->delete(self::TABLE, $where);
     }

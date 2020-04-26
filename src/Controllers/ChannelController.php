@@ -11,6 +11,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ChannelController extends BaseController
 {
+    /** @var \Bjlag\Models\Channel */
+    private $channelModel;
+
+    /**
+     * ChannelController constructor.
+     */
+    public function __construct()
+    {
+        $this->channelModel = new Channel();
+    }
+
     /**
      * Вывод всех каналов из БД.
      *
@@ -19,12 +30,12 @@ class ChannelController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $channels = Channel::find();
+        $channels = $this->channelModel->find();
         $topIds = Statistics::getTop5Channels()->getChannelIds();
 
         return $this->getResponseHtml('channel/index', [
             'channels' => $channels,
-            'top' => Channel::findByIds($topIds),
+            'top' => $this->channelModel->findByIds($topIds),
         ]);
     }
 
@@ -40,7 +51,7 @@ class ChannelController extends BaseController
     {
         $id = $args['id'] ?? null;
         if ($id !== null) {
-            $channel = Channel::findById($id);
+            $channel = $this->channelModel->findById($id);
         }
 
         if (empty($channel)) {
@@ -66,7 +77,7 @@ class ChannelController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $id = Channel::add($request->getParsedBody());
+        $id = $this->channelModel->add($request->getParsedBody());
 
         return $this->getResponseJson([
             'is_succeed' => true,
@@ -81,7 +92,7 @@ class ChannelController extends BaseController
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
         $data = $request->getParsedBody();
-        $modifiedCount = Channel::update($data['filter'], $data['data']);
+        $modifiedCount = $this->channelModel->update($data['filter'], $data['data']);
 
         return $this->getResponseJson([
             'is_succeed' => true,
@@ -96,7 +107,7 @@ class ChannelController extends BaseController
     public function deleteAction(ServerRequestInterface $request): ResponseInterface
     {
         $data = $request->getParsedBody();
-        $deletedCount = Channel::delete($data['filter']);
+        $deletedCount = $this->channelModel->delete($data['filter']);
 
         return $this->getResponseJson([
             'is_succeed' => true,
