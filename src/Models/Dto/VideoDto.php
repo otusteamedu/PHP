@@ -2,7 +2,9 @@
 
 namespace Bjlag\Models\Dto;
 
-class VideoDto
+use Bjlag\Dto;
+
+class VideoDto implements Dto
 {
     /** @var string */
     private $id;
@@ -199,7 +201,7 @@ class VideoDto
     public function setPostData(string $postData): VideoDto
     {
         try {
-            $this->postData =new \DateTimeImmutable($postData);
+            $this->postData = new \DateTimeImmutable($postData);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Неверный формат даты.');
         }

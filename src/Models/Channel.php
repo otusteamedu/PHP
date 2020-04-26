@@ -2,8 +2,8 @@
 
 namespace Bjlag\Models;
 
-use Bjlag\App;
 use Bjlag\BaseModel;
+use Bjlag\Models\Dto\ChannelDto;
 use MongoDB\BSON\ObjectId;
 
 class Channel extends BaseModel
@@ -40,7 +40,7 @@ class Channel extends BaseModel
      */
     public function findById(string $id): array
     {
-        $data = $this->db->find(self::TABLE, [],  [self::FIELD_ID => $id], 1);
+        $data = $this->db->find(self::TABLE, [], [self::FIELD_ID => $id], 1);
         return $data[0] ?? [];
     }
 
@@ -63,22 +63,46 @@ class Channel extends BaseModel
     }
 
     /**
-     * @param array $data
+     * @param \Bjlag\Models\Dto\ChannelDto $data
      * @return mixed
      */
-    public function add(array $data)
+    public function add(ChannelDto $data)
     {
-        return $this->db->add(self::TABLE, $data);
+        $addedData = [
+            self::FIELD_URL => $data->getUrl(),
+            self::FIELD_NAME => $data->getName(),
+            self::FIELD_DESCRIPTION => $data->getDescription(),
+            self::FIELD_BANNER => $data->getBanner(),
+            self::FIELD_COUNTRY => $data->getCountry(),
+            self::FIELD_REGISTRATION_DATA => $data->getRegistrationData(),
+            self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
+            self::FIELD_NUMBER_SUBSCRIBES => $data->getNumberSubscribes(),
+            self::FIELD_LINKS => $data->getLinks(),
+        ];
+
+        return $this->db->add(self::TABLE, $addedData);
     }
 
     /**
      * @param array $where
-     * @param array $data
+     * @param \Bjlag\Models\Dto\ChannelDto $data
      * @return mixed
      */
-    public function update(array $where, array $data)
+    public function update(array $where, ChannelDto $data)
     {
-        return $this->db->update(self::TABLE, $where, $data);
+        $updatedData = [
+            self::FIELD_URL => $data->getUrl(),
+            self::FIELD_NAME => $data->getName(),
+            self::FIELD_DESCRIPTION => $data->getDescription(),
+            self::FIELD_BANNER => $data->getBanner(),
+            self::FIELD_COUNTRY => $data->getCountry(),
+            self::FIELD_REGISTRATION_DATA => $data->getRegistrationData(),
+            self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
+            self::FIELD_NUMBER_SUBSCRIBES => $data->getNumberSubscribes(),
+            self::FIELD_LINKS => $data->getLinks(),
+        ];
+
+        return $this->db->update(self::TABLE, $where, $updatedData);
     }
 
     /**

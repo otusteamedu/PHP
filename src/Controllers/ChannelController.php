@@ -3,9 +3,13 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
+use Bjlag\Helpers\DataHelpers;
 use Bjlag\Models\Channel;
+use Bjlag\Models\Dto\ChannelDto;
 use Bjlag\Services\StatisticsService;
+use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
+use League\Route\Http\Exception\UnprocessableEntityException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -78,29 +82,70 @@ class ChannelController extends BaseController
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Laminas\Diactoros\Response\JsonResponse
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $id = $this->channelModel->add($request->getParsedBody());
+        $rawData = $request->getParsedBody();
+
+        $requiredFields = [
+            Channel::FIELD_URL,
+            Channel::FIELD_NAME,
+            Channel::FIELD_DESCRIPTION,
+            Channel::FIELD_BANNER,
+            Channel::FIELD_COUNTRY,
+            Channel::FIELD_REGISTRATION_DATA,
+            Channel::FIELD_NUMBER_VIEWS,
+            Channel::FIELD_NUMBER_SUBSCRIBES,
+            Channel::FIELD_LINKS,
+        ];
+
+        $channel = $this->getChannelDto($rawData, $requiredFields);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => $id,
+            'id' => $this->channelModel->add($channel),
         ], 200);
     }
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
+     *
+     * @throws \League\Route\Http\Exception\BadRequestException
+     * @throws \League\Route\Http\Exception\NotFoundException
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
-        $data = $request->getParsedBody();
-        $modifiedCount = $this->channelModel->update($data['filter'], $data['data']);
+        $rawData = $request->getParsedBody();
+
+        if (!isset($rawData['filter']['id']) || !isset($rawData['data'])) {
+            throw new BadRequestException();
+        }
+
+        if (empty($this->channelModel->findById($rawData['filter']['id']))) {
+            throw new NotFoundException('Канал не найден');
+        }
+
+        $requiredFields = [
+            Channel::FIELD_URL,
+            Channel::FIELD_NAME,
+            Channel::FIELD_DESCRIPTION,
+            Channel::FIELD_BANNER,
+            Channel::FIELD_COUNTRY,
+            Channel::FIELD_REGISTRATION_DATA,
+            Channel::FIELD_NUMBER_VIEWS,
+            Channel::FIELD_NUMBER_SUBSCRIBES,
+            Channel::FIELD_LINKS,
+        ];
+
+        $channel = $this->getChannelDto($rawData['data'], $requiredFields);
+        $modifiedCount = $this->channelModel->update($rawData['filter'], $channel);
 
         return $this->getResponseJson([
-            'is_succeed' => true,
-            'modified_count' => $modifiedCount
+            'is_succeed' => (bool) $modifiedCount,
+            'modified_count' => $modifiedCount,
         ], 200);
     }
 
@@ -117,5 +162,23 @@ class ChannelController extends BaseController
             'is_succeed' => true,
             'deleted_count' => $deletedCount
         ], 200);
+    }
+
+    /**
+     * @param array $rawData
+     * @param array $requiredFields
+     *
+     * @return \Bjlag\Models\Dto\ChannelDto
+     * @throws \League\Route\Http\Exception\UnprocessableEntityException
+     */
+    private function getChannelDto(array $rawData, array $requiredFields): ChannelDto
+    {
+        try {
+            /** @var ChannelDto $result */
+            $result = DataHelpers::fillDto(new ChannelDto(), $rawData, $requiredFields);
+            return $result;
+        } catch (\InvalidArgumentException $e) {
+            throw new UnprocessableEntityException($e->getMessage());
+        }
     }
 }

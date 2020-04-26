@@ -2,7 +2,9 @@
 
 namespace Bjlag\Models\Dto;
 
-class ChannelDto
+use Bjlag\Dto;
+
+class ChannelDto implements Dto
 {
     /** @var string */
     private $id;
@@ -157,7 +159,7 @@ class ChannelDto
     public function setRegistrationData(string $registrationData): ChannelDto
     {
         try {
-            $this->registrationData =new \DateTimeImmutable(registrationData);
+            $this->registrationData = new \DateTimeImmutable($registrationData);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Неверный формат даты.');
         }

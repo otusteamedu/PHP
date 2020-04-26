@@ -3,6 +3,7 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
+use Bjlag\Helpers\DataHelpers;
 use Bjlag\Models\Dto\VideoDto;
 use Bjlag\Models\Video;
 use League\Route\Http\Exception\BadRequestException;
@@ -128,25 +129,18 @@ class VideoController extends BaseController
     /**
      * @param array $rawData
      * @param array $requiredFields
+     *
      * @return \Bjlag\Models\Dto\VideoDto
      * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     private function getVideoDto(array $rawData, array $requiredFields): VideoDto
     {
-        $video = new VideoDto();
-
-        foreach ($requiredFields as $field) {
-            if (!isset($rawData[$field])) {
-                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
-            }
-
-            $setterName = strtr($field, ['_' => ' ']);
-            $setterName = ucwords($setterName);
-            $setterName = 'set' . strtr($setterName, [' ' => '']);
-
-            $video->{$setterName}($rawData[$field]);
+        try {
+            /** @var VideoDto $result */
+            $result = DataHelpers::fillDto(new VideoDto(), $rawData, $requiredFields);
+            return $result;
+        } catch (\InvalidArgumentException $e) {
+            throw new UnprocessableEntityException($e->getMessage());
         }
-
-        return $video;
     }
 }
