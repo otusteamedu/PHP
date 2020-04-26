@@ -3,31 +3,10 @@
 namespace Bjlag\Http\Forms;
 
 use Bjlag\Entities\ChannelEntity;
-use Bjlag\Forms;
-use League\Route\Http\Exception\BadRequestException;
-use League\Route\Http\Exception\UnprocessableEntityException;
-use Psr\Http\Message\ServerRequestInterface;
+use Bjlag\BaseForm;
 
-class ChannelUpdateForm implements Forms
+class ChannelForm extends BaseForm
 {
-    private const FIELDS = [
-        ChannelEntity::FIELD_URL,
-        ChannelEntity::FIELD_NAME,
-        ChannelEntity::FIELD_DESCRIPTION,
-        ChannelEntity::FIELD_BANNER,
-        ChannelEntity::FIELD_COUNTRY,
-        ChannelEntity::FIELD_REGISTRATION_DATA,
-        ChannelEntity::FIELD_NUMBER_VIEWS,
-        ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
-        ChannelEntity::FIELD_LINKS,
-    ];
-
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    private $request;
-
-    /** @var array */
-    private $body;
-
     /** @var string */
     private $url;
 
@@ -55,16 +34,12 @@ class ChannelUpdateForm implements Forms
     /** @var array */
     private $links;
 
-    /** @var array */
-    private $filter;
-
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param array $data
      */
-    public function __construct(ServerRequestInterface $request)
+    public function __construct(array $data)
     {
-        $this->request = $request;
-        $this->body = $request->getParsedBody();
+        $this->data = $data;
     }
 
     /**
@@ -77,7 +52,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $url
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setUrl(string $url): self
     {
@@ -95,7 +70,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $name
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setName(string $name): self
     {
@@ -113,7 +88,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $description
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setDescription(string $description): self
     {
@@ -131,7 +106,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $banner
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setBanner(string $banner): self
     {
@@ -149,7 +124,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $country
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setCountry(string $country): self
     {
@@ -167,7 +142,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param string $registrationData
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setRegistrationData(string $registrationData): self
     {
@@ -190,7 +165,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param int $numberViews
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setNumberViews(int $numberViews): self
     {
@@ -208,7 +183,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param int $numberSubscribes
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setNumberSubscribes(int $numberSubscribes): self
     {
@@ -226,7 +201,7 @@ class ChannelUpdateForm implements Forms
 
     /**
      * @param array $links
-     * @return \Bjlag\Http\Forms\ChannelUpdateForm
+     * @return \Bjlag\Http\Forms\ChannelForm
      */
     public function setLinks(array $links): self
     {
@@ -235,38 +210,20 @@ class ChannelUpdateForm implements Forms
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getFilterId(): string
+    protected function getFields(): array
     {
-        return $this->filter['id'];
-    }
-
-    /**
-     * @return $this
-     * @throws \League\Route\Http\Exception\BadRequestException
-     * @throws \League\Route\Http\Exception\UnprocessableEntityException
-     */
-    public function fillAndValidate(): self
-    {
-        if (!isset($this->body['filter']['id']) || !isset($this->body['data'])) {
-            throw new BadRequestException();
-        }
-
-        $this->filter = $this->body['filter'];
-
-        foreach (self::FIELDS as $field) {
-            if (!isset($this->body['data'][$field])) {
-                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
-            }
-
-            $setterName = strtr($field, ['_' => ' ']);
-            $setterName = ucwords($setterName);
-            $setterName = 'set' . strtr($setterName, [' ' => '']);
-
-            $this->{$setterName}($this->body['data'][$field]);
-        }
-
-        return $this;
+        return [
+            ChannelEntity::FIELD_URL,
+            ChannelEntity::FIELD_NAME,
+            ChannelEntity::FIELD_DESCRIPTION,
+            ChannelEntity::FIELD_BANNER,
+            ChannelEntity::FIELD_COUNTRY,
+            ChannelEntity::FIELD_REGISTRATION_DATA,
+            ChannelEntity::FIELD_NUMBER_VIEWS,
+            ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
+            ChannelEntity::FIELD_LINKS,
+        ];
     }
 }

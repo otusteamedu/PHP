@@ -3,7 +3,7 @@
 namespace Bjlag\Entities;
 
 use Bjlag\BaseModel;
-use Bjlag\Http\Forms\VideoCreateForms;
+use Bjlag\Http\Forms\VideoForm;
 
 class VideoEntity extends BaseModel
 {
@@ -288,10 +288,10 @@ class VideoEntity extends BaseModel
     }
 
     /**
-     * @param \Bjlag\Http\Forms\VideoCreateForms $form
+     * @param \Bjlag\Http\Forms\VideoForm $form
      * @return static
      */
-    public static function create(VideoCreateForms $form): self
+    public static function create(VideoForm $form): self
     {
         return (new VideoEntity())
             ->setChannelId($form->getChannelId())

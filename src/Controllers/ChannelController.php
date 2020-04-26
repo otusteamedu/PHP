@@ -4,8 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Entities\ChannelEntity;
-use Bjlag\Http\Forms\ChannelCreateForm;
-use Bjlag\Http\Forms\ChannelUpdateForm;
+use Bjlag\Http\Forms\ChannelForm;
 use Bjlag\Repositories\ChannelRepository;
 use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\BadRequestException;
@@ -89,7 +88,7 @@ class ChannelController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $form = (new ChannelCreateForm($request))->fillAndValidate();
+        $form = (new ChannelForm($request->getParsedBody()))->fillAndValidate();
         $channelEntity = ChannelEntity::create($form);
 
         return $this->getResponseJson([
@@ -108,12 +107,18 @@ class ChannelController extends BaseController
      */
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
-        $form = (new ChannelUpdateForm($request))->fillAndValidate();
+        $rawData = $request->getParsedBody();
 
-        $channelEntity = $this->channelRepository->findById($form->getFilterId());
+        if (!isset($rawData['filter']['id']) || !isset($rawData['data'])) {
+            throw new BadRequestException();
+        }
+
+        $channelEntity = $this->channelRepository->findById($rawData['filter']['id']);
         if ($channelEntity === null) {
             throw new NotFoundException('Канал не найден');
         }
+
+        $form = (new ChannelForm($rawData['data']))->fillAndValidate();
 
         $channelEntity
             ->setUrl($form->getUrl())

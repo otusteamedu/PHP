@@ -3,7 +3,7 @@
 namespace Bjlag\Entities;
 
 use Bjlag\BaseModel;
-use Bjlag\Http\Forms\ChannelCreateForm;
+use Bjlag\Http\Forms\ChannelForm;
 
 class ChannelEntity extends BaseModel
 {
@@ -252,10 +252,10 @@ class ChannelEntity extends BaseModel
     }
 
     /**
-     * @param \Bjlag\Http\Forms\ChannelCreateForm $form
+     * @param \Bjlag\Http\Forms\ChannelForm $form
      * @return static
      */
-    public static function create(ChannelCreateForm $form): self
+    public static function create(ChannelForm $form): self
     {
         return (new ChannelEntity())
             ->setUrl($form->getUrl())

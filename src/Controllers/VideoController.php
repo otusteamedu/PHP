@@ -4,8 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Entities\VideoEntity;
-use Bjlag\Http\Forms\VideoCreateForms;
-use Bjlag\Http\Forms\VideoUpdateForms;
+use Bjlag\Http\Forms\VideoForm;
 use Bjlag\Repositories\VideoRepository;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
@@ -51,7 +50,7 @@ class VideoController extends BaseController
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
-        $form = (new VideoCreateForms($request))->fillAndValidate();
+        $form = (new VideoForm($request->getParsedBody()))->fillAndValidate();
         $videoEntity = VideoEntity::create($form);
 
         return $this->getResponseJson([
@@ -81,7 +80,7 @@ class VideoController extends BaseController
             throw new NotFoundException('Видео не найден');
         }
 
-        $form = (new VideoUpdateForms($request))->fillAndValidate();
+        $form = (new VideoForm($rawData['data']))->fillAndValidate();
 
         $videoEntity
             ->setChannelId($form->getChannelId())

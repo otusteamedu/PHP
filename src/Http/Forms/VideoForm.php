@@ -3,35 +3,10 @@
 namespace Bjlag\Http\Forms;
 
 use Bjlag\Entities\VideoEntity;
-use Bjlag\Forms;
-use League\Route\Http\Exception\UnprocessableEntityException;
-use Psr\Http\Message\ServerRequestInterface;
+use Bjlag\BaseForm;
 
-class VideoUpdateForms implements Forms
+class VideoForm extends BaseForm
 {
-    private const FIELDS = [
-        VideoEntity::FIELD_CHANNEL_ID,
-        VideoEntity::FIELD_URL,
-        VideoEntity::FIELD_NAME,
-        VideoEntity::FIELD_PREVIEW_IMAGE,
-        VideoEntity::FIELD_DESCRIPTION,
-        VideoEntity::FIELD_CATEGORY,
-        VideoEntity::FIELD_DURATION,
-        VideoEntity::FIELD_POST_DATA,
-        VideoEntity::FIELD_NUMBER_LIKE,
-        VideoEntity::FIELD_NUMBER_DISLIKE,
-        VideoEntity::FIELD_NUMBER_VIEWS,
-    ];
-
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    private $request;
-
-    /** @var array */
-    private $body;
-
-    /** @var string */
-    private $id;
-
     /** @var string */
     private $channelId;
 
@@ -66,30 +41,11 @@ class VideoUpdateForms implements Forms
     private $numberViews;
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param array $data
      */
-    public function __construct(ServerRequestInterface $request)
+    public function __construct(array $data)
     {
-        $this->request = $request;
-        $this->body = $request->getParsedBody()['data'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
-     */
-    public function setId(string $id)
-    {
-        $this->id = $id;
-        return $this;
+        $this->data = $data;
     }
 
     /**
@@ -102,9 +58,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $channelId
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setChannelId(string $channelId): self
+    public function setChannelId(string $channelId): VideoForm
     {
         $this->channelId = $channelId;
         return $this;
@@ -120,9 +76,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $url
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setUrl(string $url): self
+    public function setUrl(string $url): VideoForm
     {
         $this->url = $url;
         return $this;
@@ -138,9 +94,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $name
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setName(string $name): self
+    public function setName(string $name): VideoForm
     {
         $this->name = $name;
         return $this;
@@ -156,9 +112,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $previewImage
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setPreviewImage(string $previewImage): self
+    public function setPreviewImage(string $previewImage): VideoForm
     {
         $this->previewImage = $previewImage;
         return $this;
@@ -174,9 +130,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $description
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setDescription(string $description): self
+    public function setDescription(string $description): VideoForm
     {
         $this->description = $description;
         return $this;
@@ -192,9 +148,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $category
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setCategory(string $category): self
+    public function setCategory(string $category): VideoForm
     {
         $this->category = $category;
         return $this;
@@ -210,9 +166,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $duration
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setDuration(string $duration): self
+    public function setDuration(string $duration): VideoForm
     {
         $this->duration = $duration;
         return $this;
@@ -228,9 +184,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param string $postData
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setPostData(string $postData): self
+    public function setPostData(string $postData): VideoForm
     {
         try {
             $this->postData = new \DateTimeImmutable($postData);
@@ -251,9 +207,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param int $numberLike
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setNumberLike(int $numberLike): self
+    public function setNumberLike(int $numberLike): VideoForm
     {
         $this->numberLike = $numberLike;
         return $this;
@@ -269,9 +225,9 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param int $numberDislike
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setNumberDislike(int $numberDislike): self
+    public function setNumberDislike(int $numberDislike): VideoForm
     {
         $this->numberDislike = $numberDislike;
         return $this;
@@ -287,32 +243,31 @@ class VideoUpdateForms implements Forms
 
     /**
      * @param int $numberViews
-     * @return \Bjlag\Http\Forms\VideoUpdateForms
+     * @return VideoForm
      */
-    public function setNumberViews(int $numberViews): self
+    public function setNumberViews(int $numberViews): VideoForm
     {
         $this->numberViews = $numberViews;
         return $this;
     }
 
     /**
-     * @return $this
-     * @throws \League\Route\Http\Exception\UnprocessableEntityException
+     * @return array
      */
-    public function fillAndValidate(): self
+    protected function getFields(): array
     {
-        foreach (self::FIELDS as $field) {
-            if (!isset($this->body[$field])) {
-                throw new UnprocessableEntityException("Поле '{$field}' обязательно для заполнения.");
-            }
-
-            $setterName = strtr($field, ['_' => ' ']);
-            $setterName = ucwords($setterName);
-            $setterName = 'set' . strtr($setterName, [' ' => '']);
-
-            $this->{$setterName}($this->body[$field]);
-        }
-
-        return $this;
+        return [
+            VideoEntity::FIELD_CHANNEL_ID,
+            VideoEntity::FIELD_URL,
+            VideoEntity::FIELD_NAME,
+            VideoEntity::FIELD_PREVIEW_IMAGE,
+            VideoEntity::FIELD_DESCRIPTION,
+            VideoEntity::FIELD_CATEGORY,
+            VideoEntity::FIELD_DURATION,
+            VideoEntity::FIELD_POST_DATA,
+            VideoEntity::FIELD_NUMBER_LIKE,
+            VideoEntity::FIELD_NUMBER_DISLIKE,
+            VideoEntity::FIELD_NUMBER_VIEWS,
+        ];
     }
 }
