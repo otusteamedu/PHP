@@ -4,8 +4,8 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Helpers\DataHelpers;
-use Bjlag\Models\Dto\VideoDto;
-use Bjlag\Models\Video;
+use Bjlag\Entities\Dto\VideoDto;
+use Bjlag\Entities\Video;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\UnprocessableEntityException;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class VideoController extends BaseController
 {
-    /** @var \Bjlag\Models\Video */
+    /** @var \Bjlag\Entities\Video */
     private $videoModel;
 
     /**
@@ -130,7 +130,7 @@ class VideoController extends BaseController
      * @param array $rawData
      * @param array $requiredFields
      *
-     * @return \Bjlag\Models\Dto\VideoDto
+     * @return \Bjlag\Entities\Dto\VideoDto
      * @throws \League\Route\Http\Exception\UnprocessableEntityException
      */
     private function getVideoDto(array $rawData, array $requiredFields): VideoDto

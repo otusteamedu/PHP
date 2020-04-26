@@ -4,13 +4,16 @@ namespace Bjlag\Services;
 
 use Bjlag\App;
 use Bjlag\Db\Store;
-use Bjlag\Models\Video;
+use Bjlag\Entities\Video;
 
 class StatisticsService
 {
     /** @var \Bjlag\Db\Store */
     private $db;
 
+    /**
+     * @param \Bjlag\Db\Store|null $db
+     */
     public function __construct(Store $db = null)
     {
         if ($db === null) {

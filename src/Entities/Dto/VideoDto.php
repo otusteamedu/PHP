@@ -1,6 +1,6 @@
 <?php
 
-namespace Bjlag\Models\Dto;
+namespace Bjlag\Entities\Dto;
 
 use Bjlag\Dto;
 

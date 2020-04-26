@@ -1,9 +1,9 @@
 <?php
 
-namespace Bjlag\Models;
+namespace Bjlag\Entities;
 
 use Bjlag\BaseModel;
-use Bjlag\Models\Dto\VideoDto;
+use Bjlag\Entities\Dto\VideoDto;
 
 class Video extends BaseModel
 {
@@ -45,7 +45,7 @@ class Video extends BaseModel
     }
 
     /**
-     * @param \Bjlag\Models\Dto\VideoDto $data
+     * @param \Bjlag\Entities\Dto\VideoDto $data
      * @return mixed
      */
     public function add(VideoDto $data)
@@ -69,7 +69,7 @@ class Video extends BaseModel
 
     /**
      * @param array $where
-     * @param \Bjlag\Models\Dto\VideoDto $data
+     * @param \Bjlag\Entities\Dto\VideoDto $data
      * @return mixed
      */
     public function update(array $where, VideoDto $data)

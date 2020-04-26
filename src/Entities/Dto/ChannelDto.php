@@ -1,6 +1,6 @@
 <?php
 
-namespace Bjlag\Models\Dto;
+namespace Bjlag\Entities\Dto;
 
 use Bjlag\Dto;
 
@@ -37,9 +37,9 @@ class ChannelDto implements Dto
     private $links;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
