@@ -4,7 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Models\Channel;
-use Bjlag\Services\Statistics;
+use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,12 +14,16 @@ class ChannelController extends BaseController
     /** @var \Bjlag\Models\Channel */
     private $channelModel;
 
+    /** @var \Bjlag\Services\StatisticsService */
+    private $statisticsService;
+
     /**
      * ChannelController constructor.
      */
     public function __construct()
     {
         $this->channelModel = new Channel();
+        $this->statisticsService = new StatisticsService();
     }
 
     /**
@@ -31,7 +35,7 @@ class ChannelController extends BaseController
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
         $channels = $this->channelModel->find();
-        $topIds = Statistics::getTop5Channels()->getChannelIds();
+        $topIds = $this->statisticsService->getTop5Channels()->getChannelIds();
 
         return $this->getResponseHtml('channel/index', [
             'channels' => $channels,
@@ -58,7 +62,7 @@ class ChannelController extends BaseController
             throw new NotFoundException('Канал не найден');
         }
 
-        $statistics = Statistics::calcTotalLikesAndDislikesByChannelId($id);
+        $statistics = $this->statisticsService->calcTotalLikesAndDislikesByChannelId($id);
 
         $data['channel'] = $channel;
         $data['statistics'] = [

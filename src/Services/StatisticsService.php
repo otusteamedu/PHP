@@ -3,19 +3,32 @@
 namespace Bjlag\Services;
 
 use Bjlag\App;
+use Bjlag\Db\Store;
 use Bjlag\Models\Video;
 
-class Statistics
+class StatisticsService
 {
+    /** @var \Bjlag\Db\Store */
+    private $db;
+
+    public function __construct(Store $db = null)
+    {
+        if ($db === null) {
+            $this->db = App::getDb();
+        } else {
+            $this->db = $db;
+        }
+    }
+
     /**
      * Суммарное кол-во лайков и дизлайков для канала по всем его видео.
      *
      * @param string $channelId
      * @return \Bjlag\Services\LikeStatistics
      */
-    public static function calcTotalLikesAndDislikesByChannelId(string $channelId): LikeStatistics
+    public function calcTotalLikesAndDislikesByChannelId(string $channelId): LikeStatistics
     {
-        $result = self::aggregateLikes($channelId);
+        $result = $this->aggregateLikes($channelId);
 
         return (new LikeStatistics())
             ->setLikesTotal($result[0]['likes_total'] ?? 0)
@@ -27,9 +40,9 @@ class Statistics
      *
      * @return \Bjlag\Services\TopChannelStatistics
      */
-    public static function getTop5Channels()
+    public function getTop5Channels()
     {
-        $result = self::aggregateLikes(null, 5);
+        $result = $this->aggregateLikes(null, 5);
 
         return (new TopChannelStatistics())->setChannelIds($result);
     }
@@ -39,11 +52,9 @@ class Statistics
      * @param int|null $limit
      * @return array
      */
-    private static function aggregateLikes(?string $filterByChannel = null, ?int $limit = null): array
+    private function aggregateLikes(?string $filterByChannel = null, ?int $limit = null): array
     {
-        /** @var \Bjlag\Db\Adapters\MongoDb $db */
-        $db = App::getDb();
-        $collection = $db->getCollection(Video::TABLE);
+        $collection = $this->db->getCollection(Video::TABLE);
 
         $pipeline = [];
 
