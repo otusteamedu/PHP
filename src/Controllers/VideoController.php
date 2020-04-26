@@ -12,13 +12,24 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class VideoController extends BaseController
 {
+    /** @var \Bjlag\Models\Video */
+    private $videoModel;
+
+    /**
+     * VideoController constructor.
+     */
+    public function __construct()
+    {
+        $this->videoModel = new Video();
+    }
+
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = Video::find();
+        $rows = $this->videoModel->find();
 
         ob_start();
         var_dump($rows);
@@ -54,7 +65,7 @@ class VideoController extends BaseController
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => Video::add($video),
+            'id' => $this->videoModel->add($video),
         ], 200);
     }
 
@@ -91,7 +102,7 @@ class VideoController extends BaseController
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'modified_count' => Video::update($rawData['filter'], $video)
+            'modified_count' => $this->videoModel->update($rawData['filter'], $video)
         ], 200);
     }
 
@@ -110,7 +121,7 @@ class VideoController extends BaseController
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'deleted_count' =>  Video::delete($rawData['filter'])
+            'deleted_count' =>  $this->videoModel->delete($rawData['filter'])
         ], 200);
     }
 

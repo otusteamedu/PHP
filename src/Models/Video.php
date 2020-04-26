@@ -2,10 +2,10 @@
 
 namespace Bjlag\Models;
 
-use Bjlag\App;
+use Bjlag\BaseModel;
 use Bjlag\Models\Dto\VideoDto;
 
-class Video
+class Video extends BaseModel
 {
     public const TABLE = 'video';
 
@@ -45,25 +45,25 @@ class Video
      *
      * @return array
      */
-    public static function find(array $select = [], array $where = [], int $limit = 20, int $offset = 0): array
+    public function find(array $select = [], array $where = [], int $limit = 20, int $offset = 0): array
     {
-        return App::getDb()->find(self::TABLE, $select, $where, $limit, $offset);
+        return $this->db->find(self::TABLE, $select, $where, $limit, $offset);
     }
 
     /**
      * @param string $channelId
      * @return array
      */
-    public static function findByChannelId(string $channelId): array
+    public function findByChannelId(string $channelId): array
     {
-        return App::getDb()->find(self::TABLE, [], [self::FIELD_CHANNEL_ID => $channelId]);
+        return $this->db->find(self::TABLE, [], [self::FIELD_CHANNEL_ID => $channelId]);
     }
 
     /**
      * @param \Bjlag\Models\Dto\VideoDto $data
      * @return mixed
      */
-    public static function add(VideoDto $data)
+    public function add(VideoDto $data)
     {
         $addedData = [
             self::FIELD_CHANNEL_ID => $data->getChannelId(),
@@ -79,7 +79,7 @@ class Video
             self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
         ];
 
-        return App::getDb()->add(self::TABLE, $addedData);
+        return $this->db->add(self::TABLE, $addedData);
     }
 
     /**
@@ -87,7 +87,7 @@ class Video
      * @param \Bjlag\Models\Dto\VideoDto $data
      * @return mixed
      */
-    public static function update(array $where, VideoDto $data)
+    public function update(array $where, VideoDto $data)
     {
         $updatedData = [
             self::FIELD_CHANNEL_ID => $data->getChannelId(),
@@ -103,15 +103,15 @@ class Video
             self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
         ];
 
-        return App::getDb()->update(self::TABLE, $where, $updatedData);
+        return $this->db->update(self::TABLE, $where, $updatedData);
     }
 
     /**
      * @param array $where
      * @return mixed
      */
-    public static function delete(array $where): int
+    public function delete(array $where): int
     {
-        return App::getDb()->delete(self::TABLE, $where);
+        return $this->db->delete(self::TABLE, $where);
     }
 }
