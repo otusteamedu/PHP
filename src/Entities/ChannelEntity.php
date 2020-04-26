@@ -295,28 +295,6 @@ class ChannelEntity extends BaseModel
     }
 
     /**
-     * @param array $where
-     * @param \Bjlag\Http\Forms\ChannelCreateForm $data
-     * @return mixed
-     */
-    public function update(array $where, ChannelCreateForm $data)
-    {
-        $updatedData = [
-            self::FIELD_URL => $data->getUrl(),
-            self::FIELD_NAME => $data->getName(),
-            self::FIELD_DESCRIPTION => $data->getDescription(),
-            self::FIELD_BANNER => $data->getBanner(),
-            self::FIELD_COUNTRY => $data->getCountry(),
-            self::FIELD_REGISTRATION_DATA => $data->getRegistrationData(),
-            self::FIELD_NUMBER_VIEWS => $data->getNumberViews(),
-            self::FIELD_NUMBER_SUBSCRIBES => $data->getNumberSubscribes(),
-            self::FIELD_LINKS => $data->getLinks(),
-        ];
-
-        return $this->db->update(self::TABLE, $where, $updatedData);
-    }
-
-    /**
      * @return bool
      */
     public function delete(): bool

@@ -4,22 +4,17 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Entities\ChannelEntity;
-use Bjlag\Helpers\DataHelpers;
 use Bjlag\Http\Forms\ChannelCreateForm;
 use Bjlag\Http\Forms\ChannelUpdateForm;
 use Bjlag\Repositories\ChannelRepository;
 use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
-use League\Route\Http\Exception\UnprocessableEntityException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ChannelController extends BaseController
 {
-    /** @var \Bjlag\Entities\ChannelEntity */
-    private $channelEntity;
-
     /** @var \Bjlag\Repositories\ChannelRepository */
     private $channelRepository;
 
@@ -31,7 +26,6 @@ class ChannelController extends BaseController
      */
     public function __construct()
     {
-        $this->channelEntity = new ChannelEntity();
         $this->channelRepository = new ChannelRepository();
         $this->statisticsService = new StatisticsService();
     }
@@ -133,7 +127,7 @@ class ChannelController extends BaseController
             ->setLinks($form->getLinks());
 
         return $this->getResponseJson([
-            'is_succeed' => (bool) $channelEntity->save(),
+            'is_succeed' => (bool)$channelEntity->save(),
         ], 200);
     }
 
@@ -160,23 +154,5 @@ class ChannelController extends BaseController
         return $this->getResponseJson([
             'is_succeed' => $channelEntity->delete(),
         ], 200);
-    }
-
-    /**
-     * @param array $rawData
-     * @param array $requiredFields
-     *
-     * @return \Bjlag\Http\Forms\ChannelCreateForm
-     * @throws \League\Route\Http\Exception\UnprocessableEntityException
-     */
-    private function getChannelDto(array $rawData, array $requiredFields): ChannelCreateForm
-    {
-        try {
-            /** @var ChannelCreateForm $result */
-            $result = DataHelpers::fillDto(new ChannelCreateForm(), $rawData, $requiredFields);
-            return $result;
-        } catch (\InvalidArgumentException $e) {
-            throw new UnprocessableEntityException($e->getMessage());
-        }
     }
 }
