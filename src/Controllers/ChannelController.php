@@ -6,6 +6,7 @@ use Bjlag\BaseController;
 use Bjlag\Entities\ChannelEntity;
 use Bjlag\Helpers\DataHelpers;
 use Bjlag\Http\Forms\ChannelCreateForm;
+use Bjlag\Http\Forms\ChannelUpdateForm;
 use Bjlag\Repositories\ChannelRepository;
 use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\BadRequestException;
@@ -113,43 +114,23 @@ class ChannelController extends BaseController
      */
     public function editAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rawData = $request->getParsedBody();
+        $form = (new ChannelUpdateForm($request))->fillAndValidate();
 
-        if (!isset($rawData['filter']['id']) || !isset($rawData['data'])) {
-            throw new BadRequestException();
-        }
-
-        $channelEntity = $this->channelRepository->findById($rawData['filter']['id']);
+        $channelEntity = $this->channelRepository->findById($form->getFilterId());
         if ($channelEntity === null) {
             throw new NotFoundException('Канал не найден');
         }
 
-        $requiredFields = [
-            ChannelEntity::FIELD_URL,
-            ChannelEntity::FIELD_NAME,
-            ChannelEntity::FIELD_DESCRIPTION,
-            ChannelEntity::FIELD_BANNER,
-            ChannelEntity::FIELD_COUNTRY,
-            ChannelEntity::FIELD_REGISTRATION_DATA,
-            ChannelEntity::FIELD_NUMBER_VIEWS,
-            ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
-            ChannelEntity::FIELD_LINKS,
-        ];
-
-        $dto = $this
-            ->getChannelDto($rawData['data'], $requiredFields)
-            ->setId($rawData['filter']['id']);
-
         $channelEntity
-            ->setUrl($dto->getUrl())
-            ->setName($dto->getName())
-            ->setDescription($dto->getDescription())
-            ->setBanner($dto->getBanner())
-            ->setCountry($dto->getCountry())
-            ->setRegistrationData($dto->getRegistrationData())
-            ->setNumberViews($dto->getNumberViews())
-            ->setNumberSubscribes($dto->getNumberSubscribes())
-            ->setLinks($dto->getLinks());;
+            ->setUrl($form->getUrl())
+            ->setName($form->getName())
+            ->setDescription($form->getDescription())
+            ->setBanner($form->getBanner())
+            ->setCountry($form->getCountry())
+            ->setRegistrationData($form->getRegistrationData())
+            ->setNumberViews($form->getNumberViews())
+            ->setNumberSubscribes($form->getNumberSubscribes())
+            ->setLinks($form->getLinks());
 
         return $this->getResponseJson([
             'is_succeed' => (bool) $channelEntity->save(),

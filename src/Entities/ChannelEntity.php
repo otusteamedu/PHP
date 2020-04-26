@@ -296,10 +296,10 @@ class ChannelEntity extends BaseModel
 
     /**
      * @param array $where
-     * @param \Bjlag\Entities\Dto\ChannelDto $data
+     * @param \Bjlag\Http\Forms\ChannelCreateForm $data
      * @return mixed
      */
-    public function update(array $where, ChannelDto $data)
+    public function update(array $where, ChannelCreateForm $data)
     {
         $updatedData = [
             self::FIELD_URL => $data->getUrl(),
