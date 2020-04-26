@@ -4,14 +4,40 @@
 namespace Model;
 
 use JsonSerializable;
+use Closure;
 
 class Channel implements JsonSerializable
 {
+    private int $id;
+
     private string $title;
 
     private string $channelId;
 
     private array $videos;
+
+    private Closure $videosRef;
+
+    public function __construct(
+        int $id,
+        string $title,
+        string $channelId
+    ) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->channelId = $channelId;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     public function getTitle(): string
     {
@@ -37,32 +63,22 @@ class Channel implements JsonSerializable
 
     public function getVideos(): array
     {
+        if (!isset($this->videos)) {
+            $ref = $this->videosRef;
+            $this->videos = $ref();
+        }
         return $this->videos;
     }
 
-    public function setVideos(array $videos): self
+    public function setVideos(Closure $videosRef): void
     {
-        $this->videos = $videos;
-        return $this;
-    }
-
-    public function handleArray(array $channel): void
-    {
-        $this->setTitle($channel['title']);
-        $this->setChannelId($channel['channelId']);
-
-        $videos = [];
-        foreach ($channel['videos'] as $item) {
-            $video = new Video();
-            $video->handleArray($item);
-            $videos[] = $video;
-        }
-        $this->setVideos($videos);
+        $this->videosRef = $videosRef;
     }
 
     public function jsonSerialize()
     {
         $channel = [
+            'id' => $this->getId(),
             'title' => $this->getTitle(),
             'channelId' => $this->getChannelId(),
         ];

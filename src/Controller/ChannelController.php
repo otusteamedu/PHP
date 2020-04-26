@@ -3,57 +3,51 @@
 
 namespace Controller;
 
-
-use Model\Channel;
-use Service\ChannelStorage;
+use Service\Database\PDOFactory;
+use Service\DataMapper\ChannelMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 class ChannelController
 {
 
-    private ChannelStorage $channelStorage;
+    private ChannelMapper $channelMapper;
 
     public function __construct()
     {
-        $this->channelStorage = new ChannelStorage();
+        $pdoFactory = new PDOFactory();
+        $this->channelMapper = new ChannelMapper($pdoFactory->getPostgresPDO());
     }
 
     public function add(Request $request): Response
     {
-        $channel = new Channel();
-        $channel->handleArray(json_decode($request->getContent(), true));
-        $id = $this->channelStorage->insertOne($channel);
-        return new Response(json_encode($this->channelStorage->findOne($id)));
+        $channel = $this->channelMapper->insert(json_decode($request->getContent(), true));
+        return new Response(json_encode($channel->getId()));
     }
 
     public function find(Request $request): Response
     {
         $id = explode('/', $request->getPathInfo())[4];
-        return new Response(json_encode($this->channelStorage->findOne($id)));
+        if (empty($id)) {
+            return new Response(json_encode($this->channelMapper->findAll()));
+        }
+        $channel = $this->channelMapper->findById($id);
+        var_dump($channel);
+        if (!$channel) {
+            throw new Exception('Channel not found.', Response::HTTP_NOT_FOUND);
+        }
+        return new Response(json_encode($channel));
     }
 
-    public function channel(Request $request): Response
-    {
-        $channelId = explode('/', $request->getPathInfo())[4];
-        return new Response(json_encode($this->channelStorage->find(['channelId' => $channelId])));
-    }
 
     public function delete(Request $request): Response
     {
         $id = explode('/', $request->getPathInfo())[4];
-        return new Response(json_encode($this->channelStorage->deleteOne($id)));
-    }
-
-    public function summary(Request $request): Response
-    {
-        $channelId = explode('/', $request->getPathInfo())[4];
-        return new Response(json_encode($this->channelStorage->getSummary($channelId)));
-    }
-
-    public function top(Request $request): Response
-    {
-        $limit = explode('/', $request->getPathInfo())[4];
-        return new Response(json_encode($this->channelStorage->getTopChannels($limit ?? 3)));
+        $channel = $this->channelMapper->findById($id);
+        if (!$channel) {
+            throw new Exception('Channel not found.', Response::HTTP_NOT_FOUND);
+        }
+        return new Response(json_encode($this->channelMapper->delete($id)));
     }
 }

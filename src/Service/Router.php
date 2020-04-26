@@ -13,7 +13,7 @@ class Router
 {
 
     private $routes = [
-        '/\/task1\/channels\/(add|find|channel|delete|summary|top)[a-zA-Z0-9_\/-]*/' => ChannelController::class,
+        '/\/task1\/channels\/(add|find|delete|findAll)[a-zA-Z0-9_\/-]*/' => ChannelController::class,
         '/\/task2\/event\/(add|find|clear)[a-zA-Z0-9_\/-]*/' => EventController::class,
     ];
 

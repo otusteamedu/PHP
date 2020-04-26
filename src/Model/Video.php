@@ -7,6 +7,8 @@ use JsonSerializable;
 
 class Video implements JsonSerializable
 {
+    private int $id;
+
     private string $title;
 
     private string $videoId;
@@ -14,6 +16,35 @@ class Video implements JsonSerializable
     private int $likes;
 
     private int $dislikes;
+
+    private int $channelsId;
+
+    public function __construct(
+        int $id,
+        string $title,
+        string $videoId,
+        int $likes,
+        int $dislikes,
+        int $channelsId
+    ) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->videoId = $videoId;
+        $this->likes = $likes;
+        $this->dislikes = $dislikes;
+        $this->channelsId = $channelsId;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     public function getTitle(): string
     {
@@ -59,18 +90,21 @@ class Video implements JsonSerializable
         return $this;
     }
 
-    public function handleArray(array $video): void
+    public function getChannelsId(): int
     {
-        print_r($video);
-        $this->setTitle($video['title']);
-        $this->setVideoId($video['videoId']);
-        $this->setLikes($video['likes'] ?? 0);
-        $this->setDislikes($video['dislikes'] ?? 0);
+        return $this->channelsId;
+    }
+
+    public function setChannelsId(int $channelsId): self
+    {
+        $this->channelsId = $channelsId;
+        return $this;
     }
 
     public function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'title' => $this->getTitle(),
             'videoId' => $this->getVideoId(),
             'likes' => $this->getLikes(),

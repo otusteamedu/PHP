@@ -20,19 +20,19 @@ services:
       - "80:80"
     network_mode: host
 
-  mongo:
-    container_name: mongo
-    image: mongo
+  postgres:
+    container_name: postgres
+    image: postgres
     restart: always
     environment:
-      - MONGO_INITDB_DATABASE=youtube
-      - MONGO_INITDB_ROOT_USERNAME=youtube
-      - MONGO_INITDB_ROOT_PASSWORD=password
-    volumes:
-      - ./mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./mongo/data:/data/db
+      - POSTGRES_USER=defuser
+      - POSTGRES_PASSWORD=defpass
+      - POSTGRES_DB=channeldb
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data/
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     network_mode: host
 
   redis:

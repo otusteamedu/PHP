@@ -5,17 +5,11 @@ COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN apk update && apk add php7-dev \
-    git \
-    curl \
-    wget \
-    grep \
-    composer \
     gcc \
     g++ \
     make \
     libmemcached-dev \
     postgresql-dev \
-    curl-dev \
     bash \
     zlib-dev \
     libpq \
