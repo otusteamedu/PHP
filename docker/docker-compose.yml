@@ -1,0 +1,49 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm
+    build: php-fpm
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    network_mode: host
+
+  nginx:
+    container_name: nginx
+    build: nginx
+    volumes:
+      - ../:/home/www/mysite.local
+      - phpsocket:/var/run
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+    network_mode: host
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=defuser
+      - POSTGRES_PASSWORD=defpass
+      - POSTGRES_DB=channeldb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data/
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: host
+
+  redis:
+    container_name: redis
+    image: redis
+    command: ["sh", "-c", "exec redis-server"]
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/data:/data
+    network_mode: host
+
+volumes:
+  phpsocket:

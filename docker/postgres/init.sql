@@ -1,0 +1,11 @@
+CREATE TABLE channels (id SERIAL PRIMARY KEY, title VARCHAR(256), channel_id VARCHAR(256));
+CREATE TABLE videos (id SERIAL PRIMARY KEY, title VARCHAR(256), video_id VARCHAR(256), likes INT, dislikes INT, channels_id INT REFERENCES channels (id));
+INSERT INTO channels (title, channel_id) VALUES ('Channel-1', 'channel1');
+INSERT INTO channels (title, channel_id) VALUES ('Channel-2', 'channel2');
+INSERT INTO channels (title, channel_id) VALUES ('Channel-3', 'channel3');
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-1', 'channel1/video1', 10, 20, 1);
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-2', 'channel1/video2', 100, 50, 1);
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-3', 'channel1/video3', 15, 200, 1);
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-1', 'channel2/video1', 10, 20, 2);
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-2', 'channel2/video2', 15, 15, 2);
+INSERT INTO videos (title, video_id, likes, dislikes, channels_id) VALUES ('Video-1', 'channel3/video1', 5, 5, 3);
