@@ -19,22 +19,6 @@ class Video implements JsonSerializable
 
     private int $channelsId;
 
-    public function __construct(
-        int $id,
-        string $title,
-        string $videoId,
-        int $likes,
-        int $dislikes,
-        int $channelsId
-    ) {
-        $this->id = $id;
-        $this->title = $title;
-        $this->videoId = $videoId;
-        $this->likes = $likes;
-        $this->dislikes = $dislikes;
-        $this->channelsId = $channelsId;
-    }
-
     public function getId(): int
     {
         return $this->id;
@@ -99,6 +83,28 @@ class Video implements JsonSerializable
     {
         $this->channelsId = $channelsId;
         return $this;
+    }
+
+    public function fill(array $video)
+    {
+        if (isset($video['id'])) {
+            $this->setId($video['id']);
+        }
+        if (isset($video['title'])) {
+            $this->setTitle($video['title']);
+        }
+        if (isset($video['video_id'])) {
+            $this->setVideoId($video['video_id']);
+        }
+        if (isset($video['likes'])) {
+            $this->setLikes($video['likes']);
+        }
+        if (isset($video['dislikes'])) {
+            $this->setDislikes($video['dislikes']);
+        }
+        if (isset($video['channels_id'])) {
+            $this->setChannelsId($video['channels_id']);
+        }
     }
 
     public function jsonSerialize()

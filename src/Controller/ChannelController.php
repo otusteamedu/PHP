@@ -33,7 +33,6 @@ class ChannelController
             return new Response(json_encode($this->channelMapper->findAll()));
         }
         $channel = $this->channelMapper->findById($id);
-        var_dump($channel);
         if (!$channel) {
             throw new Exception('Channel not found.', Response::HTTP_NOT_FOUND);
         }

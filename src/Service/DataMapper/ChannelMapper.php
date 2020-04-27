@@ -52,11 +52,9 @@ class ChannelMapper
             return null;
         }
 
-        $channel = new Channel(
-            $result['id'],
-            $result['title'],
-            $result['channel_id'],
-        );
+        $channel = new Channel();
+        $channel->fill($result);
+
         $videoMapper = new VideoMapper($this->pdo);
         $videosRef = function () use ($videoMapper, $id) {
             return $videoMapper->findAll($id);
@@ -72,11 +70,8 @@ class ChannelMapper
         $channels = [];
         $videoMapper = new VideoMapper($this->pdo);
         foreach ($this->selectAllStmt->fetchAll() as $result) {
-            $channel = new Channel(
-                $result['id'],
-                $result['title'],
-                $result['channel_id'],
-            );
+            $channel = new Channel();
+            $channel->fill($result);
             $channelId = $result['id'];
             $videosRef = function () use ($videoMapper, $channelId) {
                 return $videoMapper->findAll($channelId);
@@ -100,11 +95,10 @@ class ChannelMapper
                 $videoMapper->insert(array_merge($video, ['channels_id' => (int)$this->pdo->lastInsertId()]));
             }
         }
-        return new Channel(
-            (int)$this->pdo->lastInsertId(),
-            $raw['title'],
-            $raw['channel_id']
-        );
+        $channel = new Channel();
+        $channel->fill($raw);
+        $channel->setId((int)$this->pdo->lastInsertId());
+        return $channel;
     }
 
     public function update(Channel $channel): bool

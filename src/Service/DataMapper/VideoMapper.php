@@ -53,32 +53,22 @@ class VideoMapper
         if (!$result) {
             return null;
         }
-        return new Video(
-            $result['id'],
-            $result['title'],
-            $result['video_id'],
-            $result['likes'],
-            $result['dislikes'],
-            $result['channels_id'],
-        );
+        $video = new Video();
+        $video->fill($result);
+        return $video;
     }
 
     public function findAll(int $channelsId): array
     {
         $this->selectAllStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectAllStmt->execute(['channels_id' => $channelsId]);
-        $video = [];
+        $videos = [];
         foreach ($this->selectAllStmt->fetchAll() as $result) {
-            $video[] = new Video(
-                $result['id'],
-                $result['title'],
-                $result['video_id'],
-                $result['likes'],
-                $result['dislikes'],
-                $result['channels_id'],
-            );
+            $video = new Video();
+            $video->fill($result);
+            $videos[] = $video;
         }
-        return $video;
+        return $videos;
     }
 
 
@@ -91,14 +81,9 @@ class VideoMapper
             'dislikes' => $raw['dislikes'],
             'channels_id' => $raw['channels_id']
         ]);
-        return new Video(
-            (int)$this->pdo->lastInsertId(),
-            $raw['title'],
-            $raw['video_id'],
-            $raw['likes'],
-            $raw['dislikes'],
-            $raw['channels_id'],
-        );
+        $video = new Video();
+        $video->fill($raw);
+        return $video;
     }
 
     public function update(Video $video): bool

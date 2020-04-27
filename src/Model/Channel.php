@@ -18,16 +18,6 @@ class Channel implements JsonSerializable
 
     private Closure $videosRef;
 
-    public function __construct(
-        int $id,
-        string $title,
-        string $channelId
-    ) {
-        $this->id = $id;
-        $this->title = $title;
-        $this->channelId = $channelId;
-    }
-
     public function getId(): int
     {
         return $this->id;
@@ -73,6 +63,19 @@ class Channel implements JsonSerializable
     public function setVideos(Closure $videosRef): void
     {
         $this->videosRef = $videosRef;
+    }
+
+    public function fill(array $channel)
+    {
+        if (isset($channel['id'])) {
+            $this->setId($channel['id']);
+        }
+        if (isset($channel['title'])) {
+            $this->setId($channel['title']);
+        }
+        if (isset($channel['channel_id'])) {
+            $this->setId($channel['channel_id']);
+        }
     }
 
     public function jsonSerialize()
