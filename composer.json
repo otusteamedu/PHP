@@ -1,0 +1,16 @@
+{
+    "name": "rudin/otus11",
+    "type": "project",
+    "authors": [
+        {
+            "name": "rudinandrey",
+            "email": "rudinandrey@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+	"psr-4": {
+		"rudin\\otus11\\" : "src/"
+	}
+    }
+}
