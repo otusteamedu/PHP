@@ -11,12 +11,12 @@ Class VideoModel extends ActiveRecord
     public $dislikes = 0;
     public $date_check = null;
 
-    public static function getCollectName()
+    public static function getCollectName(): string
     {
         return 'videos';
     }
 
-    public function save()
+    public function save(): bool
     {
         if (!strlen($this->id) || !strlen($this->title)) {
             $this->_error = "Properties empty";
@@ -35,7 +35,7 @@ Class VideoModel extends ActiveRecord
         return 1;
     }
 
-    public function update()
+    public function update(): bool
     {
         if (!strlen($this->id) || !strlen($this->title)) {
             $this->_error = "Properties empty";

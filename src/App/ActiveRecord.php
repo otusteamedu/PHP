@@ -7,31 +7,44 @@ abstract class ActiveRecord
 
     /**
      * Имя коллекции/таблицы
-     * @return mixed
+     * @return string
      */
-    abstract public static function getCollectName();
-    abstract public function save();
-    abstract public function update();
+    abstract public static function getCollectName(): string;
+
+    abstract public function save(): bool;
+    abstract public function update(): bool;
 
     public function __construct($data = [])
     {
         $this->serialize($data);
     }
 
+    /**
+     * @param array $params
+     * @return ActiveRecord | null
+     */
     public static function find($params)
     {
-        $bd = App::$db->findOne(static::getCollectName(), $params);
-        $model = $bd ? (new static)->serialize($bd) : null;
+        $db = App::$db->findOne(static::getCollectName(), $params);
+        $model = $db ? (new static)->serialize($db) : null;
         return $model;
     }
 
-    public function findAll($params = [])
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function findAll($params = []): array
     {
-        $bd = App::$db->findAll($this->getCollectName(), $params);
-        return $this->serializeAll($bd);
+        $db = App::$db->findAll($this->getCollectName(), $params);
+        return $this->serializeAll($db);
     }
 
-    public function serialize($data)
+    /**
+     * @param array|object $data
+     * @return ActiveRecord
+     */
+    public function serialize($data): ActiveRecord
     {
         if (empty($data))
             return $this;
@@ -44,7 +57,11 @@ abstract class ActiveRecord
         return $this;
     }
 
-    public function serializeAll($datas)
+    /**
+     * @param array $datas
+     * @return array
+     */
+    public function serializeAll(array $datas): array
     {
         if (empty($datas))
             return [];
@@ -58,7 +75,7 @@ abstract class ActiveRecord
         return $models;
     }
 
-    public function getError()
+    public function getError(): string
     {
         return $this->_error;
     }

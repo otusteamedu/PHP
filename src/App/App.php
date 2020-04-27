@@ -13,7 +13,7 @@ Class App
 
     public function run()
     {
-        if (!isset($_SERVER['argv'][1]))
+        if (!isset($_SERVER['argv']) && !isset($_SERVER['argv'][1]))
             return "Empty argument";
 
         switch ($_SERVER['argv'][1]) {
@@ -52,7 +52,7 @@ Class App
         $this->showMessage($answer['message'], $answer['data']);
     }
 
-    public function getDb()
+    public function getDb(): Db
     {
         self::$db = (new DbMongo())->connect();
         return self::$db;

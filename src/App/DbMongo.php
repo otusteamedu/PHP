@@ -8,7 +8,7 @@ Class DbMongo implements Db
     private $connection;
     private $db;
 
-    public function connect()
+    public function connect(): Db
     {
         if ($this->db)
             return $this->db;
@@ -21,28 +21,45 @@ Class DbMongo implements Db
         return $this;
     }
 
-    public function insert($collection, $data)
+    public function insert($collection, $data): bool
     {
         $this->db->selectCollection($collection)->insertOne($data);
+        return 1;
     }
 
-    public function update($collection, $filter, $data)
+    public function update($collection, $filter, $data): bool
     {
         $this->db->selectCollection($collection)->updateOne($filter, [
             '$set' => $data,
         ]);
+        return 1;
     }
 
+    /**
+     * @param array $collection
+     * @param array $params
+     * @return object|null
+     */
     public function findAll($collection, $params)
     {
         return $this->db->selectCollection($collection)->find($params)->toArray();
     }
 
+    /**
+     * @param array $collection
+     * @param array $params
+     * @return object|null
+     */
     public function findOne($collection, $params)
     {
         return $this->db->selectCollection($collection)->findOne($params);
     }
 
+    /**
+     * @param array $collection
+     * @param array $params
+     * @return object|null
+     */
     public function aggregate($collection, $params)
     {
         return $this->db->selectCollection($collection)->aggregate($params)->toArray();
