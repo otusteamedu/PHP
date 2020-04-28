@@ -41,8 +41,10 @@ class User {
 
 	public function printRoles() {
 		$roles = $this->getRoles();
+		$result = [];
 		foreach($roles as $role) {
-			echo $role->getRoleName()."\n";
+			$result[] = $role->getRoleName();
 		}
+		echo implode(", ", $result)."\n";
 	}
 }

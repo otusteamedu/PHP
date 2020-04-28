@@ -19,14 +19,22 @@ class UsersMapper {
 		return $userEntity;
 	}
 
+	public function getListUsers() {
+		$sql = "SELECT id, name FROM users;";
+		$sth = $this->pdo->prepare($sql);
+		$sth->execute();
+		$users = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		return $users;
+	}
+
 	public function findByEmail($email) {
 		$sql = "SELECT * FROM users WHERE email = :email";
 		$sth = $this->pdo->prepare($sql);
 		$sth->execute(["email"=>$email]);
 		$users = [];
 		$userEntities = $sth->fetchAll(\PDO::FETCH_ASSOC);
-		foreach($userEntities as $entity) {
-			$users[] = new User($u["id"], $u["name"], $u["email"], $u["password"], $u["token"]);
+		foreach($userEntities as $entity) {			
+			$users[] = new User($entity["id"], $entity["name"], $entity["email"], $entity["password"], $entity["token"]);
 		}
 		return $users;
 	}
@@ -36,12 +44,7 @@ class UsersMapper {
 			// создать пользователя
 			$sql = "INSERT INTO users (name, email, password, token) VALUES (:name, :email, :password, :token)";
 			try {
-				if(trim($user->getUser()["name"]) == "") throw new \Exception("Имя пользователя пустое", 1);
-				if(trim($user->getUser()["email"]) == "") throw new \Exception("Пустой email", 1);
-				if(trim($user->getUser()["password"]) == "") throw new \Exception("Пустой пароль", 1);
-				if(!filter_var($user->getUser()["email"], FILTER_VALIDATE_EMAIL))
-					throw new \Exception("Некорректный Email", 1);
-				if(count($this->findByEmail($user->getUser()["email"])) > 0) throw new \Exception("Такой пользователь уже существует", 1);
+				$this->userValidation($user);
 
 				$sth = $this->pdo->prepare($sql);
 				$sth->bindParam("name", $user->getUser()["name"]);
@@ -62,5 +65,14 @@ class UsersMapper {
 			// вызвать ошибку
 			throw new \Exception("Пользователь существует", 1);			
 		}
+	}
+
+	private function userValidation(User $user) {
+		if(trim($user->getUser()["name"]) == "") throw new \Exception("Имя пользователя пустое", 1);
+		if(trim($user->getUser()["email"]) == "") throw new \Exception("Пустой email", 1);
+		if(trim($user->getUser()["password"]) == "") throw new \Exception("Пустой пароль", 1);
+		if(!filter_var($user->getUser()["email"], FILTER_VALIDATE_EMAIL))
+			throw new \Exception("Некорректный Email", 1);
+		if(count($this->findByEmail($user->getUser()["email"])) > 0) throw new \Exception("Такой пользователь уже существует", 1);
 	}
 }

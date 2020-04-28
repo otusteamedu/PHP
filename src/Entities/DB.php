@@ -4,11 +4,8 @@ namespace rudin\otus11\Entities;
 
 
 class DB {
-	public function __construct() {
-
-	}
-
 	public static function pdo() {
-		return new \PDO("pgsql:dbname=test;host=small.crmit.ru", "db_test", "DBTest");
+		$connect = \rudin\otus11\Config::getParams(["host", "db", "username", "password"]);
+		return new \PDO("pgsql:dbname={$connect["db"]};host={$connect["host"]}", $connect["username"], $connect["password"]);
 	}
 }
