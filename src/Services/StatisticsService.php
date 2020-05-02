@@ -2,7 +2,6 @@
 
 namespace Bjlag\Services;
 
-use Bjlag\App;
 use Bjlag\Db\Store;
 use Bjlag\Mappers\VideoMapper;
 
@@ -16,11 +15,7 @@ class StatisticsService
      */
     public function __construct(Store $db = null)
     {
-        if ($db === null) {
-            $this->db = App::getDb();
-        } else {
-            $this->db = $db;
-        }
+        $this->db = $db;
     }
 
     /**
