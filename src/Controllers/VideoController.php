@@ -3,9 +3,8 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
-use Bjlag\Entities\VideoEntity;
 use Bjlag\Http\Forms\VideoForm;
-use Bjlag\Repositories\VideoRepository;
+use Bjlag\Mappers\VideoMapper;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
@@ -13,19 +12,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class VideoController extends BaseController
 {
-    /** @var \Bjlag\Entities\VideoEntity */
-    private $videoModel;
-
-    /** @var \Bjlag\Repositories\VideoRepository */
-    private $videoRepository;
+    /** @var \Bjlag\Mappers\VideoMapper */
+    private $videoMapper;
 
     /**
      * VideoController constructor.
      */
     public function __construct()
     {
-        $this->videoModel = new VideoEntity();
-        $this->videoRepository = new VideoRepository();
+        $this->videoMapper = new VideoMapper();
     }
 
     /**
@@ -34,7 +29,7 @@ class VideoController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = $this->videoRepository->find();
+        $rows = $this->videoMapper->find();
 
         ob_start();
         var_dump($rows);
@@ -51,11 +46,11 @@ class VideoController extends BaseController
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
         $form = (new VideoForm($request->getParsedBody()))->fillAndValidate();
-        $videoEntity = VideoEntity::create($form);
+        $videoEntity = VideoMapper::create($form);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => $videoEntity->save(),
+            'id' => $this->videoMapper->save($videoEntity),
         ], 200);
     }
 
@@ -75,7 +70,7 @@ class VideoController extends BaseController
             throw new BadRequestException();
         }
 
-        $videoEntity = $this->videoRepository->findById($rawData['filter']['id']);
+        $videoEntity = $this->videoMapper->findById($rawData['filter']['id']);
         if ($videoEntity === null) {
             throw new NotFoundException('Видео не найден');
         }
@@ -95,9 +90,8 @@ class VideoController extends BaseController
             ->setNumberDislike($form->getNumberDislike())
             ->setNumberViews($form->getNumberViews());
 
-
         return $this->getResponseJson([
-            'is_succeed' => (bool) $videoEntity->save(),
+            'is_succeed' => (bool) $this->videoMapper->save($videoEntity),
         ], 200);
     }
 
@@ -115,13 +109,13 @@ class VideoController extends BaseController
             throw new BadRequestException();
         }
 
-        $videoEntity = $this->videoRepository->findById($rawData['filter']['id']);
+        $videoEntity = $this->videoMapper->findById($rawData['filter']['id']);
         if ($videoEntity === null) {
             throw new NotFoundException('Видео не найден');
         }
 
         return $this->getResponseJson([
-            'is_succeed' => $videoEntity->delete(),
+            'is_succeed' => $this->videoMapper->delete($videoEntity),
         ], 200);
     }
 }

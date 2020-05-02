@@ -2,26 +2,8 @@
 
 namespace Bjlag\Entities;
 
-use Bjlag\BaseModel;
-use Bjlag\Http\Forms\VideoForm;
-
-class VideoEntity extends BaseModel
+class VideoEntity
 {
-    public const TABLE = 'video';
-
-    public const FIELD_ID = 'id';
-    public const FIELD_CHANNEL_ID = 'channel_id';
-    public const FIELD_URL = 'url';
-    public const FIELD_NAME = 'name';
-    public const FIELD_PREVIEW_IMAGE = 'preview_image';
-    public const FIELD_DESCRIPTION = 'description';
-    public const FIELD_CATEGORY = 'category';
-    public const FIELD_DURATION = 'duration';
-    public const FIELD_POST_DATA = 'post_data';
-    public const FIELD_NUMBER_LIKE = 'number_like';
-    public const FIELD_NUMBER_DISLIKE = 'number_dislike';
-    public const FIELD_NUMBER_VIEWS = 'number_views';
-
     /** @var string */
     private $id;
 
@@ -285,61 +267,5 @@ class VideoEntity extends BaseModel
     {
         $this->numberViews = $numberViews;
         return $this;
-    }
-
-    /**
-     * @param \Bjlag\Http\Forms\VideoForm $form
-     * @return static
-     */
-    public static function create(VideoForm $form): self
-    {
-        return (new VideoEntity())
-            ->setChannelId($form->getChannelId())
-            ->setUrl($form->getUrl())
-            ->setName($form->getName())
-            ->setPreviewImage($form->getPreviewImage())
-            ->setDescription($form->getDescription())
-            ->setCategory($form->getCategory())
-            ->setDuration($form->getDuration())
-            ->setPostData($form->getPostData())
-            ->setNumberLike($form->getNumberLike())
-            ->setNumberDislike($form->getNumberDislike())
-            ->setNumberViews($form->getNumberViews());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function save()
-    {
-        $data = [
-            self::FIELD_CHANNEL_ID => $this->getChannelId(),
-            self::FIELD_URL => $this->getUrl(),
-            self::FIELD_NAME => $this->getName(),
-            self::FIELD_PREVIEW_IMAGE => $this->getPreviewImage(),
-            self::FIELD_DESCRIPTION => $this->getDescription(),
-            self::FIELD_CATEGORY => $this->getCategory(),
-            self::FIELD_DURATION => $this->getDuration(),
-            self::FIELD_POST_DATA => $this->getPostData(),
-            self::FIELD_NUMBER_LIKE => $this->getNumberLike(),
-            self::FIELD_NUMBER_DISLIKE => $this->getNumberDislike(),
-            self::FIELD_NUMBER_VIEWS => $this->getNumberViews(),
-        ];
-
-        if ($this->getId() === null) {
-            return $this->db->add(self::TABLE, $data);
-        } else {
-            return $this->db->update(self::TABLE, [self::FIELD_ID => $this->getId()], $data);
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function delete(): bool
-    {
-        return $this->db->delete(self::TABLE, [
-            self::FIELD_ID => $this->getId()
-        ]);
     }
 }

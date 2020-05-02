@@ -2,8 +2,8 @@
 
 namespace Bjlag\Http\Forms;
 
-use Bjlag\Entities\VideoEntity;
 use Bjlag\BaseForm;
+use Bjlag\Mappers\VideoMapper;
 
 class VideoForm extends BaseForm
 {
@@ -257,17 +257,17 @@ class VideoForm extends BaseForm
     protected function getFields(): array
     {
         return [
-            VideoEntity::FIELD_CHANNEL_ID,
-            VideoEntity::FIELD_URL,
-            VideoEntity::FIELD_NAME,
-            VideoEntity::FIELD_PREVIEW_IMAGE,
-            VideoEntity::FIELD_DESCRIPTION,
-            VideoEntity::FIELD_CATEGORY,
-            VideoEntity::FIELD_DURATION,
-            VideoEntity::FIELD_POST_DATA,
-            VideoEntity::FIELD_NUMBER_LIKE,
-            VideoEntity::FIELD_NUMBER_DISLIKE,
-            VideoEntity::FIELD_NUMBER_VIEWS,
+            VideoMapper::FIELD_CHANNEL_ID,
+            VideoMapper::FIELD_URL,
+            VideoMapper::FIELD_NAME,
+            VideoMapper::FIELD_PREVIEW_IMAGE,
+            VideoMapper::FIELD_DESCRIPTION,
+            VideoMapper::FIELD_CATEGORY,
+            VideoMapper::FIELD_DURATION,
+            VideoMapper::FIELD_POST_DATA,
+            VideoMapper::FIELD_NUMBER_LIKE,
+            VideoMapper::FIELD_NUMBER_DISLIKE,
+            VideoMapper::FIELD_NUMBER_VIEWS,
         ];
     }
 }
