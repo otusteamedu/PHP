@@ -20,12 +20,13 @@ class ChannelController extends BaseController
     private $statisticsService;
 
     /**
-     * ChannelController constructor.
+     * @param \Bjlag\Mappers\ChannelMapper $mapper
+     * @param \Bjlag\Services\StatisticsService $service
      */
-    public function __construct()
+    public function __construct(ChannelMapper $mapper, StatisticsService $service)
     {
-        $this->channelMapper = new ChannelMapper();
-        $this->statisticsService = new StatisticsService();
+        $this->channelMapper = $mapper; // new ChannelMapper();
+        $this->statisticsService = $service; // StatisticsService();
     }
 
     /**
