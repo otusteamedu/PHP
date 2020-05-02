@@ -2,13 +2,12 @@
 
 namespace Bjlag\Mappers;
 
-use Bjlag\App;
-use Bjlag\Db\Store;
+use Bjlag\BaseMapper;
 use Bjlag\Entities\ChannelEntity;
 use Bjlag\Http\Forms\ChannelForm;
 use MongoDB\BSON\ObjectId;
 
-class ChannelMapper
+class ChannelMapper extends BaseMapper
 {
     public const TABLE = 'channel';
 
@@ -22,21 +21,6 @@ class ChannelMapper
     public const FIELD_NUMBER_VIEWS = 'number_views';
     public const FIELD_NUMBER_SUBSCRIBES = 'number_subscribes';
     public const FIELD_LINKS = 'links';
-
-    /** @var \Bjlag\Db\Store */
-    protected $db;
-
-    /**
-     * @param \Bjlag\Db\Store|null $db
-     */
-    public function __construct(Store $db = null)
-    {
-        if ($db === null) {
-            $this->db = App::getDb();
-        } else {
-            $this->db = $db;
-        }
-    }
 
     /**
      * @param \Bjlag\Http\Forms\ChannelForm $form

@@ -4,7 +4,7 @@ namespace Bjlag;
 
 use Bjlag\Db\Store;
 
-abstract class BaseModel
+abstract class BaseMapper
 {
     /** @var \Bjlag\Db\Store */
     protected $db;

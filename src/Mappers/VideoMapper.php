@@ -2,12 +2,11 @@
 
 namespace Bjlag\Mappers;
 
-use Bjlag\App;
-use Bjlag\Db\Store;
+use Bjlag\BaseMapper;
 use Bjlag\Entities\VideoEntity;
 use Bjlag\Http\Forms\VideoForm;
 
-class VideoMapper
+class VideoMapper extends BaseMapper
 {
     public const TABLE = 'video';
 
@@ -23,21 +22,6 @@ class VideoMapper
     public const FIELD_NUMBER_LIKE = 'number_like';
     public const FIELD_NUMBER_DISLIKE = 'number_dislike';
     public const FIELD_NUMBER_VIEWS = 'number_views';
-
-    /** @var \Bjlag\Db\Store */
-    protected $db;
-
-    /**
-     * @param \Bjlag\Db\Store|null $db
-     */
-    public function __construct(Store $db = null)
-    {
-        if ($db === null) {
-            $this->db = App::getDb();
-        } else {
-            $this->db = $db;
-        }
-    }
 
     /**
      * @param \Bjlag\Http\Forms\VideoForm $form
