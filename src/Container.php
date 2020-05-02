@@ -31,12 +31,15 @@ class Container implements ContainerInterface
 
         if (is_string($definition)) {
             $class = new \ReflectionClass($id);
-            $params = $class->getConstructor()->getParameters();
             $args = [];
+            $constructor = $class->getConstructor();
 
-            foreach ($params as $param) {
-                $paramClass = $param->getClass();
-                $args[] = $this->get($paramClass->getName());
+            if ($constructor !== null) {
+                $params = $constructor->getParameters();
+                foreach ($params as $param) {
+                    $paramClass = $param->getClass();
+                    $args[] = $this->get($paramClass->getName());
+                }
             }
 
             $component = $class->newInstanceArgs($args);
