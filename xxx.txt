@@ -1,0 +1,114 @@
+1. Создать приложение для анализа каналов на Youtube:
+
+Создать структуру/структуры хранения информации в mongoDB
+    - о канале
+    - и видео канала в mongoDB
+
+Канал
+    - URL канала
+    - Название
+    - Описание
+    - Баннер
+    - Страна
+    - Ссылки
+    - Дата регистрации
+    - Количество просмотров
+    - Количество подписчиков
+
+Видео
+    - URL
+    - Название
+    - Превью картинка
+    - Описание
+    - Категория
+    - Продолжительность
+    - Дата добавления
+    - Количество лайков
+    - Количество дизлайков
+    - Количество просмотров
+
+---------------
+
+Описать в виде JSON с указанием типов полей.
+
+Колекция канала
+channel
+{
+    "id": "xxx",
+    "url": "https://...",
+    "name": "xxx",
+    "description": "xxx",
+    "banner": "https://...",
+    "country": "xxx",
+    "registration_data": "2020-01-01",
+    "number_views": 2000000,
+    "number_subscribes": 150000,
+    "links": [
+        {
+            "name": "VK",
+            "url": "xxx"
+        },
+        {
+            "name": "xxx",
+            "url": "xxx"
+        }
+    ]
+}
+
+Колекция видео каналов
+video
+{
+    "id": "xxx",
+    "channel_id": "xxx"
+    "url": "https://...",
+    "name": "xxx",
+    "preview_image": "https://...",
+    "description": "xxx",
+    "category": "xxx",
+    "duration": "3000",
+    "post_data": "2020-10-10 10:23:56",
+    "number_like": 2000,
+    "number_dislike": 100,
+    "number_views": 50000
+}
+
+Описать какие индексы понадобятся в данной структуре?
+    channel.id unique
+    video.id unique
+    video.chanel_id
+
+------------------
+
+Создать необходимые модели для добавления и удаления данных из коллекций
+App
+
+Db
+    MongoDb
+Models
+    Channel
+        findById
+    Video
+Services
+    StatisticService
+Controllers
+    ChannelController
+        indexAction
+        addAction
+        deleteAction
+    VideoController
+    StatisticController
+Templates
+    Channel
+        index.tpl
+        add.tpl
+        delete.tpl
+    Video
+    Statistic
+
+------------------
+
+Реализовать класс статистики, который может возвращать:
+    - Суммарное кол-во лайков и дизлайков для канала по всем его видео
+    - Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков
+
+* Можно создать паука, который будет ходить по Youtube и наполнять базу данными

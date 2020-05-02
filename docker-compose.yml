@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: nginx
+        build:
+            context: ./docker
+            dockerfile: nginx.docker
+        ports:
+            - 8081:80
+        volumes:
+            - ./:/var/www
+            - ./var/socket:/var/run/php
+
+    php-fpm:
+        container_name: php-fpm
+        build:
+            context: ./docker
+            dockerfile: php.docker
+        volumes:
+            - ./:/var/www
+            - ./var/socket:/var/run/php
+        environment:
+            XDEBUG_CONFIG: "remote_host=${XDEBUG_REMOTE_HOST} remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Docker"
+
+    mongo:
+        image: mongo:4.2.5-bionic
+        container_name: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        volumes:
+            - ./var/mongo:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: dev
+            MONGO_INITDB_ROOT_PASSWORD: dev
