@@ -25,8 +25,8 @@ class ChannelController extends BaseController
      */
     public function __construct(ChannelMapper $mapper, StatisticsService $service)
     {
-        $this->channelMapper = $mapper; // new ChannelMapper();
-        $this->statisticsService = $service; // StatisticsService();
+        $this->channelMapper = $mapper;
+        $this->statisticsService = $service;
     }
 
     /**

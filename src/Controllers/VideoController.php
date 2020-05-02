@@ -17,11 +17,11 @@ class VideoController extends BaseController
     private $videoMapper;
 
     /**
-     * VideoController constructor.
+     * @param \Bjlag\Mappers\VideoMapper $mapper
      */
-    public function __construct()
+    public function __construct(VideoMapper $mapper)
     {
-        $this->videoMapper = new VideoMapper();
+        $this->videoMapper = $mapper;
     }
 
     /**
