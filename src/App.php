@@ -18,12 +18,6 @@ class App
     /** @var string */
     private static $baseDir;
 
-    /** @var string */
-    private static $templateDir;
-
-    /** @var string */
-    private static $cacheDir;
-
     /** @var \Bjlag\Container */
     private static $container;
 
@@ -39,9 +33,6 @@ class App
     public function __construct()
     {
         self::$baseDir = dirname(__DIR__);
-        self::$templateDir = self::$baseDir . '/src/Views';
-        self::$cacheDir = self::$baseDir . '/cache';
-
         self::$container = new Container(include self::getBaseDir() . '/config/container.php');
 
         $router = new \League\Route\Router();
@@ -116,16 +107,9 @@ class App
     public static function getTemplate(): Template
     {
         if (self::$template === null) {
-            $adapter = 'Twig';
-            $adapterClass = '\\Bjlag\\Template\\Adapters\\' . $adapter;
-
-            if (!class_exists($adapterClass)) {
-                throw new \RuntimeException("Шаблонизатор не найзен: {$adapterClass}.");
-            }
-
-            $template = new $adapterClass(self::getCacheDir() . '/twig');
+            $template = self::$container->get('template');
             if (!($template instanceof Template)) {
-                throw new \RuntimeException("Шаблонизатор не найзен: {$adapterClass}.");
+                throw new \RuntimeException("Шаблонизатор реализован неверно.");
             }
 
             self::$template = $template;
@@ -140,22 +124,6 @@ class App
     public static function getContainer(): \Bjlag\Container
     {
         return self::$container;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getTemplateDir(): string
-    {
-        return self::$templateDir;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getCacheDir(): string
-    {
-        return self::$cacheDir;
     }
 
     /**

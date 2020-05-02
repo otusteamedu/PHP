@@ -17,7 +17,7 @@ class Twig implements Template
      */
     public function __construct(string $cacheDir)
     {
-        $loader = new FilesystemLoader(App::getTemplateDir());
+        $loader = new FilesystemLoader(App::getContainer()->get('template_dir'));
         $this->twig = new Environment($loader, [
             'cache' => false,
         ]);
