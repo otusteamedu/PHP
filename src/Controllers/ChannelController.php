@@ -3,9 +3,8 @@
 namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
-use Bjlag\Entities\ChannelEntity;
 use Bjlag\Http\Forms\ChannelForm;
-use Bjlag\Repositories\ChannelRepository;
+use Bjlag\Mappers\ChannelMapper;
 use Bjlag\Services\StatisticsService;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
@@ -14,8 +13,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ChannelController extends BaseController
 {
-    /** @var \Bjlag\Repositories\ChannelRepository */
-    private $channelRepository;
+    /** @var \Bjlag\Mappers\ChannelMapper */
+    private $channelMapper;
 
     /** @var \Bjlag\Services\StatisticsService */
     private $statisticsService;
@@ -25,7 +24,7 @@ class ChannelController extends BaseController
      */
     public function __construct()
     {
-        $this->channelRepository = new ChannelRepository();
+        $this->channelMapper = new ChannelMapper();
         $this->statisticsService = new StatisticsService();
     }
 
@@ -37,12 +36,12 @@ class ChannelController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $channels = $this->channelRepository->find();
+        $channels = $this->channelMapper->find();
         $topIds = $this->statisticsService->getTop5Channels()->getChannelIds();
 
         return $this->getResponseHtml('channel/index', [
             'channels' => $channels,
-            'top' => $this->channelRepository->findByIds($topIds),
+            'top' => $this->channelMapper->findByIds($topIds),
         ]);
     }
 
@@ -63,7 +62,7 @@ class ChannelController extends BaseController
             throw new BadRequestException();
         }
 
-        $channel = $this->channelRepository->findById($args['id']);
+        $channel = $this->channelMapper->findById($args['id']);
         if ($channel === null) {
             throw new NotFoundException('Канал не найден');
         }
@@ -89,11 +88,11 @@ class ChannelController extends BaseController
     public function addAction(ServerRequestInterface $request): ResponseInterface
     {
         $form = (new ChannelForm($request->getParsedBody()))->fillAndValidate();
-        $channelEntity = ChannelEntity::create($form);
+        $channelEntity = ChannelMapper::create($form);
 
         return $this->getResponseJson([
             'is_succeed' => true,
-            'id' => $channelEntity->save(),
+            'id' => $this->channelMapper->save($channelEntity),
         ], 200);
     }
 
@@ -113,7 +112,7 @@ class ChannelController extends BaseController
             throw new BadRequestException();
         }
 
-        $channelEntity = $this->channelRepository->findById($rawData['filter']['id']);
+        $channelEntity = $this->channelMapper->findById($rawData['filter']['id']);
         if ($channelEntity === null) {
             throw new NotFoundException('Канал не найден');
         }
@@ -132,7 +131,7 @@ class ChannelController extends BaseController
             ->setLinks($form->getLinks());
 
         return $this->getResponseJson([
-            'is_succeed' => (bool)$channelEntity->save(),
+            'is_succeed' => (bool) $this->channelMapper->save($channelEntity),
         ], 200);
     }
 
@@ -151,13 +150,13 @@ class ChannelController extends BaseController
             throw new BadRequestException();
         }
 
-        $channelEntity = $this->channelRepository->findById($rawData['filter']['id']);
+        $channelEntity = $this->channelMapper->findById($rawData['filter']['id']);
         if ($channelEntity === null) {
             throw new NotFoundException();
         }
 
         return $this->getResponseJson([
-            'is_succeed' => $channelEntity->delete(),
+            'is_succeed' => $this->channelMapper->delete($channelEntity),
         ], 200);
     }
 }

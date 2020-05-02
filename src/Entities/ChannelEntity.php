@@ -2,24 +2,8 @@
 
 namespace Bjlag\Entities;
 
-use Bjlag\BaseModel;
-use Bjlag\Http\Forms\ChannelForm;
-
-class ChannelEntity extends BaseModel
+class ChannelEntity
 {
-    public const TABLE = 'channel';
-
-    public const FIELD_ID = 'id';
-    public const FIELD_URL = 'url';
-    public const FIELD_NAME = 'name';
-    public const FIELD_DESCRIPTION = 'description';
-    public const FIELD_BANNER = 'banner';
-    public const FIELD_COUNTRY = 'country';
-    public const FIELD_REGISTRATION_DATA = 'registration_data';
-    public const FIELD_NUMBER_VIEWS = 'number_views';
-    public const FIELD_NUMBER_SUBSCRIBES = 'number_subscribes';
-    public const FIELD_LINKS = 'links';
-
     /** @var string */
     private $id;
 
@@ -249,57 +233,5 @@ class ChannelEntity extends BaseModel
     {
         $this->links = $links;
         return $this;
-    }
-
-    /**
-     * @param \Bjlag\Http\Forms\ChannelForm $form
-     * @return static
-     */
-    public static function create(ChannelForm $form): self
-    {
-        return (new ChannelEntity())
-            ->setUrl($form->getUrl())
-            ->setName($form->getName())
-            ->setDescription($form->getDescription())
-            ->setBanner($form->getBanner())
-            ->setCountry($form->getCountry())
-            ->setRegistrationData($form->getRegistrationData())
-            ->setNumberViews($form->getNumberViews())
-            ->setNumberSubscribes($form->getNumberSubscribes())
-            ->setLinks($form->getLinks());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function save()
-    {
-        $data = [
-            self::FIELD_URL => $this->getUrl(),
-            self::FIELD_NAME => $this->getName(),
-            self::FIELD_DESCRIPTION => $this->getDescription(),
-            self::FIELD_BANNER => $this->getBanner(),
-            self::FIELD_COUNTRY => $this->getCountry(),
-            self::FIELD_REGISTRATION_DATA => $this->getRegistrationData(),
-            self::FIELD_NUMBER_VIEWS => $this->getNumberViews(),
-            self::FIELD_NUMBER_SUBSCRIBES => $this->getNumberSubscribes(),
-            self::FIELD_LINKS => $this->getLinks(),
-        ];
-
-        if ($this->getId() === null) {
-            return $this->db->add(self::TABLE, $data);
-        } else {
-            return $this->db->update(self::TABLE, [self::FIELD_ID => $this->getId()], $data);
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function delete(): bool
-    {
-        return (bool) $this->db->delete(self::TABLE, [
-            self::FIELD_ID => $this->getId()
-        ]);
     }
 }

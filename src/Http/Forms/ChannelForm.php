@@ -2,8 +2,8 @@
 
 namespace Bjlag\Http\Forms;
 
-use Bjlag\Entities\ChannelEntity;
 use Bjlag\BaseForm;
+use Bjlag\Mappers\ChannelMapper;
 
 class ChannelForm extends BaseForm
 {
@@ -215,15 +215,15 @@ class ChannelForm extends BaseForm
     protected function getFields(): array
     {
         return [
-            ChannelEntity::FIELD_URL,
-            ChannelEntity::FIELD_NAME,
-            ChannelEntity::FIELD_DESCRIPTION,
-            ChannelEntity::FIELD_BANNER,
-            ChannelEntity::FIELD_COUNTRY,
-            ChannelEntity::FIELD_REGISTRATION_DATA,
-            ChannelEntity::FIELD_NUMBER_VIEWS,
-            ChannelEntity::FIELD_NUMBER_SUBSCRIBES,
-            ChannelEntity::FIELD_LINKS,
+            ChannelMapper::FIELD_URL,
+            ChannelMapper::FIELD_NAME,
+            ChannelMapper::FIELD_DESCRIPTION,
+            ChannelMapper::FIELD_BANNER,
+            ChannelMapper::FIELD_COUNTRY,
+            ChannelMapper::FIELD_REGISTRATION_DATA,
+            ChannelMapper::FIELD_NUMBER_VIEWS,
+            ChannelMapper::FIELD_NUMBER_SUBSCRIBES,
+            ChannelMapper::FIELD_LINKS,
         ];
     }
 }
