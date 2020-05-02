@@ -29,13 +29,11 @@ class VideoController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
-        $rows = $this->videoMapper->find();
+        $videos = $this->videoMapper->find();
 
-        ob_start();
-        var_dump($rows);
-        $content = ob_get_contents();
-
-        return $this->getResponseSimple($content, 200);
+        return $this->getResponseHtml('video/index', [
+            'videos' => $videos
+        ]);
     }
 
     /**

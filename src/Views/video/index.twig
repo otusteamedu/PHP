@@ -1,0 +1,15 @@
+<h1>Видео</h1>
+
+{% if videos %}
+    {% for video in videos %}
+        <hr>
+        <h2>Название: {{ video.name }}</h2>
+        <p>ID: {{ video.id }}</p>
+        <p>URL: {{ video.url }}</p>
+        <p>Описание: {{ video.description }}</p>
+        <p>Канал: {{ video.channelId }}</p>
+        <p><a href="/videos/{{ video.id }}">Подробнее</a></p>
+    {% endfor %}
+{% else %}
+    Нет данных
+{% endif %}
