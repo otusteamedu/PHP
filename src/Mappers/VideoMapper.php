@@ -2,6 +2,7 @@
 
 namespace Bjlag\Mappers;
 
+use Bjlag\App;
 use Bjlag\BaseMapper;
 use Bjlag\Entities\VideoEntity;
 use Bjlag\Http\Forms\VideoForm;
@@ -187,7 +188,7 @@ class VideoMapper extends BaseMapper
         foreach ($this->with as $link) {
             if (!isset($this->mappersMap[$link])) {
                 /** @var \Bjlag\BaseMapper $mapper */
-                $mapper = new $link();
+                $mapper = App::getContainer()->get($link);
                 if (!($mapper instanceof BaseMapper)) {
                     throw new \DomainException("Mapper {$link} не корректный.");
                 }

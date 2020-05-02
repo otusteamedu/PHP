@@ -19,10 +19,6 @@ abstract class BaseMapper
      */
     public function __construct(Store $db = null)
     {
-        if ($db === null) {
-            $this->db = App::getDb();
-        } else {
-            $this->db = $db;
-        }
+        $this->db = $db;
     }
 }
