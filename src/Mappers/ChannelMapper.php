@@ -22,6 +22,9 @@ class ChannelMapper extends BaseMapper
     public const FIELD_NUMBER_SUBSCRIBES = 'number_subscribes';
     public const FIELD_LINKS = 'links';
 
+    /** @var ChannelEntity[] */
+    private $identityMap = [];
+
     /**
      * @param \Bjlag\Http\Forms\ChannelForm $form
      * @return \Bjlag\Entities\ChannelEntity
@@ -96,8 +99,15 @@ class ChannelMapper extends BaseMapper
      */
     public function findById(string $id): ?ChannelEntity
     {
+        if (isset($this->identityMap[$id])) {
+            return $this->identityMap[$id];
+        }
+
         $data = $this->db->find(self::TABLE, [], [self::FIELD_ID => $id], 1);
-        return $this->createEntity(count($data) !== 0 ? reset($data) : []);
+        $entity = $this->createEntity(count($data) !== 0 ? reset($data) : []);
+        $this->identityMap[$id] = $entity;
+
+        return $entity;
     }
 
     /**

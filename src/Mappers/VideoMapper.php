@@ -33,6 +33,9 @@ class VideoMapper extends BaseMapper
     /** @var array */
     private $with = [];
 
+    /** @var \Bjlag\BaseMapper[] */
+    private $mappersMap = [];
+
     /**
      * @param \Bjlag\Http\Forms\VideoForm $form
      * @return \Bjlag\Entities\VideoEntity
@@ -182,8 +185,17 @@ class VideoMapper extends BaseMapper
             ->setNumberViews($data[self::FIELD_NUMBER_VIEWS]);
 
         foreach ($this->with as $link) {
-            /** @var \Bjlag\BaseMapper $mapper */
-            $mapper = new $link();
+            if (!isset($this->mappersMap[$link])) {
+                /** @var \Bjlag\BaseMapper $mapper */
+                $mapper = new $link();
+                if (!($mapper instanceof BaseMapper)) {
+                    throw new \DomainException("Mapper {$link} не корректный.");
+                }
+
+                $this->mappersMap[$link] = $mapper;
+            }
+
+            $mapper = $this->mappersMap[$link];
 
             $linkField = self::LINKS[$link]['link_field'];
             $setter = self::LINKS[$link]['setter'];
