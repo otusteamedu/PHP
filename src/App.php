@@ -9,9 +9,7 @@ use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception;
-use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
-use League\Route\Http\Exception\UnprocessableEntityException;
 use League\Route\Strategy\ApplicationStrategy;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -44,7 +42,8 @@ class App
         $router = new \League\Route\Router();
         $router->middleware(new BodyParamsMiddleware());
 
-        $strategy = (new ApplicationStrategy())->setContainer(new Container());
+        $strategy = (new ApplicationStrategy())
+            ->setContainer(new Container(include self::getBaseDir() . '/config/container.php'));
         $router->setStrategy($strategy);
 
         (include self::getBaseDir() . '/config/routes.php')($router);

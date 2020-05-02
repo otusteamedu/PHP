@@ -2,7 +2,6 @@
 
 namespace Bjlag;
 
-use Bjlag\Db\Store;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -10,13 +9,9 @@ class Container implements ContainerInterface
     /** @var array */
     private $definitions = [];
 
-    public function __construct()
+    public function __construct(array $definitions)
     {
-        $this->definitions = [
-            Store::class => function () {
-                return App::getDb();
-            },
-        ];
+        $this->definitions = $definitions;
     }
 
     /**
