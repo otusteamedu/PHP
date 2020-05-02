@@ -40,6 +40,9 @@ class VideoEntity
     /** @var int */
     private $numberViews;
 
+    /** @var \Bjlag\Entities\ChannelEntity */
+    private $channel;
+
     /**
      * @return string|null
      */
@@ -266,6 +269,24 @@ class VideoEntity
     public function setNumberViews(int $numberViews): self
     {
         $this->numberViews = $numberViews;
+        return $this;
+    }
+
+    /**
+     * @return \Bjlag\Entities\ChannelEntity|null
+     */
+    public function getChannel(): ?ChannelEntity
+    {
+        return $this->channel;
+    }
+
+    /**
+     * @param \Bjlag\Entities\ChannelEntity $channel
+     * @return VideoEntity
+     */
+    public function setChannel(ChannelEntity $channel): VideoEntity
+    {
+        $this->channel = $channel;
         return $this;
     }
 }

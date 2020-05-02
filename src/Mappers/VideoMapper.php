@@ -23,6 +23,16 @@ class VideoMapper extends BaseMapper
     public const FIELD_NUMBER_DISLIKE = 'number_dislike';
     public const FIELD_NUMBER_VIEWS = 'number_views';
 
+    private const LINKS = [
+        ChannelMapper::class => [
+            self::LINK_FIELD => self::FIELD_CHANNEL_ID,
+            self::LINK_SETTER => 'setChannel',
+        ],
+    ];
+
+    /** @var array */
+    private $with = [];
+
     /**
      * @param \Bjlag\Http\Forms\VideoForm $form
      * @return \Bjlag\Entities\VideoEntity
@@ -116,6 +126,20 @@ class VideoMapper extends BaseMapper
     }
 
     /**
+     * @param string $link
+     * @return $this
+     */
+    public function with(string $link): self
+    {
+        if (!isset(self::LINKS[$link])) {
+            throw new \DomainException("Не описана связь {$link}");
+        }
+
+        $this->with[] = $link;
+        return $this;
+    }
+
+    /**
      * @param array $rows
      * @return VideoEntity[]
      */
@@ -143,7 +167,7 @@ class VideoMapper extends BaseMapper
             return null;
         }
 
-        return (new VideoEntity())
+        $videoEntity = (new VideoEntity())
             ->setId($data[self::FIELD_ID])
             ->setChannelId($data[self::FIELD_CHANNEL_ID])
             ->setUrl($data[self::FIELD_URL])
@@ -156,5 +180,25 @@ class VideoMapper extends BaseMapper
             ->setNumberLike($data[self::FIELD_NUMBER_LIKE])
             ->setNumberDislike($data[self::FIELD_NUMBER_DISLIKE])
             ->setNumberViews($data[self::FIELD_NUMBER_VIEWS]);
+
+        foreach ($this->with as $link) {
+            /** @var \Bjlag\BaseMapper $mapper */
+            $mapper = new $link();
+
+            $linkField = self::LINKS[$link]['link_field'];
+            $setter = self::LINKS[$link]['setter'];
+            $linkEntityId = $data[$linkField];
+
+            $entity = $mapper->findById($linkEntityId);
+            if ($entity !== null) {
+                if (!method_exists($videoEntity, $setter)) {
+                    throw new \DomainException("В {$link} не определен метод {$setter}.");
+                }
+
+                $videoEntity->$setter($entity);
+            }
+        }
+
+        return $videoEntity;
     }
 }

@@ -4,6 +4,7 @@ namespace Bjlag\Controllers;
 
 use Bjlag\BaseController;
 use Bjlag\Http\Forms\VideoForm;
+use Bjlag\Mappers\ChannelMapper;
 use Bjlag\Mappers\VideoMapper;
 use League\Route\Http\Exception\BadRequestException;
 use League\Route\Http\Exception\NotFoundException;
@@ -29,6 +30,7 @@ class VideoController extends BaseController
      */
     public function indexAction(ServerRequestInterface $request): ResponseInterface
     {
+        $this->videoMapper->with(ChannelMapper::class);
         $videos = $this->videoMapper->find();
 
         return $this->getResponseHtml('video/index', [

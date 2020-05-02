@@ -7,7 +7,7 @@
         <p>ID: {{ video.id }}</p>
         <p>URL: {{ video.url }}</p>
         <p>Описание: {{ video.description }}</p>
-        <p>Канал: {{ video.channelId }}</p>
+        <p>Канал: {{ video.channel.name }}</p>
         <p><a href="/videos/{{ video.id }}">Подробнее</a></p>
     {% endfor %}
 {% else %}
