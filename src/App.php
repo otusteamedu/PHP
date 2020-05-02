@@ -24,6 +24,9 @@ class App
     /** @var string */
     private static $cacheDir;
 
+    /** @var \Bjlag\Container */
+    private static $container;
+
     /** @var Template */
     private static $template = null;
 
@@ -39,11 +42,12 @@ class App
         self::$templateDir = self::$baseDir . '/src/Views';
         self::$cacheDir = self::$baseDir . '/cache';
 
+        self::$container = new Container(include self::getBaseDir() . '/config/container.php');
+
         $router = new \League\Route\Router();
         $router->middleware(new BodyParamsMiddleware());
 
-        $strategy = (new ApplicationStrategy())
-            ->setContainer(new Container(include self::getBaseDir() . '/config/container.php'));
+        $strategy = (new ApplicationStrategy())->setContainer(self::$container);
         $router->setStrategy($strategy);
 
         (include self::getBaseDir() . '/config/routes.php')($router);
@@ -128,6 +132,14 @@ class App
         }
 
         return self::$template;
+    }
+
+    /**
+     * @return \Bjlag\Container
+     */
+    public static function getContainer(): \Bjlag\Container
+    {
+        return self::$container;
     }
 
     /**
