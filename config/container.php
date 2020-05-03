@@ -3,6 +3,7 @@
 use Bjlag\App;
 use Bjlag\Db\Store;
 use Bjlag\Template\Adapters\Twig;
+use Bjlag\Template\Template;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -12,8 +13,14 @@ return [
     'template_dir' => function () {
         return App::getBaseDir() . '/src/Views';
     },
-    'template' => function (ContainerInterface $container) {
-        return new Twig($container->get('cache_dir'));
+    Template::class => function (ContainerInterface $container) {
+        static $template;
+
+        if ($template === null) {
+            $template = new Twig($container->get('template_dir'), $container->get('cache_dir'));
+        }
+
+        return $template;
     },
     Store::class => function () {
         static $db;

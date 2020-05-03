@@ -2,6 +2,7 @@
 
 namespace Bjlag;
 
+use Bjlag\Template\Template;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 
@@ -24,8 +25,11 @@ abstract class BaseController
      */
     protected function getResponseHtml(string $template, array $data = [], int $status = 200): ResponseInterface
     {
+        /** @var \Bjlag\Template\Template $templateInstance */
+        $templateInstance = App::getContainer()->get(Template::class);
+
         $response = (new Response())->withStatus($status);
-        $response->getBody()->write(App::getTemplate()->render($template, $data));
+        $response->getBody()->write($templateInstance->render($template, $data));
 
         return $response;
     }

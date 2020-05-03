@@ -3,7 +3,6 @@
 namespace Bjlag;
 
 use Bjlag\Http\Middleware\BodyParamsMiddleware;
-use Bjlag\Template\Template;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
@@ -19,9 +18,6 @@ class App
 
     /** @var \Bjlag\Container */
     private static $container;
-
-    /** @var Template */
-    private static $template = null;
 
     /** @var \League\Route\Router */
     private $router;
@@ -68,23 +64,6 @@ class App
         }
 
         (new SapiEmitter())->emit($response);
-    }
-
-    /**
-     * @return \Bjlag\Template\Template
-     */
-    public static function getTemplate(): Template
-    {
-        if (self::$template === null) {
-            $template = self::$container->get('template');
-            if (!($template instanceof Template)) {
-                throw new \RuntimeException("Шаблонизатор реализован неверно.");
-            }
-
-            self::$template = $template;
-        }
-
-        return self::$template;
     }
 
     /**

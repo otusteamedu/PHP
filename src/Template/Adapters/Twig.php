@@ -13,11 +13,12 @@ class Twig implements Template
     private $twig;
 
     /**
+     * @param string $templateDir
      * @param string $cacheDir
      */
-    public function __construct(string $cacheDir)
+    public function __construct(string $templateDir, string $cacheDir)
     {
-        $loader = new FilesystemLoader(App::getContainer()->get('template_dir'));
+        $loader = new FilesystemLoader($templateDir);
         $this->twig = new Environment($loader, [
             'cache' => false,
         ]);
@@ -26,6 +27,7 @@ class Twig implements Template
     /**
      * @param string $path
      * @param array $params
+     *
      * @return string
      *
      * @throws \Twig\Error\LoaderError
