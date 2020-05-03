@@ -1,0 +1,30 @@
+version: "2"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+volumes:
+  socket:
+
+services:
+  app:
+    container_name: app
+    build:
+      context: ./
+      dockerfile: php/Dockerfile
+    volumes:
+    - socket:/var/run/php
+    - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: ./nginx
+    volumes:
+    - socket:/var/run/php
+    ports:
+    - 80:8081
+    depends_on:
+      - app
+    restart: always
