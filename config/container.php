@@ -16,6 +16,13 @@ return [
         return new Twig($container->get('cache_dir'));
     },
     Store::class => function () {
-        return App::getDb();
+        static $db;
+
+        if ($db === null) {
+            $db = (new \Bjlag\Db\Adapters\MongoDb())
+                ->getConnection(getenv('DB_URI'), getenv('DB_NAME'));
+        }
+
+        return $db;
     },
 ];

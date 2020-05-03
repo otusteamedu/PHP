@@ -2,7 +2,6 @@
 
 namespace Bjlag;
 
-use Bjlag\Db\Store;
 use Bjlag\Http\Middleware\BodyParamsMiddleware;
 use Bjlag\Template\Template;
 use Laminas\Diactoros\Response;
@@ -23,9 +22,6 @@ class App
 
     /** @var Template */
     private static $template = null;
-
-    /** @var \Bjlag\Db\Store */
-    private static $db = null;
 
     /** @var \League\Route\Router */
     private $router;
@@ -72,33 +68,6 @@ class App
         }
 
         (new SapiEmitter())->emit($response);
-    }
-
-    /**
-     * @return \Bjlag\Db\Store
-     */
-    public static function getDb(): Store
-    {
-        if (self::$db === null) {
-            $uri = getenv('DB_URI');
-            $dbName = getenv('DB_NAME');
-            $adapter = getenv('DB_ADAPTER');
-            $adapterClass = '\\Bjlag\\Db\\Adapters\\' . $adapter;
-
-            if (!class_exists($adapterClass)) {
-                throw new \RuntimeException("Адаптер БД не найден: {$adapterClass}.");
-            }
-
-            /** @var \Bjlag\Db\Store $db */
-            $db = (new $adapterClass());
-            if (!($db instanceof Store)) {
-                throw new \RuntimeException("Адаптер БД не найден: {$adapterClass}.");
-            }
-
-            self::$db = $db->getConnection($uri, $dbName);
-        }
-
-        return self::$db;
     }
 
     /**
