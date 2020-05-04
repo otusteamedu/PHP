@@ -1,0 +1,19 @@
+{
+    "name": "akorchagin/parenthesis-checker",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alexey Korchagin",
+            "email": "akorchaginn@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/yaml": "^5.1@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
