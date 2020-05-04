@@ -1,0 +1,9 @@
+FROM php:fpm
+RUN apt-get update && \
+        apt-get install -y \
+            bash grep \
+            curl libcurl4-openssl-dev libcurl4 libssl-dev
+
+RUN pecl install -of mongodb && docker-php-ext-enable mongodb
+
+WORKDIR /var/www/html
