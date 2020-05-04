@@ -1,0 +1,21 @@
+{
+    "name": "akorchaginn/unix-socket",
+    "description": "Walky-Talky chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "ext-sockets": "*",
+        "ext-readline": "*",
+        "symfony/yaml": "^4.4"
+    },
+    "authors": [
+        {
+            "name": "Alexey Korchagin",
+            "email": "akorchaginn@gmail.com"
+        }
+    ]
+}

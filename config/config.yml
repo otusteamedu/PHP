@@ -1,0 +1,3 @@
+main_socket_file: /var/run/app1.sock
+recipient_socket_file: /var/run/app2.sock
+exit_command: '\q'
