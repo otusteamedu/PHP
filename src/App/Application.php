@@ -3,6 +3,7 @@ namespace App;
 
 use Socket\UnixSocket;
 use Exception;
+use Symfony\Component\Yaml\Yaml;
 
 class Application
 {
@@ -21,18 +22,21 @@ class Application
     /** @var string  */
     protected $response = '';
 
+    /** @var Output */
+    protected $output;
+
     /**
      * Application constructor.
-     * @param string $filePath
-     * @param string $recipient
-     * @param string $exitCommand
      * @throws Exception
      */
-    public function __construct(string $filePath, string $recipient, string $exitCommand)
+    public function __construct()
     {
-        $this->socket = new UnixSocket($filePath);
-        $this->recipient = $recipient;
-        $this->exitCommand = $exitCommand;
+        $config = Yaml::parseFile('config/config.yml');;
+
+        $this->socket = new UnixSocket($config['main_socket_file']);
+        $this->recipient = $config['recipient_socket_file'];
+        $this->exitCommand = $config['exit_command'];
+        $this->output = new Output();
     }
 
     public function run()
@@ -40,21 +44,21 @@ class Application
         while (!$this->isNeedExit()) {
             /** @todo Что-то попахивает говнокодом, но ничего лучше не придумал(( */
             if (file_exists($this->recipient)) {
-                echo "waiting message... \n";
+                $this->output->writeLn("waiting message...");
                 $this->response = $this->socket->read();
-                echo 'Received message: ' . $this->response . "\n";
+                $this->output->writeLn( 'Received message: ' . $this->response);
             } else {
-                echo "Attention! Another application probably not running. \n";
-            }
-
-            if ($this->isNeedExit()) {
-                echo 'Good bye!';
-                break;
+                $this->output->writeLn("Attention! Another application probably not running.");
             }
 
             $this->message = readline("Please, enter the message. $this->exitCommand for exit: ");
             if ($this->message !== '') {
-                $this->socket->sendTo($this->message, $this->recipient);
+                try {
+                    $this->socket->sendTo($this->message, $this->recipient);
+                } catch (Exception $e) {
+                    $this->output->writeLn($e->getMessage());
+                    $this->output->writeLn('Good bye!');
+                }
             }
 
         }
