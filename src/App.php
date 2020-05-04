@@ -3,6 +3,8 @@
 namespace Bjlag;
 
 use Bjlag\Http\Middleware\BodyParamsMiddleware;
+use Laminas\ConfigAggregator\ConfigAggregator;
+use Laminas\ConfigAggregator\PhpFileProvider;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
@@ -25,7 +27,12 @@ class App
     public function __construct()
     {
         self::$baseDir = dirname(__DIR__);
-        self::$container = new Container(include self::getBaseDir() . '/config/container.php');
+
+        $containerConfig = new ConfigAggregator([
+            new PhpFileProvider(self::$baseDir . '/config/container.php')
+        ]);
+
+        self::$container = new Container($containerConfig->getMergedConfig());
 
         $router = new \League\Route\Router();
         $router->middleware(new BodyParamsMiddleware());
