@@ -1,0 +1,13 @@
+validators:
+  length_validator:
+    class: Validator\LengthValidator
+    order: 10
+  parenthesis_count_validator:
+    class: Validator\ParenthesisCountValidator
+    order: 100
+  parenthesis_order_validator:
+    class: Validator\ParenthesisOrderValidator
+    order: 101
+  empty_validator:
+    class: Validator\EmptyValidator
+    order: 0
