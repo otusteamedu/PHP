@@ -20,7 +20,7 @@ abstract class DTO
         foreach ($data as $key => $param) {
             $method = "set".$key;
             if (method_exists($this, $method))
-                $this->$method($data[$key]);
+                $this->$method($param);
         }
 
         return $this;
