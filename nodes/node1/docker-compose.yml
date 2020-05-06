@@ -1,0 +1,32 @@
+version: "2"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+volumes:
+  socket1:
+
+services:
+  app1:
+    container_name: app1
+    build:
+      context: ../../
+      dockerfile: ./php/Dockerfile
+    volumes:
+    - socket1:/var/run/php
+    - ../../php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    - ../../app:/var/www/otus
+    restart: always
+
+  nginx1:
+    container_name: node1
+    build:
+      context: ../../
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+    - socket1:/var/run/php
+    depends_on:
+      - app1
+    restart: always

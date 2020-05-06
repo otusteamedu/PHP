@@ -5,26 +5,12 @@ networks:
     external:
       name: nginx-proxy
 
-volumes:
-  socket:
-
 services:
-  app:
-    container_name: app
+  nginx-balancer:
+    container_name: nginx-balancer
     build:
       context: ./
-      dockerfile: php/Dockerfile
-    volumes:
-    - socket:/var/run/php
-    - ./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-
-  nginx-proxy:
-    container_name: nginx-proxy
-    build: ./nginx
-    volumes:
-    - socket:/var/run/php
+      dockerfile: ./nginx/Dockerfile.balancer
     ports:
-    - 80:8081
-    depends_on:
-      - app
+    - 8081:8081
     restart: always

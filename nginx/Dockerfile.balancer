@@ -1,0 +1,8 @@
+FROM alpine:latest
+
+RUN apk update && apk add nginx \
+ && echo "pid /tmp/nginx.pid;" >> /etc/nginx/nginx.conf
+
+COPY ./nginx/balancer.conf /etc/nginx/conf.d/
+
+CMD ["nginx", "-g", "daemon off;"]
