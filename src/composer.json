@@ -1,0 +1,14 @@
+{
+  "name": "ozycast/app",
+  "license": "MIT",
+  "require": {
+    "mongodb/mongodb": "v1.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ozycast\\App\\": "App"
+    }
+  },
+  "version": "1.0.0",
+  "minimum-stability": "dev"
+}

@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+      - socket:/var/run
+    links:
+      - php
+
+  php:
+    build: ./docker/php/
+    container_name: php
+    volumes:
+      - ./src:/var/www/html
+      - ./config/php.www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket:/var/run
+    links:
+      - mongodb
+    env_file:
+      - ./.env
+
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+#    volumes:
+#      - ./data/mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+volumes:
+  socket:
