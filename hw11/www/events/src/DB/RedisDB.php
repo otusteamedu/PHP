@@ -58,6 +58,7 @@ class RedisDB implements DBInterface
                 $foundEvents[] = $data;
             }
         }
+
         if(empty($foundEvents)) {
             return null;
         }

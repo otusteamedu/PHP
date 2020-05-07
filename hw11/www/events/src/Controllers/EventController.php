@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\DB\RedisDB;
 use App\Messages\MessageWeb;
 use App\Repositories\EventRepository;
-use App\Services\EventDataService;
 use JsonException;
 use Klein\Request;
 
@@ -49,10 +48,9 @@ class EventController
             return MessageWeb::sendError($e->getMessage());
         }
 
-        $eventDataService = new EventDataService();
         $eventsRepository = new EventRepository(new RedisDB());
 
-        $key = $eventDataService->generateKey();
+        $key ='events:'. md5(uniqid('', true));
 
         try {
             $result = $eventsRepository->save($key, [json_encode($event, JSON_THROW_ON_ERROR)]);
