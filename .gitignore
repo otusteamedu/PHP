@@ -1,0 +1,5 @@
+.idea
+hw11/logs/*.log
+hw11/www/events/vendor
+hw11/www/youtube/vendor
+hw11/www/youtube/.env
