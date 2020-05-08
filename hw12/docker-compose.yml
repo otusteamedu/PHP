@@ -1,0 +1,46 @@
+version: '2'
+
+volumes:
+  php_socket:
+networks:
+  app-network:
+    driver: bridge
+services:
+  db:
+    container_name: mysql-hw12
+    image: library/mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: homework
+      MYSQL_ROOT_PASSWORD: example
+    networks:
+      - app-network
+  nginx:
+    container_name: nginx-hw12
+    # используем последний стабильный образ nginx
+    image: nginx:latest
+    # маршрутизируем порты
+    ports:
+      - "80:80"
+    # монтируем директории, слева директории на основной машине, справа - куда они монтируются в контейнере
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+      - ./www:/var/www
+      - ./images/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - php_socket:/run
+    # nginx должен общаться с php контейнером
+    links:
+      - php
+  php:
+    container_name: php-hw12
+    # у нас свой образ для PHP, указываем путь к нему и говорим что его надо собрать
+    build: images/php
+    volumes:
+      - ./www:/var/www
+      - ./images/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./images/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - php_socket:/run
+    networks:
+      - app-network
