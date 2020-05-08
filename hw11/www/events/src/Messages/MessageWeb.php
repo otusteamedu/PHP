@@ -20,7 +20,7 @@ class MessageWeb
      * @param $text
      * @return null
      */
-    public static function sendOk($text)
+    public static function sendOk(string $text)
     {
         header("HTTP/1.1 ".self::STATUS_OK." ". self::$httpStatuses[self::STATUS_OK]);
         echo $text;
@@ -31,7 +31,7 @@ class MessageWeb
      * @param $text
      * @return null
      */
-    public static function sendError($text)
+    public static function sendError(string $text)
     {
         header("HTTP/1.1 ".self::STATUS_BAD_REQUEST." ". self::$httpStatuses[self::STATUS_BAD_REQUEST]);
         echo $text;

@@ -64,7 +64,7 @@ class Video
         ];
     }
 
-    public function setVideoStatistics($statistics)
+    public function setVideoStatistics(array $statistics)
     {
         $this->setLikes($statistics['likes']);
         $this->setDislikes($statistics['dislikes']);

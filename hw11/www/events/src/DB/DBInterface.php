@@ -11,13 +11,13 @@ interface DBInterface
      * @param $data
      * @return mixed
      */
-    public function save($key, $data);
+    public function save(string $key, array $data);
 
     /**
      * @param $params
      * @return mixed
      */
-    public function find($params);
+    public function find(array $params);
 
     /**
      * @return mixed

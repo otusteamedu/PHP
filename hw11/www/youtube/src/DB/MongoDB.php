@@ -24,7 +24,11 @@ class MongoDB
 
     public function __construct()
     {
-        $this->client = new Client('mongodb://root:example@mongo:27017/');
+        $dsn = 'mongodb://'.getenv('MONGO_USERNAME').':'
+            .getenv('MONGO_PASSWORD').'@'
+            .getenv('MONGO_HOST').':'
+            .getenv('MONGO_POST').'/';
+        $this->client = new Client($dsn);
         $this->database = 'homework';
     }
 

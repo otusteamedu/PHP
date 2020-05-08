@@ -20,7 +20,7 @@ class ChannelRepository
         $this->collection = $database->getCollection();
     }
 
-    public function find()
+    public function find():array
     {
         return $this->collection->find()->toArray();
     }
@@ -40,7 +40,7 @@ class ChannelRepository
         return $this;
     }
 
-    public function getStatisticsSum()
+    public function getStatisticsSum():array
     {
         $data = $this->collection->aggregate([
             [
@@ -70,7 +70,7 @@ class ChannelRepository
         return $data->toArray();
     }
 
-    public function getTopChannels($limit)
+    public function getTopChannels(int $limit):array
     {
         $data = $this->collection->aggregate([
             [

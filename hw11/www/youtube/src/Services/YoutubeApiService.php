@@ -24,13 +24,13 @@ class YoutubeApiService
      */
     private $apiKey;
 
-    public function __construct($client)
+    public function __construct(Client $client)
     {
         $this->apiKey = getenv('YOUTUBE_API_KEY');
         $this->client = $client;
     }
 
-    public function getJsonChannels($query, $url): array
+    public function getJsonChannels(string $query, string $url): array
     {
         $response = $this->client->get($url, [
             'query' => [
@@ -64,7 +64,7 @@ class YoutubeApiService
         return $channelsEntities;
     }
 
-    public function getVideos($url, $channelId): array
+    public function getVideos(string $url, string $channelId): array
     {
         $response = $this->client->request('get', $url, [
             'query' => [
@@ -98,7 +98,7 @@ class YoutubeApiService
         return $videosEntities;
     }
 
-    public function getVideoStatistics($url, $videoId): array
+    public function getVideoStatistics(string $url, string $videoId): array
     {
         $response = $this->client->request('get', $url, [
             'query' => [

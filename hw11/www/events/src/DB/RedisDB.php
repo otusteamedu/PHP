@@ -24,7 +24,7 @@ class RedisDB implements DBInterface
      * @param $data
      * @return int|mixed
      */
-    public function save($key, $data)
+    public function save(string $key, array $data)
     {
         return $this->client->hmset($key, $data);
     }
@@ -32,7 +32,7 @@ class RedisDB implements DBInterface
     /**
      * @inheritDoc
      */
-    public function find($params)
+    public function find(array $params)
     {
         $names = $this->client->keys('events:*');
 
