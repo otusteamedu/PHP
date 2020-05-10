@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./src/public:/usr/share/nginx/html:ro
+    ports:
+      - ${HOST_MACHINE_PORT}:80

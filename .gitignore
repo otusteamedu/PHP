@@ -1,1 +1,5 @@
 .idea
+/.env
+*.min.css
+*.min.js
+*.min.*.map
