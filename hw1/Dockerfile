@@ -1,20 +1,20 @@
 FROM alpine
 
-# установить nginx
+# СѓСЃС‚Р°РЅРѕРІРёС‚СЊ nginx
 RUN apk update && apk add nginx
 
-# пользователь и права
+# РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Рё РїСЂР°РІР°
 RUN adduser -D -h /home/www -g 'nginx user' www && \
     chown -R www:www /var/lib/nginx && \
     chown -R www:www /home/www
 
-# копирование файлов
+# РєРѕРїРёСЂРѕРІР°РЅРёРµ С„Р°Р№Р»РѕРІ
 COPY ./config/nginx.conf        /etc/nginx/nginx.conf
 COPY ./config/deadly.local.conf /etc/nginx/conf.d
 COPY ./src/                     /home/www/
 
-# порт
+# РїРѕСЂС‚
 EXPOSE 80
 
-# запуск сервера
+# Р·Р°РїСѓСЃРє СЃРµСЂРІРµСЂР°
 CMD ["nginx"]
