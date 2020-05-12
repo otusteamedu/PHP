@@ -1,0 +1,19 @@
+{
+    "name": "vukuze/hw4",
+    "description": "Otus PHP unit 5 homework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Maxim Yu",
+            "email": "maximyuferev@gmail.com"
+        }
+    ],
+    "require": {
+        "league/climate": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hw4\\" : "src/Hw/"
+        }
+    }
+}
