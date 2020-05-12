@@ -1,5 +1,8 @@
-<html>
-    <head>
-        <title><?= $_SERVER['SERVER_ADDR']; ?></title>
-    </head>
-</html>
+<?php
+
+require_once('../vendor/autoload.php');
+
+use Core\Application;
+
+$app = new Application();
+$app->run();

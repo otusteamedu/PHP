@@ -1,0 +1,7 @@
+validators:
+  mx_record_valid:
+    class: Validator\MXRecordValid
+    order: 50
+  structure_valid:
+    class: Validator\StructureValid
+    order: 10
