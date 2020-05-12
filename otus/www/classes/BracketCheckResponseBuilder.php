@@ -4,12 +4,10 @@ namespace Classes;
 
 class BracketCheckResponseBuilder
 {
-
     private $builderErrors;
     private $bracketCheckErrors;
     private $status;
     private $responseMessage;
-
 
     public function setResponseMessage(string $responseMessage): BracketCheckResponseBuilder
     {
@@ -23,7 +21,7 @@ class BracketCheckResponseBuilder
         return $this;
     }
 
-    public function setBracketCheckErrors(string $bracketCheckErrors): BracketCheckResponseBuilder
+    public function setBracketCheckErrors(array $bracketCheckErrors): BracketCheckResponseBuilder
     {
         $this->bracketCheckErrors = $bracketCheckErrors;
         return $this;
@@ -51,7 +49,7 @@ class BracketCheckResponseBuilder
         return $this->status;
     }
 
-    public function getBracketCheckErrors(): string
+    public function getBracketCheckErrors(): array
     {
         return $this->bracketCheckErrors;
     }

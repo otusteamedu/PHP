@@ -7,7 +7,7 @@ use Classes\Predicates\PredicateService;
 
 class BracketStringValidatorImpl implements BracketStringValidator
 {
-    private const CONTENT_LENGTH = 10;
+    private const CONTENT_LENGTH = 48;
 
     private $errors = [];
     private $predicateService;

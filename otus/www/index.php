@@ -10,8 +10,6 @@ use Classes\Predicates\PredicateServiceImpl;
 
 require_once 'vendor/autoload.php';
 
-//$_POST['string'] = '[[]]{{}}((';
-
 $bracketCheckRequestBuilder = new BracketCheckRequestBuilder();
 /** @var BracketCheckRequest $bracketCheckRequest */
 $bracketCheckRequest = $bracketCheckRequestBuilder

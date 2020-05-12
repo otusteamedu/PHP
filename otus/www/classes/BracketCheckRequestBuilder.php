@@ -11,7 +11,7 @@ class BracketCheckRequestBuilder
         if (array_key_exists('string', $postData)) {
             $this->string = $postData['string'];
         } else {
-            $this->string = null;
+            $this->string = '';
         }
         return $this;
     }

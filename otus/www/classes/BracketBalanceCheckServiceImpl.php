@@ -18,19 +18,18 @@ class BracketBalanceCheckServiceImpl implements BracketBalanceCheckService
         if (!$this->bracketStringValidator->isValid()) {
 
             $responseMessage = 'Передаваемая строка не корректна';
-            $errors = sprintf('Ошибки : %s', implode(';', $this->bracketStringValidator->getErrors()));
 
             return $bracketCheckResponseBuilder
                 ->setStatus('400 Bad Request')
                 ->setResponseMessage($responseMessage)
-                ->setBracketCheckErrors($errors)
+                ->setBracketCheckErrors($this->bracketStringValidator->getErrors())
                 ->build();
         }
 
         return $bracketCheckResponseBuilder
             ->setStatus('200 OK')
             ->setResponseMessage('Строка валидная')
-            ->setBracketCheckErrors('')
+            ->setBracketCheckErrors([])
             ->build();
     }
 }
