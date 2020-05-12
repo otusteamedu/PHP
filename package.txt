@@ -1,0 +1,3 @@
+git clone https://github.com/ozyab/PubProxy-rand.git
+or
+composer require "ozyab/pubproxy-rand:^1.0"
