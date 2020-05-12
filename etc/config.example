@@ -1,0 +1,5 @@
+[server]
+server_file = "/tmp/server.sock";
+
+[client]
+client_file = "/tmp/client.sock";
