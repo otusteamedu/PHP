@@ -1,0 +1,5 @@
+# php -i | grep "redis"
+PWD => /var/www/html/phpredis
+$_SERVER['PWD'] => /var/www/html/phpredis
+$_ENV['PWD'] => /var/www/html/phpredis
+This program is free software; you can redistribute it and/or modify
