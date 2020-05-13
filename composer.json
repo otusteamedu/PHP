@@ -7,7 +7,9 @@
         }
     ],
     "require": {
-        "bcosca/fatfree": "^3.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.1"
     },
     "autoload": {
         "psr-4": {
