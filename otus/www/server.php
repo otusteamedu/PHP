@@ -1,22 +1,21 @@
 <?php
 
-require_once 'vendor/autoload.php';
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
 
-use Classes\ServerSocketDataBuilder;
+$uri = urldecode(
+    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+);
 
-$settings = parse_ini_file('socket.ini');
-
-if (file_exists($settings['SOCK_FILE_PATH'])) {
-    unlink($settings['SOCK_FILE_PATH']);
+// This file allows us to emulate Apache's "mod_rewrite" functionality from the
+// built-in PHP web server. This provides a convenient way to test a Laravel
+// application without having installed a "real" web server software here.
+if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
+    return false;
 }
 
-$server = (new ServerSocketDataBuilder())
-    ->setDomainServerSocketFilePath($settings['SOCK_FILE_PATH'])
-    ->setProtocolFamilyForSocket(AF_UNIX)
-    ->setTypeOfDataExchange(SOCK_STREAM)
-    ->setProtocol(0)
-    ->setMaxByteForRead(65536)
-    ->built();
-
-
-$server->run();
+require_once __DIR__.'/public/index.php';

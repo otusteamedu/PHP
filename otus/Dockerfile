@@ -1,29 +1,32 @@
 FROM composer:latest AS composer
-FROM php:7.1-fpm
+FROM php:7.3-fpm
 
-RUN apt-get update \
-    && apt-get install -y bc \
-        git \
-        wget \
-        zip\
-        unzip\
-        libpq-dev\
-        libmemcached-dev \
-        curl\
-        libzip-dev\
-        zlibc\
-        zlib1g\
-    && docker-php-ext-configure zip --with-libzip\
-    && docker-php-ext-install zip\
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql\
-    && pecl install xdebug && docker-php-ext-enable xdebug\
-    && pecl install memcached && docker-php-ext-enable memcached\
-    && pecl install redis && docker-php-ext-enable redis\
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libzip-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
+    libfreetype6 \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+USER www
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
-ADD ./www /var/www/html
+WORKDIR /var/www/
+ADD ./www /var/www/
 EXPOSE 9000
