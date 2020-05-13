@@ -24,7 +24,11 @@ services:
     depends_on:
       - otus-redis
     volumes:
+      - ./otus/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./otus/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./otus/www:/var/www/html
+    environment:
+          PHP_IDE_CONFIG: "serverName=Docker"
 
   otus-redis:
     image: redis:4.0.12
