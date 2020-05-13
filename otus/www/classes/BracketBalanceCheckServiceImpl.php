@@ -5,6 +5,8 @@ namespace Classes;
 class BracketBalanceCheckServiceImpl implements BracketBalanceCheckService
 {
     private $bracketStringValidator;
+    private const BAD_REQUEST_STATUS = '400 Bad Request';
+    private const SUCCESS_STATUS = '200 OK';
 
     public function __construct(BracketStringValidator $bracketStringValidator)
     {
@@ -20,14 +22,14 @@ class BracketBalanceCheckServiceImpl implements BracketBalanceCheckService
             $responseMessage = 'Передаваемая строка не корректна';
 
             return $bracketCheckResponseBuilder
-                ->setStatus('400 Bad Request')
+                ->setStatus(self::BAD_REQUEST_STATUS)
                 ->setResponseMessage($responseMessage)
                 ->setBracketCheckErrors($this->bracketStringValidator->getErrors())
                 ->build();
         }
 
         return $bracketCheckResponseBuilder
-            ->setStatus('200 OK')
+            ->setStatus(self::SUCCESS_STATUS)
             ->setResponseMessage('Строка валидная')
             ->setBracketCheckErrors([])
             ->build();
