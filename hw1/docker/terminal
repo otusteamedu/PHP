@@ -1,0 +1,13 @@
+v@home:~/OTUS/PHP/hw1/docker$ docker build -t otus-nginx .
+
+v@home:~/OTUS/PHP/hw1/docker$ docker run -p 80:80 -d otus-nginx
+7ca759a7f8e71f3eaf2631ac3d9bb5e0d8edd4acfd68e775c81b239aa0315fc9
+
+v@home:~/OTUS/PHP/hw1/docker$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+otus-nginx          latest              1432bd53ed53        About a minute ago   154MB
+ubuntu              latest              1d622ef86b13        2 weeks ago          73.9MB
+
+v@home:~/OTUS/PHP/hw1/docker$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                NAMES
+7ca759a7f8e7        otus-nginx          "nginx -g 'daemon of…"   About a minute ago   Up About a minute   0.0.0.0:80->80/tcp   fervent_jackson
