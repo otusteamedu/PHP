@@ -1,6 +1,5 @@
 <?php
 
-
 use Classes\BracketBalanceCheckServiceImpl;
 use Classes\BracketCheckRequest;
 use Classes\BracketCheckRequestBuilder;

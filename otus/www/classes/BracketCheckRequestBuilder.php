@@ -16,7 +16,7 @@ class BracketCheckRequestBuilder
         return $this;
     }
 
-    public function build()
+    public function build(): BracketCheckRequest
     {
         return BracketCheckRequest::build($this);
     }

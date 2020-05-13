@@ -7,7 +7,7 @@ use Classes\Predicates\PredicateService;
 
 class BracketStringValidatorImpl implements BracketStringValidator
 {
-    private const CONTENT_LENGTH = 48;
+    private const LENGTH = 10;
 
     private $errors = [];
     private $predicateService;
@@ -31,9 +31,9 @@ class BracketStringValidatorImpl implements BracketStringValidator
             $this->errors[] = 'Валидируемая строка не может быть пустой';
         }
 
-        if (strlen($string) !== self::CONTENT_LENGTH)
+        if (strlen($string) < self::LENGTH)
         {
-            $this->errors[] = 'Длина валидируемой строки строки не соответствует настройкам';
+            $this->errors[] =  sprintf('Длина валидируемой строки строки меньше %d символов', self::LENGTH);
         }
 
         $this->checkBracketsBalance($string);
@@ -46,7 +46,7 @@ class BracketStringValidatorImpl implements BracketStringValidator
         $predicates = $this->predicateService->getPredicatesCollection();
         /** @var BracketPredicate $predicate */
         foreach ($predicates as $predicate) {
-            if (!$predicate->isBracketsBalance($string)) {
+            if (!$predicate->isBracketsCorrect($string)) {
                 $this->errors[] = $predicate->getMessage();
             }
         }

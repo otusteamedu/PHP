@@ -7,18 +7,29 @@ namespace Classes\Predicates;
  * Class SquareBracketPredicate
  * @package Brackets
  */
-class SquareBracketPredicate implements BracketPredicate
+class SquareBracketPredicate extends BasePredicate implements BracketPredicate
 {
-    public function isBracketsBalance(string $string): bool
-    {
-        preg_match_all('/\[/', $string, $openSquare);
-        preg_match_all('/\]/', $string, $closedSquare);
+    private $message;
+    protected $openBracket = '[';
+    protected $closeBracket = ']';
 
-        return count($openSquare[0]) === count($closedSquare[0]);
+    public function isBracketsCorrect(string $string): bool
+    {
+        if (!$this->isBracketsBalanceCorrect($string)) {
+            $this->message = 'Не корректное количество закрытых и открытых квадратных скобок';
+            return false;
+        }
+
+        if (!$this->isBracketsOrderCorrect($string)) {
+            $this->message = 'Не корректная последовательность квадратных скобок';
+            return false;
+        }
+
+        return true;
     }
 
     public function getMessage(): string
     {
-        return 'Не корректное количество закрытых и открытых квадратных скобок';
+        return $this->message;
     }
 }

@@ -8,19 +8,29 @@ namespace Classes\Predicates;
  * @package Brackets
  */
 
-class ParenthesisPredicate implements BracketPredicate
+class ParenthesisPredicate extends BasePredicate implements BracketPredicate
 {
+    private $message;
+    protected $openBracket = '(';
+    protected $closeBracket = ')';
 
-    public function isBracketsBalance(string $string): bool
+    public function isBracketsCorrect(string $string): bool
     {
-        preg_match_all('/\(/', $string, $openParenthesis);
-        preg_match_all('/\)/', $string, $closedParenthesis);
+        if (!$this->isBracketsBalanceCorrect($string)) {
+            $this->message = 'Не корректное количество закрытых и открытых круглых скобок';
+            return false;
+        }
 
-        return count($openParenthesis[0]) === count($closedParenthesis[0]);
+        if (!$this->isBracketsOrderCorrect($string)) {
+            $this->message = 'Не корректная последовательность круглых скобок';
+            return false;
+        }
+
+        return true;
     }
 
     public function getMessage(): string
     {
-        return 'Не корректное количество закрытых и открытых круглых скобок';
+        return $this->message;
     }
 }
