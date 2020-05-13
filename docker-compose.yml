@@ -5,54 +5,47 @@ services:
   otus-nginx:
     image: nginx:1.15
     ports:
-      - '6060:80'
+      - '6070:80'
     depends_on:
-      - otus-php
+      - otus-app
     networks:
       - shared
     volumes:
-      - ./otus/www:/var/www/html
+      - ./otus/www:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
-  otus-php:
+  otus-app:
     build: ./otus
     ports:
       - '9000:9000'
-    container_name: otus-php
+    container_name: otus-app
     networks:
       - shared
-    depends_on:
-      - otus-redis
     volumes:
-      - ./otus/www:/var/www/html
+      - ./otus/www:/var/www
 
-  otus-redis:
-    image: redis:4.0.12
-    container_name: otus-redis
-    command: redis-server
-    restart: always
-    volumes:
-      - redis-data:/data
+  otus_db:
+    image: mysql:5.7.22
+    container_name: otus_db
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
     networks:
       - shared
-    ports:
-      - 6379:6379
-
-  memcached:
-    image: memcached:latest
-    container_name: mymemcached
     volumes:
-      - ./otus/memcached:/var/lib/memcached
-    ports:
-      - "11211:11211"
-    depends_on:
-      - otus-php
-    networks:
-      - shared
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
 
 networks:
   shared:
     driver: bridge
 
 volumes:
-  redis-data:
+  dbdata:
+    driver: local
