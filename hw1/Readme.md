@@ -71,7 +71,7 @@ Stage / Development - один сервер, на нем все крутится
 Несколькот месяцев назад у заказчика была мысль о переходе в облако гугл, но дальше этой мысли у нас диалог не зашел. Сейчас как раз можно посчитать и понять есть в этом смысл или нет. Поэтому в качестве облака буду использовать (технологии гугла)[https://cloud.google.com/products/calculator#id=]. 
 
 Выбрал:
-* Instances = 2
+* Instances = 2 (1 productrion, 1 - stage и developemnt)
 * What are these instances for? = Web
 * Operating System / Software = Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or other User Provided OS
 * Machine Class = Regular
