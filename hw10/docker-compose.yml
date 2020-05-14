@@ -2,12 +2,10 @@ version: '3'
 services:
   cinema_db:
     image: postgres
+    env_file:
+      - database.env
     container_name: cinema_db
     volumes:
       - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: example
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: cinema
 volumes:
   db-data:
