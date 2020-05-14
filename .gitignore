@@ -1,0 +1,12 @@
+/logs
+/tmp
+/vendor
+/.idea
+/.env
+/*.sql
+/*.log
+/*.csv
+/*.DS_Store
+/composer.phar
+/docker/.env
+/docker/logs
