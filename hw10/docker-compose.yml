@@ -1,0 +1,11 @@
+version: '3'
+services:
+  cinema_db:
+    image: postgres
+    env_file:
+      - database.env
+    container_name: cinema_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
