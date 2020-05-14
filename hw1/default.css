@@ -1,0 +1,77 @@
+header{
+    width: 90%;
+    background-color: darkblue;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    box-shadow: 5px 5px 10px #555;
+    border-radius: 5px;
+}
+
+.task{
+    width: 90%;
+    background-color: #eee;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px auto;
+    padding: 5px;
+    box-shadow: 5px 5px 10px #555;
+    border-radius: 5px;
+}
+
+/*.task:after{
+    content: "...";
+    padding: 5px;
+    margin: 10px;
+    color: darkblue;
+    background-color: white;
+    clip-path: circle(45% at center center);
+}*/
+
+.context{
+    background-color: white;
+    color: darkblue;
+    font-weight: normal;
+    text-align: justify;
+    width: 90%;
+    margin: 10px auto;
+    padding: 15px;
+}
+
+.price, .priceInMonth{
+    font-weight: bold;
+}
+
+.price:after{
+    content: " руб.";
+}
+
+{
+    font-weight: bold;
+}
+
+.priceInMonth:after{
+    content: " руб./месяц";
+}
+
+.cmd{
+    color: darkred;
+    font-weight: bold;
+}
+
+.var{
+    color: blue;
+    font-weight: bold;
+}
+
+.rem{
+    color: #aaa;
+}
+
+.code{
+    border: 1px solid black;
+    padding: 5px;
+    background-color: #eee;
+}
