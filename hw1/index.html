@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AArtamonov\hw1</title>
+    <link rel="stylesheet" href="default.css">
+</head>
+<body>
+
+<header>Домашнее задание №1</header>
+
+<div id="taskAll" class="task">
+    <h2>Предполагаемая тема для выполнения финальной проектной работы<br/>
+        Работа магазина с удаленными филиалами</h2>
+</div>
+    <div class="context">
+        <h4>Рабочее место продавца</h4>
+        <ol>
+            <li>Реализация товара</li>
+            <li>Выписывание товарных накладных</li>
+            <li>Сверка по остаткам</li>
+            <li>(?) Онлайн-касса</li>
+            <li>Отчет по реализации</li>
+        </ol>
+        <h4>Рабочее место Кладовщика</h4>
+        <ol>
+            <li>Приход товара</li>
+            <li>Отправка товара на торговые точки</li>
+            <li>Отправка товара по онлайн-покупкам</li>
+            <li>Списание брака</li>
+            <li>Инвентаризация</li>
+        </ol>
+        <h4>Рабочее место бухгалтера</h4>
+        <ol>
+            <li>Установка цен</li>
+            <li>Выгрузка в 1С/Налогоплательщик для сдачи отчетов</li>
+        </ol>
+
+        <p>Тип RESTFull, формат обмена с frontend JSON/XML</p>
+
+</div>
+
+<div id="task2" class="task">Экономика</div>
+
+<div class="context">
+    <h4>Стоимость локального обслуживание</h4>
+    <ol>
+        <li><a href="https://v8.1c.ru/buhv8/cena-1s-buhgalterii-8/">Лицензия 1С:Базовая</a> <span class="price">3000</span></li>
+        <li><a href="https://www.dns-shop.ru/product/a2805ad1d8ee3330/server-dell-precision-3431-3431-6909/">Сервер Dell Precision 3431 [3431-6909]</a> <span class="price">78 999</span></li>
+    </ol>
+
+    <h4>Стоимость облачного решения</h4>
+    <ol>
+        <li><a href="https://lancloud.ru/oblachnye-servisy/cloud-1c/"> Cтоимость 1с Облако</a> (2 лицензии - 1 для бухгалтера, 2ая - для автоматического обмена) <span class="priceInMonth">1700</span> </li>
+        <li><a href="https://lancloud.ru/oblachnye-servisy/cloud-server/"> Стоимость Аренды выделенного сервера (Процессорные ядра (Intel Xeon E5-2680 V3) 2.5 @ 2.9 ГГц -2шт, ОЗУ 4Гб, SSD 40Гб)</a> – <span class="priceInMonth">1837</span></li>
+    </ol>
+    <p>Так как расчетная нагрузка на сервер будет ниже среднего, то в данном сервере можно разместить не только для Production-инфраструктуры, но и Stage и Development.</p>
+<p> Необходимость DevOps в обеих случаях считаю нужным, то из расчета можно исключить</p>
+
+
+    <p>Локально – разовая закупка <span class="price">~ 82000</span></br>
+        Облачное решение <span class="priceInMonth">~ 3600</span><hr/>
+    Срок окупаемости локального решения <strong>~23 месяца</strong>, что считается долгим и ненадежным, то выбор становиться в сторону <strong>облачного решения</strong></p>
+
+</div>
+
+<div id="task1" class="task">Docker</div>
+
+<div class="context">
+    <h4>Содержание файла Docker</h4>
+<div class="code">
+    <p><span class="cmd">FROM</span> <span class="var">nginx:alpine</span> <span class="rem">#Образ</span><br/>
+    <span class="cmd">COPY</span> <span class="var"> default.conf /etc/nginx/conf.d/default.conf</span> <span class="rem"> #Копируем конфигурацию</span><br/>
+    <span class="cmd">COPY</span> <span class="var"> index.html /var/www/html/index.html</span> <span class="rem"> #Копируем файл статичного сайта</span><br/>
+    <span class="cmd">COPY</span> <span class="var"> default.css /var/www/html/default.css</span> <span class="rem"> #копируем стили</span><br/>
+    <span class="cmd">EXPOSE</span> <span class="var">80</span> <span class="rem"> #назначаем порт по умолчанию 80</span><br/>
+    <span class="cmd">CMD</span> <span class="var">["nginx", "-g", "daemon off;"]</span> <span class="rem"> #запускаем nginx в режиме приложения</span></p>
+</div>
+    <h4>Создание образа</h4>
+    <div class="code">
+        docker build -t otus/hw1 .
+    </div>
+    <h4>Запуск образа</h4>
+    <div class="code">
+        docker run -d -p 8080:80 otus/hw1
+    </div>
+</div>
+
+</body>
+</html>
