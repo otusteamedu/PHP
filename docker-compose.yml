@@ -26,33 +26,6 @@ services:
     volumes:
       - ./otus/www:/var/www/html
 
-  otus-redis:
-    image: redis:4.0.12
-    container_name: otus-redis
-    command: redis-server
-    restart: always
-    volumes:
-      - redis-data:/data
-    networks:
-      - shared
-    ports:
-      - 6379:6379
-
-  memcached:
-    image: memcached:latest
-    container_name: mymemcached
-    volumes:
-      - ./otus/memcached:/var/lib/memcached
-    ports:
-      - "11211:11211"
-    depends_on:
-      - otus-php
-    networks:
-      - shared
-
 networks:
   shared:
     driver: bridge
-
-volumes:
-  redis-data:
