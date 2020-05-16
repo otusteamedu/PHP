@@ -1,0 +1,6 @@
+db:
+    driver: pgsql
+    host: db
+    dbname: otus
+    username: otus
+    password: otus
