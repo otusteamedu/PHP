@@ -2,10 +2,10 @@
 
 namespace Framework;
 
-use Aura\Router\RouterContainer;
 use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Pipeline\EmptyHandler;
 use Framework\Router\HandlerResolver;
+use Framework\Router\Router;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
@@ -14,13 +14,13 @@ use Laminas\Stratigility\MiddlewarePipe;
 
 class App
 {
-    /** @var \Aura\Router\RouterContainer */
+    /** @var \Framework\Router\Router */
     private $router;
 
     /**
-     * @param \Aura\Router\RouterContainer $router
+     * @param \Framework\Router\Router $router
      */
-    public function __construct(RouterContainer $router)
+    public function __construct(Router $router)
     {
         $this->router = $router;
     }

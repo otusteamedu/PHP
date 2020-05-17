@@ -2,9 +2,10 @@
 
 namespace Framework\Middleware;
 
-use Aura\Router\RouterContainer;
 use Framework\Pipeline\EmptyHandler;
+use Framework\Router\Exception\RouteNotMatchedException;
 use Framework\Router\HandlerResolver;
+use Framework\Router\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,17 +13,17 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RouteMatcherMiddleware implements MiddlewareInterface
 {
-    /** @var \Aura\Router\RouterContainer */
+    /** @var \Framework\Router\Router */
     private $router;
 
     /** @var \Framework\Router\HandlerResolver */
     private $resolver;
 
     /**
-     * @param \Aura\Router\RouterContainer $router
+     * @param \Framework\Router\Router $router
      * @param \Framework\Router\HandlerResolver $resolver
      */
-    public function __construct(RouterContainer $router, HandlerResolver $resolver)
+    public function __construct(Router $router, HandlerResolver $resolver)
     {
         $this->router = $router;
         $this->resolver = $resolver;
@@ -35,12 +36,12 @@ class RouteMatcherMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $matcher = $this->router->getMatcher();
-        if (($route = $matcher->match($request)) !== false) {
-            $action = $this->resolver->resolve($route->handler);
+        try {
+            $result = $this->router->match($request);
+            $action = $this->resolver->resolve($result->getHandler());
             return $action->process($request, new EmptyHandler());
+        } catch (RouteNotMatchedException $e) {
+            return $handler->handle($request);
         }
-
-        return $handler->handle($request);
     }
 }

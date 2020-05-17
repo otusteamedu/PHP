@@ -4,6 +4,7 @@ use App\Controller\BillingController;
 use App\Controller\SiteController;
 use Aura\Router\RouterContainer;
 use Framework\App;
+use Framework\Router\AuraRouterAdapter;
 
 chdir(dirname(__DIR__));
 
@@ -15,6 +16,6 @@ require_once 'vendor/autoload.php';
     $map->get('home', '/', SiteController::class);
     $map->get('paid', '/paid', BillingController::class . '::paid');
 
-    $app = new App($router);
+    $app = new App(new AuraRouterAdapter($router));
     $app->run();
 })();
