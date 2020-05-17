@@ -2,8 +2,6 @@
 
 namespace Framework;
 
-use App\Controller\BillingController;
-use App\Controller\SiteController;
 use Aura\Router\RouterContainer;
 use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Pipeline\EmptyHandler;
@@ -16,20 +14,24 @@ use Laminas\Stratigility\MiddlewarePipe;
 
 class App
 {
-    public function run()
+    /** @var \Aura\Router\RouterContainer */
+    private $router;
+
+    /**
+     * @param \Aura\Router\RouterContainer $router
+     */
+    public function __construct(RouterContainer $router)
+    {
+        $this->router = $router;
+    }
+
+    public function run(): void
     {
         $request = ServerRequestFactory::fromGlobals();
         $pipeline = new MiddlewarePipe();
-        $router = new RouterContainer();
         $resolver = new HandlerResolver();
 
-        ###
-
-        $map = $router->getMap();
-        $map->get('home', '/', SiteController::class);
-        $map->get('paid', '/paid', BillingController::class . '::paid');
-
-        $pipeline->pipe(new RouteMatcherMiddleware($router, $resolver));
+        $pipeline->pipe(new RouteMatcherMiddleware($this->router, $resolver));
         $pipeline->pipe(new NotFoundHandler(function () {
             return new Response();
         }));
