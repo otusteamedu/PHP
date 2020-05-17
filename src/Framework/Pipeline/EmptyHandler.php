@@ -11,6 +11,6 @@ class EmptyHandler implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response('', 200);
+        return new Response();
     }
 }

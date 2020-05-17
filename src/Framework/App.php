@@ -5,6 +5,7 @@ namespace Framework;
 use App\Controller\BillingController;
 use App\Controller\SiteController;
 use Aura\Router\RouterContainer;
+use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Pipeline\EmptyHandler;
 use Framework\Router\HandlerResolver;
 use Laminas\Diactoros\Response;
@@ -19,20 +20,16 @@ class App
     {
         $request = ServerRequestFactory::fromGlobals();
         $pipeline = new MiddlewarePipe();
+        $router = new RouterContainer();
+        $resolver = new HandlerResolver();
 
         ###
 
-        $router = new RouterContainer();
         $map = $router->getMap();
         $map->get('home', '/', SiteController::class);
         $map->get('paid', '/paid', BillingController::class . '::paid');
 
-        $matcher = $router->getMatcher();
-        if (($route = $matcher->match($request)) !== false) {
-            $resolver = new HandlerResolver();
-            $pipeline->pipe($resolver->resolve($route->handler));
-        }
-
+        $pipeline->pipe(new RouteMatcherMiddleware($router, $resolver));
         $pipeline->pipe(new NotFoundHandler(function () {
             return new Response();
         }));
