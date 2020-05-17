@@ -2,42 +2,32 @@
 
 namespace Framework;
 
-use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Pipeline\EmptyHandler;
-use Framework\Router\HandlerResolver;
-use Framework\Router\Router;
-use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Laminas\Stratigility\Middleware\NotFoundHandler;
 use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Http\Server\MiddlewareInterface;
 
 class App
 {
-    /** @var \Framework\Router\Router */
-    private $router;
+    /** @var \Laminas\Stratigility\MiddlewarePipe */
+    private $pipeline;
 
-    /**
-     * @param \Framework\Router\Router $router
-     */
-    public function __construct(Router $router)
+    public function __construct()
     {
-        $this->router = $router;
+        $this->pipeline = new MiddlewarePipe();
     }
 
     public function run(): void
     {
         $request = ServerRequestFactory::fromGlobals();
-        $pipeline = new MiddlewarePipe();
-        $resolver = new HandlerResolver();
-
-        $pipeline->pipe(new RouteMatcherMiddleware($this->router, $resolver));
-        $pipeline->pipe(new NotFoundHandler(function () {
-            return new Response();
-        }));
-
-        $response = $pipeline->process($request, new EmptyHandler());
+        $response = $this->pipeline->process($request, new EmptyHandler());
 
         (new SapiEmitter())->emit($response);
+    }
+
+    public function pipe(MiddlewareInterface $middleware): void
+    {
+        $this->pipeline->pipe($middleware);
     }
 }

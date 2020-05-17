@@ -1,15 +1,25 @@
 <?php
 
 use Framework\App;
+use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Router\AuraRouterAdapter;
+use Framework\Router\HandlerResolver;
+use Laminas\Diactoros\Response;
+use Laminas\Stratigility\Middleware\NotFoundHandler;
 
 chdir(dirname(__DIR__));
 
 require_once 'vendor/autoload.php';
 
 (function () {
-    $router = (require 'config/router.php')();
+    $routes = (require 'config/routes.php')();
+    $router = new AuraRouterAdapter($routes);
+    $app = new App();
 
-    $app = new App(new AuraRouterAdapter($router));
+    $app->pipe(new RouteMatcherMiddleware($router, new HandlerResolver()));
+    $app->pipe(new NotFoundHandler(function () {
+        return new Response();
+    }));
+
     $app->run();
 })();
