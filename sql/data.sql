@@ -1,0 +1,21 @@
+-- Init data
+-- INSERT INTO attribute_type (type_name)
+--     SELECT random_string( (4 + 10*random())::int ) FROM generate_series(1, 5);
+--
+-- INSERT INTO "attribute" (attr_name, type_id)
+--     SELECT random_string( (3 + 7*random())::int ), (1 + 4*random())::int FROM generate_series(1, 10) AS gs(id);
+--
+-- INSERT INTO film ("name", "comment")
+--     SELECT random_string( (7 + 30*random())::int ), random_string( (15 + 50*random())::int ) FROM generate_series(1, 20) AS gs(id);
+
+-- INSERT INTO attribute_value (attribute_id, film_id, val_text)
+--     SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_string( (7 + 30*random())::int ) FROM generate_series(1, 5000000);
+--
+-- INSERT INTO attribute_value (attribute_id, film_id, val_numeric)
+--     SELECT (1 + 9*random())::int, (1 + 19*random())::int, (1000 + 19000*random())::int FROM generate_series(1, 2000000);
+--
+-- INSERT INTO attribute_value (attribute_id, film_id, val_bool)
+--     SELECT (1 + 9*random())::int, (1 + 19*random())::int, TRUE FROM generate_series(1, 1000000);
+--
+-- INSERT INTO attribute_value (attribute_id, film_id, val_date)
+--     SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_date() FROM generate_series(1, 2000000);

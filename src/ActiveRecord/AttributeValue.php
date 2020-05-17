@@ -1,0 +1,345 @@
+<?php
+namespace Otus\ActiveRecord;
+
+class AttributeValue {
+    /**
+     * @var \PDO
+     */
+    private $pdo;
+
+    private const TABLE_NAME = 'attribute_value';
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var int
+     */
+    private $attributeId;
+
+    /**
+     * @var int
+     */
+    private $filmId;
+
+    /**
+     * @var string
+     */
+    private $valText;
+
+    /**
+     * @var float
+     */
+    private $valNumeric;
+
+    /**
+     * @var bool
+     */
+    private $valBool;
+
+    /**
+     * @var string
+     */
+    private $valDate;
+
+    /**
+     * @var \PDOStatement
+     */
+    private static $selectQuery = "select attribute_id, film_id, val_text, val_numeric, val_bool, val_date from " . self::TABLE_NAME . " where id = ? limit 20";
+
+    /**
+     * @var \PDOStatement
+     */
+    private static $selectListQuery = "select * from " . self::TABLE_NAME;
+
+    /**
+     * @var \PDOStatement
+     */
+    private $updateStmt;
+
+    /**
+     * @var \PDOStatement
+     */
+    private $insertStmt;
+
+    /**
+     * @var \PDOStatement
+     */
+    private $deleteStmt;
+
+    /**
+     * @param \PDO $pdo
+     */
+    public function __construct(\PDO $pdo)
+    {
+        $this->pdo = $pdo;
+
+        $this->insertStmt = $pdo->prepare(
+            "insert into " . self::TABLE_NAME . " (attribute_id, film_id, val_text, val_numeric, val_date, val_bool) values (?, ?, ?, ?, ?, ?)"
+        );
+        $this->updateStmt = $pdo->prepare(
+            "update " . self::TABLE_NAME . " set attribute_id = ?, film_id = ?, val_text = ?, val_numeric = ?, val_date = ?, val_bool = ? where id = ?"
+        );
+        $this->deleteStmt = $pdo->prepare("delete from " . self::TABLE_NAME . " where id = ?");
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttributeId(): int
+    {
+        return $this->attributeId;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setAttributeId(int $id): self
+    {
+        $this->attributeId = $id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFilmId(): int
+    {
+        return $this->filmId;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setFilmId(int $id): self
+    {
+        $this->filmId = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValText(): string
+    {
+        return $this->valText;
+    }
+
+    /**
+     * @param string $val
+     * @return $this
+     */
+    public function setValText(string $val): self
+    {
+        $this->valText = $val;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getValNumeric(): float
+    {
+        return $this->valNumeric;
+    }
+
+    /**
+     * @param float $val
+     * @return $this
+     */
+    public function setValNumeric(float $val): self
+    {
+        $this->valNumeric = $val;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getValBool(): bool
+    {
+        return $this->valBool;
+    }
+
+    /**
+     * @param bool $val
+     * @return $this
+     */
+    public function setValBool(bool $val): self
+    {
+        $this->valBool = $val;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValDate(): string
+    {
+        return $this->valDate;
+    }
+
+    /**
+     * @param string $val
+     * @return $this
+     */
+    public function setValDate(string $val): self
+    {
+        $this->valDate = $val;
+        return $this;
+    }
+
+    /**
+     * @param \PDO $pdo
+     * @param int $id
+     * @return static
+     */
+    public static function getById(\PDO $pdo, int $id): self
+    {
+        $selectStmt = $pdo->prepare(self::$selectQuery);
+        $selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $selectStmt->execute([$id]);
+        $result = $selectStmt->fetch();
+
+        $row = new self($pdo);
+        $row
+            ->setId($id)
+            ->setAttributeId($result['attribute_id'])
+            ->setFilmId($result['film_id']);
+
+
+        if ($result['val_text']) {
+            $row->setValText($result['val_text']);
+        } elseif ($result['val_numeric']) {
+            $row->setValNumeric($result['val_numeric']);
+        } elseif ($result['val_bool']) {
+            $row->setValBool($result['val_bool']);
+        } elseif ($result['val_date']) {
+            $row->setValDate($result['val_date']);
+        }
+
+        return $row;
+    }
+
+    /**
+     * @param \PDO $pdo
+     * @return \DS\Vector
+     */
+    public static function getList(\PDO $pdo): \DS\Vector
+    {
+        $selectStmt = $pdo->prepare(self::$selectListQuery);
+        $selectStmt->setFetchMode(\PDO::FETCH_OBJ);
+        $selectStmt->execute();
+
+        $result = new \DS\Vector();
+
+        while ($record = $selectStmt->fetch()) {
+            $collectionItem = new self($pdo);
+
+            $collectionItem
+                ->setId($record->id)
+                ->setAttributeId($result->attribute_id)
+                ->setFilmId($result->film_id);
+
+            if ($result->val_text) {
+                $collectionItem->setValText($result->val_text);
+            } elseif ($result->val_numeric) {
+                $collectionItem->setValNumeric($result->val_numeric);
+            } elseif ($result->val_bool) {
+                $collectionItem->setValBool($result->val_bool);
+            } elseif ($result->val_date) {
+                $collectionItem->setValDate($result->val_date);
+            }
+
+            $result->push($collectionItem);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return bool
+     */
+    /*public function insert(): bool
+    {
+        $result = $this->insertStmt->execute([
+            $this->name,
+            $this->description,
+            $this->categoryId
+        ]);
+
+        $this->id = $this->pdo->lastInsertId();
+
+        return $result;
+    }*/
+
+    /**
+     * @return bool
+     */
+    /*public function update(): bool
+    {
+        return $this->updateStmt->execute([
+            $this->name,
+            $this->description,
+            $this->categoryId,
+            $this->id
+        ]);
+    }*/
+
+    /**
+     * @return bool
+     */
+    /*public function delete(): bool
+    {
+        $id = $this->id;
+        $this->id = null;
+
+        return $this->deleteStmt->execute([
+            $id
+        ]);
+    }*/
+
+    private static function getSqlPath(): string
+    {
+        return dirname(dirname(__DIR__)) . '/sql';
+    }
+
+    /**
+     * @param \PDO $pdo
+     * @return bool
+     */
+    public static function init(\PDO $pdo): bool
+    {
+        $script = self::getSqlPath() . '/init.sql';
+        $initSql = file_get_contents($script);
+        $pdo->exec($initSql);
+
+        if ($pdo->exec($initSql) === false) {
+            return false;
+        }
+
+        return true;
+    }
+}
