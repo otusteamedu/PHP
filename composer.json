@@ -1,0 +1,26 @@
+{
+    "name": "bjlag/otus",
+    "description": "",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vlad Duplin",
+            "email": "vlad.duplin@ya.ru"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework/",
+            "App\\": "src/App/"
+        }
+    },
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    }
+}
