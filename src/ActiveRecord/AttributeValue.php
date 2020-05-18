@@ -57,6 +57,11 @@ class AttributeValue {
     /**
      * @var \PDOStatement
      */
+    private static $insertRandomQuery = "INSERT INTO " . self::TABLE_NAME . " (attribute_id, film_id, val_text) SELECT (1 + 9*random())::int, (1 + 19*random())::int, random_string( (7 + 30*random())::int ) FROM generate_series(1, ?)";
+
+    /**
+     * @var \PDOStatement
+     */
     private $updateStmt;
 
     /**
@@ -260,17 +265,17 @@ class AttributeValue {
 
             $collectionItem
                 ->setId($record->id)
-                ->setAttributeId($result->attribute_id)
-                ->setFilmId($result->film_id);
+                ->setAttributeId($record->attribute_id)
+                ->setFilmId($record->film_id);
 
-            if ($result->val_text) {
-                $collectionItem->setValText($result->val_text);
-            } elseif ($result->val_numeric) {
-                $collectionItem->setValNumeric($result->val_numeric);
-            } elseif ($result->val_bool) {
-                $collectionItem->setValBool($result->val_bool);
-            } elseif ($result->val_date) {
-                $collectionItem->setValDate($result->val_date);
+            if ($record->val_text) {
+                $collectionItem->setValText($record->val_text);
+            } elseif ($record->val_numeric) {
+                $collectionItem->setValNumeric($record->val_numeric);
+            } elseif ($record->val_bool) {
+                $collectionItem->setValBool($record->val_bool);
+            } elseif ($record->val_date) {
+                $collectionItem->setValDate($record->val_date);
             }
 
             $result->push($collectionItem);
@@ -282,36 +287,42 @@ class AttributeValue {
     /**
      * @return bool
      */
-    /*public function insert(): bool
+    public function insert(): bool
     {
         $result = $this->insertStmt->execute([
-            $this->name,
-            $this->description,
-            $this->categoryId
+            $this->attributeId,
+            $this->filmId,
+            $this->valText,
+            $this->valNumeric,
+            $this->valDate,
+            $this->valBool
         ]);
 
         $this->id = $this->pdo->lastInsertId();
 
         return $result;
-    }*/
+    }
 
     /**
      * @return bool
      */
-    /*public function update(): bool
+    public function update(): bool
     {
         return $this->updateStmt->execute([
-            $this->name,
-            $this->description,
-            $this->categoryId,
+            $this->attributeId,
+            $this->filmId,
+            $this->valText,
+            $this->valNumeric,
+            $this->valDate,
+            $this->valBool,
             $this->id
         ]);
-    }*/
+    }
 
     /**
      * @return bool
      */
-    /*public function delete(): bool
+    public function delete(): bool
     {
         $id = $this->id;
         $this->id = null;
@@ -319,7 +330,7 @@ class AttributeValue {
         return $this->deleteStmt->execute([
             $id
         ]);
-    }*/
+    }
 
     private static function getSqlPath(): string
     {
@@ -341,5 +352,20 @@ class AttributeValue {
         }
 
         return true;
+    }
+
+    /**
+     * @param \PDO $pdo
+     * @param int $count
+     * @return bool
+     */
+    public static function addRandomRows(\PDO $pdo, int $count): bool
+    {
+        $insertStmt = $pdo->prepare(self::$insertRandomQuery);
+        $insertStmt->setFetchMode(\PDO::FETCH_OBJ);
+
+        return $insertStmt->execute([
+            $count
+        ]);
     }
 }

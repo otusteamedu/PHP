@@ -59,7 +59,15 @@ final class App
         });
 
         $this->router->map('POST', '/add/[i:count]', function($count) {
-            print 'Try to add ' . $count . ' rows';
+            print "Try to add $count rows\n";
+
+            $result = AttributeValue::addRandomRows($this->pdo, $count);
+
+            if ($result === true) {
+                print 'Success';
+            } else {
+                print 'Error';
+            }
         });
 
     }
