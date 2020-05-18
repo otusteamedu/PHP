@@ -1,8 +1,8 @@
 <?php
 
 use Aura\Router\RouterContainer;
+use Framework\Pipeline\HandlerResolver;
 use Framework\Router\AuraRouterAdapter;
-use Framework\Router\HandlerResolver;
 use Framework\Router\Router;
 use Laminas\Diactoros\Response;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;

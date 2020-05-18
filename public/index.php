@@ -1,7 +1,7 @@
 <?php
 
 use Framework\App;
-use Framework\Router\HandlerResolver;
+use Framework\Pipeline\HandlerResolver;
 
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';

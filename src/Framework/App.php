@@ -3,21 +3,21 @@
 namespace Framework;
 
 use Framework\Pipeline\EmptyHandler;
-use Framework\Router\HandlerResolver;
+use Framework\Pipeline\HandlerResolver;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\Stratigility\MiddlewarePipe;
 
 class App
 {
-    /** @var \Framework\Router\HandlerResolver */
+    /** @var \Framework\Pipeline\HandlerResolver */
     private $resolver;
 
     /** @var \Laminas\Stratigility\MiddlewarePipe */
     private $pipeline;
 
     /**
-     * @param \Framework\Router\HandlerResolver $resolver
+     * @param \Framework\Pipeline\HandlerResolver $resolver
      */
     public function __construct(HandlerResolver $resolver)
     {

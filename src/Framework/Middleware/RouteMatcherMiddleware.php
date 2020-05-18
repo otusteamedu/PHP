@@ -3,8 +3,8 @@
 namespace Framework\Middleware;
 
 use Framework\Pipeline\EmptyHandler;
+use Framework\Pipeline\HandlerResolver;
 use Framework\Router\Exception\RouteNotMatchedException;
-use Framework\Router\HandlerResolver;
 use Framework\Router\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,12 +16,12 @@ class RouteMatcherMiddleware implements MiddlewareInterface
     /** @var \Framework\Router\Router */
     private $router;
 
-    /** @var \Framework\Router\HandlerResolver */
+    /** @var \Framework\Pipeline\HandlerResolver */
     private $resolver;
 
     /**
      * @param \Framework\Router\Router $router
-     * @param \Framework\Router\HandlerResolver $resolver
+     * @param \Framework\Pipeline\HandlerResolver $resolver
      */
     public function __construct(Router $router, HandlerResolver $resolver)
     {

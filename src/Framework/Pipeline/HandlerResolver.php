@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Router;
+namespace Framework\Pipeline;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
