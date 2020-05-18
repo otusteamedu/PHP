@@ -3,18 +3,25 @@
 namespace Framework;
 
 use Framework\Pipeline\EmptyHandler;
+use Framework\Router\HandlerResolver;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\Stratigility\MiddlewarePipe;
-use Psr\Http\Server\MiddlewareInterface;
 
 class App
 {
+    /** @var \Framework\Router\HandlerResolver */
+    private $resolver;
+
     /** @var \Laminas\Stratigility\MiddlewarePipe */
     private $pipeline;
 
-    public function __construct()
+    /**
+     * @param \Framework\Router\HandlerResolver $resolver
+     */
+    public function __construct(HandlerResolver $resolver)
     {
+        $this->resolver = $resolver;
         $this->pipeline = new MiddlewarePipe();
     }
 
@@ -26,8 +33,11 @@ class App
         (new SapiEmitter())->emit($response);
     }
 
-    public function pipe(MiddlewareInterface $middleware): void
+    /**
+     * @param mixed $middleware
+     */
+    public function pipe($middleware): void
     {
-        $this->pipeline->pipe($middleware);
+        $this->pipeline->pipe($this->resolver->resolve($middleware));
     }
 }

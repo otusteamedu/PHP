@@ -2,6 +2,7 @@
 
 use Aura\Router\RouterContainer;
 use Framework\Router\AuraRouterAdapter;
+use Framework\Router\HandlerResolver;
 use Framework\Router\Router;
 use Laminas\Diactoros\Response;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
@@ -14,6 +15,9 @@ return [
             ReflectionBasedAbstractFactory::class,
         ],
         'factories' => [
+            HandlerResolver::class => function (ContainerInterface $container) {
+                return new HandlerResolver($container);
+            },
             RouterContainer::class => function () {
                 return (require 'config/routes.php')();
             },
