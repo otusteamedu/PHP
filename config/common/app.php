@@ -1,5 +1,6 @@
 <?php
 
+use App\Middleware\ErrorHandlerMiddleware;
 use Aura\Router\RouterContainer;
 use Framework\Pipeline\HandlerResolver;
 use Framework\Router\Router;
@@ -16,10 +17,12 @@ return [
             HandlerResolver::class => Container\HandlerResolverFactory::class,
             RouterContainer::class => Container\RouterContainerFactory::class,
             Router::class => Container\RouterFactory::class,
+            ErrorHandlerMiddleware::class => Container\ErrorHandlerMiddlewareFactory::class,
             NotFoundHandler::class => Container\NotFoundHandlerFactory::class
         ],
     ],
 
     'config' => [
+        'debug' => false
     ],
 ];
