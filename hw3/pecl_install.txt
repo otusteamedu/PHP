@@ -1,0 +1,16 @@
+/ # pecl list
+Installed packages, channel pecl.php.net:
+=========================================
+Package Version State
+imagick 3.4.4   stable
+/ # php -i | grep -i imagick
+Additional .ini files parsed => /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini,
+imagick
+imagick module => enabled
+imagick module version => 3.4.4
+imagick classes => Imagick, ImagickDraw, ImagickPixel, ImagickPixelIterator, ImagickKernel
+Imagick compiled with ImageMagick version => ImageMagick 7.0.9-7 Q16 x86_64 2019-12-03 https://imagemagick.org
+Imagick using ImageMagick library version => ImageMagick 7.0.9-7 Q16 x86_64 2019-12-03 https://imagemagick.org
+imagick.locale_fix => 0 => 0
+imagick.progress_monitor => 0 => 0
+imagick.skip_version_check => 0 => 0

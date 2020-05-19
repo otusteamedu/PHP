@@ -1,0 +1,120 @@
+/usr/app/imagick-3.4.4 # cat manual_install.txt
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagick_file.c -o imagick_file.lo
+mkdir .libs
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagick_file.c
+-fPIC -DPIC -o .libs/imagick_file.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagick_class.c -o imagick_class.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagick_class.c
+ -fPIC -DPIC -o .libs/imagick_class.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagickdraw_class.c -o imagickdraw_class.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagickdraw_clas
+s.c  -fPIC -DPIC -o .libs/imagickdraw_class.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagickpixel_class.c -o imagickpixel_class.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagickpixel_cla
+ss.c  -fPIC -DPIC -o .libs/imagickpixel_class.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagickpixeliterator_class.c -o imagickpixeliterator_class.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagickpixeliter
+ator_class.c  -fPIC -DPIC -o .libs/imagickpixeliterator_class.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagick_helpers.c -o imagick_helpers.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagick_helpers.
+c  -fPIC -DPIC -o .libs/imagick_helpers.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagick.c -o imagick.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagick.c  -fPIC
+ -DPIC -o .libs/imagick.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/imagickkernel_class.c -o imagickkernel_class.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/imagickkernel_cl
+ass.c  -fPIC -DPIC -o .libs/imagickkernel_class.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=compile cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16  -I. -I/usr/app/imagick
+-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -
+I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7  -DHAVE_CON
+FIG_H  -g -O2   -c /usr/app/imagick-3.4.4/shim_im6_to_im7.c -o shim_im6_to_im7.lo
+ cc -I/usr/include/ImageMagick-7 -DMAGICKCORE_HDRI_ENABLE=1 -DMAGICKCORE_QUANTUM_DEPTH=16 -I. -I/usr/app/imagick-3.4.4 -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include
+ -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/
+Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -I/usr/include/ImageMagick-7 -DHAVE_CONFIG_H -g -O2 -c /usr/app/imagick-3.4.4/shim_im6_to_im7.
+c  -fPIC -DPIC -o .libs/shim_im6_to_im7.o
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=link cc -DPHP_ATOM_INC -I/usr/app/imagick-3.4.4/include -I/usr/app/imagick-3.4.4/main -I/usr/app/imagick-3.4.4 -I/usr/lo
+cal/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/da
+te/lib -I/usr/include/ImageMagick-7  -DHAVE_CONFIG_H  -g -O2    -o imagick.la -export-dynamic -avoid-version -prefer-pic -module -rpath /usr/app/imagick-3.4.4/modules
+  imagick_file.lo imagick_class.lo imagickdraw_class.lo imagickpixel_class.lo imagickpixeliterator_class.lo imagick_helpers.lo imagick.lo imagickkernel_class.lo shim_
+im6_to_im7.lo -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI
+cc -shared  .libs/imagick_file.o .libs/imagick_class.o .libs/imagickdraw_class.o .libs/imagickpixel_class.o .libs/imagickpixeliterator_class.o .libs/imagick_helpers.o
+ .libs/imagick.o .libs/imagickkernel_class.o .libs/shim_im6_to_im7.o  -lMagickWand-7.Q16HDRI -lMagickCore-7.Q16HDRI  -Wl,-soname -Wl,imagick.so -o .libs/imagick.so
+creating imagick.la
+(cd .libs && rm -f imagick.la && ln -s ../imagick.la imagick.la)
+/bin/sh /usr/app/imagick-3.4.4/libtool --mode=install cp ./imagick.la /usr/app/imagick-3.4.4/modules
+cp ./.libs/imagick.so /usr/app/imagick-3.4.4/modules/imagick.so
+cp ./.libs/imagick.lai /usr/app/imagick-3.4.4/modules/imagick.la
+PATH="$PATH:/sbin" ldconfig -n /usr/app/imagick-3.4.4/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/app/imagick-3.4.4/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+/usr/app/imagick-3.4.4 # php -i | grep imagick
+Additional .ini files parsed => /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini,
+imagick
+imagick module => enabled
+imagick module version => 3.4.4
+imagick classes => Imagick, ImagickDraw, ImagickPixel, ImagickPixelIterator, ImagickKernel
+imagick.locale_fix => 0 => 0
+imagick.progress_monitor => 0 => 0
+imagick.skip_version_check => 0 => 0
+PWD => /usr/app/imagick-3.4.4
+$_SERVER['PWD'] => /usr/app/imagick-3.4.4
+$_ENV['PWD'] => /usr/app/imagick-3.4.4
