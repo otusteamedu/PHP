@@ -5,6 +5,12 @@ use Framework\App;
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
+// todo: add phpunit
+// todo: add doctrine
+// todo: add migration
+// todo: add fixtures
+// todo: add envs prod dev test
+
 (function () {
     /**
      * @var \Psr\Container\ContainerInterface $container

@@ -15,7 +15,8 @@
         "psr-4": {
             "Framework\\": "src/Framework/",
             "App\\": "src/App/",
-            "Infrastructure\\": "src/Infrastructure/"
+            "Infrastructure\\": "src/Infrastructure/",
+            "Test\\": "test/"
         }
     },
     "require": {
@@ -30,6 +31,10 @@
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "^9.1",
         "roave/security-advisories": "dev-master"
+    },
+    "scripts": {
+        "test": "phpunit --colors=always"
     }
 }
