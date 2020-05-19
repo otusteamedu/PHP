@@ -7,10 +7,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class EmptyHandler implements RequestHandlerInterface
+class NotFoundHandler implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response();
+        return new Response\JsonResponse([
+            'error' => 'Not found'
+        ], 404);
     }
 }

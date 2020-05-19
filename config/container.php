@@ -7,7 +7,7 @@ use Laminas\ServiceManager\ServiceManager;
 
 $aggregator = new ConfigAggregator([
     new ArrayProvider([
-        ConfigAggregator::ENABLE_CACHE => true,
+        ConfigAggregator::ENABLE_CACHE => false,
         ConfigAggregator::CACHE_FILEMODE => 0600,
     ]),
     new PhpFileProvider('config/common/*.php'),

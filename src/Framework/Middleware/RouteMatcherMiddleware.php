@@ -2,7 +2,6 @@
 
 namespace Framework\Middleware;
 
-use Framework\Pipeline\EmptyHandler;
 use Framework\Pipeline\HandlerResolver;
 use Framework\Router\Exception\RouteNotMatchedException;
 use Framework\Router\Router;
@@ -19,14 +18,19 @@ class RouteMatcherMiddleware implements MiddlewareInterface
     /** @var \Framework\Pipeline\HandlerResolver */
     private $resolver;
 
+    /** @var \Psr\Http\Server\RequestHandlerInterface */
+    private $next;
+
     /**
      * @param \Framework\Router\Router $router
      * @param \Framework\Pipeline\HandlerResolver $resolver
+     * @param \Psr\Http\Server\RequestHandlerInterface $next
      */
-    public function __construct(Router $router, HandlerResolver $resolver)
+    public function __construct(Router $router, HandlerResolver $resolver, RequestHandlerInterface $next)
     {
         $this->router = $router;
         $this->resolver = $resolver;
+        $this->next = $next;
     }
 
     /**
@@ -39,7 +43,7 @@ class RouteMatcherMiddleware implements MiddlewareInterface
         try {
             $result = $this->router->match($request);
             $action = $this->resolver->resolve($result->getHandler());
-            return $action->process($request, new EmptyHandler());
+            return $action->process($request, $this->next);
         } catch (RouteNotMatchedException $e) {
             return $handler->handle($request);
         }
