@@ -9,8 +9,7 @@ require_once 'vendor/autoload.php';
 (function () {
     /** @var \Psr\Container\ContainerInterface $container */
     $container = require_once 'config/container.php';
-
-    $app = new App($container->get(HandlerResolver::class));
+    $app = $container->get(App::class);
 
     (require 'config/pipeline.php')($app);
 
