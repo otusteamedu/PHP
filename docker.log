@@ -1,0 +1,71 @@
+Sending build context to Docker daemon  108.1MB
+Step 1/3 : FROM postgres:9.5.2
+9.5.2: Pulling from library/postgres
+Image docker.io/library/postgres:9.5.2 uses outdated schema1 manifest format. Please upgrade to a schema2 image for better future compatibility. More information at https://docs.docker.com/registry/spec/deprecated-schema-v1/
+8b87079b7a06: Pulling fs layer
+a3ed95caeb02: Pulling fs layer
+ff6abb23e531: Pulling fs layer
+8364ca902ad3: Pulling fs layer
+84179c1b7ff6: Pulling fs layer
+be951654637c: Pulling fs layer
+4841dfc8333f: Pulling fs layer
+8e92fd62d485: Pulling fs layer
+13e5de4be2f2: Pulling fs layer
+d6aaf4d83b1c: Pulling fs layer
+3113f93aec6d: Pulling fs layer
+055e85b433f4: Pulling fs layer
+8364ca902ad3: Waiting
+8e92fd62d485: Waiting
+13e5de4be2f2: Waiting
+d6aaf4d83b1c: Waiting
+3113f93aec6d: Waiting
+055e85b433f4: Waiting
+84179c1b7ff6: Waiting
+be951654637c: Waiting
+4841dfc8333f: Waiting
+ff6abb23e531: Download complete
+a3ed95caeb02: Verifying Checksum
+a3ed95caeb02: Download complete
+8364ca902ad3: Verifying Checksum
+8364ca902ad3: Download complete
+be951654637c: Verifying Checksum
+be951654637c: Download complete
+84179c1b7ff6: Verifying Checksum
+84179c1b7ff6: Download complete
+4841dfc8333f: Verifying Checksum
+4841dfc8333f: Download complete
+8e92fd62d485: Download complete
+d6aaf4d83b1c: Download complete
+3113f93aec6d: Verifying Checksum
+3113f93aec6d: Download complete
+055e85b433f4: Verifying Checksum
+055e85b433f4: Download complete
+8b87079b7a06: Verifying Checksum
+8b87079b7a06: Download complete
+13e5de4be2f2: Verifying Checksum
+13e5de4be2f2: Download complete
+8b87079b7a06: Pull complete
+a3ed95caeb02: Pull complete
+ff6abb23e531: Pull complete
+8364ca902ad3: Pull complete
+84179c1b7ff6: Pull complete
+be951654637c: Pull complete
+4841dfc8333f: Pull complete
+8e92fd62d485: Pull complete
+13e5de4be2f2: Pull complete
+d6aaf4d83b1c: Pull complete
+3113f93aec6d: Pull complete
+055e85b433f4: Pull complete
+Digest: sha256:923591dfc3bf2e6e2ea35fee759e050340dcea580b78835cbf590e7209f0a4b1
+Status: Downloaded newer image for postgres:9.5.2
+ ---> 17922730618d
+Step 2/3 : RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ ---> Running in 619ef28d9848
+Removing intermediate container 619ef28d9848
+ ---> e17193fade95
+Step 3/3 : ENV LANG en_US.utf8
+ ---> Running in 654144344bf9
+Removing intermediate container 654144344bf9
+ ---> e043ad79f740
+Successfully built e043ad79f740
+Successfully tagged eapdob/myproject-postgresql:latest

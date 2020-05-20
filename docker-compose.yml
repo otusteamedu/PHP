@@ -1,0 +1,14 @@
+web:
+  image: eapdob/myproject-nginx
+  ports:
+    - "8080:80"
+  links:
+    - php
+php:
+  image: eapdob/myproject
+  links:
+    - sql
+sql:
+  image: eapdob/myproject-postgresql
+  ports:
+    - "3307:3306"
