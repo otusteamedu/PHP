@@ -1,0 +1,15 @@
+{
+  "name": "pavelsklyar/otus-php",
+  "description": "OTUS homework 3",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "pavelsklyar",
+      "email": "ozpavel@yandex.ru"
+    }
+  ],
+  "require": {
+    "errcode/framework": "~0.6.3"
+  }
+}
