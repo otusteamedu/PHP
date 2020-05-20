@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/deadly117/hello-world.git"
+        }
+    ],
+    "require": {
+        "deadly117/hello-world": "dev-master"
+    }
+}
