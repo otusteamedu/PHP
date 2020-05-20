@@ -53,6 +53,6 @@ class HandlerResolver
             return $handler;
         }
 
-        throw new \InvalidArgumentException("Undefined a handler type {$handler}");
+        throw new UndefinedHandlerException($handler);
     }
 }
