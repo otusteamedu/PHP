@@ -22,6 +22,7 @@
     "require": {
         "php": ">=7.3.0",
         "aura/router": "^3.1",
+        "doctrine/migrations": "^2.2",
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-diactoros": "^2.3",
         "laminas/laminas-httphandlerrunner": "^1.1",
@@ -37,6 +38,7 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "doctrine": "doctrine --ansi"
+        "doctrine": "doctrine --ansi",
+        "migration": "doctrine-migrations --ansi"
     }
 }
