@@ -1,0 +1,5 @@
+errcode engine - https://github.com/ErrCodeRussia/errcode.git
+errcode framework - https://github.com/ErrCodeRussia/framework.git
+
+engine install - composer create-project errcode/errcode
+framework install - composer require errcode/framework
