@@ -5,7 +5,6 @@ use Aura\Router\RouterContainer;
 use Framework\App;
 use Framework\Middleware\RouteMatcherMiddleware;
 use Framework\Pipeline\HandlerResolver;
-use Framework\Pipeline\NotFoundHandler;
 use Framework\Router\Router;
 use Infrastructure\Container;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
