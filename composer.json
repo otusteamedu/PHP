@@ -36,6 +36,7 @@
         "roave/security-advisories": "dev-master"
     },
     "scripts": {
-        "test": "phpunit --colors=always"
+        "test": "phpunit --colors=always",
+        "doctrine": "doctrine --ansi"
     }
 }
