@@ -1,0 +1,15 @@
+FROM php:7.3-fpm-alpine
+
+RUN apk add git \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /usr/app
+
+COPY composer.json .
+
+# very slow ~70s
+RUN composer -vvv install
+
+COPY test.php .
+
+CMD ["php", "test.php"]
