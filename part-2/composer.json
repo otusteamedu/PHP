@@ -1,0 +1,14 @@
+{
+    "name": "hw3/part2",
+    "description": "Homework №3 Part 2",
+    "authors": [
+        {
+            "name": "Ruslan Maysak",
+            "email": "vavajke@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "rmaysak/fibonacci": "~1.0.0"
+    }
+}
