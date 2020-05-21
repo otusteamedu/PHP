@@ -1,7 +1,8 @@
 {
     "require": {
         "symfony/yaml": "5.0.*",
-        "altorouter/altorouter": "2.0.*"
+        "altorouter/altorouter": "2.0.*",
+        "php-amqplib/php-amqplib": "2.11.*"
     },
     "require-dev": {
         "symfony/var-dumper": "5.0.*"

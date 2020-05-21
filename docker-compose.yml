@@ -31,3 +31,15 @@ services:
             - ./server/socket:/var/run
         links:
             - web
+
+    rabbitmq:
+        image: rabbitmq:3.8.3-management
+        working_dir: /app
+        hostname: rabbit-mq
+        container_name: 'rabbit-mq'
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: user
+            RABBITMQ_DEFAULT_PASS: password

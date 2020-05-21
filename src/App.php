@@ -3,23 +3,34 @@ namespace Otus;
 
 use Symfony\Component\Yaml\Yaml;
 use Otus\ActiveRecord\AttributeValue;
+use Otus\QueueAdapter;
 
 final class App
 {
     private $config;
     private $router;
     private $pdo;
+    private $queue;
 
     public function __construct()
     {
         $this->config = Yaml::parseFile(dirname(__DIR__) . '/config.yml');
+
         $this->router = new \AltoRouter();
+        $this->mapRoutes();
+
         $this->pdo = new \PDO(
             $this->config['db']['driver'] . ':host=' . $this->config['db']['host'] . ';dbname=' . $this->config['db']['dbname'],
             $this->config['db']['username'],
             $this->config['db']['password']
         );
-        $this->mapRoutes();
+
+        $this->queue = new QueueAdapter(
+            $this->config['queue']['host'],
+            $this->config['queue']['username'],
+            $this->config['queue']['password'],
+            $this->config['queue']['port']
+        );
     }
 
     public function run(): void
@@ -36,14 +47,21 @@ final class App
         }
     }
 
+    public function consoleRun()
+    {
+        // Console consumer
+        echo " [*] Waiting for messages. To exit press CTRL+C\n";
+        $this->queue->consuming();
+    }
+
     private function mapRoutes(): void
     {
         // map homepage
-        $this->router->map('GET', '/', function() {
+        $this->router->map('GET', '/', function () {
             print 'Homework #16';
         });
 
-        $this->router->map('GET', '/init', function() {
+        $this->router->map('GET', '/init', function () {
 
             if (AttributeValue::init($this->pdo)) {
                 print 'DB initialization successful';
@@ -53,21 +71,26 @@ final class App
 
         });
 
-        $this->router->map('GET', '/list', function() {
+        $this->router->map('GET', '/list', function () {
            $list = AttributeValue::getList($this->pdo);
            var_dump($list);
         });
 
-        $this->router->map('POST', '/add/[i:count]', function($count) {
-            print "Try to add $count rows\n";
-
+        // Sync method to add new rows
+        $this->router->map('POST', '/add/[i:count]', function ($count) {
             $result = AttributeValue::addRandomRows($this->pdo, $count);
 
             if ($result === true) {
-                print 'Success';
+                print "Request to add $count rows executed";
             } else {
-                print 'Error';
+                print 'Error is occurred during attempt to add new rows';
             }
+        });
+
+        // Async method to add new rows
+        $this->router->map('POST', '/acyncadd/[i:count]', function ($count) {
+            $this->queue->pushMsg((string) $count);
+            print "Your request added to queue.\n";
         });
 
     }
