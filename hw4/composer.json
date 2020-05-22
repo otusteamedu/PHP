@@ -1,0 +1,6 @@
+{
+    "require": {
+        "php": ">=7.3",
+        "clue/socket-raw": "*"
+    }
+}
