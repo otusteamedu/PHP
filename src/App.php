@@ -29,7 +29,8 @@ final class App
             $this->config['queue']['host'],
             $this->config['queue']['username'],
             $this->config['queue']['password'],
-            $this->config['queue']['port']
+            $this->config['queue']['port'],
+            $this->pdo
         );
     }
 
@@ -50,7 +51,7 @@ final class App
     public function consoleRun()
     {
         // Console consumer
-        echo " [*] Waiting for messages. To exit press CTRL+C\n";
+        echo ' [*] Waiting for messages. To exit press CTRL+C' . PHP_EOL . PHP_EOL;
         $this->queue->consuming();
     }
 
