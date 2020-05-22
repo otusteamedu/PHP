@@ -47,12 +47,12 @@ class AttributeValue {
     /**
      * @var \PDOStatement
      */
-    private static $selectQuery = "select attribute_id, film_id, val_text, val_numeric, val_bool, val_date from " . self::TABLE_NAME . " where id = ? limit 20";
+    private static $selectQuery = "select attribute_id, film_id, val_text, val_numeric, val_bool, val_date from " . self::TABLE_NAME . " where id = ? limit 10";
 
     /**
      * @var \PDOStatement
      */
-    private static $selectListQuery = "select * from " . self::TABLE_NAME;
+    private static $selectListQuery = "select * from " . self::TABLE_NAME . " limit 10";
 
     /**
      * @var \PDOStatement
