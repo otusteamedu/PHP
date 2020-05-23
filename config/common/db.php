@@ -14,13 +14,6 @@ return [
 
     'config' => [
         'doctrine' => [
-            'connection' => [
-                'orm_default' => [
-                    'params' => [
-                        'url' => 'sqlite::var/db/db.sqlite'
-                    ],
-                ],
-            ],
             'driver' => [
                 'orm_default' => [
                     'class' => MappingDriverChain::class,

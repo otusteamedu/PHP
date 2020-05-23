@@ -23,8 +23,4 @@ return [
             ErrorHandlerMiddleware::class => Container\ErrorHandlerMiddlewareFactory::class,
         ],
     ],
-
-    'config' => [
-        'debug' => false
-    ],
 ];

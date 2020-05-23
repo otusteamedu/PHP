@@ -1,6 +1,7 @@
 <?php
 
 use Framework\App;
+use Symfony\Component\Dotenv\Dotenv;
 
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
@@ -10,6 +11,10 @@ require_once 'vendor/autoload.php';
 // todo: all commands in one console
 
 (function () {
+    if (file_exists('.env')) {
+        (new Dotenv(true))->load('.env');
+    }
+
     /**
      * @var \Psr\Container\ContainerInterface $container
      * @var \Framework\App $app

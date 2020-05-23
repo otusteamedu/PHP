@@ -11,7 +11,8 @@ $aggregator = new ConfigAggregator([
         ConfigAggregator::CACHE_FILEMODE => 0600,
     ]),
     new PhpFileProvider('config/common/*.php'),
-    new PhpFileProvider('config/local/*.php'),
+    new PhpFileProvider('config/' . (getenv('APP_ENV') ?: 'prod') . '/*.php'),
+    new PhpFileProvider('config/' . (getenv('APP_ENV') ?: 'prod') . '/*.local.php'),
 ], 'var/cache/config.php');
 
 $config = $aggregator->getMergedConfig();
