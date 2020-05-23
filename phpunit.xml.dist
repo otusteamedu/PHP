@@ -5,6 +5,9 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="false">
+    <php>
+        <env name="APP_ENV" value="test" />
+    </php>
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./tests</directory>
