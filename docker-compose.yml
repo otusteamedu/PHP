@@ -25,17 +25,17 @@ services:
       - ./otus/www:/var/www
 
   otus_db:
-    image: mysql:5.7.22
+    image: postgres
     container_name: otus_db
     ports:
       - 3306:3306
     restart: unless-stopped
     tty: true
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: root_secret
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: secret
+      POSTGRES_DATABASE: otus
+      POSTGRES_ROOT_PASSWORD: root_secret
+      POSTGRES_USER: otus
+      POSTGRES_PASSWORD: otus
     networks:
       - shared
     volumes:
