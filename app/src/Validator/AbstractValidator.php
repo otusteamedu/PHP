@@ -1,19 +1,15 @@
 <?php
 
+namespace Validator;
 
 abstract class AbstractValidator implements ValidatorInterface
 {
-    /** @var string */
-    protected $email;
+    CONST VIOLATION = '';
 
-    /**
-     * AbstractValidator constructor.
-     * @param string $email
-     */
-    public function __construct(string $email)
+    abstract public function validate(string $emails);
+
+    public function getViolation()
     {
-        $this->email = $email;
+        return static::VIOLATION;
     }
-
-    abstract public function validate();
 }

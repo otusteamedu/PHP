@@ -1,7 +1,10 @@
 <?php
 
+namespace Validator;
 
 interface ValidatorInterface
 {
-    public function validate();
+    public function validate(string $emails);
+
+    public function getViolation();
 }
