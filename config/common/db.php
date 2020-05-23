@@ -35,5 +35,8 @@ return [
                 ],
             ],
         ],
+        'fixture' => [
+            'dir' => 'fixtures'
+        ]
     ],
 ];

@@ -5,11 +5,9 @@ use Framework\App;
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
-// todo: add phpunit
-// todo: add doctrine
-// todo: add migration
-// todo: add fixtures
 // todo: add envs prod dev test
+// todo: db for tests
+// todo: all commands in one console
 
 (function () {
     /**

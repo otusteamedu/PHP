@@ -16,7 +16,8 @@
             "Framework\\": "src/Framework/",
             "App\\": "src/App/",
             "Infrastructure\\": "src/Infrastructure/",
-            "Test\\": "test/"
+            "Test\\": "test/",
+            "Fixture\\": "fixtures/"
         }
     },
     "require": {
@@ -30,9 +31,11 @@
         "laminas/laminas-stratigility": "^3.2",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
-        "roave/psr-container-doctrine": "^2.2"
+        "roave/psr-container-doctrine": "^2.2",
+        "symfony/console": "^5.0"
     },
     "require-dev": {
+        "doctrine/data-fixtures": "^1.4",
         "phpunit/phpunit": "^9.1",
         "roave/security-advisories": "dev-master"
     },
