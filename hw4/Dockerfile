@@ -7,6 +7,10 @@ WORKDIR /usr/app
 
 COPY composer.* ./
 
-RUN composer --no-cache install
+RUN composer --no-cache --optimize-autoloader -- install
 
-CMD ["sh"]
+COPY config.ini.example config.ini
+COPY src/ src/
+COPY test.php .
+
+CMD ["php", "test.php"]

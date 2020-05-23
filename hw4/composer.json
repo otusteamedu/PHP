@@ -2,5 +2,10 @@
     "require": {
         "php": ">=7.3",
         "clue/socket-raw": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Deadly117\\": "src/"
+        }
     }
 }
