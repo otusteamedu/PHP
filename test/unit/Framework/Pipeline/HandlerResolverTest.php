@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Framework\Pipeline;
+namespace Test\unit\Framework\Pipeline;
 
 use Framework\Pipeline\HandlerResolver;
 use Framework\Pipeline\UndefinedHandlerException;

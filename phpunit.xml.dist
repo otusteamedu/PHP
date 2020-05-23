@@ -10,7 +10,7 @@
     </php>
     <testsuites>
         <testsuite name="Test Suite">
-            <directory>./tests</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
     <filter>
