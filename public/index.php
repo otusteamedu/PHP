@@ -6,9 +6,7 @@ use Symfony\Component\Dotenv\Dotenv;
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
-// todo: add envs prod dev test
 // todo: db for tests
-// todo: all commands in one console
 
 (function () {
     if (file_exists('.env')) {
