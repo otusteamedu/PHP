@@ -11,7 +11,7 @@ return function () {
     $map = $router->getMap();
 
     $map->get('home', '/', SiteController::class);
-    $map->get('paid', '/paid', BillingController::class . '::paid');
+    $map->post('pay', '/pay', BillingController::class . '::pay');
 
     return $router;
 };
