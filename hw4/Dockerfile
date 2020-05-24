@@ -10,7 +10,11 @@ COPY composer.* ./
 RUN composer --no-cache --optimize-autoloader -- install
 
 COPY config.ini.example config.ini
-COPY src/ src/
-COPY test.php .
 
-CMD ["php", "test.php"]
+COPY src/ src/
+
+COPY test.php start.sh ./
+
+RUN chmod +x start.sh
+
+CMD ["./start.sh"]
