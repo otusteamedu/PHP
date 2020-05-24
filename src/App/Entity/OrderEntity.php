@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="orders")
  */
-class Order
+class OrderEntity
 {
     /**
      * @ORM\Column(type="integer")
@@ -54,7 +54,7 @@ class Order
 
     /**
      * @param int $id
-     * @return Order
+     * @return OrderEntity
      */
     public function setId(int $id): self
     {
@@ -72,7 +72,7 @@ class Order
 
     /**
      * @param string $number
-     * @return Order
+     * @return OrderEntity
      */
     public function setNumber(string $number): self
     {
