@@ -30,6 +30,7 @@
         "laminas/laminas-httphandlerrunner": "^1.1",
         "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stratigility": "^3.2",
+        "laminas/laminas-validator": "^2.13",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "roave/psr-container-doctrine": "^2.2",

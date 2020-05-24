@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\PayCardForm;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,6 +15,16 @@ class BillingController
      */
     public function payAction(ServerRequestInterface $request): ResponseInterface
     {
-        return new JsonResponse($request->getParsedBody(), 200);
+        $form = new PayCardForm($request);
+        if (!$form->isValidate()) {
+            return new JsonResponse([
+                'is_succeed' => false,
+                'errors' => $form->getErrors()
+            ], 400);
+        }
+
+        return new JsonResponse([
+            'is_succeed' => true,
+        ], 200);
     }
 }
