@@ -182,4 +182,52 @@ class PayCardForm
 
         return $errors;
     }
+
+    /**
+     * @return string
+     */
+    public function getCardNumber(): string
+    {
+        return $this->cardNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardHolder(): string
+    {
+        return $this->cardHolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardExpiration(): string
+    {
+        return $this->cardExpiration;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCvv(): string
+    {
+        return $this->cvv;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+
+    /**
+     * @return float
+     */
+    public function getSum(): float
+    {
+        return $this->sum;
+    }
 }
