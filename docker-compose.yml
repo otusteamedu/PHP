@@ -1,0 +1,23 @@
+version: "2"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+services:
+  app:
+    container_name: app
+    build: ./php
+    volumes:
+      - ./src:/var/www/laravel/
+    restart: always
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: ./nginx
+    ports:
+      - 8081:8081
+    depends_on:
+      - app
+    restart: always
