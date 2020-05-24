@@ -31,7 +31,7 @@ class HandlerResolver
             return middleware(function (ServerRequestInterface $request) use ($handler, $pos) {
                 $class = substr($handler, 0, $pos);
                 $action = substr($handler, $pos + 2) . 'Action';
-                $instance = new $class();
+                $instance = $this->container->get($class); //new $class();
 
                 return $instance->{$action}($request);
             });
