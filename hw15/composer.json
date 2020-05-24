@@ -1,0 +1,16 @@
+{
+  "name": "rhaletsky/hw15",
+  "authors": [
+    {
+      "name": "romario",
+      "email": "halecky@mail.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+
+}
