@@ -12,7 +12,7 @@ class OrderFixture implements FixtureInterface
     {
         $orders = [
             new OrderEntity('1234567890123456', 100.15, false),
-            new OrderEntity('123456789012345B', 200.50, true),
+            new OrderEntity('1234567890123457', 200.50, true),
         ];
 
         foreach ($orders as $order) {
