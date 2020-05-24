@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\PayCardForm;
+use App\Repository\OrderRepository;
 use App\Service\AServiceAdapter;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -13,9 +14,17 @@ class BillingController
     /** @var \App\Service\AServiceAdapter */
     private $serviceA;
 
-    public function __construct(AServiceAdapter $serviceA)
+    /** @var \App\Repository\OrderRepository */
+    private $repository;
+
+    /**
+     * @param \App\Service\AServiceAdapter $serviceA
+     * @param \App\Repository\OrderRepository $repository
+     */
+    public function __construct(AServiceAdapter $serviceA, OrderRepository $repository)
     {
         $this->serviceA = $serviceA;
+        $this->repository = $repository;
     }
 
     /**
@@ -37,6 +46,17 @@ class BillingController
                 'is_succeed' => false,
                 'errors' => [
                     'service' => ['Service A couldn\'t write off the money']
+                ]
+            ], 400);
+        }
+
+        try {
+            $this->repository->setOrderIsPaid($form->getOrderNumber(), $form->getSum());
+        } catch (\Throwable $e) {
+            return new JsonResponse([
+                'is_succeed' => false,
+                'errors' => [
+                    'service' => [$e->getMessage()]
                 ]
             ], 400);
         }
