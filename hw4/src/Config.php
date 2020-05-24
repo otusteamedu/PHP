@@ -3,7 +3,6 @@
 namespace Deadly117;
 
 use Exception;
-use SplFileInfo;
 
 class Config
 {

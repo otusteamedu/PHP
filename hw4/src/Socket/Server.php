@@ -4,13 +4,16 @@ namespace Deadly117\Socket;
 
 use Exception;
 use Socket\Raw\Factory;
+use Deadly117\Config;
 
 class Server
 {
     private $socket;
 
-    public function __construct($endpoint)
+    public function __construct(Config $cfg)
     {
+        $endpoint = $cfg->getValue('socket.file');
+
         if (file_exists($endpoint)) {
             $done = unlink($endpoint);
             if (!$done) {

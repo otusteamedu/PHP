@@ -4,13 +4,16 @@ namespace Deadly117\Socket;
 
 use Exception;
 use Socket\Raw\Factory;
+use Deadly117\Config;
 
 class Client
 {
     private $socket;
 
-    public function __construct($endpoint)
+    public function __construct(Config $cfg)
     {
+        $endpoint = $cfg->getValue('socket.file');
+
         if (!file_exists($endpoint)) {
             throw new Exception('socket not found');
         }
@@ -35,7 +38,7 @@ class Client
             }
 
             echo 'client recv: ', $result, PHP_EOL;
-            
+
             echo 'client exiting', PHP_EOL;
             $this->socket->write('exit' . PHP_EOL);
             break;

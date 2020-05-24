@@ -3,7 +3,6 @@
 require 'vendor/autoload.php';
 
 $cfg = new Deadly117\Config('config.ini');
-$file = $cfg->getValue('socket.file');
 
 $shortopts = 'm:';
 $longopts = ['mode:'];
@@ -13,11 +12,11 @@ $mode = $options['m'] ?? $options['mode'];
 
 switch ($mode) {
     case 'server':
-        $server = new Deadly117\Socket\Server($file);
+        $server = new Deadly117\Socket\Server($cfg);
         $server->run();
         break;
     case 'client':
-        $client = new Deadly117\Socket\Client($file);
+        $client = new Deadly117\Socket\Client($cfg);
         $client->run();
         break;
     default:
