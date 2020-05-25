@@ -24,7 +24,7 @@ class Application
     protected function init()
     {
         $this->validators = ValidatorLoader::load();
-        $this->request = Request::create();
+        $this->request = new Request();
     }
 
 

@@ -5,6 +5,11 @@ networks:
     external:
       name: nginx-proxy
 
+volumes:
+  socket1:
+  socket2:
+  socket3:
+
 services:
   nginx-balancer:
     container_name: nginx-balancer
@@ -13,4 +18,70 @@ services:
       dockerfile: ./nginx/Dockerfile.balancer
     ports:
     - 8081:8081
+    restart: always
+
+  app1:
+    container_name: app1
+    build:
+      context: ../../
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - socket1:/var/run/php
+      - ../../php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ../../app:/var/www/otus
+    restart: always
+
+  nginx1:
+    container_name: node1
+    build:
+      context: ../../
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - socket1:/var/run/php
+    depends_on:
+      - app1
+    restart: always
+
+  app2:
+    container_name: app2
+    build:
+      context: ../../
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - socket2:/var/run/php
+      - ../../php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ../../app:/var/www/otus
+    restart: always
+
+  nginx2:
+    container_name: node2
+    build:
+      context: ../../
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - socket2:/var/run/php
+    depends_on:
+      - app2
+    restart: always
+
+  app3:
+    container_name: app3
+    build:
+      context: ../../
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - socket3:/var/run/php
+      - ../../php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ../../app:/var/www/otus
+    restart: always
+
+  nginx3:
+    container_name: node3
+    build:
+      context: ../../
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - socket3:/var/run/php
+    depends_on:
+      - app3
     restart: always
