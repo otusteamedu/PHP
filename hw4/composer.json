@@ -1,0 +1,10 @@
+{
+    "require": {
+        "ext-sockets": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "HW4\\": "src/"
+        }
+    }
+}
