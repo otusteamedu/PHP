@@ -21,11 +21,13 @@ class Client
     }
 
     /**
+     * @param string $message
+     *
      * @return string
      * @throws ConfigException
      * @throws SocketException
      */
-    public function request(): string
+    public function request(string $message): string
     {
         $socket = $this->socketService->create(
             $this->config->get('socket_domain'),
@@ -34,8 +36,12 @@ class Client
             $this->config->get('server_address'),
             $this->config->get('server_port')
         );
+
         $this->socketService->connect($socket);
+
+        $this->socketService->write($socket, $message);
         $result = $this->socketService->read($socket, self::LENGTH);
+
         $this->socketService->close($socket);
 
         return $result;

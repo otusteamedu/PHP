@@ -10,6 +10,8 @@ use HW4\Socket\Socket;
 
 class Server
 {
+    const LENGTH = 1024;
+
     private Socket $socket;
 
     private Config $config;
@@ -39,16 +41,35 @@ class Server
     }
 
     /**
-     * @param string $message
-     *
      * @throws SocketException
      */
-    public function response(string $message): void
+    public function response(): void
     {
         while (true) {
-            $acceptedSocketResource = $this->socketService->accept($this->socket);
-            $this->socketService->write($acceptedSocketResource, $message . ' ; ' . date('Y-m-d H:i:s'));
-            $this->socketService->close($acceptedSocketResource);
+            $acceptedSocket = $this->socketService->accept($this->socket);
+
+            $message = $this->socketService->read($acceptedSocket, self::LENGTH);
+            $this->socketService->write($acceptedSocket, $this->answer($message));
+
+            $this->socketService->close($acceptedSocket);
+        }
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return string
+     */
+    private function answer(string $message)
+    {
+        switch($message) {
+            case 'PING':
+                return 'PONG';
+                break;
+
+            default:
+                return 'You wrote: ' . $message;
+                break;
         }
     }
 }

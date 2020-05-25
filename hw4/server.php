@@ -10,7 +10,7 @@ $server = new \HW4\Server(
 
 try {
     $server->init();
-    $server->response('Hi!');
+    $server->response();
 } catch(\Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);

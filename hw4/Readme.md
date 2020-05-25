@@ -15,10 +15,5 @@
 Проверяем работу клиента    
     
     /app # php client.php 
-    Hi! ; 2020-05-23 21:29:38
-    /app # php client.php 
-    Hi! ; 2020-05-23 21:29:39
-    /app # php client.php 
-    Hi! ; 2020-05-23 21:29:41
-    /app # php client.php 
-    Hi! ; 2020-05-23 21:29:42
+    > PONG
+    > You wrote: Another message
