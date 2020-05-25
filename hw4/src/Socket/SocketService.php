@@ -49,12 +49,17 @@ class SocketService
         $protocol = $this->getProtocolCode($protocol);
         $port = intval($port);
 
-        $socket = socket_create($domain, $type, $protocol);
-        if ($socket === false) {
+        $socketResource = socket_create($domain, $type, $protocol);
+        if ($socketResource === false) {
             $this->getSocketError();
         }
 
-        return new Socket($socket, $domain, $type, $protocol, $address, $port);
+        return (new Socket($socketResource))
+            ->setDomain($domain)
+            ->setType($type)
+            ->setProtocol($protocol)
+            ->setAddress($address)
+            ->setPort($port);
     }
 
     /**

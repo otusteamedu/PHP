@@ -9,8 +9,13 @@ $client = new \HW4\Client(
 );
 
 try {
-    echo '> ' . $client->request('PING') . PHP_EOL;
-    echo '> ' . $client->request('Another message') . PHP_EOL;
+    $message = 'PING';
+    echo '> ' . $message . PHP_EOL;
+    echo $client->request($message) . PHP_EOL;
+
+    $message = 'Another message';
+    echo '> ' . $message . PHP_EOL;
+    echo $client->request($message) . PHP_EOL;
 } catch(\Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);

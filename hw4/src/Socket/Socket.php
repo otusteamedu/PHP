@@ -9,7 +9,7 @@ class Socket
     private int $type;
     private int $protocol;
     private string $address;
-    private int $port;
+    private int $port = 0;
 
     /** @var resource */
     private $socket;
@@ -18,31 +18,70 @@ class Socket
      * Socket constructor.
      *
      * @param resource $socket
-     * @param int $domain
-     * @param int $type
-     * @param int $protocol
-     * @param string $address
-     * @param int $port
      */
-    public function __construct(
-        $socket,
-        int $domain,
-        int $type,
-        int $protocol,
-        string $address,
-        int $port = 0
-    )
+    public function __construct($socket)
     {
         $this->socket = $socket;
+    }
+
+    /**
+     * @param int $domain
+     *
+     * @return Socket
+     */
+    public function setDomain(int $domain): Socket
+    {
         $this->domain = $domain;
+        return $this;
+    }
+
+    /**
+     * @param int $type
+     *
+     * @return Socket
+     */
+    public function setType(int $type): Socket
+    {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @param int $protocol
+     *
+     * @return Socket
+     */
+    public function setProtocol(int $protocol): Socket
+    {
         $this->protocol = $protocol;
+        return $this;
+    }
+
+    /**
+     * @param string $address
+     *
+     * @return Socket
+     */
+    public function setAddress(string $address): Socket
+    {
         $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * @param int $port
+     *
+     * @return Socket
+     */
+    public function setPort(int $port): Socket
+    {
         $this->port = $port;
+        return $this;
     }
 
     /**
      * @return resource
+     * @throws SocketException
      */
     public function getValidSocketResource()
     {
@@ -114,6 +153,6 @@ class Socket
      */
     public function isNotValid(): bool
     {
-        return ! $this->isValid();
+        return !$this->isValid();
     }
 }

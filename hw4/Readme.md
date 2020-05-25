@@ -14,6 +14,8 @@
     
 Проверяем работу клиента    
     
-    /app # php client.php 
-    > PONG
-    > You wrote: Another message
+    /app # php client.php    
+    > PING
+    PONG
+    > Another message
+    You wrote: Another message
