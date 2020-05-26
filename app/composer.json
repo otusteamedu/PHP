@@ -1,12 +1,17 @@
 {
   "require": {
     "php":">=7.1.0",
-    "mar4ehk0/Config": "dev-master"
+    "mar4ehk0/Config": "dev-master",
+    "mar4ehk0/unix_socket": "dev-master"
   },
   "repositories":[
     {
       "type":"git",
       "url":"https://github.com/mar4ehk0/Config"
+    },
+    {
+      "type":"git",
+      "url":"https://github.com/mar4ehk0/unix_socket"
     }
   ]
 }
