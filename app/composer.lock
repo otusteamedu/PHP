@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c7ac595d06a2ce5a3efd62f489ed5ba6",
+    "packages": [
+        {
+            "name": "mar4ehk0/Config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mar4ehk0/Config",
+                "reference": "b16db1dba81d144af6479e313909bac777708b65"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Marchenko\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Alexey Marchenko",
+                    "email": "email@example.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Works with INI-files",
+            "homepage": "https://github.com/mar4ehk0/Config",
+            "time": "2020-05-26T12:47:49+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "mar4ehk0/config": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.1.0"
+    },
+    "platform-dev": []
+}
