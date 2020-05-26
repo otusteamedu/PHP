@@ -70,7 +70,7 @@ _test/unit/Framework/Router/AuraRouterAdapterTest.php_
 4. Если роут найден, то класс `Result` должен содержать атрибуты роута
 5. Если роут не найден, то должно сработать исключение `RouteNotMatchedException`
 
-## Интеграционные тесты
+## Системные тесты
 #### Контроллер оплаты заказа
 _test/integration/App/Controller/BillingControllerTest.php_
 
@@ -90,3 +90,12 @@ _test/integration/App/Controller/BillingControllerTest.php_
     
 4. В базе у заказа изменился статус оплаты на **true**
 
+## Интеграционные тесты
+#### Репозиторий для работы с заказами
+_test/integration/App/Repository/OrderRepositoryTest.php_
+
+1. Поиск по номеру заказа, результат должен вернуть сущность класса OrderEntity
+2. Если заказ не найден, то должно сработать исключение
+3. Проверка, что метод `setOrderIsPaid` меняет статус заказа
+4. Проверка, что в методе `setOrderIsPaid` сработает исключение, если заказ уже оплачен
+4. Проверка, что в методе `setOrderIsPaid` сработает исключение, если сумма заказа не совпадает
