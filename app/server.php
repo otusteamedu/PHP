@@ -1,10 +1,10 @@
 <?php
 
 require_once(__DIR__ . '/vendor/autoload.php');
-require_once(__DIR__ . '/Server/Server.php');
 define('STOP' , 'stop');
 
 use Marchenko\Config as Config;
+use Marchenko\Server as Server;
 
 $config = new Config("config.ini");
 try {
