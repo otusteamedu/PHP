@@ -5,6 +5,10 @@ class Server {
   private $socket;
 
   function __construct($pathSocket) {
+    if (file_exists($pathSocket)) {
+      unlink($pathSocket);
+    }
+
     $this->pathSocket = $pathSocket;
     $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
     if ($this->socket == false) {
