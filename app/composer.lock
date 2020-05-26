@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7ac595d06a2ce5a3efd62f489ed5ba6",
+    "content-hash": "3beddabafcc39ca43a3ee35c3247a437",
     "packages": [
         {
             "name": "mar4ehk0/Config",
@@ -33,13 +33,43 @@
             "description": "Works with INI-files",
             "homepage": "https://github.com/mar4ehk0/Config",
             "time": "2020-05-26T12:47:49+00:00"
+        },
+        {
+            "name": "mar4ehk0/unix_socket",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mar4ehk0/unix_socket",
+                "reference": "52a3711994b161c5173fbd103a206bcc03c89d2c"
+            },
+            "require": {
+                "ext-sockets": "*",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Marchenko\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Alexey Marchenko",
+                    "email": "email@example.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Example for Unix socket",
+            "homepage": "https://github.com/mar4ehk0/unix_socket",
+            "time": "2020-05-26T18:58:22+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mar4ehk0/config": 20
+        "mar4ehk0/config": 20,
+        "mar4ehk0/unix_socket": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
