@@ -19,6 +19,7 @@ class HandlerResolverTest extends TestCase
     public function testResolveController()
     {
         $container = new ServiceManager();
+        $container->addAbstractFactory(ReflectionBasedAbstractFactory::class);
         $resolver = new HandlerResolver($container);
 
         /** @var \Psr\Http\Message\ServerRequestInterface $request */

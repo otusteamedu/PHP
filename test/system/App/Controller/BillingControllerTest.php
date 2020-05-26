@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\integration\App\Controller;
+namespace Test\system\App\Controller;
 
 use App\Controller\BillingController;
 use App\Repository\OrderRepository;
@@ -23,7 +23,7 @@ class BillingControllerTest extends TestCase
         chdir(dirname(__DIR__, 4));
         require_once 'vendor/autoload.php';
 
-        $this->container = require_once 'config/container.php';
+        $this->container = include 'config/container.php';
 
         $loader = new Loader();
         $loader->loadFromDirectory($this->container->get('config')['fixture']['dir']);
