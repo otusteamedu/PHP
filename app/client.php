@@ -1,10 +1,9 @@
 <?php
 
-
 require_once(__DIR__ . '/vendor/autoload.php');
-require_once(__DIR__ . '/Client/Client.php');
 
 use Marchenko\Config as Config;
+use Marchenko\Client as Client;
 
 $shortopts = 'v:';
 $longopts = [
