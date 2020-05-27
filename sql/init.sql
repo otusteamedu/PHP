@@ -37,6 +37,13 @@ CREATE TABLE "attribute_value" (
     CONSTRAINT attribute_value_film_fk FOREIGN KEY (film_id) REFERENCES film(id)
 );
 
+DROP TABLE IF EXISTS "async_request_status" CASCADE;
+CREATE TABLE "async_request_status" (
+    id serial UNIQUE,
+    status int NOT NULL,
+    CONSTRAINT async_request_status_pk PRIMARY KEY (id)
+);
+
 
 -- Create functions
 Create or replace function random_string(length integer) returns text as

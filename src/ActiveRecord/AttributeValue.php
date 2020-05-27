@@ -332,28 +332,6 @@ class AttributeValue {
         ]);
     }
 
-    private static function getSqlPath(): string
-    {
-        return dirname(dirname(__DIR__)) . '/sql';
-    }
-
-    /**
-     * @param \PDO $pdo
-     * @return bool
-     */
-    public static function init(\PDO $pdo): bool
-    {
-        $script = self::getSqlPath() . '/init.sql';
-        $initSql = file_get_contents($script);
-        $pdo->exec($initSql);
-
-        if ($pdo->exec($initSql) === false) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * @param \PDO $pdo
      * @param int $count

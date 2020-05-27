@@ -3,6 +3,7 @@ namespace Otus;
 
 use Symfony\Component\Yaml\Yaml;
 use Otus\ActiveRecord\AttributeValue;
+use Otus\ActiveRecord\AsyncRequestStatus;
 use Otus\QueueAdapter;
 
 final class App
@@ -64,7 +65,7 @@ final class App
 
         $this->router->map('GET', '/init', function () {
 
-            if (AttributeValue::init($this->pdo)) {
+            if ($this->initDB()) {
                 print 'DB initialization successful';
             } else {
                 print 'DB initialization error';
@@ -90,9 +91,38 @@ final class App
 
         // Async method to add new rows
         $this->router->map('POST', '/acyncadd/[i:count]', function ($count) {
-            $this->queue->pushMsg((string) $count);
-            print "Your request added to queue.\n";
+            $reqStatus = new AsyncRequestStatus($this->pdo);
+            $reqStatus
+                ->setStatus(1)
+                ->insert();
+            $this->queue->pushMsg($reqStatus->getId() . ':' . $count);
+            print 'Your request #' . $reqStatus->getId() . ' added to queue.' . PHP_EOL;
         });
 
+        $this->router->map('GET', '/status/[i:id]', function ($id) {
+            $reqStatus = AsyncRequestStatus::getById($this->pdo, $id);
+
+            if ($reqStatus->getStatus()) {
+                print 'Request #' . $id . ' has status: ' . $reqStatus->getStatus() . PHP_EOL;
+            } else {
+                print 'Request #' . $id . ' not queued' . PHP_EOL;
+            }
+        });
+
+    }
+
+    /**
+     * @return bool
+     */
+    private function initDB(): bool
+    {
+        $script = dirname(__DIR__) . '/sql/init.sql';
+        $initSql = file_get_contents($script);
+
+        if ($this->pdo->exec($initSql) === false) {
+            return false;
+        }
+
+        return true;
     }
 }

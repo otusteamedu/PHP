@@ -4,6 +4,7 @@ namespace Otus;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Otus\ActiveRecord\AttributeValue;
+use Otus\ActiveRecord\AsyncRequestStatus;
 
 final class QueueAdapter
 {
@@ -52,17 +53,26 @@ final class QueueAdapter
 
     public function callback(AMQPMessage $msg): void
     {
-        print ' [x] Adding ' . $msg->body . ' rows' . PHP_EOL;
         $startTime = hrtime(true);
+        $arMsg = explode(':', $msg->body);
+        print ' [*] Adding ' . $arMsg[1] . ' rows (request #' . $arMsg[0] . ')' . PHP_EOL;
 
-        $result = AttributeValue::addRandomRows($this->pdo, (int) $msg->body);
+        $reqStatus = new AsyncRequestStatus($this->pdo);
+        $reqStatus->setId((int) $arMsg[0]);
+        $result = AttributeValue::addRandomRows($this->pdo, (int) $arMsg[1]);
 
         $endTime = hrtime(true);
         $execTime = round(($endTime - $startTime) / 1000000, 0);
 
         if ($result === true) {
-            print ' [x] Request to add ' . $msg->body . ' rows executed in ' . $execTime . ' msec' . PHP_EOL . PHP_EOL;
+            $reqStatus
+                ->setStatus(2)
+                ->update();
+            print ' [x] Request #' . $arMsg[0] . ' to add ' . $arMsg[1] . ' rows executed in ' . $execTime . ' msec' . PHP_EOL . PHP_EOL;
         } else {
+            $reqStatus
+                ->setStatus(3)
+                ->update();
             print ' [x] Error is occurred during attempt to add new rows' . PHP_EOL . PHP_EOL;
         }
 
