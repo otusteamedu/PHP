@@ -1,7 +1,7 @@
 {
   "require": {
     "php":">=7.1.0",
-    "mar4ehk0/Config": "dev-master",
+    "mar4ehk0/config": "dev-master",
     "mar4ehk0/unix_socket": "dev-master"
   },
   "repositories":[
