@@ -14,12 +14,12 @@ docker build -t rmaysak/hw4 .
 
 #### 2. Запуск контейнера
 ```
-docker run -it --name hw4 -d rmaysak/hw4
+docker run -it --name rmaysak_hw4 -d rmaysak/hw4
 ```
 
 #### 3. Переход в контейнер
 ```
-docker exec -it hw4 sh
+docker exec -it rmaysak_hw4 sh
 ```
 
 #### 4. Запуск сервера через sh
@@ -54,12 +54,12 @@ exit
 
 #### 7. Остановка контейнера
 ```
-docker stop hw4
+docker stop rmaysak_hw4
 ```
 
 #### 8. Удаление контейнера
 ```
-docker rm hw4
+docker rm rmaysak_hw4
 ```
 
 #### 9. Удаление образа
