@@ -1,2 +1,2 @@
 #!/bin/bash
-awk -F " " '{ print $3}' $1 | sort | uniq -c | sort -r | head -3
+awk '{count[$3]++} END {for (city in count) print count[city], city}' $1 | sort -r | uniq | head -3

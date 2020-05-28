@@ -23,8 +23,7 @@ function enterNumber {
 }
 
 function result {
-sum=$(bc <<< "$summandOne + $summandTwo")
-echo "$summandOne + $summandTwo = $sum"
+echo $summandOne $summandTwo | awk '{ print $1 + $2}'
 exit
 }
 
