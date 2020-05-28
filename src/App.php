@@ -96,17 +96,27 @@ final class App
                 ->setStatus(1)
                 ->insert();
             $this->queue->pushMsg($reqStatus->getId() . ':' . $count);
-            print 'Your request #' . $reqStatus->getId() . ' added to queue.' . PHP_EOL;
+
+            $response = new \stdClass();
+            $response->client_request_id = (int) $reqStatus->getId();
+            $response->client_request_status = 1;
+
+            header('Content-type: application/json');
+            print json_encode($response);
         });
 
         $this->router->map('GET', '/status/[i:id]', function ($id) {
             $reqStatus = AsyncRequestStatus::getById($this->pdo, $id);
+            $response = new \stdClass();
+            $response->client_request_id = (int) $id;
+            $response->client_request_status = null;
 
             if ($reqStatus->getStatus()) {
-                print 'Request #' . $id . ' has status: ' . $reqStatus->getStatus() . PHP_EOL;
-            } else {
-                print 'Request #' . $id . ' not queued' . PHP_EOL;
+                $response->client_request_status = (int) $reqStatus->getStatus();
             }
+
+            header('Content-type: application/json');
+            print json_encode($response);
         });
 
     }
