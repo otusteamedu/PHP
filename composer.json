@@ -1,0 +1,12 @@
+{
+  "require": {
+    "php": ">=7.3",
+    "kwn/number-to-words": "^1.9",
+    "vlucas/phpdotenv": "^4.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "HW4\\": "src/"
+    }
+  }
+}
