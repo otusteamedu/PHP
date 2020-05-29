@@ -1,17 +1,12 @@
 {
   "require": {
     "php":">=7.1.0",
-    "mar4ehk0/config": "dev-master",
-    "mar4ehk0/unix_socket": "dev-master"
+    "ext-sockets": "^7.1",
+    "squizlabs/php_codesniffer": "*"
   },
-  "repositories":[
-    {
-      "type":"git",
-      "url":"https://github.com/mar4ehk0/Config"
-    },
-    {
-      "type":"git",
-      "url":"https://github.com/mar4ehk0/unix_socket"
+  "autoload": {
+    "psr-4": {
+      "Marchenko\\": "src/"
     }
-  ]
+  }
 }
