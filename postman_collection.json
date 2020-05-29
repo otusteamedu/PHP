@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "b59c50dc-12ec-4fa6-ac47-2183a7d2f807",
+		"name": "otus.hw16",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "hw16.hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hw16.list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hw16.init",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/init",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hw16.addrows",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/add/300000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"add",
+						"300000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hw16.addrows.async",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/acyncadd/300000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"acyncadd",
+						"300000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hw16.status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/status/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"status",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
