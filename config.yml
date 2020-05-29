@@ -1,0 +1,11 @@
+db:
+    driver: pgsql
+    host: db
+    dbname: otus
+    username: otus
+    password: otus
+queue:
+    host: rabbit-mq
+    port: 5672
+    username: user
+    password: password

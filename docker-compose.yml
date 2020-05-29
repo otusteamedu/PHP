@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+    rabbitmq:
+        image: rabbitmq:3.8.3-management
+        working_dir: /app
+        hostname: rabbit-mq
+        container_name: 'rabbit-mq'
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: user
+            RABBITMQ_DEFAULT_PASS: password
+
+    db:
+        image: postgres:12.1
+        container_name: 'postgres'
+        ports:
+            - 5432:5432
+        restart: always
+        environment:
+            POSTGRES_DB: otus
+            POSTGRES_USER: otus
+            POSTGRES_PASSWORD: otus
+
+    web:
+        image: nginx:1.17
+        container_name: 'web'
+        ports:
+            - 80:80
+        volumes:
+            - ./server/socket:/var/run
+            - ./:/var/app
+            - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    php:
+        build: ./server/php
+        working_dir: /var/app
+        container_name: 'php-fpm'
+        volumes:
+            - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./:/var/app
+            - ./server/socket:/var/run
+        links:
+            - rabbitmq
+            - web
