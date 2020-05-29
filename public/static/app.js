@@ -17,9 +17,13 @@ $(function () {
                     dataType: "json",
                     type: "post"
                 }).done(function (result) {
-                    self.clientRequestId = result.client_request_id;
-                    self.refresh = true;
-                    self.statusUpdate();
+                    if (result.client_request_id > 0) {
+                        self.refresh = true;
+                        self.clientRequestId = result.client_request_id;
+                    } else {
+                        self.refresh = false;
+                        self.showDBError();
+                    }
                 });
             });
 
@@ -31,7 +35,6 @@ $(function () {
 
         statusUpdate: function () {
             let self = this;
-            console.log(self.clientRequestId);
 
             if (self.refresh) {
                 $.ajax({
@@ -54,10 +57,18 @@ $(function () {
                     } else {
                         text = 'undefined';
                     }
-                    $('.request-id').text(result.client_request_id);
-                    $('.request-status').text(text);
+                    self.showStatus(result.client_request_id, text);
                 });
             }
+        },
+
+        showDBError: function () {
+            $('.alert-danger').removeClass('d-none');
+        },
+
+        showStatus: function (requestId, statusText) {
+            $('.request-id').text(requestId);
+            $('.request-status').text(statusText);
         }
     };
 

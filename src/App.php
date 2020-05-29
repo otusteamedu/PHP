@@ -98,7 +98,7 @@ final class App
             $this->queue->pushMsg($reqStatus->getId() . ':' . $count);
 
             $response = new \stdClass();
-            $response->client_request_id = (int) $reqStatus->getId();
+            $response->client_request_id = $reqStatus->getId();
             $response->client_request_status = 1;
 
             header('Content-type: application/json');
@@ -112,7 +112,7 @@ final class App
             $response->client_request_status = null;
 
             if ($reqStatus->getStatus()) {
-                $response->client_request_status = (int) $reqStatus->getStatus();
+                $response->client_request_status = $reqStatus->getStatus();
             }
 
             header('Content-type: application/json');
