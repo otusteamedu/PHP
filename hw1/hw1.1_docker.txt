@@ -1,0 +1,42 @@
+sudo pacman -S docker
+sudo systemctl enable --now docker
+sudo docker info
+
+sudo groupadd docker
+sudo usermod -aG docker <username>
+
+sudo mkdir -p /home/docker
+sudo chown root:root /home/docker
+sudo chmod 701 /home/docker
+sudo systemctl stop docker
+sudo mkdir -p /etc/systemd/system/docker.service.d/
+sudo subl /etc/systemd/system/docker.service.d/docker.conf
+
+# docker.conf
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --data-root=/home/docker -H fd://
+
+sudo systemctl daemon-reload 
+sudo mv /var/lib/docker/ /home/docker
+sudo ln -s /home/docker /var/lib/docker
+sudo systemctl start docker
+
+docker run hello-world
+
+docker volume create portainer_data
+docker run -d -p 9090:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+
+sudo pacman -S docker-compose
+
+mkdir -p ./nginx/sites-enabled ./php /www/hw1.test ./logs 
+echo "<?php phpinfo();" > ./www/hw1.test/index.php
+subl ./nginx/nginx.conf
+subl ./nginx/sites-enabled/hw1.test.conf
+echo "127.0.0.1 hw1.test" | sudo tee -a /etc/hosts > /dev/null
+
+subl ./docker-compose.yml
+
+docker-compose up -d
+docker ps
+
