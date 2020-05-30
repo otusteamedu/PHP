@@ -1,0 +1,30 @@
+version: "3"
+
+volumes:
+    sock:
+    app:
+
+services:
+    socket_nginx:
+        build:
+            context: nginx
+        volumes:
+            - "sock:/sock"
+            - "app:/usr/app:ro"
+        ports:
+            - "80:8080"
+        depends_on:
+            - socket_php
+    socket_php:
+        build:
+            context: php
+        volumes:
+            - "sock:/sock"
+            - "app:/usr/app:ro"
+        depends_on:
+            - builder
+    builder:
+        build:
+            context: .
+        volumes:
+            - "app:/usr/app:rw"
