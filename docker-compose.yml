@@ -1,0 +1,24 @@
+version: '3.6'
+services:
+  php:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+    volumes:
+      - ./sock:/sock
+      - ./app:/www/app:ro
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./sock:/sock
+      - ./app:/www/app:ro
+    links:
+      - php
+    depends_on:
+      - php
