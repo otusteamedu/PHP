@@ -1,12 +1,6 @@
 {
-    "name": "zero",
-    "description": "",
+    "name": "root/www",
     "require": {
-        "phpunit/phpunit": "^7.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "zero\\": "/src/zero"
-        }
+        "vlucas/phpdotenv": "^4.1"
     }
 }
