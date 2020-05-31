@@ -7,6 +7,8 @@ use Exception;
 class Validate
 {
     const LENGTH_SIGN_EQUAL = 1;
+    const CORRECT_BRACKETS = '()';
+
     private $contentLength;
     private $varName;
     private $value;
@@ -20,43 +22,44 @@ class Validate
                 throw new Exception("Header Content-Length is empty.");
             }
 
-//            var_dump($this->contentLength);
-
             if (!empty($_POST)) {
                 $this->varName = key($_POST);
             } else {
                 throw new Exception("Data was not sent by POST method");
             }
 
-//            var_dump($this->varName);
-
             if (!empty($_POST[$this->varName])) {
                 $this->value = $_POST[$this->varName];
             } else {
                 throw new Exception("Variable \"$this->varName\" is empty");
             }
-//            var_dump($this->value);
-
 
             $condition = strlen($this->varName) + strlen($this->value) + Validate::LENGTH_SIGN_EQUAL !=
                 $this->contentLength;
-//            var_dump($condition);
             if ($condition) {
                 throw new Exception("Content-Length is wrong.");
             }
-
+            $this->checkBracket();
         } catch (Exception $e) {
-//            http_response_code(400);
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request ' . $e->getMessage(), false, 400);
+            exit();
         }
     }
 
-//    protected function checkBracket(string $value)
-//    {
-//        $buf = [];
-//        foreach ($value as $sign) {
-//            echo $sign . PHP_EOL;
-//        }
-//    }
-
+    protected function checkBracket()
+    {
+        $numIteration = strlen($this->value) / 2;
+        if (!is_integer($numIteration)) {
+            throw new Exception("Unpaired number of brackets");
+        }
+        $i = 0;
+        $value = $this->value;
+        while ($value != '') {
+            $i++;
+            $value = str_replace(Validate::CORRECT_BRACKETS, '', $value);
+            if ($i > $numIteration) {
+                throw new Exception("Sequence of brackets is broken");
+            }
+        }
+    }
 }
