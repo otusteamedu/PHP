@@ -7,7 +7,7 @@ services:
         UID: "3000"
     volumes:
       - ./sock:/sock
-      - ./app:/www/app:ro
+      - ./app:/data/app:ro
   nginx:
     build:
       context: ./docker/nginx
@@ -17,7 +17,7 @@ services:
       - "8080:80"
     volumes:
       - ./sock:/sock
-      - ./app:/www/app:ro
+      - ./app:/data/app:ro
     links:
       - php
     depends_on:
