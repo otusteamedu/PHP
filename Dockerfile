@@ -41,10 +41,6 @@ RUN pecl install igbinary && \
     pecl install memcached && \
     docker-php-ext-enable memcached
 
-# # устанавливаем pdo_pgsql
-# RUN pecl install pdo_pgsql && \
-#     docker-php-ext-enable pdo_pgsql
-
 # устанавливаем pecl_http
 RUN pecl install propro && \
     docker-php-ext-enable propro && \
@@ -53,6 +49,8 @@ RUN pecl install propro && \
     pecl install pecl_http && \
     echo "extension=http.so" >> /etc/php7/php.ini
 
+# устанавливаем pdo_pgsql
+RUN docker-php-ext-install pdo_pgsql
 
 ENV TZ=Europe/Moscow
 
