@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  nginx:
+    build:
+      context: ./docker/images/nginx
+      args:
+        UID: "3000"
+    container_name: rmaysak_hw5_laravel_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/logs:/var/logs/nginx/
+      - ./:/app
+      - ./docker/conf/nginx/rmaysak.loc.conf:/etc/nginx/conf.d/rmaysak.loc.conf
+      - ./docker/conf/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/socket/:/socket/
+    links:
+      - php
+  php:
+    build:
+      context: ./docker/images/php
+      args:
+        UID: "3000"
+    container_name: rmaysak_hw5_laravel_php
+    volumes:
+      - ./:/app
+      - ./docker/logs:/var/log/
+      - ./docker/conf/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/socket:/socket/
