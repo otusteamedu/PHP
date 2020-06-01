@@ -23,6 +23,7 @@ class BracketsChecker
         $this->requestUri = explode('/', trim($_SERVER['REQUEST_URI'],'/'));
         $this->requestParams = $_REQUEST;
         $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->checkContentLength();
     }
 
     /**
@@ -57,6 +58,23 @@ class BracketsChecker
             $this->successResponse();
         } else {
             throw new HttpException('Brackets sequence is not valid', 400);
+        }
+    }
+
+    private function checkContentLength(): void
+    {
+        $contentLength = $_SERVER['CONTENT_LENGTH'];
+
+        if ($contentLength <= 0) {
+            throw new HttpException('Content-length required', 411);
+        }
+
+        $request = urldecode(http_build_query($_POST));
+        $size = strlen($request);
+
+        if ($contentLength != $size)
+        {
+            throw new HttpException('Wrong Content-length', 400);
         }
     }
 
