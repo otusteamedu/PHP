@@ -73,7 +73,7 @@ class Server
                 usleep(100); // timeout reconnect
             } elseif ($this->msgSocket > 0) {
                 $this->log->addLogNote("Client connected successfully!");
-                $this->workWithMessage() ? $this->Shutdown = 1 : $this->Shutdown = 0;
+                $this->workWithMessage() ? $this->Shutdown = 0 : $this->Shutdown = 1;
             } else {
                 throw new \Exception("Don't get connection socket_accept: "
                                     . socket_strerror(socket_last_error($this->socket)));
@@ -89,9 +89,9 @@ class Server
             throw new \Exception("socket_read() failed: "
                                 . socket_strerror(socket_last_error($this->socket)));
         } elseif (
-                  strtolower($msgFromClient) === 'shutdown' ||
-                  strtolower($msgFromClient) === 'exit'     ||
-                  strtolower($msgFromClient) === 'quit'
+            strtolower($msgFromClient) === 'shutdown' ||
+            strtolower($msgFromClient) === 'exit'     ||
+            strtolower($msgFromClient) === 'quit'
         ) {
             return false;
         }

@@ -59,11 +59,11 @@ class Client extends Server
             "For Exit type \"exit\" or \"quit\"," . PHP_EOL .
             "For shutdown Server&Client type \"shutdown\":" . PHP_EOL;
             do {
-                $msg = fgetc(STDIN);
+                $msg = fgets(STDIN);
                 $this->sendMesssage($msg);
                 $this->receiveMessage();
             } while (strtolower($msg) !== 'exit' || strtolower($msg) !== 'quit' || strtolower($msg) !== 'shutdown');
-            $this->closeSocket();
+            //$this->closeSocket();
         } catch (\Exception $e) {
             echo "Exception: {$e->getMessage()}" . PHP_EOL;
             $log = new \UxSockets\Log\Log($this->getConfig()->getSettings()["error_log"]);
