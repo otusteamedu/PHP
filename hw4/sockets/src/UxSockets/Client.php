@@ -2,8 +2,6 @@
 
 namespace UxSockets;
 
-//require_once "Server.php";
-
 class Client extends Server
 {
     private $socket; // resource
@@ -50,6 +48,26 @@ class Client extends Server
             throw new \Exception("socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)));
         } else {
             echo "replay from server: " . $output . "\n";
+        }
+    }
+
+    public function runClient()
+    {
+        try {
+            $this->connectToSocket();
+            echo "Enter your message and press key \"Enter\"," . PHP_EOL .
+            "For Exit type \"exit\" or \"quit\"," . PHP_EOL .
+            "For shutdown Server&Client type \"shutdown\":" . PHP_EOL;
+            do {
+                $msg = fgetc(STDIN);
+                $this->sendMesssage($msg);
+                $this->receiveMessage();
+            } while (strtolower($msg) !== 'exit' || strtolower($msg) !== 'quit' || strtolower($msg) !== 'shutdown');
+            $this->closeSocket();
+        } catch (\Exception $e) {
+            echo "Exception: {$e->getMessage()}" . PHP_EOL;
+            $log = new \UxSockets\Log\Log($this->getConfig()->getSettings()["error_log"]);
+            $log->addLogNote($e->getMessage());
         }
     }
 }

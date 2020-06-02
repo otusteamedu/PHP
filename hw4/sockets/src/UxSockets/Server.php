@@ -73,7 +73,7 @@ class Server
                 usleep(100); // timeout reconnect
             } elseif ($this->msgSocket > 0) {
                 $this->log->addLogNote("Client connected successfully!");
-                $this->workWithMessage();
+                $this->workWithMessage() ? $this->Shutdown = 1 : $this->Shutdown = 0;
             } else {
                 throw new \Exception("Don't get connection socket_accept: "
                                     . socket_strerror(socket_last_error($this->socket)));
@@ -81,21 +81,29 @@ class Server
         }
     }
 
-    public function workWithMessage(): void
+    public function workWithMessage(): bool
     {
         $msgFromClient = socket_read($this->msgSocket, 1024);
+ 
         if ($msgFromClient === false) {
             throw new \Exception("socket_read() failed: "
                                 . socket_strerror(socket_last_error($this->socket)));
+        } elseif (
+                  strtolower($msgFromClient) === 'shutdown' ||
+                  strtolower($msgFromClient) === 'exit'     ||
+                  strtolower($msgFromClient) === 'quit'
+        ) {
+            return false;
         }
 
         $output = "Your message is: " . $msgFromClient . PHP_EOL;
         if (socket_write($this->msgSocket, $output) === false) {
-            throw new \Exception("Не удалось произвести запись в сокет: "
+            throw new \Exception("socket_write() failed: "
                                 . socket_strerror(socket_last_error($this->msgSocket)));
         }
 
         $this->log->addLogNote($output);
+        return true;
     }
 
     public function closeSocket(): void
@@ -104,6 +112,19 @@ class Server
             socket_close($this->socket);
         } else {
             $this->log->addLogNote("Your seans successfully ended!");
+        }
+    }
+
+    public function runServer(): void
+    {
+        try {
+            $this->upServer();
+            $this->sendAndRecieveMessage();
+            $this->closeSocket();
+        } catch (\Exception $e) {
+            echo "Exception: {$e->getMessage()}" . PHP_EOL;
+            $log = new Log($this->getConfig()->getSettings()["error_log"]);
+            $log->addLogNote($e->getMessage());
         }
     }
 }
