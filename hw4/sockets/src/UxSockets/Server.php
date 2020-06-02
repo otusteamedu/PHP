@@ -75,7 +75,8 @@ class Server
                 $this->log->addLogNote("Client connected successfully!");
                 $this->workWithMessage();
             } else {
-                throw new \Exception("Don't get connection socket_accept: " . socket_strerror(socket_last_error($this->socket)));
+                throw new \Exception("Don't get connection socket_accept: "
+                                    . socket_strerror(socket_last_error($this->socket)));
             }
         }
     }
@@ -84,12 +85,14 @@ class Server
     {
         $msgFromClient = socket_read($this->msgSocket, 1024);
         if ($msgFromClient === false) {
-            throw new \Exception("socket_read() failed: " . socket_strerror(socket_last_error($this->socket)));
+            throw new \Exception("socket_read() failed: "
+                                . socket_strerror(socket_last_error($this->socket)));
         }
 
         $output = "Your message is: " . $msgFromClient . PHP_EOL;
         if (socket_write($this->msgSocket, $output) === false) {
-            throw new \Exception("Не удалось произвести запись в сокет: " . socket_strerror(socket_last_error($this->msgSocket)));
+            throw new \Exception("Не удалось произвести запись в сокет: "
+                                . socket_strerror(socket_last_error($this->msgSocket)));
         }
 
         $this->log->addLogNote($output);
