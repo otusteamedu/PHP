@@ -1,0 +1,10 @@
+{
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "UxSockets": "src/UxSockets",
+            "UxSockets/Ini":  "src/UxSockets/Ini",
+            "UxSockets/Log":  "src/UxSockets/Log"
+        }
+    }
+}

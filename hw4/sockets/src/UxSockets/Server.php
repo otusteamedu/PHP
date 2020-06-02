@@ -2,9 +2,6 @@
 
 namespace UxSockets;
 
-require_once __DIR__ . '/Log/Log.php';
-require_once __DIR__ . '/Ini/Ini.php';
-
 use UxSockets\Ini\Ini;
 use UxSockets\Log\Log;
 
@@ -74,13 +71,12 @@ class Server
 
             if ($this->msgSocket === false) {
                 usleep(100); // timeout reconnect
-            } elseif($this->msgSocket > 0) {
+            } elseif ($this->msgSocket > 0) {
                 $this->log->addLogNote("Client connected successfully!");
                 $this->workWithMessage();
             } else {
                 throw new \Exception("Don't get connection socket_accept: " . socket_strerror(socket_last_error($this->socket)));
             }
-
         }
     }
 

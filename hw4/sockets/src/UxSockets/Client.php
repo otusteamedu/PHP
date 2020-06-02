@@ -1,7 +1,8 @@
 <?php
 
 namespace UxSockets;
-require_once "Server.php";
+
+//require_once "Server.php";
 
 class Client extends Server
 {
