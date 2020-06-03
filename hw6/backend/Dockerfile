@@ -12,7 +12,6 @@ RUN addgroup -g 3000 -S app \
 
 WORKDIR /usr/app
 
-COPY default.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY index.* composer.json start.sh ./

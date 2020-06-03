@@ -11,3 +11,5 @@ services:
     backend:
         build:
             context: "backend"
+        volumes:
+            - "./backend/nginx:/etc/nginx/conf.d"
