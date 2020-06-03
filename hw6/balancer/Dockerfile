@@ -9,7 +9,8 @@ RUN touch /var/run/nginx.pid \
  && chown -Rf app:app \
     /var/run/nginx.pid \
     /var/cache/nginx \
-    /var/log/nginx
+    /var/log/nginx \
+    /etc/nginx/conf.d/
 
 EXPOSE 8080
 
