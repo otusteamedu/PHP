@@ -1,5 +1,6 @@
 <?php
-namespace Servers;
+
+namespace Classes;
 
 class Socket {
     private $sock;
@@ -22,6 +23,10 @@ class Socket {
 
     private function create () 
     {
+        if (file_exists($this->host)) {
+            unlink($this->host);
+        }
+
         if (!$this->sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) $this->error("Clould not create socket\n");
         if (!$this->bind = socket_bind($this->sock, $this->host, $this->port)) $this->error("Clould not bind to socket\n");
     }    
