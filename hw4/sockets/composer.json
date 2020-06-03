@@ -1,5 +1,8 @@
 {
-    "require": {},
+    "require": {
+      "ext-sockets": "*",
+      "php": ">=7.4.0"
+    },
     "autoload": {
         "psr-4": {
             "UxSockets\\": "src/UxSockets",

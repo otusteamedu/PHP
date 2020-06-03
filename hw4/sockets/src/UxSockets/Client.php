@@ -33,7 +33,7 @@ class Client extends Server
         }
     }
 
-    public function sendMesssage(string $msg = "Server - catch a message..."): void
+    public function sendMsg(string $msg = "Server - catch a message..."): void
     {
         if (socket_write($this->socket, $msg, strlen($msg)) === false) {
             throw new \Exception("Failed write to socket: " . socket_strerror(socket_last_error($this->socket)));
@@ -45,7 +45,7 @@ class Client extends Server
     {
         $output = socket_read($this->socket, 1024);
         if ($output === false) {
-            throw new \Exception("socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)));
+            throw new \Exception("socket_read() failed: " . socket_strerror(socket_last_error($this->socket)));
         } else {
             echo "replay from server: " . $output . "\n";
         }
@@ -53,17 +53,26 @@ class Client extends Server
 
     public function runClient()
     {
+        echo "Enter your message and press key \"Enter\"," . PHP_EOL .
+             "for shutdown Server&Client type \"shutdown\":" . PHP_EOL . PHP_EOL;
+
         try {
-            $this->connectToSocket();
-            echo "Enter your message and press key \"Enter\"," . PHP_EOL .
-            "For Exit type \"exit\" or \"quit\"," . PHP_EOL .
-            "For shutdown Server&Client type \"shutdown\":" . PHP_EOL;
-            do {
-                $msg = fgets(STDIN);
-                $this->sendMesssage($msg);
-                $this->receiveMessage();
-            } while (strtolower($msg) !== 'exit' || strtolower($msg) !== 'quit' || strtolower($msg) !== 'shutdown');
-            //$this->closeSocket();
+            while (true) {
+                $this->connectToSocket();
+                $msg = trim(fgets(STDIN));
+                if ($msg) {
+                    $this->sendMsg($msg);
+                    if (strtolower($msg) === 'shutdown') {
+                        break;
+                    }
+                    $this->receiveMessage();
+                } else {
+                    echo "Your STDIN not work!";
+                    $msg = 'shutdown';
+                }
+            };
+
+            $this->closeSocket();
         } catch (\Exception $e) {
             echo "Exception: {$e->getMessage()}" . PHP_EOL;
             $log = new \UxSockets\Log\Log($this->getConfig()->getSettings()["error_log"]);

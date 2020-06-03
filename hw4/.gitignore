@@ -1,4 +1,5 @@
-.idea
-vendor
+/.idea/
+/sockets/vendor/
 unix.socks
+/sockets/composer.lock
 

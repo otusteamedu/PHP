@@ -89,10 +89,8 @@ class Server
             throw new \Exception("socket_read() failed: "
                                 . socket_strerror(socket_last_error($this->socket)));
         } elseif (
-            strtolower($msgFromClient) === 'shutdown' ||
-            strtolower($msgFromClient) === 'exit'     ||
-            strtolower($msgFromClient) === 'quit'
-        ) {
+            strtolower($msgFromClient) === 'shutdown') {
+            echo "Server stopped!";
             return false;
         }
 
@@ -111,7 +109,7 @@ class Server
         if (isset($this->socket)) {
             socket_close($this->socket);
         } else {
-            $this->log->addLogNote("Your seans successfully ended!");
+            $this->log->addLogNote("Your seance successfully ended!");
         }
     }
 
@@ -120,7 +118,6 @@ class Server
         try {
             $this->upServer();
             $this->sendAndRecieveMessage();
-            $this->closeSocket();
         } catch (\Exception $e) {
             echo "Exception: {$e->getMessage()}" . PHP_EOL;
             $log = new Log($this->getConfig()->getSettings()["error_log"]);
