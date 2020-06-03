@@ -1,0 +1,22 @@
+{
+    "name": "bartzushka/hw3.2",
+    "description": "Homework 3 part 2",
+    "minimum-stability": "dev",
+    "repositories":[
+        {
+            "type":"vcs",
+            "url":"git@github.com:bartzushka/hw-package.git",
+            "no-api": true,
+            "secure-http": true
+        }
+    ],
+    "authors": [
+        {
+            "name": "Alexandr",
+            "email": "bartzushka@gmail.com"
+        }
+    ],
+    "require": {
+        "bartzushka/hw-package": "dev-master"
+    }
+}
