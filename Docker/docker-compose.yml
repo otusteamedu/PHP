@@ -1,0 +1,15 @@
+version: "3"
+services:
+  server:
+    image: nginx:stable
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/app
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php
+  php:
+    image: php:7-fpm
+    volumes:
+      - ./app:/app
