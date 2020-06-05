@@ -22,11 +22,14 @@ class Client {
 
     private function connect () 
     {
-        if (!$this->sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) $this->error("Client: Clould not create socket\n");
-        if (!$this->connect = socket_connect($this->sock, $this->host, $this->port)) $this->error("Client error connect");
+        if (!$this->sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) 
+            $this->error("Client: Clould not create socket\n");
+
+        if (!$this->connect = socket_connect($this->sock, $this->host, $this->port)) 
+            $this->error("Client error connect");
     }
 
-    public function send ($msg)
+    public function send (String $msg)
     {
         socket_write($this->sock, $msg, strlen($msg));
     }    
@@ -38,7 +41,6 @@ class Client {
     private function error (String $msg)
     {
         echo $msg . "\n";
-        die;
     }
 }
 

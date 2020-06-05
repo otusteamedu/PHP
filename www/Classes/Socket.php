@@ -27,8 +27,11 @@ class Socket {
             unlink($this->host);
         }
 
-        if (!$this->sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) $this->error("Clould not create socket\n");
-        if (!$this->bind = socket_bind($this->sock, $this->host, $this->port)) $this->error("Clould not bind to socket\n");
+        if (!$this->sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) 
+            $this->error("Clould not create socket\n");
+        
+        if (!$this->bind = socket_bind($this->sock, $this->host, $this->port)) 
+            $this->error("Clould not bind to socket\n");
     }    
 
     public function listen () 
