@@ -8,6 +8,7 @@ use App\Api\ActionInterface;
 use App\Api\ApplicationInterface;
 use App\Api\RequestInterface;
 use App\Model\SequenceValidator;
+use Exception;
 
 class Application implements ApplicationInterface
 {
@@ -20,9 +21,15 @@ class Application implements ApplicationInterface
 
     public function run(): void
     {
-        $actionName = $this->request->getQuery('r', 'index');
-        $action = $this->determineAction($actionName);
-        $action->execute($this->request);
+        try {
+            $actionName = $this->request->getQuery('r', 'index');
+            $action = $this->determineAction($actionName);
+            $action->execute($this->request);
+        } catch (Exception $exception) {
+            http_response_code(500);
+            print 'Internal Server Error. '.$exception->getMessage();
+        }
+
     }
 
     private function determineAction(string $actionName): ActionInterface
