@@ -16,12 +16,16 @@ class VerifyEmail
 
     public function check(string $email)
     {
+        $output = [];
+
         foreach ($this->rules as $rule) {
             $rc = new ReflectionClass($rule);
             $rm = $rc->getMethod('check');
             $result = $rm->invoke(null, $email);
 
-            echo $rule, ': ', var_export($result, true), PHP_EOL;
+            $output[] = $rule . ': ' . var_export($result, true);
         }
+
+        return $output;
     }
 }

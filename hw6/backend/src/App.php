@@ -7,11 +7,14 @@ class App
 {
     public function run()
     {
-        header('Content-Type: text/plain; charset=utf-8');
-        echo 'IP = ', $_SERVER['SERVER_ADDR'], PHP_EOL;
+        $result = [];
+        $result[] = "IP = {$_SERVER['SERVER_ADDR']}";
 
         $email = filter_input(INPUT_POST, 'email');
         $verify = new VerifyEmail();
-        $verify->check($email);
+        $temp = $verify->check($email);
+        $result = array_merge($result, $temp);
+
+        return implode(PHP_EOL, $result);
     }
 }
