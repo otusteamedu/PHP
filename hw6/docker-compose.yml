@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    balancer:
+        build:
+            context: "balancer"
+        ports:
+            - "80:8080"
+        depends_on:
+            - "backend"
+    backend:
+        build:
+            context: "backend"
+        volumes:
+            - "./backend/nginx:/etc/nginx/conf.d"
+            - "./backend:/usr/app:ro"
