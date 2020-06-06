@@ -13,3 +13,4 @@ services:
             context: "backend"
         volumes:
             - "./backend/nginx:/etc/nginx/conf.d"
+            - "./backend:/usr/app:ro"
