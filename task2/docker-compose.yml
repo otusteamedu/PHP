@@ -1,0 +1,27 @@
+version: '3.6'
+
+volumes:
+  sock:
+
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./env/docker/nginx/Dockerfile
+    ports:
+      - 10080:80
+    depends_on:
+      - php
+    volumes:
+      - ./:/var/www/html
+      - ./env/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./env/docker/nginx/optimization.conf:/etc/nginx/conf.d/optimization.conf
+      - sock/:/sock/
+  php:
+    build:
+      context: ./
+      dockerfile: ./env/docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - ./env/docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - sock/:/sock/
