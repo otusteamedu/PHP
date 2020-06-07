@@ -4,5 +4,5 @@ namespace App\Api;
 
 interface ActionInterface
 {
-    public function execute(RequestInterface $request): void;
+    public function execute(RequestInterface $request, ResponseInterface $response): ViewInterface;
 }

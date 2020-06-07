@@ -4,7 +4,10 @@ namespace App\Action;
 
 use App\Api\ActionInterface;
 use App\Api\RequestInterface;
+use App\Api\ResponseInterface;
 use App\Api\ValidatorInterface;
+use App\Api\ViewInterface;
+use App\View;
 
 class Validate implements ActionInterface
 {
@@ -15,15 +18,18 @@ class Validate implements ActionInterface
         $this->validator = $validator;
     }
 
-    public function execute(RequestInterface $request): void
+    public function execute(RequestInterface $request, ResponseInterface $response): ViewInterface
     {
-        $text = $request->getPost('text');
+        $text = htmlspecialchars($request->getPost('text'));
+        $view = (new View('index'));
+        $view->setParameters(['text' => $text]);
         if ($this->validator->validate($text)) {
-            http_response_code(200);
-            print 'Validate successful passed.';
+            $response->setHttpCode(200);
+            $view->setParameters(['message' => 'Validate successful passed.']);
         } else {
-            http_response_code(400);
-            print 'Your input is invalid.';
+            $response->setHttpCode(400);
+            $view->setParameters(['message' => 'Your input is invalid.']);
         }
+        return $view;
     }
 }

@@ -4,21 +4,20 @@ namespace App\Action;
 
 use App\Api\ActionInterface;
 use App\Api\RequestInterface;
-use Exception;
+use App\Api\ResponseInterface;
+use App\Api\ViewInterface;
+use App\View;
 
 class Index implements ActionInterface
 {
 
     /**
      * @param RequestInterface $request
-     * @throws Exception
+     * @param ResponseInterface $response
+     * @return ViewInterface
      */
-    public function execute(RequestInterface $request): void
+    public function execute(RequestInterface $request, ResponseInterface $response): ViewInterface
     {
-        $view = __DIR__.'/../view/index.php';
-        if (!is_file($view)) {
-            throw new Exception('View is not found');
-        }
-        require $view;
+        return (new View('index'));
     }
 }

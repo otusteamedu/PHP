@@ -21,15 +21,17 @@ class Application implements ApplicationInterface
 
     public function run(): void
     {
+        $response = new HttpResponse();
         try {
             $actionName = $this->request->getQuery('r', 'index');
             $action = $this->determineAction($actionName);
-            $action->execute($this->request);
+            $view = $action->execute($this->request, $response);
+            $response->setBody($view->render());
         } catch (Exception $exception) {
-            http_response_code(500);
-            print 'Internal Server Error. '.$exception->getMessage();
+            $message = 'Internal Server Error. '.$exception->getMessage();
+            $response->setBody($message)->setHttpCode(500);
         }
-
+        $response->send();
     }
 
     private function determineAction(string $actionName): ActionInterface
