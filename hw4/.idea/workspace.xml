@@ -780,24 +780,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a5850fb-f1b9-42c7-ac78-3d52bc34b506" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sockets/composer.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/autoload.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/ClassLoader.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/autoload_namespaces.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/autoload_psr4.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/autoload_real.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/autoload_static.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sockets/vendor/composer/installed.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/sockets/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/src/UxSockets/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/sockets/src/UxSockets/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/src/UxSockets/Log/sockets_error.log" beforeDir="false" afterPath="$PROJECT_DIR$/sockets/src/UxSockets/Log/sockets_error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/src/UxSockets/Log/sockets_event.log" beforeDir="false" afterPath="$PROJECT_DIR$/sockets/src/UxSockets/Log/sockets_event.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sockets/src/UxSockets/Server.php" beforeDir="false" afterPath="$PROJECT_DIR$/sockets/src/UxSockets/Server.php" afterDir="false" />
-    </list>
+    <list default="true" id="3a5850fb-f1b9-42c7-ac78-3d52bc34b506" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -865,7 +848,7 @@
       <updated>1591111632330</updated>
       <workItem from="1591111633560" duration="1862000" />
       <workItem from="1591113509711" duration="554000" />
-      <workItem from="1591165492129" duration="6156000" />
+      <workItem from="1591165492129" duration="6780000" />
     </task>
     <servers />
   </component>
