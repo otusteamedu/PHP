@@ -1,0 +1,23 @@
+version: '3'
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - 8080:80
+        volumes:
+            # - ./files:/usr/src/mysite.local
+            - ./app:/usr/src/mysite.local/app
+            - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+        links:
+            - php
+    php:
+        image: sokolov/php-fpm:latest
+        command: /usr/local/startup.sh
+        command: crond -f -l 8
+        volumes:
+            # - ./files:/usr/src/mysite.local
+            - ./app:/usr/src/mysite.local/app
+            - ./scripts/startup.sh:/usr/local/startup.sh:ro
+
+    
+        
