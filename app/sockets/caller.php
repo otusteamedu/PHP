@@ -6,10 +6,11 @@ class Caller
 {
     private $message;
     private $socketFile;
+    private $socketPath = '/var/spool/sockets/';
 
     public function __construct($file) 
     {
-        $this->socketFile = $file;
+        $this->socketFile = $this->socketPath.$file;
         $this->generateMessage();
     }
     /**
@@ -24,7 +25,7 @@ class Caller
     /**
      * функция отправки данных в сокет
      */
-    private function writeToSocket(): void
+    public function writeToSocket(): void
     {
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         socket_connect($socket, $this->socketFile);
@@ -32,11 +33,6 @@ class Caller
         socket_close($socket);
     }
 
-    public function __get($item) 
-    {
-        if ($item === 'writeToSocket') $this->writeToSocket();
-    }
-
 }
 
-(new Caller('/usr/src/mysite.local/app/sockets/new.sock'))->writeToSocket;
+(new Caller('new.sock'))->writeToSocket();

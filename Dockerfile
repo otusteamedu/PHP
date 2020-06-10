@@ -24,12 +24,6 @@ RUN apk update && \
         libcurl \
         curl-dev
 
-# Загружаем composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');" && \
-    mv composer.phar /usr/local/bin/composer
 
 # устанавливаем redis
 RUN pecl install redis && \
@@ -57,7 +51,10 @@ RUN apk add --no-cache tini openrc busybox-initscripts
 RUN apk add php-sockets && \
     docker-php-ext-install pcntl && \
     docker-php-ext-install sockets
-
+        
+RUN mkdir -p /var/spool/sockets 
+    
+ 
 # RUN rc-service crond start && rc-update add crond
 
 ENV TZ=Europe/Moscow

@@ -1,32 +1,19 @@
 <?php
 
-trait DaemonSayTrait 
-{
-    private $phrase;
-    private function sayHello(): void
-    {
-        $this->$phrase = 'привет, братишка!';
-    }
-
-    private function sayHowAreYou(): void
-    {
-        $this->$phrase = 'привет, какие дела?';
-    }
-}
-
 
 class Daemon 
 {
-    use DaemonSayTrait;
     
     private $socketFile;
     private $socket;
+    private $messege;
+    private $resultFile = 'result.txt';
+    private $socketPath = '/var/spool/sockets/';
 
     public function __construct($file) 
     {
-        $this->socketFile = $file;
+        $this->socketFile = $this->socketPath.$file;
         $this->createSocket();
-        $this->phrase = $this->sayHowAreYou();
     }
 
     /**
@@ -37,12 +24,27 @@ class Daemon
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         socket_bind($this->socket, $this->socketFile);
         socket_listen($this->socket);
+        
+    }
+
+    /**
+     * Запись результата в файл
+     */
+    private function putMessage() 
+    {
+        try {
+            if (!file_put_contents($this->socketPath.$this->resultFile, $this->messege, FILE_APPEND | LOCK_EX)) {
+                throw new Exception('Не удалось создать файл для записи');
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
      * стартует демона на прослушивание
      */
-    private function startDaemon() 
+    public function startDaemon() 
     {
              
         while(true) { 
@@ -56,15 +58,17 @@ class Daemon
             } catch(Exception $e) {
                 echo $e->getMessage();
             }
-
+            
             while(true) { 
-                $messege = socket_read($accept, 2048);
-                if (false === $messege) { 
+                $this->messege = socket_read($accept, 2048);
+                if (false === $this->messege) { 
                     echo "Ошибка: ".socket_strerror(socket_last_error()).""; 
                     break 2; 
+                   
                 } else { 
-                    if (trim($messege) == "") break; 
-                    else file_put_contents('result.txt', $messege, FILE_APPEND | LOCK_EX); 
+                    if (trim($this->messege) == "") break; 
+                    else $this->putMessage();
+                   
                 }
             }
         }
@@ -74,15 +78,9 @@ class Daemon
 
     }
 
-    public function __get($item)
-    {
-        if ($item = 'startDaemon') $this->startDaemon();
-    }
 }
 
 
-
-
-(new Daemon('new.sock'))->startDaemon;
+(new Daemon('new.sock'))->startDaemon();
 
 

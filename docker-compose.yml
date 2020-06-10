@@ -5,17 +5,17 @@ services:
         ports:
             - 8080:80
         volumes:
-            # - ./files:/usr/src/mysite.local
             - ./app:/usr/src/mysite.local/app
             - ./mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
         links:
             - php
     php:
-        image: sokolov/php-fpm:latest
+        image: sokolov/php-fpm2:latest
         command: /usr/local/startup.sh
         command: crond -f -l 8
+        # command:    echo "*       *       *       *       *       /usr/local/bin/php  /usr/src/mysite.local/app/sockets/caller.php 2>&1 > /var/spool/sockets/log.txt" >> /etc/crontabs/root && \
+        #             php /usr/src/mysite.local/app/sockets/daemon.php &
         volumes:
-            # - ./files:/usr/src/mysite.local
             - ./app:/usr/src/mysite.local/app
             - ./scripts/startup.sh:/usr/local/startup.sh:ro
 
