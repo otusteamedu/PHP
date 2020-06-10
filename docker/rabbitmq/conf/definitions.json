@@ -1,0 +1,32 @@
+{
+  "queues": [
+    {
+      "name": "local.test",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "local.test",
+      "vhost": "/",
+      "destination": "local.test",
+      "destination_type": "queue",
+      "routing_key": "local.test",
+      "arguments": {}
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "local.test",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+POST http://localhost/task/set
+Content-Type: application/json
+Accept: application/json
+
+{
+    "data": "test"
+}
+
+###
+
+POST http://localhost/task/get
+Content-Type: application/json
+Accept: application/json
+
+{
+    "id": "5d99dfb1d462783a4c50f0d7e8595a0f"
+}

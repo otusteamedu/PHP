@@ -1,0 +1,67 @@
+{
+  "name": "mqwerty/ticketing-backend-api",
+  "type": "project",
+  "license": "proprietary",
+  "description": "",
+  "authors": [
+    {
+      "name": "Dmitrii Elkin",
+      "email": "de@mqwerty.ru"
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dev\\": "src-dev"
+    }
+  },
+  "require": {
+    "php": "^7.4",
+    "ext-curl": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-redis": "*",
+    "ext-amqp": "*",
+    "ext-zend-opcache": "*",
+    "doctrine/inflector": "^2.0",
+    "laminas/laminas-diactoros": "^2.3",
+    "monolog/monolog": "^2.1",
+    "spiral/jobs": "^2.1",
+    "spiral/roadrunner": "^1.8"
+  },
+  "require-dev": {
+    "codeception/codeception": "^4.1",
+    "codeception/module-asserts": "^1.2",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-rest": "^1.2",
+    "filp/whoops": "^2.7",
+    "phan/phan": "^2.7",
+    "roave/security-advisories": "dev-master",
+    "spiral/dumper": "^1.1",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "scripts": {
+    "test": "codecept run --debug",
+    "cover": "codecept run --coverage --coverage-html",
+    "stan": "phan --color --progress-bar",
+    "cs:check": "phpcs ./src --standard=PSR12",
+    "cs:fix": "phpcbf ./src --standard=PSR12",
+    "post-create-project-cmd": "cp ./.env.example ./.env",
+    "rr:reset": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml http:reset",
+    "rr:workers": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml http:workers",
+    "j:reset": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml jobs:reset",
+    "j:stat": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml jobs:stat",
+    "j:workers": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml jobs:workers",
+    "j:stop": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml jobs:pause",
+    "j:start": "/home/app/bin/rr -c /usr/local/etc/roadrunner/rr.yml jobs:resume"
+  }
+}

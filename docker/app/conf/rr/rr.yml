@@ -1,0 +1,56 @@
+jobs:
+  amqp.addr: amqp://guest:guest@rabbitmq:5672/
+  workers:
+    command: "php /app/index.php"
+  pipelines:
+    local:
+      broker: "amqp"
+      queue: "local.test"
+      exchange: "local.test"
+  consume: ["local"]
+  dispatch:
+    app-job-*.pipeline: "local"
+
+http:
+  address: :8000
+  workers:
+    command: "php /app/index.php"
+  maxRequestSize: 10
+  uploads:
+    forbid: [".php", ".sh"]
+
+static:
+  dir:   "/app/public"
+  forbid: [".php"]
+
+headers:
+  cors:
+    allowedOrigin: "*"
+    allowedHeaders: "*"
+    allowedMethods: "GET,POST,PUT,DELETE"
+    allowCredentials: true
+    exposedHeaders: "Content-Language, Content-Length, Content-Type, Cache-Control, Expires, Last-Modified, Pragma"
+    maxAge: 3600
+  response:
+    "X-Frame-Options": "deny"
+    "X-Content-Type-Options": "nosniff"
+    "X-XSS-Protection": "1; mode=block"
+    "Referrer-Policy": "no-referrer-when-downgrade"
+
+rpc:
+  enable: true
+  listen: tcp://:6001
+
+health:
+  address: :2113
+
+limit:
+  interval: 1
+  services:
+    http:
+      maxMemory: 100
+      TTL: 0
+      idleTTL: 0
+      execTTL: 60
+    jobs:
+      maxMemory: 100

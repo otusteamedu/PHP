@@ -1,0 +1,48 @@
+version: '3'
+services:
+  app:
+    container_name: app
+    build: .
+    image: edmitry/otus-hw27-1
+    restart: always
+    volumes:
+      - socks:/socks
+      - .:/app
+      - ./docker/app/conf/php/dev.ini:/usr/local/etc/php/conf.d/dev.ini
+      - ./docker/app/conf/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/app/conf/rr/dev.yml:/usr/local/etc/roadrunner/rr.yml
+    ports:
+      - 80:8000
+    environment:
+      - PHAN_DISABLE_XDEBUG_WARN=1
+      - PHAN_ALLOW_XDEBUG=0
+      - PHP_IDE_CONFIG=serverName=app
+    command: ["-d"]
+    depends_on:
+      - redis
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-fI", "localhost:2113"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+  redis:
+    container_name: redis
+    image: edmitry/redis
+    restart: always
+    volumes:
+      - socks:/socks
+    ports:
+      - 6379:6379
+    sysctls:
+      net.core.somaxconn: '511'
+  rabbitmq:
+    container_name: rabbitmq
+    build: ./docker/rabbitmq
+    restart: always
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15672:15672
+volumes:
+  socks:

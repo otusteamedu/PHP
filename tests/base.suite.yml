@@ -1,0 +1,10 @@
+actor: BaseTester
+modules:
+  enabled:
+    - Asserts
+    - \Helper\Base
+    - PhpBrowser:
+        url: http://localhost:8000
+    - REST:
+        depends: PhpBrowser
+  step_decorators: ~
