@@ -21,9 +21,6 @@ class Workerman
 
         try {
             while ($payload = $worker->receive($context)) {
-                if (defined('TERMINATED')) {
-                    exit;
-                }
                 $logger->debug('Worker: new task');
                 try {
                     $payload = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
