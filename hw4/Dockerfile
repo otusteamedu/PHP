@@ -1,5 +1,7 @@
 FROM php:7.3-cli-alpine
 
+WORKDIR /usr/src/homework
+
 RUN apk update && \
     apk add git  \
         curl  \
@@ -27,24 +29,21 @@ RUN apk update && \
 
 #RUN pecl install redis && \
 #    docker-php-ext-enable redis
-
+#
 #RUN pecl install igbinary && \
 #    docker-php-ext-enable igbinary && \
 #    pecl install memcached && \
 #    docker-php-ext-enable memcached
-
+#
 #RUN pecl install propro && \
 #    docker-php-ext-enable propro && \
 #    pecl install raphf && \
 #    docker-php-ext-enable raphf && \
 #    pecl install pecl_http && \
 #    echo "extension=http.so" >> /etc/php7/php.ini
-
+#
 #RUN pecl install pdo_pgsql && \
 #     docker-php-ext-enable pdo_pgsql
+RUN docker-php-ext-install sockets
 
-RUN docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" \
-    mbstring \
-    sockets \
-    zip
-
+ENTRYPOINT ["top", "-b"]

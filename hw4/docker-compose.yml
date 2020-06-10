@@ -7,4 +7,4 @@ services:
       dockerfile: Dockerfile
     working_dir: /usr/src/homework
     volumes:
-      - ./:/usr/src/homework
+      - .:/usr/src/homework
