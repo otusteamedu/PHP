@@ -13,9 +13,11 @@ class Workerman
 {
     public static function handle(): void
     {
+        /** @var LoggerInterface $logger */
         $logger = App::get(LoggerInterface::class);
         $logger->debug('Worker: started');
 
+        /** @var Redis $redis */
         $redis = App::get(Redis::class);
         $worker = new Worker(new StreamRelay(STDIN, STDOUT));
 

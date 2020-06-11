@@ -13,6 +13,8 @@ use Psr\Log\LoggerInterface;
 use Redis;
 use ReflectionClass;
 use RuntimeException;
+use Spiral\Goridge\RPC;
+use Spiral\Goridge\SocketRelay;
 
 class ServiceManager implements ContainerInterface
 {
@@ -26,6 +28,7 @@ class ServiceManager implements ContainerInterface
                 'env' => 'prod', // prod | dev
                 'shared' => [
                     LoggerInterface::class,
+                    RPC::class,
                 ],
                 LoggerInterface::class => static function () {
                     return (new \Monolog\Logger('app'))
@@ -61,6 +64,9 @@ class ServiceManager implements ContainerInterface
                 },
                 AMQPExchange::class => static function () {
                     return new AMQPExchange(new AMQPChannel(App::get(AMQPConnection::class)));
+                },
+                RPC::class => static function () {
+                   return new RPC(new SocketRelay('127.0.0.1', 6001));
                 },
             ],
             require __DIR__ . '/../../config.php',

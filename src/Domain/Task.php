@@ -11,10 +11,10 @@ class Task
     public const STATUS_DONE = 'done';
     public const STATUS_ERROR = 'error';
 
-    protected Publisher $pub;
+    protected PublisherInterface $pub;
     protected Redis $redis;
 
-    public function __construct(Publisher $pub, Redis $redis)
+    public function __construct(PublisherInterface $pub, Redis $redis)
     {
         $this->pub = $pub;
         $this->redis = $redis;
@@ -29,8 +29,8 @@ class Task
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         $id = bin2hex(random_bytes(16));
-        $this->pub->publish($id, $data);
         $this->redis->hSet($id, 'status', static::STATUS_QUEUE);
+        $this->pub->publish($id, $data);
         return $id;
     }
 
@@ -40,7 +40,9 @@ class Task
         if (!$result) {
             return ['status' => static::STATUS_NOT_FOUND];
         }
-        $this->redis->del($id);
+        if ($result['status'] !== static::STATUS_QUEUE) {
+            $this->redis->del($id);
+        }
         return $result;
     }
 }

@@ -7,7 +7,7 @@ use App\App;
 use InvalidArgumentException;
 use JsonException;
 
-class Publisher implements PublisherInterface
+class PublisherAMQP implements PublisherInterface
 {
     protected AMQPExchange $exchange;
 

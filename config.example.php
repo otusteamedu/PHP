@@ -5,6 +5,9 @@
  * @noinspection PhpUnreachableStatementInspection
  */
 
+use App\App;
+use App\Domain\PublisherInterface;
+
 return [
     'appEnv' => 'prod', // prod | dev
     'redis' => [
@@ -17,4 +20,9 @@ return [
         'pwd' => 'guest',
     ],
     'exchange' => 'local.test',
+    'pipeline' => 'local',
+    PublisherInterface::class => static function () {
+        //return App::get(\App\Domain\PublisherRPC::class);
+        return App::get(\App\Domain\PublisherAMQP::class);
+    },
 ];
