@@ -1,0 +1,32 @@
+{
+  "name": "mqwerty/otus-hw25-1",
+  "type": "project",
+  "license": "MIT",
+  "description": "",
+  "authors": [
+    {
+      "name": "Dmitrii Elkin",
+      "email": "de@mqwerty.ru"
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "require": {
+    "php": "^7.4"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "scripts": {
+    "cs:check": "phpcs ./src --standard=PSR12",
+    "cs:fix": "phpcbf ./src --standard=PSR12"
+  }
+}

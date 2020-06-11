@@ -1,0 +1,34 @@
+# directories
+/tmp/
+/vendor/
+
+# local files
+config.php
+codeception.yml
+/public/upload/**
+
+# keep
+!.gitkeep
+
+# debug/log/cache
+bash.exe.stackdump
+nohup.out
+.php_cs.cache
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
