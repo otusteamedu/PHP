@@ -1,0 +1,8 @@
+Клонирование с гита
+
+HTTPS https://github.com/prinzplanloser/SimpleDiContainer.git
+SSH  git@github.com:prinzplanloser/SimpleDiContainer.git
+
+Композер
+
+composer require simpledi/simpledicontainer
