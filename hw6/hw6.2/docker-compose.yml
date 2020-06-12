@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+    balancer:
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ./hosts/balancer:/etc/nginx/conf.d
+            - ./html:/var/www/html
+        depends_on:
+            - php-1
+            - php-2
+            - php-3
+    php-1:
+        image: richarvey/nginx-php-fpm:latest
+        volumes:
+            - ./hosts/php-1:/etc/nginx/conf.d
+            - ./html:/var/www/html
+    php-2:
+        image: richarvey/nginx-php-fpm:latest
+        volumes:
+            - ./hosts/php-2:/etc/nginx/conf.d
+            - ./html:/var/www/html
+    php-3:
+        image: richarvey/nginx-php-fpm:latest
+        volumes:
+            - ./hosts/php-3:/etc/nginx/conf.d
+            - ./html:/var/www/html            
