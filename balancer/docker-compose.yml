@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  balancer:
+    build:
+      context: ./env/docker/balancer
+    ports:
+      - 10080:80
+    depends_on:
+      - node-1
+      - node-2
+      - node-3
+  node-1:
+    build:
+      context: ./env/docker/node
+    volumes:
+      - ./web:/var/www/html
+  node-2:
+    build:
+      context: ./env/docker/node
+    volumes:
+      - ./web:/var/www/html
+  node-3:
+    build:
+      context: ./env/docker/node
+    volumes:
+      - ./web:/var/www/html

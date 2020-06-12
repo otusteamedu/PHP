@@ -1,0 +1,22 @@
+version: '3.6'
+
+volumes:
+  sock:
+
+services:
+  nginx:
+    build:
+      context: env/docker/nginx
+    ports:
+      - 10080:80
+    depends_on:
+      - php
+    volumes:
+      - ./:/var/www/html
+      - sock/:/sock/
+  php:
+    build:
+      context: env/docker/php
+    volumes:
+      - ./:/var/www/html
+      - sock/:/sock/
