@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    db:
+        build:
+            context: .
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=cinema
+        ports:
+            - "5432:5432"
+        volumes:
+            - "dbdata:/var/lib/postgresql/data"
+
+volumes:
+    dbdata:
