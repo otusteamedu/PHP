@@ -4,9 +4,11 @@
 namespace App\Amqp;
 
 
+use App\Config;
 use App\Queue\Items\RequestItem;
 use App\Queue\QueueBroker;
 use App\Queue\Items\ResponseItem;
+use App\Settings\AmqpConfig;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -18,13 +20,32 @@ class Rabbit implements QueueBroker
     private $conn;
     private $channel;
 
-    public function __construct($config)
+    /**
+     * Rabbit constructor.
+     */
+    public function __construct($host, $port, $user, $password)
     {
-        $this->conn = new AMQPStreamConnection($config['host'], $config['port'], $config['user'], $config['password']);
+        $this->conn = new AMQPStreamConnection($host, $port, $user, $password);
+
         $this->channel = $this->conn->channel();
 
         $this->channel->queue_declare(self::QUEUE_REQUEST, false, false, false, false);
         $this->channel->queue_declare(self::QUEUE_RESPONSE, false, false, false, false);
+    }
+
+    public static function create()
+    {
+        $inst = null;
+        try {
+            $config = new AmqpConfig;
+            $inst = new self(
+                $config->getHost(), $config->getPort(), $config->getUser(), $config->getPassword()
+            );
+        } catch (\Exception $exception) {
+
+        }
+
+        return $inst;
     }
 
     public function __destruct()

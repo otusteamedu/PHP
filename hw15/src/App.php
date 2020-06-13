@@ -4,21 +4,14 @@
 namespace App;
 
 
-
-use Api\Api;
-use App\Amqp\Rabbit;
 use App\delivery\DeliveryA;
 use App\price\CustomPricer;
 
 class App
 {
-    const PATH_CFG_AMQP = 'config/amqp.php';
 
     public function run()
     {
-        if ($this->isApiRequest())
-            return $this->runApi();
-
         $basket = new Basket();
         foreach ($this->createGoods() as $good)
             $basket->add($good);
@@ -51,15 +44,6 @@ class App
     {
         //some logic example: stripos($_SERVER['REQUEST_URI'] ?? '', 'api/') === 0
         return true;
-    }
-
-    private function runApi()
-    {
-        $api = new Api\Api();
-
-        $config = require_once(self::PATH_CFG_AMQP);
-        $rabbit = new Rabbit($config);
-        return $api->run($rabbit);
     }
 
 }
