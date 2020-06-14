@@ -9,14 +9,12 @@ use App\Queue\Workers\ClientWorker;
 class RequestRegistrationHandler extends Handler
 {
 
-    public function __construct(ClientWorker $clientWorker)
+    protected function buildResult()
     {
-        parent::__construct($clientWorker);
-
         $clientID = $this->getClientID();
         $content = $this->getRequestContent();
 
-        $id = $clientWorker->registrateRequest($clientID, $content);
+        $id = $this->clientWorker->registrateRequest($clientID, $content);
         $this->appendResultItem('id', $id);
     }
 

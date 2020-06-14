@@ -13,7 +13,7 @@ class Config
     public function __construct($configFileName)
     {
         $fullPath = self::DIR_CFG . $configFileName;
-        if (fileExists($fullPath))
+        if (file_exists($fullPath))
             $this->params = require_once $fullPath;
     }
 

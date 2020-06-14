@@ -24,12 +24,22 @@ class Api
 
     public function run()
     {
-        /** @var Handler  $handler */
+        $handler = $this->buildHandler();
+
+        if (!$handler)
+            $handler = new ErrorHandler(ErrorHandler::ERR_SERVER);
+
+        $handler->output();
+    }
+
+    /**
+     * @return Handler|null
+     */
+    private function buildHandler()
+    {
         $handler = null;
 
-        if (!$this->broker) {
-            $handler = new ErrorHandler(ErrorHandler::ERR_SERVER);
-        } else {
+        if ($this->broker) {
 
             $clientWorker = new ClientWorker($this->broker);
 
@@ -41,7 +51,7 @@ class Api
                 $handler = new ErrorHandler(ErrorHandler::ERR_CMD);
         }
 
-        $handler->output();
+        return $handler;
     }
 
     private function isRouteRequest()

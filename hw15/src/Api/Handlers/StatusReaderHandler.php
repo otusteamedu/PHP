@@ -8,12 +8,11 @@ use App\Queue\Workers\ClientWorker;
 
 class StatusReaderHandler extends Handler
 {
-    public function __construct(ClientWorker $clientWorker = null)
-    {
-        parent::__construct($clientWorker);
 
+    protected function buildResult()
+    {
         $id = $this->getRequestID();
-        $status = $clientWorker->getStatus($id);
+        $status = $this->clientWorker->getStatus($id);
         $this->appendResultItem('status', $status);
     }
 

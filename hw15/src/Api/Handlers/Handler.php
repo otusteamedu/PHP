@@ -13,16 +13,29 @@ class Handler
     /**
      * @var ClientWorker
      */
-    private $clientWorker;
+    protected $clientWorker;
 
     public function __construct(ClientWorker $clientWorker = null)
     {
         $this->clientWorker = $clientWorker;
     }
 
+    protected function buildResult()
+    {
+    }
+
     public function output()
     {
-        echo json_encode($this->result);
+        try {
+
+            $this->buildResult();
+            $result = json_encode($this->result);
+
+        } catch (\Exception $exception) {
+            $result = [];
+        }
+
+        echo $result;
     }
 
     protected function appendResultItem($key, $value)
