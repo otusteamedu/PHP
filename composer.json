@@ -1,0 +1,20 @@
+{
+    "name": "asokolov/bracketscounter",
+    "description": "Подсчет корректности ввода скобок",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aleksei Sokolov",
+            "email": "aleksei.sokolov.85@mail.ru"
+        }
+    ],
+    "require": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "Brackets\\": "App"
+        }
+    }
+
+}
