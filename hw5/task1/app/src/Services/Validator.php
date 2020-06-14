@@ -5,7 +5,7 @@ namespace App\Services;
 class Validator {
 
     private $value;
-    private $errors;
+    private $errors = [];
 
     public function __construct($value = null) {
         $this->value = $value;
