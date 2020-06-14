@@ -2,4 +2,5 @@
 
 require_once "vendor/autoload.php";
 
-(new \App\Api\Api())->run(\App\Amqp\Rabbit::create());
+$api = new \App\Api\Api();
+$api->run();

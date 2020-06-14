@@ -4,32 +4,44 @@
 namespace App\Api;
 
 
+use App\Amqp\Rabbit;
+use App\Api\Handlers\ErrorHandler;
+use App\Api\Handlers\Handler;
+use App\Api\Handlers\RequestRegistrationHandler;
+use App\Api\Handlers\StatusReaderHandler;
 use App\Queue\Workers\ClientWorker;
 use App\Queue\QueueBroker;
 
 class Api
 {
+    /** @var QueueBroker */
+    private $broker;
 
-    public function run(QueueBroker $broker)
+    public function __construct()
     {
-        $dispatcher = new ClientWorker($broker);
+        $this->broker = Rabbit::create();
+    }
 
-        $result = [];
-        //routing
-        if ($this->isRouteRequest()) {
+    public function run()
+    {
+        /** @var Handler  $handler */
+        $handler = null;
 
-            $clientID = $this->getClientID();
-            $content = $this->getRequestContent();
-            $id = $dispatcher->registrateRequest($clientID, $content);
-            $result['id'] = $id;
+        if (!$this->broker) {
+            $handler = new ErrorHandler(ErrorHandler::ERR_SERVER);
+        } else {
+
+            $clientWorker = new ClientWorker($this->broker);
+
+            if ($this->isRouteRequest())
+                $handler = new RequestRegistrationHandler($clientWorker);
+            elseif ($this->isRouteGetStatus())
+                $handler = new StatusReaderHandler($clientWorker);
+            else
+                $handler = new ErrorHandler(ErrorHandler::ERR_CMD);
         }
-        elseif ($this->isRouteGetStatus()) {
 
-            $id = $this->getRequestID();
-            $result['status'] = $dispatcher->getStatus($id);
-        }
-
-        $this->output($result);
+        $handler->output();
     }
 
     private function isRouteRequest()
@@ -43,29 +55,4 @@ class Api
         //some logic
         return true;
     }
-
-    private function getRequestContent()
-    {
-        return 'some_string';
-    }
-
-    private function getClientID()
-    {
-        return '1';
-    }
-
-    private function getRequestID()
-    {
-        //parse request ID
-        return '1_1591879122';
-    }
-
-    /**
-     * @param [] $result
-     */
-    private function output($result)
-    {
-        echo json_encode($result);
-    }
-
 }
