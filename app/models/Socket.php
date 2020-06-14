@@ -6,24 +6,29 @@ namespace models;
 
 abstract class Socket
 {
-    const SOCKET_DOMAIN = AF_UNIX;
-    const SOCKET_TYPE = SOCK_STREAM;
-    const SOCKET_READ_LENGTH = 1024;
-
     protected $host;
     protected $sock;
+    protected $domain;
+    protected $type;
+    protected $read_length;
 
     /**
      * Socket constructor.
-     * @param $host
+     * @param string $host
+     * @param int $domain
+     * @param int $type
+     * @param int $read_length
      * @throws \Exception
      */
-    function __construct($host)
+    function __construct($host, $domain, $type, $read_length)
     {
         $this->host = $host;
+        $this->domain = $domain;
+        $this->type = $type;
+        $this->read_length = $read_length;
 
-        if (!$this->sock = socket_create(self::SOCKET_DOMAIN, self::SOCKET_TYPE, 0))
-            throw new \Exception("Can`t create socket \n");
+        if (!$this->sock = socket_create($this->domain, $this->type, 0))
+            throw new \Exception("Can`t create socket" . PHP_EOL);
 
         $this->init();
     }
@@ -37,8 +42,13 @@ abstract class Socket
     }
 
     /**
-     * Init function
+     * Init method
      */
     protected abstract function init();
+
+    /**
+     * Run method
+     */
+    public abstract function run();
 
 }
