@@ -1,0 +1,16 @@
+{
+  "name": "bartzushka/hw4",
+  "description": "Homework4",
+  "authors": [
+    {
+      "name": "Alexandr Nakonechnyi",
+      "email": "bartzushka@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "models\\": "models/"
+    }
+  }
+}
