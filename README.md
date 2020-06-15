@@ -26,15 +26,15 @@
 
 **Домашняя работа №12.** Реализация одного из паттернов работы с хранилищем данных: [отчет](https://github.com/otusteamedu/PHP/blob/azatnizam/hw12/README.md), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw12), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5055/).
 
-Домашняя работа №13 (еще не сдавалось). Анализ своих проектов: [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5056/).
+Домашняя работа №13. Анализ своих проектов <ins>(еще не сдавалось)</ins>: [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5056/).
 
-Домашняя работа №14. Разработка кейсов тестирования (еще не сдавалось): [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5057/).
+Домашняя работа №14. Разработка кейсов тестирования <ins>(еще не сдавалось)</ins>: [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5057/).
 
-Домашняя работа №15. Паттерны и алгоритмы (еще не сдавалось): [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5058/).
+Домашняя работа №15. Паттерны и алгоритмы <ins>(еще не сдавалось)</ins>: [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5058/).
 
 **Домашняя работа №16.** API: [отчет](https://github.com/otusteamedu/PHP/blob/azatnizam/hw16.2/README.md), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw16.2), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5059/).
 
-Домашняя работа №17. Скрипт деплоя (еще не сдавалось): [отчет](), [код](), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5060/).
+Домашняя работа №17. Скрипт деплоя <ins>(еще не сдавалось)</ins>: [отчет](), [код](), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5060/).
 
 **Проектная работа.** Рекомендательная система кинофильмов: [презентация](https://docs.google.com/presentation/d/18wNBSEmi1QneVSiZFL3U5Fdskti4zZG7RFQd4YxuhsU/), [код](https://github.com/azat-nizam/otus_diploma_alice), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5061/).
 
