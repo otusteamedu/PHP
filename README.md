@@ -8,6 +8,12 @@
 
 **Домашняя работа №3.** Готовим окружение: [отчет](https://github.com/otusteamedu/PHP/pull/512), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw3), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5047/).
 
+**Домашняя работа №4.** Сокеты: [отчет](https://github.com/otusteamedu/PHP/pull/545), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw4), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5046/).
+
+**Домашняя работа №5.** Простое веб-приложение в docker: [отчет](https://github.com/otusteamedu/PHP/pull/569), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw5), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5049/).
+
+**Домашняя работа №.** : [отчет](), [код](), [чат с преподавателем]().
+
 **Домашняя работа №.** : [отчет](), [код](), [чат с преподавателем]().
 
 **Домашняя работа №.** : [отчет](), [код](), [чат с преподавателем]().
