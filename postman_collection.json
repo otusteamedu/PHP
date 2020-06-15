@@ -1,12 +1,12 @@
 {
 	"info": {
 		"_postman_id": "b59c50dc-12ec-4fa6-ac47-2183a7d2f807",
-		"name": "otus.hw16",
+		"name": "otus.hw17",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "hw16.hello",
+			"name": "hw17.hello",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -24,7 +24,7 @@
 			"response": []
 		},
 		{
-			"name": "hw16.list",
+			"name": "hw17.list",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -42,7 +42,7 @@
 			"response": []
 		},
 		{
-			"name": "hw16.init",
+			"name": "hw17.init",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -60,57 +60,19 @@
 			"response": []
 		},
 		{
-			"name": "hw16.addrows",
+			"name": "hw17.addrows",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/add/300000",
+					"raw": "http://localhost/add/30",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"add",
-						"300000"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "hw16.addrows.async",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost/acyncadd/300000",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"acyncadd",
-						"300000"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "hw16.status",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost/status/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"path": [
-						"status",
-						"1"
+						"30"
 					]
 				}
 			},

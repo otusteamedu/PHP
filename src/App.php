@@ -3,15 +3,12 @@ namespace Otus;
 
 use Symfony\Component\Yaml\Yaml;
 use Otus\ActiveRecord\AttributeValue;
-use Otus\ActiveRecord\AsyncRequestStatus;
-use Otus\QueueAdapter;
 
 final class App
 {
     private $config;
     private $router;
     private $pdo;
-    private $queue;
 
     public function __construct()
     {
@@ -24,14 +21,6 @@ final class App
             $this->config['db']['driver'] . ':host=' . $this->config['db']['host'] . ';dbname=' . $this->config['db']['dbname'],
             $this->config['db']['username'],
             $this->config['db']['password']
-        );
-
-        $this->queue = new QueueAdapter(
-            $this->config['queue']['host'],
-            $this->config['queue']['username'],
-            $this->config['queue']['password'],
-            $this->config['queue']['port'],
-            $this->pdo
         );
     }
 
@@ -49,18 +38,11 @@ final class App
         }
     }
 
-    public function consoleRun()
-    {
-        // Console consumer
-        echo ' [*] Waiting for messages. To exit press CTRL+C' . PHP_EOL . PHP_EOL;
-        $this->queue->consuming();
-    }
-
     private function mapRoutes(): void
     {
         // map homepage
         $this->router->map('GET', '/', function () {
-            print 'Homework #16';
+            print 'Homework #17';
         });
 
         $this->router->map('GET', '/init', function () {
@@ -87,36 +69,6 @@ final class App
             } else {
                 print 'Error is occurred during attempt to add new rows';
             }
-        });
-
-        // Async method to add new rows
-        $this->router->map('POST', '/acyncadd/[i:count]', function ($count) {
-            $reqStatus = new AsyncRequestStatus($this->pdo);
-            $reqStatus
-                ->setStatus(1)
-                ->insert();
-            $this->queue->pushMsg($reqStatus->getId() . ':' . $count);
-
-            $response = new \stdClass();
-            $response->client_request_id = $reqStatus->getId();
-            $response->client_request_status = 1;
-
-            header('Content-type: application/json');
-            print json_encode($response);
-        });
-
-        $this->router->map('GET', '/status/[i:id]', function ($id) {
-            $reqStatus = AsyncRequestStatus::getById($this->pdo, $id);
-            $response = new \stdClass();
-            $response->client_request_id = (int) $id;
-            $response->client_request_status = null;
-
-            if ($reqStatus->getStatus()) {
-                $response->client_request_status = $reqStatus->getStatus();
-            }
-
-            header('Content-type: application/json');
-            print json_encode($response);
         });
 
     }
