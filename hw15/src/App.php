@@ -4,13 +4,12 @@
 namespace App;
 
 
-
-use App\delivery\Delivery;
 use App\delivery\DeliveryA;
 use App\price\CustomPricer;
 
 class App
 {
+
     public function run()
     {
         $basket = new Basket();
@@ -39,6 +38,12 @@ class App
             (new Product(1, 100.0))->setPackageID(1),
             (new Product(2, 150.0))->setPackageID(2)
         ];
+    }
+
+    private function isApiRequest()
+    {
+        //some logic example: stripos($_SERVER['REQUEST_URI'] ?? '', 'api/') === 0
+        return true;
     }
 
 }
