@@ -32,10 +32,10 @@ class Handler
             $result = json_encode($this->result);
 
         } catch (\Exception $exception) {
-            $result = [];
+            $result = null;
         }
 
-        echo $result;
+        return $result;
     }
 
     protected function appendResultItem($key, $value)

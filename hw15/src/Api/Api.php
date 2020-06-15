@@ -29,7 +29,7 @@ class Api
         if (!$handler)
             $handler = new ErrorHandler(ErrorHandler::ERR_SERVER);
 
-        $handler->output();
+        return $handler->output();
     }
 
     /**
