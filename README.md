@@ -38,4 +38,4 @@
 
 **Проектная работа.** Рекомендательная система кинофильмов: [презентация](https://docs.google.com/presentation/d/18wNBSEmi1QneVSiZFL3U5Fdskti4zZG7RFQd4YxuhsU/), [код](https://github.com/azat-nizam/otus_diploma_alice), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5061/).
 
-Список **pull-запросов** https://github.com/otusteamedu/PHP/pulls/azat-nizam
+Список **pull-запросов** https://github.com/otusteamedu/PHP/pulls?q=author%3Aazat-nizam
