@@ -1,0 +1,66 @@
+version: '3'
+services:
+  balancer:
+    container_name: balancer
+    image: nginx:alpine
+    ports:
+      - 80:80
+    links:
+      - backend1
+      - backend2
+      - backend3
+    volumes:
+      - ../:/home/www/site.local
+      - ./balancer.conf:/etc/nginx/conf.d/site.local.conf
+
+  backend1:
+    container_name: backend1
+    image: nginx:alpine
+    links:
+      - php1
+    volumes:
+      - ../:/home/www/site.local
+      - ./backend1/site.local.conf:/etc/nginx/conf.d/site.local.conf
+      - phpsocket1:/var/run
+  backend2:
+    container_name: backend2
+    image: nginx:alpine
+    links:
+      - php2
+    volumes:
+      - ../:/home/www/site.local
+      - ./backend2/site.local.conf:/etc/nginx/conf.d/site.local.conf
+      - phpsocket2:/var/run
+  backend3:
+    container_name: backend3
+    image: nginx:alpine
+    links:
+      - php3
+    volumes:
+      - ../:/home/www/site.local
+      - ./backend3/site.local.conf:/etc/nginx/conf.d/site.local.conf
+      - phpsocket3:/var/run
+
+  php1:
+    container_name: php1
+    build: backend1
+    volumes:
+      - ../:/home/www/site.local
+      - phpsocket1:/var/run
+  php2:
+    container_name: php2
+    build: backend2
+    volumes:
+      - ../:/home/www/site.local
+      - phpsocket2:/var/run
+  php3:
+    container_name: php3
+    build: backend3
+    volumes:
+      - ../:/home/www/site.local
+      - phpsocket3:/var/run
+
+volumes:
+  phpsocket1:
+  phpsocket2:
+  phpsocket3:

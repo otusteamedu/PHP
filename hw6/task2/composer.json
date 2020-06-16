@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "": "hw6/task2/src/"
+    }
+  },
+  "require": {
+    "ext-sockets": "*",
+    "ext-http": "*",
+    "ext-pcntl": "*"
+  }
+}
