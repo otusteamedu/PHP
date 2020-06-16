@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+            - PGADMIN_DEFAULT_PASSWORD=admin
+        ports:
+            - "5433:80"
+        volumes:
+            - "pgadmin:/var/lib/pgadmin"
     db:
         build:
             context: .
@@ -15,3 +24,4 @@ services:
 
 volumes:
     dbdata:
+    pgadmin:
