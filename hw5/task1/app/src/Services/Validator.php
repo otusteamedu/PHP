@@ -17,8 +17,7 @@ class Validator
         $this->notEmpty();
         $this->length(48);
         $this->addRegexp("<[a-z][=][()]+>");
-        $this->countingSymbols('(', 20);
-        $this->countingSymbols(')', 21);
+        $this->checkBracketsOrder();
     }
 
     private function notEmpty(): void
@@ -43,11 +42,28 @@ class Validator
         }
     }
 
-    private function countingSymbols(string $symbol, int $count): void
+    protected function checkBracketsOrder()
     {
-        $repetition = substr_count($this->value, $symbol);
-        if ($repetition !== $count) {
-            $this->errors[] = sprintf('Символ "%s" встречается %s раз,а должен %s', $symbol, $repetition, $count);
+        $openBrackets = 0;
+        $closeBrackets = 0;
+        $bracketsOrder = 0;
+        for ($i = 0; $i < strlen($this->value); $i++) {
+            if ($this->value[$i] == '(') {
+                $openBrackets++;
+                $bracketsOrder++;
+                if ($this->value[$i] == ')') {
+                    $closeBrackets++;
+                    $bracketsOrder--;
+                }
+                if ($bracketsOrder < 0) {
+                    $this->errors[] = 'Несоответствие закрытых и открытых скобок';
+                    return;
+                }
+            }
+            if ($openBrackets !== $closeBrackets) {
+                $this->errors[] = 'Несоответствие закрытых и открытых скобок';
+                return;
+            }
         }
     }
 
