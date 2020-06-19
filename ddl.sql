@@ -116,7 +116,8 @@ CREATE TABLE public.session (
     id_hall integer NOT NULL,
     id_content integer NOT NULL,
     date_begin integer NOT NULL,
-    date_end integer NOT NULL
+    date_end integer NOT NULL,
+    price numeric NOT NULL
 );
 
 
@@ -166,7 +167,7 @@ CREATE TABLE public.tickets (
     id integer NOT NULL,
     id_client integer NOT NULL,
     id_session integer NOT NULL,
-    price numeric NOT NULL
+    place smallint
 );
 
 
@@ -259,6 +260,14 @@ ALTER TABLE ONLY public.session
 
 ALTER TABLE ONLY public.tickets
     ADD CONSTRAINT tickets_pk PRIMARY KEY (id);
+
+
+--
+-- Name: tickets tickets_un; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tickets
+    ADD CONSTRAINT tickets_un UNIQUE (id_session, place);
 
 
 --
