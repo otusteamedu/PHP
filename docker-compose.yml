@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  app:
+    build:
+      context:
+        ./docker/php-fpm
+      args:
+        UID: 1000
+    hostname: "app"
+    working_dir: "/app"
+    volumes:
+      - "./app:/app"
+      - "./docker/socket:/socket"
+    networks:
+      - back-network
+
+  nginx:
+    build:
+      context:
+        ./docker/nginx
+      args:
+        UID: 1000
+    hostname: "nginx"
+    working_dir: "/app"
+    ports:
+      - 80:8080
+    volumes:
+      - "./app:/app"
+      - "./docker/socket:/socket"
+    links:
+      - app
+    networks:
+      - back-network
+
+networks:
+  back-network:
+    external: true
