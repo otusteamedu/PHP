@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+
+  app:
+    build: ./docker/php-fpm
+    hostname: "app"
+    working_dir: "/app"
+    restart: always
+    volumes:
+      - ./app:/app
+      - "./docker/socket:/socket"
+    env_file:
+      - .env
+  nginx:
+    build: ./docker/nginx
+    restart: always
+    hostname: "nginx"
+    working_dir: "/app"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./app:/app
+      - "./docker/socket:/socket"
+    depends_on:
+      - app
