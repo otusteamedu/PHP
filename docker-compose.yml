@@ -1,27 +1,39 @@
-version: "3.4"
+version: "3"
 
 services:
 
   app:
-    build: ./docker/php-fpm
+    build:
+      context:
+        ./docker/php-fpm
+      args:
+        UID: 1000
     hostname: "app"
     working_dir: "/app"
-    restart: always
     volumes:
-      - ./app:/app
+      - "./app:/app"
       - "./docker/socket:/socket"
-    env_file:
-      - .env
+    networks:
+      - back-network
+
   nginx:
-    build: ./docker/nginx
-    restart: always
+    build:
+      context:
+        ./docker/nginx
+      args:
+        UID: 1000
     hostname: "nginx"
     working_dir: "/app"
     ports:
-      - 80:80
-      - 443:443
+      - 80:8080
     volumes:
-      - ./app:/app
+      - "./app:/app"
       - "./docker/socket:/socket"
-    depends_on:
+    links:
       - app
+    networks:
+      - back-network
+
+networks:
+  back-network:
+    external: true

@@ -1,0 +1,16 @@
+{
+  "name": "bartzushka/hw5.1",
+  "description": "Homework5 part1",
+  "authors": [
+    {
+      "name": "Alexandr Nakonechnyi",
+      "email": "bartzushka@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "models\\": "models/"
+    }
+  }
+}

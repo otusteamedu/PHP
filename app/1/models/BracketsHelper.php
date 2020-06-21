@@ -4,10 +4,10 @@ namespace models;
 
 class BracketsHelper
 {
+
     public static function checkIsValid($string)
     {
         $arr_str = str_split($string);
-        if (empty($arr_str)) return false;
         $stack = [];
 
         foreach ($arr_str as $char) {
@@ -19,9 +19,12 @@ class BracketsHelper
                     if (empty($stack)) return false;
                     array_pop($stack);
                     break;
+                default:
+                    break;
             }
         }
 
         return empty($stack);
     }
+
 }
