@@ -167,7 +167,8 @@ CREATE TABLE public.tickets (
     id integer NOT NULL,
     id_client integer NOT NULL,
     id_session integer NOT NULL,
-    place smallint
+    "row" smallint NOT NULL,
+    place smallint NOT NULL
 );
 
 
@@ -267,7 +268,7 @@ ALTER TABLE ONLY public.tickets
 --
 
 ALTER TABLE ONLY public.tickets
-    ADD CONSTRAINT tickets_un UNIQUE (id_session, place);
+    ADD CONSTRAINT tickets_un UNIQUE (id_session, "row", place);
 
 
 --
