@@ -15,7 +15,8 @@ CREATE TABLE public.halls_seats (
     seat_id    INTEGER NOT NULL,
     seat_yd    SMALLINT NOT NULL,
     CONSTRAINT halls_seats_pk PRIMARY KEY (hall_id, seat_id),
-    CONSTRAINT halls_seats_fk_seats FOREIGN KEY (seat_yd) REFERENCES public.seats(seat_yd)
+    CONSTRAINT halls_seats_fk_seats FOREIGN KEY (seat_yd) REFERENCES public.seats(seat_yd),
+    CONSTRAINT halls_seats_fk_halls FOREIGN KEY (hall_id) REFERENCES public.halls(hall_id)
 );
 
 CREATE TABLE public.movies (
