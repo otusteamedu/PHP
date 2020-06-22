@@ -1,0 +1,86 @@
+version: '3'
+services:
+    web:
+        image: sokolov/nginx:latest
+        ports: 
+            - 8082:8082
+        # command: chmod 0777 /sock/docker.sock
+        volumes:
+            - ./sock:/sock
+            - ./files:/usr/src/mysite.local/App
+            - ./indexes/index.php:/usr/src/mysite.local/index.php
+            - ./nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        
+        links:
+            - php
+        networks:
+            - test_network
+    php:
+        image: sokolov/php-fpm-user:latest
+        # command: chmod 0777 /sock/docker.sock
+        volumes:
+            - ./files:/usr/src/mysite.local/App
+            # - ./index.php:/usr/src/mysite.local/index.php
+            # - ./vendor:/usr/src/mysite.local/vendor
+            - ./indexes/index.php:/usr/src/mysite.local/index.php
+            # - ./composer.json:/usr/src/mysite.local/composer.json
+            - ./sock:/sock
+            - ./fpm/app.conf:/usr/local/etc/php-fpm.d/app.conf
+        
+        networks:
+            - test_network
+    web1:
+        image: sokolov2/nginx:latest
+        ports: 
+            - 8081:8081
+        # command: chmod 0777 /sock/docker.sock
+        volumes:
+            - ./sock:/sock2/
+            - ./files:/usr/src/mysite.local/App
+            - ./indexes/index2.php:/usr/src/mysite.local/index2.php
+            - ./nginx/2/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+            - ./nginx/2/nginx.conf:/etc/nginx/nginx.conf
+        
+        links:
+            - php1
+        networks:
+            - 2_default
+    php1:
+        image: sokolov2/php-fpm-user:latest
+        # command: chmod 0777 /sock/docker.sock
+        volumes:
+            - ./files:/usr/src/mysite.local/App
+            - ./indexes/index2.php:/usr/src/mysite.local/index2.php
+            # - ./index.php:/usr/src/mysite.local/index.php
+            # - ./vendor:/usr/src/mysite.local/vendor
+            # - ./composer.json:/usr/src/mysite.local/composer.json
+            - ./sock2/:/sock2/
+            - ./fpm/app2.conf:/usr/local/etc/php-fpm.d/app2.conf
+        
+        networks:
+            - 2_default
+
+    nginx:
+        image: tarantool/tarantool-nginx
+        ports: 
+            - 8080:8080
+        # command: chmod 0777 /sock/docker.sock
+        volumes:
+            # - ./files:/usr/src/mysite.local/App
+            # - ../balancer/nginx/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+            - ../balancer/nginx/nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - web
+            - web1
+        networks:
+            - ready_default 
+networks:
+    test_network:
+        external: true
+    2_default:
+        external: true
+    ready_default:
+        external: true
+    
+        
