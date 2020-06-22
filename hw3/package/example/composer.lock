@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4fecf3595bbd160869051f808a91b405",
+    "packages": [
+        {
+            "name": "vyacheslavchulkin/hello-world",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vyacheslavchulkin/hello-world.git",
+                "reference": "0a4a70f70bf3d89015b9e30f87bb6577b6e61fb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vyacheslavchulkin/hello-world/zipball/0a4a70f70bf3d89015b9e30f87bb6577b6e61fb3",
+                "reference": "0a4a70f70bf3d89015b9e30f87bb6577b6e61fb3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VyacheslavChulkin\\": "src/"
+                }
+            },
+            "support": {
+                "source": "https://github.com/vyacheslavchulkin/hello-world/tree/master",
+                "issues": "https://github.com/vyacheslavchulkin/hello-world/issues"
+            },
+            "time": "2020-06-22T15:17:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "vyacheslavchulkin/hello-world": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}

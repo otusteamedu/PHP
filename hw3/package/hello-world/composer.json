@@ -1,0 +1,11 @@
+{
+    "name": "vyacheslavchulkin/hello-world",
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "VyacheslavChulkin\\": "src/"
+        }
+    }
+}
