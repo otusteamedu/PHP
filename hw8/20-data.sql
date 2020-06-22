@@ -9,6 +9,11 @@ VALUES ('зал 1')
      , ('зал 8')
      , ('зал 9');
 
+INSERT INTO public.seats(seat)
+VALUES ('обычное')
+     , ('vip')
+     , ('табуретка в проходе');
+
 INSERT INTO public.movies(movie)
 VALUES ('ДРУГОЙ МИР: ЧУЖОЙ ПРОТИВ ХИЩНИКА')
      , ('НЕУДЕРЖИМЫЕ: ПРОБУЖДЕНИЕ')
@@ -36,49 +41,74 @@ VALUES ('Рыбаков Руслан Игоревич')
      , ('Сорокин Антон Авксентьевич')
      , ('Харитонов Абрам Вениаминович');
 
-CREATE OR REPLACE PROCEDURE public.sp_gen_random()
+CREATE OR REPLACE PROCEDURE public.sp_gen_RANDOM()
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    max_hall_id INT;
-    rnd_hall_id INT;
-    max_movie_id INT;
-    rnd_movie_id INT;
-    rnd_price MONEY;
-    max_client_id INT;
-    rnd_client_id INT;
-    max_session_id INT;
-    rnd_session_id INT;
+    max_hall_id   INTEGER;
+    max_seat_yd   INTEGER;
+    max_movie_id  INTEGER;
+    max_client_id INTEGER;
+    max_order_id  INTEGER;
+    cnt_tickets   INTEGER;
 BEGIN
 
-    select max(hall_id) from public.halls into max_hall_id;
-    select max(movie_id) from public.movies into max_movie_id;
+    SELECT MAX(hall_id) FROM public.halls INTO max_hall_id;
+    SELECT MAX(seat_yd) FROM public.seats INTO max_seat_yd;
 
-    FOR i IN 1..100 LOOP
+    FOR i IN 1..max_hall_id LOOP
 
-        rnd_hall_id := floor(random() * max_hall_id + 1);
-        rnd_movie_id := floor(random() * max_movie_id + 1);
-        rnd_price := 10 * floor(random() * 7 + 3);
-
-        insert into public.sessions(hall_id, movie_id, price)
-        values (rnd_hall_id, rnd_movie_id, rnd_price);
+        INSERT INTO public.halls_seats(hall_id, seat_id, seat_yd)
+        SELECT i
+             , seat_id
+             , floor(RANDOM() * max_seat_yd + 1)
+          FROM generate_series(1, 50) AS seat_id;
 
     END LOOP;
 
-    select max(client_id) from public.clients into max_client_id;
-    select max(session_id) from public.sessions into max_session_id;
+    SELECT MAX(movie_id) FROM public.movies INTO max_movie_id;
 
-    FOR i IN 1..1000 LOOP
+    INSERT INTO public.sessions(hall_id, movie_id, start_time)
+    SELECT FLOOR(RANDOM() * max_hall_id + 1)
+         , FLOOR(RANDOM() * max_movie_id + 1)
+         , CURRENT_TIMESTAMP + shift * INTERVAL '1 HOUR'
+      FROM generate_series(1, 100) AS shift;
 
-        rnd_client_id := floor(random() * max_client_id + 1);
-        rnd_session_id := floor(random() * max_session_id + 1);
+    INSERT INTO public.sessions_prices(session_id, seat_yd, price)
+    SELECT s1.session_id
+         , s2.seat_yd
+         , 10 * FLOOR(RANDOM() * 7 + 3)::INT::MONEY
+      FROM public.sessions AS s1
+     CROSS JOIN public.seats AS s2;
 
-        insert into public.orders(client_id, session_id)
-        values (rnd_client_id, rnd_session_id);
+    SELECT MAX(client_id) FROM public.clients INTO max_client_id;
+
+    INSERT INTO public.orders(client_id)
+    SELECT FLOOR(RANDOM() * max_client_id + 1)
+      FROM generate_series(1, 1000);
+
+    SELECT MAX(order_id) FROM public.orders INTO max_order_id;
+
+    FOR i IN 1..max_order_id LOOP
+
+        cnt_tickets := FLOOR(RANDOM() * 3 + 1);
+
+        FOR j IN 1..cnt_tickets LOOP
+
+            INSERT INTO public.orders_tickets(order_id, ticket_id, session_id, seat_id)
+            SELECT i
+                 , j
+                 , session_id
+                 , seat_id
+              FROM public.unoccupied_seats
+             WHERE RANDOM() < 0.01
+             LIMIT 1;
+
+        END LOOP;
 
     END LOOP;
 
 END;
 $$;
 
-CALL public.sp_gen_random();
+CALL public.sp_gen_RANDOM();
