@@ -33,6 +33,7 @@ CREATE TABLE film_attributes_values
     FOREIGN KEY (film_id) REFERENCES films (id),
     review VARCHAR,
     premium VARCHAR,
+    price FLOAT,
     important_dates TIMESTAMP,
     service_dates TIMESTAMP
 );
