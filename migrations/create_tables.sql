@@ -31,9 +31,7 @@ CREATE TABLE film_attributes_values
     film_id INTEGER NOT NULL,
     FOREIGN KEY (attribute_id) REFERENCES film_attributes (id),
     FOREIGN KEY (film_id) REFERENCES films (id),
-    review VARCHAR,
-    premium VARCHAR,
-    price FLOAT,
-    important_dates TIMESTAMP,
-    service_dates TIMESTAMP
+    val_text VARCHAR,
+    val_float FLOAT,
+    val_date TIMESTAMP
 );
