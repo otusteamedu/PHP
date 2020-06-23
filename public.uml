@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>04127783-19a3-4b06-a831-ab9596c0aad9.SCHEMA:cinema.public</OriginalElement>
+  <nodes>
+    <node x="0.0" y="256.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.place</node>
+    <node x="414.625" y="490.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.session</node>
+    <node x="301.625" y="0.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.halls</node>
+    <node x="260.5" y="724.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.tickets_sold</node>
+    <node x="252.0" y="234.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows</node>
+    <node x="484.625" y="256.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.films</node>
+    <node x="144.75" y="512.0">04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows_place</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.tickets_sold" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows_place">
+      <point x="-44.0" y="-70.0" />
+      <point x="304.5" y="699.0" />
+      <point x="235.25" y="699.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.session" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.films">
+      <point x="58.0" y="-92.0" />
+      <point x="588.625" y="465.0" />
+      <point x="587.125" y="465.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.session" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.halls">
+      <point x="-58.0" y="-92.0" />
+      <point x="472.625" y="465.0" />
+      <point x="474.125" y="465.0" />
+      <point x="474.125" y="209.0" />
+      <point x="475.625" y="209.0" />
+      <point x="58.0" y="92.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.halls">
+      <point x="0.0" y="-103.0" />
+      <point x="354.5" y="209.0" />
+      <point x="359.625" y="209.0" />
+      <point x="-58.0" y="92.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows_place" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows">
+      <point x="45.25" y="-70.0" />
+      <point x="280.5" y="465.0" />
+      <point x="354.5" y="465.0" />
+      <point x="0.0" y="103.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.tickets_sold" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.session">
+      <point x="44.0" y="-70.0" />
+      <point x="392.5" y="699.0" />
+      <point x="530.625" y="699.0" />
+      <point x="0.0" y="92.0" />
+    </edge>
+    <edge source="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows_place" target="04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.place">
+      <point x="-45.25" y="-70.0" />
+      <point x="190.0" y="465.0" />
+      <point x="116.0" y="465.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7013574660633484" x="345.0" y="432.00000000000006" />
+  <SelectedNodes>
+    <node>04127783-19a3-4b06-a831-ab9596c0aad9.TABLE:cinema.public.rows_place</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
