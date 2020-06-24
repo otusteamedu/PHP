@@ -7,9 +7,10 @@
 ### Задача
 > Написать SQL для нахождения самого прибыльного фильма
 ```
-select max(m."name") movie, sum(s.price) revenue
+select max(m."name") movie, sum(t.paid) revenue
  from "session" s
- join ticket t on t.session_id = s.id 
+ join place p on p.session_id = s.id
+ join ticket t on t.place_id = p.id 
  join movie m on m.id = s.movie_id 
  group by movie_id
  order by revenue desc
