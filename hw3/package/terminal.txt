@@ -1,0 +1,2 @@
+Команда для установки в терминале 
+composer require vyacheslavchulkin/hello-world:dev-master

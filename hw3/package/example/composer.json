@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/vyacheslavchulkin/hello-world.git"
+        }
+    ],
+    "require": {
+        "vyacheslavchulkin/hello-world": "dev-master"
+    }
+} 
