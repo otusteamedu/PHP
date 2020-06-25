@@ -1,0 +1,19 @@
+{
+    "name": "ruvik/home_work_4_sockets",
+    "authors": [
+        {
+            "name": "andrii.ru",
+            "email": "ruvik313@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HomeWork\\": "src"
+        }
+    },
+
+    "require": {
+        "symfony/yaml": "^5.1",
+      "ext-sockets": "*"
+    }
+}
