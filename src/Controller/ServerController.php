@@ -6,6 +6,8 @@ namespace HomeWork\Controller;
 
 use HomeWork\Entity\ConfigInterface;
 use HomeWork\Factory\SocketFactoryInterface;
+use HomeWork\Helper\MessageHelper;
+use HomeWork\Socket\Exception\SocketException;
 use HomeWork\Socket\SocketInterface;
 
 class ServerController implements ControllerInterface
@@ -21,12 +23,18 @@ class ServerController implements ControllerInterface
 
     public function run(?string $message): void
     {
-        $buf = '';
-        $name = '';
-        while(true) {
-            $this->socket->listen($buf, $name);
-            printf('New message from client:' . $buf . PHP_EOL);
-            $this->socket->send($message, $this->config->getClientSocketAddress());
+        try {
+            $buf = '';
+            $name = '';
+            while(true) {
+                $this->socket->listen($buf, $name);
+                printf('New message from client:' . $buf . PHP_EOL);
+                $this->socket->send($message, $this->config->getClientSocketAddress());
+            }
+        } catch (SocketException $exception) {
+            print MessageHelper::getSocketExceptionMessage($exception);
+        } catch (\Throwable $exception) {
+            print MessageHelper::getUndefinedExceptionMessage($exception);
         }
     }
 }

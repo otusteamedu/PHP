@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-define("ROOT", dirname(__DIR__) . '/');
-
 use Composer\Autoload\ClassLoader;
 use HomeWork\App;
 
+require_once 'config.php';
 /**
  * @var ClassLoader $loader
  */

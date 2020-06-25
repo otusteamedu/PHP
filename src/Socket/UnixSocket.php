@@ -8,7 +8,7 @@ use HomeWork\Socket\Exception\SocketSendException;
 use HomeWork\Socket\Helper\ErrorMessageHelper;
 //use Socket\Exception\ListenSocketException;
 
-class UdpSocket implements SocketInterface
+class UnixSocket implements SocketInterface
 {
     /** @var resource */
     private $socket;
@@ -36,7 +36,7 @@ class UdpSocket implements SocketInterface
         }
     }
 
-    public function send(string $message, string $address)
+    public function send(?string $message, string $address)
     {
         $len = strlen($message);
         $sendResult = socket_sendto($this->socket, $message, $len, $this->flags, $address, $this->port);
