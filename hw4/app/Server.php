@@ -12,9 +12,9 @@ class Server
         $this->connect();
     }
 
-    private function getConfig():void
+    private function getConfig(): void
     {
-        $this->config = require_once __DIR__ ."/config.php";
+        $this->config = require_once __DIR__ . "/config.php";
     }
 
     private function connect(): void
@@ -26,9 +26,10 @@ class Server
 
     }
 
-    private function clearSocketFile():void
+    private function clearSocketFile(): void
     {
-        if(file_exists($this->config["file"]))
+        if (file_exists($this->config["file"]))
+
             unlink($this->config["file"]);
     }
 
@@ -36,11 +37,11 @@ class Server
     {
         while ($this->enableDeamon) {
             if ($accept = socket_accept($this->socket)) {
-                $message = socket_read($accept, 2048);
+                $message = trim(socket_read($accept, 2048));
 
                 if ($message == "stop") {
                     $this->goodbye($accept);
-                } else {
+                } elseif (!empty($message)) {
                     $this->sayHello($accept, $message);
                 }
             } else {
