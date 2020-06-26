@@ -1,308 +1,364 @@
---
--- PostgreSQL database dump
---
+-- DROP SCHEMA public;
 
--- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
--- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+CREATE SCHEMA public AUTHORIZATION postgres;
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+COMMENT ON SCHEMA public IS 'standard public schema';
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
+-- DROP TYPE _content;
 
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+CREATE TYPE _content (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = content,
+	DELIMITER = ',');
 
+-- DROP TYPE _hall;
 
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
+CREATE TYPE _hall (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = hall,
+	DELIMITER = ',');
 
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+-- DROP TYPE _places;
 
+CREATE TYPE _places (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = places,
+	DELIMITER = ',');
 
-SET default_tablespace = '';
+-- DROP TYPE _session;
 
-SET default_with_oids = false;
+CREATE TYPE _session (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = session,
+	DELIMITER = ',');
 
---
--- Name: content; Type: TABLE; Schema: public; Owner: postgres
---
+-- DROP TYPE _ticket_price;
 
-CREATE TABLE public.content (
-    id integer NOT NULL,
-    name character varying(250) NOT NULL,
-    id_type integer NOT NULL,
-    duration smallint NOT NULL,
-    age smallint NOT NULL
-);
+CREATE TYPE _ticket_price (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = ticket_price,
+	DELIMITER = ',');
 
+-- DROP TYPE _tickets;
 
-ALTER TABLE public.content OWNER TO postgres;
+CREATE TYPE _tickets (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = tickets,
+	DELIMITER = ',');
 
---
--- Name: content_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
+-- DROP TYPE _type_content;
+
+CREATE TYPE _type_content (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = type_content,
+	DELIMITER = ',');
+
+-- DROP TYPE _type_place;
+
+CREATE TYPE _type_place (
+	INPUT = array_in,
+	OUTPUT = array_out,
+	RECEIVE = array_recv,
+	SEND = array_send,
+	ANALYZE = array_typanalyze,
+	ALIGNMENT = 8,
+	STORAGE = any,
+	CATEGORY = A,
+	ELEMENT = type_place,
+	DELIMITER = ',');
+
+-- DROP TYPE content;
+
+CREATE TYPE content AS (
+	id int4,
+	"name" varchar(250),
+	id_type int4,
+	duration int2,
+	age int2);
+
+-- DROP TYPE hall;
+
+CREATE TYPE hall AS (
+	id int4,
+	"name" varchar(32));
+
+-- DROP TYPE places;
+
+CREATE TYPE places AS (
+	id int4,
+	id_hall int4,
+	"row_number" int2,
+	place_number int2,
+	id_type_place int4);
+
+-- DROP TYPE session;
+
+CREATE TYPE session AS (
+	id int4,
+	id_hall int4,
+	id_content int4,
+	date_begin int4,
+	date_end int4,
+	base_price numeric);
+
+-- DROP TYPE ticket_price;
+
+CREATE TYPE ticket_price AS (
+	id int4,
+	price numeric);
+
+-- DROP TYPE tickets;
+
+CREATE TYPE tickets AS (
+	id int4,
+	id_client int4,
+	id_session int4,
+	id_place int4);
+
+-- DROP TYPE type_content;
+
+CREATE TYPE type_content AS (
+	id int4,
+	"name" varchar(32));
+
+-- DROP TYPE type_place;
+
+CREATE TYPE type_place AS (
+	id int4,
+	"name" varchar(32),
+	"price ratio" numeric);
+
+-- DROP SEQUENCE public.content_id_seq;
 
 CREATE SEQUENCE public.content_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.content_id_seq OWNER TO postgres;
-
---
--- Name: content_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.content_id_seq OWNED BY public.content.id;
-
-
---
--- Name: hall; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.hall (
-    id integer NOT NULL,
-    name character varying(32) NOT NULL,
-    capacity smallint NOT NULL,
-    vip boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE public.hall OWNER TO postgres;
-
---
--- Name: hall_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.hall_id_seq;
 
 CREATE SEQUENCE public.hall_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.places_id_seq;
 
-
-ALTER TABLE public.hall_id_seq OWNER TO postgres;
-
---
--- Name: hall_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.hall_id_seq OWNED BY public.hall.id;
-
-
---
--- Name: session; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.session (
-    id integer NOT NULL,
-    id_hall integer NOT NULL,
-    id_content integer NOT NULL,
-    date_begin integer NOT NULL,
-    date_end integer NOT NULL,
-    price numeric NOT NULL
-);
-
-
-ALTER TABLE public.session OWNER TO postgres;
-
---
--- Name: COLUMN session.date_begin; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN public.session.date_begin IS 'Формат UTC';
-
-
---
--- Name: COLUMN session.date_end; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN public.session.date_end IS 'Формат UTC';
-
-
---
--- Name: session_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
+CREATE SEQUENCE public.places_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.session_id_seq;
 
 CREATE SEQUENCE public.session_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.tickets_id_seq;
 
+CREATE SEQUENCE public.tickets_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.type_content_id_seq;
 
-ALTER TABLE public.session_id_seq OWNER TO postgres;
+CREATE SEQUENCE public.type_content_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.type_place_id_seq;
 
---
--- Name: session_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
+CREATE SEQUENCE public.type_place_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;-- public.hall definition
 
-ALTER SEQUENCE public.session_id_seq OWNED BY public.session.id;
+-- Drop table
 
+-- DROP TABLE public.hall;
 
---
--- Name: tickets; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tickets (
-    id integer NOT NULL,
-    id_client integer NOT NULL,
-    id_session integer NOT NULL,
-    "row" smallint NOT NULL,
-    place smallint NOT NULL
+CREATE TABLE public.hall (
+	id serial NOT NULL,
+	"name" varchar(32) NOT NULL,
+	CONSTRAINT hall_pk PRIMARY KEY (id)
 );
 
 
-ALTER TABLE public.tickets OWNER TO postgres;
+-- public.type_content definition
 
---
--- Name: COLUMN tickets.id_client; Type: COMMENT; Schema: public; Owner: postgres
---
+-- Drop table
 
-COMMENT ON COLUMN public.tickets.id_client IS 'Должен быть внешний ключ к таблице клиенты';
+-- DROP TABLE public.type_content;
 
-
---
--- Name: tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tickets_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE TABLE public.type_content (
+	id serial NOT NULL,
+	"name" varchar(32) NOT NULL,
+	CONSTRAINT type_content_pk PRIMARY KEY (id)
+);
 
 
-ALTER TABLE public.tickets_id_seq OWNER TO postgres;
+-- public.type_place definition
 
---
--- Name: tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
+-- Drop table
 
-ALTER SEQUENCE public.tickets_id_seq OWNED BY public.tickets.id;
+-- DROP TABLE public.type_place;
 
-
---
--- Name: content id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.content ALTER COLUMN id SET DEFAULT nextval('public.content_id_seq'::regclass);
+CREATE TABLE public.type_place (
+	id serial NOT NULL,
+	"name" varchar(32) NOT NULL,
+	"price ratio" numeric NOT NULL,
+	CONSTRAINT type_place_pk PRIMARY KEY (id)
+);
 
 
---
--- Name: hall id; Type: DEFAULT; Schema: public; Owner: postgres
---
+-- public."content" definition
 
-ALTER TABLE ONLY public.hall ALTER COLUMN id SET DEFAULT nextval('public.hall_id_seq'::regclass);
+-- Drop table
 
+-- DROP TABLE public."content";
 
---
--- Name: session id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.session ALTER COLUMN id SET DEFAULT nextval('public.session_id_seq'::regclass);
-
-
---
--- Name: tickets id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tickets ALTER COLUMN id SET DEFAULT nextval('public.tickets_id_seq'::regclass);
+CREATE TABLE public."content" (
+	id serial NOT NULL,
+	"name" varchar(250) NOT NULL,
+	id_type int4 NOT NULL,
+	duration int2 NOT NULL,
+	age int2 NOT NULL,
+	CONSTRAINT content_pk PRIMARY KEY (id),
+	CONSTRAINT content_fk FOREIGN KEY (id_type) REFERENCES type_content(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 
---
--- Name: content content_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
+-- public.places definition
 
-ALTER TABLE ONLY public.content
-    ADD CONSTRAINT content_pk PRIMARY KEY (id);
+-- Drop table
 
+-- DROP TABLE public.places;
 
---
--- Name: hall hall_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.hall
-    ADD CONSTRAINT hall_pk PRIMARY KEY (id);
-
-
---
--- Name: session session_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.session
-    ADD CONSTRAINT session_pk PRIMARY KEY (id);
+CREATE TABLE public.places (
+	id serial NOT NULL,
+	id_hall int4 NOT NULL,
+	"row_number" int2 NOT NULL,
+	place_number int2 NOT NULL,
+	id_type_place int4 NOT NULL,
+	CONSTRAINT places_pk PRIMARY KEY (id),
+	CONSTRAINT places_un UNIQUE (id_hall, row_number, place_number),
+	CONSTRAINT places_fk FOREIGN KEY (id_type_place) REFERENCES type_place(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT places_hall_fk FOREIGN KEY (id_hall) REFERENCES hall(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 
---
--- Name: tickets tickets_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
+-- public."session" definition
 
-ALTER TABLE ONLY public.tickets
-    ADD CONSTRAINT tickets_pk PRIMARY KEY (id);
+-- Drop table
 
+-- DROP TABLE public."session";
 
---
--- Name: tickets tickets_un; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tickets
-    ADD CONSTRAINT tickets_un UNIQUE (id_session, "row", place);
-
-
---
--- Name: hall_capacity_idx; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX hall_capacity_idx ON public.hall USING btree (capacity);
+CREATE TABLE public."session" (
+	id serial NOT NULL,
+	id_hall int4 NOT NULL,
+	id_content int4 NOT NULL,
+	date_begin int4 NOT NULL,
+	date_end int4 NOT NULL,
+	base_price numeric NOT NULL,
+	CONSTRAINT session_pk PRIMARY KEY (id),
+	CONSTRAINT session_fk FOREIGN KEY (id_hall) REFERENCES hall(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT session_fk_1 FOREIGN KEY (id_content) REFERENCES content(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 
---
--- Name: session session_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
+-- public.tickets definition
 
-ALTER TABLE ONLY public.session
-    ADD CONSTRAINT session_fk FOREIGN KEY (id_hall) REFERENCES public.hall(id) ON UPDATE CASCADE ON DELETE CASCADE;
+-- Drop table
 
+-- DROP TABLE public.tickets;
 
---
--- Name: session session_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.session
-    ADD CONSTRAINT session_fk_1 FOREIGN KEY (id_content) REFERENCES public.content(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: tickets tickets_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tickets
-    ADD CONSTRAINT tickets_fk FOREIGN KEY (id_session) REFERENCES public.session(id);
+CREATE TABLE public.tickets (
+	id serial NOT NULL,
+	id_client int4 NOT NULL,
+	id_session int4 NOT NULL,
+	id_place int4 NOT NULL,
+	CONSTRAINT tickets_pk PRIMARY KEY (id),
+	CONSTRAINT tickets_fk FOREIGN KEY (id_session) REFERENCES session(id),
+	CONSTRAINT tickets_places_fk FOREIGN KEY (id_place) REFERENCES places(id)
+);
 
 
---
--- PostgreSQL database dump complete
---
+-- public.ticket_price source
+
+CREATE OR REPLACE VIEW public.ticket_price
+AS SELECT t.id,
+    tp."price ratio" * s.base_price AS price
+   FROM tickets t
+     JOIN places p ON p.id = t.id_place
+     JOIN type_place tp ON tp.id = p.id_type_place
+     JOIN session s ON s.id = t.id_session;
+
 
