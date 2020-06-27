@@ -1,0 +1,21 @@
+{
+    "name": "aleksei/email_cheker",
+    "description": "Checks email by MX and RegExp",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aleksei Sokolov",
+            "email": "aleksei.sokolov.85@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Email\\" : "App/Controllers/Email",
+            "Contracts\\" : "App/Contracts",
+            "Models\\" : "App/Models",
+            "Logs\\" : "App/Logs"
+        }
+    }
+
+}
