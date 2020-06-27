@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.11
+FROM tarantool/tarantool-nginx:latest
 
 
 RUN addgroup -g 3000 -S app
