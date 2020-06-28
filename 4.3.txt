@@ -1,0 +1,15 @@
+unique_attribute_name	392
+index_attribute_value_film_id	277
+film_pkey	214
+attribute_pkey	214
+attribute_value_pkey	214
+index_hall_id	0
+index_film1_id	0
+row_has_place_pkey	0
+row_pkey	0
+row_place_uq	0
+hall_pkey	0
+tickets_sold_pkey	0
+session_place_uq	0
+index_session_id	0
+index_tbl_place_MM_row_id	0

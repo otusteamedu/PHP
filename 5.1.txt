@@ -1,0 +1,5 @@
+attributes	unique_attribute_name	0	10000000	10000007
+attributes	attribute_pkey	10000000	10000000	10000007
+films	film_pkey	10000000	10000000	10000004
+tickets_sold	tickets_sold_pkey	0	0	23
+tickets_sold	index_tbl_place_MM_row_id	0	0	23

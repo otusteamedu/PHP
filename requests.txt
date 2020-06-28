@@ -1,0 +1,391 @@
+1). 10 000 записей
+---
+a) Таблица значений атрибутов фильмов
+SELECT count(*) FROM attribute_value WHERE film_id=100;
+rows - 118
+
+EXPLAIN SELECT id, film_id, attribute_id FROM attribute_value WHERE film_id=100;
+"Bitmap Heap Scan on attribute_value  (cost=5.20..61.67 rows=118 width=12)"
+"  Recheck Cond: (film_id = 100)"
+"  ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.17 rows=118 width=0)"
+"        Index Cond: (film_id = 100)"
+Используется индекс 'index_attribute_value_film_id, btree ("film_id")'.
+Затраты на получение всех строк 61.67
+
+---
+b) Таблица атрибутов. Поиск по названию атрибута
+SELECT count(*) FROM "attribute" WHERE name='FeE7M2RRjJ';
+rows - 1
+
+EXPLAIN SELECT * FROM "attribute" WHERE name='FeE7M2RRjJ';
+"Index Scan using unique_attribute_name on attribute  (cost=0.29..8.30 rows=1 width=20)"
+"  Index Cond: ((name)::text = 'FeE7M2RRjJ'::text)"
+Используется индекс 'unique_attribute_name, UNIQUE ("name")'.
+Затраты на получение всех строк 8.30
+
+---
+c) Таблица фильмов. Поиск по названию фильма
+SELECT count(*) FROM "film" WHERE name='gVxXYOplIV';
+rows - 1
+
+EXPLAIN SELECT name FROM "film" WHERE name='gVxXYOplIV';
+"Seq Scan on film  (cost=0.00..180.00 rows=1 width=11)"
+"  Filter: ((name)::text = 'gVxXYOplIV'::text)"
+Происходит полное сканирование таблицы.
+Затраты на получение всех строк 180.00
+
+---
+d) представление "cinema"."service_data_for_film"
+EXPLAIN SELECT * FROM service_data_for_film WHERE film_name='gVxXYOplIV';
+"Nested Loop Left Join  (cost=1.71..213.39 rows=1 width=37)"
+"  ->  Nested Loop Left Join  (cost=0.86..196.82 rows=1 width=26)"
+"        ->  Seq Scan on film  (cost=0.00..180.00 rows=1 width=15)"
+"              Filter: ((name)::text = 'gVxXYOplIV'::text)"
+"        ->  Nested Loop  (cost=0.86..16.81 rows=1 width=15)"
+"              ->  Nested Loop  (cost=0.57..11.39 rows=1 width=8)"
+"                    ->  Index Only Scan using film_pkey on film flm_1  (cost=0.29..8.30 rows=1 width=4)"
+"                          Index Cond: (id = film.id)"
+"                    ->  Index Scan using index_attribute_value_film_id on attribute_value av_1  (cost=0.29..3.07 rows=1 width=8)"
+"                          Index Cond: (film_id = flm_1.id)"
+"                          Filter: ((date)::date = (CURRENT_DATE + '20 days'::interval))"
+"              ->  Index Scan using attribute_pkey on attribute atr_1  (cost=0.29..5.42 rows=1 width=15)"
+"                    Index Cond: (id = av_1.attribute_id)"
+"  ->  Nested Loop  (cost=0.86..16.56 rows=1 width=15)"
+"        ->  Nested Loop  (cost=0.57..11.14 rows=1 width=8)"
+"              ->  Index Only Scan using film_pkey on film flm  (cost=0.29..8.30 rows=1 width=4)"
+"                    Index Cond: (id = film.id)"
+"              ->  Index Scan using index_attribute_value_film_id on attribute_value av  (cost=0.29..2.82 rows=1 width=8)"
+"                    Index Cond: (film_id = flm.id)"
+"                    Filter: ((date)::date = CURRENT_DATE)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.29..5.42 rows=1 width=15)"
+"              Index Cond: (id = av.attribute_id)"
+
+Общая стоимость выборки 1.71..213.39
+Та же проблема, стоимость выборки из фильмов по полю name до 180,00, не используются индексы
+
+---
+e) представление "cinema"."marketing_data_for_film" по названию фильма
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE film_name='uwf89U1hFg';
+"Sort  (cost=243.61..243.61 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=5.35..243.60 rows=1 width=58)"
+"        ->  Nested Loop  (cost=5.06..243.23 rows=1 width=592)"
+"              ->  Seq Scan on film flm  (cost=0.00..180.00 rows=1 width=15)"
+"                    Filter: ((name)::text = 'uwf89U1hFg'::text)"
+"              ->  Bitmap Heap Scan on attribute_value av  (cost=5.06..62.23 rows=100 width=581)"
+"                    Recheck Cond: (film_id = flm.id)"
+"                    ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.04 rows=100 width=0)"
+"                          Index Cond: (film_id = flm.id)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.29..0.34 rows=1 width=19)"
+"              Index Cond: (id = av.attribute_id)"
+
+Общая стоимость выборки 243.61..243.61
+Та же проблема, стоимость выборки из фильмов по полю name до 180,00, не используются индексы
+
+---
+f) представление "cinema"."marketing_data_for_film" по названию атрибута
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE attribute_name='BhghphSZcI';
+"Sort  (cost=189.95..189.96 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=8.60..189.94 rows=1 width=58)"
+"        ->  Hash Join  (cost=8.31..189.58 rows=1 width=592)"
+"              Hash Cond: (av.attribute_id = atr.id)"
+"              ->  Seq Scan on attribute_value av  (cost=0.00..155.00 rows=10000 width=581)"
+"              ->  Hash  (cost=8.30..8.30 rows=1 width=19)"
+"                    ->  Index Scan using unique_attribute_name on attribute atr  (cost=0.29..8.30 rows=1 width=19)"
+"                          Index Cond: ((name)::text = 'BhghphSZcI'::text)"
+"        ->  Index Scan using film_pkey on film flm  (cost=0.29..0.34 rows=1 width=15)"
+"              Index Cond: (id = av.film_id)"
+
+Общая стоимость выборки 8.60..189.94
+Проблема - полное сканирование таблицы attribute_value
+
+
+Анализ:
+1. теоретически фильмы не могут иметь одинаковые названия,
+необходимо уменьшить тип поля name до varchar(64) и постаить ограницение UNIQUE
+2. Необходимо добавить индекс на поле "attribute_value"."attribute_id"
+
+Решение:
+В ddl.sql добавлены изменения
+а) CREATE TABLE "cinema"."hall"
+(
+    .....
+    "name" Character Varying(64) NOT NULL,
+    .....
+    CONSTRAINT "unique_hall_name" UNIQUE ("name")
+);
+;
+
+б) CREATE INDEX "index_attribute_value_attribute_id" ON "cinema"."attribute_value" USING btree ("attribute_id");
+
+
+2). 10 000 записей после изменения
+---
+a) Таблица значений атрибутов фильмов
+Таблица выборки в файле 2a.txt
+
+EXPLAIN SELECT id, film_id, attribute_id FROM attribute_value WHERE film_id=100;
+"Bitmap Heap Scan on attribute_value  (cost=5.07..62.25 rows=101 width=12)"
+"  Recheck Cond: (film_id = 100)"
+"  ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.04 rows=101 width=0)"
+"        Index Cond: (film_id = 100)"
+Используется индекс 'index_attribute_value_film_id, btree ("film_id")'.
+Изменений с 1).a) принципиальных нет
+
+---
+b) Таблица атрибутов. Поиск по названию атрибута
+Таблица выборки в файле 2b.txt
+
+EXPLAIN SELECT * FROM "attribute" WHERE name='uRDbbxRDCJ';
+"Index Scan using unique_attribute_name on attribute  (cost=0.29..8.30 rows=1 width=20)"
+"  Index Cond: ((name)::text = 'uRDbbxRDCJ'::text)"
+Изменений с 1).b) нет
+
+---
+c) Таблица фильмов. Поиск по названию фильма
+Таблица выборки в файле 2c.txt
+
+EXPLAIN SELECT name FROM "film" WHERE name='RIocmpFQQG';
+"Index Only Scan using unique_film_name on film  (cost=0.29..8.30 rows=1 width=11)"
+"  Index Cond: (name = 'RIocmpFQQG'::text)"
+
+Стоимость выборки уменьшилась по сравнению с 1).c) от 21 раза
+
+---
+d) представление "cinema"."service_data_for_film"
+Таблица выборки в файле 2d.txt
+
+EXPLAIN SELECT * FROM service_data_for_film WHERE film_name='RIocmpFQQG';
+"Nested Loop Left Join  (cost=2.00..41.69 rows=1 width=37)"
+"  ->  Nested Loop Left Join  (cost=1.14..25.12 rows=1 width=26)"
+"        ->  Index Scan using unique_film_name on film  (cost=0.29..8.30 rows=1 width=15)"
+"              Index Cond: ((name)::text = 'RIocmpFQQG'::text)"
+"        ->  Nested Loop  (cost=0.86..16.81 rows=1 width=15)"
+"              ->  Nested Loop  (cost=0.57..11.39 rows=1 width=8)"
+"                    ->  Index Only Scan using film_pkey on film flm_1  (cost=0.29..8.30 rows=1 width=4)"
+"                          Index Cond: (id = film.id)"
+"                    ->  Index Scan using index_attribute_value_film_id on attribute_value av_1  (cost=0.29..3.07 rows=1 width=8)"
+"                          Index Cond: (film_id = flm_1.id)"
+"                          Filter: ((date)::date = (CURRENT_DATE + '20 days'::interval))"
+"              ->  Index Scan using attribute_pkey on attribute atr_1  (cost=0.29..5.42 rows=1 width=15)"
+"                    Index Cond: (id = av_1.attribute_id)"
+"  ->  Nested Loop  (cost=0.86..16.56 rows=1 width=15)"
+"        ->  Nested Loop  (cost=0.57..11.14 rows=1 width=8)"
+"              ->  Index Only Scan using film_pkey on film flm  (cost=0.29..8.30 rows=1 width=4)"
+"                    Index Cond: (id = film.id)"
+"              ->  Index Scan using index_attribute_value_film_id on attribute_value av  (cost=0.29..2.82 rows=1 width=8)"
+"                    Index Cond: (film_id = flm.id)"
+"                    Filter: ((date)::date = CURRENT_DATE)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.29..5.42 rows=1 width=15)"
+"              Index Cond: (id = av.attribute_id)"
+Стоимость выборки по сравнению с 1).d) уменьшилась от 5 раз
+
+---
+e) представление "cinema"."marketing_data_for_film" по названию атрибута
+Таблица выборки в файле 2e.txt
+
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE film_name='RIocmpFQQG';
+"Sort  (cost=71.91..71.92 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=5.63..71.90 rows=1 width=58)"
+"        ->  Nested Loop  (cost=5.35..71.53 rows=1 width=592)"
+"              ->  Index Scan using unique_film_name on film flm  (cost=0.29..8.30 rows=1 width=15)"
+"                    Index Cond: ((name)::text = 'RIocmpFQQG'::text)"
+"              ->  Bitmap Heap Scan on attribute_value av  (cost=5.06..62.23 rows=100 width=581)"
+"                    Recheck Cond: (film_id = flm.id)"
+"                    ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.04 rows=100 width=0)"
+"                          Index Cond: (film_id = flm.id)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.29..0.34 rows=1 width=19)"
+"              Index Cond: (id = av.attribute_id)"
+Стоимость выборки по сравнению с 1).e) уменьшилась от 3 раз
+
+---
+f) представление "cinema"."marketing_data_for_film" по названию атрибута
+Таблица выборки в файле 2f.txt
+
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE attribute_name='uRDbbxRDCJ';
+"Sort  (cost=71.91..71.91 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=5.63..71.90 rows=1 width=58)"
+"        ->  Nested Loop  (cost=5.35..71.53 rows=1 width=592)"
+"              ->  Index Scan using unique_attribute_name on attribute atr  (cost=0.29..8.30 rows=1 width=19)"
+"                    Index Cond: ((name)::text = 'uRDbbxRDCJ'::text)"
+"              ->  Bitmap Heap Scan on attribute_value av  (cost=5.06..62.23 rows=100 width=581)"
+"                    Recheck Cond: (attribute_id = atr.id)"
+"                    ->  Bitmap Index Scan on index_attribute_value_attribute_id  (cost=0.00..5.04 rows=100 width=0)"
+"                          Index Cond: (attribute_id = atr.id)"
+"        ->  Index Scan using film_pkey on film flm  (cost=0.29..0.34 rows=1 width=15)"
+"              Index Cond: (id = av.film_id)"
+Стоимость выборки по сравнению с 1).f) уменьшилась от 2.5 раза
+
+
+3) 10 000 000 записей с изменениями проделанными в пункте 1).
+Время затраченное на внесение данныз 15 минут 10 секунд
+
+---
+a) Таблица значений атрибутов фильмов
+Таблица выборки в файле 3a.txt
+
+EXPLAIN SELECT id, film_id, attribute_id FROM attribute_value WHERE film_id=100;
+"Bitmap Heap Scan on attribute_value  (cost=5.20..389.73 rows=99 width=12)"
+"  Recheck Cond: (film_id = 100)"
+"  ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.18 rows=99 width=0)"
+"        Index Cond: (film_id = 100)"
+Используется то же индекс что и в 2).a). Изменилась стоимость данного запроса.
+Несовсем понятно почему стоимость данного запроса изменилась, а других не значительно, надо сравнить с применением ANALYZE
+
+---
+b) Таблица атрибутов. Поиск по названию атрибута
+Таблица выборки в файле 3b.txt
+
+EXPLAIN SELECT * FROM "attribute" WHERE name='GpHWcZsVZC';
+"Index Scan using unique_attribute_name on attribute  (cost=0.43..8.45 rows=1 width=20)"
+"  Index Cond: ((name)::text = 'GpHWcZsVZC'::text)"
+Используется то же индекс что и в 2).b)
+
+---
+c) Таблица фильмов. Поиск по названию фильма
+Таблица выборки в файле 3c.txt
+
+EXPLAIN SELECT name FROM "film" WHERE name='NRZ3LV4vDJ';
+"Index Only Scan using unique_film_name on film  (cost=0.43..8.45 rows=1 width=11)"
+"  Index Cond: (name = 'NRZ3LV4vDJ'::text)"
+Используется то же индекс что и в 2).c)
+
+---
+d) представление "cinema"."service_data_for_film"
+Таблица выборки в файле 3d.txt
+
+EXPLAIN SELECT * FROM service_data_for_film WHERE film_name='NRZ3LV4vDJ';
+"Nested Loop Left Join  (cost=3.04..42.42 rows=1 width=37)"
+"  ->  Nested Loop Left Join  (cost=1.74..25.56 rows=1 width=26)"
+"        ->  Index Scan using unique_film_name on film  (cost=0.43..8.45 rows=1 width=15)"
+"              Index Cond: ((name)::text = 'NRZ3LV4vDJ'::text)"
+"        ->  Nested Loop  (cost=1.30..17.10 rows=1 width=15)"
+"              ->  Nested Loop  (cost=0.87..11.68 rows=1 width=8)"
+"                    ->  Index Only Scan using film_pkey on film flm_1  (cost=0.43..8.45 rows=1 width=4)"
+"                          Index Cond: (id = film.id)"
+"                    ->  Index Scan using index_attribute_value_film_id on attribute_value av_1  (cost=0.43..3.22 rows=1 width=8)"
+"                          Index Cond: (film_id = flm_1.id)"
+"                          Filter: ((date)::date = (CURRENT_DATE + '20 days'::interval))"
+"              ->  Index Scan using attribute_pkey on attribute atr_1  (cost=0.43..5.42 rows=1 width=15)"
+"                    Index Cond: (id = av_1.attribute_id)"
+"  ->  Nested Loop  (cost=1.30..16.85 rows=1 width=15)"
+"        ->  Nested Loop  (cost=0.87..11.43 rows=1 width=8)"
+"              ->  Index Only Scan using film_pkey on film flm  (cost=0.43..8.45 rows=1 width=4)"
+"                    Index Cond: (id = film.id)"
+"              ->  Index Scan using index_attribute_value_film_id on attribute_value av  (cost=0.43..2.97 rows=1 width=8)"
+"                    Index Cond: (film_id = flm.id)"
+"                    Filter: ((date)::date = CURRENT_DATE)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.43..5.42 rows=1 width=15)"
+"              Index Cond: (id = av.attribute_id)"
+План запроса аналогичный пункту 2).d), причем стоимость запроса почти не изменилась
+
+---
+e) представление "cinema"."marketing_data_for_film" по названию атрибута
+Таблица выборки в файле 3e.txt
+
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE film_name='NRZ3LV4vDJ';
+"Sort  (cost=403.54..403.54 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=6.08..403.53 rows=1 width=58)"
+"        ->  Nested Loop  (cost=5.64..403.01 rows=1 width=592)"
+"              ->  Index Scan using unique_film_name on film flm  (cost=0.43..8.45 rows=1 width=15)"
+"                    Index Cond: ((name)::text = 'NRZ3LV4vDJ'::text)"
+"              ->  Bitmap Heap Scan on attribute_value av  (cost=5.21..393.56 rows=100 width=581)"
+"                    Recheck Cond: (film_id = flm.id)"
+"                    ->  Bitmap Index Scan on index_attribute_value_film_id  (cost=0.00..5.18 rows=100 width=0)"
+"                          Index Cond: (film_id = flm.id)"
+"        ->  Index Scan using attribute_pkey on attribute atr  (cost=0.43..0.49 rows=1 width=19)"
+"              Index Cond: (id = av.attribute_id)"менением
+План запроса аналогичный пункту 2).e), при этом
+стоимость запроса изменилась, больший разброс, надо сравнивать с применением ANALYZE
+
+---
+f) представление "cinema"."marketing_data_for_film" по названию атрибута
+Таблица выборки в файле 3f.txt
+
+EXPLAIN SELECT * FROM marketing_data_for_film WHERE attribute_name='GpHWcZsVZC';
+"Sort  (cost=411.21..411.21 rows=1 width=58)"
+"  Sort Key: flm.id"
+"  ->  Nested Loop  (cost=6.10..411.20 rows=1 width=58)"
+"        ->  Nested Loop  (cost=5.66..410.68 rows=1 width=592)"
+"              ->  Index Scan using unique_attribute_name on attribute atr  (cost=0.43..8.45 rows=1 width=19)"
+"                    Index Cond: ((name)::text = 'GpHWcZsVZC'::text)"
+"              ->  Bitmap Heap Scan on attribute_value av  (cost=5.23..401.21 rows=102 width=581)"
+"                    Recheck Cond: (attribute_id = atr.id)"
+"                    ->  Bitmap Index Scan on index_attribute_value_attribute_id  (cost=0.00..5.20 rows=102 width=0)"
+"                          Index Cond: (attribute_id = atr.id)"
+"        ->  Index Scan using film_pkey on film flm  (cost=0.43..0.49 rows=1 width=15)"
+"              Index Cond: (id = av.film_id)"
+План запроса аналогичный пункту 2).f)
+
+4. Размеры таблиц и индексов
+-- 1 Самые большие таблицы включая представления. Результат в файле 4.1.txt
+SELECT relname, (relpages * 8192 / (1024*1024))::int as size_mb FROM pg_class WHERE relname IN (
+  SELECT table_name FROM information_schema.tables
+    WHERE table_schema NOT IN ('information_schema', 'pg_catalog')
+    AND table_schema IN('cinema')
+) ORDER BY relpages DESC LIMIT 15;
+
+-- 2 Самые большие таблицы. Результат в файле 4.2.txt
+SELECT relname, (relpages * 8192 / (1024*1024))::int as size_mb FROM pg_class WHERE relname IN (
+  SELECT c.relname AS "name" FROM pg_class AS c LEFT JOIN pg_namespace AS n ON n.oid = c.relnamespace
+  WHERE c.relkind = 'r'
+    AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+    AND n.nspname = 'cinema'
+) ORDER BY relpages DESC  LIMIT 15;
+
+-- 3 Самые большие индексы. Результат в файле 4.3.txt
+SELECT relname, (relpages * 8192 / (1024*1024))::int as size_mb FROM pg_class WHERE relname IN (
+  SELECT c.relname AS "name" FROM pg_class AS c LEFT JOIN pg_namespace AS n ON n.oid = c.relnamespace
+  WHERE c.relkind = 'i'
+    AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+    AND n.nspname = 'cinema'
+) ORDER BY relpages DESC  LIMIT 15;
+
+--  4 Самые большие таблицы и индексы. Результат в файле 4.4.txt
+SELECT relname, (relpages * 8192 / (1024*1024))::int as size_mb FROM pg_class WHERE relname IN (
+  SELECT c.relname AS "name" FROM pg_class AS c LEFT JOIN pg_namespace AS n ON n.oid = c.relnamespace
+  WHERE (c.relkind = 'i' OR c.relkind = 'r')
+    AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+    AND n.nspname = 'cinema'
+) ORDER BY relpages DESC  LIMIT 15;
+
+
+
+5. Использование индексов. Выборка для анализа
+-- Самые используемые индексы. Результат в файле 5.1.txt
+SELECT
+  idstat.relname AS TABLE_NAME, -- имя таблицы
+  indexrelname AS index_name, -- индекс
+  idstat.idx_scan AS index_scans_count, -- число сканирований по этому индексу
+  tabstat.idx_scan AS table_reads_index_count, -- индексных чтений по таблице
+  tabstat.seq_scan + tabstat.idx_scan AS table_reads_count -- чтений по таблице
+FROM pg_stat_user_indexes AS idstat
+JOIN pg_indexes ON indexrelname = indexname AND idstat.schemaname = pg_indexes.schemaname
+JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+WHERE idstat.schemaname='cinema'
+ORDER BY table_reads_index_count DESC, table_reads_count DESC LIMIT 5;
+
+-- Самые не используемые индексы. Результат в файле 5.2.txt
+SELECT
+  idstat.relname AS TABLE_NAME, -- имя таблицы
+  indexrelname AS index_name, -- индекс
+  idstat.idx_scan AS index_scans_count, -- число сканирований по этому индексу
+  tabstat.idx_scan AS table_reads_index_count, -- индексных чтений по таблице
+  tabstat.seq_scan + tabstat.idx_scan AS table_reads_count -- чтений по таблице
+FROM pg_stat_user_indexes AS idstat
+JOIN pg_indexes ON indexrelname = indexname AND idstat.schemaname = pg_indexes.schemaname
+JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+WHERE idstat.schemaname='cinema'
+ORDER BY table_reads_index_count ASC, table_reads_count ASC LIMIT 5;
+
+
+6. Внесение данных без добавления индексов в 1.5 раза быстрее.
+
+Выводы:
+Перед добавлением индексов необходимо обращать внимание на следующие вещи -
+1. Что для нас важнее, выборка или вставка/изменение.
+2. Каким размером дискового пространства мы располагаем
