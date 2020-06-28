@@ -1,0 +1,13 @@
+docker run -d --rm --name hw3_php_1 -v $(pwd)/tmp:/mnt/tmp -w /mnt/tmp -it php:7-fpm-alpine
+docker container ls
+docker exec -it hw3_php_1 sh
+mkdir my_project && cd my_project
+curl -sS https://getcomposer.org/installer \
+	| php -- --install-dir=/usr/local/bin --filename=composer \
+	&& composer --version
+composer init
+composer require "php:^7.4"
+mkdir -p src/Model/Users && cd src/Model/Users
+
+# После создания класса src/Model/Users/User.php и добавдения секции autoload в composer.json 
+composer dumpautoload

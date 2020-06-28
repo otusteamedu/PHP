@@ -1,0 +1,26 @@
+docker run -d --rm --name hw3_php_1 -v $(pwd)/tmp:/mnt/tmp -w /mnt/tmp -it php:7-fpm-alpine
+docker container ls
+docker exec -it hw3_php_1 sh
+apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && apk del -f .build-deps
+pecl list > hw31_pecl_result.txt && php -i | grep xdebug >> hw31_pecl_result.txt
+exit
+docker stop hw3_php_1
+
+cd tmp
+git clone https://github.com/xdebug/xdebug
+cd ..
+docker run -d --rm --name hw3_php_1 -v $(pwd)/tmp:/mnt/tmp -w /mnt/tmp/xdebug -it php:7-fpm-alpine
+docker container ls
+docker exec -it hw3_php_1 sh
+apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && ./configure --enable-xdebug \
+    && make > ../hw31_make_output.txt \
+    && make install \
+    && docker-php-ext-enable xdebug \
+    && apk del -f .build-deps
+php -i | grep xdebug >> ../hw31_make_result.txt
+exit
+docker stop hw3_php_1
