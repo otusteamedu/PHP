@@ -1,5 +1,10 @@
 <?php
 
+include_once('vendor/autoload.php');
+
 $v = new \Classes\Validator();
-var_dump($v->isCorrect('({})'));
+
+echo ($v->isCorrect('(()())'))
+    ? 'correctly'
+    : 'incorrectly';
 
