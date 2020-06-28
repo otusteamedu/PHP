@@ -1,0 +1,15 @@
+attribute	497
+film	422
+attribute_value	422
+unique_attribute_name	392
+index_attribute_value_film_id	277
+attribute_value_pkey	214
+film_pkey	214
+attribute_pkey	214
+row_place_uq	0
+halls_pkey	0
+rows_pkey	0
+places_pkey	0
+session_pkey	0
+index_hall_id	0
+index_film1_id	0
