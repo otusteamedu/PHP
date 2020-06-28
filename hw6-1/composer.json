@@ -1,0 +1,15 @@
+{
+    "name": "kibelov/hw6-1",
+    "authors": [
+        {
+            "name": "kibelov",
+            "email": "kibelov@web-zaim.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Classes\\": "classes" 
+        }
+    }
+}
