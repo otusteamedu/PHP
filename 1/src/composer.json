@@ -1,0 +1,16 @@
+{
+    "name": "zero/1",
+    "authors": [
+        {
+            "name": "kibelov",
+            "email": "kibelov@web-zaim.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Services\\": "services",
+            "Validations\\": "validations"
+        }
+    }
+}
