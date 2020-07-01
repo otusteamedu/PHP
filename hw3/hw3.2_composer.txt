@@ -11,3 +11,5 @@ mkdir -p src/Model/Users && cd src/Model/Users
 
 # После создания класса src/Model/Users/User.php и добавдения секции autoload в composer.json 
 composer dumpautoload
+exit
+docker stop hw3_php_1

@@ -1,0 +1,38 @@
+FROM php:7-fpm-alpine
+RUN apk --update add --no-cache --virtual .user-packs \
+			curl \
+			git \
+			wget \
+	&& apk add --no-cache --virtual .php-exts-deps \
+			curl-dev \
+			libmemcached-dev \
+			postgresql-dev \
+			zlib-dev \
+	&& apk add --no-cache --virtual .build-deps \
+			$PHPIZE_DEPS \
+	&& pecl channel-update pecl.php.net \
+    && pecl install propro \
+    				raphf \
+    && docker-php-ext-enable propro \
+    						 raphf \
+	&& pecl install memcached \
+    				pecl_http \
+#	   				pdo_pgsql \
+    				redis \
+    				xdebug \
+	&& docker-php-ext-enable memcached \
+#    						 pecl_http \
+#    						 pdo_pgsql \
+    						 redis \
+    						 xdebug \
+	&& docker-php-ext-install pdo_pgsql \
+    && curl -sS https://getcomposer.org/installer \
+		| php -- --install-dir=/usr/local/bin --filename=composer \
+    && apk del -f .build-deps \
+	&& apk -vv info|sort \
+	&& php -v \
+	&& php -m \
+	&& composer --version \
+	&& composer show -p
+COPY . /mnt/tmp/
+WORKDIR /mnt/tmp

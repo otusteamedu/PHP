@@ -7,6 +7,7 @@ apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && apk del -f .build-deps
 pecl list > hw31_pecl_result.txt && php -i | grep xdebug >> hw31_pecl_result.txt
 exit
+
 docker stop hw3_php_1
 
 cd tmp
@@ -23,4 +24,5 @@ apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && apk del -f .build-deps
 php -i | grep xdebug >> ../hw31_make_result.txt
 exit
+
 docker stop hw3_php_1
