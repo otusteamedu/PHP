@@ -1,0 +1,3 @@
+docker build -t php7-alpine .
+docker run -d -it --rm --name hw3_php_1 php7-alpine
+docker exec -it hw3_php_1 sh

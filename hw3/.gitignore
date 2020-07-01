@@ -1,0 +1,8 @@
+# xdebug
+**/xdebug
+
+# vendor
+**/vendor
+
+# my_project_from_packagist
+**/my_project_from_packagist
