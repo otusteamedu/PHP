@@ -14,11 +14,11 @@ try {
 
     $validation_email = new \Services\ValidationService('email');
 
-    echo ($validation_email->single($email))
+    echo ($validation_email->validation->single($email))
         ? 'Валиден: ' . $email . "\n"
         : 'Не валиден: ' . $email . "\n";
 
-    foreach ($validation_email->multi($email_array) AS $element) {
+    foreach ($validation_email->validation->multi($email_array) AS $element) {
         echo ($element['valid'])
             ? 'Валиден: ' . $element['email'] . "\n"
             : 'Не валиден: ' . $element['email'] . "\n";
@@ -26,7 +26,7 @@ try {
 
     $validation_dns = new \Services\ValidationService('dns_mx');
 
-    echo ($validation_dns->single($mx))
+    echo ($validation_dns->validation->single($mx))
         ? 'Валиден: ' . $mx . "\n"
         : 'Не валиден: ' . $mx . "\n";
 

@@ -6,9 +6,14 @@ use \Validations\EmailValidation;
 use \Validations\DNSValidation;
 
 class ValidationService {
-    private $validation;
+    public $validation;
 
     public function __construct(String $type)
+    {
+       return $this->setValidation($type);
+    }
+
+    public function setValidation(String $type)
     {
         switch($type) {
             case 'email': 
@@ -17,17 +22,9 @@ class ValidationService {
             case 'dns_mx':
                 $this->validation = new DNSValidation();
                 break;
-        }    
-    }
+        }
 
-    public function single(String $element) : Bool
-    {
-        return $this->validation->single($element);
-    }
-        
-    public function multi(Array $elements) : Array 
-    {
-        return $this->validation->multi($elements);
+        return $this->validation;    
     }
 }
 
