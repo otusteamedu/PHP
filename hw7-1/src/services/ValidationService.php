@@ -6,14 +6,24 @@ use \Validations\EmailValidation;
 use \Validations\DNSValidation;
 
 class ValidationService {
-    public $validation;
+    private $validation;
 
-    public function __construct(String $type)
-    {
-       return $this->setValidation($type);
+    public function __construct(String $type) {
+        $this->setValidation($type);
     }
 
-    public function setValidation(String $type)
+    public function method(String $method, $element) 
+    {
+        if (gettype($element) != 'string' && gettype($element) != 'array') {
+            echo 'Тип должен быть string или array line ' . __LINE__ . ': ' . __FILE__ . "\n";
+
+            die;
+        }
+
+        return $this->validation->$method($element);
+    }
+
+    private function setValidation(String $type)
     {
         switch($type) {
             case 'email': 
