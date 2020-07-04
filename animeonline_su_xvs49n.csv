@@ -1,0 +1,988 @@
+Plugin ID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,See Also,Plugin Output,STIG Severity,CVSS v3.0 Base Score,CVSS Temporal Score,CVSS v3.0 Temporal Score,Risk Factor,BID,XREF,MSKB,Plugin Publication Date,Plugin Modification Date,Metasploit,Core Impact,CANVAS
+"10107","","","None","animeonline.su","tcp","80","HTTP Server Type and Version","A web server is running on the remote host.","This plugin attempts to determine the type and the version of the
+  remote web server.","n/a","","The remote web server type is :
+
+nginx","","","","","None","","","","2000/01/04","2020/06/12","","",""
+"10114","CVE-1999-0524","0.0","None","animeonline.su","icmp","0","ICMP Timestamp Request Remote Date Disclosure","It is possible to determine the exact time set on the remote host.","The remote host answers to an ICMP timestamp request.  This allows an
+attacker to know the date that is set on the targeted machine, which
+may assist an unauthenticated, remote attacker in defeating time-based
+authentication protocols.
+
+Timestamps returned from machines running Windows Vista / 7 / 2008 /
+2008 R2 are deliberately incorrect, but usually within 1000 seconds of
+the actual system time.","Filter out the ICMP timestamp requests (13), and the outgoing ICMP
+timestamp replies (14).","","The difference between the local and remote clocks is -249 seconds.
+","","0.0","","","None","","CWE:200","","1999/08/01","2019/10/04","","",""
+"10267","","","None","animeonline.su","tcp","22","SSH Server Type and Version Information","An SSH server is listening on this port.","It is possible to obtain information about the remote SSH server by
+sending an empty authentication request.","n/a","","
+SSH version : SSH-2.0-OpenSSH_7.4
+SSH supported authentication : publickey,gssapi-keyex,gssapi-with-mic,password
+","","","","","None","","","","1999/10/12","2020/06/12","","",""
+"10287","","","None","animeonline.su","udp","0","Traceroute Information","It was possible to obtain traceroute information.","Makes a traceroute to the remote host.","n/a","","For your information, here is the traceroute from 192.168.0.2 to 92.53.65.126 : 
+192.168.0.2
+192.168.0.1
+213.228.116.21
+213.228.109.42
+188.254.2.4
+188.128.9.110
+92.53.93.91
+92.53.65.126
+
+Hop Count: 7
+","","","","","None","","","","1999/11/27","2019/03/06","","",""
+"10302","","","None","animeonline.su","tcp","80","Web Server robots.txt Information Disclosure","The remote web server contains a 'robots.txt' file.","The remote host contains a file named 'robots.txt' that is intended to
+prevent web 'robots' from visiting certain directories in a website for
+maintenance or indexing purposes.  A malicious user may also be able to
+use the contents of this file to learn of sensitive documents or
+directories on the affected site and either retrieve them directly or
+target them for other attacks.","Review the contents of the site's robots.txt file, use Robots META tags
+instead of entries in the robots.txt file, and/or adjust the web
+server's access controls to limit access to sensitive material.","http://www.robotstxt.org/orig.html","Contents of robots.txt :
+
+User-Agent: *
+Allow:
+Host: animeonline.su","","","","","None","","","","1999/10/12","2018/11/15","","",""
+"10881","","","None","animeonline.su","tcp","22","SSH Protocol Versions Supported","A SSH server is running on the remote host.","This plugin determines the versions of the SSH protocol supported by
+the remote SSH daemon.","n/a","","The remote SSH daemon supports the following versions of the
+SSH protocol :
+
+  - 1.99
+  - 2.0
+","","","","","None","","","","2002/03/06","2020/02/18","","",""
+"11219","","","None","animeonline.su","tcp","22","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 22/tcp was found to be open","","","","","None","","","","2009/02/04","2020/06/12","","",""
+"11219","","","None","animeonline.su","tcp","80","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 80/tcp was found to be open","","","","","None","","","","2009/02/04","2020/06/12","","",""
+"11936","","","None","animeonline.su","tcp","0","OS Identification","It is possible to guess the remote operating system.","Using a combination of remote probes (e.g., TCP/IP, SMB, HTTP, NTP,
+SNMP, etc.), it is possible to guess the name of the remote operating
+system in use. It is also possible sometimes to guess the version of
+the operating system.","n/a","","
+Remote operating system : Linux Kernel 2.6
+Confidence level : 65
+Method : SinFP
+
+ 
+The remote host is running Linux Kernel 2.6","","","","","None","","","","2003/12/09","2020/03/09","","",""
+"19506","","","None","animeonline.su","tcp","0","Nessus Scan Information","This plugin displays information about the Nessus scan.","This plugin displays, for each tested host, information about the
+scan itself :
+
+  - The version of the plugin set.
+  - The type of scanner (Nessus or Nessus Home).
+  - The version of the Nessus Engine.
+  - The port scanner(s) used.
+  - The port range scanned.
+  - Whether credentialed or third-party patch management
+    checks are possible.
+  - The date of the scan.
+  - The duration of the scan.
+  - The number of hosts scanned in parallel.
+  - The number of checks done in parallel.","n/a","","Information about this scan : 
+
+Nessus version : 8.10.1
+Plugin feed version : 202007032004
+Scanner edition used : Nessus Home
+Scan type : Normal
+Scan policy used : Basic Network Scan
+Scanner IP : 192.168.0.2
+Port scanner(s) : nessus_syn_scanner 
+Port range : default
+Thorough tests : no
+Experimental tests : no
+Paranoia level : 1
+Report verbosity : 1
+Safe checks : yes
+Optimize the test : yes
+Credentialed checks : no
+Patch management checks : None
+CGI scanning : disabled
+Web application tests : disabled
+Max hosts : 30
+Max checks : 4
+Recv timeout : 5
+Backports : Detected
+Allow post-scan editing: Yes
+Scan Start Date : 2020/7/4 17:42 +07
+Scan duration : 278 sec
+","","","","","None","","","","2005/08/26","2020/06/12","","",""
+"22964","","","None","animeonline.su","tcp","22","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An SSH server is running on this port.","","","","","None","","","","2007/08/19","2020/06/11","","",""
+"22964","","","None","animeonline.su","tcp","80","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A web server is running on this port.","","","","","None","","","","2007/08/19","2020/06/11","","",""
+"24260","","","None","animeonline.su","tcp","80","HyperText Transfer Protocol (HTTP) Information","Some information about the remote HTTP configuration can be extracted.","This test gives some information about the remote HTTP protocol - the
+version used, whether HTTP Keep-Alive and HTTP pipelining are enabled,
+etc... 
+
+This test is informational only and does not denote any security
+problem.","n/a","","
+Response Code : HTTP/1.1 200 OK
+
+Protocol version : HTTP/1.1
+SSL : no
+Keep-Alive : no
+Options allowed : (Not implemented)
+Headers :
+
+  Server: nginx
+  Date: Sat, 04 Jul 2020 10:49:51 GMT
+  Content-Type: text/html; charset=cp1251
+  Transfer-Encoding: chunked
+  Connection: keep-alive
+  X-Powered-By: PHP/5.6.40
+  Expires: Thu, 19 Nov 1981 08:52:00 GMT
+  Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+  Pragma: no-cache
+  Set-Cookie: dle_user_id=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; domain=.animeonline.su; httponly
+  Set-Cookie: dle_password=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; domain=.animeonline.su; httponly
+  Set-Cookie: dle_hash=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; domain=.animeonline.su; httponly
+  
+Response Body :
+
+<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
+<html xmlns=""http://www.w3.org/1999/xhtml"" xml:lang=""ru"" lang=""ru"">
+<head>
+    <meta http-equiv=""Content-Type"" content=""text/html; charset=windows-1251"" />
+<title>AOS - Только лучшее аниме.</title>
+<meta name=""description"" content=""Смотрите более 1000 аниме онлайн или скачивайте. Просмотр аниме с ПК и Телефона.Ведите список просмотренного и получайте уведомления о новых эпизодах."" />
+<meta name=""keywords"" content=""аниме, аниме онлайн, смотреть аниме, аниме онлайн смотреть, картинки аниме, аниме бесплатно, аниме смотреть бесплатно"" />
+<link rel=""search"" type=""application/opensearchdescription+xml"" href=""http://animeonline.su/engine/opensearch.php"" title=""AOS - Только лучшее аниме."" />
+<link rel=""alternate"" type=""application/rss+xml"" title=""AOS - Только лучшее аниме."" href=""http://animeonline.su/rss.xml"" />
+<script type=""text/javascript"" src=""/engine/classes/js/jquery.js""></script>
+<script type=""text/javascript"" src=""/engine/classes/js/jqueryui.js""></script>
+<script type=""text/javascript"" src=""/engine/classes/js/dle_js.js""></script>
+
+    <link rel=""alternate"" type=""application/rss+xml"" title=""AOS - Только лучшее. Новые эпизоды."" href=""http://animeonline.su/zend/episodes.xml"" />
+
+    <meta name='yandex-verification' content='5940bf2784491229' />
+    <meta name=""cmsmagazine"" content=""557a8b84a5711e8103b2b8657f65f41a"" />
+	<meta name=""cmsmagazine"" content=""7170fe3a42c6f80cd95fd8bce765333d"" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css'>
+    <meta property=""og:image"" content=""http://animeonline.su/templates/aos.png"" />
+    
+    <link rel=""image_src"" href=""http://animeonline.su/templates/aos.png"" />
+    <link rel=""icon"" type=""image/png"" href=""http://animeonline.su/templates/aos.png"" />
+    <link rel=""apple-touch-icon"" href=""http://animeonline.su/templates/aos_142.png""/>
+
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/css/style.css?v=3016"" />
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/css/engine.css?v=3016"" />
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/style/achievements.css"" />
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/fancybox/jquery.fancybox.css"" />
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/fancybox/jquery.fancybox-thumbs.css"" />
+	
+	<link rel=""stylesheet"" href=""/templates/main/css/font-awesome.css"">
+	
+    <link rel=""stylesheet"" type=""text/css"" href=""http://animeonline.su/zend/site/modules/anime/res/css/one.css?v=5009"" />
+
+    <link rel=""stylesheet"" type=""text/css"" href=""/templates/main/select2/select2.css"" />
+    <script type=""text/javascript"" src=""/templates/main/js/angular-120.js""></script>
+    <script type=""text/javascript"" src=""/templates/main/js/swfobject.js""></script>
+    <script type=""text/javascript"" src=""/templates/main/js/jquery.cookie.js""></script>
+
+    <script src=""http://animeonline.su/player/aos_func.js"" type=""text/javascript""></script>
+
+    <script type=""text/javascript"" src=""/templates/main/js/flash.js""></script>
+
+    <script type=""text/javascript"" src=""/video_js/video.min.js""></script>
+    <link rel=""stylesheet"" type=""text/css"" href=""/video_js/video-js.css"" />
+    <script>
+        _V_.options.flash.swf = ""/video_js/video-js.swf"";
+    </script>
+
+
+
+    <script type=""text/javascript"" src=""/templates/main/fancybox/jquery.fancybox.js""></script>
+    <script type=""text/javascript"" src=""/templates/main/fancybox/jquery.fancybox-thumbs.js""></script>
+    <script type=""text/javascript"" src=""/templates/main/js/slides.min.jquery.js""></script>
+    <script type=""text/javascript"" src=""/templates/main/js/player2.js?v=3001""></script>
+    <script type=""text/javascript"" src=""/templates/main/select2/select2.min.js""></script>
+
+    <script	type=""text/javascript"" src=""/zend/site/modules/anime/res/js/one_2.js?v=5026""></script>
+    <script type=""text/javascript""  src=""/templates/main/js/common.js?v=5027"" ></script>
+
+
+        <script type=""text/javascript"">
+
+        var reformalOptions = {
+            project_id: 238275,
+            project_host: ""help.animeonline.su"",
+            tab_orientation: ""bottom-right"",
+            tab_indent: ""10px"",
+            tab_image_url: ""http://animeonline.su/templates/main/images/feedback_hor.png"",
+            tab_is_custom: true
+        };
+
+        (function() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript'; script.async = true;
+            script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
+            document.getElementsByTagName('head')[0].appendChild(script);
+        })();
+
+
+    </script>
+
+    <noscript><a href=""http://reformal.ru""><img src=""http://media.reformal.ru/reformal.png"" /></a><a href=""http://help.animeonline.su"">Oтзывы и предложения для AnimeOnline.Su</a></noscript>
+
+
+        <!-- jQuery - the core -->
+
+        <!-- Sliding effect -->
+
+    <!-- Google Adv -->
+    <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+
+    <script>
+        googletag.cmd.push(function() {
+            googletag.defineSlot('/1017812/Left_verx', [240, 400], 'div-gpt-ad-1492357068396-0').addService(googletag.pubads());
+            googletag.defineSlot('/1017812/right_Verx', [240, 400], 'div-gpt-ad-1492357068396-1').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <!-- Google Adv END    -->
+
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                //chat
+                $(""#refresh_botton"").click(function(){
+                    $('.massages_1').load('/engine/inc/lastchat.php');
+                    return false;
+                });
+
+                /*
+                $('div#full_news img').each(function() {
+                    if(!$(this).is('.unwrap'))
+                    {
+                        $(this).wrap('<div class=""wrap"" style=""width:' + ($(this).width() * 1 + $(this).css('margin-left').replace('px', '') * 1 + $(this).css('margin-right').replace('px', '') * 1) + 'px; height:' + $(this).height() + 'px; float: ' + $(this).css('float') + '; ""/>');
+                        $('<img class=""cower"" style=""width:' + $(this).width() + 'px; height:' + $(this).height() + 'px; margin-left:' + $(this).css('margin-left') + '; margin-right:' + $(this).css('margin-right') + '; margin-top:' + $(this).css('margin-top') + '; margin-bottom:' + $(this).css('margin-bottom') + ';"" src=""/templates/Black/images/cower.png"">').insertAfter(this);
+                        $(this).load(function()
+                        {
+                            var img = $(this).next();
+                            var cover = $(this).parent();
+                            cover.css({
+                                'height': $(this).css('height'),
+                                'width': ($(this).width() * 1 + $(this).css('margin-left').replace('px', '') * 1 + $(this).css('margin-right').replace('px', '') * 1) + 'px'});
+                            img.css({
+                                'height': $(this).css('height'),
+                                'width': $(this).css('width'),
+                                'margin-top': $(this).css('margin-top'),
+                                'margin-right': $(this).css('margin-right'),
+                                'margin-bottom': $(this).css('margin-bottom'),
+                                'margin-left': $(this).css('margin-left')
+                            });
+                            $(this).next()[0].style = this.style;
+                        });
+                    }
+                });
+                */
+            });
+        </script>
+
+        <script type=""text/javascript"">
+            function toggle_show(id) {
+                document.getElementById(id).style.display = document.getElementById(id).style.display == 'none' ? 'block' : 'none';
+            }
+        </script>
+
+</head>
+<body>
+
+
+<div id=""toppanel"">
+<div id=""panel"" class=""clearfix"">
+<a id=""logo"" href=""/""><img alt=""animeonline.su"" src=""/templates/main/images/logo.png""></a>
+<ul>
+
+    <li class=""s""><span class=""lb"">Жанры</span><span class=""gb""></span>
+        <ul style=""width: 650px"">
+            <li>
+                <a class=""genre-1"" href=""/tags/боевик""><b></b>боевик</a>
+                <a class=""genre-2"" href=""/tags/боевые+искусства""><b></b>боевые искусства</a>
+                <a class=""genre-3"" href=""/tags/вампиры""><b></b>вампиры</a>
+                <a class=""genre-4"" href=""/tags/война""><b></b>война</a>
+                <a class=""genre-5"" href=""/tags/детектив""><b></b>детектив</a>
+                <a class=""genre-6"" href=""/tags/для+детей""><b></b>для детей</a>
+                <a class=""genre-7"" href=""/tags/драма""><b></b>драма</a>
+                <a class=""genre-8"" href=""/tags/история""><b></b>история</a>
+                <a class=""genre-9"" href=""/tags/киберпанк""><b></b>киберпанк</a>
+                <a class=""genre-10"" href=""/tags/комедия""><b></b>комедия</a>
+            </li>
+            <li>
+                <a class=""genre-11"" href=""/tags/лирика""><b></b>лирика</a>
+                <a class=""genre-12"" href=""/tags/махо-сёдзё""><b></b>махо-сёдзё</a>
+                <a class=""genre-13"" href=""/tags/меха""><b></b>меха</a>
+                <a class=""genre-14"" href=""/tags/мистерия""><b></b>мистерия</a>
+                <a class=""genre-15"" href=""/tags/мистика""><b></b>мистика</a>
+                <a class=""genre-16"" href=""/tags/музыкальный""><b></b>музыкальный</a>
+                <a class=""genre-17"" href=""/tags/пародия""><b></b>пародия</a>
+                <a class=""genre-18"" href=""/tags/паропанк""><b></b>паропанк</a>
+                <a class=""genre-19"" href=""/tags/повседневность""><b></b>повседневность</a>
+                <a class=""genre-20"" href=""/tags/полиция""><b></b>полиция</a>
+            </li>
+            <li>
+                <a class=""genre-21"" href=""/tags/постапокалиптика""><b></b>постапокалиптика</a>
+                <a class=""genre-22"" href=""/tags/приключения""><b></b>приключения</a>
+                <a class=""genre-23"" href=""/tags/психология""><b></b>психология</a>
+                <a class=""genre-24"" href=""/tags/романтика""><b></b>романтика</a>
+                <a class=""genre-25"" href=""/tags/сага""><b></b>сага</a>
+                <a class=""genre-26"" href=""/tags/самурайский+боевик""><b></b>самурайский боевик</a>
+                <a class=""genre-27"" href=""/tags/сёдзё""><b></b>сёдзё</a>
+                <a class=""genre-28"" href=""/tags/сёдзё-ай""><b></b>сёдзё-ай</a>
+                <a class=""genre-29"" href=""/tags/сёнэн""><b></b>сёнэн</a>
+                <a class=""genre-30"" href=""/tags/сёнэн-ай""><b></b>сёнэн-ай</a>
+            </li>
+            <li>
+                <a class=""genre-31"" href=""/tags/сказка""><b></b>сказка</a>
+                <a class=""genre-32"" href=""/tags/спорт""><b></b>спорт</a>
+                <a class=""genre-33"" href=""/tags/сейнен""><b></b>сейнен</a>
+                <a class=""genre-34"" href=""/tags/триллер""><b></b>триллер</a>
+                <a class=""genre-35"" href=""/tags/ужасы""><b></b>ужасы</a>
+                <a class=""genre-36"" href=""/tags/фантастика""><b></b>фантастика</a>
+                <a class=""genre-37"" href=""/tags/фэнтези""><b></b>фэнтези</a>
+                <a class=""genre-39"" href=""/tags/школа""><b></b>школа</a>
+                <a class=""genre-41"" href=""/tags/этти""><b></b>этти</a>
+
+            </li>
+        </ul>
+    </li>
+    <li class=""s""><span class=""lb"">Года</span><span class=""gb""></span>
+        <ul style=""width: 390px;"">
+            <li>
+                <a href=""/tags/1967"">1967</a>
+                <a href=""/tags/1972"">1972</a>
+                <a href=""/tags/1977"">1977</a>
+                <a href=""/tags/1982"">1982</a>
+                <a href=""/tags/1987"">1987</a>
+                <a href=""/tags/1992"">1992</a>
+                <a href=""/tags/1997"">1997</a>
+                <a href=""/tags/2002"">2002</a>
+                <a href=""/tags/2007"">2007</a>
+                <a href=""/tags/2012"">2012</a>
+				<a href=""/tags/2017"">2017</a>
+            </li>
+            <li>
+                <a href=""/tags/1968"">1968</a>
+                <a href=""/tags/1973"">1973</a>
+                <a href=""/tags/1978"">1978</a>
+                <a href=""/tags/1983"">1983</a>
+                <a href=""/tags/1988"">1988</a>
+                <a href=""/tags/1993"">1993</a>
+                <a href=""/tags/1998"">1998</a>
+                <a href=""/tags/2003"">2003</a>
+                <a href=""/tags/2008"">2008</a>
+                <a href=""/tags/2013"">2013</a>
+            </li>
+            <li>
+                <a href=""/tags/1969"">1969</a>
+                <a href=""/tags/1974"">1974</a>
+                <a href=""/tags/1979"">1979</a>
+                <a href=""/tags/1984"">1984</a>
+                <a href=""/tags/1989"">1989</a>
+                <a href=""/tags/1994"">1994</a>
+                <a href=""/tags/1999"">1999</a>
+                <a href=""/tags/2004"">2004</a>
+                <a href=""/tags/2009"">2009</a>
+                <a href=""/tags/2014"">2014</a>
+            </li>
+            <li>
+                <a href=""/tags/1970"">1970</a>
+                <a href=""/tags/1975"">1975</a>
+                <a href=""/tags/1980"">1980</a>
+                <a href=""/tags/1985"">1985</a>
+                <a href=""/tags/1990"">1990</a>
+                <a href=""/tags/1995"">1995</a>
+                <a href=""/tags/2000"">2000</a>
+                <a href=""/tags/2005"">2005</a>
+                <a href=""/tags/2010"">2010</a>
+				<a href=""/tags/2015"">2015</a>
+            </li>
+            <li>
+                <a href=""/tags/1971"">1971</a>
+                <a href=""/tags/1976"">1976</a>
+                <a href=""/tags/1981"">1981</a>
+                <a href=""/tags/1986"">1986</a>
+                <a href=""/tags/1991"">1991</a>
+                <a href=""/tags/1996"">1996</a>
+                <a href=""/tags/2001"">2001</a>
+                <a href=""/tags/2006"">2006</a>
+                <a href=""/tags/2011"">2011</a>
+                <a href=""/tags/2016"">2016</a>
+            </li>
+        </ul>
+    </li>
+    <li class=""s""><a href=""/news/"" class=""lb"">Публикации</a><span class=""gb""></span>
+        <ul style=""width: 600px;"">
+            <li>
+                <a class=""h"" href=""/news/anime/"">Аниме</a>
+                <a href=""/news/anime/anime-news/"">Новости</a>
+                <a href=""/news/anime/preview-anime/"">Превью</a>
+                <a href=""/news/anime/animereview/"">Рецензии</a>
+                <a href=""/news/anime/animearticle/"">Статьи</a>
+                <a href=""/news/anime/interview/"">Интервью</a>
+                <a href=""/news/anime/events/"">Мероприятия</a>
+                <a href=""/news/anime/cosplay/"">Косплей</a>
+            </li>
+            <li>
+                <a class=""h"" href=""/news/nippon/"">Япония</a>
+                <a href=""/news/nippon/nipponnews/"">Новости</a>
+                <a href=""/news/nippon/nipponarticle/"">Статьи</a>
+            </li>
+
+            <li>
+                <a class=""h"" href=""/news/topics/"">Рубрики</a>
+				<a href=""/news/topics/soundbattlebit/"">SoundBattleBit</a>
+                <a href=""/news/topics/tops/"">Топы</a>
+                <a href=""/news/topics/on-this-day/"">В этот день</a>
+                <a href=""/news/topics/horoscope/"">Гороскоп</a>
+                <a href=""/news/topics/people-in-japan/"">Люди Японии</a>
+                <a href=""/news/topics/animeworld/"">Узнай&nbsp;мир&nbsp;аниме</a>
+
+            </li>
+            <li>
+                <a class=""h"" href=""/news/video/"">Видео</a>
+                <a href=""/news/video/videoreview/"">Видеорецензии</a>
+				<a href=""/news/video/animevideonews/"">Видеоновости</a>
+                <a href=""/news/video/freereview/"">Свободный&nbsp;обзор</a>
+                <a href=""/news/video/pv/"">Трейлеры</a>
+            </li>
+        </ul>
+
+    </li>
+    <li class=""s"">
+        <a class=""lb"" href=""/anime-sub/"">Аниме</a><span class=""gb""></span>
+        <ul style=""width:120px;"">
+            <li>
+                <a class=""h"" href=""/ongoing/"">Онгоинги</a>
+                <a class=""h"" href=""/anons/"">Анонсы</a>
+                <a class=""h"" href=""/license/"">Лицензия</a>
+                <span class=""delimiter""></span>
+                <a href=""/anime-sub/tv-sub/"">Сериалы</a>
+                <a href=""/anime-sub/films-sub/"">Фильмы</a>
+                <a href=""/anime-sub/ova-sub/"">OVA</a>
+                <a href=""/anime-sub/ona-sub/"">ONA</a>
+                <a href=""/anime-sub/tvspecialsub/"">ТВ-Спешл</a>
+            </li>
+        </ul>
+    </li>
+    <li class=""s"" style=""margin-right: 10px;""><a class=""lb"" href=""/top/"">Популярное</a></li>
+    <li class=""s""><span class=""lb""><i class='icona icona-01-more'></i>Ещё</span><span class=""gb""></span>
+        <ul style=""width: 250px;"">
+            <li>
+                <a href=""/amv/"">AMV</a>
+                <a href=""/music/"">Музыка</a>
+            </li>
+            <li>
+                <a href=""http://anime-forum.su/"">Форум</a>
+                <a href=""http://anison.fm/"">Аниме радио</a>
+            </li>
+        </ul>
+
+    </li>
+</ul>
+
+<style>
+#panel .ph .lb {
+	color: #fff;
+	text-shadow: 0px 0px 5px #fff;
+}
+</style>
+<ul>
+	<li class=""sp ph"" style=""margin: 0px 35px; position: absolute; z-index: 10;"">
+		<a class=""lb"" href=""http://help.aos.su""> <i class=""fa fa-gift fa-1x"" aria-hidden=""true"" style=""font-size: 20px;""></i> Поддержи AOS!</a><span class=""gb""></span>
+	</li>
+</ul>
+
+
+
+<div style=""float: right"" id=""panelRight"" data-ng-controller=""fastCtrl"">
+    <ul>
+        <li>
+            <div >
+                <form data-ng-submit=""fastSubmit($event)"" id=""findForm"" action=""/search/"" method=""get""><input
+                            data-ng-keypress=""move($event)"" data-ng-change=""search()"" data-ng-blur=""blur()""
+                            data-ng-focus=""focus()"" data-ng-model='q' id=""fastSearch"" placeholder=""Введите запрос""
+                            type=""text"" autocomplete=""off""/><button title=""Найти"" type=""submit"">Найти</button>
+
+                    <div id=""fastSearchresults"" class=""ng-cloak"" data-ng-show=""show"">
+                        <a data-ng-repeat=""item in result"" data-ng-href=""{{item.url}}""
+                           data-ng-mouseover=""over(item)""
+                           data-ng-mouseout=""out(item)""
+                           data-ng-class=""{'active':item.active,'up':item.t}"">
+                            <span class=""t"" data-ng-bind=""item.t""></span>{{item.lr}}<i data-ng-bind=""item.le""></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </li>
+        <li class=""s"">
+            <a href=""#"" id=""panelLoginButton"">Войти</a>
+        </li>
+    </ul>
+
+
+</div>
+<div style=""display:none"" id=""loginBg""></div>
+<div style=""display:none"" id=""loginWindow"">
+    <h4><span class=""login"">Войти</span><span style=""display: none"" class=""error"">Не верный логин или пароль.</span>
+    </h4><a class=""close"" href=""#""></a>
+
+    <form name=""loginForm"">
+        <div class=""clearfix"">
+            <div class=""lc"">
+                <input class=""text"" placeholder=""Логин"" type=""text"" name=""login_name"" id=""login""/>
+                <input class=""text"" placeholder=""Пароль"" type=""password"" name=""login_password"" id=""password""/>
+                <input name=""login"" type=""hidden"" id=""login"" value=""submit""/>
+            </div>
+            <div class=""rc"">
+                <span class=""info"">Мы в соцсетях</span>
+                <a class=""soc vk"" target=""_blank"" href=""http://vkontakte.ru/animeonlinesu""></a>
+                <a class=""soc fb"" target=""_blank"" href=""http://www.facebook.com/groups/animeonline/""></a>
+                <a class=""soc tw"" target=""_blank"" href=""http://twitter.com/animeonlinesu""></a>
+                <br class=""clear""/>
+            </div>
+        </div>
+
+        <input class=""button"" type=""submit"" value=""Войти""/>&nbsp; <a class=""forget"" href=""/index.php?do=lostpassword"">Забыли
+            пароль?</a>
+        <br class=""clear""/>
+        <hr/>
+        <span>Нет аккаунта?</span><br/>
+        <a class=""reg"" href=""/index.php?do=register"">Зарегистрироваться</a>
+
+    </form>
+</div>
+
+
+
+</div>
+
+
+</div>
+<noindex>
+<div id=""loading-layer"" style=""display:none""><div id=""loading-layer-text""><img src=""/engine/ajax/nyancat.gif""  border=""0"" alt="""" /><br/>Загрузка. Пожалуйста, подождите...</div></div>
+<script language=""javascript"" type=""text/javascript"">
+<!--
+var dle_root       = '/';
+var dle_admin      = '';
+var dle_login_hash = '';
+var dle_group      = 5;
+var dle_skin       = 'main';
+var dle_wysiwyg    = 'no';
+var quick_wysiwyg  = '1';
+var dle_act_lang   = [""Да"", ""Нет"", ""Ввод"", ""Отмена"", ""Сохранить""];
+var menu_short     = 'Быстрое редактирование';
+var menu_full      = 'Полное редактирование';
+var menu_profile   = 'Просмотр профиля';
+var menu_send      = 'Отправить сообщение';
+var menu_uedit     = 'Админцентр';
+var dle_info       = 'Информация';
+var dle_confirm    = 'Подтверждение';
+var dle_prompt     = 'Ввод информации';
+var dle_req_field  = 'Заполните все необходимые поля';
+var dle_del_agree  = 'Вы действительно хотите удалить? Данное действие невозможно будет отменить';
+var dle_complaint  = 'Укажите текст вашей жалобы для администрации:';
+var dle_big_text   = 'Выделен слишком большой участок текста.';
+var dle_orfo_title = 'Укажите комментарий для администрации к найденной грамматической ошибке';
+var dle_p_send     = 'Отправить';
+var dle_p_send_ok  = 'Уведомление успешно отправлено';
+var dle_save_ok    = 'Изменения успешно сохранены.';
+var dle_del_news   = 'Удалить статью';
+var allow_dle_delete_news   = false;
+//-->
+</script>
+</noindex>
+<div id=""wrapper"">
+
+<div id=""header"">
+<div class=""center"">
+
+		
+
+
+	<style type=""text/css"">	
+	#header {
+height:60px;
+}
+#header .center{
+height:60px;
+}	
+	body.loaded {
+    	background-image: url("""");
+	}
+	
+</style>
+<div></div>		
+
+
+</div>
+
+</div><!-- #header-->
+
+<div id=""middle"">
+
+<div id=""container"">
+    <div id=""content"">
+        
+        
+        
+<div id=""rotator"">
+<div class=""shapka"">
+	<div class=""clearfix"">
+		<a href=""#news"" class=""active"">Новинки</a>
+			<a href=""#anons"" class="""">Скоро</a>
+	</div>
+</div>
+
+<div class=""slider active"" id=""news"">
+<div class='slides_container'>
+					
+		<div class=""item"" style=""background-image: url('/site/cache/images/1367_eb8232ef1dd97f924170169a05dd6333.jpg');"">
+			<a class=""bg"" href=""http://animeonline.su/anime-sub/tv-sub/16026-voennaya-hronika-malenkoj-devochki-youjo-senki.html""></a>
+			<div class=""info"">
+				<a class=""head"" href=""http://animeonline.su/anime-sub/tv-sub/16026-voennaya-hronika-malenkoj-devochki-youjo-senki.html"">
+					<span class=""label_rus"">Военная хроника маленькой девочки</span>
+					<span class=""label_eng"">Youjo Senki</span>
+				</a>
+				<div class=""body"">
+					<div class=""descr"">
+						Где-то в параллельном мире идет война. В первых рядах, среди суровых мужчин, командующая немного не мало целым отрядом, затесалась юная белокурая девушка по имени Таня Дегручова. Ну, или, по крайней мере, так кажется со стороны. Мало кто знает, что на самом деле она — это он.					</div>
+					<div class=""buttons"">
+															<a class='watch' href=""http://animeonline.su/anime-sub/tv-sub/16026-voennaya-hronika-malenkoj-devochki-youjo-senki.html#!/episode/1"" title=""Начать просмотр Аниме"" href=""#""></a>
+					</div>
+				</div>	
+			</div>
+		
+		</div>
+					
+		<div class=""item"" style=""background-image: url('/site/cache/images/1363_bdd2d0020cd80d320e7367b1fada2e39.jpg');"">
+			<a class=""bg"" href=""http://animeonline.su/anime-sub/tv-sub/15805-sinij-ekzorcist-nechestivij-korol-kioto-ao-no-exorcist-kyoto-fujouou-hen.html""></a>
+			<div class=""info"">
+				<a class=""head"" href=""http://animeonline.su/anime-sub/tv-sub/15805-sinij-ekzorcist-nechestivij-korol-kioto-ao-no-exorcist-kyoto-fujouou-hen.html"">
+					<span class=""label_rus"">Синий экзорцист: Нечестивый король Киото</span>
+					<span class=""label_eng"">Ao no Exorcist: Kyoto Fujouou-hen</span>
+				</a>
+				<div class=""body"">
+					<div class=""descr"">
+						Продолжение популярного сериала. В этот раз будет показана арка оригинальной манги ""Нечестивый король Киото"". Глаз Нечистого Короля украден из секретной комнаты в Академии. Рин и его друзья отправляются в Киото, где находится второй глаз. Долг семьи Рюджи - защита второго артефакта. Ведь если собрать вместе оба глаза, демоническая сущность вернет к жизни тысячи мертвых					</div>
+					<div class=""buttons"">
+															<a class='watch' href=""http://animeonline.su/anime-sub/tv-sub/15805-sinij-ekzorcist-nechestivij-korol-kioto-ao-no-exorcist-kyoto-fujouou-hen.html#!/episode/1"" title=""Начать просмотр Аниме"" href=""#""></a>
+					</div>
+				</div>	
+			</div>
+		
+		</div>
+					
+		<div class=""item"" style=""background-image: url('/site/cache/images/1366_80f4103b847d858a33348393fdbafe0b.jpg');"">
+			<a class=""bg"" href=""http://animeonline.su/anime-sub/tv-sub/16018-tajnie-zhelaniya-otvergnutih-kuzu-no-honkai.html""></a>
+			<div class=""info"">
+				<a class=""head"" href=""http://animeonline.su/anime-sub/tv-sub/16018-tajnie-zhelaniya-otvergnutih-kuzu-no-honkai.html"">
+					<span class=""label_rus"">Тайные желания отвергнутых</span>
+					<span class=""label_eng"">Kuzu no Honkai</span>
+				</a>
+				<div class=""body"">
+					<div class=""descr"">
+						На первый взгляд Муги Авая и Ханаби Ясураока кажутся идеальной парой. Оба привлекательные и общительные, они отлично подходят друг другу. Так что окружающие даже и не подозревают, что объединяет эту пару совсем не любовь, а горькая тайна, которую они скрывают.					</div>
+					<div class=""buttons"">
+															<a class='watch' href=""http://animeonline.su/anime-sub/tv-sub/16018-tajnie-zhelaniya-otvergnutih-kuzu-no-honkai.html#!/episode/1"" title=""Начать просмотр Аниме"" href=""#""></a>
+					</div>
+				</div>	
+			</div>
+		
+		</div>
+					
+		<div class=""item"" style=""background-image: url('/site/cache/images/1368_d86d589cf4cd9659d8fdfc","","","","","None","","","","2007/01/30","2019/11/22","","",""
+"25220","","","None","animeonline.su","tcp","0","TCP/IP Timestamps Supported","The remote service implements TCP timestamps.","The remote host implements TCP timestamps, as defined by RFC1323.  A
+side effect of this feature is that the uptime of the remote host can
+sometimes be computed.","n/a","http://www.ietf.org/rfc/rfc1323.txt","","","","","","None","","","","2007/05/16","2019/03/06","","",""
+"32318","","","None","animeonline.su","tcp","80","Web Site Cross-Domain Policy File Detection","The remote web server contains a 'crossdomain.xml' file.","The remote web server contains a cross-domain policy file.  This is a
+simple XML file used by Adobe's Flash Player to allow access to data
+that resides outside the exact web domain from which a Flash movie
+file originated.","Review the contents of the policy file carefully.  Improper policies,
+especially an unrestricted one with just '*', could allow for cross-
+site request forgery and cross-site scripting attacks against the web
+server.","http://www.nessus.org/u?8a58aa76
+http://kb2.adobe.com/cps/142/tn_14213.html
+http://www.nessus.org/u?74a6a9a5
+http://www.nessus.org/u?acb70df2","
+Nessus was able to obtain a cross-domain policy file from the remote
+host using the following URL :
+
+  http://92.53.65.126/crossdomain.xml
+","","","","","None","","","","2008/05/15","2018/11/15","","",""
+"39520","","","None","animeonline.su","tcp","22","Backported Security Patch Detection (SSH)","Security patches are backported.","Security patches may have been 'backported' to the remote SSH server
+without changing its version number. 
+
+Banner-based checks have been disabled to avoid false positives. 
+
+Note that this test is informational only and does not denote any
+security problem.","n/a","https://access.redhat.com/security/updates/backporting/?sc_cid=3093","
+Give Nessus credentials to perform local checks.
+","","","","","None","","","","2009/06/25","2015/07/07","","",""
+"45590","","","None","animeonline.su","tcp","0","Common Platform Enumeration (CPE)","It was possible to enumerate CPE names that matched on the remote
+system.","By using information obtained from a Nessus scan, this plugin reports
+CPE (Common Platform Enumeration) matches for various hardware and
+software products found on a host. 
+
+Note that if an official CPE is not available for the product, this
+plugin computes the best possible CPE based on the information
+available from the scan.","n/a","http://cpe.mitre.org/
+https://nvd.nist.gov/products/cpe","
+The remote operating system matched the following CPE : 
+
+  cpe:/o:linux:linux_kernel:2.6
+
+Following application CPE's matched on the remote system :
+
+  cpe:/a:igor_sysoev:nginx:
+  cpe:/a:jquery:jquery:
+  cpe:/a:jquery:jquery:1.7.1 -> jQuery 1.7.1
+  cpe:/a:openbsd:openssh:7.4 -> OpenBSD OpenSSH 7.4
+  cpe:/a:php:php:5.6.40
+","","","","","None","","","","2010/04/21","2020/06/12","","",""
+"46215","","","None","animeonline.su","tcp","0","Inconsistent Hostname and IP Address","The remote host's hostname is not consistent with DNS information.","The name of this machine either does not resolve or resolves to a
+different IP address. 
+
+This may come from a badly configured reverse DNS or from a host file
+in use on the Nessus scanning host. 
+
+As a result, URLs in plugin output may not be directly usable in a web
+browser and some web tests may be incomplete.","Fix the reverse DNS or host file.","","The host name 'animeonline.su' does not resolve to an IP address","","","","","None","","","","2010/05/03","2016/08/05","","",""
+"48243","","","None","animeonline.su","tcp","80","PHP Version Detection","It was possible to obtain the version number of the remote PHP
+installation.","Nessus was able to determine the version of PHP available on the
+remote web server.","n/a","","
+Nessus was able to identify the following PHP version information :
+
+  Version : 5.6.40
+  Source  : X-Powered-By: PHP/5.6.40
+","","","","","None","","","","2010/08/04","2019/11/22","","",""
+"54615","","","None","animeonline.su","tcp","0","Device Type","It is possible to guess the remote device type.","Based on the remote operating system, it is possible to determine
+what the remote system type is (eg: a printer, router, general-purpose
+computer, etc).","n/a","","Remote device type : general-purpose
+Confidence level : 65
+","","","","","None","","","","2011/05/23","2011/05/23","","",""
+"58987","","10.0","Critical","animeonline.su","tcp","80","PHP Unsupported Version Detection","The remote host contains an unsupported version of a web application
+scripting language.","According to its version, the installation of PHP on the remote host
+is no longer supported.
+
+Lack of support implies that no new security patches for the product
+will be released by the vendor. As a result, it is likely to contain
+security vulnerabilities.","Upgrade to a version of PHP that is currently supported.","http://php.net/eol.php
+https://wiki.php.net/rfc/releaseprocess","
+  Source              : X-Powered-By: PHP/5.6.40
+  Installed version   : 5.6.40
+  End of support date : 2018/12/31
+  Announcement        : http://php.net/supported-versions.php
+  Supported versions  : 7.1.x / 7.2.x / 7.3.x
+","","10.0","","","Critical","","","","2012/05/04","2019/05/21","","",""
+"66334","","","None","animeonline.su","tcp","0","Patch Report","The remote host is missing several patches.","The remote host is missing one or more security patches. This plugin
+lists the newest version of each patch to install to make sure the
+remote host is up-to-date.","Install the patches listed below.","","
+
+. You need to take the following action :
+
+[ PHP < 7.1.33 / 7.2.x < 7.2.24 / 7.3.x < 7.3.11 Remote Code Execution Vulnerability. (130276) ]
+
++ Action to take : Upgrade to PHP version 7.3.11 or later.
+
+
+","","","","","None","","","","2013/07/08","2020/06/12","","",""
+"70657","","","None","animeonline.su","tcp","22","SSH Algorithms and Languages Supported","An SSH server is listening on this port.","This script detects which algorithms and languages are supported by
+the remote service for encrypting communications.","n/a","","
+Nessus negotiated the following encryption algorithm with the server : 
+
+The server supports the following options for kex_algorithms : 
+
+  curve25519-sha256
+  curve25519-sha256@libssh.org
+  diffie-hellman-group-exchange-sha1
+  diffie-hellman-group-exchange-sha256
+  diffie-hellman-group1-sha1
+  diffie-hellman-group14-sha1
+  diffie-hellman-group14-sha256
+  diffie-hellman-group16-sha512
+  diffie-hellman-group18-sha512
+  ecdh-sha2-nistp256
+  ecdh-sha2-nistp384
+  ecdh-sha2-nistp521
+
+The server supports the following options for server_host_key_algorithms : 
+
+  ecdsa-sha2-nistp256
+  rsa-sha2-256
+  rsa-sha2-512
+  ssh-ed25519
+  ssh-rsa
+
+The server supports the following options for encryption_algorithms_client_to_server : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes128-gcm@openssh.com
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  aes256-gcm@openssh.com
+  blowfish-cbc
+  cast128-cbc
+  chacha20-poly1305@openssh.com
+
+The server supports the following options for encryption_algorithms_server_to_client : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes128-gcm@openssh.com
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  aes256-gcm@openssh.com
+  blowfish-cbc
+  cast128-cbc
+  chacha20-poly1305@openssh.com
+
+The server supports the following options for mac_algorithms_client_to_server : 
+
+  hmac-sha1
+  hmac-sha1-etm@openssh.com
+  hmac-sha2-256
+  hmac-sha2-256-etm@openssh.com
+  hmac-sha2-512
+  hmac-sha2-512-etm@openssh.com
+  umac-128-etm@openssh.com
+  umac-128@openssh.com
+  umac-64-etm@openssh.com
+  umac-64@openssh.com
+
+The server supports the following options for mac_algorithms_server_to_client : 
+
+  hmac-sha1
+  hmac-sha1-etm@openssh.com
+  hmac-sha2-256
+  hmac-sha2-256-etm@openssh.com
+  hmac-sha2-512
+  hmac-sha2-512-etm@openssh.com
+  umac-128-etm@openssh.com
+  umac-128@openssh.com
+  umac-64-etm@openssh.com
+  umac-64@openssh.com
+
+The server supports the following options for compression_algorithms_client_to_server : 
+
+  none
+  zlib@openssh.com
+
+The server supports the following options for compression_algorithms_server_to_client : 
+
+  none
+  zlib@openssh.com
+","","","","","None","","","","2013/10/28","2017/08/28","","",""
+"70658","CVE-2008-5161","2.6","Low","animeonline.su","tcp","22","SSH Server CBC Mode Ciphers Enabled","The SSH server is configured to use Cipher Block Chaining.","The SSH server is configured to support Cipher Block Chaining (CBC)
+encryption.  This may allow an attacker to recover the plaintext message
+from the ciphertext. 
+
+Note that this plugin only checks for the options of the SSH server and
+does not check for vulnerable software versions.","Contact the vendor or consult product documentation to disable CBC mode
+cipher encryption, and enable CTR or GCM cipher mode encryption.","","
+The following client-to-server Cipher Block Chaining (CBC) algorithms
+are supported : 
+
+  3des-cbc
+  aes128-cbc
+  aes192-cbc
+  aes256-cbc
+  blowfish-cbc
+  cast128-cbc
+
+The following server-to-client Cipher Block Chaining (CBC) algorithms
+are supported : 
+
+  3des-cbc
+  aes128-cbc
+  aes192-cbc
+  aes256-cbc
+  blowfish-cbc
+  cast128-cbc
+","","","1.9","","Low","32319","CERT:958563;CWE:200","","2013/10/28","2018/07/30","","",""
+"106375","","","None","animeonline.su","tcp","80","nginx HTTP Server Detection","The nginx HTTP server was detected on the remote host.","Nessus was able to detect the nginx HTTP server by looking at
+the HTTP banner on the remote host.","n/a","https://nginx.org/","
+  URL     : http://92.53.65.126/
+  Version : unknown
+  source  : Server: nginx
+","","","","","None","","","","2018/01/26","2019/11/22","","",""
+"106658","","","None","animeonline.su","tcp","80","JQuery Detection","The web server on the remote host uses JQuery.","Nessus was able to detect JQuery on the remote host.","n/a","https://jquery.com/","
+Nessus detected 2 installs of jquery:
+
+  URL     : http://92.53.65.126/templates/main/js/slides.min.jquery.js
+  Version : unknown
+
+  URL     : http://92.53.65.126/engine/classes/js/jquery.js
+  Version : 1.7.1
+","","","","","None","","","","2018/02/07","2020/01/23","","",""
+"110723","","","None","animeonline.su","tcp","0","No Credentials Provided","Nessus was able to find common ports used for local checks,
+however, no credentials were provided in the scan policy.","Nessus was unable to execute credentialed checks because no 
+credentials were provided.","n/a","","SSH was detected on port 22 but no credentials were provided.
+SSH local checks were not enabled.
+
+","","","","","None","","","","2018/06/27","2018/10/02","","",""
+"117886","","","None","animeonline.su","tcp","0","Local Checks Not Enabled (info)","Local checks were not enabled.","Nessus did not enable local checks on the remote host. This does not
+necessarily indicate a problem with the scan. Credentials may not have
+been provided, local checks may not be available for the target, the
+target may not have been identified, or another issue may have
+occurred that prevented local checks from being enabled. See plugin
+output for details.
+
+This plugin reports informational findings related to local checks not
+being enabled. For failure information, see plugin 21745 :
+'Authentication Failure - Local Checks Not Run'.","n/a","","
+The following issues were reported :
+
+  - Plugin      : no_local_checks_credentials.nasl
+    Plugin ID   : 110723
+    Plugin Name : No Credentials Provided
+    Message     : 
+Credentials were not provided for detected SSH service.
+","","","","","None","","","","2018/10/02","2018/11/02","","",""
+"130276","CVE-2019-11043","7.5","High","animeonline.su","tcp","80","PHP < 7.1.33 / 7.2.x < 7.2.24 / 7.3.x < 7.3.11 Remote Code Execution Vulnerability.","An application installed on the remote host is affected by a remote code execution vulnerability.","According to its banner, the version of PHP running on the remote web server is 
+prior to 7.1.33, 7.2.x prior to 7.2.24, or 7.3.x prior to 7.3.11. It is, 
+therefore, affected by a remote code execution vulnerability due to insufficient 
+validation of user input. An unauthenticated, remote attacker can exploit this, by sending a specially crafted request,
+to cause the execution of arbitrary code by breaking the fastcgi_split_path_info directive.","Upgrade to PHP version 7.3.11 or later.","https://www.php.net/ChangeLog-7.php#7.3.11
+https://www.php.net/ChangeLog-7.php#7.2.24
+https://www.php.net/ChangeLog-7.php#7.1.33
+https://bugs.php.net/bug.php?id=78599","
+  URL               : http://92.53.65.126/ (5.6.40 under X-Powered-By: PHP/5.6.40)
+  Installed version : 5.6.40
+  Fixed version     : 7.1.33
+","I","9.8","6.2","9.1","High","","IAVA:2019-A-0399","","2019/10/25","2020/04/27","true","",""
+"136929","CVE-2020-11022","4.3","Medium","animeonline.su","tcp","80","JQuery 1.2 < 3.5.0 Multiple XSS","The remote web server is affected by multiple cross site scripting
+vulnerability.","According to the self-reported version in the script, the version of JQuery hosted on the remote web server is greater
+than or equal to 1.2 and prior to 3.5.0. It is, therefore, affected by multiple cross site scripting vulnerabilities.","Upgrade to JQuery version 3.5.0 or later.","https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/","
+  URL               : http://92.53.65.126/engine/classes/js/jquery.js
+  Installed version : 1.7.1
+  Fixed version     : 3.5.0
+","II","6.1","3.2","5.3","Medium","","IAVB:2020-B-0030","","2020/05/28","2020/06/17","","",""
+"136929","CVE-2020-11023","4.3","Medium","animeonline.su","tcp","80","JQuery 1.2 < 3.5.0 Multiple XSS","The remote web server is affected by multiple cross site scripting
+vulnerability.","According to the self-reported version in the script, the version of JQuery hosted on the remote web server is greater
+than or equal to 1.2 and prior to 3.5.0. It is, therefore, affected by multiple cross site scripting vulnerabilities.","Upgrade to JQuery version 3.5.0 or later.","https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/","
+  URL               : http://92.53.65.126/engine/classes/js/jquery.js
+  Installed version : 1.7.1
+  Fixed version     : 3.5.0
+","II","6.1","3.2","5.3","Medium","","IAVB:2020-B-0030","","2020/05/28","2020/06/17","","",""
