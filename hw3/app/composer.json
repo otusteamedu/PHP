@@ -1,0 +1,5 @@
+{
+    "require": {
+        "darreg/helloworld": "^1.0"
+    }
+}

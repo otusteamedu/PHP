@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: ${PROJECT_NAME}-nginx
+    image: nginx:alpine
+    working_dir: /app
+    volumes:
+#      - socket:/var/run
+      - ./docker/nginx/default.nginx:/etc/nginx/conf.d/default.conf
+      - ./app:/app
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    container_name: ${PROJECT_NAME}-php-fpm
+    build:
+      context: ./docker/php-fpm
+      args:
+        - USER_ID
+        - GROUP_ID
+    volumes:
+#      - socket:/var/run
+      - ./docker/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug-dev.ini
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ./app:/app
+    restart: always
+    env_file:
+      - .env
+
+#volumes:
+#  socket:
+
