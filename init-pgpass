@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "localhost:5432:*:postgres:123456" > ~/.pgpass
+chmod 600 ~/.pgpass
