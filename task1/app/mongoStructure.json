@@ -1,0 +1,19 @@
+[
+  { //Channel
+    "channelId":"UC-UCdu1AosJcTPsQYFolNHki8Q", //string
+    "country":"RU", //string
+    "customUrl":"snailkick", //string
+    "description":"Автор видео", //string
+    "title":"SNAILKICK", //string
+    "videoIds":["Dr4XXBcughQ", "Q5uTubIutw0", "NFS9E4uOq9c", "UR97iub3Po8", "Cu1QkpgcoMY", "ygoaBrsf8Hw", "x-NAL10DDLA", "qHNiHPfC04I", "mioLFHEOztA", "64X3eTj6PK4"] //array
+  },
+  { //Video
+    "channelTitle":"SNAILKICK", //string
+    "description":"Дно пробито дважды", //string
+    "dislikeCount":360, //int
+    "likeCount":4000, //int
+    "dislike":230,  //int
+    "title":"Тренер тренеров." //string
+    "viewCount": 9131231 //int
+  }
+]
