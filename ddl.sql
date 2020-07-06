@@ -123,9 +123,9 @@ COMMENT ON COLUMN "attributes"."type_data" IS 'Тип содержимого.';
 CREATE TABLE "attribute_value"
 (
     "id"           Serial  NOT NULL,
-    "numeric"      Decimal,
-    "text"         Character Varying(2000),
-    "date"         Timestamp Without Time Zone,
+    "number"       Integer,
+    "string"       Character Varying(2000),
+    "period"       Timestamp Without Time Zone,
     "boolean"      Boolean,
     "interval"     Interval,
     "film_id"      Integer NOT NULL,
@@ -142,9 +142,9 @@ FROM (SELECT flm.id   AS film_id,
              flm.name AS film_name,
              atr.name AS attribute_name,
              CASE
-                 WHEN atr.column = 'numeric' THEN av.numeric::text
-                 WHEN atr.column = 'text' THEN av.text::text
-                 WHEN atr.column = 'date' THEN av.date::TEXT
+                 WHEN atr.column = 'numeric' THEN av.number::text
+                 WHEN atr.column = 'string' THEN av."string"::text
+                 WHEN atr.column = 'period' THEN av."period"::TEXT
                  WHEN atr.column = 'interval' THEN av.interval::TEXT
                  WHEN atr.column = 'boolean' THEN av.boolean::TEXT
                  END  AS "value"
@@ -162,7 +162,7 @@ FROM films
          FROM films flm
                   INNER JOIN attribute_value av ON flm.id = av.film_id
                   INNER JOIN attributes atr ON av.attribute_id = atr.id
-         WHERE av.date::date = current_date
+         WHERE av."period"::date = current_date
      ) t1 ON films.id = t1.film_id
          LEFT JOIN
      (
@@ -170,7 +170,7 @@ FROM films
          FROM films flm
                   INNER JOIN attribute_value av ON flm.id = av.film_id
                   INNER JOIN attributes atr ON av.attribute_id = atr.id
-         WHERE av.date::date = current_date + interval '20 day'
+         WHERE av."period"::date = current_date + interval '20 day'
      ) t2 ON films.id = t2.film_id;
 
 ALTER TABLE "session"
