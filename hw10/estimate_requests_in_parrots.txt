@@ -1,0 +1,347 @@
+
+
+-- 1st simple request -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT count(film_title) 
+FROM public.films_entity fe 
+WHERE film_title like 'Se%';
+
+-- 10 000 tuple 
+ Aggregate  (cost=177.00..177.01 rows=1 width=8)
+   ->  Seq Scan on films_entity fe  (cost=0.00..177.00 rows=1 width=6)
+         Filter: ((film_title)::text ~~ 'Se%'::text)
+
+-- 10 000 000 tuple
+ Finalize Aggregate  (cost=104594.94..104594.95 rows=1 width=8)
+   ->  Gather  (cost=104594.73..104594.94 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=103594.73..103594.74 rows=1 width=8)
+               ->  Parallel Seq Scan on films_entity fe  (cost=0.00..103593.74 rows=395 width=6)
+                     Filter: ((film_title)::text ~~ 'Se%'::text)
+
+-- Add index for 'film_title' attribute, because it work in WHERE note
+CREATE INDEX films_entity_film_title_idx ON public.films_entity (film_title text_pattern_ops);
+
+ Aggregate  (cost=10.83..10.84 rows=1 width=8)
+   ->  Index Only Scan using films_entity_film_title_idx on films_entity fe  (cost=0.43..8.46 rows=948 width=6)
+         Index Cond: ((film_title ~>=~ 'Se'::text) AND (film_title ~<~ 'Sf'::text))
+         Filter: ((film_title)::text ~~ 'Se%'::text)
+		 
+-- Improve 104594.94/10.83 ~ 9658 times	 
+
+-- 2nd simple request  -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT count(attr_title) 
+FROM public.films_attribute fa 
+WHERE type_id = 3;
+
+-- 10 000 tuple 
+ Aggregate  (cost=189.17..189.18 rows=1 width=8)
+   ->  Seq Scan on films_attribute fa  (cost=0.00..183.00 rows=2467 width=6)
+         Filter: (type_id = 3)
+
+-- 10 000 000 tuple
+ Finalize Aggregate  (cost=113149.54..113149.55 rows=1 width=8)
+   ->  Gather  (cost=113149.33..113149.54 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=112149.33..112149.34 rows=1 width=8)
+               ->  Parallel Seq Scan on films_attribute fa  (cost=0.00..109535.95 rows=1045350 width=7)
+                     Filter: (type_id = 3)
+
+-- Add index for 'type_id' attribute, because it work in WHERE note
+CREATE INDEX films_attribute_type_id_idx ON public.films_attribute (type_id int4_ops);
+
+ Finalize Aggregate  (cost=113145.74..113145.75 rows=1 width=8)
+   ->  Gather  (cost=113145.53..113145.74 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=112145.53..112145.54 rows=1 width=8)
+               ->  Parallel Seq Scan on films_attribute fa  (cost=0.00..109532.33 rows=1045278 width=7)
+                     Filter: (type_id = 3)
+
+-- Improve 113149.33 / 113145.74 ~ 1,000031729 times
+
+-- 3rd simple request  -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT count(film_id)
+FROM public.films_value fv
+WHERE value_date >= '2020-06-01' AND value_date <= '2020-06-30';
+
+-- 10 000 tuple                                          
+ Aggregate  (cost=208.45..208.46 rows=1 width=8)
+   ->  Seq Scan on films_value fv  (cost=0.00..208.00 rows=180 width=4)
+         Filter: ((value_date >= '2020-06-01'::date) AND (value_date <= '2020-06-30'::date))
+
+-- 10 000 000 tuple
+ Finalize Aggregate  (cost=121128.60..121128.61 rows=1 width=8)
+   ->  Gather  (cost=121128.39..121128.60 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=120128.39..120128.40 rows=1 width=8)
+               ->  Parallel Seq Scan on films_value fv  (cost=0.00..119949.77 rows=71445 width=4)
+                     Filter: ((value_date >= '2020-06-01'::date) AND (value_date <= '2020-06-30'::date))
+					 
+-- Add index for 'value_date' attribute, because it work in WHERE note
+CREATE INDEX "films_value_value_date_idx" ON "public"."films_value" 
+USING btree ("value_date" "pg_catalog"."date_ops" ASC NULLS LAST);
+
+ Finalize Aggregate  (cost=63345.64..63345.65 rows=1 width=8)
+   ->  Gather  (cost=63345.43..63345.64 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=62345.43..62345.44 rows=1 width=8)
+               ->  Parallel Bitmap Heap Scan on films_value fv  (cost=3642.07..62166.81 rows=71449 width=4)
+                     Recheck Cond: ((value_date >= '2020-06-01'::date) AND (value_date <= '2020-06-30'::date))
+                     ->  Bitmap Index Scan on films_value_value_date_idx  (cost=0.00..3599.20 rows=171477 width=0)
+                           Index Cond: ((value_date >= '2020-06-01'::date) AND (value_date <= '2020-06-30'::date))
+
+-- Improve 121128,60/63345,64 ~ 1,912185274 times
+
+-- 4th complex request -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT films_entity.film_title,
+    films_types.type_title,
+    films_attribute.attr_title,
+    COALESCE(films_value.value_date::text, films_value.value_float::text, films_value.value_text, films_value.value_int::text, b2s(films_value.value_bool)) AS value
+   FROM films_entity
+     JOIN films_value ON films_entity.film_id = films_value.film_id
+     JOIN films_attribute ON films_value.attr_id = films_attribute.attr_id
+     JOIN films_types ON films_attribute.type_id = films_types.type_id;
+
+-- 10 000 tuple 
+ Hash Join  (cost=573.15..3460.71 rows=10000 width=560)                                    
+   Hash Cond: (films_attribute.type_id = films_types.type_id)                              
+   ->  Hash Join  (cost=560.00..770.52 rows=10000 width=40)                                
+         Hash Cond: (films_value.attr_id = films_attribute.attr_id)                        
+         ->  Hash Join  (cost=277.00..461.26 rows=10000 width=34)                          
+               Hash Cond: (films_value.film_id = films_entity.film_id)                     
+               ->  Seq Scan on films_value  (cost=0.00..158.00 rows=10000 width=32)        
+               ->  Hash  (cost=152.00..152.00 rows=10000 width=10)                         
+                     ->  Seq Scan on films_entity  (cost=0.00..152.00 rows=10000 width=10) 
+         ->  Hash  (cost=158.00..158.00 rows=10000 width=14)                               
+               ->  Seq Scan on films_attribute  (cost=0.00..158.00 rows=10000 width=14)    
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)                                        
+         ->  Seq Scan on films_types  (cost=0.00..11.40 rows=140 width=520)                
+
+-- 10 000 000 tuple
+ Hash Join  (cost=656654.86..3934122.52 rows=9999484 width=561)
+   Hash Cond: (films_attribute.type_id = films_types.type_id)
+   ->  Hash Join  (cost=656641.71..1257202.87 rows=9999484 width=40)
+         Hash Cond: (films_value.attr_id = films_attribute.attr_id)
+         ->  Hash Join  (cost=325345.08..694583.57 rows=9999484 width=33)
+               Hash Cond: (films_value.film_id = films_entity.film_id)
+               ->  Seq Scan on films_value  (cost=0.00..157447.84 rows=9999484 width=31)
+               ->  Hash  (cost=151511.70..151511.70 rows=10000270 width=10)
+                     ->  Seq Scan on films_entity  (cost=0.00..151511.70 rows=10000270 width=10)
+         ->  Hash  (cost=157455.95..157455.95 rows=10000695 width=15)
+               ->  Seq Scan on films_attribute  (cost=0.00..157455.95 rows=10000695 width=15)
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+         ->  Seq Scan on films_types  (cost=0.00..11.40 rows=140 width=520)
+
+-- Add index for attribute in JOIN operation: 
+		- films_value.film_id
+		- films_value.attr_id
+		- films_attribute.type_id
+
+CREATE INDEX films_value_film_id_idx ON public.films_value USING btree (film_id);
+CREATE INDEX films_value_attr_id_idx ON public.films_value USING btree (attr_id);
+CREATE INDEX films_attribute_type_id_idx ON public.films_attribute USING btree (type_id); -- was created in 1st case
+
+ Hash Join  (cost=656629.15..3934254.82 rows=10000000 width=561)
+   Hash Cond: (films_attribute.type_id = films_types.type_id)
+   ->  Hash Join  (cost=656616.00..1257197.02 rows=10000000 width=40)
+         Hash Cond: (films_value.attr_id = films_attribute.attr_id)
+         ->  Hash Join  (cost=325338.00..694590.01 rows=10000000 width=33)
+               Hash Cond: (films_value.film_id = films_entity.film_id)
+               ->  Seq Scan on films_value  (cost=0.00..157453.00 rows=10000000 width=31)
+               ->  Hash  (cost=151509.00..151509.00 rows=10000000 width=10)
+                     ->  Seq Scan on films_entity  (cost=0.00..151509.00 rows=10000000 width=10)
+         ->  Hash  (cost=157449.00..157449.00 rows=10000000 width=15)
+               ->  Seq Scan on films_attribute  (cost=0.00..157449.00 rows=10000000 width=15)
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+         ->  Seq Scan on films_types  (cost=0.00..11.40 rows=140 width=520)
+
+-- Improve 656654,86/656629,15 ~ 1,000039155 times		 
+
+
+-- 5th complex request  -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT films_entity.film_title,
+    films_attribute.attr_title,
+    films_value.value_date
+   FROM films_entity
+     LEFT JOIN films_value ON films_entity.film_id = films_value.film_id
+     LEFT JOIN films_attribute ON films_value.attr_id = films_attribute.attr_id
+     LEFT JOIN films_types ON films_attribute.type_id = films_types.type_id
+  WHERE films_entity.film_id = 7390;
+
+-- 10 000 tuple 
+ Nested Loop Left Join  (cost=0.57..199.63 rows=1 width=16)
+   ->  Nested Loop Left Join  (cost=0.29..191.33 rows=1 width=14)
+         Join Filter: (films_entity.film_id = films_value.film_id)
+         ->  Index Scan using films_entity_pkey on films_entity  (cost=0.29..8.30 rows=1 width=10)
+               Index Cond: (film_id = 7390)
+         ->  Seq Scan on films_value  (cost=0.00..183.00 rows=2 width=12)
+               Filter: (film_id = 7390)
+   ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.29..8.30 rows=1 width=14)
+         Index Cond: (attr_id = films_value.attr_id)
+
+-- 10 000 000 tuple
+ Nested Loop Left Join  (cost=1000.87..110550.78 rows=1 width=17)
+   ->  Nested Loop Left Join  (cost=1000.43..110542.32 rows=1 width=14)
+         Join Filter: (films_entity.film_id = films_value.film_id)
+         ->  Index Scan using films_entity_pkey on films_entity  (cost=0.43..8.45 rows=1 width=10)
+               Index Cond: (film_id = 7390)
+         ->  Gather  (cost=1000.00..110533.85 rows=2 width=12)
+               Workers Planned: 2
+               ->  Parallel Seq Scan on films_value  (cost=0.00..109533.65 rows=1 width=12)
+                     Filter: (film_id = 7390)
+   ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.43..8.45 rows=1 width=15)
+         Index Cond: (attr_id = films_value.attr_id)
+
+-- Add index for attribute in JOIN operation: 
+		- films_value.film_id
+		- films_value.attr_id
+		- films_attribute.type_id
+-- Add index for attribute in WHERE note:
+		- films_entity.film_id (was added by PostgresSQL automatically for PRIMARY KEY)
+
+CREATE INDEX films_value_film_id_idx ON public.films_value USING btree (film_id);
+CREATE INDEX films_value_attr_id_idx ON public.films_value USING btree (attr_id);
+CREATE INDEX films_attribute_type_id_idx ON public.films_attribute USING btree (type_id); 
+		 
+ Nested Loop Left Join  (cost=1.30..29.40 rows=1 width=17)
+   ->  Nested Loop Left Join  (cost=0.87..20.95 rows=1 width=14)
+         Join Filter: (films_entity.film_id = films_value.film_id)
+         ->  Index Scan using films_entity_pkey on films_entity  (cost=0.43..8.45 rows=1 width=10)
+               Index Cond: (film_id = 7390)
+         ->  Index Scan using films_value_film_id_idx on films_value  (cost=0.43..12.47 rows=2 width=12)
+               Index Cond: (film_id = 7390)
+   ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.43..8.45 rows=1 width=15)
+         Index Cond: (attr_id = films_value.attr_id)
+		 
+-- Improve 1000,87/1,30 ~ 769,9 times
+
+-- 6th complex request  -----------------------------------------------------------------------------------------
+
+EXPLAIN SELECT films_entity.film_title,
+    films_attribute.attr_title,
+    films_value.value_date
+   FROM films_entity
+     LEFT JOIN films_value ON films_entity.film_id = films_value.film_id
+     LEFT JOIN films_attribute ON films_value.attr_id = films_attribute.attr_id
+     LEFT JOIN films_types ON films_attribute.type_id = films_types.type_id
+WHERE films_types.type_title = 'Date' AND films_value.value_date in (date(now()), date(now()+'20 day'::interval));
+
+-- 10 000 tuple 
+ Nested Loop  (cost=0.72..388.14 rows=1 width=16)                                                               
+   ->  Nested Loop  (cost=0.43..380.28 rows=1 width=14)                                                         
+         ->  Nested Loop  (cost=0.29..378.72 rows=9 width=18)                                                   
+               ->  Seq Scan on films_value  (cost=0.00..308.00 rows=9 width=12)                                 
+                     Filter: (value_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))       
+               ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.29..7.86 rows=1 width=14)  
+                     Index Cond: (attr_id = films_value.attr_id)                                                
+         ->  Index Scan using films_types_pkey on films_types  (cost=0.14..0.17 rows=1 width=4)                 
+               Index Cond: (type_id = films_attribute.type_id)                                                  
+               Filter: ((type_title)::text = 'Date'::text)                                                      
+   ->  Index Scan using films_entity_pkey on films_entity  (cost=0.29..7.86 rows=1 width=10)                    
+         Index Cond: (film_id = films_value.film_id)                                                            
+
+-- 10 000 000 tuple
+ Nested Loop  (cost=1000.87..197577.95 rows=76 width=17)
+   ->  Nested Loop  (cost=1000.43..197013.62 rows=76 width=15)
+         Join Filter: (films_attribute.type_id = films_types.type_id)
+         ->  Seq Scan on films_types  (cost=0.00..11.75 rows=1 width=4)
+               Filter: ((type_title)::text = 'Date'::text)
+         ->  Gather  (cost=1000.43..196868.43 rows=10675 width=19)
+               Workers Planned: 2
+               ->  Nested Loop  (cost=0.43..194800.93 rows=4448 width=19)
+                     ->  Parallel Seq Scan on films_value  (cost=0.00..161614.29 rows=4448 width=12)
+                           Filter: (value_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+                     ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.43..7.46 rows=1 width=15)
+                           Index Cond: (attr_id = films_value.attr_id)
+   ->  Index Scan using films_entity_pkey on films_entity  (cost=0.43..7.43 rows=1 width=10)
+         Index Cond: (film_id = films_value.film_id)
+
+-- Add index for attribute in JOIN operation: 
+		- films_value.film_id
+		- films_value.attr_id
+		- films_attribute.type_id
+-- Add index for attribute in WHERE note:
+		- films_value.value_date
+
+-- All indexes was created in previous session: 
+CREATE INDEX films_value_film_id_idx ON public.films_value USING btree (film_id);
+CREATE INDEX films_value_attr_id_idx ON public.films_value USING btree (attr_id);
+CREATE INDEX films_attribute_type_id_idx ON public.films_attribute USING btree (type_id); 
+CREATE INDEX films_value_value_date_idx ON public.films_value
+USING btree ("value_date" "pg_catalog"."date_ops" ASC NULLS LAST);
+
+    Nested Loop  (cost=216.25..60754.47 rows=32 width=17)
+         ->  Hash Join  (cost=215.82..60516.86 rows=32 width=15)
+               Hash Cond: (films_attribute.type_id = films_types.type_id)
+               ->  Nested Loop  (cost=204.06..60493.06 rows=4448 width=19)
+                     ->  Parallel Bitmap Heap Scan on films_value  (cost=203.62..27306.01 rows=4448 width=12)
+                           Recheck Cond: (value_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+                           ->  Bitmap Index Scan on films_value_value_date_idx  (cost=0.00..200.95 rows=10676 width=0)
+                                 Index Cond: (value_date = ANY (ARRAY[date(now()), date((now() + '20 days'::interval))]))
+                     ->  Index Scan using films_attribute_pkey on films_attribute  (cost=0.43..7.46 rows=1 width=15)
+                           Index Cond: (attr_id = films_value.attr_id)
+               ->  Hash  (cost=11.75..11.75 rows=1 width=4)
+                     ->  Seq Scan on films_types  (cost=0.00..11.75 rows=1 width=4)
+                           Filter: ((type_title)::text = 'Date'::text)
+         ->  Index Scan using films_entity_pkey on films_entity  (cost=0.43..7.43 rows=1 width=10)
+               Index Cond: (film_id = films_value.film_id)
+
+-- Improve 1000,87/216,25 ~ 4,628300578 times
+
+-- 15th biggest object of my BD (sorting by SIZE)--------------------------------------------------------------
+
+SELECT nspname || '.' || relname as name,
+    pg_size_pretty(pg_total_relation_size(C.OID)) as totalsize,
+    pg_size_pretty(pg_relation_size(C.OID)) as relsize
+FROM pg_class C
+LEFT JOIN pg_namespace N ON N.OID = C.relnamespace
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_total_relation_size(C.OID) DESC 
+LIMIT 15;
+
+                name                | totalsize |  relsize
+------------------------------------+-----------+------------
+ public.films_value                 | 1307 MB   | 449 MB
+ public.films_attribute             | 878 MB    | 449 MB
+ public.films_entity                | 861 MB    | 402 MB
+ public.films_entity_film_title_idx | 245 MB    | 245 MB
+ public.films_value_value_date_idx  | 215 MB    | 215 MB
+ public.films_attribute_type_id_idx | 215 MB    | 215 MB
+ public.films_value_attr_id_idx     | 214 MB    | 214 MB
+ public.films_value_film_id_idx     | 214 MB    | 214 MB
+ public.films_value_pkey            | 214 MB    | 214 MB
+ public.films_attribute_pkey        | 214 MB    | 214 MB
+ public.films_entity_pkey           | 214 MB    | 214 MB
+ pg_toast.pg_toast_2618             | 504 kB    | 456 kB
+ pg_toast.pg_toast_2619             | 72 kB     | 24 kB
+ public.films_types                 | 24 kB     | 8192 bytes
+ public.films_types_pkey            | 16 kB     | 16 kB
+ 
+-- 5th (it's all :) index of my BD ------------------------------------------------------------------------------
+ 
+SELECT idstat.relname AS table_name,
+       indexrelname AS index_name,
+       idstat.idx_scan AS index_scans_count,
+       pg_size_pretty(pg_relation_size(indexrelid)) AS index_size,
+       tabstat.idx_scan AS table_reads_index_count,
+       tabstat.seq_scan AS table_reads_seq_count,
+       tabstat.seq_scan + tabstat.idx_scan AS table_reads_count, 
+       n_tup_upd + n_tup_ins + n_tup_del AS table_writes_count,
+       pg_size_pretty(pg_relation_size(idstat.relid)) AS table_size
+FROM pg_stat_user_indexes AS idstat
+    JOIN pg_indexes ON indexrelname = indexname AND idstat.schemaname = pg_indexes.schemaname
+    JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+WHERE indexdef !~* 'unique'
+ORDER BY idstat.idx_scan DESC, pg_relation_size(indexrelid) DESC;
+		 
+   table_name    |         index_name          | index_scans_count | index_size | table_reads_index_count | table_reads_seq_count | table_reads_count | table_writes_count | table_size
+-----------------+-----------------------------+-------------------+------------+-------------------------+-----------------------+-------------------+--------------------+------------
+ films_value     | films_value_attr_id_idx     |                10 | 214 MB     |                      18 |                    43 |                61 |            9990000 | 449 MB
+ films_value     | films_value_film_id_idx     |                 8 | 214 MB     |                      18 |                    43 |                61 |            9990000 | 449 MB
+ films_entity    | films_entity_film_title_idx |                 0 | 245 MB     |                 9990040 |                    22 |           9990062 |            9990000 | 402 MB
+ films_attribute | films_attribute_type_id_idx |                 0 | 215 MB     |                 9990064 |                     9 |           9990073 |            9990000 | 449 MB
+ films_value     | films_value_value_date_idx  |                 0 | 215 MB     |                      18 |                    43 |                61 |            9990000 | 449 MB
