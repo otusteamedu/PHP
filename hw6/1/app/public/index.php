@@ -1,9 +1,6 @@
 <?php
 
-use EmailVerifier\EmailVerifier;
-use EmailVerifier\ErrorPrinter;
-use EmailVerifier\Verifier\MX;
-use EmailVerifier\Verifier\Spell;
+use Application\Application;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
@@ -16,19 +13,12 @@ $emails = [
     'testtestru',
 ];
 
-$emailVerifier = (new EmailVerifier)
-    ->addVerifier(new Spell)
-    ->addVerifier(new MX);
+$app = new Application();
+$emailTestResults = $app->run($emails);
 
-foreach($emails as $email) {
+foreach ($emailTestResults as $email => $result) {
     echo $email . '<br>' . PHP_EOL;
-    $errors = $emailVerifier->run($email);
-    if (!empty($errors)) {
-        ErrorPrinter::print($errors);
-    } else {
-        echo 'Ok<br>' . PHP_EOL;
-    }
-    echo '-----'  . '<br>' . PHP_EOL;
+    echo nl2br(trim($result)) . PHP_EOL;
+    echo '<br>-----<br>' . PHP_EOL;
 }
-
 

@@ -26,20 +26,12 @@ services:
 
   php-fpm1:
     container_name: ${PROJECT_NAME}-php-fpm1
-    build:
-      context: ./docker/php-fpm
-      args:
-        - USER_ID
-        - GROUP_ID
+    image: php:7.4-fpm-alpine
     volumes:
       - socket1:/var/run
       - ./docker/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - ./docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug-dev.ini
-      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/40-custom.ini
       - ./app:/app
     restart: always
-    env_file:
-      - .env
 
   nginx2:
     container_name: ${PROJECT_NAME}-nginx2
@@ -57,20 +49,12 @@ services:
 
   php-fpm2:
     container_name: ${PROJECT_NAME}-php-fpm2
-    build:
-      context: ./docker/php-fpm
-      args:
-        - USER_ID
-        - GROUP_ID
+    image: php:7.4-fpm-alpine
     volumes:
       - socket2:/var/run
       - ./docker/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - ./docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug-dev.ini
-      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/40-custom.ini
       - ./app:/app
     restart: always
-    env_file:
-      - .env
 
 volumes:
   socket1:

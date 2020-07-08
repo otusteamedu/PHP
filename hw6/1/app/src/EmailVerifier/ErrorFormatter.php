@@ -4,16 +4,11 @@
 namespace EmailVerifier;
 
 
-class ErrorPrinter
+class ErrorFormatter
 {
     const SIMPLE_FORMAT = '%s<br>';
 
-    public static function print(array $errors, ?string $format = self::SIMPLE_FORMAT): void
-    {
-        echo self::getFormattedErrors($errors, $format);
-    }
-
-    public static function getFormattedErrors(array $errors, ?string $format = self::SIMPLE_FORMAT): ?string
+    public static function format(array $errors, ?string $format = self::SIMPLE_FORMAT): ?string
     {
         if (empty($errors)) {
             return null;
