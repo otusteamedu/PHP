@@ -1,0 +1,38 @@
+[{                                                      // information for channel  - array[]
+    "_id": {                                            // auto by MongoDB id number - hexnumber
+        "$oid": "5f067e42241c0000450073dd"
+    },
+    "name":                                             // name of channel - string
+        "Трип Тролля",
+    "description":                                      // description of channel - string 
+        "Трип тролля— авторы тех самых шоу: \"Подозрительная сова\", \"Кит Stupid Шоу\",  \"Осторожно, земляне!\" вернулись в Ютюб, чтобы снова придумать что-то интересное и сумасшедшее. Ах да. 18+!",
+    "videos":                                           // videos in channel - array[] 
+    [{
+        "name": "КЛУБНИКА И МОРЖ. РЕКЛАМА СТОЛОВКИ",    // name of video - string 
+        "likes": "43300",                               // number of likes - int
+        "dislikes": "651"                               // number of dislikes - int
+    }, {
+        "name": "Кит Stupid Show - Женская общага",
+        "likes": "59063",
+        "dislikes": "1207"
+    }, {
+        "name": "Подозрительный нарколог — KuTstupid",
+        "likes": "81200",
+        "dislikes": "1967"
+    }, {
+        "name": "Подозрительная сова сезон 1 серия 20",
+        "likes": "43810",
+        "dislikes": "1114"
+    }, {
+        "name": "Бомж и джинн",
+        "likes": "58776",
+        "dislikes": "1711"
+    }]
+}]
+
+
+// -------- Indexes ---------------
+// 1. MongoDB creates a unique index on the _id field during the creation of a collection.
+// 2. db.ChannelsCollection.createIndex({name: 1});
+// 3. db.ChannelsCollection.createIndex({"videos.name": 1});
+// 4. db.ChannelsCollection.createIndex({"videos.likes": -1});
