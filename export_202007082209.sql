@@ -6,7 +6,6 @@
 
 CREATE TABLE public.cinemas (
 	id serial NOT NULL,
-	rooms_id varchar(255) NOT NULL,
 	"name" varchar(255) NOT NULL,
 	CONSTRAINT cinemas_pk PRIMARY KEY (id)
 );
@@ -38,39 +37,51 @@ CREATE TABLE public.rooms (
 );
 
 
--- public.seans definition
+-- public.rooms_tickets definition
 
 -- Drop table
 
--- DROP TABLE public.seans;
+-- DROP TABLE public.rooms_tickets;
 
-CREATE TABLE public.seans (
+CREATE TABLE public.rooms_tickets (
+	rooms_id int4 NOT NULL,
+	tickets_id int4 NOT NULL
+);
+
+
+-- public.tickets definition
+
+-- Drop table
+
+-- DROP TABLE public.tickets;
+
+CREATE TABLE public.tickets (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
-	price float8 NOT NULL,
-	CONSTRAINT seans_pk PRIMARY KEY (id)
+	price numeric(255,2) NOT NULL,
+	CONSTRAINT tickets_pk PRIMARY KEY (id)
 );
 
 
--- public.rooms_seans definition
+-- public.tickets_clients definition
 
 -- Drop table
 
--- DROP TABLE public.rooms_seans;
+-- DROP TABLE public.tickets_clients;
 
-CREATE TABLE public.rooms_seans (
-	rooms_id int4 NOT NULL,
-	seans_id int4 NOT NULL
-);
-
-
--- public.seans_clients definition
-
--- Drop table
-
--- DROP TABLE public.seans_clients;
-
-CREATE TABLE public.seans_clients (
-	seans_id int4 NOT NULL,
+CREATE TABLE public.tickets_clients (
+	ticket_id int4 NOT NULL,
 	clients_id int4 NOT NULL
+);
+
+
+-- public.cinemas_rooms definition
+
+-- Drop table
+
+-- DROP TABLE public.cinemas_rooms;
+
+CREATE TABLE public.cinemas_rooms (
+	cinemas_id int4 NOT NULL,
+	rooms_id int4 NOT NULL
 );
