@@ -45,6 +45,7 @@ CREATE TABLE public.clients (
 CREATE TABLE public.rooms (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
+	max_cells int4 NOT NULL DEFAULT 300,
 	CONSTRAINT rooms_pk PRIMARY KEY (id)
 );
 
