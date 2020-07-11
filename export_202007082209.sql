@@ -11,6 +11,18 @@ CREATE TABLE public.cinemas (
 );
 
 
+-- public.cinemas_rooms definition
+
+-- Drop table
+
+-- DROP TABLE public.cinemas_rooms;
+
+CREATE TABLE public.cinemas_rooms (
+	cinemas_id int4 NOT NULL,
+	rooms_id int4 NOT NULL
+);
+
+
 -- public.clients definition
 
 -- Drop table
@@ -58,7 +70,7 @@ CREATE TABLE public.rooms_tickets (
 CREATE TABLE public.tickets (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
-	price numeric(255,2) NOT NULL,
+	price numeric(4,2) NOT NULL,
 	CONSTRAINT tickets_pk PRIMARY KEY (id)
 );
 
@@ -72,16 +84,4 @@ CREATE TABLE public.tickets (
 CREATE TABLE public.tickets_clients (
 	ticket_id int4 NOT NULL,
 	clients_id int4 NOT NULL
-);
-
-
--- public.cinemas_rooms definition
-
--- Drop table
-
--- DROP TABLE public.cinemas_rooms;
-
-CREATE TABLE public.cinemas_rooms (
-	cinemas_id int4 NOT NULL,
-	rooms_id int4 NOT NULL
 );
