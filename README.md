@@ -11,12 +11,12 @@ CREATE OR REPLACE VIEW public.service_task
 AS SELECT max(m.name::text) AS movie,
     string_agg(
         CASE
-            WHEN mev.date = CURRENT_DATE THEN mea.name
+            WHEN mev.datetime_value = CURRENT_DATE THEN mea.name
             ELSE NULL::character varying
         END::text, ', '::text) AS today,
     string_agg(
         CASE
-            WHEN mev.date = (CURRENT_DATE + '20 days'::interval) THEN mea.name
+            WHEN mev.datetime_value = (CURRENT_DATE + '20 days'::interval) THEN mea.name
             ELSE NULL::character varying
         END::text, ', '::text) AS after_20_days
    FROM movie m
@@ -33,12 +33,12 @@ AS SELECT m.name AS movie,
     meat.name AS type,
     mea.name AS attribute,
         CASE
-            WHEN mea.attribute_type_id = 1 THEN mev."int"::text
-            WHEN mea.attribute_type_id = 2 THEN mev.text
-            WHEN mea.attribute_type_id = 3 THEN mev.date::text
-            WHEN mea.attribute_type_id = 4 THEN mev."varchar"::text
-            WHEN mea.attribute_type_id = 5 THEN mev.bool::text
-            WHEN mea.attribute_type_id = 6 THEN mev."numeric"::text
+            WHEN mea.attribute_type_id = 1 THEN mev."integer_value"::text
+            WHEN mea.attribute_type_id = 2 THEN mev.text_value
+            WHEN mea.attribute_type_id = 3 THEN mev.datetime_value::text
+            WHEN mea.attribute_type_id = 4 THEN mev."short_text_value"::text
+            WHEN mea.attribute_type_id = 5 THEN mev.boolean_value::text
+            WHEN mea.attribute_type_id = 6 THEN mev."decimal_value"::text
             ELSE NULL::text
         END AS value
    FROM movie m
