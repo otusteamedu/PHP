@@ -45,7 +45,9 @@ CREATE TABLE public.clients (
 CREATE TABLE public.rooms (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
-	max_cells int4 NOT NULL DEFAULT 300,
+	film varchar(255) NOT NULL,
+	date_begin int4 NOT NULL,
+	date_end int4 NOT NULL,
 	CONSTRAINT rooms_pk PRIMARY KEY (id)
 );
 
@@ -72,6 +74,9 @@ CREATE TABLE public.tickets (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
 	price numeric(4,2) NOT NULL,
+	place int4 NOT NULL,
+	"row" int4 NOT NULL,
+	active bool NOT NULL,
 	CONSTRAINT tickets_pk PRIMARY KEY (id)
 );
 
