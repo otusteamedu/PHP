@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>/Users/sergejsrabionan/PhpstormProjects/PHP/app/src</OriginalElement>
+  <nodes>
+    <node x="1787.0000000000002" y="710.0">\App\Components\DI\Exceptions\EntityException</node>
+    <node x="1274.0" y="3355.0">\App\Routing\ResponseEmitter</node>
+    <node x="0.0" y="3060.0">\App\Models\Order</node>
+    <node x="964.0" y="3081.0">\App\Models\Product</node>
+    <node x="829.0" y="3355.0">\App\Core\App</node>
+    <node x="1250.6964285714287" y="33.0">\Illuminate\Contracts\Support\Arrayable</node>
+    <node x="2119.0" y="710.0">\App\Components\DI\Exceptions\DependencyException</node>
+    <node x="671.0" y="3125.0">\App\Models\Client</node>
+    <node x="2552.0" y="710.0">\App\Components\DI\Exceptions\ContainerException</node>
+    <node x="1782.0" y="3355.0">\App\Factory\ResponseFactory</node>
+    <node x="1494.0" y="0.0">\App\Interfaces\ResponseInterface</node>
+    <node x="631.0" y="3355.0">\App\Config</node>
+    <node x="2901.5" y="0.0">\App\Interfaces\ContainerInterface</node>
+    <node x="883.6964285714287" y="0.0">\Illuminate\Contracts\Routing\UrlRoutable</node>
+    <node x="117.69642857142867" y="33.0">\JsonSerializable</node>
+    <node x="1154.0" y="3136.0">\App\Models\DeliveryServiceDiscount</node>
+    <node x="0.0" y="3355.0">\App\Handlers\ControllerHandler</node>
+    <node x="2320.0" y="710.0">\App\Components\DI\Exceptions\EntityNotFoundException</node>
+    <node x="494.99999999999994" y="3125.0">\App\Models\Coupon</node>
+    <node x="3251.0" y="214.0">\App\Http\Request\Request</node>
+    <node x="1411.0" y="170.0">\App\Http\Response\Response</node>
+    <node x="294.6964285714286" y="33.0">\Illuminate\Contracts\Support\Jsonable</node>
+    <node x="1519.0" y="3355.0">\App\Factory\RequestFactory</node>
+    <node x="3506.0" y="0.0">\App\Services\OrderBuilder</node>
+    <node x="2770.0" y="126.0">\App\Components\DI\MyDIContainer</node>
+    <node x="794.0" y="3136.0">\App\Models\ProductDiscount</node>
+    <node x="679.6964285714287" y="0.0">\ArrayAccess</node>
+    <node x="3251.0" y="0.0">\App\Interfaces\RequestInterface</node>
+    <node x="2163.0" y="3355.0">\App\Controllers\HomeController</node>
+    <node x="198.99999999999994" y="3071.0">\App\Models\DeliveryService</node>
+    <node x="484.2142857142856" y="180.0">\Illuminate\Database\Eloquent\Model</node>
+    <node x="1957.0000000000002" y="710.0">\App\Routing\Exceptions\RouteException</node>
+    <node x="2071.5" y="258.0">\Exception</node>
+    <node x="451.6964285714286" y="11.0">\Illuminate\Contracts\Queue\QueueableEntity</node>
+    <node x="1033.0" y="3355.0">\App\Services\TypeTree</node>
+    <node x="2131.5" y="0.0">\Throwable</node>
+    <node x="240.0" y="3355.0">\App\Routing\Router</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\App\Models\Order" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-125.0" />
+      <point x="89.5" y="3020.0" />
+      <point x="518.4999999999998" y="3020.0" />
+      <point x="-205.71428571428578" y="1410.0" />
+    </edge>
+    <edge source="\App\Models\DeliveryServiceDiscount" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-49.0" />
+      <point x="1260.0" y="3020.0" />
+      <point x="929.9285714285713" y="3020.0" />
+      <point x="205.71428571428567" y="1410.0" />
+    </edge>
+    <edge source="\App\Models\ProductDiscount" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-49.0" />
+      <point x="869.0" y="3040.0" />
+      <point x="792.7857142857142" y="3040.0" />
+      <point x="68.57142857142856" y="1410.0" />
+    </edge>
+    <edge source="\App\Models\Coupon" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-60.0" />
+      <point x="573.0" y="3040.0" />
+      <point x="655.6428571428571" y="3040.0" />
+      <point x="-68.57142857142856" y="1410.0" />
+    </edge>
+    <edge source="\App\Models\DeliveryService" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-114.0" />
+      <point x="336.99999999999994" y="3030.0" />
+      <point x="587.0714285714284" y="3030.0" />
+      <point x="-137.1428571428571" y="1410.0" />
+    </edge>
+    <edge source="\App\Components\DI\MyDIContainer" target="\App\Interfaces\ContainerInterface">
+      <point x="0.0" y="-256.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="\App\Models\Client" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-60.0" />
+      <point x="722.5" y="3040.0" />
+      <point x="724.2142857142856" y="3040.0" />
+      <point x="0.0" y="1410.0" />
+    </edge>
+    <edge source="\App\Components\DI\Exceptions\ContainerException" target="\Exception">
+      <point x="0.0" y="-26.0" />
+      <point x="2638.5" y="680.0" />
+      <point x="2319.9" y="680.0" />
+      <point x="110.40000000000009" y="201.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\Illuminate\Contracts\Support\Arrayable">
+      <point x="200.0" y="-1410.0" />
+      <point x="924.2142857142856" y="160.0" />
+      <point x="1302.1964285714287" y="160.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="\App\Http\Response\Response" target="\App\Interfaces\ResponseInterface">
+      <point x="0.0" y="-431.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\Illuminate\Contracts\Routing\UrlRoutable">
+      <point x="120.0" y="-1410.0" />
+      <point x="844.2142857142856" y="150.0" />
+      <point x="1057.1964285714287" y="150.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\Illuminate\Contracts\Queue\QueueableEntity">
+      <point x="-40.0" y="-1410.0" />
+      <point x="684.2142857142856" y="140.0" />
+      <point x="555.6964285714287" y="140.0" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="\App\Models\Product" target="\Illuminate\Database\Eloquent\Model">
+      <point x="0.0" y="-104.0" />
+      <point x="1049.0" y="3030.0" />
+      <point x="861.3571428571427" y="3030.0" />
+      <point x="137.1428571428571" y="1410.0" />
+    </edge>
+    <edge source="\App\Http\Request\Request" target="\App\Interfaces\RequestInterface">
+      <point x="0.0" y="-157.0" />
+      <point x="0.0" y="82.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\ArrayAccess">
+      <point x="40.0" y="-1410.0" />
+      <point x="764.2142857142856" y="160.0" />
+      <point x="771.6964285714287" y="160.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\Illuminate\Contracts\Support\Jsonable">
+      <point x="-120.0" y="-1410.0" />
+      <point x="604.2142857142856" y="150.0" />
+      <point x="363.1964285714286" y="150.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="\App\Components\DI\Exceptions\EntityException" target="\Exception">
+      <point x="0.0" y="-26.0" />
+      <point x="1862.0000000000002" y="680.0" />
+      <point x="2099.1" y="680.0" />
+      <point x="-110.40000000000009" y="201.0" />
+    </edge>
+    <edge source="\Illuminate\Database\Eloquent\Model" target="\JsonSerializable">
+      <point x="-200.0" y="-1410.0" />
+      <point x="524.2142857142856" y="160.0" />
+      <point x="196.19642857142867" y="160.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="\Exception" target="\Throwable">
+      <point x="0.0" y="-201.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="\App\Routing\Exceptions\RouteException" target="\Exception">
+      <point x="-2.2737367544323206E-13" y="-26.0" />
+      <point x="2028.0" y="690.0" />
+      <point x="2154.3" y="690.0" />
+      <point x="-55.19999999999982" y="201.0" />
+    </edge>
+    <edge source="\App\Components\DI\Exceptions\EntityNotFoundException" target="\Exception">
+      <point x="0.0" y="-26.0" />
+      <point x="2426.0" y="690.0" />
+      <point x="2264.7" y="690.0" />
+      <point x="55.19999999999982" y="201.0" />
+    </edge>
+    <edge source="\App\Components\DI\Exceptions\DependencyException" target="\Exception">
+      <point x="0.0" y="-26.0" />
+      <point x="0.0" y="201.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5913679959616355" x="2900.4999999999995" y="2961.4999999999995" />
+  <SelectedNodes>
+    <node>\Throwable</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constants</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
