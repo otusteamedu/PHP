@@ -2,5 +2,20 @@
 
 require_once "../vendor/autoload.php";
 
-require_once "../src/controller.php";
-require_once "../src/view.php";
+
+use RedisApp\View;
+use RedisApp\Controller;
+
+$run = new Controller();
+$run->run();
+
+$eventToPrint = new View();
+$eventToPrint->view();
+
+echo "<pre>";
+print_r ($eventToPrint->getEv1()); // event1
+echo PHP_EOL;
+echo PHP_EOL;
+print_r ($eventToPrint->getEv2()); // event 3
+echo "<br>";
+echo "</pre>";

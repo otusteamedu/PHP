@@ -10,7 +10,7 @@ class ChannelsModel
     protected string $description;
     protected array  $videos;
 
-    public const CONNECTION_STRING  = 'mongodb://mongodb:27017';
+    public const CONNECTION_STRING  = 'mongodb://localhost:27017';
     public const DB_NAME            = 'YouTubeChannels';
     public const COLLECTION_NAME    = 'ChannelsCollection';
 
