@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  balance:
+    image: nginx:alpine
+    restart: "always"
+    ports:
+    - 80:80
+    volumes:
+      - ./balance:/etc/nginx/conf.d
+      - ./html:/var/www/html
+    depends_on:
+      - app1
+      - app2
+      - app3
+      - app4
+      - app5
+  app1:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./host:/etc/nginx/conf.d
+      - ./html:/var/www/html
+  app2:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./host:/etc/nginx/conf.d
+      - ./html:/var/www/html
+  app3:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./host:/etc/nginx/conf.d
+      - ./html:/var/www/html
+  app4:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./host:/etc/nginx/conf.d
+      - ./html:/var/www/html
+  app5:
+    image: richarvey/nginx-php-fpm:latest
+    volumes:
+      - ./host:/etc/nginx/conf.d
+      - ./html:/var/www/html
