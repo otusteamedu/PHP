@@ -1,8 +1,6 @@
 <?php
 
-
 namespace YoutubeApp;
-
 
 use MongoDB\Collection;
 
@@ -21,5 +19,4 @@ class DeleteDataFromCollectionModel extends ChannelsModel
         $result = $collection->deleteOne(['_id' => $documentId]);
         return $result->getDeletedCount();
     }
-
 }

@@ -8,7 +8,7 @@ class ChannelsModel
 {
     protected string $name;
     protected string $description;
-    protected array  $videos;
+    protected array $videos;
 
     public const CONNECTION_STRING  = 'mongodb://localhost:27017';
     public const DB_NAME            = 'YouTubeChannels';
@@ -31,9 +31,6 @@ class ChannelsModel
 
     public function getAllData(): array
     {
-       return $this->mongoCollection->find()->toArray();
-
+        return $this->mongoCollection->find()->toArray();
     }
-
-
 }

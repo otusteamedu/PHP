@@ -1,8 +1,6 @@
 <?php
 
-
 namespace YoutubeApp;
-
 
 use MongoDB\Collection;
 
@@ -35,5 +33,4 @@ class AddDataToCollectionModel extends ChannelsModel
         ]);
         return $result->getInsertedId();
     }
-
 }

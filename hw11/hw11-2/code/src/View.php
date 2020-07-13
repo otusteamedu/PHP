@@ -1,11 +1,8 @@
 <?php
 
-
 namespace RedisApp;
 
-
 use RedisApp\EventModel;
-
 
 class View
 {
@@ -38,5 +35,4 @@ class View
         $this->ev1 = $this->eventToPrint->getBestEventByConditions(['param1' => 1]); // event1
         $this->ev2 = $this->eventToPrint->getBestEventByConditions(['param1' => 1, 'param2' => 1]); // event 3
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace YoutubeApp;
-
 
 class ChannelsStatistic extends ChannelsModel
 {
@@ -31,7 +29,8 @@ class ChannelsStatistic extends ChannelsModel
         $topChannels = [];
         foreach ($this->getAllData() as $channel) {
             $channelName = $channel['name'];
-            $topChannels[$channelName] = $this->getLikesStatisticsByChannelName($channelName) / $this->getDislikesStatisticsByChannelName($channelName);
+            $topChannels[$channelName] = $this->getLikesStatisticsByChannelName($channelName) /
+                                         $this->getDislikesStatisticsByChannelName($channelName);
         }
         arsort($topChannels);
         return array_slice($topChannels, 0, $count);

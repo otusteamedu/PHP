@@ -1,8 +1,6 @@
 <?php
 
-
 namespace YoutubeApp;
-
 
 class Controller
 {
@@ -10,16 +8,15 @@ class Controller
     private AddDataToCollectionModel $addDoc;
     private array $channelNames = ['KuTstupid', 'CentralPartnership', 'ctctv', 'fixiki', 'KanalDisneyCartoons'];
 
-public function __construct()
-{
-    $this->youtubeModel = new YoutubeGetInfoModel();
-    $this->addDoc = new AddDataToCollectionModel();
-}
+    public function __construct()
+    {
+        $this->youtubeModel = new YoutubeGetInfoModel();
+        $this->addDoc = new AddDataToCollectionModel();
+    }
 
     public function run(): void
     {
         foreach ($this->channelNames as $channelName) {
-
             $channelInfo = $this->youtubeModel->getChannelInfoByName($channelName);
 
             $this->addDoc->setNameField($channelInfo->items[0]->snippet->title);
@@ -40,4 +37,3 @@ public function __construct()
         }
     }
 }
-

@@ -43,8 +43,3 @@ class View
         $this->setTopChannel();
     }
 }
-
-
-
-
-
