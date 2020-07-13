@@ -1,0 +1,14 @@
+{
+  "name": "ayakovlev/youtube_analyse",
+  "description": "Youtube channels analyse & keep results in MongoDB",
+  "require": {
+    "mongodb/mongodb": "^1.6",
+    "guzzlehttp/guzzle": "^6.5",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "YoutubeApp\\": "src/"
+    }
+  }
+}
