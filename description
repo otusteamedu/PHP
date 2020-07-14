@@ -1,0 +1,9 @@
+Принятые шаги для улучшения показателей:
+ - обновление версии php до 7.4.6
+ - закрыт доступ к phpmyadmin
+ - Добавлены заголовки X-Frame-Options, Content-Security-Policy, X-XSS-Protection, X-Content-Type-Options, Strict-Transport-Security
+ - скрыть информацию о версии сервера
+ - обновление jQuery
+ - выключен режим отладки
+ Результаты тестов после принятых действий доступны в
+ basic-after и web-after соответственно
