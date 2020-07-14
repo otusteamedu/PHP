@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/{string}', 'IndexController@index');
+Route::post('/', 'IndexController@index');
