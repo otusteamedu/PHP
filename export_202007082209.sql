@@ -91,3 +91,19 @@ CREATE TABLE public.tickets_clients (
 	ticket_id int4 NOT NULL,
 	clients_id int4 NOT NULL
 );
+
+
+-- public.rooms_shemas definition
+
+-- Drop table
+
+-- DROP TABLE public.rooms_shemas;
+
+CREATE TABLE public.rooms_shemas (
+	id serial NOT NULL,
+	rooms_id int4 NOT NULL,
+	place int4 NOT NULL,
+	"row" int4 NOT NULL,
+	active bool NOT NULL,
+	CONSTRAINT rooms_shemas_pk PRIMARY KEY (id)
+);
