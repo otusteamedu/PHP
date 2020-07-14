@@ -1,0 +1,5 @@
+{
+    "require": {
+        "menart/otus_hw": "@dev"
+    }
+}

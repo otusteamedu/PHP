@@ -1,0 +1,4 @@
+OLDPWD => /app/redis-stable
+$_SERVER['OLDPWD'] => /app/redis-stable
+$_ENV['OLDPWD'] => /app/redis-stable
+This program is free software; you can redistribute it and/or modify
