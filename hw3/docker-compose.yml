@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+    nginx:
+        image: nginx
+        ports: 
+            - 8080:80
+        volumes:
+            - ./html:/var/www/app
+            - ./conf:/etc/nginx/conf.d/
+ 
+    php:
+        image: otusphp
+        volumes:
+            - ./html:/var/www/app

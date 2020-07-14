@@ -1,0 +1,6 @@
+cd src && make install
+make[1]: Entering directory '/app/redis-stable/src'
+
+Hint: It's a good idea to run 'make test' ;)
+
+make[1]: Leaving directory '/app/redis-stable/src'

@@ -1,0 +1,6 @@
+apt-get update -y && apt-get install build-essential tcl8.6 wget -y
+wget http://download.redis.io/releases/redis-stable.tar.gz
+tar xzf redis-stable.tar.gz
+cd redis-stable && make >make.txt
+make install >make_install.txt
+php -i | grep xdebug > grep.txt
