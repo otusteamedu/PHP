@@ -1,0 +1,8 @@
+GET {{host}}/api/v1/homeGet
+Accept: */*
+Cache-Control: no-cache
+###
+POST {{host}}/api/v1/homePost
+Accept: */*
+Cache-Control: no-cache
+###

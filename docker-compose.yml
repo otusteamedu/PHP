@@ -1,0 +1,40 @@
+version: "3.1"
+services:
+  server:
+    image: nginx:stable
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/app
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  php:
+    build:
+      context: app
+    volumes:
+      - ./app:/app
+      - ./xdebug/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    environment:
+      - XDEBUG_CONFIG=${XDEBUG_CONFIG}
+      - PHP_IDE_CONFI=${PHP_IDE_CONFIG}
+  database:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=otus
+    volumes:
+      - ./host-folder/:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    restart: always
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - 'rabbitmq_data:/data'
+
+volumes:
+  rabbitmq_data:
