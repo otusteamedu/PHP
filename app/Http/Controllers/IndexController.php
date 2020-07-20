@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Validators\StringValidatorInterface;
 use App\Validators\RoundBracketsValidator;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends Controller
 {
@@ -20,16 +21,14 @@ class IndexController extends Controller
         $this->bracketsValidator = new RoundBracketsValidator();
     }
 
-    public function index(Request $request): string
+    public function index(Request $request): Response
     {
         if (!empty($request->post('string'))
             && $this->bracketsValidator->validate($request->post('string'))
         ) {
-            http_response_code(200);
-            return 'Your string is success';
+            return new Response('Your string is success', Response::HTTP_OK);
         } else {
-            http_response_code(400);
-            return 'Your string is error';
+            return new Response('Your string is error', Response::HTTP_BAD_REQUEST);
         }
     }
 }
