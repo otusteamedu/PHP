@@ -1,4 +1,5 @@
 <?php
 
 require_once 'vendor/autoload.php';
-echo 11111;
+
+$youTubeController = new \App\Controllers\YoutubeController();

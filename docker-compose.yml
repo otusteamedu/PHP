@@ -44,6 +44,7 @@ services:
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_DATABASE="youtube"
     volumes:
       - ./dbdata/db:/var/mongodb/data
     ports:
