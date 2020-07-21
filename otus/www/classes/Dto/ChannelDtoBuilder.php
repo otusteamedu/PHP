@@ -13,16 +13,19 @@ class ChannelDtoBuilder
     public function setChannelId(string $channelId)
     {
         $this->channelId = $channelId;
+        return $this;
     }
 
     public function setChannelName(string $channelName)
     {
         $this->channelName = $channelName;
+        return $this;
     }
 
     public function setChannelVideoIds (array $channelVideoIds)
     {
         $this->channelVideoIds = $channelVideoIds;
+        return $this;
     }
 
 
@@ -30,8 +33,8 @@ class ChannelDtoBuilder
     {
         $this->validate();
 
-        if (!empty($this->error)) {
-            throw new \RuntimeException(implode(';', $this->error));
+        if (!empty($this->errors)) {
+            throw new \RuntimeException(implode(';', $this->errors));
         }
         return ChannelDto::build($this);
     }

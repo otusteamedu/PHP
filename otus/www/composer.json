@@ -1,17 +1,30 @@
 {
-    "require": {
-        "predis/predis": "^1.1",
-        "mongodb/mongodb": "^1.6",
-        "guzzlehttp/guzzle": "^6.0",
-        "ext-mongodb": "*",
-        "ext-json": "*",
-        "ext-pdo": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Services\\": "services",
-            "Classes\\": "classes",
-            "App\\": "app"
-        }
+  "require": {
+    "php-di/php-di": "^6.0",
+    "slim/psr7": "^1",
+    "slim/slim": "^4.4",
+    "predis/predis": "^1.1",
+    "mongodb/mongodb": "^1.6",
+    "guzzlehttp/guzzle": "^6.0",
+    "ext-mongodb": "*",
+    "ext-json": "*",
+    "ext-pdo": "*"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "^8.4"
+  },
+
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Services\\": "services",
+      "Classes\\": "classes",
+      "App\\": "app"
     }
+  }
 }

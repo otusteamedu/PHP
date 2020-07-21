@@ -13,37 +13,42 @@ class VideoDtoBuilder
     private $videoLikeCount;
     private $videoDislikeCount;
 
-    public function setVideoName(string $videoName): void
+    public function setVideoName(?string $videoName)
     {
         $this->videoName = $videoName;
+        return $this;
     }
 
-    public function setVideoId(string $videoId): void
+    public function setVideoId(?string $videoId)
     {
         $this->videoId = $videoId;
+        return $this;
     }
 
-    public function setChannelId(string $channelId): void
+    public function setChannelId(?string $channelId)
     {
         $this->chanelId = $channelId;
+        return $this;
     }
 
-    public function setVideoLikeCount(int $likeCount)
+    public function setVideoLikeCount(?int $likeCount)
     {
         $this->videoLikeCount = $likeCount;
+        return $this;
     }
 
-    public function setVideoDislikeCount(int $dislikeCount)
+    public function setVideoDislikeCount(?int $dislikeCount)
     {
         $this->videoDislikeCount = $dislikeCount;
+        return $this;
     }
 
     public function build()
     {
         $this->validate();
 
-        if (!empty($this->error)) {
-            throw new \RuntimeException(implode(';', $this->error));
+        if (!empty($this->errors)) {
+            throw new \RuntimeException(implode(';', $this->errors));
         }
         return VideoDto::build($this);
     }
