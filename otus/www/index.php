@@ -16,6 +16,18 @@ $container = new Container();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
+
+
+$container->set(YoutubeVideoRepository::class, static function (Container $c) {
+    $connection = \Classes\Database\DbConnectionImpl::getConnection(new \Classes\Database\MongoDb());
+    return new YoutubeVideoRepository($connection);
+});
+
+$container->set(YoutubeChannelRepository::class, static function (Container $c) {
+    $connection = \Classes\Database\DbConnectionImpl::getConnection(new \Classes\Database\MongoDb());
+    return new YoutubeChannelRepository($connection);
+});
+
 $container->set(YoutubeVideoServiceImpl::class, static function (Container $c) {
     $repository = $c->get(YoutubeVideoRepository::class);
     return new YoutubeVideoServiceImpl($repository);
@@ -38,6 +50,7 @@ $container->set(YoutubeChannelController::class, static function (Container $c) 
 
 
 $app->post('/video/create', 'App\Controllers\YoutubeVideoController:createVideo');
+$app->post('/video/delete', 'App\Controllers\YoutubeVideoController:deleteVideoById');
 
 
 $app->run();

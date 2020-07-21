@@ -3,8 +3,8 @@
 namespace Services;
 
 use Classes\Dto\VideoDto;
+use Classes\Models\YoutubeVideo;
 use Classes\Repositories\YoutubeVideoRepository;
-use Slim\Psr7\Request;
 
 class YoutubeVideoServiceImpl implements YoutubeVideoServiceInterface
 {
@@ -13,17 +13,23 @@ class YoutubeVideoServiceImpl implements YoutubeVideoServiceInterface
     public function __construct(YoutubeVideoRepository $youtubeVideoRepository)
     {
         $this->youtubeVideoRepository = $youtubeVideoRepository;
-        $test = 1;
     }
 
 
     public function create(VideoDto $videoDto)
     {
-       $this->youtubeVideoRepository->create();
+        $model = new YoutubeVideo();
+        $model->id = $videoDto->videoId;
+        $model->name = $videoDto->videoName;
+        $model->chanelId = $videoDto->chanelId;
+        $model->likeCount = $videoDto->videoLikeCount;
+        $model->dislikeCount = $videoDto->videoDislikeCount;
+
+        $this->youtubeVideoRepository->create($model);
     }
 
-    public function delete(string $id)
+    public function deleteById(string $id)
     {
-        $this->youtubeVideoRepository->delete();
+        $this->youtubeVideoRepository->deleteById($id);
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use Classes\Dto\VideoDtoBuilder;
-use Classes\Repositories\YoutubeVideoRepository;
-
 use Services\YoutubeVideoServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -39,17 +37,34 @@ class YoutubeVideoController
          return $response;
        }
 
+       try {
+           $this->youtubeVideoService->create($videoDto);
+       } catch (\Exception $exception) {
+           $response->getBody()->write($exception->getMessage());
+           return $response;
+       }
 
-       $this->youtubeVideoService->create($videoDto);
-
-        $test = 1;
-
+        $response->getBody()->write('Видео добавлено успешно');
         return $response;
     }
 
-    public function deleteVideo()
+    public function deleteVideoById(Request $request, Response $response, $args)
     {
-        $videoRepository = new YoutubeVideoRepository();
-        $test = 1;
+        $requestData = $request->getParsedBody();
+
+        if (!isset($requestData['videoId']) || empty($requestData['videoId'])) {
+            $response->getBody()->write('Не передан id удаляемого видео');
+            return $response;
+        }
+
+       try {
+           $this->youtubeVideoService->deleteById($requestData['videoId']);
+       } catch (\Exception $exception) {
+           $response->getBody()->write($exception->getMessage());
+           return $response;
+       }
+
+        $response->getBody()->write(sprintf('Видео c id %s успешно удалено', $requestData['videoId']));
+        return $response;
     }
 }

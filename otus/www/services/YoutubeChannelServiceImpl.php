@@ -22,6 +22,6 @@ class YoutubeChannelServiceImpl implements YoutubeChannelServiceInterface
 
     public function delete(string $id)
     {
-        $this->youtubeChannelRepository->delete();
+        $this->youtubeChannelRepository->deleteById();
     }
 }

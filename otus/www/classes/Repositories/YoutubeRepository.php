@@ -4,10 +4,12 @@
 namespace Classes\Repositories;
 
 
+use Classes\Models\YoutubeVideo;
+
 interface YoutubeRepository
 {
 
-    public function create();
+    public function create(YoutubeVideo $youtubeVideoModel);
 
-    public function delete();
+    public function deleteById(string $id);
 }

@@ -12,11 +12,11 @@ namespace Classes\Dto;
 
 class VideoDto
 {
-    private $videoName;
-    private $videoId;
-    private $chanelId;
-    private $videoLikeCount;
-    private $videoDislikeCount;
+    public $videoName;
+    public $videoId;
+    public $chanelId;
+    public $videoLikeCount;
+    public $videoDislikeCount;
 
     public static function build(VideoDtoBuilder $builder)
     {

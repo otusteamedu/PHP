@@ -10,5 +10,5 @@ interface YoutubeVideoServiceInterface
 
     public function create(VideoDto $videoDto);
 
-    public function delete(string $id);
+    public function deleteById(string $id);
 }
