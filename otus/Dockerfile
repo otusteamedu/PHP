@@ -20,6 +20,8 @@ RUN apt-get update \
     && pecl install xdebug && docker-php-ext-enable xdebug\
     && pecl install memcached && docker-php-ext-enable memcached\
     && pecl install redis && docker-php-ext-enable redis\
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer

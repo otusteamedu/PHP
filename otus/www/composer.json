@@ -1,6 +1,11 @@
 {
     "require": {
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "mongodb/mongodb": "^1.6",
+        "guzzlehttp/guzzle": "^6.0",
+        "ext-mongodb": "*",
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {
