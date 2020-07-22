@@ -39,11 +39,21 @@ class YoutubeVideoCrudController
        try {
            $this->youtubeVideoService->create($videoDto);
        } catch (\Exception $exception) {
-           $response->getBody()->write($exception->getMessage());
+           $result = [
+               'success' => false,
+               'message' => $exception->getMessage()
+           ];
+
+           $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
            return $response;
        }
 
-        $response->getBody()->write('Видео добавлено успешно');
+        $result = [
+            'success' => true,
+            'message' => 'Видео добавлено успешно'
+        ];
+
+        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
         return $response;
     }
 
@@ -59,11 +69,21 @@ class YoutubeVideoCrudController
        try {
            $this->youtubeVideoService->deleteById($requestData['videoId']);
        } catch (\Exception $exception) {
-           $response->getBody()->write($exception->getMessage());
+           $result = [
+               'success' => false,
+               'message' => $exception->getMessage()
+           ];
+
+           $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
            return $response;
        }
 
-        $response->getBody()->write(sprintf('Видео c id %s успешно удалено', $requestData['videoId']));
+        $result = [
+            'success' => true,
+            'message' => sprintf('Видео c id %s успешно удалено', $requestData['videoId'])
+        ];
+
+        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
         return $response;
     }
 }

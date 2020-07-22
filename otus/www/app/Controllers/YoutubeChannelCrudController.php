@@ -33,7 +33,12 @@ class YoutubeChannelCrudController
                 ->build()
             ;
         } catch (\Exception $exception) {
-            $response->getBody()->write($exception->getMessage());
+            $result = [
+                'success' => false,
+                'message' => $exception->getMessage()
+            ];
+
+            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
             return $response;
         }
 
@@ -44,7 +49,12 @@ class YoutubeChannelCrudController
             return $response;
         }
 
-        $response->getBody()->write('Канал добавлен успешно');
+        $result = [
+            'success' => true,
+            'message' => 'Канал добавлен успешно'
+        ];
+
+        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
         return $response;
     }
 
@@ -60,11 +70,21 @@ class YoutubeChannelCrudController
         try {
             $this->youtubeChannelService->deleteById($requestData['channelId']);
         } catch (\Exception $exception) {
-            $response->getBody()->write($exception->getMessage());
+            $result = [
+                'success' => false,
+                'message' => $exception->getMessage()
+            ];
+
+            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
             return $response;
         }
 
-        $response->getBody()->write(sprintf('Канал c id %s успешно удален', $requestData['channelId']));
+        $result = [
+            'success' => true,
+            'message' => sprintf('Канал c id %s успешно удален', $requestData['channelId'])
+        ];
+
+        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
         return $response;
     }
 }

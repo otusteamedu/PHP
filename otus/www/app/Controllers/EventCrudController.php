@@ -70,7 +70,7 @@ class EventCrudController
         }
         $result = [
             'success' => true,
-            'message' => 'Событие успешно удалено'
+            'message' => 'События успешно удалены'
         ];
 
         $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
