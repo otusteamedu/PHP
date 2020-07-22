@@ -15,7 +15,6 @@ class YoutubeVideoServiceImpl implements YoutubeVideoServiceInterface
         $this->youtubeVideoRepository = $youtubeVideoRepository;
     }
 
-
     public function create(VideoDto $videoDto)
     {
         $model = new YoutubeVideo();

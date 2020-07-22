@@ -48,4 +48,16 @@ class YoutubeVideoRepositoryImpl implements YoutubeVideoRepositoryInterface
         $this->collection->findOneAndDelete(['id' => $id]);
     }
 
+    public function getVideosByIds(array $channelVideos)
+    {
+        $bsonDocuments = [];
+        foreach ($channelVideos as $videoId) {
+            $document = $this->getVideoById($videoId);
+            if ($document === null) {
+                continue;
+            }
+            $bsonDocuments[] = $this->getVideoById($videoId);
+        }
+        return !empty($bsonDocuments) ? $bsonDocuments : null;
+    }
 }

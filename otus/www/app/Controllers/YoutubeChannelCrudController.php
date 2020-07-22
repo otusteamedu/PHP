@@ -2,17 +2,19 @@
 
 namespace App\Controllers;
 
-
 use Classes\Dto\ChannelDtoBuilder;
 use Services\YoutubeChannelServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-class YoutubeChannelController
+class YoutubeChannelCrudController
 {
     private $youtubeChannelService;
 
-    public function __construct(YoutubeChannelServiceInterface $youtubeChannelService)
+    public function __construct
+    (
+        YoutubeChannelServiceInterface $youtubeChannelService
+    )
     {
        $this->youtubeChannelService = $youtubeChannelService;
     }

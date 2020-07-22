@@ -13,7 +13,6 @@ class YoutubeChannelServiceImpl implements YoutubeChannelServiceInterface
     public function __construct(YoutubeChannelRepositoryImpl $youtubeChannelRepository)
     {
         $this->youtubeChannelRepository = $youtubeChannelRepository;
-        $test = 1;
     }
 
     public function create(ChannelDto $channelDto)
@@ -22,7 +21,6 @@ class YoutubeChannelServiceImpl implements YoutubeChannelServiceInterface
         $model->id = $channelDto->channelId;
         $model->name = $channelDto->channelName;
         $model->videoIds = $channelDto->channelVideoIds;
-
 
         $this->youtubeChannelRepository->create($model);
     }

@@ -8,14 +8,13 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 
-class YoutubeVideoController
+class YoutubeVideoCrudController
 {
     private $youtubeVideoService;
 
     public function __construct(YoutubeVideoServiceInterface $youtubeVideoService )
     {
         $this->youtubeVideoService = $youtubeVideoService;
-
     }
 
     public function createVideo(Request $request, Response $response, $args)
