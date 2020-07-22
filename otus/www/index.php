@@ -1,13 +1,18 @@
 <?php
 
+use App\Controllers\EventController;
+use App\Controllers\EventCrudController;
 use App\Controllers\YoutubeChannelCrudController;
 use App\Controllers\YoutubeChannelStatisticController;
 use App\Controllers\YoutubeVideoCrudController;
 use Classes\Database\DbConnectionImpl;
+use Classes\Database\RedisDb;
+use Classes\Repositories\EventRepositoryImpl;
 use Classes\Repositories\YoutubeChannelRepositoryImpl;
 use Classes\Repositories\YoutubeVideoRepositoryImpl;
 use DI\Container;
 use Services\ChannelStatisticServiceImpl;
+use Services\EventServiceImpl;
 use Services\YoutubeChannelServiceImpl;
 use Services\YoutubeVideoServiceImpl;
 use Slim\Factory\AppFactory;
@@ -61,7 +66,27 @@ $container->set(YoutubeChannelStatisticController::class, static function (Conta
     return new YoutubeChannelStatisticController($channelStatisticServiceImpl);
 });
 
+$container->set(EventServiceImpl::class, static function (Container $c) {
+    $eventRepository = $c->get(EventRepositoryImpl::class);
+    return new EventServiceImpl($eventRepository);
+});
 
+$container->set(EventRepositoryImpl::class, static function (Container $c) {
+    $dbClient = DbConnectionImpl::getConnection(new RedisDb());
+    return new EventRepositoryImpl($dbClient);
+});
+
+$container->set(EventCrudController::class, static function (Container $c) {
+    $eventService = $c->get(EventServiceImpl::class);
+    return new EventCrudController($eventService);
+});
+
+$container->set(EventController::class, static function (Container $c) {
+    $eventService = $c->get(EventServiceImpl::class);
+    return new EventController($eventService);
+});
+
+//Youtube
 $app->post('/video/create', 'App\Controllers\YoutubeVideoCrudController:createVideo');
 $app->post('/video/delete', 'App\Controllers\YoutubeVideoCrudController:deleteVideoById');
 $app->post('/channel/create', 'App\Controllers\YoutubeChannelCrudController:createChannel');
@@ -69,5 +94,10 @@ $app->post('/channel/delete', 'App\Controllers\YoutubeChannelCrudController:dele
 
 $app->get('/channels/video-rating/{channelId}/{limit}', 'App\Controllers\YoutubeChannelStatisticController:TotalChannelVideosLikesNumber');
 $app->get('/channels/top/{limit}', 'App\Controllers\YoutubeChannelStatisticController:TopChannelsVideosLikesDislikesRating');
+
+//Events
+$app->post('/event/create', 'App\Controllers\EventCrudController:create');
+$app->post('/event/delete', 'App\Controllers\EventCrudController:delete');
+$app->post('/event/priority', 'App\Controllers\EventController:getPriority');
 
 $app->run();
