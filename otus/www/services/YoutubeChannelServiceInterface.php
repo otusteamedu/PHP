@@ -8,5 +8,5 @@ interface YoutubeChannelServiceInterface
 {
     public function create(ChannelDto $channelDto);
 
-    public function delete(string $id);
+    public function deleteById(string $id);
 }

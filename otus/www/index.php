@@ -2,8 +2,8 @@
 
 use App\Controllers\YoutubeChannelController;
 use App\Controllers\YoutubeVideoController;
-use Classes\Repositories\YoutubeChannelRepository;
-use Classes\Repositories\YoutubeVideoRepository;
+use Classes\Repositories\YoutubeChannelRepositoryImpl;
+use Classes\Repositories\YoutubeVideoRepositoryImpl;
 use DI\Container;
 use Services\YoutubeChannelServiceImpl;
 use Services\YoutubeVideoServiceImpl;
@@ -18,23 +18,23 @@ $app = AppFactory::create();
 
 
 
-$container->set(YoutubeVideoRepository::class, static function (Container $c) {
+$container->set(YoutubeVideoRepositoryImpl::class, static function (Container $c) {
     $connection = \Classes\Database\DbConnectionImpl::getConnection(new \Classes\Database\MongoDb());
-    return new YoutubeVideoRepository($connection);
+    return new YoutubeVideoRepositoryImpl($connection);
 });
 
-$container->set(YoutubeChannelRepository::class, static function (Container $c) {
+$container->set(YoutubeChannelRepositoryImpl::class, static function (Container $c) {
     $connection = \Classes\Database\DbConnectionImpl::getConnection(new \Classes\Database\MongoDb());
-    return new YoutubeChannelRepository($connection);
+    return new YoutubeChannelRepositoryImpl($connection);
 });
 
 $container->set(YoutubeVideoServiceImpl::class, static function (Container $c) {
-    $repository = $c->get(YoutubeVideoRepository::class);
+    $repository = $c->get(YoutubeVideoRepositoryImpl::class);
     return new YoutubeVideoServiceImpl($repository);
 });
 
 $container->set(YoutubeChannelServiceImpl::class, static function (Container $c) {
-    $repository = $c->get(YoutubeChannelRepository::class);
+    $repository = $c->get(YoutubeChannelRepositoryImpl::class);
     return new YoutubeChannelServiceImpl($repository);
 });
 
@@ -51,6 +51,7 @@ $container->set(YoutubeChannelController::class, static function (Container $c) 
 
 $app->post('/video/create', 'App\Controllers\YoutubeVideoController:createVideo');
 $app->post('/video/delete', 'App\Controllers\YoutubeVideoController:deleteVideoById');
-
+$app->post('/channel/create', 'App\Controllers\YoutubeChannelController:createChannel');
+$app->post('/channel/delete', 'App\Controllers\YoutubeChannelController:deleteChannelById');
 
 $app->run();

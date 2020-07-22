@@ -10,9 +10,9 @@ namespace Classes\Dto;
 
 class ChannelDto
 {
-    private $channelId;
-    private $channelName;
-    private $channelVideoIds = [];
+    public $channelId;
+    public $channelName;
+    public $channelVideoIds = [];
 
     public static function build(ChannelDtoBuilder $builder)
     {

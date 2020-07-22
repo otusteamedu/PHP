@@ -4,13 +4,13 @@ namespace Services;
 
 use Classes\Dto\VideoDto;
 use Classes\Models\YoutubeVideo;
-use Classes\Repositories\YoutubeVideoRepository;
+use Classes\Repositories\YoutubeVideoRepositoryImpl;
 
 class YoutubeVideoServiceImpl implements YoutubeVideoServiceInterface
 {
     private $youtubeVideoRepository;
 
-    public function __construct(YoutubeVideoRepository $youtubeVideoRepository)
+    public function __construct(YoutubeVideoRepositoryImpl $youtubeVideoRepository)
     {
         $this->youtubeVideoRepository = $youtubeVideoRepository;
     }

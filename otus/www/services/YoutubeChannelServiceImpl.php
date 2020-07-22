@@ -3,13 +3,14 @@
 namespace Services;
 
 use Classes\Dto\ChannelDto;
-use Classes\Repositories\YoutubeChannelRepository;
+use Classes\Models\YoutubeChannel;
+use Classes\Repositories\YoutubeChannelRepositoryImpl;
 
 class YoutubeChannelServiceImpl implements YoutubeChannelServiceInterface
 {
     private $youtubeChannelRepository;
 
-    public function __construct(YoutubeChannelRepository $youtubeChannelRepository)
+    public function __construct(YoutubeChannelRepositoryImpl $youtubeChannelRepository)
     {
         $this->youtubeChannelRepository = $youtubeChannelRepository;
         $test = 1;
@@ -17,11 +18,17 @@ class YoutubeChannelServiceImpl implements YoutubeChannelServiceInterface
 
     public function create(ChannelDto $channelDto)
     {
-        $this->youtubeChannelRepository->create();
+        $model = new YoutubeChannel();
+        $model->id = $channelDto->channelId;
+        $model->name = $channelDto->channelName;
+        $model->videoIds = $channelDto->channelVideoIds;
+
+
+        $this->youtubeChannelRepository->create($model);
     }
 
-    public function delete(string $id)
+    public function deleteById(string $id)
     {
-        $this->youtubeChannelRepository->deleteById();
+        $this->youtubeChannelRepository->deleteById($id);
     }
 }

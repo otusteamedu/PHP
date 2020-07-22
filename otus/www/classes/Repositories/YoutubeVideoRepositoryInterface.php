@@ -6,7 +6,7 @@ namespace Classes\Repositories;
 
 use Classes\Models\YoutubeVideo;
 
-interface YoutubeRepository
+interface YoutubeVideoRepositoryInterface
 {
 
     public function create(YoutubeVideo $youtubeVideoModel);

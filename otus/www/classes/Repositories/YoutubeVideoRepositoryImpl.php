@@ -3,15 +3,11 @@
 namespace Classes\Repositories;
 
 use Classes\Database\Databases;
-use Classes\Database\DbConnection;
 use Classes\Models\YoutubeVideo;
 use MongoDB\Client;
 
-class YoutubeVideoRepository implements YoutubeRepository
+class YoutubeVideoRepositoryImpl implements YoutubeVideoRepositoryInterface
 {
-    /**
-     * @var DbConnection
-     */
     private $collection;
 
     public function __construct(Client $dbConnection)
@@ -30,7 +26,7 @@ class YoutubeVideoRepository implements YoutubeRepository
         if ($dbVideo) {
            return $this->collection->updateOne(
                ['id' => $youtubeVideoModel->id],
-               [ '$set' => $youtubeVideoModel]);
+               ['$set' => $youtubeVideoModel]);
         }
 
         return $this->collection->insertOne($youtubeVideoModel);
