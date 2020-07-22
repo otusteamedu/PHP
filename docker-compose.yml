@@ -1,35 +1,10 @@
 version: "3"
 
 services:
-    db:
-        image: postgres:12.1
-        container_name: 'postgres'
-        ports:
-            - 5432:5432
-        restart: always
-        environment:
-            POSTGRES_DB: otus
-            POSTGRES_USER: otus
-            POSTGRES_PASSWORD: otus
-
-    web:
-        image: nginx:1.17
-        container_name: 'web'
-        ports:
-            - 80:80
+    app:
+        build: ./docker
+        container_name: 'capistrano'
+        command: tail -f /dev/null
         volumes:
-            - ./server/socket:/var/run
-            - ./:/var/app
-            - ./server/nginx/nginx.conf:/etc/nginx/nginx.conf
-            - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf
-
-    php:
-        build: ./server/php
-        working_dir: /var/app
-        container_name: 'php-fpm'
-        volumes:
-            - ./server/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-            - ./:/var/app
-            - ./server/socket:/var/run
-        links:
-            - web
+            - ./:/var/capistrano
+        working_dir: /var/capistrano
