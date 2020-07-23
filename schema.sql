@@ -36,6 +36,83 @@ CREATE TABLE public.clients (
 );
 
 
+-- public.films definition
+
+-- Drop table
+
+-- DROP TABLE public.films;
+
+CREATE TABLE public.films (
+	id serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	start_date date NOT NULL,
+	end_date date NOT NULL,
+	relevant_today bool NOT NULL,
+	description text NOT NULL,
+	CONSTRAINT films_pk PRIMARY KEY (id)
+);
+
+
+-- public.films_attributes definition
+
+-- Drop table
+
+-- DROP TABLE public.films_attributes;
+
+CREATE TABLE public.films_attributes (
+	id serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	CONSTRAINT films_attributes_pk PRIMARY KEY (id)
+);
+
+
+-- public.films_important_dates definition
+
+-- Drop table
+
+-- DROP TABLE public.films_important_dates;
+
+CREATE TABLE public.films_important_dates (
+	id serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	start_date date NOT NULL,
+	end_date date NOT NULL,
+	film_id int4 NOT NULL,
+	CONSTRAINT films_important_dates_pk PRIMARY KEY (id)
+);
+
+
+-- public.films_service_dates definition
+
+-- Drop table
+
+-- DROP TABLE public.films_service_dates;
+
+CREATE TABLE public.films_service_dates (
+	id serial NOT NULL,
+	film_id int4 NOT NULL,
+	"name" varchar(255) NOT NULL,
+	start_date date NOT NULL,
+	end_date date NOT NULL,
+	CONSTRAINT films_service_dates_pk PRIMARY KEY (id)
+);
+
+
+-- public.reviews definition
+
+-- Drop table
+
+-- DROP TABLE public.reviews;
+
+CREATE TABLE public.reviews (
+	id serial NOT NULL,
+	film_id int4 NOT NULL,
+	author varchar(255) NOT NULL,
+	"comment" text NOT NULL,
+	CONSTRAINT reviews_pk PRIMARY KEY (id)
+);
+
+
 -- public.rooms definition
 
 -- Drop table
@@ -52,6 +129,19 @@ CREATE TABLE public.rooms (
 );
 
 
+-- public.rooms_films_tickets definition
+
+-- Drop table
+
+-- DROP TABLE public.rooms_films_tickets;
+
+CREATE TABLE public.rooms_films_tickets (
+	room_id int4 NOT NULL,
+	ticket_id int4 NOT NULL,
+	film_id int4 NOT NULL
+);
+
+
 -- public.rooms_shemas definition
 
 -- Drop table
@@ -65,19 +155,6 @@ CREATE TABLE public.rooms_shemas (
 	"row" int4 NOT NULL,
 	active bool NOT NULL,
 	CONSTRAINT rooms_shemas_pk PRIMARY KEY (id)
-);
-
-
--- public.rooms_films_tickets definition
-
--- Drop table
-
--- DROP TABLE public.rooms_films_tickets;
-
-CREATE TABLE public.rooms_films_tickets (
-	room_id int4 NOT NULL,
-    film_id int4 NOT NULL
-	ticket_id int4 NOT NULL,
 );
 
 
@@ -110,78 +187,19 @@ CREATE TABLE public.tickets_clients (
 );
 
 
--- public.films definition
+-- public.eav definition
 
 -- Drop table
 
--- DROP TABLE public.films;
+-- DROP TABLE public.eav;
 
-CREATE TABLE public.films (
-	id serial NOT NULL,
-	"name" varchar(255) NOT NULL,
-	start_date date NOT NULL,
-	end_date date NOT NULL,
-	relevant_today bool NOT NULL,
-	description text NOT NULL,
-	CONSTRAINT films_pk PRIMARY KEY (id)
-);
-
-
--- public.reviews definition
-
--- Drop table
-
--- DROP TABLE public.reviews;
-
-CREATE TABLE public.reviews (
+CREATE TABLE public.eav (
 	id serial NOT NULL,
 	film_id int4 NOT NULL,
-	author varchar(255) NOT NULL,
-	"comment" text NOT NULL,
-	CONSTRAINT reviews_pk PRIMARY KEY (id)
-);
-
-
--- public.films_attributes definition
-
--- Drop table
-
--- DROP TABLE public.films_attributes;
-
-CREATE TABLE public.films_attributes (
-	id serial NOT NULL,
-	"name" varchar(255) NOT NULL,
-	CONSTRAINT films_attributes_pk PRIMARY KEY (id)
-);
-
-
--- public.films_important_dates definition
-
--- Drop table
-
--- DROP TABLE public.films_important_dates;
-
-CREATE TABLE public.films_important_dates (
-	id serial NOT NULL,
-    film_id int4 NOT NULL,
-	"name" varchar(255) NOT NULL,
-	start_date date NOT NULL,
-	end_date date NOT NULL,
-	CONSTRAINT films_important_dates_pk PRIMARY KEY (id)
-);
-
-
--- public.films_service_dates definition
-
--- Drop table
-
--- DROP TABLE public.films_service_dates;
-
-CREATE TABLE public.films_service_dates (
-	id serial NOT NULL,
-	film_id int4 NOT NULL,
-	"name" varchar(255) NOT NULL,
-	start_date date NOT NULL,
-	end_date date NOT NULL,
-	CONSTRAINT films_service_dates_pk PRIMARY KEY (id)
+	value_text varchar NULL,
+	value_integer int4 NULL,
+	value_boolean bool NULL,
+	value_float float4 NULL,
+	value_timestamp timestamp NULL,
+	CONSTRAINT eav_pk PRIMARY KEY (id)
 );
