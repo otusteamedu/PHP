@@ -22,6 +22,19 @@ services:
       - socket:/var/run
     env_file:
       - ./.env
+    links:
+      - rabbitmq
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: php-rabbit
+    volumes:
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./docker/rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
 volumes:
   socket:
