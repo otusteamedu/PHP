@@ -1,0 +1,23 @@
+{
+  "require": {
+    "ext-json": "*",
+    "ext-pdo": "*"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "^8.4"
+  },
+
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Services\\": "services",
+      "Classes\\": "classes",
+      "App\\": "app"
+    }
+  }
+}

@@ -22,7 +22,11 @@ services:
     networks:
       - shared
     volumes:
-      - ./otus/www:/var/www
+      - ./otus/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./otus/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./otus/www:/var/www/html
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
 
   db:
     image: postgres

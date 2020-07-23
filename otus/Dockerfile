@@ -1,32 +1,26 @@
 FROM composer:latest AS composer
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libzip-dev \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
-    libfreetype6 \
-    libfreetype6-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    curl
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
-
-USER www
+RUN apt-get update \
+    && apt-get install -y git \
+        wget \
+        zip\
+        unzip\
+        libpq-dev\
+        libmemcached-dev \
+        curl\
+        libzip-dev\
+        zlibc\
+        zlib1g\
+    && docker-php-ext-configure zip\
+    && docker-php-ext-install zip\
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql\
+    && pecl install xdebug && docker-php-ext-enable xdebug\
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
-ADD ./www /var/www
+WORKDIR /var/www/html
+ADD ./www /var/www/html
 EXPOSE 9000
