@@ -1,7 +1,8 @@
 {
   "require": {
     "ext-json": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.1"
   },
 
   "require-dev": {
