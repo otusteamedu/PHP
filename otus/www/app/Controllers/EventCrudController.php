@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Classes\Dto\EventDtoBuilder;
+use Classes\ResponseHandler;
 use Services\EventServiceImpl;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -42,7 +43,7 @@ class EventCrudController
                 'message' => $exception->getMessage()
             ];
 
-            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
             return $response;
         }
 
@@ -51,7 +52,7 @@ class EventCrudController
             'message' => 'Событие успешно добавлено'
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 
@@ -65,7 +66,7 @@ class EventCrudController
                 'message' => $exception->getMessage()
             ];
 
-            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
             return $response;
         }
         $result = [
@@ -73,7 +74,7 @@ class EventCrudController
             'message' => 'События успешно удалены'
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 }

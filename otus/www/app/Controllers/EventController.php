@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Classes\Dto\EventDtoBuilder;
+use Classes\ResponseHandler;
 use Services\EventServiceImpl;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -45,7 +46,7 @@ class EventController
                 'message' => $exception->getMessage()
             ];
 
-            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
             return $response;
         }
 
@@ -54,7 +55,7 @@ class EventController
             'events' => json_encode($events, JSON_THROW_ON_ERROR, 512)
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 }

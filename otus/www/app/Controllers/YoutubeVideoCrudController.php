@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Classes\Dto\VideoDtoBuilder;
+use Classes\ResponseHandler;
 use Services\YoutubeVideoServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -44,7 +45,7 @@ class YoutubeVideoCrudController
                'message' => $exception->getMessage()
            ];
 
-           $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+           $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
            return $response;
        }
 
@@ -53,7 +54,7 @@ class YoutubeVideoCrudController
             'message' => 'Видео добавлено успешно'
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 
@@ -74,7 +75,7 @@ class YoutubeVideoCrudController
                'message' => $exception->getMessage()
            ];
 
-           $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+           $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
            return $response;
        }
 
@@ -83,7 +84,7 @@ class YoutubeVideoCrudController
             'message' => sprintf('Видео c id %s успешно удалено', $requestData['videoId'])
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 }

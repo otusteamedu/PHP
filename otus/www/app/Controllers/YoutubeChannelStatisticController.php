@@ -3,6 +3,7 @@
 
 namespace App\Controllers;
 
+use Classes\ResponseHandler;
 use Services\ChannelStatisticServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -37,7 +38,7 @@ class YoutubeChannelStatisticController
 
         $topChannels = $this->channelStatisticService->getTopChannelsWithBestLikesDislikeRation($limit);
 
-        $response->getBody()->write(json_encode($topChannels, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($topChannels));
         return $response;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Classes\Dto\ChannelDtoBuilder;
+use Classes\ResponseHandler;
 use Services\YoutubeChannelServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -38,7 +39,7 @@ class YoutubeChannelCrudController
                 'message' => $exception->getMessage()
             ];
 
-            $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
             return $response;
         }
 
@@ -54,7 +55,7 @@ class YoutubeChannelCrudController
             'message' => 'Канал добавлен успешно'
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 
@@ -84,7 +85,7 @@ class YoutubeChannelCrudController
             'message' => sprintf('Канал c id %s успешно удален', $requestData['channelId'])
         ];
 
-        $response->getBody()->write(json_encode($result, JSON_THROW_ON_ERROR, 512));
+        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
 }
