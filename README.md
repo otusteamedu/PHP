@@ -34,7 +34,7 @@
 
 **Домашняя работа №16.** API: [отчет](https://github.com/otusteamedu/PHP/blob/azatnizam/hw16.2/README.md), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw16.2), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5059/).
 
-Домашняя работа №17. Скрипт деплоя <ins>(еще не сдавалось)</ins>: [отчет](), [код](), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5060/).
+Домашняя работа №17. Скрипт деплоя: [отчет](https://github.com/otusteamedu/PHP/blob/azatnizam/hw17/README.md), [код](https://github.com/otusteamedu/PHP/tree/azatnizam/hw17), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5060/).
 
 **Проектная работа.** Рекомендательная система кинофильмов: [презентация](https://docs.google.com/presentation/d/18wNBSEmi1QneVSiZFL3U5Fdskti4zZG7RFQd4YxuhsU/), [код](https://github.com/azat-nizam/otus_diploma_alice), [чат с преподавателем](https://otus.ru/learning/40059/#/homework-chat/5061/).
 
