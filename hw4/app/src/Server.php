@@ -1,36 +1,34 @@
 <?php
 
+namespace SayHelloApp;
+
+
 class Server
 {
-    private $config;
+    private $socketFile;
     private $socket;
     private $enableDeamon = true;
 
-    public function __construct()
+    public function __construct(string $socketFile)
     {
-        $this->getConfig();
+        $this->socketFile = $socketFile;
         $this->connect();
-    }
-
-    private function getConfig(): void
-    {
-        $this->config = require_once __DIR__ . "/config.php";
     }
 
     private function connect(): void
     {
         $this->clearSocketFile();
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        socket_bind($this->socket, $this->config["file"]);
+        socket_bind($this->socket, $this->socketFile);
         socket_listen($this->socket);
 
     }
 
     private function clearSocketFile(): void
     {
-        if (file_exists($this->config["file"]))
+        if (file_exists($this->socketFile))
 
-            unlink($this->config["file"]);
+            unlink($this->socketFile);
     }
 
     public function runDeamon(): void
@@ -67,9 +65,7 @@ class Server
     public function __destruct()
     {
         socket_close($this->socket);
-        unlink($this->config["file"]);
+        unlink($this->socketFile);
     }
 }
 
-$server = new Server();
-$server->runDeamon();

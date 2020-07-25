@@ -6,13 +6,15 @@ v@home:~/OTUS/PHP/hw4$ docker run -it --name otus_hw4 -d otus/hw4
 
 v@home:~/OTUS/PHP/hw4$ docker exec -it otus_hw4 sh
 
-/app # php Server.php &
+/app # composer install
 
-/app # php Client.php
+/app # php runserver.php &
+
+/app # php client.php
 Введите ваше имя или stop для остановки сервера: Вася
 Привет, Вася!
 
-/app # php Client.php
+/app # php client.php
 Введите ваше имя или stop для остановки сервера: Маша
 Привет, Маша!
 

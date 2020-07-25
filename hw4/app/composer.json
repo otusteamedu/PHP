@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "psr-4": {
+      "SayHelloApp\\": "src/"
+    }
+  },
+  "require": {
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}
