@@ -36,6 +36,23 @@ CREATE TABLE public.clients (
 );
 
 
+-- public.film_attributes_fields definition
+
+-- Drop table
+
+-- DROP TABLE public.film_attributes_fields;
+
+CREATE TABLE public.film_attributes_fields (
+	id serial NOT NULL,
+	value_text varchar NULL,
+	value_integer int4 NULL,
+	value_boolean bool NULL,
+	value_float float4 NULL,
+	value_timestamp timestamp NULL,
+	CONSTRAINT eav_pk PRIMARY KEY (id)
+);
+
+
 -- public.films definition
 
 -- Drop table
@@ -53,15 +70,17 @@ CREATE TABLE public.films (
 );
 
 
--- public.films_attributes definition
+-- public.film_attributes definition
 
 -- Drop table
 
--- DROP TABLE public.films_attributes;
+-- DROP TABLE public.film_attributes;
 
-CREATE TABLE public.films_attributes (
+CREATE TABLE public.film_attributes (
 	id serial NOT NULL,
 	"name" varchar(255) NOT NULL,
+	film_attribute_field_id int4 NOT NULL,
+	film_id int4 NOT NULL,
 	CONSTRAINT films_attributes_pk PRIMARY KEY (id)
 );
 
@@ -184,22 +203,4 @@ CREATE TABLE public.tickets (
 CREATE TABLE public.tickets_clients (
 	ticket_id int4 NOT NULL,
 	client_id int4 NOT NULL
-);
-
-
--- public.eav definition
-
--- Drop table
-
--- DROP TABLE public.eav;
-
-CREATE TABLE public.eav (
-	id serial NOT NULL,
-	film_id int4 NOT NULL,
-	value_text varchar NULL,
-	value_integer int4 NULL,
-	value_boolean bool NULL,
-	value_float float4 NULL,
-	value_timestamp timestamp NULL,
-	CONSTRAINT eav_pk PRIMARY KEY (id)
 );
