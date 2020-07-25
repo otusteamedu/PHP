@@ -49,7 +49,7 @@ CREATE TABLE public.film_attributes_fields (
 	value_boolean bool NULL,
 	value_float float4 NULL,
 	value_timestamp timestamp NULL,
-	CONSTRAINT eav_pk PRIMARY KEY (id)
+	CONSTRAINT film_attributes_fields_pk PRIMARY KEY (id)
 );
 
 
@@ -81,7 +81,7 @@ CREATE TABLE public.film_attributes (
 	"name" varchar(255) NOT NULL,
 	film_attribute_field_id int4 NOT NULL,
 	film_id int4 NOT NULL,
-	CONSTRAINT films_attributes_pk PRIMARY KEY (id)
+	CONSTRAINT film_attributes_pk PRIMARY KEY (id)
 );
 
 
