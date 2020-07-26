@@ -2,53 +2,39 @@
 
 namespace Ozycast\App;
 
+use Ozycast\App\Core\Route;
 use Ozycast\App\Core\Db;
 use Ozycast\App\Core\DbMySQL;
-use Ozycast\App\Mappers\ClientMapper;
-use Ozycast\App\Models\OrderBuilder;
-use Ozycast\App\Models\Order;
+use Ozycast\App\Core\Queue;
+use Ozycast\App\Core\RabbitQueue;
 
 Class App
 {
+    /**
+     * @var Db
+     */
     public static $db = null;
+    /**
+     * @var Queue
+     */
+    public static $queue = null;
 
     public function __construct()
     {
         self::getDb();
+        self::getQueue();
+        Route::dispatch();
     }
 
-    public function run()
+    public function getQueue(): Queue
     {
-        // Авторизовался клиент
-        $client = (new ClientMapper(App::$db))->findOne(['id' => 1]);
-
-        $builder = new OrderBuilder($client);
-
-        $builder->addProduct(1, 2)
-                ->addProduct(2, 1)
-                ->addProduct(3, 4)
-                ->setDelivery(2)
-                ->setDiscount(1)
-                ->calculate();
-
-        // Записываем заказ в БД.
-        $order = (new Order())->createOrder($builder);
-
-        // Отправляем товар в доставку
-        // В зависимости от доставщика сортируем товар по посылкам
-        $order->inDelivery();
-        $this->showMessage("Done!");
+        self::$queue = (new RabbitQueue())->connect();
+        return self::$queue;
     }
 
     public function getDb(): Db
     {
         self::$db = (new DbMySQL())->connect();
         return self::$db;
-    }
-
-    public function showMessage($message, $data = [])
-    {
-        print_r($message."\n\r");
-        print_r($data);
     }
 }
