@@ -1,0 +1,22 @@
+version: '3.0'
+
+services:
+#
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/var/www
+    container_name: ayakovlev-nginx
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm
+#
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www
+    container_name: ayakovlev-php-fpm
