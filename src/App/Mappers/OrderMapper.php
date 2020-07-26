@@ -40,4 +40,23 @@ class OrderMapper extends Mapper
         return $model;
     }
 
+    /**
+     * @param DTO $model
+     * @return DTO
+     * @throws Exception
+     */
+    public function update(DTO $model): DTO
+    {
+        if (!$model->getClientId() || !$model->getSum())
+            throw new Exception('Properties empty');
+
+        $this->connect->update($this->collectName, ["id" => $model->getId()], [
+            "client_id" => $model->getClientId(),
+            "sum" => $model->getSum(),
+            "status" => $model->getStatus(),
+            "delivery_id" => $model->getDeliveryId(),
+        ]);
+
+        return $model;
+    }
 }
