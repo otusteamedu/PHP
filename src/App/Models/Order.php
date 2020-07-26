@@ -44,4 +44,27 @@ Class Order
         $parcel = new OrderParcel($this);
     }
 
+    /**
+     * Вернет данные заказа
+     * @param $id
+     * @return \Ozycast\App\Core\DTO|null
+     */
+    public static function getOrder($id)
+    {
+        $order = (new OrderMapper(App::$db))->findOne(['id' => $id]);
+        return $order;
+    }
+
+    /**
+     * Изменить статус заказа
+     * @param int $order_id
+     * @param int $status
+     * @throws \Exception
+     */
+    public static function setStatus(int $order_id, int $status)
+    {
+        $order = Order::getOrder($order_id);
+        $order->setStatus($status);
+        $order = (new OrderMapper(App::$db))->update($order);
+    }
 }
