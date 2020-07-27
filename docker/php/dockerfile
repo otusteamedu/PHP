@@ -6,6 +6,7 @@ RUN apt-get update && \
 
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install sockets
+RUN pecl install -of redis && docker-php-ext-enable redis
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- \

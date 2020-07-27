@@ -6,7 +6,7 @@ use Ozycast\App\Core\Route;
 use Ozycast\App\Core\Db;
 use Ozycast\App\Core\DbMySQL;
 use Ozycast\App\Core\Queue;
-use Ozycast\App\Core\RabbitQueue;
+use Ozycast\App\Core\RedisQueue;
 
 Class App
 {
@@ -28,7 +28,7 @@ Class App
 
     public function getQueue(): Queue
     {
-        self::$queue = (new RabbitQueue())->connect();
+        self::$queue = (new RedisQueue())->connect();
         return self::$queue;
     }
 
