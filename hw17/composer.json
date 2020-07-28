@@ -30,5 +30,20 @@
     "phpmd/phpmd": "^2.8",
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "^3.5"
+  },
+  "scripts": {
+    "test": "codecept run --debug",
+    "test:cover": "codecept run --coverage --coverage-html",
+    "test:base": "codecept run Base --debug",
+    "stan:md": "phpmd ./src ansi ./phpmd.xml",
+    "stan:phan": "phan --color --progress-bar",
+    "cs:check": "phpcs ./src --standard=PSR12",
+    "cs:fix": "phpcbf ./src --standard=PSR12",
+    "check": [
+      "@cs:check",
+      "@stan:md",
+      "@stan:phan",
+      "@test"
+    ]
   }
 }
