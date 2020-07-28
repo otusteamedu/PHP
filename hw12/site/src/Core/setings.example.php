@@ -5,6 +5,6 @@ return [
         'host' => 'localhost',
         'dbname' => 'miniblog',
         'user' => 'postgres',
-        'password' => 'leon1966',
+        'password' => '',
     ]
 ];
