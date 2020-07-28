@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "psr-4": {
+      "AYakovlev\\": "src/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*"
+  }
+}
