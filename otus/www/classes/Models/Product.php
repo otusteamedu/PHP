@@ -8,4 +8,9 @@ class Product extends AbstractActiveRecord
     protected $name;
 
     protected static $tableName = 'products';
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

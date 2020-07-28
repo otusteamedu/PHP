@@ -9,4 +9,8 @@ class DeliveryType extends AbstractActiveRecord
 
     protected static $tableName = 'delivery_types';
 
+    public function getName()
+    {
+        return $this->name;
+    }
 }

@@ -10,4 +10,13 @@ class Client extends AbstractActiveRecord
 
     protected static $tableName = 'clients';
 
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
 }

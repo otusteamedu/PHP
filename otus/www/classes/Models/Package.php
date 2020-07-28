@@ -8,4 +8,9 @@ class Package extends AbstractActiveRecord
     protected $number;
 
     protected static $tableName = 'pakages';
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
 }

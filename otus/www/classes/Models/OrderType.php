@@ -9,4 +9,9 @@ class OrderType extends AbstractActiveRecord
 
     protected static $tableName = 'order_type';
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
 }
