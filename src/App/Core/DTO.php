@@ -27,17 +27,17 @@ abstract class DTO
     }
 
     /**
-     * @param array $datas
+     * @param array $data
      * @return array
      */
-    public function serializeAll(array $datas): array
+    public function serializeAll(array $data): array
     {
         if (empty($datas))
             return [];
 
         $models = [];
-        foreach ($datas as $data) {
-            $model = (new static)->serialize($data);
+        foreach ($data as $row) {
+            $model = (new static)->serialize($row);
             $models[] = $model;
         }
 

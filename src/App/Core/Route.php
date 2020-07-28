@@ -19,26 +19,28 @@ class Route
     // Префикс названия действия
     const ACTION_PREFIX = "action";
 
+    private static $controller_name;
+    private static $action_name;
+    private static $namespace_controller;
+    private static $params;
+
     /**
      * Перенаправляет пользователя в нужный контроллер и действие
      */
     public static function dispatch()
     {
-        $controller_name = self::DEFAULT_CONTROLLER_NAME;
-        $action_name = self::DEFAULT_ACTION_NAME;
+        self::$controller_name = self::DEFAULT_CONTROLLER_NAME;
+        self::$action_name = self::DEFAULT_ACTION_NAME;
+        self::$namespace_controller = self::NAMESPACE_CONTROLLERS;
 
-        $routers = explode("/", preg_replace("/(\?.*)/", "", $_SERVER['REQUEST_URI']));
+        if (php_sapi_name() == 'cli')
+            self::parseURICli($_SERVER['argv']);
+        else
+            self::parseURI($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 
-        if (!empty($routers[1])) {
-            $controller_name = $routers[1];
-        }
-        if (!empty($routers[2])) {
-            $action_name = $routers[2];
-        }
-
-        $controller_name = ucfirst($controller_name) . self::CONTROLLER_POSTFIX;
-        $controller_path = self::NAMESPACE_CONTROLLERS . $controller_name;
-        $action_name = self::ACTION_PREFIX . $action_name;
+        $controller_name = ucfirst(self::$controller_name) . self::CONTROLLER_POSTFIX;
+        $controller_path = self::$namespace_controller . $controller_name;
+        $action_name = self::ACTION_PREFIX . self::$action_name;
 
         if (!class_exists($controller_path)) {
             Route::ErrorPage(404, "Not Found Controller");
@@ -50,7 +52,73 @@ class Route
             Route::ErrorPage(404, "Not Found Action");
         }
 
-        $controller->$action_name();
+        $controller->$action_name(self::$params);
+    }
+
+    /**
+     * Разбираем УРЛ
+     * @param $URI
+     */
+    public static function parseURI($URI, $method)
+    {
+        $url_parse = explode("/", preg_replace("/(\?.*)/", "", $URI));
+
+        foreach (self::methodAction() as $router) {
+            if (preg_match('/' . $router["method"] . '/i', $method)) {
+                if (preg_match('/' . $router["path_reg"] . '/i', $URI)) {
+                    self::$controller_name = $url_parse[1];
+                    self::$action_name = $router["action"];
+                    self::$params = $url_parse[2];
+                }
+            }
+        }
+    }
+
+    /**
+     * Разбираем УРЛ для сонсоли
+     * @param $argv
+     */
+    public static function parseURICli($argv)
+    {
+        $routers = explode("/", preg_replace("/(\?.*)/", "", $argv[1]));
+
+        if (!empty($routers[0])) {
+            self::$controller_name = $routers[0];
+        }
+        if (!empty($routers[1])) {
+            self::$action_name = $routers[1];
+        }
+    }
+
+    public static function methodAction()
+    {
+        return [
+            'index' => [
+                "method" => "GET",
+                "path_reg" => "\/([^\/]*)\/?",
+                "action" => "index",
+            ],
+            'create' => [
+                "method" => "POST",
+                "path_reg" => "\/([^\/]*)\/?",
+                "action" => "create",
+            ],
+            'update' => [
+                "method" => "PATCH|PUT",
+                "path_reg" => "\/([^\/]*)\/([^\/]*)",
+                "action" => "edit",
+            ],
+            'show' => [
+                "method" => "GET",
+                "path_reg" => "\/([^\/]*)\/([^\/]*)",
+                "action" => "show",
+            ],
+            'delete' => [
+                "method" => "DELETE",
+                "path_reg" => "\/([^\/]*)\/([^\/]*)",
+                "action" => "delete",
+            ],
+        ];
     }
 
     /**

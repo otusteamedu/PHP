@@ -56,6 +56,35 @@ Class Order
     }
 
     /**
+     * Собрать заказ
+     * @param \Ozycast\App\DTO\Client $client
+     * @param array $form
+     * @return Order
+     * @throws \Exception
+     */
+    public static function collectOrder(\Ozycast\App\DTO\Client $client, array $form): Order
+    {
+        $builder = new OrderBuilder($client);
+
+        foreach ($form['products'] as $product) {
+            $builder->addProduct($product['product_id'], $product['count']);
+        }
+
+        $builder->setDelivery($form['delivery_id'])
+            ->setDiscount($form['discount_id'])
+            ->calculate();
+
+        // Записываем заказ в БД.
+        $order = (new Order())->createOrder($builder);
+
+        // Отправляем товар в доставку
+        // В зависимости от доставщика сортируем товар по посылкам
+        $order->inDelivery();
+
+        return $order;
+    }
+
+    /**
      * Изменить статус заказа
      * @param int $order_id
      * @param int $status

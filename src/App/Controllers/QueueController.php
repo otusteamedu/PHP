@@ -7,6 +7,8 @@ use Ozycast\App\Models\Queue\QueueOrders;
 
 class QueueController extends Controller
 {
+    public static $auth = false;
+
     /**
      * Добавить нового обработчика очереди обработки заказа
      */

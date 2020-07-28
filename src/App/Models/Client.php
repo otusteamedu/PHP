@@ -17,4 +17,14 @@ Class Client
         $client = (new ClientMapper(App::$db))->findOne(['id' => $id]);
         return $client;
     }
+
+    /**
+     * @param $key
+     * @return \Ozycast\App\Core\DTO|null
+     */
+    public static function findByKey($key)
+    {
+        $client = (new ClientMapper(App::$db))->findOne(['api_key' => $key]);
+        return $client;
+    }
 }

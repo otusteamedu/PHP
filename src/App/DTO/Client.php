@@ -3,7 +3,6 @@
 namespace Ozycast\App\DTO;
 
 use Ozycast\App\Core\DTO;
-use Ozycast\App\Relationship\ClientRelationship;
 
 Class Client extends DTO
 {

@@ -111,4 +111,18 @@ Class Order extends DTO
         $this->delivery_id = $delivery_id;
     }
 
+    /**
+     * Преобразовать объект в массив
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            "id" => $this->id,
+            "client_id" => $this->client_id,
+            "sum" => $this->sum,
+            "status" => $this->status,
+            "delivery_id" => $this->delivery_id,
+        ];
+    }
 }

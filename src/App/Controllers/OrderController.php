@@ -2,55 +2,44 @@
 
 namespace Ozycast\App\Controllers;
 
+use Ozycast\App\App;
 use Ozycast\App\Core\Controller;
 use Ozycast\App\DTO\Queue\OrderQueueDTO;
-use Ozycast\App\Models\Client;
 use Ozycast\App\Models\Order;
-use Ozycast\App\Models\OrderBuilder;
-use Ozycast\App\Models\OrderStatus;
 use Ozycast\App\Models\Queue\QueueOrders;
 
 class OrderController extends Controller
 {
     /**
-     * Главная
+     * Включим авторизовываем клиента
+     * @var bool
      */
-    public function actionIndex()
+    public static $auth = true;
+    const MODEL = "Order";
+
+    /**
+     * Детальная информация
+     * @param $id
+     */
+    public function actionShow($id)
     {
-        $this->view->generate('order/index');
+        $order = Order::getOrder($id);
+        $this->response(true, [self::MODEL => $order->toArray()]);
     }
 
     /**
-     * Страница добавления заказа
+     * Добавления заказа
      * @throws \Exception
      */
-    public function actionAdd()
+    public function actionCreate()
     {
-        $client = Client::getClient(1);
-
-        // Получили данные из формы, добавим заказ
-        $builder = new OrderBuilder($client);
-        $builder->addProduct(1, 2)
-            ->addProduct(2, 1)
-            ->addProduct(3, 4)
-            ->setDelivery(2)
-            ->setDiscount(1)
-            ->calculate();
-
-        // Записываем заказ в БД.
-        $order = (new Order())->createOrder($builder);
-
-        // Отправляем товар в доставку
-        // В зависимости от доставщика сортируем товар по посылкам
-        $order->inDelivery();
+        $order = Order::collectOrder(App::$user, $_POST);
 
         // Добавим заказ в очередь на обработку
         $dto = new OrderQueueDTO($order->order->getId());
         QueueOrders::add($dto->toString());
 
-        $this->view->generate('order/added', [
-            'order_id' => $order->order->getId(),
-        ]);
+        $this->response(true, [self::MODEL => $order->order->toArray()]);
     }
 
     /**
@@ -64,18 +53,4 @@ class OrderController extends Controller
         sleep(rand(15, 60));
         Order::setStatus($params['order_id'], 2);
     }
-
-    /**
-     * Страница просмотра статуса
-     */
-    public function actionStatus()
-    {
-        $order = Order::getOrder($_GET['id']);
-
-        $this->view->generate('order/status', [
-            'order' => $order,
-            'status' => OrderStatus::getStatus($order->getStatus())
-        ]);
-    }
-
 }
