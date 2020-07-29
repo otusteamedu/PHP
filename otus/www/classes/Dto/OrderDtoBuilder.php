@@ -13,7 +13,7 @@ class OrderDtoBuilder
     private $products;
     private $type;
     private $status;
-    private $discount;
+    private $discountType;
     private $delivery;
     private $userId;
 
@@ -59,9 +59,9 @@ class OrderDtoBuilder
         return $this;
     }
 
-    public function setDiscount (?int $discount)
+    public function setDiscountType (?string $discountType)
     {
-        $this->discount = $discount;
+        $this->discountType = $discountType;
         return $this;
     }
 
@@ -142,9 +142,9 @@ class OrderDtoBuilder
         return $this->delivery;
     }
 
-    public function getDiscount()
+    public function getDiscountType()
     {
-        return $this->discount;
+        return $this->discountType;
     }
     public function getUserId()
     {

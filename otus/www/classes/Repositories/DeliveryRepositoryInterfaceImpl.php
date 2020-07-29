@@ -2,6 +2,8 @@
 
 namespace Classes\Repositories;
 
+use Classes\Models\Delivery;
+
 class DeliveryRepositoryInterfaceImpl implements DeliveryRepositoryInterface
 {
     private $dbClient;
@@ -16,7 +18,7 @@ class DeliveryRepositoryInterfaceImpl implements DeliveryRepositoryInterface
         // TODO: Implement getAllDeliveries() method.
     }
 
-    public function getDeliveryById(int $id)
+    public function getDeliveryByType(string $type) :Delivery
     {
         // TODO: Implement getDeliveryById() method.
     }

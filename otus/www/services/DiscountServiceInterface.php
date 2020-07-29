@@ -6,6 +6,5 @@ namespace Services;
 
 interface DiscountServiceInterface
 {
-
-    public function apply(int $discountId, float $price);
+    public function apply(string $discountType, float $price);
 }

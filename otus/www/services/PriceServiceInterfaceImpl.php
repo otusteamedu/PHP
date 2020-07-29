@@ -20,14 +20,9 @@ class PriceServiceInterfaceImpl implements PriceServiceInterface
         $this->deliveryService = $deliveryService;
     }
 
-    public function getPriceWithDiscount(int $discount, float $cost): float
+    public function getPriceWithDiscount(string $discountType, float $cost): float
     {
-        return $this->discountService->apply($discount, $cost);
-    }
-
-    public function getPriceDelivery(int $delivery, float $cost): float
-    {
-        return $this->deliveryService->getDeliveryPrice($delivery);
+        return $this->discountService->apply($discountType, $cost);
     }
 
     public function getTotalPrice(int $discount, int $delivery, float $cost)
@@ -41,9 +36,9 @@ class PriceServiceInterfaceImpl implements PriceServiceInterface
         return $this->discountService->apply($discount, $price);
     }
 
-    public function getPriceWithDelivery(int $delivery, float $cost): float
+    public function getPriceWithDelivery(string $deliveryType, float $cost): float
     {
-        $deliveryPrice = $this->deliveryService->getDeliveryPrice($delivery);
+        $deliveryPrice = $this->deliveryService->getDeliveryPrice($deliveryType);
         if ($deliveryPrice) {
             return $deliveryPrice + $cost;
         }

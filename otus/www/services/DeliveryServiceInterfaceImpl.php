@@ -1,28 +1,38 @@
 <?php
 
-
 namespace Services;
 
-
+use Classes\Discounts\SdekDeliveryCreator;
 use Classes\Models\Delivery;
-use Classes\Repositories\DeliveryRepositoryInterface;
+
 
 class DeliveryServiceInterfaceImpl implements DeliveryServiceInterface
 {
-    private $deliveryRepository;
-
-    public function __construct(DeliveryRepositoryInterface $deliveryRepository)
-    {
-        $this->deliveryRepository = $deliveryRepository;
-    }
-    public function getDeliveryPrice(int $delivery)
+    public function getDeliveryPrice(string $deliveryType)
     {
         /** @var Delivery $delivery */
-        $delivery = $this->deliveryRepository->getDeliveryById($delivery);
-        if (!$delivery) {
-            return null;
+        $deliveryPrice = $this->getPrice($deliveryType);
+        if (!$deliveryPrice) {
+            return 0;
         }
 
-        return $delivery->getCost();
+        return $deliveryPrice;
+    }
+
+    private function getPrice(string $deliveryType): float
+    {
+        $deliveryService = null;
+
+        switch ($deliveryType) {
+            case 'sdek':
+                $deliveryService = new SdekDeliveryCreator();
+                break;
+        }
+
+        if (!$deliveryService) {
+            throw new \RuntimeException('undefined delivery class');
+        }
+
+        return (float) $deliveryService->getDeliveryPrice();
     }
 }

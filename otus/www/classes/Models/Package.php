@@ -5,12 +5,12 @@ namespace Classes\Models;
 class Package extends AbstractActiveRecord
 {
     protected $id;
-    protected $number;
+    protected $name;
 
     protected static $tableName = 'pakages';
 
-    public function getNumber()
+    public function getName()
     {
-        return $this->number;
+        return $this->name;
     }
 }

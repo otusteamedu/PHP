@@ -11,7 +11,6 @@ class Order extends AbstractActiveRecord
     protected $type;
     protected $status;
     protected $delivery;
-    protected $discount;
 
     protected static $tableName = 'orders';
 
@@ -87,10 +86,5 @@ class Order extends AbstractActiveRecord
     public function setDelivery(Delivery $delivery)
     {
         $this->delivery = $delivery;
-    }
-
-    public function setDiscount(Discount $discount)
-    {
-        $this->discount = $discount;
     }
 }

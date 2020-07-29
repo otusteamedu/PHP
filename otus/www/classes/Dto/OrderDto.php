@@ -11,7 +11,7 @@ class OrderDto
     public $products;
     public $type;
     public $status;
-    public $discount;
+    public $discountType;
     public $delivery;
     public $userId;
 
@@ -24,7 +24,7 @@ class OrderDto
         $self->products = $builder->getProducts();
         $self->type = $builder->getType();
         $self->status = $builder->getStatus();
-        $self->discount = $builder->getDiscount();
+        $self->discountType = $builder->getDiscountType();
         $self->delivery = $builder->getDelivery();
         $self->userId = $builder->getUserId();
 

@@ -7,7 +7,6 @@ use Classes\Models\Order;
 use Classes\Models\OrderClientPivot;
 use Classes\Models\OrderStatus;
 use Classes\Repositories\DeliveryRepositoryInterface;
-use Classes\Repositories\DiscountRepositoryInterface;
 use Classes\Repositories\OrderClientRepositoryInterface;
 use Classes\Repositories\OrderRepositoryInterface;
 
@@ -17,29 +16,28 @@ class OrderServiceImpl implements OrderServiceInterface
 
     private $orderRepository;
     private $deliveryRepository;
-    private $discountRepository;
     private $priceService;
     private $orderClientRepository;
+    private $discountService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         DeliveryRepositoryInterface $deliveryRepository,
-        DiscountRepositoryInterface $discountRepository,
         PriceServiceInterface $priceService,
+        DiscountServiceInterface $discountService,
         OrderClientRepositoryInterface $orderClientRepository
     )
     {
         $this->orderRepository = $orderRepository;
         $this->deliveryRepository = $deliveryRepository;
-        $this->discountRepository = $discountRepository;
         $this->priceService = $priceService;
         $this->orderClientRepository = $orderClientRepository;
+        $this->discountService = $discountService;
     }
 
-    public function registerOrder(OrderDto $orderDto)
+    public function createOrder(OrderDto $orderDto)
     {
-        $delivery = $this->deliveryRepository->getDeliveryById($orderDto->delivery);
-        $discount = $this->discountRepository->getDiscountById($orderDto->discount);
+        $delivery = $this->deliveryRepository->getDeliveryByType($orderDto->delivery);
         $finalPrice = $this->getFinalPrice($orderDto);
         $number = $this->getOrderNumber();
 
@@ -48,7 +46,6 @@ class OrderServiceImpl implements OrderServiceInterface
         $orderEntity->setStatus(OrderStatus::NEW_ORDER);
         $orderEntity->setCost($finalPrice);
         $orderEntity->setDelivery($delivery);
-        $orderEntity->setDiscount($discount);
         $orderEntity->setProducts($orderDto->products);
 
         $newOrderId = $this->orderRepository->saveOrder($orderEntity);
@@ -57,6 +54,8 @@ class OrderServiceImpl implements OrderServiceInterface
         $orderClientPivot->setClientId($orderDto->userId);
         $orderClientPivot->setOrderId($newOrderId);
         $this->orderClientRepository->save($orderClientPivot);
+
+        return $newOrderId;
     }
 
     public function deleteOrder(int $orderId)
@@ -67,15 +66,15 @@ class OrderServiceImpl implements OrderServiceInterface
     private function getFinalPrice(OrderDto $orderDto)
     {
 
-        if ($orderDto->discount && $orderDto->delivery) {
-            return $this->priceService->getTotalPrice($orderDto->discount,$orderDto->delivery, $orderDto->cost);
+        if ($orderDto->discountType && $orderDto->delivery) {
+            return $this->priceService->getTotalPrice($orderDto->discountType,$orderDto->delivery, $orderDto->cost);
         }
 
-        if ($orderDto->discount && !$orderDto->delivery) {
-            return $this->priceService->getPriceWithDiscount($orderDto->discount, $orderDto->cost);
+        if ($orderDto->discountType && !$orderDto->delivery) {
+            return $this->priceService->getPriceWithDiscount($orderDto->discountType, $orderDto->cost);
         }
 
-        if (!$orderDto->discount && $orderDto->delivery) {
+        if (!$orderDto->discountType && $orderDto->delivery) {
             return $this->priceService->getPriceWithDelivery($orderDto->delivery, $orderDto->cost);
         }
 
