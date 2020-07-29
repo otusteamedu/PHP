@@ -7,6 +7,11 @@ Class DbMySQL implements Db
 {
     private $db;
 
+    /**
+     * Создание подключения к БД
+     * @return Db
+     * @throws \Exception
+     */
     public function connect(): Db
     {
         if ($this->db)
@@ -24,7 +29,7 @@ Class DbMySQL implements Db
                 PDO::ATTR_EMULATE_PREPARES   => false,
             ]);
         } catch (\PDOException $e) {
-            die('Подключение не удалось: ' . $e->getMessage());
+            throw new \Exception($e->getMessage(), 500);
         }
 
         return $this;

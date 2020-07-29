@@ -3,6 +3,7 @@
 namespace Ozycast\App;
 
 use Ozycast\App\Core\Authentication;
+use Ozycast\App\Core\Response;
 use Ozycast\App\Core\Route;
 use Ozycast\App\Core\Db;
 use Ozycast\App\Core\DbMySQL;
@@ -28,7 +29,11 @@ Class App
 
     public function __construct()
     {
-        Route::dispatch();
+        try {
+            Route::dispatch();
+        } catch (\Exception $exception) {
+            (new Response())->send(false, ['message' => $exception->getMessage()], $exception->getCode());
+        }
     }
 
     public static function getQueue(): Queue
