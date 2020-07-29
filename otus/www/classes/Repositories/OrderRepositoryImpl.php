@@ -4,7 +4,7 @@ namespace Classes\Repositories;
 
 use Classes\Models\Order;
 
-class OrderRepositoryInterfaceImpl implements OrderRepositoryInterface
+class OrderRepositoryImpl implements OrderRepositoryInterface
 {
     public function getAllOrders(): array
     {

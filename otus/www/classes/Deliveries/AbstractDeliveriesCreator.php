@@ -4,8 +4,6 @@
 namespace Classes\Discounts;
 
 
-use Classes\Models\Discount;
-
 abstract class AbstractDeliveriesCreator
 {
     abstract protected function getDelivery(): DeliveryEntity;

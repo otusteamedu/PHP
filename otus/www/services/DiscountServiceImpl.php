@@ -3,20 +3,11 @@
 
 namespace Services;
 
-
 use Classes\Discounts\LogisticDiscountCreator;
-use Classes\Repositories\DiscountRepositoryInterface;
 
-class DiscountServiceInterfaceImpl implements DiscountServiceInterface
+
+class DiscountServiceImpl implements DiscountServiceInterface
 {
-
-    private $discountRepository;
-
-    public function __construct(DiscountRepositoryInterface $discountRepository)
-    {
-        $this->discountRepository = $discountRepository;
-    }
-
     public function apply(string $discountType, float $price)
     {
         $discount = $this->getDiscount($discountType);

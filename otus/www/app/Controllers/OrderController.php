@@ -5,27 +5,21 @@ namespace App\Controllers;
 use Classes\Dto\OrderDtoBuilder;
 use Classes\Models\OrderStatus;
 use Classes\ResponseHandler;
-use Services\DiscountServiceInterface;
 use Services\OrderServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 class OrderController
 {
-    private $discountService;
     private $orderService;
 
     public function __construct
     (
-        DiscountServiceInterface $discountService,
         OrderServiceInterface $orderService
-
     )
     {
-        $this->discountService = $discountService;
         $this->orderService = $orderService;
     }
-
 
     public function createOrder(Request $request, Response $response, $args)
     {
@@ -74,5 +68,4 @@ class OrderController
         $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
         return $response;
     }
-
 }

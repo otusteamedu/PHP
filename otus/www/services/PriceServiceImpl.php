@@ -6,7 +6,7 @@ namespace Services;
 
 use Classes\Repositories\DiscountRepositoryInterface;
 
-class PriceServiceInterfaceImpl implements PriceServiceInterface
+class PriceServiceImpl implements PriceServiceInterface
 {
     private $discountService;
     private $deliveryService;

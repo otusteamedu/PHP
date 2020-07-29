@@ -6,7 +6,7 @@ namespace Services;
 
 use Classes\Models\Product;
 
-class PackageServiceInterfaceImpl implements PackageServiceInterface
+class PackageServiceImpl implements PackageServiceInterface
 {
 
     public function applyPackage(Product $product)

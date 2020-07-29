@@ -18,13 +18,11 @@ class OrderServiceImpl implements OrderServiceInterface
     private $deliveryRepository;
     private $priceService;
     private $orderClientRepository;
-    private $discountService;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         DeliveryRepositoryInterface $deliveryRepository,
         PriceServiceInterface $priceService,
-        DiscountServiceInterface $discountService,
         OrderClientRepositoryInterface $orderClientRepository
     )
     {
@@ -32,7 +30,6 @@ class OrderServiceImpl implements OrderServiceInterface
         $this->deliveryRepository = $deliveryRepository;
         $this->priceService = $priceService;
         $this->orderClientRepository = $orderClientRepository;
-        $this->discountService = $discountService;
     }
 
     public function createOrder(OrderDto $orderDto)

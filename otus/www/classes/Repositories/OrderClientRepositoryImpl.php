@@ -6,7 +6,7 @@ namespace Classes\Repositories;
 
 use Classes\Models\OrderClientPivot;
 
-class OrderClientRepositoryInterfaceImpl implements OrderClientRepositoryInterface
+class OrderClientRepositoryImpl implements OrderClientRepositoryInterface
 {
 
     public function save(OrderClientPivot $orderClientPivot)

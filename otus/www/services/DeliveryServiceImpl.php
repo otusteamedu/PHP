@@ -6,7 +6,7 @@ use Classes\Discounts\SdekDeliveryCreator;
 use Classes\Models\Delivery;
 
 
-class DeliveryServiceInterfaceImpl implements DeliveryServiceInterface
+class DeliveryServiceImpl implements DeliveryServiceInterface
 {
     public function getDeliveryPrice(string $deliveryType)
     {

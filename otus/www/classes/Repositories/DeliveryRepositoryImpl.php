@@ -4,14 +4,8 @@ namespace Classes\Repositories;
 
 use Classes\Models\Delivery;
 
-class DeliveryRepositoryInterfaceImpl implements DeliveryRepositoryInterface
+class DeliveryRepositoryImpl implements DeliveryRepositoryInterface
 {
-    private $dbClient;
-
-    public function __construct($dbClient)
-    {
-        $this->dbClient = $dbClient;
-    }
 
     public function getAllDeliveries(): array
     {
