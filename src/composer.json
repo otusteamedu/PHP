@@ -1,0 +1,15 @@
+{
+  "name": "ozycast/app",
+  "license": "MIT",
+  "require": {
+    "ext-sockets": "*",
+    "php-amqplib/php-amqplib": "^2.11@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ozycast\\App\\": "App"
+    }
+  },
+  "version": "1.0.0",
+  "minimum-stability": "dev"
+}

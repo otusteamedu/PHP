@@ -1,0 +1,18 @@
+FROM php:fpm
+RUN apt-get update && \
+        apt-get install -y \
+            curl libcurl4-openssl-dev libcurl4 libssl-dev \
+            git
+
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install sockets
+RUN pecl install -of redis && docker-php-ext-enable redis
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+        --filename=composer \
+        --install-dir=/usr/local/bin && \
+        echo "alias composer='composer'" >> /root/.bashrc && \
+        composer
+
+WORKDIR /var/www/html

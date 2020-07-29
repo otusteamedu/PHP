@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+      - socket:/var/run
+    links:
+      - php
+
+  php:
+    build: ./docker/php/
+    container_name: php
+    volumes:
+      - ./src:/var/www/html
+      - ./config/php.www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket:/var/run
+    env_file:
+      - ./.env
+    links:
+      - rabbitmq
+      - redis
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: php-rabbit
+    volumes:
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./docker/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./docker/rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - ${QUEUE_PORT}:5672
+      - ${QUEUE_PORT_WEB}:15672
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - socket:/var/run
+    ports:
+      - ${REDIS_PORT}:6379
+
+volumes:
+  socket:
