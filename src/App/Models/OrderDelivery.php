@@ -14,7 +14,7 @@ Class OrderDelivery
      */
     public function getDelivery(int $delivery_id)
     {
-        $delivery = (new DeliveryMapper(App::$db))->findOne(['id' => $delivery_id]);
+        $delivery = (new DeliveryMapper(App::getDb()))->findOne(['id' => $delivery_id]);
         $className = "Ozycast\App\Models\Delivery\Delivery".$delivery->getCode();
         $delivery = new $className;
 

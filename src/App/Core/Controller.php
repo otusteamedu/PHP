@@ -15,7 +15,7 @@ class Controller
     {
         $this->response = new Response();
 
-        if (static::$auth && !App::$user) {
+        if (static::$auth && !App::getUser()) {
             $this->response->send(false, ['message' => 'Ошибка авторизации'], 401);
             exit;
         }

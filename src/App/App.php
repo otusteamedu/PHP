@@ -15,43 +15,47 @@ Class App
     /**
      * @var Db
      */
-    public static $db = null;
+    private static $db = null;
     /**
      * @var Queue
      */
-    public static $queue = null;
+    private static $queue = null;
     /**
      * @var Client
      */
-    public static $user = null;
+    private static $user = null;
 
 
     public function __construct()
     {
-        self::getDb();
-        self::getQueue();
-        self::getUser();
         Route::dispatch();
     }
 
-    public function getQueue(): Queue
+    public static function getQueue(): Queue
     {
-        self::$queue = (new RedisQueue())->connect();
+        if (!self::$queue) {
+            self::$queue = (new RedisQueue())->connect();
+        }
         return self::$queue;
     }
 
-    public function getDb(): Db
+    public static function getDb(): Db
     {
-        self::$db = (new DbMySQL())->connect();
+        if (!self::$db) {
+            self::$db = (new DbMySQL())->connect();
+        }
         return self::$db;
     }
 
-    public function getUser(): ?Client
+    public static function getUser(): ?Client
     {
-        if (php_sapi_name() == 'cli')
+        if (php_sapi_name() == 'cli') {
             return null;
+        }
 
-        self::$user = Authentication::check();
+        if (!self::$user) {
+            self::$user = Authentication::check();
+        }
         return self::$user;
     }
 }

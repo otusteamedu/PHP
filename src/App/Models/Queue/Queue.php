@@ -16,7 +16,7 @@ class Queue
     public static function getChannel()
     {
         if (!static::$channel)
-            static::$channel = App::$queue->getChannel(static::CHANEL_NAME);
+            static::$channel = App::getQueue()->getChannel(static::CHANEL_NAME);
 
         return static::$channel;
     }
@@ -27,7 +27,7 @@ class Queue
      */
     public static function add($message)
     {
-        App::$queue->send(self::getChannel(), static::QUEUE_NAME, $message);
+        App::getQueue()->send(self::getChannel(), static::QUEUE_NAME, $message);
     }
 
     /**
@@ -35,6 +35,6 @@ class Queue
      */
     public static function addConsumer()
     {
-        App::$queue->addConsumer(self::getChannel(), static::QUEUE_NAME);
+        App::getQueue()->addConsumer(self::getChannel(), static::QUEUE_NAME);
     }
 }

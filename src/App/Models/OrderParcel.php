@@ -23,7 +23,7 @@ class OrderParcel
         foreach ($orderModel->productOrder as $productOrder) {
             $this->sort();
 
-            $product = (new ProductMapper(App::$db))->findOne(['id' => $productOrder->getProductId()]);
+            $product = (new ProductMapper(App::getDb()))->findOne(['id' => $productOrder->getProductId()]);
 
             $this->parcel->setSize($productOrder->getCount() * $product->getSize() + $this->parcel->getSize());
             $this->parcel->setWeight($productOrder->getCount() * $product->getWeight() + $this->parcel->getWeight());
@@ -31,7 +31,7 @@ class OrderParcel
             $this->save();
 
             $productOrder->setParcelId($this->parcel->getId());
-            (new ProductOrderMapper(App::$db))->update($productOrder);
+            (new ProductOrderMapper(App::getDb()))->update($productOrder);
         }
 
         return $this;
@@ -53,9 +53,9 @@ class OrderParcel
     public function save()
     {
         if (!$this->parcel->getId()) {
-            (new ParcelMapper(App::$db))->insert($this->parcel);
+            (new ParcelMapper(App::getDb()))->insert($this->parcel);
         } else {
-            (new ParcelMapper(App::$db))->update($this->parcel);
+            (new ParcelMapper(App::getDb()))->update($this->parcel);
         }
     }
 }

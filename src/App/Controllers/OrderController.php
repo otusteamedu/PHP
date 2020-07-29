@@ -33,7 +33,7 @@ class OrderController extends Controller
      */
     public function actionCreate()
     {
-        $order = Order::collectOrder(App::$user, $_POST);
+        $order = Order::collectOrder(App::getUser(), $_POST);
 
         // Добавим заказ в очередь на обработку
         $dto = new OrderQueueDTO($order->order->getId());

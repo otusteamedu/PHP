@@ -52,7 +52,7 @@ Class OrderBuilder
      */
     public function addProduct($product_id, $count)
     {
-        $product = (new ProductMapper(App::$db))->findOne(['id' => $product_id]);
+        $product = (new ProductMapper(App::getDb()))->findOne(['id' => $product_id]);
         $this->productOrder[] = new ProductOrder([
             'product_id' => $product->getId(),
             'count' => $count,

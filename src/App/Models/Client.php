@@ -14,7 +14,7 @@ Class Client
      */
     public static function getClient($id)
     {
-        $client = (new ClientMapper(App::$db))->findOne(['id' => $id]);
+        $client = (new ClientMapper(App::getDb()))->findOne(['id' => $id]);
         return $client;
     }
 
@@ -24,7 +24,7 @@ Class Client
      */
     public static function findByKey($key)
     {
-        $client = (new ClientMapper(App::$db))->findOne(['api_key' => $key]);
+        $client = (new ClientMapper(App::getDb()))->findOne(['api_key' => $key]);
         return $client;
     }
 }
