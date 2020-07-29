@@ -29,7 +29,7 @@ class OrderDtoBuilder
         return $this;
     }
 
-    public function setCost (int $cost)
+    public function setCost (float $cost)
     {
         $this->cost = $cost;
         return $this;

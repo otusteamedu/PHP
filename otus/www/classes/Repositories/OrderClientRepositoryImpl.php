@@ -23,16 +23,4 @@ class OrderClientRepositoryImpl implements OrderClientRepositoryInterface
             return true;
         }
     }
-
-    public function deleteAllRowsByOrderId(int $orderId)
-    {
-        //TODO реализовать поиск и удаление из бд по orderId
-       return true;
-    }
-
-    public function deleteAllRowsByClientId(int $clientId)
-    {
-        //TODO реализовать поиск и удаление из бд по clientId
-       return true;
-    }
 }

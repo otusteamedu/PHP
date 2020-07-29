@@ -9,6 +9,4 @@ interface DeliveryRepositoryInterface
     public function getAllDeliveries(): array;
 
     public function getDeliveryByType(string $type): Delivery;
-
-    public function getDeliveriesWithActiveOrders(): array;
 }

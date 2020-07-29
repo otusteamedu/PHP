@@ -32,7 +32,7 @@ class OrderServiceImpl implements OrderServiceInterface
         $this->orderClientRepository = $orderClientRepository;
     }
 
-    public function createOrder(OrderDto $orderDto)
+    public function createOrder(OrderDto $orderDto): int
     {
         $delivery = $this->deliveryRepository->getDeliveryByType($orderDto->delivery);
         $finalPrice = $this->getFinalPrice($orderDto);
@@ -55,12 +55,12 @@ class OrderServiceImpl implements OrderServiceInterface
         return $newOrderId;
     }
 
-    public function deleteOrder(int $orderId)
+    public function deleteOrder(int $orderId): bool
     {
-        $this->orderRepository->deleteOrder($orderId);
+        return $this->orderRepository->deleteOrder($orderId);
     }
 
-    private function getFinalPrice(OrderDto $orderDto)
+    private function getFinalPrice(OrderDto $orderDto): float
     {
 
         if ($orderDto->discountType && $orderDto->delivery) {
@@ -78,7 +78,7 @@ class OrderServiceImpl implements OrderServiceInterface
         return $orderDto->cost;
     }
 
-    private function getOrderNumber()
+    private function getOrderNumber(): int
     {
         $date = new \DateTime();
         /** @noinspection PhpUnhandledExceptionInspection */

@@ -25,7 +25,7 @@ class PriceServiceImpl implements PriceServiceInterface
         return $this->discountService->apply($discountType, $cost);
     }
 
-    public function getTotalPrice(int $discount, int $delivery, float $cost)
+    public function getTotalPrice(int $discount, int $delivery, float $cost):float
     {
         $price = $cost;
         $deliveryPrice = $this->deliveryService->getDeliveryPrice($delivery);

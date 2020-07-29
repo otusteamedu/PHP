@@ -16,9 +16,4 @@ class DeliveryRepositoryImpl implements DeliveryRepositoryInterface
     {
         // TODO: Implement getDeliveryById() method.
     }
-
-    public function getDeliveriesWithActiveOrders(): array
-    {
-        // TODO: Implement getDeliveriesWithActiveOrders() method.
-    }
 }

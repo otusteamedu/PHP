@@ -6,47 +6,12 @@ use Classes\Models\Order;
 
 class OrderRepositoryImpl implements OrderRepositoryInterface
 {
-    public function getAllOrders(): array
-    {
-        // TODO: Implement getAllOrders() method.
-    }
-
     public function getOrderById(int $id):Order
     {
         // TODO: Implement getOrderById() method.
     }
 
-    public function getOrderByNumber(int $number):Order
-    {
-        // TODO: Implement getOrderByNumber() method.
-    }
-
-    public function getOrderByType(int $type):Order
-    {
-        // TODO: Implement getOrderByType() method.
-    }
-
-    public function getOrdersWithDiscounts(): array
-    {
-        // TODO: Implement getOrdersWithDiscounts() method.
-    }
-
-    public function getOrdersWithDeliveries(): array
-    {
-        // TODO: Implement getOrdersWithDeliveries() method.
-    }
-
-    public function getOrderByStatus(string $status): Order
-    {
-        // TODO: Implement getOrderByStatus() method.
-    }
-
-    public function getOrdersConstOver(string $cost): array
-    {
-        // TODO: Implement getOrdersConstOver() method.
-    }
-
-    public function saveOrder(Order $order)
+    public function saveOrder(Order $order): int
     {
         try {
             $order->save();
@@ -60,7 +25,7 @@ class OrderRepositoryImpl implements OrderRepositoryInterface
 
     }
 
-    public function deleteOrder(int $orderId)
+    public function deleteOrder(int $orderId): bool
     {
         $order = $this->getOrderById($orderId);
         if (!$order) {
@@ -68,5 +33,6 @@ class OrderRepositoryImpl implements OrderRepositoryInterface
         }
 
         $order::delete($orderId);
+        return true;
     }
 }

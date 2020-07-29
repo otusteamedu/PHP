@@ -10,5 +10,5 @@ interface PriceServiceInterface
 
     public function getPriceWithDelivery(string $deliveryType, float $cost): float;
 
-    public function getTotalPrice(int $discount, int $delivery, float $cost);
+    public function getTotalPrice(int $discount, int $delivery, float $cost): float;
 }
