@@ -10,7 +10,12 @@ abstract class AbstractDeliveriesCreator
 
     public function getDeliveryPrice()
     {
-        $discount = $this->getDelivery();
-        return $discount->getValue();
+        $delivery = $this->getDelivery();
+        return $delivery->getPrice();
+    }
+    public function setPackages(array $products)
+    {
+        $delivery = $this->getDelivery();
+        return $delivery->setPackages($products);
     }
 }

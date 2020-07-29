@@ -7,6 +7,10 @@ use Classes\Models\Package;
 interface PackageRepositoryInterface
 {
 
+    public function saveMany(array $packages) : array;
+
+    public function saveManyProductsPivots(array $productsPackages) : array;
+
     public function getAllPackages() : array;
 
     public function getPackageByNumber(int $number): Package;

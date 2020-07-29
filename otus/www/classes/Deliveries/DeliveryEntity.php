@@ -6,5 +6,7 @@ namespace Classes\Discounts;
 
 interface DeliveryEntity
 {
-    public function getValue();
+    public function getPrice();
+
+    public function setPackages(array $products);
 }

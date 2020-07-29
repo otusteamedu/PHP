@@ -4,9 +4,8 @@
 namespace Services;
 
 
-use Classes\Models\Product;
-
 interface PackageServiceInterface
 {
-    public function applyPackage(Product $product);
+    public function getPackages(int $packageCount): array;
+    public function saveProductsPackages(array $productsPackages): array;
 }
