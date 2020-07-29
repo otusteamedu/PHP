@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function actionShow($id)
     {
         $order = Order::getOrder($id);
-        $this->response(true, [self::MODEL => $order->toArray()]);
+        $this->response->send(true, [self::MODEL => $order->toArray()]);
     }
 
     /**
@@ -39,7 +39,7 @@ class OrderController extends Controller
         $dto = new OrderQueueDTO($order->order->getId());
         QueueOrders::add($dto->toString());
 
-        $this->response(true, [self::MODEL => $order->order->toArray()]);
+        $this->response->send(true, [self::MODEL => $order->order->toArray()]);
     }
 
     /**
