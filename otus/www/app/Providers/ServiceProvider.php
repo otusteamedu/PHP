@@ -3,11 +3,15 @@
 namespace App\Providers;
 
 use App\Controllers\OrderController;
+use App\Controllers\PublisherController;
+use App\Controllers\SubscriberController;
+use Classes\Queue\BrokerManager;
 use Classes\Repositories\DeliveryRepositoryImpl;
 use Classes\Repositories\OrderClientRepositoryImpl;
 use Classes\Repositories\OrderRepositoryImpl;
 use Classes\Repositories\PackageRepositoryInterfaceImpl;
 use DI\Container;
+use Services\BrokerServiceInterfaceImpl;
 use Services\DeliveryServiceImpl;
 use Services\DiscountServiceImpl;
 use Services\OrderServiceImpl;
@@ -47,6 +51,23 @@ class ServiceProvider
         $container->set(OrderController::class, static function (Container $c) {
             $orderService = $c->get(OrderServiceImpl::class);
             return new OrderController($orderService);
+        });
+
+        $container->set(BrokerServiceInterfaceImpl::class, static function (Container $c) {
+            $brokerManager = new BrokerManager();
+            $broker = $brokerManager->getBroker();
+
+            return new BrokerServiceInterfaceImpl($broker);
+        });
+
+        $container->set(PublisherController::class, static function (Container $c) {
+            $brokerService = $c->get(BrokerServiceInterfaceImpl::class);
+            return new PublisherController($brokerService);
+        });
+
+        $container->set(SubscriberController::class, static function (Container $c) {
+            $brokerService = $c->get(BrokerServiceInterfaceImpl::class);
+            return new SubscriberController($brokerService);
         });
     }
 }

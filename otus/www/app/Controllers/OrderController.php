@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use Classes\Dto\OrderDtoBuilder;
 use Classes\Models\OrderStatus;
-use Classes\ResponseHandler;
+use Classes\JsonHandler;
 use Services\OrderServiceInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -44,7 +44,7 @@ class OrderController
                 'message' => $exception->getMessage()
             ];
 
-            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
+            $response->getBody()->write(JsonHandler::getJson($result));
             return $response;
         }
 
@@ -56,7 +56,7 @@ class OrderController
                 'message' => 'Не удалось создать заказ, обратитесь к менеджеру'
             ];
 
-            $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
+            $response->getBody()->write(JsonHandler::getJson($result));
             return $response;
         }
 
@@ -65,7 +65,7 @@ class OrderController
             'message' => 'Заказ успешно создан'
         ];
 
-        $response->getBody()->write(ResponseHandler::getControllerResponseData($result));
+        $response->getBody()->write(JsonHandler::getJson($result));
         return $response;
     }
 }
