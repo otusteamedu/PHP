@@ -11,7 +11,7 @@ services:
     networks:
       - shared
     volumes:
-      - ./otus/www:/var/www
+      - ./otus/www:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
   app:
@@ -22,7 +22,11 @@ services:
     networks:
       - shared
     volumes:
-      - ./otus/www:/var/www
+      - ./otus/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./otus/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./otus/www:/var/www/html
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
 
   db:
     image: postgres
@@ -42,10 +46,19 @@ services:
       - ./dbdata:/var/lib/postgresql/data
       - ./migrations/:/migrations
 
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - 'rabbitmq_data:/data'
+
 networks:
   shared:
     driver: bridge
 
 volumes:
+  rabbitmq_data:
   dbdata:
     driver: local

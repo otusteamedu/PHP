@@ -1,14 +1,12 @@
 {
   "require": {
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "guzzlehttp/guzzle": "^6.0",
+    "php-amqplib/php-amqplib": "^2.11",
     "php-di/php-di": "^6.0",
     "slim/psr7": "^1",
     "slim/slim": "^4.4",
-    "predis/predis": "^1.1",
-    "mongodb/mongodb": "^1.6",
-    "guzzlehttp/guzzle": "^6.0",
-    "ext-mongodb": "*",
-    "ext-json": "*",
-    "ext-pdo": "*",
     "vlucas/phpdotenv": "^5.1"
   },
 
