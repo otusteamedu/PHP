@@ -2,6 +2,7 @@
 
 namespace Classes\Database;
 
+use App\AppSettings;
 use Classes\Database\Drivers\DriversMap;
 use Classes\Dto\DbConfigDto;
 use Classes\Dto\DbDtoBuilder;
@@ -12,7 +13,7 @@ class DbManager
 
     public function __construct()
     {
-        $this->config = include(__DIR__ . '/../../config/databases.php');
+        $this->config = include(AppSettings::CONFIG_PATH);
     }
     public function getDriver()
     {

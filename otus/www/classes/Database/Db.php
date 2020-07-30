@@ -7,7 +7,7 @@ class Db
     private static $db;
     private $pdo;
 
-    public function __construct()
+    private function __construct()
     {
         $dbManager = new DbManager();
         try {
