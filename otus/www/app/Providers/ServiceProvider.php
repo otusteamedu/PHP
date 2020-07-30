@@ -6,10 +6,12 @@ use App\Controllers\OrderController;
 use Classes\Repositories\DeliveryRepositoryImpl;
 use Classes\Repositories\OrderClientRepositoryImpl;
 use Classes\Repositories\OrderRepositoryImpl;
+use Classes\Repositories\PackageRepositoryInterfaceImpl;
 use DI\Container;
 use Services\DeliveryServiceImpl;
 use Services\DiscountServiceImpl;
 use Services\OrderServiceImpl;
+use Services\PackageServiceImpl;
 use Services\PriceServiceImpl;
 
 
@@ -30,6 +32,16 @@ class ServiceProvider
             $discountService = $c->get(DiscountServiceImpl::class);
             $deliveryService = $c->get(DeliveryServiceImpl::class);
             return new PriceServiceImpl($discountService, $deliveryService);
+        });
+
+        $container->set(DeliveryServiceImpl::class, static function (Container $c) {
+            $packageService= $c->get(PackageServiceImpl::class);
+            return new DeliveryServiceImpl($packageService);
+        });
+
+        $container->set(PackageServiceImpl::class, static function (Container $c) {
+            $packageRepository= $c->get(PackageRepositoryInterfaceImpl::class);
+            return new PackageServiceImpl($packageRepository);
         });
 
         $container->set(OrderController::class, static function (Container $c) {
