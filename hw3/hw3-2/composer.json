@@ -1,0 +1,12 @@
+{
+    "require": {
+         "php": ">=7.3.0",
+         "leff/composer.leff": "dev-master"
+	},
+    "repositories": [
+	    {
+	        "type": "git",
+	        "url": "https://github.com/leffo/composer.leff"
+	    }
+    ]
+}
