@@ -1,0 +1,13 @@
+{
+  "name": "ozycast/app",
+  "license": "MIT",
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Ozycast\\App\\": "App"
+    }
+  },
+  "version": "1.0.0",
+  "minimum-stability": "dev"
+}
