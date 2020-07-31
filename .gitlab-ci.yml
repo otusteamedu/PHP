@@ -1,0 +1,42 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=$CI_COMMIT_SHORT_SHA
+
+stages:
+  - deploy
+  - rollback_to
+
+deploy:
+  stage: deploy
+  script:
+    - ssh $SSH_USER@$SERVER -p$SSH_PORT "cd /var/www/test &&
+      git clone git@gitlab.com:ozyast/PHP.git $DIR &&
+      sudo chown www-data:www-data $DIR -R &&
+      touch /var/www/test/$DIR/$DIR &&
+      cd $DIR &&
+      echo '$ENV' > .env &&
+      sh ./deploy.sh $SERVER &&
+      cd .. &&
+      ( [ ! -d /var/www/test/current ] || mv -Tf /var/www/test/current /var/www/test/previous ) &&
+      ln -s /var/www/test/$DIR /var/www/test/current"
+  environment:
+    name: production
+    url: $SERVER
+  only:
+    - master
+
+rollback_to:
+  stage: rollback_to
+  script:
+    - ssh $SSH_USER@$SERVER -p$SSH_PORT "cd /var/www/test &&
+      cd $DIR &&
+      sh ./deploy.sh $SERVER &&
+      ( [ ! -d /var/www/test/current ] || mv -Tf /var/www/test/current /var/www/test/previous ) &&
+      ln -s /var/www/test/$DIR /var/www/test/current"
+  when: manual
