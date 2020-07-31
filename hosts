@@ -1,0 +1,5 @@
+[dev]
+e91852h6.beget.tech project_dir=/e91852h6.beget.tech/public_html node_path=/home/e91852h6/.nvm/versions/node/v10.16.0/bin ansible_user=e91852h6_bget branch=master
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

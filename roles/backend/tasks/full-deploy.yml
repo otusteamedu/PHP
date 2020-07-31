@@ -1,0 +1,45 @@
+---
+- name: Short deploying of backend application (git pull && php artisan migrate)
+  block:
+    - name: Update repo {{ backend.repo }} in {{ backend.src_dir }} with branch {{ branch }}
+      git:
+        repo: "{{ backend.repo }}"
+        dest: "{{ backend.src_dir }}"
+        accept_hostkey: yes
+        force: yes
+        key_file: "{{ backend.private_key_file }}"
+        version: "{{ branch }}"
+
+    - name: Run migrations
+      shell: php artisan migrate
+      args:
+        chdir: "{{ backend.src_dir }}"
+      register: migrate_out
+
+    - debug:
+        var: migrate_out.stdout_lines
+
+    - name: Clear config cache
+      shell: php artisan config:clear
+      args:
+        chdir: "{{ backend.src_dir }}"
+
+    - name: Composer install
+      shell: composer install
+      args:
+        chdir: "{{ backend.src_dir }}"
+      register: composer_install
+
+    - debug:
+        var: composer_install.stdout_lines
+
+    - name: Cache config
+      shell: php artisan config:cache
+      args:
+        chdir: "{{ backend.src_dir }}"
+      register: config_cache_out
+
+    - debug:
+        var: config_cache_out.stdout_lines
+
+  when: backend is defined
