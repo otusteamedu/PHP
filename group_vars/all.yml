@@ -1,0 +1,7 @@
+---
+
+# Project repositories
+repositories:
+  core:
+    url: https://github.com/MaxFolder/hw_17
+    location: https://github.com/MaxFolder/hw_17_second
