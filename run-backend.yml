@@ -1,0 +1,8 @@
+---
+- hosts: " {{ target_hosts }}"
+  gather_facts: no
+
+  roles:
+    - role: roles/backend
+      vars:
+        role_action: "{{ go_action }}"

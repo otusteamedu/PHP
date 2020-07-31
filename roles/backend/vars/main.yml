@@ -1,0 +1,4 @@
+backend:
+  src_dir: "{{ project_dir }}/core"
+  repo: "{{ repositories.core.location }}"
+  private_key_file: ~/.ssh/repo
