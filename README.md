@@ -15,6 +15,7 @@
 * Развернуть Homestead VM при помощи Vagrant и VirtualBox
 
 `используемый Vagrantfile лежит в репозитории - команда Vagrant up`
+
 ![Image alt](https://raw.githubusercontent.com/otusteamedu/PHP/iglushkov/hm1-1/vagrant.png)
 
 3. Выберите в качестве примера свою текущую компанию (или компанию, в которой хотите работать), коротко опишите ее (количество сотрудников, сфера, приоритеты)
