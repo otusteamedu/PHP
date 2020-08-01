@@ -5,9 +5,9 @@
 * 1.1. Установить Docker себе на машину
 * 1.2. С помощью Dockerfile настроить статический сайт (можно использовать nginx образ)
 
-образ докер загрузить можно тут https://hub.docker.com/repository/docker/glushkovis/otus-nginx
-образ построен на основе официального образа nginx 
-dockerfile, по которому собирался образ в репозитории
+`образ докер загрузить можно тут https://hub.docker.com/repository/docker/glushkovis/otus-nginx`
+`образ построен на основе официального образа nginx 
+dockerfile, по которому собирался образ в репозитории`
 
 2. Виртуальные машины: 
 * Развернуть Homestead VM при помощи Vagrant и VirtualBox
