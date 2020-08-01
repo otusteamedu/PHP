@@ -22,3 +22,4 @@
 `Работаю в компании Tradesoft. Сфера деятельности - программное обеспечение и CRM-система для автобизнеса.
 Количество сотрудников около 100 человек.`
 
+![Image alt](https://github.com/glushkovis/otusteamedu/raw/glushkovis/homework1-1/vagrant.png)
