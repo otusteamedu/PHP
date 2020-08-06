@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "AYakovlev\\": "src/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ext-redis": "*",
+    "ext-json": "*"
+  }
+}
