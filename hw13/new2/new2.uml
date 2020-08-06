@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>/data/otusmvc.loc/src/Core</OriginalElement>
+  <nodes>
+    <node x="609.0" y="-2.0">\AYakovlev\Core\Request</node>
+    <node x="380.6009036144578" y="1.4849397590362514">\AYakovlev\Exception\DbException</node>
+    <node x="612.0" y="245.0">\AYakovlev\Core\App</node>
+    <node x="336.13102409638566" y="71.73493975903614">\AYakovlev\Core\View</node>
+    <node x="45.0" y="0.0">\AYakovlev\Model\iEventModel</node>
+    <node x="153.38554216867476" y="666.5165662650603">\AYakovlev\Controller\EventController</node>
+    <node x="140.5" y="556.0">\AYakovlev\Model\EventModel</node>
+    <node x="471.36746987951824" y="667.5165662650602">\AYakovlev\Controller\DefaultController</node>
+    <node x="0.0" y="205.0">\AYakovlev\Core\RedisBD</node>
+    <node x="341.0" y="277.0">\AYakovlev\Model\MultitonTrait</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\AYakovlev\Model\EventModel" target="\AYakovlev\Core\RedisBD">
+      <point x="-80.25" y="-42.0" />
+      <point x="220.75" y="531.0" />
+      <point x="160.5" y="531.0" />
+      <point x="0.0" y="150.5" />
+    </edge>
+    <edge source="\AYakovlev\Model\EventModel" target="\AYakovlev\Model\MultitonTrait">
+      <point x="80.25" y="-42.0" />
+      <point x="381.25" y="531.0" />
+      <point x="441.5" y="531.0" />
+      <point x="0.0" y="78.5" />
+    </edge>
+    <edge source="\AYakovlev\Core\RedisBD" target="\AYakovlev\Model\iEventModel">
+      <point x="0.0" y="-150.5" />
+      <point x="0.0" y="77.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7435610302351624" x="477.5" y="434.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constants</Category>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
