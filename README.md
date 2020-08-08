@@ -29,15 +29,18 @@ ____
 
 Подсказка: рекомендуется использовать утилиты uniq, awk, sort, head.
 ____
->Скрипт лежит в репозитории: `mostPopularCity.sh`
-
-##### Для запуска скрипта - mostPopularCity.sh
+```
+Скрипт лежит в репозитории: `mostPopularCity.sh`
+Для запуска скрипта - mostPopularCity.sh
 1. В терминале перейти в папку с скриптом;
 2. Запустить скрипт командой, передав путь к файлу с данными table.txt в качестве параметра
+```
 ```bash
 ./mostPopularCity.sh ./table.txt
 ```
 ![run mostPopularCity.sh](https://github.com/otusteamedu/PHP/blob/iglushkov/hm1-2/citysh.png)
 
->Используемая для проверки таблица есть в репозитории: `table.txt`
+```
+Используемая для проверки таблица есть в репозитории: `table.txt`
+```
 ____
