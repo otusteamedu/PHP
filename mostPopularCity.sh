@@ -21,7 +21,7 @@ echo '--------------------------------------';
 
 for i in "${!arrUniqCity[@]}"; do
   numberCityUse=$( echo "$tableDataSortByCity" | awk "/${arrUniqCity[$i]}/ {print}" | wc -l)
-  echo "${arrUniqCity[$i]} $numberCityUse";
-done | sort -rk 2 | head -3 | awk '{print $1}'
+  echo "${arrUniqCity[$i]}:$numberCityUse";
+done | sort -t ':' -nrk 2 | head -3 | awk -F":" '{print $1}'
 
 echo '--------------------------------------';
