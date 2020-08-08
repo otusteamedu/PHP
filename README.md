@@ -12,7 +12,7 @@
 
 >Использовал для вычисления программу `bc`, для проверки корректности чисел регулярку
 
-![run sum.sh]()
+![run sum.sh](https://github.com/otusteamedu/PHP/blob/iglushkov/hm1-2/sumsh.png)
 
 2. Имеется таблица следующего вида:
 
@@ -37,6 +37,6 @@
 ```bash
 ./mostPopularCity.sh ./table.txt
 ```
-![run mostPopularCity.sh]()
+![run mostPopularCity.sh](https://github.com/otusteamedu/PHP/blob/iglushkov/hm1-2/citysh.png)
 
 >Используемая для проверки таблица есть в репозитории: `table.txt`
