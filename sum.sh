@@ -4,32 +4,35 @@
 function validateNumber 
 {
   local realNumber='^[+-]?[0-9]+([.][0-9]+)?$'
-  local error=0;
-
   if ! [[ $1 =~ $realNumber ]] ; then
-      echo "Ошибка! Введенный параметр $1 не является числом!"
-      error+=1;
+      echo "false"
+      return 0;
   fi
-
-  if ! [[ $2 =~ $realNumber ]] ; then
-      echo "Ошибка! Введенный параметр $2 не является числом!"
-      error+=1;
-  fi
-
-  if [[ $error -gt 0 ]] ; then
-    exit 1
-  fi
+  echo "true";
 }
 
-
 echo 'Введите 2 числа, для вычисления суммы!'
-echo 'Число 1:'
+echo 'Введите число 1:'
 read -r number1
-echo 'Число 2:'
-read -r number2
+validateResult=$(validateNumber "$number1");
 
-validateNumber "$number1" "$number2"
+while [ "$validateResult" == "false" ]; do
+  echo 'Введено неверное число 1 (должно быть вещественное число):'
+  echo 'Введите число 1:'
+  read -r number1;
+  validateResult=$(validateNumber "$number1");
+done
+
+echo 'Введите число 2:'
+read -r number2
+validateResult=$(validateNumber "$number2");
+
+while [ "$validateResult" == "false" ]; do
+  echo 'Введено неверное число 2 (должно быть вещественное число):'
+  echo 'Введите число 2:'
+  read -r number2;
+  validateResult=$(validateNumber "$number2");
+done
 
 sum=$( echo "$number1+$number2" | bc -l);
-
 echo "Сумма числа $number1 и числа $number2 равна $sum"
