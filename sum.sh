@@ -34,5 +34,5 @@ while [ "$validateResult" == "false" ]; do
   validateResult=$(validateNumber "$number2");
 done
 
-sum=$( echo "$number1+$number2" | bc -l);
+sum=$( awk "BEGIN { print($number1 + $number2) }" );
 echo "Сумма числа $number1 и числа $number2 равна $sum"
