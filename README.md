@@ -1,11 +1,11 @@
 # Homework 1
 
 ## 1. Docker
-##### 1.1. Установить Docker себе на машину
+#### 1.1. Установить Docker себе на машину
 
 ![Docker installed version](https://downloader.disk.yandex.ru/preview/c4bab7477b696311963c59105859ec625e7abedcf566d4d7e9dd05cfefdf4bdc/5f2ff151/ymRrTnZQno0H7w18UOdJCvWBo11GRHnm0tbw-bhY-Z462cN8zP77aocJx6QlKS6QOXwGxyMx826RRGMl0Fj4Qg==?uid=0&filename=docker_install.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&tknv=v2&owner_uid=195427551&size=2048x2048)
 
-##### 1.2. С помощью Dockerfile настроить статический сайт (можно использовать nginx образ)
+#### 1.2. С помощью Dockerfile настроить статический сайт (можно использовать nginx образ)
 
 Dockerfile и настройка nginx server (hm1.otus-lessons.com.conf) добавлен в pull request.
 
@@ -14,7 +14,7 @@ Dockerfile и настройка nginx server (hm1.otus-lessons.com.conf) доб
 ---
 
 ## 2. Виртуальные машины.
-##### Развернуть Homestead VM при помощи Vagrant и VirtualBox
+#### Развернуть Homestead VM при помощи Vagrant и VirtualBox
 Vagrant Box был получен следующей командой:
 ```sh 
 vagrant init laravel/homestead
@@ -35,7 +35,7 @@ vagrant up
 
 Была произведена настройка nginx, файл настройки *otus-lessons.com* добавлен в pull request.
 
-######Результат
+##### Результат
 Сайт доступен из основной ОС (после внесения изменений в файл hosts).
 Редактирование сайта производится из основной ОС.
 
@@ -43,7 +43,7 @@ vagrant up
 
 ## 3. Выберите компанию коротко опишите ее.
        
-##### (Количество сотрудников, сфера, приоритеты). Сравните целесообразность разворачивания своей инфраструктуры или аренды публичного облака (можно выбрать любого провайдера)
+#### (Количество сотрудников, сфера, приоритеты). Сравните целесообразность разворачивания своей инфраструктуры или аренды публичного облака (можно выбрать любого провайдера)
 
 Круизная компания. В IT отделе штат состоит из трех программистов и одного DevOps-специалиста.
 Имеется две машины. На одной две виртуалки (база и nginx+php), которая используется как prod.
