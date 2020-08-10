@@ -21,7 +21,8 @@
             "Controllers\\" : "App/Controllers",
             "Models\\" : "App/Models",
             "Contracts\\" : "App/Controllers/DataBaseControllers/Contracts",
-            "API\\" : "App/Controllers/API"
+            "API\\" : "App/Controllers/API",
+            "Config\\": "config"
         }
     }
 }

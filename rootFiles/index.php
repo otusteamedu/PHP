@@ -25,7 +25,7 @@ $youtube->store($model);
 
 $getChannelVideosFullInfo = $youtube->all();
 
-$statistics = new YoutubeStatisticsController($model, $mongo);
+$statistics = new YoutubeStatisticsController($mongo);
 $likes = $statistics->getChannelLikes($channelID);
 $dislikes = $statistics->getChannelDislikes($channelID);
 $likeDiff = $statistics->getChannelLikeDifference($channelID);

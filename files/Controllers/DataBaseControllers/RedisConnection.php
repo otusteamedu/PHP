@@ -1,17 +1,22 @@
 <?php
 namespace Controllers\DataBaseControllers;
 
-use mysql_xdevapi\Exception;
 use \RedisException;
+use \Config\ConfigGetter;
 
 class RedisConnection {
     public $redis = null;
-    private $host = '172.22.0.1';
+    private $config;
+    private $host = '127.0.0.1';
     private $port = 6379;
     private $password = '';
 
     public function __construct()
     {
+        $this->config = ConfigGetter::config('redis');
+        $this->host = $this->config->host;
+        $this->port = $this->config->port;
+        $this->password = $this->config->password;
         $this->redis = new \Redis();
 
         try {

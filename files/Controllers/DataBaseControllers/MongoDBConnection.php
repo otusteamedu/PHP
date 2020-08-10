@@ -3,6 +3,7 @@ namespace Controllers\DataBaseControllers;
 
 use \MongoConnectionException;
 use \MongoDB\Client;
+use \Config\ConfigGetter;
 
 class MongoDBConnection {
     public static $connection = null;
@@ -10,7 +11,12 @@ class MongoDBConnection {
     public static function connectMongo()
     {
         try {
-            self::$connection = new Client("mongodb://172.22.0.1");
+            $config = ConfigGetter::config('mongo');
+            self::$connection = new Client(
+                $config->uri, 
+                $config->uriOptions, 
+                $config->DriverOptions
+            );
         } catch(MongoConnectionException $e) {
             echo $e->getMessage();
         }

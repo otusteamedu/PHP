@@ -6,15 +6,18 @@ use \Google_Client;
 use \Google_Service_YouTube;
 use \Google_Exception;
 use \Google_Service_Exception;
+use \Config\ConfigGetter;
+
 
 class YoutubeVideo
 {
-    private static $apiKey = 'INSERT-API-KEY';
+    private static $apiKey;
     private static $youtube;
     private static $client;
 
     public function __construct(Google_Client $client)
     {
+        self::$apiKey = ConfigGetter::config('youtube')->apiKey;
         self::$client = $client;
         self::$client->setDeveloperKey(self::$apiKey);
         self::$youtube = new Google_Service_YouTube(self::$client);
