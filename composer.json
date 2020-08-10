@@ -1,0 +1,28 @@
+{
+    "name": "asokolov/youtubespider",
+    "description": "gets likes from youtube channels",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aleksei Sokolov",
+            "email": "aleksei.sokolov.85@mail.ru"
+        }
+    ],
+    "require": {
+        "google/apiclient": "^2.0",
+        "ext-json": "*",
+        "libreworks/ext-mongodb-hhi": "^1.2",
+        "ext-mongodb" : "*",
+        "mongodb/mongodb": "^1.7",
+        "jenssegers/mongodb": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\" : "App/Controllers",
+            "Models\\" : "App/Models",
+            "Contracts\\" : "App/Controllers/DataBaseControllers/Contracts",
+            "API\\" : "App/Controllers/API",
+            "Config\\": "config"
+        }
+    }
+}
