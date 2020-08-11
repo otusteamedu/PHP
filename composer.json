@@ -1,0 +1,13 @@
+{
+    "name": "zero/php",
+    "authors": [
+        {
+            "name": "kibelov",
+            "email": "kibelov@web-zaim.ru"
+        }
+    ],
+    "require": {
+        "fzaninotto/faker": "^1.9",
+        "vlucas/phpdotenv": "^5.1"
+    }
+}
