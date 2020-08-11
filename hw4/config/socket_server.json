@@ -1,0 +1,6 @@
+{
+    "app": {
+        "path_to_socket": "/tmp/sockets/msg.sock",
+        "max_clients_connections": 2
+    }
+}
