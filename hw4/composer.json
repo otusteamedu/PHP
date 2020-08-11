@@ -1,0 +1,18 @@
+{
+    "name": "nlazarev/hw4",
+    "authors": [
+        {
+            "name": "NickoLaz",
+            "email": "asnickolaz@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "hassankhan/config": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "nlazarev\\hw4\\": "src/"
+        }
+    }
+}

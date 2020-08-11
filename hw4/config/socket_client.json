@@ -1,0 +1,8 @@
+{
+    "app": {
+        "path_to_socket": "/tmp/sockets/msg.sock",
+        "connect_attempts": 3,
+        "connect_timeout": 1,
+        "client_exit_string": ":q"
+    }
+}
