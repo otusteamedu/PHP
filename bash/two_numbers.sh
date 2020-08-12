@@ -5,11 +5,11 @@ re='^-?[0-9]+(\.[0-9]+)?$'
 firstNumber=$1
 secondNumber=$2
 
-if ! [[ $firstNumber =~ $re ]] || ! [[ $secondNumber =~ $re ]]
-then
-echo 'Первый или второй аргумент не число'
-exit 1
-fi
+while ! [[ $firstNumber =~ $re ]] || ! [[ $secondNumber =~ $re ]]
+do
+echo 'Пожалуйста, введите 2 числа, через пробел'
+read firstNumber secondNumber;
+done
 
 echo "$secondNumber + $firstNumber" | bc 
 
