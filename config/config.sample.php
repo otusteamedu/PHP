@@ -18,5 +18,14 @@ return (object) [
         'host' => '',
         'port' => '',
         'password' => ''
+    ],
+
+    // Конфиг соединения с БД Postgres
+    'postgres' => (object) [
+        'host' => '127.0.0.1',
+        'dbname' => '',
+        'dbuser' => '',
+        'port' => 5432,
+        'dbpassword' => ''
     ]
 ];
