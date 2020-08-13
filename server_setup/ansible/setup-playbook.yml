@@ -1,0 +1,25 @@
+---
+- hosts: vagrant
+  remote_user: root
+  vars:
+    # Api webserver config
+    domain: otus-php
+
+    server_name: "{{ domain }}"
+    upload_file_size: 100m
+
+    www_dir : /var/www
+
+
+  tasks:
+    # Prepare system
+    - include: ./includes/system.yml
+      tags: system   
+
+    # Install and configure php
+    - include: ./includes/php.yml
+      tags: php
+
+    # Install and configure composer
+    - include: ./includes/composer.yml
+      tags: composer

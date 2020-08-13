@@ -1,0 +1,29 @@
+
+ORDER
+=====
+Customer: Vasya Pupkin
+Order type: B2B Order
+
+Products
+--------
+Product: ProductOne - $10.99
+Product: ProductOne - $10.99
+Product: ProductTwo - $20.99
+Subtotal: $42.97
+
+Discounts
+--------
+Discount: Loyalty discount - 5%
+Discount: Season discount - 3%
+Total discount: 8%
+Savings: $3.44
+
+Shipment
+--------
+Shipment: UPS - 1 package(s) - 2 product(s) - $ 2.99
+Shipment: DHL - 1 package(s) - 1 product(s) - $ 1.99
+Total shipment price: 4.98
+
+===========
+Final price: $34.55
+===========

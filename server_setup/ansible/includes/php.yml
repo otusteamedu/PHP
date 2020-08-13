@@ -1,0 +1,58 @@
+---
+- name: Add PHP 7 PPA repository
+  become: true
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+
+- name: Install PHP 
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php7.2-cli
+    - php7.2-curl
+    - php7.2-fpm
+    - php7.2-intl
+    - php7.2-mysql
+    - php7.2-xml
+    - php7.2-zip
+    - php7.2-mbstring
+    - php7.2-gd
+    - php7.2-mysqli
+    - php7.2-dom
+    - php7.2-simplexml
+
+- name: Set date.timezone for CLI
+  become: true
+  lineinfile: 
+    dest: /etc/php/7.2/cli/php.ini
+    regexp: "date.timezone ="
+    line: "date.timezone = America/New_York"
+
+- name: Set date.timezone for FPM
+  become: true
+  lineinfile: 
+    dest: /etc/php/7.2/fpm/php.ini
+    regexp: "date.timezone ="
+    line: "date.timezone = America/New_York"
+
+- name: Increase upload_max_filesize
+  become: true
+  lineinfile: 
+    dest: /etc/php/7.2/fpm/php.ini
+    regexp: "upload_max_filesize ="
+    line: "upload_max_filesize = {{ upload_file_size }}"
+
+- name: Increase post_max_size
+  become: true
+  lineinfile:
+    dest: /etc/php/7.2/fpm/php.ini
+    regexp: "post_max_size ="
+    line: "post_max_size = {{ upload_file_size }}"
+
+- name: Restart PHP-FPM
+  become: true
+  service:
+    name: php7.2-fpm
+    state: restarted

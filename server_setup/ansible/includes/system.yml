@@ -1,0 +1,19 @@
+---
+- name: Update APT package manager repositories cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Upgrade installed packages
+  become: true
+  apt:
+    upgrade: safe    
+
+- name: Install low-level utilities
+  become: true
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - zip
+    - unzip
+    - apache2-utils

@@ -1,0 +1,77 @@
+---
+#  https://odan.github.io/2019/01/19/install-xdebug-and-configure-phpstorm-for-vagrant.html
+- hosts: vagrant
+  remote_user: root
+  vars:
+    xdebug_idekey: 'PHPSTORM-CWB-API'
+
+  tasks:
+    - name: Install PHP Xdebug
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - php7.2-xdebug
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.remote_port ="
+        line: "xdebug.remote_port = 9000"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.remote_enable ="
+        line: "xdebug.remote_enable = 1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.remote_connect_back ="
+        line: "xdebug.remote_connect_back = true"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.remote_autostart ="
+        line: "xdebug.remote_autostart = true"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.remote_host ="
+        line: "xdebug.remote_host ="
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.max_nesting_level ="
+        line: "xdebug.max_nesting_level = 1000"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/fpm/php.ini
+        regexp: "xdebug.idekey ="
+        line: "xdebug.idekey = {{ xdebug_idekey }}"
+
+    - name: Display message to setup PHPSTORM IDE key
+      debug:
+        msg: 'Make sure that in PhpStorm: Create configuration -> Check "Filter debug connection by IDE key"-> IDE
+        key(sessionid) is set to "{{ xdebug_idekey }}"'
+
+    - name: Restart PHP-FPM
+      become: true
+      service:
+        name: php7.2-fpm
+        state: restarted
+
+

@@ -1,0 +1,110 @@
+---
+#  http://yutaf.github.io/xdebug-remote-cli-debugging-with-vagrant-and-phpstorm/
+- hosts: vagrant
+  remote_user: root
+  vars:
+    xdebug_idekey: 'PHPSTORM-CWB-API'
+
+
+  tasks:
+    - name: Install PHP Xdebug
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - php7.2-xdebug
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_port ="
+        line: "xdebug.remote_port = 9000"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_enable ="
+        line: "xdebug.remote_enable = 1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_connect_back ="
+        line: "xdebug.remote_connect_back = true"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_autostart ="
+        line: "xdebug.remote_autostart = 1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_host ="
+        line: "xdebug.remote_host ="
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.max_nesting_level ="
+        line: "xdebug.max_nesting_level = 1000"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_host ="
+        line: "xdebug.remote_host = 10.0.2.2"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.remote_handler ="
+        line: "xdebug.remote_handler = dbgp"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.var_display_max_depth ="
+        line: "xdebug.var_display_max_depth = -1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.var_display_max_children ="
+        line: "xdebug.var_display_max_children = -1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.var_display_max_data ="
+        line: "xdebug.var_display_max_data = -1"
+
+    - name: Xdebug setting
+      become: true
+      lineinfile:
+        dest: /etc/php/7.2/cli/php.ini
+        regexp: "xdebug.idekey ="
+        line: "xdebug.idekey = {{ xdebug_idekey }}"
+
+    - name: Display message to setup PHPSTORM IDE key
+      debug:
+        msg: 'Make sure that in PhpStorm: Create configuration -> Check "Filter debug connection by IDE key"-> IDE
+        key(sessionid) is set to "{{ xdebug_idekey }}"'
+
+    - name: Display message to setup environment variable
+      debug:
+        msg: 'Now login to VM and in console run [ export PHP_IDE_CONFIG="serverName=api.cwb-dev" ] where api.cwb-dev
+        is the name of PHPStorm server configured in Langauges and Frameworks->PHP->Servers->Name'

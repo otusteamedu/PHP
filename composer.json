@@ -1,0 +1,11 @@
+{
+    "name": "vagrant/php",
+    "require": {
+        "phuml/phuml": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
