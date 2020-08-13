@@ -1,0 +1,2 @@
+https://packagist.org/packages/penguin/hello-world
+https://github.com/penguin-astronaut/hello_package
