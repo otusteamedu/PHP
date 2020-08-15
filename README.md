@@ -12,7 +12,32 @@
 2. Необходимо создать свой пакет, и выложить в git и/или на packagist.org
 - прислать команду для клонирования с гита
 - прислать команду для установки через composer
+```
+Для копирования пакета с github нужно добавить ссылку на репозиторий в composer.json + зависимость в блок require
+```
+```json
+{
+    "require": {
+      "iglushkov/composer_package_example": "dev-master"
+    },
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/GlushkovIS/composer_package_example"
+        }
+    ]
+}
+```
 
+```
+Для копирования пакета с packagist.org достаточно, прописать зависимость в composer.json проекта
+и выполнить команду: composer install
+```
+```
+  "require": {
+    "iglushkov/composer_package_example": "dev-master"
+  }
+```
 3. Создать Docker-образ для работы
 Необходимо создать образ, который будет включать:
 - образ php, берем с https://hub.docker.com/_/php/
