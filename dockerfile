@@ -3,8 +3,8 @@ FROM php:7.4-fpm-alpine
 # Install dev dependencies
 RUN apk update \
     && apk upgrade --available \
-    && apk add --virtual build-deps \
-        libmemcached \
+    && apk add \
+        libmemcached-dev \
         autoconf \
         build-base \
         icu-dev \
@@ -27,6 +27,8 @@ RUN apk update \
         curl \
         wget \
         grep \
+        curl-dev \
+        postgresql-dev \
         bash
 
 # Install Composer
@@ -34,21 +36,28 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 # Install PHP extensions
 RUN docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" \
-    intl \
-    gd \
-    pcntl \
-    sockets \
-    zip
+         intl \
+         gd \
+         pcntl \
+         sockets \
+         pdo_pgsql \
+         zip
+
 RUN pecl channel-update pecl.php.net \
+    && pecl install -o -f \
+        raphf \
+        propro \
+    && echo "extension=raphf.so" > /usr/local/etc/php/conf.d/http.ini \
+    && echo "extension=propro.so" >> /usr/local/etc/php/conf.d/propro.ini \
     && pecl install -o -f \
         redis \
         event \
         xdebug \
         memcached \
-        pecl_http \
-        pdo_pgsql \
+        pecl_http-3.2.2 \
     && rm -rf /tmp/pear \
     && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
-    && echo "extension=xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "zend_extension=xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "extension=event.so" > /usr/local/etc/php/conf.d/event.ini \
-    && docker-php-ext-enable memcached pecl_http pdo_pgsql
+    && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini \
+#     && echo "extension=http.so" >> /usr/local/etc/php/conf.d/http.ini
