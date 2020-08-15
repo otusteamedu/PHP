@@ -30,10 +30,12 @@
 ```
 
 ```
+Ссылка на packagist https://packagist.org/packages/iglushkov/composer_package_example
+
 Для копирования пакета с packagist.org достаточно, прописать зависимость в composer.json проекта
 и выполнить команду: composer install
 ```
-```
+```json
   "require": {
     "iglushkov/composer_package_example": "dev-master"
   }
