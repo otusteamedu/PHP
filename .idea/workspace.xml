@@ -859,6 +859,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="904c6a7a-68b5-4a39-809d-0ee979452864" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/PHP.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vagrant.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -908,7 +915,7 @@
       <workItem from="1596983165776" duration="8593000" />
       <workItem from="1597479698436" duration="321000" />
       <workItem from="1597480032012" duration="7609000" />
-      <workItem from="1597507621459" duration="14983000" />
+      <workItem from="1597507621459" duration="15968000" />
     </task>
     <servers />
   </component>
