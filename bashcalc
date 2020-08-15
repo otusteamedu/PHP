@@ -1,15 +1,22 @@
-!/bin/bash
+#!/bin/bash
+#set -x
+result=0
+sum=0
+while [ "$result" -eq "0" ]
+do
 echo "Введите первое число"
 read int1
 echo "Введите второе число"
 read int2
-sum=0
 reg='^[-+]?\d*\.?\d*$'
 for var in $int1 $int2
 do
 result=$(echo $var | grep -P "$reg")
-if [[ $result = 0 ]] ; then
-	echo "Ошибка, введны не числа" >&2; exit 1
+if [ "$result" = '' ]; then
+echo "Ошибка, введны неверные данные, введите числа для сложения"
+result=0
+break 
 fi
+done
 done
 echo $int1+$int2 | bc
