@@ -47,3 +47,11 @@
 - необходимые утилиты (git, curl, wget, grep...)
 - установленный composer
 - установленные расширения redis, memcached, pecl_http, pdo_pgsql
+
+```
+Не получилось решить проблему с установкой pecl_http, как будто не находит http.so, хотя ищет по правильному пути
+http.so - тоже скачивается и лежит в папке
+
+Ссылка на образ docker тут:
+https://hub.docker.com/repository/docker/glushkovis/otus-php
+```
