@@ -1,0 +1,16 @@
+{
+    "name": "root/public",
+    "require": {
+        "vlucas/phpdotenv": "^5.1",
+        "mongodb/mongodb": "^1.7",
+        "tburry/pquery": "^1.1",
+        "somesh/php-query": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Services\\": "services",
+            "DB\\": "databases",
+            "Sources\\": "sources"
+        }
+    }
+}
