@@ -1,0 +1,25 @@
+Installing shared extensions:     /usr/lib/php/20190902/
+
+[1m  +----------------------------------------------------------------------+
+  |                                                                      |
+  |   INSTALLATION INSTRUCTIONS                                          |
+  |   =========================                                          |
+  |                                                                      |
+  |   See https://xdebug.org/install.php#configure-php for instructions  |
+  |   on how to enable Xdebug for PHP.                                   |
+  |                                                                      |
+  |   Documentation is available online as well:                         |
+  |   - A list of all settings:  https://xdebug.org/docs-settings.php    |
+  |   - A list of all functions: https://xdebug.org/docs-functions.php   |
+  |   - Profiling instructions:  https://xdebug.org/docs-profiling2.php  |
+  |   - Remote debugging:        https://xdebug.org/docs-debugger.php    |
+  |                                                                      |
+  |                                                                      |
+  |   NOTE: Please disregard the message                                 |
+  |       You should add "extension=xdebug.so" to php.ini                |
+  |   that is emitted by the PECL installer. This does not work for      |
+  |   Xdebug.                                                            |
+  |                                                                      |
+  +----------------------------------------------------------------------+
+[m
+
