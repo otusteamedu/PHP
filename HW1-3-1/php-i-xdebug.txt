@@ -1,0 +1,2 @@
+OLDPWD => /home/vagrant/mount/xdebug-2.9.6
+$_SERVER['OLDPWD'] => /home/vagrant/mount/xdebug-2.9.6
