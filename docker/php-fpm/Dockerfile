@@ -1,6 +1,6 @@
 FROM php:7.4-fpm
 
-RUN apt-get update && apt-get install -y wget git unzip \
+RUN apt-get update && apt-get install -y wget git unzip libcurl4-openssl-dev pkg-config libssl-dev \
     && pecl install xdebug-2.9.6 mongodb \
     && docker-php-ext-enable xdebug mongodb
 

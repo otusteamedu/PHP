@@ -11,13 +11,15 @@ class Animevost implements \Sources\MethodsInterface {
 
         $elements = $dom->find('#dle-content .shortstory');
 
-        foreach ($elements as $element) {
+        foreach ($elements as $key=>$element) {
+            if ($key == 2) {
             $result[] = [
                 'title' => pq($element)->find('.shortstoryHead h2 a')->text(),
                 'category' => pq($element)->find('.shortstoryFuter span i')->text(),
                 'link' => pq($element)->find('.shortstoryFuter a')->attr('href')
             ];
-        }
+            
+        }}
 
         return $result;
     }

@@ -16,7 +16,7 @@ class Spider implements \Sources\MethodsInterface {
 
     public function getTop() : Object
     {
-        $this->result[] = $this->source->getTop();
+        $this->result = $this->source->getTop();
 
         return $this;
     }
@@ -28,6 +28,17 @@ class Spider implements \Sources\MethodsInterface {
 
     public function getPage(int $page) : Object
     {
+        return $this;
+    }
+
+    public function save() : Object
+    {
+        if ($this->result) {
+            $this->db->save($this->result);
+        } else {
+            throw new Exception('you have not received data');
+        }
+
         return $this;
     }
 }

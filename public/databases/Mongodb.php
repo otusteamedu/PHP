@@ -17,13 +17,13 @@ class Mongodb {
         if ($this->dsn && $this->database && $this->collection) {
             $this->connect();
         } else {
-            throw new Exception('no connect mongodb');
+            throw new Exception('no connect mongodb.');
         }
     }    
 
     private function connect()
     {
-        $this->mongo = (new MongoDB\Client($this->dsn, [], [
+        $this->mongo = (new \MongoDB\Client($this->dsn, [], [
             'typeMap' => [
                 'root' => 'array',
                 'document' => 'array',
@@ -31,4 +31,18 @@ class Mongodb {
             ]
         ]))->{$this->database}->{$this->collection};
     } 
+
+    public function save(array $data)
+    {
+        if (count($data) > 1 && (isset($data[0]) && gettype(array_keys($data)[0]) == 'integer')) {
+            if (!$this->mongo->insertMany($data)) {
+                throw new Exception('error in save - insertMany.');
+            }
+        } else {
+            if (!$this->mongo->insertOne($data[0])) {
+                throw new Exception('error in save - insertOne.');
+            }
+        }
+    }
 }
+
