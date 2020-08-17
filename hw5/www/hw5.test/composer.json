@@ -1,0 +1,17 @@
+{
+    "name": "nlazarev/hw5",
+    "authors": [
+        {
+            "name": "NickoLaz",
+            "email": "asnickolaz@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nlazarev\\Hw5\\": "src/"
+        }
+    }
+}

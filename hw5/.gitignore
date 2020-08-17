@@ -1,0 +1,4 @@
+/www/hw5.test/vendor/*
+/www/hw5.laravel/*
+/tmp/*
+/nginx/logs/*
