@@ -1,0 +1,4 @@
+docker-compose exec php sh
+
+cd hw5.laravel
+composer create-project --prefer-dist laravel/laravel laravelproject
