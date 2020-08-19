@@ -1,3 +1,7 @@
+<?php
+//минимальная длина строки
+$minLength = 10;
+?>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,29 +13,35 @@
 <body>
 <h3>Please enter string and click to the button</h3>
 <form action="/" method="post">
-    <input type="text" name="string" pattern="^[()]+$" placeholder="Enter string here..." title="Only ( and )">
+    <input type="text" name="string" pattern="^[()]+$" placeholder="Enter string here..." title="Only ( and ), also > <?="$minLength";?>">
     <input type="submit" placeholder="enter">
 </form>
 </body>
 </html>
+
 <?php
 
-if(isset($_POST['string']))
-{
+//выполняем скрипт, если отправлен POST запрос
+if (!empty($_POST['string'])) {
     $string = htmlspecialchars($_POST['string']);
-    $numSym = mb_strlen($string);
+    $countSymbols = mb_strlen($string);
 
-    if(($numSym % 2) !== 0) {
+    if (($countSymbols % 2) !== 0) {
         http_response_code(400);
         echo 'Everything is bad!';
+        return;
+    }
+
+    $countSymbol1 = mb_substr_count($string, '(');
+    if (($countSymbols - $countSymbol1) === $countSymbol1) {
+        http_response_code(200);
+        echo 'Everything is ok!';
+        return;
     } else {
-        $numSym1 = mb_substr_count('(', $string);
-        if(($numSym - $numSym1) === 0){
-            http_response_code(200);
-            echo 'Everything is ok!';
-        } else {
-            http_response_code(400);
-            echo 'Everything is bad!';
-        }
+        http_response_code(400);
+        echo 'Everything is bad!';
+        return;
     }
 }
+
+?>
