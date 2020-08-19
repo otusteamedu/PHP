@@ -1,0 +1,13 @@
+{
+    "name": "penguin/app",
+    "require": {
+        "php": ">=7.4",
+      "ext-mbstring": "*",
+      "ext-sockets": "*",
+        "vlucas/phpdotenv": "^5.1"
+    },
+
+    "autoload": {
+        "psr-4": {"Penguin\\": "src/"}
+    }
+}

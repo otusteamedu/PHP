@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  server:
+    image: my-php-cli
+    volumes:
+      - /home/otus/code:/code
+      - /tmp/docker:/tmp
+    working_dir: /code/console
+    entrypoint: ["php", "-f", "server.php"]
+  client:
+    image: my-php-cli
+    depends_on:
+      - server
+    volumes:
+      - /home/otus/code:/code
+      - /tmp/docker:/tmp
+    working_dir: /code/console
+    entrypoint: ["php", "-f", "client.php", "quit"]
