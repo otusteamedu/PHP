@@ -11,11 +11,14 @@ services:
     depends_on:
       - php-fpm
     volumes:
-      - ./www:/usr/share/nginx/html
+      - ./nginx/core:/etc/nginx/conf.d
+      - ./nginx/www:/var/www/
+      - ./nginx/logs:/var/log/nginx/
+      - ./nginx/html:/usr/share/nginx/html/
 
   php-fpm:
     build:
       context: ./
       dockerfile: php-fpm/dockerfile
-    ports:
-      - 9000:9000
+    volumes:
+      - ./nginx/www:/var/www
