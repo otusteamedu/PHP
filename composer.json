@@ -1,0 +1,28 @@
+{
+    "name": "asokolov/postgres-data-mapper",
+    "description": "datamapper for PostgerSQL Database",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aleksei Sokolov",
+            "email": "aleksei.sokolov.85@mail.ru"
+        }
+    ],
+    "require": {
+        "ext-pgsql": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pdo": "*",
+        "symfony/yaml": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\" : "App/Controllers",
+            "Models\\" : "App/Models",
+            "Contracts\\" : "App/Controllers/DataBaseControllers/Contracts",
+            "API\\" : "App/Controllers/API",
+            "Config\\": "config",
+            "Logger\\": "App/Logger",
+            "Common\\": "App/Common"
+        }
+    }
+}
