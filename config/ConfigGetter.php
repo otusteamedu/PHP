@@ -2,23 +2,26 @@
 
 namespace Config;
 
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+
 class ConfigGetter
 {
     private static $config = null;
 
-    public function __construct()
-    {
-        $this->config = require('config.php');
-    }
-
     /**
      * Функция возвращает объект конфигурации для заданного приложения
-     * @param $configPart название приложения для фильтрации
+     * @param string $configPart название приложения для фильтрации
      * @return object
      */
     public static function config(string $configPart): object
     {
-        $config = require('config.php');
+        try {
+            $config = Yaml::parseFile(__DIR__ . '/config.yaml', Yaml::PARSE_OBJECT_FOR_MAP);
+        } catch (ParseException $exception) {
+            printf('Unable to parse the YAML string: %s', $exception->getMessage());
+        }
+
         return $config->$configPart;
     }
 }

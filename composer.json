@@ -9,9 +9,10 @@
         }
     ],
     "require": {
-      "ext-pgsql": "*",
+        "ext-pgsql": "*",
         "ext-pdo_pgsql": "*",
-      "ext-pdo": "*"
+        "ext-pdo": "*",
+        "symfony/yaml": "^5.1"
     },
     "autoload": {
         "psr-4": {
@@ -19,7 +20,9 @@
             "Models\\" : "App/Models",
             "Contracts\\" : "App/Controllers/DataBaseControllers/Contracts",
             "API\\" : "App/Controllers/API",
-            "Config\\": "config"
+            "Config\\": "config",
+            "Logger\\": "App/Logger",
+            "Common\\": "App/Common"
         }
     }
 }

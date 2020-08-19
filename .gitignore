@@ -5,8 +5,11 @@ redis/
 config/config.php
 db_patterns/
 .idea/
+config/config.yaml
+config/conf.php
+config/config.sample.php
 
-# User-specific stuff
+# UserInterface-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
