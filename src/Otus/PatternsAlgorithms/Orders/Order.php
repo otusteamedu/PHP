@@ -17,6 +17,41 @@ abstract class Order
     protected $name;
 
     /**
+     * Subtotal price of all  products in the order.
+     *
+     * @var float
+     */
+    protected $productsSubtotal = 0;
+
+    /**
+     * Subtotal price of all product shipments.
+     *
+     * @var float
+     */
+    protected $shipmentSubtotal = 0;
+
+    /**
+     * Subtotal price before discounts.
+     *
+     * @var float
+     */
+    protected $subtotalBeforeDiscounts = 0;
+
+    /**
+     * Subtotal of all applied discounts.
+     *
+     * @var float
+     */
+    protected $discountSubtotal = 0;
+
+    /**
+     * Total price for the order.
+     *
+     * @var float
+     */
+    protected $finalPrice = 0;
+
+    /**
      * Customer of the order.
      *
      * @var Customer
@@ -44,7 +79,6 @@ abstract class Order
      */
     private $shipments;
 
-
     /**
      * Order constructor.
      * Order must have at least one product.
@@ -57,60 +91,69 @@ abstract class Order
     }
 
     /**
-     * Subtotal price of the order without discounts.
+     * Calculates subtotal price of all products in the order.
      *
      * @return float
      */
-    public function subTotalPrice(): float
+    protected function calculateProductsSubtotal()
     {
-        $subTotal = 0;
         foreach ($this->products as $product) {
-            $subTotal += $product->getPrice();
+            $this->productsSubtotal += $product->getPrice();
         }
-        return $subTotal;
     }
 
     /**
-     * Final price of the order including discounts.
+     * Calculates sum of all applied discounts.
      */
-    public function finalPrice()
+    protected function calculateDiscountSubtotal()
     {
-        return $this->subTotalPrice() - $this->totalDiscountInCurrency()-$this->totalShipmentPrice();
-    }
-
-    /**
-     * Calculates total discount percentage for the order.
-     */
-    public function totalDiscountInPercentage()
-    {
-        $totalDiscount = 0;
         foreach ($this->discounts as $discount) {
-            $totalDiscount += $discount->getPercentage();
+            $this->discountSubtotal += $discount->getDiscountAmount($this);
         }
-        return $totalDiscount;
-    }
-
-    public function totalDiscountInCurrency()
-    {
-        // if no discounts are applied, return subtotal
-        if ($this->totalDiscountInPercentage() == 0) {
-            return $this->subTotalPrice();
-        }
-
-        $totalDiscountInCurrency=$this->subTotalPrice() * $this->totalDiscountInPercentage();
-        return round($totalDiscountInCurrency,2);
     }
 
     /**
-     * Returns price of shipping the order packages.
+     * Calculates shipment subtotal for all product shipments in the order.
      */
-    public function totalShipmentPrice(){
-        $totalShipmentPrice = 0;
-        foreach ($this->shipments as $shipment ){
-            $totalShipmentPrice+=$shipment->shipmentPrice();
+    protected function calculateShipmentSubtotal()
+    {
+        foreach ($this->shipments as $shipment) {
+            $this->shipmentSubtotal += $shipment->shipmentPrice();
         }
-        return $totalShipmentPrice;
     }
+
+    /**
+     * Return subtotal price before discounts are applied.
+     *
+     * @return float
+     */
+    protected function calculateSubTotalPriceBeforeDiscounts()
+    {
+        $this->subtotalBeforeDiscounts=$this->getProductsSubtotal() + $this->getShipmentSubtotal();
+    }
+
+    /**
+     * Calculates final price of the order.
+     */
+    protected function calculateFinalPrice()
+    {
+        $this->finalPrice = $this->getSubtotalBeforeDiscounts() - $this->getDiscountSubtotal();
+    }
+    /**
+     * Calculates order subtotals and total.
+     */
+    public function calculateTotals()
+    {
+        $this->calculateProductsSubtotal();
+        $this->calculateShipmentSubtotal();
+        $this->calculateSubTotalPriceBeforeDiscounts();
+        $this->calculateDiscountSubtotal();
+        $this->calculateFinalPrice();
+    }
+
+    //**************************************************************
+    // Getters and setters below.
+    //**************************************************************
 
     /**
      * @return Product[]
@@ -141,16 +184,11 @@ abstract class Order
      */
     public function addDiscount(Discount $discount): void
     {
-        // if total discount is more than 100% throw an error
-        if (($this->totalDiscountInPercentage() + $discount->getPercentage()) > 1) {
-            throw new \Exception('Cannot add another discount. Total discount will be more than 100%');
-        }
-
         $this->discounts[] = $discount;
     }
 
     /**
-     * @return \App\Otus\PatternsAlgorithms\Shipments\Shipment[]
+     * @return Shipment[]
      */
     public function getShipments()
     {
@@ -166,7 +204,7 @@ abstract class Order
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -174,7 +212,7 @@ abstract class Order
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name): void
     {
@@ -184,7 +222,7 @@ abstract class Order
     /**
      * @return Customer
      */
-    public function getCustomer(): Customer
+    public function getCustomer()
     {
         return $this->customer;
     }
@@ -195,6 +233,49 @@ abstract class Order
     public function setCustomer(Customer $customer): void
     {
         $this->customer = $customer;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountSubtotal()
+    {
+        return round($this->discountSubtotal,2);
+    }
+
+
+    /**
+     * @return float
+     */
+    public function getProductsSubtotal()
+    {
+        return round($this->productsSubtotal,2);
+    }
+
+
+    /**
+     * @return float
+     */
+    public function getShipmentSubtotal()
+    {
+        return round($this->shipmentSubtotal,2);
+    }
+
+    /**
+     * @return float
+     */
+    public function getFinalPrice()
+    {
+        return round($this->finalPrice, 2);
+    }
+
+
+    /**
+     * @return float
+     */
+    public function getSubtotalBeforeDiscounts()
+    {
+        return round($this->subtotalBeforeDiscounts,2);
     }
 
 }

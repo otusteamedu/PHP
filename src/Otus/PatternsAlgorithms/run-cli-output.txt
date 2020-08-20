@@ -9,14 +9,7 @@ Products
 Product: ProductOne - $10.99
 Product: ProductOne - $10.99
 Product: ProductTwo - $20.99
-Subtotal: $42.97
-
-Discounts
---------
-Discount: Loyalty discount - 5%
-Discount: Season discount - 3%
-Total discount: 8%
-Savings: $3.44
+Products price: $42.97
 
 Shipment
 --------
@@ -24,6 +17,17 @@ Shipment: UPS - 1 package(s) - 2 product(s) - $ 2.99
 Shipment: DHL - 1 package(s) - 1 product(s) - $ 1.99
 Total shipment price: 4.98
 
+Price before discounts: $47.95
+----------------------
+
+Discounts
+--------
+Discount: Loyalty discount (5%) - $2.4
+Discount: Christmas discount (3%) - $1.44
+Discount: Savings coupon - $5
+Discount: Free delivery - $4.98
+Savings: $13.82
+
 ===========
-Final price: $34.55
+Final price: $34.13
 ===========

@@ -4,21 +4,44 @@
 namespace App\Otus\PatternsAlgorithms\Discounts;
 
 
+use App\Otus\PatternsAlgorithms\Orders\Order;
+
+/**
+ * Discount to be applied to the order.
+ *
+ * Class Discount
+ * @package App\Otus\PatternsAlgorithms\Discounts
+ */
 abstract class Discount
 {
     /**
-     * Name of the discount (overwritten by child classes).
+     * Name of the discount.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Discount percentage.
+     * @var Order
+     */
+    protected $order;
+
+    /**
+     * Savings in currency when this discount is applied.
      *
      * @var float
      */
-    protected $percentage;
+    protected $savings;
+
+
+    /**
+     * Returns discount amount in currency.
+     *
+     * @param Order $order
+     * @return float
+     */
+    abstract function getDiscountAmount(Order $order);
+
 
     /**
      * @return string
@@ -39,17 +62,14 @@ abstract class Discount
     /**
      * @return float
      */
-    public function getPercentage(): float
+    public function getSavings()
     {
-        return $this->percentage;
+        return round($this->savings,2);
     }
 
-    /**
-     * @param float $percentage
-     */
-    public function setPercentage(float $percentage): void
+    function __toString()
     {
-        $this->percentage = $percentage;
+        return $this->name . ' - $' . $this->getSavings();
     }
 
 }
