@@ -21,6 +21,7 @@ final class Client
     private function message(string $message)
     {
         $this->socket->write($message);
+        $this->waitingResponse();
     }
 
     private function initSocket(string $host, int $port): void

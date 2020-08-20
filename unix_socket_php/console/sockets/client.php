@@ -10,10 +10,7 @@ try {
         $_ENV['SOCKET_PORT'],
     );
 
-    while (true) {
-        $client->waitForMessage();
-        $client->waitingResponse();
-    }
+    $client->waitForMessage();
 
 
 } catch (SocketsException $e) {
