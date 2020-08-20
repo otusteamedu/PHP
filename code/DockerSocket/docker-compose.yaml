@@ -2,14 +2,14 @@ version: "3"
 
 services:
   server:
-    image: my-php-cli
+    build: ./
     volumes:
       - /home/otus/code:/code
       - /tmp/docker:/tmp
     working_dir: /code/console
     entrypoint: ["php", "-f", "server.php"]
   client:
-    image: my-php-cli
+    build: ./
     depends_on:
       - server
     volumes:
