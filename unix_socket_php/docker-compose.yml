@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  server:
+    build: ./
+    volumes:
+      - .:/code
+      - /tmp/docker:/tmp
+    working_dir: /code/console/sockets
+    entrypoint: ["php", "-f", "server.php"]
+  client:
+    build: ./
+    depends_on:
+      - server
+    volumes:
+      - .:/code
+      - /tmp/docker:/tmp
+    working_dir: /code/console/sockets
+    entrypoint: ["php", "-f", "client.php"]
