@@ -32,6 +32,12 @@ if (!empty($_POST['string'])) {
         return;
     }
 
+    if(mb_substr($string, 0, 1) === ')' || mb_substr($string, $countSymbols - 1, 1) === '(') {
+        http_response_code(400);
+        echo 'Everything is bad!';
+        return;
+    }
+
     $countSymbol1 = mb_substr_count($string, '(');
     if (($countSymbols - $countSymbol1) === $countSymbol1) {
         http_response_code(200);

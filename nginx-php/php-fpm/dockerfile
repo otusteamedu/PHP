@@ -14,7 +14,8 @@ RUN apt-get update \
 # Install PHP extensions
       && pecl install propro-2.0.0 \
       && pecl install raphf-2.0.1 \
-      && docker-php-ext-enable propro raphf\
+      && pecl install xdebug-2.9.0 \
+      && docker-php-ext-enable propro raphf xdebug \
       && pecl install redis-5.1.1 \
       && pecl install pecl_http-3.2.3 \
       && pecl install memcached-3.1.4 \

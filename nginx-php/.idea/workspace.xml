@@ -939,70 +939,29 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f67413c0-83ed-4e37-b2a6-f99256eb9517" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../nginx-php/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/nginx/logs/default-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/nginx/logs/default-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/nginx/logs/default.log" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/nginx/logs/default.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/php-fpm/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/php-fpm/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="2472947d-6bd0-40ac-8a0b-7351161a691e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx/logs/default-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/nginx/logs/default-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx/logs/default.log" beforeDir="false" afterPath="$PROJECT_DIR$/nginx/logs/default.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/php-fpm/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/php-fpm/dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unix_socket_php/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../unix_socket_php/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../unix_socket_php/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../unix_socket_php/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
-    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+  <component name="ComposerSettings">
     <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
-    <include_path>
-      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
-      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
-      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
-      <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
-      <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
-      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
-      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
-      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
-      <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
-      <path value="$PROJECT_DIR$/vendor/phar-io/version" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
-      <path value="$PROJECT_DIR$/vendor/composer" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
-      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
-    </include_path>
-  </component>
-  <component name="ProjectId" id="1gNJhkeYAFg9imEzxBL7AdtlLat" />
+  <component name="PhpDebugGeneral" xdebug_debug_port="9001" break_at_first_line="true" ignore_connections_through_unregistered_servers="true" listening_started="true" />
+  <component name="PhpWebServerValidation" path_to_validation_script="$PROJECT_DIR$" selected_validation_type="LOCAL" web_path_to_validation_script="http://127.0.0.1:9001" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="php-fpm" />
+  <component name="ProjectId" id="1gQ7RZvHqpvaSGj1eRAFYIyGFit" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -1011,20 +970,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../nginx-php" />
-    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f67413c0-83ed-4e37-b2a6-f99256eb9517" name="Default Changelist" comment="" />
-      <created>1597949239047</created>
+      <changelist id="2472947d-6bd0-40ac-8a0b-7351161a691e" name="Default Changelist" comment="" />
+      <created>1598034955219</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1597949239047</updated>
-      <workItem from="1597949241328" duration="1359000" />
-      <workItem from="1598034902415" duration="969000" />
+      <updated>1598034955219</updated>
+      <workItem from="1598034957052" duration="1325000" />
     </task>
     <servers />
   </component>
@@ -1041,20 +998,38 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="311" y="50" width="824" height="678" key="#CLI_Interpreters" timestamp="1598035277449">
+    <state x="311" y="50" width="824" height="678" key="#CLI_Interpreters" timestamp="1598035728809">
       <screen x="0" y="0" width="1456" height="786" />
     </state>
-    <state x="311" y="50" width="824" height="678" key="#CLI_Interpreters/0.0.1456.786@0.0.1456.786" timestamp="1598035277449" />
-    <state x="511" y="150" width="424" height="478" key="FileChooserDialogImpl" timestamp="1598034952768">
+    <state x="311" y="50" width="824" height="678" key="#CLI_Interpreters/0.0.1456.786@0.0.1456.786" timestamp="1598035728809" />
+    <state x="515" y="257" width="579" height="321" key="#Docker" timestamp="1598035109482">
       <screen x="0" y="0" width="1456" height="786" />
     </state>
-    <state x="511" y="150" width="424" height="478" key="FileChooserDialogImpl/0.0.1456.786@0.0.1456.786" timestamp="1598034952768" />
-    <state x="232" y="27" key="SettingsEditor" timestamp="1598035278516">
+    <state x="515" y="257" width="579" height="321" key="#Docker/0.0.1456.786@0.0.1456.786" timestamp="1598035109482" />
+    <state x="446" y="217" width="554" height="343" key="#com.jetbrains.php.debug.validation.PhpWebServerValidationDialog#" timestamp="1598035965055">
       <screen x="0" y="0" width="1456" height="786" />
     </state>
-    <state x="232" y="27" key="SettingsEditor/0.0.1456.786@0.0.1456.786" timestamp="1598035278516" />
+    <state x="446" y="217" width="554" height="343" key="#com.jetbrains.php.debug.validation.PhpWebServerValidationDialog#/0.0.1456.786@0.0.1456.786" timestamp="1598035965055" />
+    <state x="606" y="189" width="271" height="457" key="EnvironmentVariablesDialog" timestamp="1598035071290">
+      <screen x="0" y="0" width="1456" height="786" />
+    </state>
+    <state x="606" y="189" width="271" height="457" key="EnvironmentVariablesDialog/0.0.1456.786@0.0.1456.786" timestamp="1598035071290" />
+    <state x="232" y="27" key="SettingsEditor" timestamp="1598036285123">
+      <screen x="0" y="0" width="1456" height="786" />
+    </state>
+    <state x="232" y="27" key="SettingsEditor/0.0.1456.786@0.0.1456.786" timestamp="1598036285123" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/nginx/www/site.loc/index.php</url>
+          <line>29</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

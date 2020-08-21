@@ -20,5 +20,7 @@ services:
     build:
       context: ./
       dockerfile: php-fpm/dockerfile
+    ports:
+      - 9001:9000
     volumes:
       - ./nginx/www:/var/www
