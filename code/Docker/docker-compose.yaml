@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+    - "8080:80"
+    volumes:
+    - /home/otus/code:/code
+    - ./nginx/code.conf:/etc/nginx/conf.d/code.conf
+  php:
+    build: php/
+    volumes:
+    - /home/otus/code:/code
