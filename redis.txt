@@ -1,0 +1,3 @@
+OLDPWD => /home/nemroq/otus-hw/extension_test/redis-stable
+$_SERVER['OLDPWD'] => /home/nemroq/otus-hw/extension_test/redis-stable
+This program is free software; you can redistribute it and/or modify

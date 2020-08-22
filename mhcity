@@ -1,0 +1,2 @@
+#!/bin/bash
+awk 'NR > 1' table | awk '!a[$3]++' | awk ' NR < 4'
