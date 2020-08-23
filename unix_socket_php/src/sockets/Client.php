@@ -40,4 +40,16 @@ final class Client
     {
         echo "Server says:\t" . $this->socket->read();
     }
+
+    public function run()
+    {
+        do {
+            echo "Enter Message:\t";
+            $this->socket->write($this->readline());
+
+            $message = $this->socket->read();
+            echo "Server says:\t" . $message . "\n\n";
+
+        } while (true);
+    }
 }

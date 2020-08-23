@@ -940,12 +940,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f67413c0-83ed-4e37-b2a6-f99256eb9517" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../nginx-php/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/nginx/logs/default-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/nginx/logs/default-error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/nginx/logs/default.log" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/nginx/logs/default.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../nginx-php/php-fpm/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/php-fpm/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nginx-php/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/init.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/sockets/client.php" beforeDir="false" afterPath="$PROJECT_DIR$/console/sockets/client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/sockets/init.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/console/sockets/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/console/sockets/server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sockets/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sockets/Server.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/Server.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_files.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1012,6 +1021,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../nginx-php" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
@@ -1024,7 +1039,8 @@
       <option name="presentableId" value="Default" />
       <updated>1597949239047</updated>
       <workItem from="1597949241328" duration="1359000" />
-      <workItem from="1598034902415" duration="969000" />
+      <workItem from="1598034902415" duration="1292000" />
+      <workItem from="1598204013817" duration="3706000" />
     </task>
     <servers />
   </component>
@@ -1052,9 +1068,17 @@
       <screen x="0" y="0" width="1456" height="786" />
     </state>
     <state x="511" y="150" width="424" height="478" key="FileChooserDialogImpl/0.0.1456.786@0.0.1456.786" timestamp="1598034952768" />
+    <state x="512" y="137" width="443" height="536" key="NewPhpClassDialog" timestamp="1598204308121">
+      <screen x="0" y="0" width="1478" height="818" />
+    </state>
+    <state x="512" y="137" width="443" height="536" key="NewPhpClassDialog/0.0.1478.818@0.0.1478.818" timestamp="1598204308121" />
     <state x="232" y="27" key="SettingsEditor" timestamp="1598035278516">
       <screen x="0" y="0" width="1456" height="786" />
     </state>
     <state x="232" y="27" key="SettingsEditor/0.0.1456.786@0.0.1456.786" timestamp="1598035278516" />
+    <state x="402" y="139" width="672" height="678" key="search.everywhere.popup" timestamp="1598207560081">
+      <screen x="0" y="0" width="1478" height="818" />
+    </state>
+    <state x="402" y="139" width="672" height="678" key="search.everywhere.popup/0.0.1478.818@0.0.1478.818" timestamp="1598207560081" />
   </component>
 </project>

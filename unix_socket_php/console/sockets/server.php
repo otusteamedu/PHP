@@ -2,8 +2,6 @@
 
 use sockets\exceptions\SocketsException;
 
-require 'init.php';
-
 try {
     $server = new sockets\Server(
         $_ENV['SOCKET_PATH'],

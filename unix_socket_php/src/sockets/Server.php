@@ -14,9 +14,9 @@ final class Server
 
     public function listen()
     {
-        do {
-            $this->socket->accept();
+        $this->socket->accept();
 
+        do {
             $message = $this->socket->readFromAccepted();
 
             if ($message === 'quit') {
