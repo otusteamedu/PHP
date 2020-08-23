@@ -5,13 +5,13 @@ services:
     build: ./
     volumes:
       - .:/code
-    working_dir: /code/console/sockets
-    entrypoint: ["php", "-f", "server.php"]
+    working_dir: /code
+    entrypoint: ["php", "index.php", "server"]
   client:
     build: ./
     depends_on:
       - server
     volumes:
       - .:/code
-    working_dir: /code/console/sockets
-    entrypoint: ["php", "-f", "client.php"]
+    working_dir: /code
+    entrypoint: ["php", "index.php", "client"]

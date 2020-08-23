@@ -940,21 +940,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f67413c0-83ed-4e37-b2a6-f99256eb9517" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../nginx-php/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../nginx-php/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bootstrap/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/init.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/sockets/client.php" beforeDir="false" afterPath="$PROJECT_DIR$/console/sockets/client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/sockets/init.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/console/sockets/server.php" beforeDir="false" afterPath="$PROJECT_DIR$/console/sockets/server.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sockets/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sockets/Server.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/sockets/Server.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_files.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_files.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1040,7 +1029,7 @@
       <updated>1597949239047</updated>
       <workItem from="1597949241328" duration="1359000" />
       <workItem from="1598034902415" duration="1292000" />
-      <workItem from="1598204013817" duration="3706000" />
+      <workItem from="1598204013817" duration="4556000" />
     </task>
     <servers />
   </component>
