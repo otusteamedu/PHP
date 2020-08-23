@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+    server_1:
+        image: nginx:latest
+        ports:
+        - "8081:80"
+        volumes:
+        - /home/otus/balancer:/code
+        - ./nginx/code.conf:/etc/nginx/conf.d/code.conf
+        depends_on:
+        - php
+    server_2:
+        image: nginx:latest
+        ports:
+        - "8082:80"
+        volumes:
+        - /home/otus/balancer:/code
+        - ./nginx/code.conf:/etc/nginx/conf.d/code.conf
+        depends_on:
+        - php
+    server_3:
+        image: nginx:latest
+        ports:
+        - "8083:80"
+        volumes:
+        - /home/otus/balancer:/code
+        - ./nginx/code.conf:/etc/nginx/conf.d/code.conf
+        depends_on:
+        - php
+    balancer:
+        image: nginx:latest
+        ports:
+        - "8080:80"
+        volumes:
+        - /home/otus/balancer:/code
+        - ./nginx/balancer.conf:/etc/nginx/nginx.conf
+        depends_on:
+         - php
+    php:
+        build: ./
+        volumes:
+        - /home/otus/balancer:/code
