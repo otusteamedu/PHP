@@ -1,0 +1,10 @@
+version: "3"
+services:
+  php:
+    container_name: socket
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /usr/src/homework
+    volumes:
+      - .:/usr/src/homework
