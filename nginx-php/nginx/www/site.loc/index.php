@@ -1,7 +1,7 @@
 <?php
-//минимальная длина строки
-$minLength = 10;
+require 'controllers/MainController.php';
 ?>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -13,41 +13,9 @@ $minLength = 10;
 <body>
 <h3>Please enter string and click to the button</h3>
 <form action="/" method="post">
-    <input type="text" name="string" pattern="^[()]+$" placeholder="Enter string here..." title="Only ( and ), also > <?="$minLength";?>">
+    <input type="text" name="string" pattern="^[()]+$" placeholder="Enter string here..." title="Only ( and ), also > 10">
     <input type="submit" placeholder="enter">
 </form>
+<h3><?= $mainController->getResponse() ?></h3>
 </body>
 </html>
-
-<?php
-
-//выполняем скрипт, если отправлен POST запрос
-if (!empty($_POST['string'])) {
-    $string = htmlspecialchars($_POST['string']);
-    $countSymbols = mb_strlen($string);
-
-    if (($countSymbols % 2) !== 0) {
-        http_response_code(400);
-        echo 'Everything is bad!';
-        return;
-    }
-
-    if(mb_substr($string, 0, 1) === ')' || mb_substr($string, $countSymbols - 1, 1) === '(') {
-        http_response_code(400);
-        echo 'Everything is bad!';
-        return;
-    }
-
-    $countSymbol1 = mb_substr_count($string, '(');
-    if (($countSymbols - $countSymbol1) === $countSymbol1) {
-        http_response_code(200);
-        echo 'Everything is ok!';
-        return;
-    } else {
-        http_response_code(400);
-        echo 'Everything is bad!';
-        return;
-    }
-}
-
-?>
