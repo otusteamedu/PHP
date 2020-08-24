@@ -1,0 +1,1 @@
+awk -F:" " '{ if (NR > 1) print $0 | "sort -u -k 3,3 | sort -k4 -r | head -n3 " }' users.txt
