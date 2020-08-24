@@ -1,0 +1,1 @@
+<?php echo 'hello from vagrant port 80'; ?>
