@@ -1,0 +1,13 @@
+version: '3'
+services:
+  cinema:
+    image: postgres
+    container_name: cinema_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: cinema
+volumes:
+  db-data:
