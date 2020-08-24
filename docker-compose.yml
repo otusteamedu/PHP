@@ -1,0 +1,34 @@
+version: '2.0'
+
+services:
+  app:
+    build:
+      args:
+        user: vagrant
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: docker-project-php
+    container_name: docker-project-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./src:/var/www
+    networks:
+        - docker-project
+
+  nginx:
+    image: nginx:alpine
+    container_name: docker-project-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./src:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - docker-project
+
+networks:
+  docker-project:
+    driver: bridge

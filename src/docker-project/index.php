@@ -1,0 +1,1 @@
+<?php echo 'hello from docker port 80'; ?>
