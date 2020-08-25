@@ -1,10 +1,13 @@
-version: "3"
+version: '3'
 services:
-  php:
-    container_name: socket
+  socket:
     build:
-      context: ./
+      context: ./docker/php-fpm
       dockerfile: Dockerfile
-    working_dir: /usr/src/homework
+    container_name: socket
+    working_dir: /var/www/html
     volumes:
-      - .:/usr/src/homework
+      - ./docker/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./app:/var/www/html:delegated
+    environment:
+      PHP_USER_ID: 1000
