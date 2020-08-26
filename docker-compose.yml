@@ -1,0 +1,33 @@
+version: '3.6'
+
+services:
+  app:
+    build:
+      args:
+        user: vagrant
+        uid: 1000
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    image: docker-project-php
+    container_name: docker-project-app
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    networks:
+      - docker-project
+
+  nginx:
+    image: nginx:alpine
+    container_name: docker-project-nginx
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - docker-project
+
+networks:
+  docker-project:
+    driver: bridge
