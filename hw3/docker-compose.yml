@@ -1,0 +1,24 @@
+version: "3.1"
+services:
+
+  nginx:
+    image: tutum/nginx
+    ports:
+      - "80:80"
+    links:
+      - php-fpm
+    volumes:
+      - ./nginx/default:/etc/nginx/sites-available/default
+      - ./nginx/default:/etc/nginx/sites-enabled/default
+
+      - ./logs/nginx-access.log:/var/log/nginx/access.log
+      - ./logs/nginx-error.log:/var/log/nginx/error.log
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./public:/application/public
