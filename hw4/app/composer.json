@@ -1,0 +1,11 @@
+{
+    "name": "apirozhkov/hw4",
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  socket:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    container_name: socket
+    working_dir: /var/www/html
+    volumes:
+      - ./docker/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./app:/var/www/html:delegated
+    environment:
+      PHP_USER_ID: 1000
