@@ -1,0 +1,67 @@
+version: '3'
+services:
+  nginx_upstream:
+    image: nginx:latest
+    container_name: nginx_hw6_upstream
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/balancer/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ./app:/var/www/html:delegated
+    depends_on:
+      - nginx_1
+      - nginx_2
+      - nginx_3
+    networks:
+      - web
+
+  nginx_1:
+    image: nginx:latest
+    container_name: nginx_hw6_1
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d/
+      - ./app:/var/www/html:delegated
+    depends_on:
+      - php
+    networks:
+      - web
+
+  nginx_2:
+    image: nginx:latest
+    container_name: nginx_hw6_2
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d/
+      - ./app:/var/www/html:delegated
+    depends_on:
+      - php
+    networks:
+      - web
+
+  nginx_3:
+    image: nginx:latest
+    container_name: nginx_hw6_3
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d/
+      - ./app:/var/www/html:delegated
+    depends_on:
+      - php
+    networks:
+      - web
+
+  php:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    container_name: php_hw6
+    working_dir: /var/www/html
+    volumes:
+      - ./docker/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./app:/var/www/html:delegated
+    environment:
+      PHP_USER_ID: ${PHP_USER_ID}
+    networks:
+      - web
+networks:
+  web:
+    external: true

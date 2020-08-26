@@ -1,41 +1,22 @@
 version: '3'
 services:
-  traefik:
-    image: "traefik:v2.2"
-    container_name: traefik
-    command:
-      - --log.level=DEBUG
-      - --api.insecure=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - web
-
   php:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
-    container_name: php
+    container_name: php_hw6
     working_dir: /var/www/html
     volumes:
       - ./docker/php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./app:/var/www/html:delegated
     environment:
       PHP_USER_ID: ${PHP_USER_ID}
-    depends_on:
-      - db
     networks:
       - web
 
   nginx:
     image: nginx:alpine
-    container_name: nginx
+    container_name: nginx_hw6
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d/
       - ./app:/var/www/html:delegated
@@ -52,6 +33,3 @@ services:
 networks:
   web:
     external: true
-
-volumes:
-  mysqldata:
