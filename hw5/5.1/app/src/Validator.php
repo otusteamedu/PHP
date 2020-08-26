@@ -25,7 +25,6 @@ class Validator
 
         } catch (Exception $exception) {
             header('400 Bad Request ' . $exception->getMessage(), false, 400);
-            exit();
         }
     }
 
