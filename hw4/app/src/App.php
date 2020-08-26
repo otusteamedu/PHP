@@ -6,7 +6,7 @@ namespace App;
 
 use Exception;
 
-class Start
+class App
 {
     const TYPE_SERVER = "server";
     const TYPE_CLIENT = "client";
@@ -17,7 +17,7 @@ class Start
     private $type;
     private $message;
 
-    public function __construct($iniPath)
+    public function __construct()
     {
         $this->options = getopt($this->shortOpts, $this->longOpts);
 
@@ -30,8 +30,6 @@ class Start
             echo $exception->getMessage();
             exit();
         }
-
-        $this->startSession($iniPath);
     }
     private function validateOptions()
     {
@@ -50,7 +48,7 @@ class Start
         }
     }
 
-    private function startSession($iniPath)
+    public function startSession($iniPath)
     {
         $class = "App\\" . ucfirst($this->type);
         (new $class($iniPath))->start($this->type !== 'client' ?: $this->message);

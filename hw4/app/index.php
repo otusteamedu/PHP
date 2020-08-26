@@ -2,6 +2,6 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Start;
+use App\App;
 
-new Start(__DIR__ . '/conf.ini');
+(new App())->startSession(__DIR__ . '/conf.ini');
