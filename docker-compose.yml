@@ -1,33 +1,114 @@
 version: '3.6'
 
 services:
-  app:
+  server-balancer:
     build:
       args:
         user: vagrant
         uid: 1000
       context: ./
-      dockerfile: ./docker/php/Dockerfile
-    image: docker-project-php
-    container_name: docker-project-app
+      dockerfile: docker/server-balancer/php/Dockerfile
+    image: server-balancer-php
+    container_name: server-balancer-php
     restart: unless-stopped
     volumes:
       - ./:/var/www
     networks:
-      - docker-project
+      - server-network
 
-  nginx:
+  nginx-balancer:
     image: nginx:alpine
-    container_name: docker-project-nginx
+    container_name: server-balancer-nginx
     restart: unless-stopped
     ports:
       - 8081:80
     volumes:
       - ./:/var/www
-      - ./docker/nginx:/etc/nginx/conf.d/
+      - ./docker/server-balancer/nginx:/etc/nginx/conf.d/
     networks:
-      - docker-project
+      - server-network
+
+  server-main:
+    build:
+      args:
+        user: vagrant
+        uid: 1000
+      context: ./
+      dockerfile: docker/server-main/php/Dockerfile
+    image: server-main-php
+    container_name: server-main-php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    networks:
+      - server-network
+
+  nginx-server-main:
+    image: nginx:alpine
+    container_name: server-main-nginx
+    restart: unless-stopped
+    ports:
+      - 8082:80
+    volumes:
+      - ./:/var/www
+      - ./docker/server-main/nginx:/etc/nginx/conf.d/
+    networks:
+      - server-network
+
+  server-second:
+    build:
+      args:
+        user: vagrant
+        uid: 1000
+      context: ./
+      dockerfile: docker/server-second/php/Dockerfile
+    image: docker-server-second-php
+    container_name: docker-server-second-php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    networks:
+      - server-network
+
+  nginx-server-second:
+    image: nginx:alpine
+    container_name: docker-server-second-nginx
+    restart: unless-stopped
+    ports:
+      - 8083:80
+    volumes:
+      - ./:/var/www
+      - ./docker/server-second/nginx:/etc/nginx/conf.d/
+    networks:
+      - server-network
+
+  server-third:
+    build:
+      args:
+        user: vagrant
+        uid: 1000
+      context: ./
+      dockerfile: docker/server-third/php/Dockerfile
+    image: docker-server-third-php
+    container_name: docker-server-third-php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    networks:
+      - server-network
+
+  nginx-server-third:
+    image: nginx:alpine
+    container_name: docker-server-third-nginx
+    restart: unless-stopped
+    ports:
+      - 8084:80
+    volumes:
+      - ./:/var/www
+      - ./docker/server-third/nginx:/etc/nginx/conf.d/
+    networks:
+      - server-network
 
 networks:
-  docker-project:
+  server-network:
     driver: bridge
