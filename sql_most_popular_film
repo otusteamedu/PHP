@@ -1,3 +1,5 @@
+
+
 SELECT
    film_id,
    SUM(sum) AS total_sum
@@ -34,4 +36,5 @@ FROM
    )
    as result_select
 GROUP BY
-   film_id;
+   film_id
+ORDER BY total_sum DESC;
