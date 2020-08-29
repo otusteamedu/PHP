@@ -1,7 +1,5 @@
-
-
 SELECT
-   film_id,
+   film_name,
    SUM(sum) AS total_sum
 FROM
    (
@@ -11,7 +9,7 @@ FROM
          (
             SELECT
                available_film.film_id,
-               available_film.name,
+               available_film.name as film_name,
                schedule.seance_id
             FROM
                available_film
@@ -36,5 +34,5 @@ FROM
    )
    as result_select
 GROUP BY
-   film_id
+   film_name
 ORDER BY total_sum DESC;
