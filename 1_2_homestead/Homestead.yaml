@@ -1,0 +1,18 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: /Volumes/My Passport/projects/otus/otus_php/1_2_homestead
+    to: /home/vagrant/example
+
+sites:
+  - map: example.test
+    to: /home/vagrant/example/app
