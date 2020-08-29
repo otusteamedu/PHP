@@ -12,6 +12,6 @@ cinema_postgres_create.sql - DDL скрипт для создания струк
 sql_most_popular_film - sql запрос для поиска самого прибыльного фильма в БД
 cinema_db.png - логическая схема БД
 
-результат выполнения скрипта поиска самого прибыльного фильма
+результат выполнения скрипта поиска самого прибыльного фильма:
 ```
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/sql_res.png)
