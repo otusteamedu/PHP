@@ -1,0 +1,22 @@
+{
+    "name": "sgkuksov/starter",
+    "description": "Startkit with docker, nginx, php",
+    "type": "project",
+    "require": {
+        "php": "^7.4",
+        "vlucas/phpdotenv": "^5.1",
+        "ext-curl": "^7.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sergei Kuksov",
+            "email": "sgkuksov1989@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Otus\\" : "src/Otus"
+        }
+    }
+}
