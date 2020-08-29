@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y \
         libpq-dev \
         libssl-dev \
         --no-install-recommends apt-utils \
-    && pecl install memcached redis \
-    && docker-php-ext-enable memcached redis \
+    && pecl install memcached redis xdebug \
+    && docker-php-ext-enable memcached redis xdebug \
     && docker-php-ext-install pdo pdo_pgsql curl \
     && pecl install raphf propro \
     && docker-php-ext-enable raphf propro \
