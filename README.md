@@ -13,5 +13,5 @@ sql_most_popular_film - sql запрос для поиска самого при
 cinema_db.png - логическая схема БД
 
 результат выполнения скрипта поиска самого прибыльного фильма
-![Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
 ```
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/sql_res.png)
