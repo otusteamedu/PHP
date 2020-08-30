@@ -2,6 +2,7 @@
 
 define('ROOT', dirname(__DIR__));
 
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../bootstrap/app.php';
 
 use Otus\Http\App;
