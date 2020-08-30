@@ -1,0 +1,3 @@
+Сылка на пакет на гитхаб - https://github.com/Racoon22/helloworld
+Команда для клонирования с гита - git@github.com:Racoon22/helloworld.git
+Команда для установки через composer - composer require racoon22/hello-world:@dev
