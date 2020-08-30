@@ -1,0 +1,27 @@
+{
+  "name": "epoperezhay/otus-php-4",
+  "description": "Simple php server client app",
+  "authors": [
+    {
+      "name": "Evgenii Poperezhay",
+      "email": "eapdob@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-zip": "*",
+    "monolog/monolog": "*",
+    "symfony/yaml": "^5.0",
+    "vlucas/phpdotenv": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\": "src/Otus"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.3"
+  }
+}
