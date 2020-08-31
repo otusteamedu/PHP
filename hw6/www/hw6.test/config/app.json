@@ -1,0 +1,30 @@
+{
+    "app": {
+        "use_filter_var": false,
+        "email_regexp": {
+            "patern": "/^(?!\\.)((?!.*\\.{2})[a-zA-Z{{unicode}}\\d\\-{{spec_symb}}]+)@(?!\\.|\\-)(?:(?!.*\\-{2})[a-zA-Z{{unicode}}\\d\\-]{0,62}[a-zA-Z{{unicode}}\\d]\\.){1,126}([a-zA-Z{{unicode}}]{2,63})$/ui",
+            "options": {
+                "spec_symb": {
+                    "basic": {
+                        "string": "-.",
+                        "usage": 1
+                    },
+                    "advanced": {
+                        "string": "-.!#$%&'*+/=?^_`{|}~",
+                        "usage": 0
+                    }
+                },
+                "unicode": {
+                    "German": {
+                        "string": "\\x{0041}-\\x{1E9E}\\x{0061}-\\x{00DF}",
+                        "usage": 0
+                    },
+                    "Russian": {
+                        "string": "\\x{0410}-\\x{042F}\\x{0430}-\\x{044F}",
+                        "usage": 1
+                    }
+                }
+            }
+        }
+    }
+}
