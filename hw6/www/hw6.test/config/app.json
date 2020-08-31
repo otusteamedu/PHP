@@ -14,7 +14,7 @@
                         "usage": 0
                     }
                 },
-                "unicode_symb": {
+                "unicode": {
                     "German": {
                         "string": "\\x{0041}-\\x{1E9E}\\x{0061}-\\x{00DF}",
                         "usage": 0

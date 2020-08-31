@@ -11,28 +11,28 @@ class HttpPost
 
     public function __construct(array $request_postdata)
     {
-        $this->$http_request = array(
-        'http' => 
-            array(
-                'method'  => "POST", 
-                'header'  => "Content-type: application/x-www-form-urlencoded ",
-                'content' => http_build_query($request_postdata)
-            )
-        );
+        $this->http_request = array(
+            'http' => 
+                array(
+                    'method'  => "POST", 
+                    'header'  => "Content-type: application/x-www-form-urlencoded ",
+                    'content' => http_build_query($request_postdata)
+                )
+            );
 
-        $this->http_request_context = stream_context_create($this->$http_request);
+        $this->http_request_context = stream_context_create($this->http_request);
     }
 
     public function setPostContentValue(array $request_postdata)
     {
-        $this->$http_request['http']['content'] = http_build_query($request_postdata);
-        $this->http_request_context = stream_context_create($this->$http_request);
+        $this->http_request['http']['content'] = http_build_query($request_postdata);
+        $this->http_request_context = stream_context_create($this->http_request);
     }
 
     public function setPostHeaderValue(string $request_header)
     {
-        $this->$http_request['http']['header'] = $request_header;
-        $this->http_request_context = stream_context_create($this->$http_request);
+        $this->http_request['http']['header'] = $request_header;
+        $this->http_request_context = stream_context_create($this->http_request);
     }
 
     public function getPostResult(string $URL): ?string

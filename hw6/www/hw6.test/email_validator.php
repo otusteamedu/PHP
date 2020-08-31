@@ -2,8 +2,8 @@
 
 require 'vendor/autoload.php';
 
-use Nlazarev\Hw6\Controller\Email\EmailValidator;
+use Nlazarev\Hw6\Controller\App\EmailValidatorApp;
 
-EmailValidator::init();
-EmailValidator::setResultToHTTPHeader();
+EmailValidatorApp::init();
+EmailValidatorApp::setResultToHTTPHeader();
 
