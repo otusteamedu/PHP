@@ -1,12 +1,20 @@
 #!/bin/bash
-if [ -z "$2" ]; then
+
+first=$1
+second=$2
+
+if [ -z "$second" ]; then
   echo "Script requires two arguments. "
 fi
 
-if ! [[ $1 =~ ^-?[0-9]+[.]?[0-9]*$ ]]; then
+while ! [[ $first =~ ^-?[0-9]+[.]?[0-9]*$ ]]; do
   echo "First argument not a nunber"
-elif ! [[ $2 =~ ^-?[0-9]+[.]?[0-9]*$ ]]; then
+  read first
+done
+
+while ! [[ $second =~ ^-?[0-9]+[.]?[0-9]*$ ]]; do
   echo "Second argument not a nunber"
-else
-  echo $1 + $2 | bc
-fi
+  read second
+done
+
+echo $first + $second | bc
