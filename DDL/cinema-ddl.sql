@@ -1,4 +1,4 @@
--- DROP SCHEMA public;
+DROP SCHEMA public CASCADE ;
 
 CREATE SCHEMA public AUTHORIZATION postgres;
 
