@@ -1,0 +1,403 @@
+=======1========
+Получение отсортированого списка емейлов пользователей
+
+Запрос:
+SELECT c.email FROM customer c
+ORDER BY c.email;
+
+10k:
+Sort  (cost=5.32..5.57 rows=100 width=36) (actual time=0.120..0.126 rows=100 loops=1)
+  Sort Key: email
+  Sort Method: quicksort  Memory: 32kB
+  ->  Seq Scan on customer c  (cost=0.00..2.00 rows=100 width=36) (actual time=0.007..0.019 rows=100 loops=1)
+Planning Time: 0.127 ms
+Execution Time: 0.141 ms
+
+10kk До изменений:
+Sort  (cost=19899.95..20274.95 rows=150000 width=36) (actual time=326.885..396.571 rows=150000 loops=1)
+  Sort Key: email
+  Sort Method: external merge  Disk: 6760kB
+  ->  Seq Scan on customer c  (cost=0.00..2902.00 rows=150000 width=36) (actual time=0.008..15.570 rows=150000 loops=1)
+Planning Time: 0.034 ms
+Execution Time: 404.120 ms
+
+Изменения:
+CREATE UNIQUE INDEX IF NOT EXISTS i_customer_email ON customer(email);
+
+10kk Результат:
+Index Only Scan using i_customer_email on customer c  (cost=0.42..12194.41 rows=150000 width=36) (actual time=0.019..60.908 rows=150000 loops=1)
+  Heap Fetches: 150000
+Planning Time: 0.045 ms
+Execution Time: 66.635 ms
+
+
+====2=====
+Получить все фильмы начинающиеся на d ( например для ajax typeahead )
+
+Запрос:
+SELECT * FROM movie
+WHERE title LIKE 'd%';
+
+10k:
+Seq Scan on movie  (cost=0.00..20.50 rows=12 width=140) (actual time=0.029..0.143 rows=14 loops=1)
+  Filter: ((title)::text ~~ 'd%'::text)
+  Rows Removed by Filter: 586
+Planning Time: 0.187 ms
+Execution Time: 0.157 ms
+
+
+10kk До изменений:
+Seq Scan on movie  (cost=0.00..676.00 rows=202 width=140) (actual time=0.013..2.688 rows=335 loops=1)
+  Filter: ((title)::text ~~ 'd%'::text)
+  Rows Removed by Filter: 19665
+Planning Time: 0.046 ms
+Execution Time: 2.717 ms
+
+Изменения:
+CREATE INDEX IF NOT EXISTS i_movie_title ON movie(title text_pattern_ops);
+
+10kk Результат:
+Index Scan using i_movie_title on movie  (cost=0.29..8.31 rows=202 width=140) (actual time=0.025..0.278 rows=335 loops=1)
+  Index Cond: (((title)::text ~>=~ 'd'::text) AND ((title)::text ~<~ 'e'::text))
+  Filter: ((title)::text ~~ 'd%'::text)
+Planning Time: 0.201 ms
+Execution Time: 0.308 ms
+
+Для typeahead можно добавить LIMIT 5
+Получится:
+Limit  (cost=0.29..0.49 rows=5 width=140) (actual time=0.027..0.032 rows=5 loops=1)
+  ->  Index Scan using i_movie_title on movie  (cost=0.29..8.31 rows=202 width=140) (actual time=0.027..0.031 rows=5 loops=1)
+        Index Cond: (((title)::text ~>=~ 'd'::text) AND ((title)::text ~<~ 'e'::text))
+        Filter: ((title)::text ~~ 'd%'::text)
+Planning Time: 0.073 ms
+Execution Time: 0.044 ms
+
+
+
+======3=========
+Запрос на получение сеансов на следующие 3 часа
+
+Запрос:
+select *
+from schedule s
+WHERE s.date_start > now() AND s.date_end < now() + interval '2 hour' ;
+
+10k:
+Seq Scan on schedule s  (cost=0.00..63.94 rows=459 width=28) (actual time=0.006..0.348 rows=434 loops=1)
+  Filter: ((date_start > now()) AND (date_end < (now() + '02:00:00'::interval)))
+  Rows Removed by Filter: 1566
+Planning Time: 0.083 ms
+Execution Time: 0.368 ms
+
+10kk До изменений:
+Seq Scan on schedule s  (cost=0.00..119412.00 rows=891865 width=28) (actual time=11.923..771.983 rows=890456 loops=1)
+  Filter: ((date_start > now()) AND (date_end < (now() + '02:00:00'::interval)))
+  Rows Removed by Filter: 3109544
+Planning Time: 0.170 ms
+JIT:
+  Functions: 2
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 1.196 ms, Inlining 0.000 ms, Optimization 0.594 ms, Emission 9.062 ms, Total 10.852 ms"
+Execution Time: 811.097 ms
+
+Изменения:
+CREATE INDEX IF NOT EXISTS i_schedule_dates ON schedule ((date_start::timestamp), (date_end::timestamp));
+
+10kk Результат:
+Bitmap Heap Scan on schedule s  (cost=33938.32..83416.45 rows=891828 width=28) (actual time=214.423..408.890 rows=890407 loops=1)
+  Recheck Cond: ((date_start > now()) AND (date_end < (now() + '02:00:00'::interval)))
+  Heap Blocks: exact=29412
+  ->  Bitmap Index Scan on i_schedule_dates  (cost=0.00..33715.37 rows=891828 width=0) (actual time=210.516..210.516 rows=890407 loops=1)
+        Index Cond: ((date_start > now()) AND (date_end < (now() + '02:00:00'::interval)))
+Planning Time: 0.067 ms
+Execution Time: 444.639 ms
+
+
+=====4======
+Получить список клиентов которые хотябы раз за последнюю неделю посетили кинотеатр
+
+Запрос:
+SELECT DISTINCT c.*
+FROM booking b
+         JOIN customer c ON b.id_customer = c.id
+WHERE b.created_at < now()
+  AND b.created_at > now() - '1 week'::interval;
+
+10k:
+HashAggregate  (cost=77.78..78.78 rows=100 width=46) (actual time=1.344..1.368 rows=98 loops=1)
+"  Group Key: c.id, c.name, c.email"
+  ->  Hash Join  (cost=3.25..73.70 rows=544 width=46) (actual time=0.035..1.006 rows=530 loops=1)
+        Hash Cond: (b.id_customer = c.id)
+        ->  Seq Scan on booking b  (cost=0.00..69.02 rows=544 width=4) (actual time=0.009..0.787 rows=530 loops=1)
+              Filter: ((created_at < now()) AND (created_at > (now() - '7 days'::interval)))
+              Rows Removed by Filter: 1462
+        ->  Hash  (cost=2.00..2.00 rows=100 width=46) (actual time=0.022..0.022 rows=100 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 16kB
+              ->  Seq Scan on customer c  (cost=0.00..2.00 rows=100 width=46) (actual time=0.004..0.009 rows=100 loops=1)
+Planning Time: 0.197 ms
+Execution Time: 1.400 ms
+
+10kk До изменений:
+Unique  (cost=133221.23..137955.73 rows=150000 width=46) (actual time=1082.371..1263.036 rows=143149 loops=1)
+  ->  Sort  (cost=133221.23..134404.86 rows=473450 width=46) (actual time=1082.370..1179.954 rows=465906 loops=1)
+"        Sort Key: c.id, c.name, c.email"
+        Sort Method: external merge  Disk: 25616kB
+        ->  Hash Join  (cost=6096.00..74024.82 rows=473450 width=46) (actual time=55.929..885.089 rows=465906 loops=1)
+              Hash Cond: (b.id_customer = c.id)
+              ->  Seq Scan on booking b  (cost=0.00..61666.98 rows=473450 width=4) (actual time=9.273..593.997 rows=465906 loops=1)
+                    Filter: ((created_at < now()) AND (created_at > (now() - '7 days'::interval)))
+                    Rows Removed by Filter: 1534093
+              ->  Hash  (cost=2902.00..2902.00 rows=150000 width=46) (actual time=46.376..46.376 rows=150000 loops=1)
+                    Buckets: 65536  Batches: 4  Memory Usage: 3377kB
+                    ->  Seq Scan on customer c  (cost=0.00..2902.00 rows=150000 width=46) (actual time=0.024..13.593 rows=150000 loops=1)
+Planning Time: 0.243 ms
+JIT:
+  Functions: 12
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.474 ms, Inlining 0.000 ms, Optimization 0.519 ms, Emission 8.561 ms, Total 11.554 ms"
+Execution Time: 1276.867 ms
+
+Изменения:
+CREATE INDEX IF NOT EXISTS i_booking_dates ON booking((created_at::timestamp), (updated_at::timestamp));
+SET work_mem TO '64MB';
+
+Результат:
+HashAggregate  (cost=49025.58..50525.58 rows=150000 width=46) (actual time=691.112..724.303 rows=143153 loops=1)
+"  Group Key: c.id, c.name, c.email"
+  ->  Hash Join  (cost=16913.81..45475.06 rows=473402 width=46) (actual time=118.968..459.823 rows=465857 loops=1)
+        Hash Cond: (b.id_customer = c.id)
+        ->  Bitmap Heap Scan on booking b  (cost=12136.81..39455.35 rows=473402 width=4) (actual time=76.870..192.055 rows=465857 loops=1)
+              Recheck Cond: ((created_at < now()) AND (created_at > (now() - '7 days'::interval)))
+              Heap Blocks: exact=16667
+              ->  Bitmap Index Scan on i_booking_dates  (cost=0.00..12018.45 rows=473402 width=0) (actual time=74.971..74.971 rows=465857 loops=1)
+                    Index Cond: ((created_at < now()) AND (created_at > (now() - '7 days'::interval)))
+        ->  Hash  (cost=2902.00..2902.00 rows=150000 width=46) (actual time=41.979..41.979 rows=150000 loops=1)
+              Buckets: 262144  Batches: 1  Memory Usage: 13474kB
+              ->  Seq Scan on customer c  (cost=0.00..2902.00 rows=150000 width=46) (actual time=0.019..15.121 rows=150000 loops=1)
+Planning Time: 0.432 ms
+Execution Time: 730.105 ms
+
+
+======5=======
+Получить свободные места на определенный сеанс определенного фильма на близжайшие 3 часа
+
+Запрос:
+EXPLAIN ANALYSE
+SELECT s.id,s.id_movie, s.date_start, p.row_number, p.place_number, spp.price, b.id
+FROM schedule s
+         LEFT JOIN places p on s.id_hall = p.id_hall
+         LEFT JOIN booking b ON b.id_schedule = s.id
+         join schedule_place_price spp on s.id = spp.id_schedule AND p.id_place_category = spp.id_place_category
+WHERE (s.date_start > now() AND s.date_start < now() + '3 hour'::interval)
+  AND s.id_movie = 16203
+  AND b.id IS NULL;
+
+10k:
+Nested Loop  (cost=77.98..106.86 rows=1 width=36) (actual time=0.160..0.160 rows=0 loops=1)
+  ->  Hash Join  (cost=77.70..98.55 rows=1 width=32) (actual time=0.160..0.160 rows=0 loops=1)
+        Hash Cond: (p.id_hall = s.id_hall)
+        ->  Seq Scan on places p  (cost=0.00..17.00 rows=1000 width=16) (actual time=0.006..0.006 rows=1 loops=1)
+        ->  Hash  (cost=77.68..77.68 rows=1 width=24) (actual time=0.152..0.152 rows=0 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 8kB
+              ->  Nested Loop Left Join  (cost=0.28..77.68 rows=1 width=24) (actual time=0.152..0.152 rows=0 loops=1)
+                    Filter: (b.id IS NULL)
+                    ->  Seq Scan on schedule s  (cost=0.00..69.38 rows=1 width=20) (actual time=0.151..0.151 rows=0 loops=1)
+                          Filter: ((id_movie = 2) AND (date_start > now()) AND (date_start < (now() + '03:00:00'::interval)))
+                          Rows Removed by Filter: 2000
+                    ->  Index Scan using booking_id_schedule_idx on booking b  (cost=0.28..8.30 rows=1 width=8) (never executed)
+                          Index Cond: (id_schedule = s.id)
+  ->  Index Only Scan using schedule_place_price_id_schedule_idx on schedule_place_price spp  (cost=0.28..8.30 rows=1 width=16) (never executed)
+        Index Cond: ((id_schedule = s.id) AND (id_place_category = p.id_place_category))
+        Heap Fetches: 0
+Planning Time: 0.533 ms
+Execution Time: 0.184 ms
+
+10kk До изменений:
+Nested Loop  (cost=25610.02..26372.30 rows=1 width=36) (actual time=16.572..23.521 rows=376 loops=1)
+  ->  Hash Join  (cost=25609.59..26363.83 rows=1 width=32) (actual time=16.532..22.728 rows=375 loops=1)
+        Hash Cond: (p.id_hall = s.id_hall)
+        ->  Seq Scan on places p  (cost=0.00..610.73 rows=37273 width=16) (actual time=0.007..2.852 rows=37273 loops=1)
+        ->  Hash  (cost=25609.58..25609.58 rows=1 width=24) (actual time=16.504..16.504 rows=1 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Nested Loop Left Join  (cost=381.45..25609.58 rows=1 width=24) (actual time=5.796..16.500 rows=1 loops=1)
+                    Filter: (b.id IS NULL)
+                    Rows Removed by Filter: 2
+                    ->  Bitmap Heap Scan on schedule s  (cost=381.02..25601.12 rows=1 width=20) (actual time=5.780..16.470 rows=2 loops=1)
+                          Recheck Cond: ((date_start > now()) AND (date_start < (now() + '03:00:00'::interval)))
+                          Filter: (id_movie = 16203)
+                          Rows Removed by Filter: 15772
+                          Heap Blocks: exact=12207
+                          ->  Bitmap Index Scan on i_schedule_dates  (cost=0.00..381.02 rows=14858 width=0) (actual time=3.912..3.912 rows=15774 loops=1)
+                                Index Cond: ((date_start > now()) AND (date_start < (now() + '03:00:00'::interval)))
+                    ->  Index Scan using booking_id_schedule_idx on booking b  (cost=0.43..8.45 rows=1 width=8) (actual time=0.009..0.010 rows=1 loops=2)
+                          Index Cond: (id_schedule = s.id)
+  ->  Index Only Scan using schedule_place_price_id_schedule_idx on schedule_place_price spp  (cost=0.43..8.45 rows=1 width=16) (actual time=0.001..0.002 rows=1 loops=375)
+        Index Cond: ((id_schedule = s.id) AND (id_place_category = p.id_place_category))
+        Heap Fetches: 376
+Planning Time: 0.886 ms
+Execution Time: 23.584 ms
+
+
+Изменения:
+CREATE INDEX IF NOT EXISTS i_place_hall ON places(id_hall);
+
+Результат:
+Nested Loop  (cost=393.00..25882.19 rows=1 width=36) (actual time=4.819..16.565 rows=376 loops=1)
+  ->  Nested Loop  (cost=392.57..25873.73 rows=1 width=32) (actual time=4.808..15.790 rows=375 loops=1)
+        ->  Nested Loop Left Join  (cost=381.39..25605.94 rows=1 width=24) (actual time=4.768..15.472 rows=1 loops=1)
+              Filter: (b.id IS NULL)
+              Rows Removed by Filter: 2
+              ->  Bitmap Heap Scan on schedule s  (cost=380.96..25597.49 rows=1 width=20) (actual time=4.754..15.440 rows=2 loops=1)
+                    Recheck Cond: ((date_start > now()) AND (date_start < (now() + '03:00:00'::interval)))
+                    Filter: (id_movie = 16203)
+                    Rows Removed by Filter: 15766
+                    Heap Blocks: exact=12198
+                    ->  Bitmap Index Scan on i_schedule_dates  (cost=0.00..380.96 rows=14852 width=0) (actual time=3.389..3.389 rows=15768 loops=1)
+                          Index Cond: ((date_start > now()) AND (date_start < (now() + '03:00:00'::interval)))
+              ->  Index Scan using booking_id_schedule_idx on booking b  (cost=0.43..8.45 rows=1 width=8) (actual time=0.010..0.011 rows=1 loops=2)
+                    Index Cond: (id_schedule = s.id)
+        ->  Bitmap Heap Scan on places p  (cost=11.18..264.06 rows=373 width=16) (actual time=0.034..0.235 rows=375 loops=1)
+              Recheck Cond: (id_hall = s.id_hall)
+              Heap Blocks: exact=193
+              ->  Bitmap Index Scan on i_place_hall  (cost=0.00..11.09 rows=373 width=0) (actual time=0.020..0.020 rows=375 loops=1)
+                    Index Cond: (id_hall = s.id_hall)
+  ->  Index Only Scan using schedule_place_price_id_schedule_idx on schedule_place_price spp  (cost=0.43..8.45 rows=1 width=16) (actual time=0.001..0.002 rows=1 loops=375)
+        Index Cond: ((id_schedule = s.id) AND (id_place_category = p.id_place_category))
+        Heap Fetches: 376
+Planning Time: 0.616 ms
+Execution Time: 16.629 ms
+
+
+======6=======
+Получить фильмы у которых атрибут рейтинг imdb между 5 и 10
+
+Запрос:
+SELECT m.id, m.title, ma.name, mav.value_int
+FROM movie_attr ma
+         LEFT JOIN movie_attr_value mav ON mav.id_attr = ma.id
+         LEFT JOIN movie m ON mav.id_movie = m.id
+WHERE ma.name LIKE 'Рейтинг IMDB'
+  AND mav.value_int BETWEEN 5 and 10;
+
+10k:
+Nested Loop Left Join  (cost=5.72..103.40 rows=1 width=55) (actual time=0.049..0.162 rows=1 loops=1)
+  ->  Nested Loop  (cost=5.44..98.29 rows=1 width=44) (actual time=0.044..0.156 rows=1 loops=1)
+        ->  Seq Scan on movie_attr ma  (cost=0.00..24.12 rows=1 width=40) (actual time=0.006..0.008 rows=1 loops=1)
+              Filter: ((name)::text ~~ 'Рейтинг IMDB'::text)
+              Rows Removed by Filter: 10
+        ->  Bitmap Heap Scan on movie_attr_value mav  (cost=5.44..74.15 rows=1 width=12) (actual time=0.036..0.146 rows=1 loops=1)
+              Recheck Cond: (id_attr = ma.id)
+              Filter: ((value_int >= 5) AND (value_int <= 10))
+              Rows Removed by Filter: 168
+              Heap Blocks: exact=63
+              ->  Bitmap Index Scan on movie_attr_value_attr_idx  (cost=0.00..5.44 rows=155 width=0) (actual time=0.015..0.015 rows=169 loops=1)
+                    Index Cond: (id_attr = ma.id)
+  ->  Index Scan using movie_id on movie m  (cost=0.28..5.09 rows=1 width=15) (actual time=0.004..0.004 rows=1 loops=1)
+        Index Cond: (id = mav.id_movie)
+Planning Time: 0.737 ms
+Execution Time: 0.191 ms
+
+10kk До изменений:
+Nested Loop Left Join  (cost=238.97..6465.13 rows=70 width=55) (actual time=1.358..7.617 rows=84 loops=1)
+  ->  Nested Loop  (cost=238.55..6004.30 rows=70 width=44) (actual time=1.349..7.329 rows=84 loops=1)
+        ->  Seq Scan on movie_attr ma  (cost=0.00..1.14 rows=1 width=40) (actual time=0.006..0.010 rows=1 loops=1)
+              Filter: ((name)::text ~~ 'Рейтинг IMDB'::text)
+              Rows Removed by Filter: 10
+        ->  Bitmap Heap Scan on movie_attr_value mav  (cost=238.55..6002.46 rows=70 width=12) (actual time=1.340..7.299 rows=84 loops=1)
+              Recheck Cond: (id_attr = ma.id)
+              Filter: ((value_int >= 5) AND (value_int <= 10))
+              Rows Removed by Filter: 13897
+              Heap Blocks: exact=5143
+              ->  Bitmap Index Scan on movie_attr_value_attr_idx  (cost=0.00..238.53 rows=13081 width=0) (actual time=0.808..0.808 rows=13981 loops=1)
+                    Index Cond: (id_attr = ma.id)
+  ->  Index Scan using movie_id on movie m  (cost=0.42..6.58 rows=1 width=15) (actual time=0.003..0.003 rows=1 loops=84)
+        Index Cond: (id = mav.id_movie)
+Planning Time: 0.377 ms
+Execution Time: 7.708 ms
+
+Изменения:
+CREATE INDEX IF NOT EXISTS i_mav_int_value ON movie_attr_value((value_int::int));
+
+Результат:
+Nested Loop Left Join  (cost=259.51..979.37 rows=70 width=55) (actual time=0.926..1.304 rows=84 loops=1)
+  ->  Nested Loop  (cost=259.09..518.53 rows=70 width=44) (actual time=0.919..1.012 rows=84 loops=1)
+        ->  Seq Scan on movie_attr ma  (cost=0.00..1.14 rows=1 width=40) (actual time=0.005..0.007 rows=1 loops=1)
+              Filter: ((name)::text ~~ 'Рейтинг IMDB'::text)
+              Rows Removed by Filter: 10
+        ->  Bitmap Heap Scan on movie_attr_value mav  (cost=259.09..516.70 rows=70 width=12) (actual time=0.910..0.986 rows=84 loops=1)
+              Recheck Cond: ((value_int >= 5) AND (value_int <= 10) AND (id_attr = ma.id))
+              Heap Blocks: exact=83
+              ->  BitmapAnd  (cost=259.09..259.09 rows=70 width=0) (actual time=0.899..0.899 rows=0 loops=1)
+                    ->  Bitmap Index Scan on i_mav_int_value  (cost=0.00..20.10 rows=768 width=0) (actual time=0.107..0.107 rows=866 loops=1)
+                          Index Cond: ((value_int >= 5) AND (value_int <= 10))
+                    ->  Bitmap Index Scan on movie_attr_value_attr_idx  (cost=0.00..238.53 rows=13081 width=0) (actual time=0.753..0.753 rows=13981 loops=1)
+                          Index Cond: (id_attr = ma.id)
+  ->  Index Scan using movie_id on movie m  (cost=0.42..6.58 rows=1 width=15) (actual time=0.003..0.003 rows=1 loops=84)
+        Index Cond: (id = mav.id_movie)
+Planning Time: 0.479 ms
+Execution Time: 1.333 ms
+
+=========== ТОП 15 самых больших обьектов в бд: ==============
+Запрос:
+SELECT nspname || '.' || relname AS "relation",
+pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_relation_size(C.oid) DESC
+LIMIT 15;
+
+public.schedule_place_price,348 MB
+public.schedule_place_price_id_schedule_idx,288 MB
+public.schedule,230 MB
+public.schedule_place_price_id,150 MB
+public.booking,130 MB
+public.i_schedule_dates,120 MB
+public.schedule_id,86 MB
+public.booking_id_schedule_idx,77 MB
+public.i_booking_dates,60 MB
+public.movie_attr_value,43 MB
+public.booking_id,43 MB
+public.movie,37 MB
+public.customer,11 MB
+public.i_movie_title,9704 kB
+public.i_customer_email,8672 kB
+
+
+====Топ 5 самых используемых индексов:=====
+
+Запрос:
+SELECT idstat.relname AS table_name,
+       indexrelname AS index_name,
+       idstat.idx_scan AS index_scans_count
+FROM pg_stat_user_indexes AS idstat
+         JOIN pg_indexes ON indexrelname = indexname AND idstat.schemaname = pg_indexes.schemaname
+         JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+ORDER BY index_scans_count DESC
+LIMIT 5;
+
+Результат:
+schedule,schedule_id,13010399
+schedule_place_price,schedule_place_price_id_schedule_idx,9245489
+schedule_place_price,schedule_place_price_id,7001000
+movie,movie_id,6949637
+place_category,place_category_id,4038690
+
+======Топ 5 наименее используемых индексов =======
+
+Запрос:
+SELECT idstat.relname AS table_name,
+       indexrelname AS index_name,
+       idstat.idx_scan AS index_scans_count
+FROM pg_stat_user_indexes AS idstat
+         JOIN pg_indexes ON indexrelname = indexname AND idstat.schemaname = pg_indexes.schemaname
+         JOIN pg_stat_user_tables AS tabstat ON idstat.relid = tabstat.relid
+ORDER BY index_scans_count
+LIMIT 5;
+
+Результат:
+movie_attr_value,movie_attr_value_date,0
+movie_attr,movie_attr_id_type_idx,0
+hall,hall_id_cinema,0
+places,i_place_hall,2
+movie,i_movie_title,3
