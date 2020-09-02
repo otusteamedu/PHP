@@ -1,0 +1,12 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+    - "8080:80"
+    depends_on:
+      - php-fpm
+  php-fpm:
+    image: php:7-fpm
+    container_name: php-fpm
