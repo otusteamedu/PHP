@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
+use App\Http\Requests\FormRequest;
 use App\Http\Response\Response;
 
 class IndexController
 {
-    private $request;
+    /**
+     * @var FormRequest
+     */
+    private $formRequest;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
+        $this->formRequest = new FormRequest();
     }
 
     public function index()
     {
-        if ($this->request->post('string')) {
+        if ($this->formRequest->rules()) {
             (new Response())->response(null, 200);
         } else {
             (new Response())->response(null, 400);
