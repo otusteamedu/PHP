@@ -6,6 +6,7 @@ use App\Http\Requests\Contracts\FormRequestContract;
 use App\Http\Validators\MaxLenghtValidator;
 use App\Http\Validators\MinLenghtValidator;
 use App\Http\Validators\NotNullValidator;
+use App\Http\Validators\OpenCloseBracketsValidator;
 
 class FormRequest implements FormRequestContract
 {
@@ -40,6 +41,11 @@ class FormRequest implements FormRequestContract
         if (!(new MaxLenghtValidator($field, 20))->validate()) {
             return false;
         }
+
+        if (!(new OpenCloseBracketsValidator($field ))->validate()) {
+            return false;
+        }
+
 
         return true;
     }
