@@ -66,8 +66,6 @@ CREATE TABLE "payment_type" (
 	"payment_type_id" integer NOT NULL,
 	"name" character varying(300) NOT NULL,
 	"token" character varying(500),
-	"login" character varying(500),
-	"password" character varying(500),
 	"description" TEXT
 ) WITH (
   OIDS=FALSE
@@ -98,14 +96,3 @@ CREATE TABLE "workers" (
 ) WITH (
   OIDS=FALSE
 );
-
-
-
-
-
-
-
-
-
-
-
