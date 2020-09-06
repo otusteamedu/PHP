@@ -67,7 +67,7 @@ select * from marketData
 
 попробовал для одной таблицы провести оптимизацию, запроса: 
 результаты оптимизации ниже (построил индексы по полям)
-
+```
 ```sql
 select films.name as film_name, film_attr."name" as attr_name, concat(t1.val_date, t1.val_money, t1.val_text) as value
 from value_film_attr as t1
@@ -75,5 +75,5 @@ inner join films on films.film_id = t1.film_id
 inner join film_attr on film_attr.attr_id = t1.attr_id
 inner join type_attr on type_attr.type_id = film_attr.type_id
 ```
-![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/no-index.png)
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/no_index.png)
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/index.png)
