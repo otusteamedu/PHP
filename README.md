@@ -36,3 +36,17 @@ ddl_eav.sql - DLL скрипт для создания структуры EAV-х
 схема EAV-хранение:
 ```
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/EAV.png)
+
+```
+View служебная дата
+```sql
+select * from serviceData
+```
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/service.png)
+
+```
+View маркетинга
+```sql
+select * from marketData
+```
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/market.png)
