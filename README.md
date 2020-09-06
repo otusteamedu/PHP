@@ -38,14 +38,14 @@ ddl_eav.sql - DLL скрипт для создания структуры EAV-х
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/EAV.png)
 
 ```
-View служебная дата
+View служебная дата - сам запрос в файлике view
 ```sql
 select * from serviceData
 ```
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/service.png)
 
 ```
-View маркетинга
+View маркетинга - сам запрос в файлике view
 ```sql
 select * from marketData
 ```
