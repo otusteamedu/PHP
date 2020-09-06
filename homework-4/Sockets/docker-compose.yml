@@ -1,0 +1,23 @@
+version: "3"
+services:
+  server:
+    build:
+      context: docker
+      args:
+        UID: 3000
+    entrypoint: ["php", "app.php", "server"]
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+    working_dir: /app/console
+
+  client:
+    build:
+      context: docker
+      args:
+        UID: 3000
+    entrypoint: ["php", "app.php", "client"]
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+    working_dir: /app/console
