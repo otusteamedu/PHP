@@ -1,0 +1,20 @@
+select films.name as film_name, film_attr."name" as attr_name, t1.val_date as deadline
+from value_film_attr as t1
+inner join films on films.film_id = t1.film_id
+inner join film_attr on film_attr.attr_id = t1.attr_id
+inner join type_attr on type_attr.type_id = film_attr.type_id
+where t1.attr_id IN (6,7);
+
+
+select films.name as film_name, film_attr."name" as attr_name, concat(t1.val_date, t1.val_money, t1.val_text) as value
+from value_film_attr as t1
+inner join films on films.film_id = t1.film_id
+inner join film_attr on film_attr.attr_id = t1.attr_id
+inner join type_attr on type_attr.type_id = film_attr.type_id
+
+select films.name as film_name, film_attr."name" as task_name, t1.val_date as deadline
+from value_film_attr as t1
+inner join films on films.film_id = t1.film_id 
+inner join film_attr on film_attr.attr_id = t1.attr_id 
+inner join type_attr on type_attr.type_id = film_attr.type_id
+where t1.attr_id IN (6,7) and t1.val_date BETWEEN current_date and  current_date + 60; 
