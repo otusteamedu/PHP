@@ -23,7 +23,7 @@ CREATE TABLE public.type_attr (
 
 CREATE TABLE public.value_film_attr (
 	value_id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
-	type_id int4 NOT NULL,
+	attr_id int4 NOT NULL,
 	val_date timestamp NULL,
 	val_text text NULL,
 	val_money numeric(16,6) NULL,
@@ -31,5 +31,5 @@ CREATE TABLE public.value_film_attr (
 	CONSTRAINT value_film_attr_pk PRIMARY KEY (value_id),
 	CONSTRAINT value_film_attr_un UNIQUE (value_id),
 	CONSTRAINT value_film_attr_fk FOREIGN KEY (film_id) REFERENCES films(film_id),
-	CONSTRAINT value_film_attr_fk_1 FOREIGN KEY (type_id) REFERENCES type_attr(type_id)
+	CONSTRAINT value_film_attr_fk_1 FOREIGN KEY (attr_id) REFERENCES film_attr(attr_id)
 );
