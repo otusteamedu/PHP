@@ -50,3 +50,30 @@ View маркетинга - сам запрос в файлике view
 select * from marketData
 ```
 ![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/market.png)
+
+### К уроку 10
+
+Подготовить список из 6 основных запросов к БД, разработанной на предыдущих занятиях. Целесообразно выбрать 3 "простых" (задействована 1 таблица), 3 "сложных" (агрегатные функции, связи таблиц). 
+Скрипт для наполнения основных таблиц БД тестовыми данными.
+Заполнить таблицы, увеличив общее количество строк текстовых данных до 10000.
+Провести анализ производительности запросов к БД, сохранить планы выполнения.
+Заполнить таблицы, увеличив общее количество строк текстовых данных до 10000000.
+Провести анализ производительности запросов к БД, сохранить планы выполнения.
+На основе анализа запросов и планов предложить оптимизации (индексы, структура, параметры и др.), выполнить их, сравнить результат (планы выполнения).
+
+```
+сложные 3 запроса лежат в файле - complicated_sql_request.sql
+простые 3 запроса лежат в файле - simple_sql_request.sql
+
+попробовал для одной таблицы провести оптимизацию, запроса: 
+результаты оптимизации ниже (построил индексы по полям)
+
+```sql
+select films.name as film_name, film_attr."name" as attr_name, concat(t1.val_date, t1.val_money, t1.val_text) as value
+from value_film_attr as t1
+inner join films on films.film_id = t1.film_id
+inner join film_attr on film_attr.attr_id = t1.attr_id
+inner join type_attr on type_attr.type_id = film_attr.type_id
+```
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/no-index.png)
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/index.png)
