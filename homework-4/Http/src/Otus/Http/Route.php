@@ -38,4 +38,9 @@ class Route
     {
         return $this->action[1];
     }
+
+    public static function post(string $uri, array $action): self
+    {
+        return new self('POST', $uri, $action);
+    }
 }

@@ -9,20 +9,33 @@ class Router
     /** @var \Otus\Http\Route[] */
     private array $routes = [];
 
-    public function handle(Request $request): Response
+    private Request $request;
+
+    public function __construct()
+    {
+        $this->loadRoutes();
+        $this->request = Request::capture();
+    }
+
+    public function handle(): Response
     {
         foreach ($this->routes as $route) {
-            if (! $this->matches($route, $request)) {
+            if (! $this->matches($route, $this->request)) {
                 continue;
             }
 
             return call_user_func([
                 $route->controllerClass(),
                 $route->controllerMethod()
-            ], $request);
+            ], $this->request);
         }
 
         return new Response(Response::HTTP_NOT_FOUND);
+    }
+
+    private function loadRoutes()
+    {
+        $this->routes = require __DIR__ . '/../../../routes/web.php';
     }
 
     public function addRoute(string $method, string $uri, array $action): self
