@@ -1,0 +1,38 @@
+SELECT
+   film_name,
+   SUM(sum) AS total_sum
+FROM
+   (
+      SELECT
+         *
+      FROM
+         (
+            SELECT
+               available_film.film_id,
+               available_film.name as film_name,
+               schedule.seance_id
+            FROM
+               available_film
+               INNER JOIN
+                  "schedule"
+                  ON available_film.film_id = schedule.film_id
+         )
+         as tb1
+         INNER JOIN
+            (
+               SELECT
+                  "order".seance_id,
+                  "payment_data".sum
+               FROM
+                  "order"
+                  INNER JOIN
+                     "payment_data"
+                     ON "order".payment_id = payment_data.payment_id
+            )
+            as tb2
+            ON tb1.seance_id = tb2.seance_id
+   )
+   as result_select
+GROUP BY
+   film_name
+ORDER BY total_sum DESC;
