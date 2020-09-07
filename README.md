@@ -75,5 +75,5 @@ inner join films on films.film_id = t1.film_id
 inner join film_attr on film_attr.attr_id = t1.attr_id
 inner join type_attr on type_attr.type_id = film_attr.type_id
 ```
-![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/no_index.png)
-![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/index.png)
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/без%20индекса.png)
+![Image alt](https://github.com/otusteamedu/PHP/blob/iglushkov/hm3-1/с%20индексом.png)
