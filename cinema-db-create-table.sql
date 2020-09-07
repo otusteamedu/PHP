@@ -1,3 +1,4 @@
+/* Таблица залов */
 CREATE TABLE halls
 (
     id         integer UNIQUE NOT NULL,
@@ -5,6 +6,7 @@ CREATE TABLE halls
     site_count integer
 );
 
+/* Таблица сеансов, на которых показывают фильмы */
 CREATE TABLE sessions
 (
     id            integer UNIQUE NOT NULL,
@@ -13,10 +15,12 @@ CREATE TABLE sessions
     sessions_time date
 );
 
+/* Билеты на сеансы */
 CREATE TABLE tickets
 (
-    id integer UNIQUE NOT NULL,
-    sessions_id integer REFERENCES sessions(id),
-    sold boolean,
-    site_number integer
+    id          integer UNIQUE NOT NULL,
+    sessions_id integer REFERENCES sessions (id),
+    sold        boolean,
+    site_number integer,
+    price       money
 );
