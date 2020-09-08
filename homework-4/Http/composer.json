@@ -1,0 +1,12 @@
+{
+    "name": "otus/homework-4",
+    "description": "Otus php homework 4",
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    }
+}
