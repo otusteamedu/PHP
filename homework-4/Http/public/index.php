@@ -1,10 +1,12 @@
 <?php
 
+use Otus\Http\App;
 
-use Otus\Http\Controller;
-use Otus\Http\Request;
-use Otus\Http\Router;
 require __DIR__.'/../vendor/autoload.php';
 
-$router = new Router();
-$router->handle()->send();
+try {
+    $app = new App();
+    $app->run();
+} catch (Throwable $throwable) {
+    echo $throwable->getMessage();
+}
