@@ -1655,3 +1655,5 @@ INSERT INTO history (session_id, history_total) VALUES (13, 27500.00);
 INSERT INTO history (session_id, history_total) VALUES (14, 28300.00);
 INSERT INTO history (session_id, history_total) VALUES (15, 25400.00);
 INSERT INTO history (session_id, history_total) VALUES (16, 25200.00);
+
+SELECT h.history_total as total, f.film_name as film_name FROM film f LEFT JOIN session s ON (f.film_id = s.film_id) LEFT JOIN history h ON (s.session_id = h.history_id) WHERE history_total = (SELECT MAX(history_total) FROM history)
