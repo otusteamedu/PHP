@@ -7,11 +7,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html
-      - ./otus.sock:/var/www/html/otus.sock
+      - /tmp/sockets:/tmp/sockets
   client:
     build:
       context: ./docker/client
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html
-      - ./otus.sock:/var/www/html/otus.sock
+      - /tmp/sockets:/tmp/sockets
