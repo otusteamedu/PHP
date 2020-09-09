@@ -28,6 +28,9 @@
 
 ``bash ./hw1/Scripts/sum.sh 5 7``
 
+### 4.2 Вывод популярных городов
+
+``bash ./hw1/Scripts/populate.sh ./hw1/Scripts/table.txt``
 ---
 Полезные ссылки:
 
