@@ -11,7 +11,7 @@ CREATE TABLE sessions
 (
     id            integer UNIQUE NOT NULL,
     halls_id      integer REFERENCES halls (id),
-    name          text,
+    film_id integer REFERENCES films(id),
     sessions_time date
 );
 
@@ -24,3 +24,11 @@ CREATE TABLE tickets
     site_number integer,
     price       money
 );
+
+/* Таблица фильмов */
+CREATE TABLE films
+(
+    id          integer UNIQUE NOT NULL,
+    name        text,
+);
+
