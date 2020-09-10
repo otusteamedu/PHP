@@ -35,7 +35,7 @@ id_hall integer REFERENCES hall(id),
 line smallint,
 place smallint,
 type smallint,
-condition smallint,
+`condition` smallint,
 status smallint
 );
 
