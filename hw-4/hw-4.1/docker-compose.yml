@@ -5,17 +5,22 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+      args:
+        UID: "3000"
     ports:
       - 10080:80
     depends_on:
       - php
     volumes:
       - ./:/var/www/html
-      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/socket:/socket
 
   php:
     build:
       context: ./docker/php
       dockerfile: Dockerfile
+      args:
+        UID: "3000"
     volumes:
       - ./:/var/www/html
+      - ./docker/socket:/socket
