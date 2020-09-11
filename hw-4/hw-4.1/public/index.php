@@ -1,15 +1,12 @@
 <?php
 
-require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-$urlParts = parse_url($_SERVER['REQUEST_URI']);
+use \App\App;
 
-$path = $urlParts['path'];
-
-if ($path === '/') {
-    $controller = new App\Http\Controllers\IndexController();
-    $controller->index();
-    return;
+try {
+    $app = new App();
+    $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
-
-http_response_code(404);

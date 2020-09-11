@@ -20,9 +20,9 @@ class IndexController
     public function index()
     {
         if ($this->formRequest->rules()) {
-            (new Response())->response(null, 200);
+            (new Response())->setStatus(200);
         } else {
-            (new Response())->response(null, 400);
+            (new Response())->setStatus(400);
         }
     }
 }
