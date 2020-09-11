@@ -1,0 +1,28 @@
+version: "3"
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    ports:
+      - 9000
+    volumes:
+      - ./:/app
+    working_dir: /app
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 80
+    volumes:
+      - ./:/app:ro
+  load-balancer:
+    build:
+      context: docker/load-balancer
+      args:
+        UID: 3000
+    ports:
+      - 80:80

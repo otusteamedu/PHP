@@ -1,0 +1,10 @@
+{
+    "require": {
+        "chelout/simple-email-validator": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    }
+}
