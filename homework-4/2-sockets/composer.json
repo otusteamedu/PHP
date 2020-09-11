@@ -1,0 +1,15 @@
+{
+    "name": "otus/homework-4",
+    "description": "Otus php homework 4",
+    "require": {
+        "php": ">=7.4",
+        "ext-pcntl": "*",
+        "ext-sockets": "*",
+        "vlucas/phpdotenv": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    }
+}
