@@ -2,4 +2,4 @@
 
 /usr/bin/composer install
 
-php public/server.php
+php public/app.php server

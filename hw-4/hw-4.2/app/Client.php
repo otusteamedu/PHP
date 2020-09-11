@@ -5,7 +5,7 @@ namespace App;
 
 use App\Exceptions\SocketsException;
 
-final class Client
+final class Client implements SocketAppContract
 {
 
     private $socket;
@@ -42,5 +42,10 @@ final class Client
     private function waitingResponse()
     {
         echo "Server says:\t" . $this->socket->read();
+    }
+
+    public function run()
+    {
+        $this->waitForMessage();
     }
 }

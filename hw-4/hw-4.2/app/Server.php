@@ -2,7 +2,7 @@
 
 namespace App;
 
-final class Server
+final class Server implements SocketAppContract
 {
     private $socket;
 
@@ -44,6 +44,11 @@ final class Server
     private function readline(): string
     {
         return rtrim(fgets(STDIN));
+    }
+
+    public function run()
+    {
+        $this->listen();
     }
 
 }
