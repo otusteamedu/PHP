@@ -1,0 +1,5 @@
+Необходимо создать свой пакет, и выложить в git и/или на packagist.org
+
+результат:
+команда для клонирования с гита: git clone https://github.com/alextravin/dummy.git
+команда для установки через композер: composer create-project alextravin/dummy
