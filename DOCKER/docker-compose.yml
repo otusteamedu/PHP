@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    # Пропишем какой образ мы хотим использовать
+    build: ./nginx
+    # Назовем свой контейнер по красивому
+    container_name: nginx
+    
+    restart: always
+    
+    # Проброс портов
+    ports:
+      - "80:80"
+      - "443:443"
+      
+    # Проброс папок
+    volumes:
+      - ./nginx/conf/nginx/hosts/:/etc/nginx/conf.d/
+      - ../www:/var/www/
+      
+    # Укажем зависимости
+    links:
+      - php
+
+  php:
+    build: ./php
+    container_name: php
+    
+    restart: always
+    volumes:
+      - ../www:/var/www/
