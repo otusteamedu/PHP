@@ -1,0 +1,66 @@
+version: "3"
+services:
+  app1:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    volumes:
+      - ./:/app
+      - ./docker/sock1:/sock
+    working_dir: /app
+  nginx1:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 80
+    volumes:
+      - ./docker/sock1:/sock
+      - ./:/app:ro
+  app2:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    volumes:
+      - ./:/app
+      - ./docker/sock2:/sock
+    working_dir: /app
+  nginx2:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 80
+    volumes:
+      - ./docker/sock2:/sock
+      - ./:/app:ro
+  app3:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    volumes:
+      - ./:/app
+      - ./docker/sock3:/sock
+    working_dir: /app
+  nginx3:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 80
+    volumes:
+      - ./docker/sock3:/sock
+      - ./:/app:ro
+  load-balancer:
+    build:
+      context: docker/load-balancer
+      args:
+        UID: 3000
+    ports:
+      - 80:80
