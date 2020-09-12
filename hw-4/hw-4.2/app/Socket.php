@@ -75,7 +75,7 @@ class Socket
     {
         $this->bind = socket_bind($this->socket, $this->host, $this->port);
         if ($this->bind === false) {
-            throw new CanNotCreateSocketException();
+            throw new CanNotCreateSocketException('Can not bind socked');
         }
     }
 
@@ -83,7 +83,7 @@ class Socket
     {
         $this->connect = socket_connect($this->socket, $this->host, $this->port);
         if ($this->connect === false) {
-            throw new CanNotCreateSocketException();
+            throw new CanNotCreateSocketException('Can not connect to socket. Is server running?');
         }
     }
 

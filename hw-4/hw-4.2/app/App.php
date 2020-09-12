@@ -2,20 +2,22 @@
 
 
 namespace App;
+
 use App\Client;
 
 class App
 {
-    private $instance;
+    private SocketAppFactory $factory;
+    private ?string $type;
 
-    public function __construct(string $instance)
+    public function __construct(?string $type = null)
     {
-        $class = 'App\\' . ucfirst($instance);
-        $this->instance = new $class($_ENV['SOCKET_PATH'], $_ENV['SOCKET_PORT']);
+        $this->type = $type;
+        $this->factory = new SocketAppFactory();
     }
 
     public function run()
     {
-        $this->instance->run();
+        $this->factory->createInstance($this->type) ->run();
     }
 }
