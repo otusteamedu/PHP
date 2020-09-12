@@ -1,8 +1,8 @@
-SELECT name, SUM(tickets.price)
-FROM films
-         INNER JOIN tickets ON tickets.sessions_id = sessions.id
-         INNER JOIN sessions ON sessions.film_id=films.id
-WHERE tickets.sold = true
-GROUP BY name
-ORDER BY SUM(tickets.price) DESC
-LIMIT 1;
+SELECT name, SUM(s.price)
+FROM films as f
+         INNER JOIN sessions s on f.id = s.film_id
+         INNER JOIN tickets t on s.id = t.sessions_id
+WHERE t.sold = true
+group by f.id
+order by SUM(s.price) desc
+limit 1;
