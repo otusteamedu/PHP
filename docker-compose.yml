@@ -1,0 +1,10 @@
+version: "3"
+services:
+  pgsql:
+    image: postgres
+    volumes:
+      - ./base:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
