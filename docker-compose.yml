@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./default.conf:/etc/nginx/nginx.conf
+      - ./www:/www
+  php1:
+    image: otus.php
+    volumes:
+      - ./www:/www
+  php2:
+    image: otus.php
+    volumes:
+      - ./www:/www
