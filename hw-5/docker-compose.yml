@@ -1,0 +1,51 @@
+version: '2.2'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+    ports:
+      - 18080:80
+    depends_on:
+      - node_1
+      - node_2
+      - node_3
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/nodes:/etc/nginx/conf.d/nodes
+  node_1:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+        SOCKET: "node_1"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock
+  node_2:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+        SOCKET: "node_2"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock
+  node_3:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+        SOCKET: "node_3"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock

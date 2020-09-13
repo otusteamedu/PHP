@@ -1,0 +1,29 @@
+{
+  "name": "racoon22/validate-email",
+  "description": "Validate email address",
+  "type": "no",
+  "authors": [
+    {
+      "name": "Alex Antonov",
+      "email": "antonovsasha22@mail.ru"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.3",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "monolog/monolog": "*",
+    "symfony/yaml": "^5.0",
+    "vlucas/phpdotenv": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\" : "app/",
+      "AAntonov\\Validator" : "src/"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^9.3"
+    }
+  }
+}
