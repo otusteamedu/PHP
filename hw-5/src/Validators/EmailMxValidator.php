@@ -11,7 +11,7 @@ class EmailMxValidator extends BaseValidator
     {
         $host = explode('@', $this->field)[1];
         if (($is_valid = checkdnsrr($host, self::DNS_TYPE)) === false) {
-            $this->serError('Mx record is not exists for domain ' . $host);
+            $this->setError('Mx record is not exists for domain ' . $host);
         }
         return $is_valid;
     }

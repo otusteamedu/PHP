@@ -24,7 +24,7 @@ abstract class BaseValidator implements ValidatorInterface
         return $this->errors[0];
     }
 
-    public function serError(string $error): void
+    public function setError(string $error): void
     {
         $this->errors[] = $error;
     }

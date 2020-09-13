@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FormRequest;
+use AAntonov\Validators\EmailValidator;
+use App\Http\Requests\Request;
 use App\Http\Response\Response;
+
 
 class IndexController
 {
-    private FormRequest $formRequest;
+    private Request $request;
 
     public function __construct()
     {
-        $this->formRequest = new FormRequest();
+        $this->request = new Request();
     }
 
     public function index()
     {
-        if ($this->formRequest->rules()) {
-            (new Response('', 200))->send();
+        $email = $this->request->post('email');
+        $validator = new EmailValidator($email);
+        if ($validator->validate()) {
+            (new Response('Email is valid', 200))->send();
         } else {
-            (new Response($this->formRequest->getErrors(), 400))->send();
+            (new Response($validator->getErrors(), 400))->send();
         }
     }
 }

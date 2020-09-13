@@ -13,7 +13,7 @@ class EmailRegExpValidator extends BaseValidator
     public function validate()
     {
         if (($is_valid = filter_var($this->field, FILTER_VALIDATE_EMAIL) ? true : false) === false) {
-            $this->serError('Email is invalid');
+            $this->setError('Email is invalid');
         }
         return $is_valid;
     }
