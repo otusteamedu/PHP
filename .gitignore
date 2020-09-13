@@ -1,0 +1,6 @@
+.idea/
+www/vendor/
+log/
+*.zip
+*.rar
+*.7z
