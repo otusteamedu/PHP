@@ -1,0 +1,21 @@
+version: "3"
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro

@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cfa2636dac5114288245085a19573a1c",
+    "packages": [
+        {
+            "name": "chelout/simple-email-validator",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chelout/simple-email-validator.git",
+                "reference": "c0c2afa493abb32acfeae74c3172a90641d9ea00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chelout/simple-email-validator/zipball/c0c2afa493abb32acfeae74c3172a90641d9ea00",
+                "reference": "c0c2afa493abb32acfeae74c3172a90641d9ea00",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": "^7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Chelout\\": "src/Chelout"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Viacheslav Ostrovskiy",
+                    "email": "chelout@gmail.com"
+                }
+            ],
+            "description": "Simple Email Validator",
+            "time": "2020-09-11T07:00:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}
