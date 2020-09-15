@@ -1,0 +1,16 @@
+mongo:
+    uri: ''
+    uriOptions: {  }
+    driverOptions: {  }
+youtube:
+    apiKey:
+redis:
+    host:
+    port: 6379
+    password: ''
+postgres:
+    host: 127.0.0.1
+    dbname:
+    dbuser:
+    port:
+    dbpassword:
