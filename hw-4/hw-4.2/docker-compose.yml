@@ -1,0 +1,17 @@
+version: '2.2'
+
+services:
+  server:
+    build:
+      context: ./docker/server
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /tmp/sockets:/tmp/sockets
+  client:
+    build:
+      context: ./docker/client
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /tmp/sockets:/tmp/sockets
