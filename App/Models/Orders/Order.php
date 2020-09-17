@@ -8,9 +8,9 @@ class Order
 {
     private ?int $id;
     private float $sum;
-    private bool $isPayed;
+    private int $isPayed;
 
-    public function __construct(?int $id, float $sum, bool $isPayed = false)
+    public function __construct(?int $id, float $sum, int $isPayed = 0)
     {
         $this->id = $id;
         $this->sum = $sum;
@@ -50,17 +50,17 @@ class Order
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getIsPayed(): bool
+    public function getIsPayed(): int
     {
         return $this->isPayed;
     }
 
     /**
-     * @param bool $isPayed
+     * @param int $isPayed
      */
-    public function setIsPayed(bool $isPayed): void
+    public function setIsPayed(int $isPayed): void
     {
         $this->isPayed = $isPayed;
     }

@@ -24,15 +24,21 @@ $validator = new CardValidator();
 $validator->validateCardData($data);
 
 $order = new Order(null, $data['amount']);
-$request = new CurlRequest();
-
-$payment = new Payment($data, $order, $request);
-$payment->pay();
 
 $postgres = new PostgresConnection();
 $connection = new \PDO($postgres->connectionString());
 
 $orderMapper = new OrdersMapper($connection);
+$order = $orderMapper->setOrder($order);
+
+
+$request = new CurlRequest();
+
+$payment = new Payment($data, $request);
+$payment->pay();
+
+
+
 
 try {
 

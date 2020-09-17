@@ -13,7 +13,8 @@
         "symfony/yaml": "^5.1",
         "phpunit/phpunit": "^9.3",
         "mockery/mockery": "^1.4",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

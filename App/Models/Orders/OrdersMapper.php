@@ -70,10 +70,13 @@ class OrdersMapper implements OrdersInterface {
      */
     public function setOrder(Order $order): Order
     {
+
         $this->insertStmt->execute([
             $order->getSum(),
             $order->getIsPayed()
         ]);
+
+        print_r($this->pdo->lastInsertId());
 
         return new Order(
             (int) $this->pdo->lastInsertId(),

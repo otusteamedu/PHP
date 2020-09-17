@@ -13,23 +13,6 @@ use Source\CurlRequest;
 
 class PaymentTestCase extends TestCase
 {
-//    private $order;
-
-//    public function setUp(): void
-//    {
-//        $this->order = new Order(null, 5700);
-//        $postgres = new PostgresConnection();
-//        $connection = new \PDO($postgres->connectionString());
-//        (new OrdersMapper($connection))->setOrder($this->order);
-//    }
-//
-//    public function tearDown(): void
-//    {
-//        $orderID = $this->order->getId();
-//        $postgres = new PostgresConnection();
-//        $connection = new \PDO($postgres->connectionString());
-//        (new OrdersMapper($connection))->delete($orderID);
-//    }
 
     protected function tearDown(): void
     {
