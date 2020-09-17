@@ -1,0 +1,12 @@
+{
+"require": {
+	"php" : ">=7.1.0",
+	"atppdanila/hw3-package": "dev-master"
+},
+"repositories": [
+	{
+		"type": "git",
+		"url": "https://github.com/atppDanila/hw3-package"
+	}
+]
+}
