@@ -67,3 +67,14 @@
   ],
 
 ````
+
+## 5.3 Создать Docker-образ для работы
+
+Создан [Dockerfile](/hw1/lesson_3/part3/Dockerfile) включающий:
+- php 7.4
+- xdebug
+- redis
+- memcached
+- http
+- pdo_pgsql
+- imagik
