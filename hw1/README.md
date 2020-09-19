@@ -35,3 +35,15 @@
 Полезные ссылки:
 
 [Статья на Хабре "Bash-скрипты, часть 3"](https://habr.com/ru/company/ruvds/blog/326328/)
+
+## 5. Установить расширение через pecl и через make (xdebug, redis)
+
+В [Dockerfile.pecl](/hw1/lesson_3/part1/Dockerfile.pecl) инструкции для установки PHP расширения XDebug через PECL
+
+![Вывод команды pecl list && php -i |grep xdebug](/hw1/lesson_3/part1/pecl_install_xdebug.png)
+
+В [Dockerfile.make](/hw1/lesson_3/part1/Dockerfile.make) инструкции для установки PHP расширения Redis из исходного текста.
+[Результат работы](/hw1/lesson_3/part1/make.log) команды make.
+
+
+![Вывод команды php -i |grep redis](/hw1/lesson_3/part1/make_redis.png)
