@@ -1,8 +1,23 @@
 {
-  "index": "youtube",
-  "id": "name",
-  "body": {
-    "views": "100000000",
-    "countVideo": "1000"
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "string",
+      "value": "youtube"
+    },
+    "id": {
+      "type": "string",
+      "value": "name"
+    },
+    "body": {
+      "views": {
+        "type": "integer",
+        "value": ""
+      },
+      "countVideo": {
+        "type": "integer",
+        "value": ""
+      }
+    }
   }
 }
