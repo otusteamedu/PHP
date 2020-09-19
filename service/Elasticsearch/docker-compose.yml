@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
