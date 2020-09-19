@@ -36,7 +36,7 @@
 
 [Статья на Хабре "Bash-скрипты, часть 3"](https://habr.com/ru/company/ruvds/blog/326328/)
 
-## 5. Установить расширение через pecl и через make (xdebug, redis)
+## 5.1 Установить расширение через pecl и через make (xdebug, redis)
 
 В [Dockerfile.pecl](/hw1/lesson_3/part1/Dockerfile.pecl) инструкции для установки PHP расширения XDebug через PECL
 
@@ -47,3 +47,23 @@
 
 
 ![Вывод команды php -i |grep redis](/hw1/lesson_3/part1/make_redis.png)
+
+## 5.2 Установка своего пакета
+
+Клонирование репозитария:
+
+````bash
+# git clone https://github.com/petryalta/jstree.git
+````
+
+Для установки через Composer, необходимо добавить путь к репозиторию в composer.json
+
+````composer log
+"repositories": [
+    {
+      "type": "github",
+      "url": "https://github.com/petryalta/jstree.git"
+    }
+  ],
+
+````
