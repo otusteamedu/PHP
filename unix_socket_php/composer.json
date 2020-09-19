@@ -1,0 +1,22 @@
+{
+    "name": "glushkov/php-sockets",
+    "authors": [
+        {
+            "name": "Ivan Glushkov",
+            "email": "gis.glushkov55n@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "vlucas/phpdotenv": "^5.1",
+        "ext-sockets": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "sockets\\" : "src/sockets"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
+    }
+}

@@ -1,0 +1,26 @@
+ 
+version: '3.6'
+
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: nginx/dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./nginx/core:/etc/nginx/conf.d
+      - ./nginx/www:/var/www/
+      - ./nginx/logs:/var/log/nginx/
+      - ./nginx/html:/usr/share/nginx/html/
+
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: php-fpm/dockerfile
+    ports:
+      - 9001:9000
+    volumes:
+      - ./nginx/www:/var/www

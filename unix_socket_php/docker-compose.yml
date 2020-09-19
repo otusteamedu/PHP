@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  server:
+    build: ./
+    volumes:
+      - .:/code
+    working_dir: /code
+    entrypoint: ["php", "index.php", "server"]
+  client:
+    build: ./
+    depends_on:
+      - server
+    volumes:
+      - .:/code
+    working_dir: /code
+    entrypoint: ["php", "index.php", "client"]
