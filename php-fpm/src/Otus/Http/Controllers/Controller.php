@@ -10,11 +10,12 @@ class Controller
     {
         $postString = $_POST['string'];
         $postLength = $_POST['Content-Length'];
-        if (!empty($postString) && !empty($postLength) == strlen($postString)) {
-            return $status = 200;
-        } else {
-            return $status;
+        if (!empty($postString) && !empty($postLength)) {
+            if ($postLength == strlen($postString)) {
+                $status = 200;
+            }
         }
+        return $status;
     }
 
     protected function response(int $status = 200): void
@@ -27,7 +28,7 @@ class Controller
                 $responseMessage = 'Строка некорректна';
                 break;
             default:
-                $responseMessage = 'Запрос некорректный, укажите строку или длину строки';
+                $responseMessage = 'Запрос некорректный, укажите строку и длину строки';
                 $status = 422;
         }
         http_response_code($status);
