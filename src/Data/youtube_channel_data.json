@@ -11,11 +11,11 @@
     },
     "body": {
       "views": {
-        "type": "integer",
+        "type": "float",
         "value": ""
       },
       "countVideo": {
-        "type": "integer",
+        "type": "float",
         "value": ""
       }
     }
