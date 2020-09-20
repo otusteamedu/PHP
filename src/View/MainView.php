@@ -23,7 +23,7 @@ class MainView extends View
 <hr>
 <h3>Введите наименование канала для добавления в статистику:</h3>
 <form action="/" method="get">
-    <input type="text" name="name" value="name" placeholder="наименование канала">
+    <input type="text" name="name" placeholder="наименование канала">
     <input type="submit" name="submit">
 </form>
 </body>
