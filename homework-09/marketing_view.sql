@@ -5,9 +5,9 @@ create or replace view marketing_view as
         attributes.name as attribute_name,
         coalesce(
             attribute_movie_values.text_value, 
-            attribute_movie_values.string_value, 
-            attribute_movie_values.integer_value::text, 
+            attribute_movie_values.integer_value::text,
             attribute_movie_values.money_value::text, 
+            attribute_movie_values.float_value::text,
             attribute_movie_values.date_value::text,
             attribute_movie_values.boolean_value::text
         ) as attribute_value
