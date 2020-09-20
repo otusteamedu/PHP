@@ -29,6 +29,7 @@ CREATE TABLE public.attribute_movie_values (
     movie_id integer NOT NULL,
     attribute_id integer NOT NULL,
     text_value text,
+    string_value text,
     integer_value integer,
     money_value numeric(10,2),
     float_value double precision,
@@ -131,44 +132,6 @@ ALTER SEQUENCE public.attributes_id_seq OWNED BY public.attributes.id;
 
 
 --
--- Name: failed_jobs; Type: TABLE; Schema: public; Owner: chelout
---
-
-CREATE TABLE public.failed_jobs (
-    id bigint NOT NULL,
-    uuid character varying(255) NOT NULL,
-    connection text NOT NULL,
-    queue text NOT NULL,
-    payload text NOT NULL,
-    exception text NOT NULL,
-    failed_at timestamp(0) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-
-ALTER TABLE public.failed_jobs OWNER TO chelout;
-
---
--- Name: failed_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: chelout
---
-
-CREATE SEQUENCE public.failed_jobs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.failed_jobs_id_seq OWNER TO chelout;
-
---
--- Name: failed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelout
---
-
-ALTER SEQUENCE public.failed_jobs_id_seq OWNED BY public.failed_jobs.id;
-
-
---
 -- Name: movies; Type: TABLE; Schema: public; Owner: chelout
 --
 
@@ -189,7 +152,7 @@ CREATE VIEW public.marketing_view AS
  SELECT movies.name AS movie_name,
     attribute_types.name AS attribute_type,
     attributes.name AS attribute_name,
-    COALESCE(attribute_movie_values.text_value, (attribute_movie_values.integer_value)::text, (attribute_movie_values.money_value)::text, (attribute_movie_values.float_value)::text, (attribute_movie_values.date_value)::text, (attribute_movie_values.boolean_value)::text) AS attribute_value
+    COALESCE(attribute_movie_values.text_value, attribute_movie_values.string_value, (attribute_movie_values.integer_value)::text, (attribute_movie_values.money_value)::text, (attribute_movie_values.float_value)::text, (attribute_movie_values.date_value)::text, (attribute_movie_values.boolean_value)::text) AS attribute_value
    FROM (((public.movies
      LEFT JOIN public.attribute_movie_values ON ((attribute_movie_values.movie_id = movies.id)))
      LEFT JOIN public.attributes ON ((attributes.id = attribute_movie_values.attribute_id)))
@@ -198,41 +161,6 @@ CREATE VIEW public.marketing_view AS
 
 
 ALTER TABLE public.marketing_view OWNER TO chelout;
-
---
--- Name: migrations; Type: TABLE; Schema: public; Owner: chelout
---
-
-CREATE TABLE public.migrations (
-    id integer NOT NULL,
-    migration character varying(255) NOT NULL,
-    batch integer NOT NULL
-);
-
-
-ALTER TABLE public.migrations OWNER TO chelout;
-
---
--- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: chelout
---
-
-CREATE SEQUENCE public.migrations_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.migrations_id_seq OWNER TO chelout;
-
---
--- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelout
---
-
-ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
-
 
 --
 -- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: chelout
@@ -255,19 +183,6 @@ ALTER TABLE public.movies_id_seq OWNER TO chelout;
 
 ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
 
-
---
--- Name: password_resets; Type: TABLE; Schema: public; Owner: chelout
---
-
-CREATE TABLE public.password_resets (
-    email character varying(255) NOT NULL,
-    token character varying(255) NOT NULL,
-    created_at timestamp(0) without time zone
-);
-
-
-ALTER TABLE public.password_resets OWNER TO chelout;
 
 --
 -- Name: service_view; Type: VIEW; Schema: public; Owner: chelout
@@ -293,45 +208,6 @@ CREATE VIEW public.service_view AS
 ALTER TABLE public.service_view OWNER TO chelout;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: chelout
---
-
-CREATE TABLE public.users (
-    id bigint NOT NULL,
-    name character varying(255) NOT NULL,
-    email character varying(255) NOT NULL,
-    email_verified_at timestamp(0) without time zone,
-    password character varying(255) NOT NULL,
-    remember_token character varying(100),
-    created_at timestamp(0) without time zone,
-    updated_at timestamp(0) without time zone
-);
-
-
-ALTER TABLE public.users OWNER TO chelout;
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: chelout
---
-
-CREATE SEQUENCE public.users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.users_id_seq OWNER TO chelout;
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chelout
---
-
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
-
-
---
 -- Name: attribute_movie_values id; Type: DEFAULT; Schema: public; Owner: chelout
 --
 
@@ -353,31 +229,10 @@ ALTER TABLE ONLY public.attributes ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
--- Name: failed_jobs id; Type: DEFAULT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.failed_jobs ALTER COLUMN id SET DEFAULT nextval('public.failed_jobs_id_seq'::regclass);
-
-
---
--- Name: migrations id; Type: DEFAULT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
-
-
---
 -- Name: movies id; Type: DEFAULT; Schema: public; Owner: chelout
 --
 
 ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
-
-
---
--- Name: users id; Type: DEFAULT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -405,58 +260,11 @@ ALTER TABLE ONLY public.attributes
 
 
 --
--- Name: failed_jobs failed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.failed_jobs
-    ADD CONSTRAINT failed_jobs_pkey PRIMARY KEY (id);
-
-
---
--- Name: failed_jobs failed_jobs_uuid_unique; Type: CONSTRAINT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.failed_jobs
-    ADD CONSTRAINT failed_jobs_uuid_unique UNIQUE (uuid);
-
-
---
--- Name: migrations migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.migrations
-    ADD CONSTRAINT migrations_pkey PRIMARY KEY (id);
-
-
---
 -- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: chelout
 --
 
 ALTER TABLE ONLY public.movies
     ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
-
-
---
--- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_email_unique UNIQUE (email);
-
-
---
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: chelout
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- Name: password_resets_email_index; Type: INDEX; Schema: public; Owner: chelout
---
-
-CREATE INDEX password_resets_email_index ON public.password_resets USING btree (email);
 
 
 --
