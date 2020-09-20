@@ -1,6 +1,12 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/src/Controllers/MainViewController.php'; ?>
+namespace View;
+
+class MainView extends View
+{
+    public function output()
+    {
+        echo '
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,15 +16,17 @@ require $_SERVER['DOCUMENT_ROOT'] . '/src/Controllers/MainViewController.php'; ?
 <body>
 
 <h3>Отобразить сохраненные данные статистики по каналам youtube:</h3>
-<form action="/src/View/MainView.php" method="post">
-    <input type="submit" value="показать" name="show">
+<form action="/" method="get">
+    <input type="submit" value="Показать" name="show">
 </form>
 <br>
 <hr>
 <h3>Введите наименование канала для добавления в статистику:</h3>
-<form action="/src/View/MainView.php" method="post">
-    <input type="text" name="name" placeholder="наименование канала">
-    <input type="submit" name="submit" placeholder="отправить">
+<form action="/" method="get">
+    <input type="text" name="name" value="name" placeholder="наименование канала">
+    <input type="submit" name="submit">
 </form>
 </body>
-</html>
+</html>';
+    }
+}

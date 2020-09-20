@@ -1,4 +1,7 @@
 <?php
-$host  = $_SERVER['HTTP_HOST'];
-$extra = 'src/View/MainView.php';
-header("Location: http://$host/$extra");
+
+require 'bootstrap/app.php';
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable($_SERVER['DOCUMENT_ROOT']);
+$dotenv->load();
+
+\Core\Route::start();
