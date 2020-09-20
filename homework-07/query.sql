@@ -1,4 +1,4 @@
-select movies.id, movies.name, sum(sessions.price) as revenue from movies
+select movies.id, movies.name, sum(tickets.cost) as revenue from movies
 inner join sessions on sessions.movie_id = movies.id
 inner join tickets on tickets.session_id = sessions.id
 group by movies.id
