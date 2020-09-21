@@ -3,9 +3,6 @@
 namespace Controllers;
 
 use Exceptions\RestClientException;
-use Model\UserInputModel;
-use View\MainView;
-use View\StatisticView;
 
 class MainController extends Controller
 {
@@ -14,20 +11,27 @@ class MainController extends Controller
     public function __construct()
     {
         $this->es = new ElasticSearchController();
-        $this->view = new MainView($this);
     }
 
+    /**
+     * @throws RestClientException
+     */
     public function generate()
     {
-        $this->view->output();
+        $this->render('MainView.php');
 
         if (isset($_GET['show'])) {
-            $statView = new StatisticView($this);
-            $statView->output();
+            $arrResult = $this->getSaveYoutubeData()['hits']['hits'];
+            foreach ($arrResult as $result) {
+                $this->render('StatisticsView.php', $result);
+            }
         }
 
-        if (isset($_GET['name'])) {
-            new UserInputModel($this, $_GET['name']);
+        if (isset($_GET['name']) && iconv_strlen($_GET['name']) < 150) {
+            $name = htmlspecialchars($_GET['name']);
+            $this->writeYoutubeData($name);
+        } elseif (isset($_GET['name'])) {
+            $this->render('WrongUserInputView.php');
         }
     }
 
@@ -39,13 +43,13 @@ class MainController extends Controller
     }
 
     /**
-     * @param string $nameChannel
+     * @param string $name - имя канала
      * @return bool
      * @throws RestClientException
      */
-    public function writeYoutubeData(string $nameChannel)
+    public function writeYoutubeData(string $name)
     {
-        $youtubeChannelModel = (new YouTubeAPIController())->getData($nameChannel);
+        $youtubeChannelModel = (new YouTubeAPIController())->getData($name);
         if ($youtubeChannelModel !== false) {
             $youtubeChannelModel->save();
             return true;

@@ -1,12 +1,3 @@
-<?php
-
-namespace View;
-
-class MainView extends View
-{
-    public function output()
-    {
-        echo '
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -27,6 +18,4 @@ class MainView extends View
     <input type="submit" name="submit">
 </form>
 </body>
-</html>';
-    }
-}
+</html>
