@@ -1,0 +1,28 @@
+{
+  "name": "good-gis/youtube-analyse",
+  "description": "youtube analyse program",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ivan Glushkov",
+      "email": "glushkov1997@example.com"
+    }
+  ],
+  "require": {
+    "elasticsearch/elasticsearch": "7.9.0",
+    "php": ">=7.2",
+    "vlucas/phpdotenv": "5.2",
+    "ext-curl": "7.3.11",
+    "ext-iconv": "*",
+    "bramus/router": "^1.4"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src//"
+    }
+  }
+}

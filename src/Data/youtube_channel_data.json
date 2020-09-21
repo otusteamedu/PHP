@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "string",
+      "value": "youtube"
+    },
+    "id": {
+      "type": "string",
+      "value": "name"
+    },
+    "body": {
+      "views": {
+        "type": "float",
+        "value": ""
+      },
+      "countVideo": {
+        "type": "float",
+        "value": ""
+      }
+    }
+  }
+}
