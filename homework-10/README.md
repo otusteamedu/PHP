@@ -541,11 +541,11 @@ limit 15;
 ```sql
 select indexrelname from pg_stat_user_indexes order by idx_tup_read desc limit 5;
 ```
-[Результат выполнения]()
+[Результат выполнения](https://docs.google.com/spreadsheets/d/1WeVZSpVsHIhkTO9BmsOvcDzTH5K_ayj6icbYglV7-7w#gid=1369535588)
 
 Редко используемые индексы
 ```sql
 select indexrelname from pg_stat_user_indexes order by idx_tup_read limit 5;
 ```
 
-[Результат выполнения]()
+[Результат выполнения](https://docs.google.com/spreadsheets/d/1WeVZSpVsHIhkTO9BmsOvcDzTH5K_ayj6icbYglV7-7w#gid=1974220155)
