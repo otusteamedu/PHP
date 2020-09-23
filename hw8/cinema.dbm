@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.2" author="NickoLaz" last-position="0,0" last-zoom="1" max-obj-count="14"
+	 default-owner="postgres">
+<database name="cinema_hw8" encoding="UTF8" lc-collate="ru_RU.UTF-8" lc-ctype="ru_RU.UTF-8" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" layer="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="halls" layer="0" alias="Кинозалы" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="20" y="40"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallserial" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="comment" alias="Описание">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="hall_pk" type="pk-constr" table="public.halls">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="films" layer="0" alias="Фильмы" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="40"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="duration" alias="Продолжительность" not-null="true">
+		<type name="smallint" length="0"/>
+		<comment><![CDATA[В минутах]]></comment>
+	</column>
+	<column name="comment" alias="Описание">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="films_pk" type="pk-constr" table="public.films">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<function name="int4eq" sql-disabled="true"
+		window-func="false"
+		leakproof="true"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="IMMUTABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[implementation of = operator]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="boolean" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="integer" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="integer" length="0"/>
+	</parameter>
+	<definition><![CDATA[int4eq]]></definition>
+</function>
+
+<table name="tickets" layer="0" alias="Билеты" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1200" y="240"/>
+	<column name="uuid" alias="УУИД" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="datetime" alias="Дата_время" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="tickets_pk" type="pk-constr" table="public.tickets">
+		<columns names="uuid" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_operators" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="operators_fk" index="1"/>
+	</customidxs>
+</table>
+
+<function name="eqsel" sql-disabled="true"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[restriction selectivity of = and related operators]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="double precision" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="oid" length="0"/>
+	</parameter>
+	<parameter name="_param3">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param4">
+		<type name="integer" length="0"/>
+	</parameter>
+	<definition><![CDATA[eqsel]]></definition>
+</function>
+
+<function name="eqjoinsel" sql-disabled="true"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[join selectivity of = and related operators]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="double precision" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="oid" length="0"/>
+	</parameter>
+	<parameter name="_param3">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param4">
+		<type name="smallint" length="0"/>
+	</parameter>
+	<parameter name="_param5">
+		<type name="internal" length="0"/>
+	</parameter>
+	<definition><![CDATA[eqjoinsel]]></definition>
+</function>
+
+<operator name="=" sql-disabled="true">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[equal]]></comment>
+	<type name="integer" length="1" ref-type="left-type"/>
+	<type name="integer" length="1" ref-type="right-type"/>
+	<function ref-type="operfunc" signature="pg_catalog.int4eq(integer,integer)"/>
+	<function ref-type="join" signature="pg_catalog.eqjoinsel(internal,oid,internal,smallint,internal)"/>
+	<function ref-type="restriction" signature="pg_catalog.eqsel(internal,oid,internal,integer)"/>
+</operator>
+
+<function name="range_overlaps" sql-disabled="true"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="IMMUTABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[implementation of && operator]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="boolean" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="anyrange" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="anyrange" length="0"/>
+	</parameter>
+	<definition><![CDATA[range_overlaps]]></definition>
+</function>
+
+<function name="rangesel" sql-disabled="true"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[restriction selectivity for range operators]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="double precision" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="oid" length="0"/>
+	</parameter>
+	<parameter name="_param3">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param4">
+		<type name="integer" length="0"/>
+	</parameter>
+	<definition><![CDATA[rangesel]]></definition>
+</function>
+
+<function name="areajoinsel" sql-disabled="true"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="STRICT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[join selectivity for area-comparison operators]]></comment>
+	<language name="internal" sql-disabled="true"/>
+	<return-type>
+	<type name="double precision" length="1"/>
+	</return-type>
+	<parameter name="_param1">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param2">
+		<type name="oid" length="0"/>
+	</parameter>
+	<parameter name="_param3">
+		<type name="internal" length="0"/>
+	</parameter>
+	<parameter name="_param4">
+		<type name="smallint" length="0"/>
+	</parameter>
+	<parameter name="_param5">
+		<type name="internal" length="0"/>
+	</parameter>
+	<definition><![CDATA[areajoinsel]]></definition>
+</function>
+
+<operator name="&amp;&amp;" sql-disabled="true">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<comment><![CDATA[overlaps]]></comment>
+	<type name="anyrange" length="1" ref-type="left-type"/>
+	<type name="anyrange" length="1" ref-type="right-type"/>
+	<function ref-type="operfunc" signature="pg_catalog.range_overlaps(anyrange,anyrange)"/>
+	<function ref-type="join" signature="pg_catalog.areajoinsel(internal,oid,internal,smallint,internal)"/>
+	<function ref-type="restriction" signature="pg_catalog.rangesel(internal,oid,internal,integer)"/>
+</operator>
+
+<genericsql name="btree_gist">
+	<definition><![CDATA[CREATE EXTENSION btree_gist;]]></definition>
+</genericsql>
+
+<table name="timetable" layer="0" alias="Расписание_сеансов" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="260"/>
+	<column name="datetime_range" alias="Дата_время_сеанса" not-null="true">
+		<type name="tsrange" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="id_films" index="2"/>
+		<object name="id_hall_scheme_versions" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="films_fk" index="0"/>
+		<object name="hall_scheme_versions_fk" index="1"/>
+		<object name="timetable_pk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="films_has_many_timetable" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#3a0db7"
+	 src-table="public.films"
+	 dst-table="public.timetable"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<label ref-type="name-label">
+		<position x="-8.99523" y="5.31653"/>
+	</label>
+</relationship>
+
+<opfamily name="integer_ops" index-type="btree" sql-disabled="true">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+</opfamily>
+
+<opfamily name="integer_ops" index-type="hash" sql-disabled="true">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+</opfamily>
+
+<opfamily name="integer_minmax_ops" index-type="brin" sql-disabled="true">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+</opfamily>
+
+<table name="hall_scheme" layer="0" alias="Схема_зала" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="40" y="540"/>
+	<column name="row" alias="Ряд" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="place" alias="Место" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="available" alias="Доступно_для_использования" not-null="true" default-value="true">
+		<type name="boolean" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="id_hall_scheme_place_types" index="3"/>
+		<object name="id_hall_scheme_versions" index="0"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="hall_scheme_pk" index="2"/>
+		<object name="hall_scheme_place_types_fk" index="0"/>
+		<object name="hall_scheme_versions_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="hall_scheme_place_types" layer="0" alias="Тип_места_в_зале" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="580"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="comment" alias="Описание">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="hall_scheme_places_type_pk" type="pk-constr" table="public.hall_scheme_place_types">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="hall_scheme_places_type_has_many_hall_scheme" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2c17ce"
+	 src-table="public.hall_scheme_place_types"
+	 dst-table="public.hall_scheme"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT"/>
+
+<table name="hall_scheme_versions" layer="0" alias="Вариации_схем_залов" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="40" y="260"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="date_time_range" alias="Дата_время_использования">
+		<type name="tsrange" length="0"/>
+	</column>
+	<column name="comment" alias="Описание">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="hall_scheme_versions_pk" type="pk-constr" table="public.hall_scheme_versions">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_halls" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="halls_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="halls_has_many_hall_scheme_versions" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#28d9f6"
+	 src-table="public.halls"
+	 dst-table="public.hall_scheme_versions"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT"/>
+
+<relationship name="hall_scheme_versions_has_many_hall_scheme" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#19cd78"
+	 src-table="public.hall_scheme_versions"
+	 dst-table="public.hall_scheme"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<constraint name="hall_schema_pk" type="pk-constr" table="public.hall_scheme">
+		<columns names="row,place" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<constraint name="hall_scheme_versions_ex" type="ex-constr" index-type="gist" table="public.hall_scheme_versions">
+		<excelement use-sorting="false">
+			<column name="id_halls"/>
+				<operator  signature="pg_catalog.=(integer,integer)"/>
+		</excelement>
+		<excelement use-sorting="false">
+			<column name="date_time_range"/>
+				<operator  signature="pg_catalog.&amp;&amp;(anyrange,anyrange)"/>
+		</excelement>
+</constraint>
+
+<relationship name="hall_scheme_versions_has_many_timetable" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#dd468f"
+	 src-table="public.hall_scheme_versions"
+	 dst-table="public.timetable"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<label ref-type="name-label">
+		<position x="-2.45141" y="-7.93347"/>
+	</label>
+	<constraint name="timetable_pk" type="pk-constr" table="public.timetable">
+		<columns names="datetime_range" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<constraint name="timetable_ex" type="ex-constr" index-type="gist" table="public.timetable">
+		<excelement use-sorting="false">
+			<column name="id_hall_scheme_versions"/>
+				<operator  signature="pg_catalog.=(integer,integer)"/>
+		</excelement>
+		<excelement use-sorting="false">
+			<column name="datetime_range"/>
+				<operator  signature="pg_catalog.&amp;&amp;(anyrange,anyrange)"/>
+		</excelement>
+</constraint>
+
+<table name="prices_calc" layer="0" alias="Расчет_цен" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="840" y="40"/>
+	<column name="price" alias="Цена" not-null="true">
+		<type name="money" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="datetime_range_timetable" index="1"/>
+		<object name="id_hall_scheme_place_types" index="3"/>
+		<object name="id_hall_scheme_versions_timetable" index="2"/>
+		<object name="id_price_calc_versions" index="0"/>
+		<object name="id_price_variants" index="4"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="hall_scheme_place_types_fk" index="4"/>
+		<object name="price_calc_versions_fk" index="3"/>
+		<object name="price_variants_fk" index="0"/>
+		<object name="prices_calc_pk" index="2"/>
+		<object name="timetable_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="hall_schema_place_types_has_many_prices" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b30706"
+	 src-table="public.hall_scheme_place_types"
+	 dst-table="public.prices_calc"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<table name="price_calc_versions" layer="0" alias="Цены_по_периодам" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="780" y="460"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="date_time_range" not-null="true">
+		<type name="tsrange" length="0"/>
+	</column>
+	<column name="comment" alias="Описание">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="price_versions_pk" type="pk-constr" table="public.price_calc_versions">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="timetable_has_many_prices" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#3be6f1"
+	 src-table="public.timetable"
+	 dst-table="public.prices_calc"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<constraint name="prices_calc_pk" type="pk-constr" alias="Расчет_цен_pk" protected="true" table="public.prices_calc">
+		</constraint>
+	<special-pk-cols indexes="0,1"/>
+</relationship>
+
+<relationship name="price_versions_has_many_prices" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#5a8f2e"
+	 src-table="public.price_calc_versions"
+	 dst-table="public.prices_calc"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<constraint name="prices_calc_pk" type="pk-constr" alias="Расчет_цен_pk" protected="true" table="public.prices_calc">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<table name="price_variants" layer="0" alias="Варианты_расчета_цены" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="40"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" alias="Название" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="calc_scheme" alias="Схема_расчета">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="price_variants_pk" type="pk-constr" table="public.price_variants">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="price_variants_has_many_prices" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#913aab"
+	 src-table="public.price_variants"
+	 dst-table="public.prices_calc"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<constraint name="prices_calc_pk" type="pk-constr" alias="Расчет_цен_pk" protected="true" table="public.prices_calc">
+		</constraint>
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<table name="sales" layer="0" alias="Продажи" collapse-mode="2" max-obj-count="9">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1040" y="460"/>
+	<column name="row" alias="Ряд" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="place" alias="Место" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="datetime_range_timetable_prices_calc" index="0"/>
+		<object name="id_hall_scheme_place_types_prices_calc" index="5"/>
+		<object name="id_hall_scheme_versions_timetable_prices_calc" index="1"/>
+		<object name="id_price_calc_versions_prices_calc" index="4"/>
+		<object name="id_price_variants_prices_calc" index="6"/>
+		<object name="uuid_tickets" index="7"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="prices_calc_fk" index="0"/>
+		<object name="sales_pk" index="3"/>
+		<object name="sales_uq" index="2"/>
+		<object name="tickets_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="prices_calc_has_many_sales" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7b2d52"
+	 src-table="public.prices_calc"
+	 dst-table="public.sales"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT">
+	<constraint name="sales_pk" type="pk-constr" table="public.sales">
+		<columns names="row,place" ref-type="src-columns"/>
+	</constraint>
+	<special-pk-cols indexes="1,2"/>
+</relationship>
+
+<relationship name="sales_has_one_tickets" type="rel11" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#1f285a"
+	 src-table="public.tickets"
+	 dst-table="public.sales"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT"/>
+
+<table name="operators" layer="0" alias="Кассиры" collapse-mode="2" max-obj-count="2">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1200" y="40"/>
+	<column name="id" alias="ИД" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="fio" alias="ФИО" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="operators_pk" type="pk-constr" table="public.operators">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="operators_has_many_tickets" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4a3314"
+	 src-table="public.operators"
+	 dst-table="public.tickets"
+	 src-required="false" dst-required="false"
+	upd-action="CASCADE"
+	del-action="RESTRICT"/>
+
+</dbmodel>
