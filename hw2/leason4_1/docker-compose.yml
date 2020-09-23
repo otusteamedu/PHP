@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www
+    depends_on :
+      - php
+
+  php:
+    container_name: php
+    build:
+      context: php
+      dockerfile: Dockerfile
+    volumes:
+      - ./www:/var/www
