@@ -1,7 +1,0 @@
-FROM nginx:alpine
-RUN apk --update add --no-cache --virtual .user-packs \
-            curl \
-    && apk -vv info|sort \
-    && nginx -v 
-#ADD . /mnt/tmp/
-#WORKDIR /mnt/tmp
