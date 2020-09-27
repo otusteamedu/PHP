@@ -41,3 +41,30 @@ body
 ### Удалить все события:
 method - DELETE
 url - http://serviceevent.ru/api/event/
+
+***
+### Настройка Nginx
+```
+    server {
+      listen 80;
+      server_name serviceevent.ru;
+      root /Users/ivangluskov/PhpstormProjects/service-event;
+      index index.php index.htm;
+
+      location ~ \.php {
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+      }
+
+      location / {
+        rewrite ^/$ /api/$1 redirect;
+        if (!-e $request_filename){
+          rewrite ^/api/(.*)$ /index.php;
+        }
+      }
+    }
+```
