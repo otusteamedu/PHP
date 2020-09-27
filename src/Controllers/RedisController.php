@@ -39,7 +39,6 @@ class RedisController
     public function setEvent(array $arrData): bool
     {
         Session::setCount();
-        var_dump($_SESSION['count']);
         $result = $this->redisClient->jsonSet('event' . $_SESSION['count'], $arrData);
         return $result === true;
     }
