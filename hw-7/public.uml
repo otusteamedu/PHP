@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.SCHEMA:postgres.public</OriginalElement>
+  <nodes>
+    <node x="247.75" y="239.0">bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.users</node>
+    <node x="86.75" y="216.0">bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.seances</node>
+    <node x="0.0" y="23.0">bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.halls</node>
+    <node x="171.0" y="0.0">bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.films</node>
+    <node x="170.25" y="432.0">bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.orders</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.orders" target="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.seances">
+      <point x="-34.25" y="-71.5" />
+      <point x="204.5" y="407.0" />
+      <point x="157.25" y="407.0" />
+      <point x="0.0" y="83.0" />
+    </edge>
+    <edge source="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.seances" target="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.halls">
+      <point x="-35.25" y="-83.0" />
+      <point x="122.0" y="191.0" />
+      <point x="75.5" y="191.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.seances" target="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.films">
+      <point x="35.25" y="-83.0" />
+      <point x="192.5" y="191.0" />
+      <point x="239.0" y="191.0" />
+      <point x="0.0" y="83.0" />
+    </edge>
+    <edge source="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.orders" target="bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.users">
+      <point x="34.25" y="-71.5" />
+      <point x="273.0" y="407.0" />
+      <point x="320.25" y="407.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8067226890756303" x="196.5" y="287.5" />
+  <SelectedNodes>
+    <node>bf1c6ff2-aecd-4e38-9e61-8bb206c80ce3.TABLE:postgres.public.orders</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
