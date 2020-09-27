@@ -19,12 +19,12 @@ class ApiJsonView
 
     private function requestStatus($code): string
     {
-        $status = array(
+        $status = [
             200 => 'OK',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
             500 => 'Internal Server Error',
-        );
+        ];
         return ($status[$code]) ?: $status[500];
     }
 }

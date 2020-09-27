@@ -65,29 +65,6 @@ abstract class ApiController
         throw new RuntimeException('Invalid Method', 405);
     }
 
-    /**
-     * @param $data
-     * @param int $status
-     * @return false|string
-     * @throws JsonException
-     */
-    protected function response($data, $status = 500)
-    {
-        header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
-        return json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    private function requestStatus($code): string
-    {
-        $status = array(
-            200 => 'OK',
-            404 => 'Not Found',
-            405 => 'Method Not Allowed',
-            500 => 'Internal Server Error',
-        );
-        return ($status[$code]) ?: $status[500];
-    }
-
     protected function getAction(): string
     {
         $method = $this->method;
