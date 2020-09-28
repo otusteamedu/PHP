@@ -1,0 +1,18 @@
+{
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "google/apiclient": "^2.7",
+        "vlucas/phpdotenv": "^5.2",
+        "elasticsearch/elasticsearch": "^7.9"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    }
+}
