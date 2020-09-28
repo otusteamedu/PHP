@@ -1,0 +1,21 @@
+{
+  "name": "good-gis/service-event",
+  "description": "service-event",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ivan Glushkov",
+      "email": "icloud@icloud.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "averias/phpredis-json": "1.2.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src//"
+    }
+  }
+}
