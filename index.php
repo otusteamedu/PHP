@@ -1,6 +1,6 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/src/bootstrap.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/bootstrap.php';
 
 use Controllers\API\EventApiController;
 

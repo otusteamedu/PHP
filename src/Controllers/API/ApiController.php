@@ -25,27 +25,12 @@ abstract class ApiController
      */
     public function __construct()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: *");
-        header("Content-Type: application/json");
-
         //Массив GET параметров разделенных слешем
         $this->requestUri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
         $this->requestParams = $_REQUEST;
 
-        //Определение метода запроса
         $this->method = $_SERVER['REQUEST_METHOD'];
-
-        switch ($this->method) {
-            case 'POST':
-            case 'DELETE':
-            case 'PUT':
-            case 'GET':
-                $this->formData = $this->getFormData($this->method);
-                break;
-            default:
-                throw new RuntimeException("Unexpected Header");
-        }
+        $this->formData = $this->getFormData($this->method);
     }
 
     public function run()
