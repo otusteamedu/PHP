@@ -1,0 +1,26 @@
+<?php
+
+namespace Otus;
+
+
+use \PDO;
+
+class DBConnection
+{
+    private PDO $pdo;
+
+    public function __construct()
+    {
+        $dsn = "pgsql:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};dbname={$_ENV['DB_NAME']};";
+        $this->pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+    }
+
+    /**
+     * @param string $statement
+     * @return bool|\PDOStatement
+     */
+    public function prepare(string $statement)
+    {
+        return $this->pdo->prepare($statement);
+    }
+}
