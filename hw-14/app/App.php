@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Cli\Router;
+use App\Repositories\FilmsRepository;
 use Otus\DBConnection;
 
 class App
@@ -18,11 +19,6 @@ class App
 
     public function run()
     {
-        $query = $this->db->prepare('SELECT * FROM "seances" LIMIT 50 ');
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $query->execute();
-        $result = $query->fetchAll();
-        var_dump($result);
-//        $this->router->resolve();
+
     }
 }

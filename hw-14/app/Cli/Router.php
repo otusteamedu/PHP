@@ -9,9 +9,6 @@ class Router
 {
     public function resolve()
     {
-        die('ok');
 
-
-//        (new Response())->setStatus(404);
     }
 }
