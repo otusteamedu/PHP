@@ -14,7 +14,7 @@ class Router
     public function __construct()
     {
         $this->loadRoutes();
-        $this->request = Request::capture();
+        $this->request = RequestFactory::make();
     }
 
     public function handle(): ResponseContract
