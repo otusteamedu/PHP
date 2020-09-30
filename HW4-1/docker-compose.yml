@@ -1,0 +1,37 @@
+version: '2'
+services:
+  nginx:
+    build: nginx/
+    ports:
+    - "8080:80"
+    volumes:
+      - ./hw.otus-lessons.com:/www-data
+      - ./hw.otus-lessons.com.conf:/etc/nginx/conf.d/hw.otus-lessons.com.conf
+      - 'phpsocket:/run/php'
+    depends_on:
+      - php
+    networks:
+      - code-network
+  php:
+    build: php/
+    volumes:
+      - ./hw.otus-lessons.com:/www-data
+      - /www-data/vendor
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - 'phpsocket:/run/php'
+    networks:
+      - code-network
+
+  composer_installation:
+    container_name: composer_installation
+    image: composer
+    volumes_from:
+      - php
+    command: sh -c "cd /www-data && composer install --ignore-platform-reqs"
+
+networks:
+  code-network:
+    driver: bridge
+
+volumes:
+  phpsocket:

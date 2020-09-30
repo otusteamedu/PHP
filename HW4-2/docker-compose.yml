@@ -1,0 +1,35 @@
+version: '2'
+services:
+  server:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    volumes:
+      - 'phpsocket:/run/php'
+      - ./:/var/www/html/
+    networks:
+      - code-network
+  client:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    volumes:
+      - 'phpsocket:/run/php'
+      - ./:/var/www/html/
+    networks:
+      - code-network
+
+#  composer_installation:
+#    container_name: composer_installation
+#    image: composer
+#    volumes_from:
+#      - server
+#      - client
+#    command: sh -c "cd /www-data && composer install --ignore-platform-reqs"
+
+networks:
+  code-network:
+    driver: bridge
+
+volumes:
+  phpsocket:

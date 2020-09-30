@@ -1,0 +1,22 @@
+{
+  "name": "farid/hw.otus-lessons.com",
+  "description": "Otus homework 4",
+  "authors": [
+    {
+      "name": "Farid",
+      "email": "woplek@yandex.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-sockets": "*",
+    "vlucas/phpdotenv": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "App/",
+      "Socket\\": "App/Socket/",
+      "SocketException\\": "App/Socket/Exceptions/"
+    }
+  }
+}
