@@ -6,12 +6,6 @@ use JsonException;
 
 class Request
 {
-    private array $post;
-
-    private array $server;
-
-    private array $get;
-
     private array $headers;
 
     /** @var null|array|mixed */
@@ -19,11 +13,7 @@ class Request
 
     public function __construct()
     {
-        $this->post    = $_POST;
-        $this->server  = $_SERVER;
-        $this->get = $_GET;
-        $this->headers = getallheaders();
-        $this->data    = $this->data();
+        $this->data = $this->data();
     }
 
     public static function capture(): self
@@ -33,34 +23,34 @@ class Request
 
     public function uri(): string
     {
-        return parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
+        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
     public function method(): string
     {
-        return $this->server['REQUEST_METHOD'];
+        return $_SERVER['REQUEST_METHOD'];
     }
 
     public function data(string $key = null)
     {
         if ($this->isForm()) {
-            return $this->formData($key) + $this->get;
+            return $this->formData($key) + $_GET;
         }
 
         if ($this->isJson()) {
-            return $this->json($key) + $this->get;
+            return $this->json($key) + $_GET;
         }
 
-        return $this->get;
+        return $_GET;
     }
 
     public function isForm(): bool
     {
-        if (! array_key_exists('Content-Type', $this->headers)) {
+        if (! array_key_exists('CONTENT_TYPE', $_SERVER)) {
             return false;
         }
 
-        if ($this->headers['Content-Type'] !== 'application/x-www-form-urlencoded') {
+        if ($_SERVER['CONTENT_TYPE'] !== 'application/x-www-form-urlencoded') {
             return false;
         }
 
@@ -90,11 +80,11 @@ class Request
     public function formData(string $key = null, $default = null)
     {
         if ($key === null) {
-            return $this->post;
+            return $_POST;
         }
 
-        if (array_key_exists($key, $this->post)) {
-            return $this->post[$key];
+        if (array_key_exists($key, $_POST)) {
+            return $_POST[$key];
         }
 
         return $default;
