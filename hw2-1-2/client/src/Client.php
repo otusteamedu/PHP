@@ -25,7 +25,6 @@ class Client
     {
         $this->socket = new SocketClient($host, $port);
         $this->socket->clearOldSocket();
-        $this->socket->create();
         $this->socket->connect();
     }
 

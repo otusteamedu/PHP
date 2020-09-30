@@ -1,14 +1,14 @@
 version: '3'
 services:
   server:
-    image: php
+    build: ./server
     container_name: server
     volumes:
     - ./tmp
     links:
       - client
   client:
-    image: php
+    build: ./client
     container_name: client
     volumes:
     - ./tmp
