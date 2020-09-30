@@ -6,8 +6,6 @@ use JsonException;
 
 class Request
 {
-    private array $headers;
-
     /** @var null|array|mixed */
     private $data;
 
@@ -59,11 +57,11 @@ class Request
 
     public function isJson(): bool
     {
-        if (! array_key_exists('Content-Type', $this->headers)) {
+        if (! array_key_exists('CONTENT_TYPE', $_SERVER)) {
             return false;
         }
 
-        if (mb_strpos($this->headers['Content-Type'], 'json') === false) {
+        if (mb_strpos($_SERVER['CONTENT_TYPE'], 'json') === false) {
             return false;
         }
 
