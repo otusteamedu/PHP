@@ -4,37 +4,9 @@ namespace App\Repositories;
 
 use App\Entities\Film;
 use Otus\DBConnection;
-use \PDOStatement;
-use \PDO;
 
-class FilmsRepository
+class FilmsRepository extends BaseRepository
 {
-
-    private DBConnection $pdo;
-    /**
-     * @var PDOStatement
-     */
-    private PDOStatement $selectStmt;
-
-    /**
-     * @var PDOStatement
-     */
-    private PDOStatement $insertStmt;
-
-    /**
-     * @var PDOStatement
-     */
-    private PDOStatement $updateStmt;
-
-    /**
-     * @var PDOStatement
-     */
-    private PDOStatement $deleteStmt;
-
-    /**
-     * @var PDOStatement
-     */
-    private PDOStatement $lastInsertIdStmt;
 
     public function __construct(DBConnection $db)
     {
@@ -52,19 +24,25 @@ class FilmsRepository
         $this->lastInsertIdStmt = $db->prepare('SELECT last_value FROM films_id_seq');
     }
 
+    /**
+     * @param int $id
+     * @return Film|false
+     */
     public function findById(int $id)
     {
         $this->selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch();
 
-        return new Film(
-            $id,
-            $result['name'],
-            $result['description'],
-            $result['duration'],
-            $result['age_limit']
-        );
+        return $result === false ?
+            false :
+            new Film(
+                $id,
+                $result['name'],
+                $result['description'],
+                $result['duration'],
+                $result['age_limit']
+            );
     }
 
     /**
@@ -104,19 +82,12 @@ class FilmsRepository
         ]);
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id)
     {
-        $this->deleteStmt->execute([$id]);
-    }
-
-    /**
-     * @return int
-     */
-    private function getLasInsertedId()
-    {
-        $this->lastInsertIdStmt->setFetchMode(PDO::FETCH_ASSOC);
-        $this->lastInsertIdStmt->execute();
-        $result = $this->lastInsertIdStmt->fetch();
-        return (int)$result['last_value'];
+        return $this->deleteStmt->execute([$id]);
     }
 }

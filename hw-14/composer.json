@@ -17,7 +17,8 @@
     "ext-pdo_pgsql": "*",
     "monolog/monolog": "*",
     "symfony/yaml": "^5.0",
-    "vlucas/phpdotenv": "^5.1"
+    "vlucas/phpdotenv": "^5.1",
+    "nesbot/carbon": "^2.0@dev"
   },
   "autoload": {
     "psr-4": {
