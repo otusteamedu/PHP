@@ -4,6 +4,8 @@
 namespace App\Entities;
 
 
+use App\RelationModels\FilmsSeancesRelation;
+
 class Film
 {
     /**
@@ -31,6 +33,13 @@ class Film
      */
     private string $age_limit;
 
+    /**
+     * @var null|false|Seance[]
+     */
+    private $seances = false;
+
+    private FilmsSeancesRelation $films_seances_relation;
+
     public function __construct(
         int $id,
         string $name,
@@ -44,6 +53,8 @@ class Film
         $this->description = $description;
         $this->duration = $duration;
         $this->age_limit = $age_limit;
+
+        $this->films_seances_relation = new FilmsSeancesRelation();
     }
 
     /**
@@ -124,5 +135,13 @@ class Film
     public function setAgeLimit(string $age_limit): void
     {
         $this->age_limit = $age_limit;
+    }
+
+    public function getSeances()
+    {
+        if ($this->seances === false) {
+            $this->seances = $this->films_seances_relation->getSeancesByFilm($this);
+        }
+        return $this->seances;
     }
 }

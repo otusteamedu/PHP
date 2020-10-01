@@ -94,4 +94,31 @@ class SeancesRepository extends BaseRepository
     {
         return $this->deleteStmt->execute([$id]);
     }
+
+    /**
+     * @param int $film_id
+     * @return array|null
+     * @throws \Exception
+     */
+    public function getSeancesByFilmId(int $film_id)
+    {
+        $this->selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->selectStmt->execute([$film_id]);
+        $seances = $this->selectStmt->fetchAll();
+
+        if ($seances === false) {
+            return null;
+        }
+
+        $result = [];
+        foreach ($seances as $seance) {
+            $result[] = new Seance(
+                (int)$seance['id'],
+                (int)$seance['film_id'],
+                (float)$seance['price'],
+                new Carbon($seance['start_at']),
+            );
+        }
+        return $result;
+    }
 }
