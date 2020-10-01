@@ -3,6 +3,7 @@
 namespace App\RelationModels;
 
 use App\Entities\Film;
+use App\Entities\Seance;
 use App\Repositories\FilmsRepository;
 use App\Repositories\SeancesRepository;
 use Otus\DBConnection;
@@ -33,5 +34,10 @@ class FilmsSeancesRelation
     public function getSeancesByFilm(Film $film)
     {
         return $this->seancesRepository->getSeancesByFilmId($film->getId());
+    }
+
+    public function getFilmBySeance(Seance $seance)
+    {
+        return $this->filmRepository->findById($seance->getFilmId());
     }
 }

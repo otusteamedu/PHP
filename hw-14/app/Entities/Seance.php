@@ -4,6 +4,7 @@
 namespace App\Entities;
 
 
+use App\RelationModels\FilmsSeancesRelation;
 use Carbon\Carbon;
 
 class Seance
@@ -27,6 +28,12 @@ class Seance
      * @var Carbon
      */
     private Carbon $start_at;
+    /**
+     * @var null|false|Film
+     */
+    private $film = false;
+
+    private FilmsSeancesRelation $films_seances_relation;
 
     public function __construct(int $id, int $film_id, float $price, Carbon $start_at)
     {
@@ -34,6 +41,8 @@ class Seance
         $this->film_id = $film_id;
         $this->price = $price;
         $this->start_at = $start_at;
+
+        $this->films_seances_relation = new FilmsSeancesRelation();
     }
 
     /**
@@ -98,6 +107,18 @@ class Seance
     public function setStartAt(Carbon $start_at): void
     {
         $this->start_at = $start_at;
+    }
+
+    /**
+     * @return Film|array|false|null
+     * @throws \Exception
+     */
+    public function getFilm()
+    {
+        if ($this->film === false) {
+            $this->film = $this->films_seances_relation->getFilmBySeance($this);
+        }
+        return $this->film;
     }
 
 }
