@@ -1,0 +1,45 @@
+version: '2.2'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+    ports:
+      - 10080:80
+    depends_on:
+      - app
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+      - ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/app/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./docker/postgres
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_PASSWORD: otus
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8880:8080
+
