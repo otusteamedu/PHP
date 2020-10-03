@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-psql -v ON_ERROR_STOP=1 --username otus --dbname otus -c <<-EOSQL
+psql -v ON_ERROR_STOP=1 --username otus --dbname otus -c "
 INSERT INTO films (name, description, duration, age_limit)
 VALUES ('Фильм 1', 'Описание 1', 120, 6);
 INSERT INTO films (name, description, duration, age_limit)
@@ -21,4 +21,4 @@ INSERT INTO seances (film_id, price, start_at)
 VALUES (2, 400, '2020-09-15 16:00:00');
 INSERT INTO seances (film_id, price, start_at)
 VALUES (5, 750, '2020-09-15 18:30:00');
-EOSQL
+"

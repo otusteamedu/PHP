@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-psql -v ON_ERROR_STOP=1 --username otus --dbname otus -c <<-EOSQL
+psql -v ON_ERROR_STOP=1 --username otus --dbname otus -c "
 CREATE TABLE films
 (
     id          serial      not null
@@ -22,4 +22,4 @@ CREATE TABLE seances
 );
 
 CREATE INDEX seances_film_id_idx ON seances (film_id);
-EOSQL
+"
