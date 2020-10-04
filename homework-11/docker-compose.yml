@@ -1,0 +1,52 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.1
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    links:
+      - elasticsearch
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro
+
