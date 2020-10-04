@@ -1,0 +1,22 @@
+{
+  "name": "data-mapper/otus-php",
+  "description": "task pattern",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ivan-gluskov",
+      "email": "glushkov1997@icloud.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Entity\\": "Entity/",
+      "EntityMapper\\": "EntityMapper/",
+      "Database\\": "Database/"
+    }
+  }
+}
