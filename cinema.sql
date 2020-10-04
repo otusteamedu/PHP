@@ -1,18 +1,103 @@
 /* film */
 DROP TABLE IF EXISTS film CASCADE;
 CREATE TABLE film (
-    film_id SERIAL PRIMARY KEY,
-    film_name VARCHAR(255),
-    film_budget NUMERIC(13,2),
-    film_runtime VARCHAR(40),
-    film_world_premier_date TIMESTAMP,
-    film_imdb FLOAT
+    entity_id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
 );
 
-INSERT INTO film (film_name, film_budget, film_runtime, film_world_premier_date, film_imdb) VALUES ('The Shawshank Redemption', '25000000', '142 min', '14 October 1994', '9.3');
-INSERT INTO film (film_name, film_budget, film_runtime, film_world_premier_date, film_imdb) VALUES ('The Godfather', '6000000', '175 min', '24 March 1972', '9.2');
-INSERT INTO film (film_name, film_budget, film_runtime, film_world_premier_date, film_imdb) VALUES ('The Dark Knight', '185000000', '152 min', '14 August 2008', '9.3');
-INSERT INTO film (film_name, film_budget, film_runtime, film_world_premier_date, film_imdb) VALUES ('The Lord of the Rings: The Return of the King', '94000000', '201 min', '21 December 2003', '8.9');
+INSERT INTO film (name) VALUES ('The Shawshank Redemption');
+INSERT INTO film (name) VALUES ('The Godfather');
+INSERT INTO film (name) VALUES ('The Dark Knight');
+INSERT INTO film (name) VALUES ('The Lord of the Rings: The Return of the King');
+
+/* eav */
+DROP TABLE IF EXISTS eav_entity_type;
+CREATE TABLE eav_entity_type (
+    entity_type_id SERIAL PRIMARY KEY,
+    entity_name VARCHAR(40)
+);
+
+INSERT INTO eav_entity_type (entity_name) VALUES ('film');
+
+DROP TABLE IF EXISTS eav_attribute;
+CREATE TABLE eav_attribute (
+    attribute_id SERIAL PRIMARY KEY,
+    entity_type_id INTEGER,
+    attribute_name VARCHAR(40),
+    attribute_value_type VARCHAR(40)
+);
+
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Testimonial by criticals', 'text');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Testimonial by unknown film academy', 'text');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Oscar award', 'boolean');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Nika award', 'boolean');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'World premier', 'date');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'RF premier', 'date');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Ticket sale date', 'date');
+INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Tv ads date', 'date');
+
+DROP TABLE IF EXISTS eav_entity_text;
+CREATE TABLE eav_entity_text (
+    value_id SERIAL PRIMARY KEY,
+    entity_type_id INTEGER,
+    entity_id INTEGER,
+    attribute_id INTEGER,
+    value TEXT
+);
+
+DROP TABLE IF EXISTS eav_entity_boolean;
+CREATE TABLE eav_entity_boolean (
+    value_id SERIAL PRIMARY KEY,
+    entity_type_id INTEGER,
+    entity_id INTEGER,
+    attribute_id INTEGER,
+    value BOOLEAN
+);
+
+DROP TABLE IF EXISTS eav_entity_date;
+CREATE TABLE eav_entity_date (
+    value_id SERIAL PRIMARY KEY,
+    entity_type_id INTEGER,
+    entity_id INTEGER,
+    attribute_id INTEGER,
+    value DATE NOT NULL DEFAULT CURRENT_DATE
+);
+
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 1, 'Deal with life or deal with death The Shawshank Redemption in my opinion, this is the rarest case when a film has surpassed the literary work for which it was created...');
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 2, 'Never give up! The film is about a man who made the only right choice in a desperate situation - to look for this very way out!...');
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 3, TRUE);
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 4, TRUE);
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 5, '2020-08-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 6, '2020-09-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 7, '2020-07-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 8, '2020-07-30');
+
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 1, 'Brilliant cinema, sparkling against the background of dull everyday films, brilliant cinema...');
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 2, 'There is a category of films that anyone must watch at least once in their life.');
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 3, TRUE);
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 4, FALSE);
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 5, '2020-07-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 6, '2020-08-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 7, '2020-06-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 8, '2020-06-30');
+
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 1, 'No doubt the film is gorgeous. The story of the struggle between good and evil, love and hate and ... the Joker!');
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 2, '..But, alas, we have to. ''The Dark Knight'' is one of the best superhero film adaptations, if not the best.');
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 3, TRUE);
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 4, FALSE);
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 5, '2020-06-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 6, '2020-07-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 7, '2020-05-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 8, '2020-05-30');
+
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 1, 'The film amazes with its scale, beauty and depth of images and the world itself - I still wonder how one person could create a whole world...');
+INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 2, 'And the music of the film is a separate conversation! The musical theme of the film is beyond praise - how can elven ballads or heroic motives against...');
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 3, TRUE);
+INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 4, TRUE);
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 5, '2020-05-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 6, '2020-06-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 7, '2020-04-20');
+INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 8, '2020-04-30');
 
 /* client */
 DROP TABLE IF EXISTS client CASCADE;
@@ -414,7 +499,7 @@ CREATE TABLE session (
     session_status_id INT DEFAULT 1,
     CONSTRAINT fk_session_film_id
         FOREIGN KEY (film_id)
-            REFERENCES film(film_id)
+            REFERENCES film(entity_id)
             ON DELETE CASCADE,
     CONSTRAINT fk_session_session_status_id
         FOREIGN KEY (session_status_id)
@@ -1180,6 +1265,7 @@ INSERT INTO session_seat (session_id, seat_id, seat_status_id) VALUES (15, 178, 
 INSERT INTO session_seat (session_id, seat_id, seat_status_id) VALUES (15, 179, 1);
 INSERT INTO session_seat (session_id, seat_id, seat_status_id) VALUES (15, 180, 1);
 
+DROP TABLE IF EXISTS session_seat_price CASCADE;
 CREATE TABLE session_seat_price (
     session_id INTEGER NOT NULL,
     seat_type_id INTEGER NOT NULL,
@@ -1300,4 +1386,137 @@ INSERT INTO history (session_id, history_total) VALUES (14, 28300.00);
 INSERT INTO history (session_id, history_total) VALUES (15, 25400.00);
 INSERT INTO history (session_id, history_total) VALUES (16, 25200.00);
 
-SELECT h.history_total as total, f.film_name as film_name FROM film f LEFT JOIN session s ON (f.film_id = s.film_id) LEFT JOIN history h ON (s.session_id = h.history_id) WHERE history_total = (SELECT MAX(history_total) FROM history)
+SELECT h.history_total as total, f.name as film_name FROM film f LEFT JOIN session s ON (f.entity_id = s.film_id) LEFT JOIN history h ON (s.session_id = h.history_id) WHERE history_total = (SELECT MAX(history_total) FROM history);
+
+DROP TABLE IF EXISTS task CASCADE;
+CREATE TABLE task (
+    task_id SERIAL PRIMARY KEY,
+    task_film_id INTEGER,
+    task_name VARCHAR(40),
+    task_date DATE NOT NULL DEFAULT CURRENT_DATE,
+     CONSTRAINT fk_task_film_id
+        FOREIGN KEY (task_film_id)
+            REFERENCES film(entity_id)
+            ON DELETE CASCADE
+);
+
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'prepare tv ads', '2020-10-04');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'prepare radio ads', '2020-10-05');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'make an anouncement in cinema', '2020-10-06');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize free ticket program', '2020-10-07');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'send sms for clients', '2020-10-08');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize day of cheap tickers in cinema', '2020-10-09');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize day of free popcorn in cinema', '2020-10-10');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize family day in cinema', '2020-10-11');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize big menu day in cinema', '2020-10-12');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (1, 'organize new popcorn menu in cinema', '2020-10-13');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'prepare tv ads', '2020-10-08');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'prepare radio ads', '2020-10-09');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'make an anouncement in cinema', '2020-10-10');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize free ticket program', '2020-10-11');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'send sms for clients', '2020-10-12');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize day of cheap tickers in cinema', '2020-10-13');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize day of free popcorn in cinema', '2020-10-14');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize family day in cinema', '2020-10-15');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize big menu day in cinema', '2020-10-16');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (2, 'organize new popcorn menu in cinema', '2020-10-17');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'prepare tv ads', '2020-10-12');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'prepare radio ads', '2020-10-13');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'make an anouncement in cinema', '2020-10-14');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize free ticket program', '2020-10-15');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'send sms for clients', '2020-10-16');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize day of cheap tickers in cinema', '2020-10-14');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize day of free popcorn in cinema', '2020-10-15');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize family day in cinema', '2020-10-16');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize big menu day in cinema', '2020-10-17');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (3, 'organize new popcorn menu in cinema', '2020-10-18');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'prepare tv ads', '2020-10-16');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'prepare radio ads', '2020-10-17');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'make an anouncement in cinema', '2020-10-18');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize free ticket program', '2020-10-19');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'send sms for clients', '2020-10-20');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize day of cheap tickers in cinema', '2020-10-21');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize day of free popcorn in cinema', '2020-10-22');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize family day in cinema', '2020-10-23');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize big menu day in cinema', '2020-10-24');
+INSERT INTO task (task_film_id, task_name, task_date) VALUES (4, 'organize new popcorn menu in cinema', '2020-10-25');
+
+CREATE VIEW
+    pg_service_data
+    AS
+    SELECT
+        f.name AS film_name,
+        t.task_name AS task_name_today,
+        null AS task_name_after_20_days
+    FROM
+        task t
+    LEFT JOIN
+        film f
+    ON
+        (t.task_film_id = f.entity_id)
+		WHERE t.task_date = now()::date
+    UNION
+    SELECT
+        f.name AS film_name,
+        null AS task_name_today,
+        t.task_name AS task_name_after_20_days
+    FROM
+        task t
+    LEFT JOIN
+        film f
+    ON
+        (t.task_film_id = f.entity_id)
+    WHERE
+            t.task_date = now()::date + 20;
+
+CREATE VIEW
+    pg_marketing_data
+    AS
+    SELECT
+        f.name AS film_name,
+        eav_a.attribute_value_type AS attribute_type,
+        eav_a.attribute_name AS attribute_name,
+        eav_v.value AS attribute_value_text
+    FROM
+        eav_attribute eav_a
+    LEFT JOIN eav_entity_text eav_v
+    ON
+        (eav_a.attribute_id = eav_v.attribute_id)
+    LEFT JOIN film f
+    ON
+        (f.entity_id = eav_v.entity_id)
+    WHERE
+        eav_v.entity_type_id = 1
+    UNION
+    SELECT
+        f.name AS film_name,
+        eav_a.attribute_value_type AS attribute_type,
+        eav_a.attribute_name AS attribute_name,
+        CAST(eav_vb.value AS text) attribute_value_text
+    FROM
+        eav_attribute eav_a
+    LEFT JOIN eav_entity_boolean eav_vb
+    ON
+        (eav_a.attribute_id = eav_vb.attribute_id)
+    LEFT JOIN film f
+    ON
+        (f.entity_id = eav_vb.entity_id)
+    WHERE
+        eav_vb.entity_type_id = 1
+    UNION
+    SELECT
+        f.name AS film_name,
+        eav_a.attribute_value_type AS attribute_type,
+        eav_a.attribute_name AS attribute_name,
+        CAST(eav_vd.value AS text) attribute_value_text
+    FROM
+        eav_attribute eav_a
+    LEFT JOIN eav_entity_date eav_vd
+    ON
+        (eav_a.attribute_id = eav_vd.attribute_id)
+    LEFT JOIN film f
+    ON
+        (f.entity_id = eav_vd.entity_id)
+    WHERE
+        eav_vd.entity_type_id = 1
+    ORDER BY film_name, attribute_type;
