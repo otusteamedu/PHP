@@ -2,7 +2,7 @@
 
 namespace Otus;
 
-class Config
+class Config implements ConfigContract
 {
     private array $config;
 
