@@ -36,68 +36,52 @@ INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type)
 INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Ticket sale date', 'date');
 INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Tv ads date', 'date');
 
-DROP TABLE IF EXISTS eav_entity_text;
-CREATE TABLE eav_entity_text (
+DROP TABLE IF EXISTS eav_entity_value;
+CREATE TABLE eav_entity_value (
     value_id SERIAL PRIMARY KEY,
     entity_type_id INTEGER,
     entity_id INTEGER,
     attribute_id INTEGER,
-    value TEXT
+    value_text TEXT,
+    value_bool BOOLEAN,
+    value_date DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
-DROP TABLE IF EXISTS eav_entity_boolean;
-CREATE TABLE eav_entity_boolean (
-    value_id SERIAL PRIMARY KEY,
-    entity_type_id INTEGER,
-    entity_id INTEGER,
-    attribute_id INTEGER,
-    value BOOLEAN
-);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 1, 1, 'Deal with life or deal with death The Shawshank Redemption in my opinion, this is the rarest case when a film has surpassed the literary work for which it was created...');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 1, 2, 'Never give up! The film is about a man who made the only right choice in a desperate situation - to look for this very way out!...');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 1, 3, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 1, 4, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 1, 5, '2020-08-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 1, 6, '2020-09-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 1, 7, '2020-07-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 1, 8, '2020-07-30');
 
-DROP TABLE IF EXISTS eav_entity_date;
-CREATE TABLE eav_entity_date (
-    value_id SERIAL PRIMARY KEY,
-    entity_type_id INTEGER,
-    entity_id INTEGER,
-    attribute_id INTEGER,
-    value DATE NOT NULL DEFAULT CURRENT_DATE
-);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 2, 1, 'Brilliant cinema, sparkling against the background of dull everyday films, brilliant cinema...');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 2, 2, 'There is a category of films that anyone must watch at least once in their life.');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 2, 3, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 2, 4, FALSE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 2, 5, '2020-07-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 2, 6, '2020-08-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 2, 7, '2020-06-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 2, 8, '2020-06-30');
 
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 1, 'Deal with life or deal with death The Shawshank Redemption in my opinion, this is the rarest case when a film has surpassed the literary work for which it was created...');
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 2, 'Never give up! The film is about a man who made the only right choice in a desperate situation - to look for this very way out!...');
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 3, TRUE);
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 4, TRUE);
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 5, '2020-08-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 6, '2020-09-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 7, '2020-07-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 1, 8, '2020-07-30');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 3, 1, 'No doubt the film is gorgeous. The story of the struggle between good and evil, love and hate and ... the Joker!');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 3, 2, '..But, alas, we have to. ''The Dark Knight'' is one of the best superhero film adaptations, if not the best.');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 3, 3, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 3, 4, FALSE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 3, 5, '2020-06-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 3, 6, '2020-07-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 3, 7, '2020-05-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 3, 8, '2020-05-30');
 
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 1, 'Brilliant cinema, sparkling against the background of dull everyday films, brilliant cinema...');
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 2, 'There is a category of films that anyone must watch at least once in their life.');
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 3, TRUE);
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 4, FALSE);
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 5, '2020-07-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 6, '2020-08-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 7, '2020-06-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 2, 8, '2020-06-30');
-
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 1, 'No doubt the film is gorgeous. The story of the struggle between good and evil, love and hate and ... the Joker!');
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 2, '..But, alas, we have to. ''The Dark Knight'' is one of the best superhero film adaptations, if not the best.');
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 3, TRUE);
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 4, FALSE);
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 5, '2020-06-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 6, '2020-07-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 7, '2020-05-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 3, 8, '2020-05-30');
-
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 1, 'The film amazes with its scale, beauty and depth of images and the world itself - I still wonder how one person could create a whole world...');
-INSERT INTO eav_entity_text (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 2, 'And the music of the film is a separate conversation! The musical theme of the film is beyond praise - how can elven ballads or heroic motives against...');
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 3, TRUE);
-INSERT INTO eav_entity_boolean (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 4, TRUE);
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 5, '2020-05-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 6, '2020-06-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 7, '2020-04-20');
-INSERT INTO eav_entity_date (entity_type_id, entity_id, attribute_id, value) VALUES (1, 4, 8, '2020-04-30');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 4, 1, 'The film amazes with its scale, beauty and depth of images and the world itself - I still wonder how one person could create a whole world...');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 4, 2, 'And the music of the film is a separate conversation! The musical theme of the film is beyond praise - how can elven ballads or heroic motives against...');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 4, 3, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_bool) VALUES (1, 4, 4, TRUE);
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 4, 5, '2020-05-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 4, 6, '2020-06-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 4, 7, '2020-04-20');
+INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_date) VALUES (1, 4, 8, '2020-04-30');
 
 /* client */
 DROP TABLE IF EXISTS client CASCADE;
@@ -1476,10 +1460,12 @@ CREATE VIEW
         f.name AS film_name,
         eav_a.attribute_value_type AS attribute_type,
         eav_a.attribute_name AS attribute_name,
-        eav_v.value AS attribute_value_text
+        eav_v.value_text AS attribute_value_text,
+        eav_v.value_bool AS attribute_value_bool,
+        eav_v.value_date AS attribute_value_date
     FROM
         eav_attribute eav_a
-    LEFT JOIN eav_entity_text eav_v
+    LEFT JOIN eav_entity_value eav_v
     ON
         (eav_a.attribute_id = eav_v.attribute_id)
     LEFT JOIN film f
@@ -1487,36 +1473,5 @@ CREATE VIEW
         (f.entity_id = eav_v.entity_id)
     WHERE
         eav_v.entity_type_id = 1
-    UNION
-    SELECT
-        f.name AS film_name,
-        eav_a.attribute_value_type AS attribute_type,
-        eav_a.attribute_name AS attribute_name,
-        CAST(eav_vb.value AS text) attribute_value_text
-    FROM
-        eav_attribute eav_a
-    LEFT JOIN eav_entity_boolean eav_vb
-    ON
-        (eav_a.attribute_id = eav_vb.attribute_id)
-    LEFT JOIN film f
-    ON
-        (f.entity_id = eav_vb.entity_id)
-    WHERE
-        eav_vb.entity_type_id = 1
-    UNION
-    SELECT
-        f.name AS film_name,
-        eav_a.attribute_value_type AS attribute_type,
-        eav_a.attribute_name AS attribute_name,
-        CAST(eav_vd.value AS text) attribute_value_text
-    FROM
-        eav_attribute eav_a
-    LEFT JOIN eav_entity_date eav_vd
-    ON
-        (eav_a.attribute_id = eav_vd.attribute_id)
-    LEFT JOIN film f
-    ON
-        (f.entity_id = eav_vd.entity_id)
-    WHERE
-        eav_vd.entity_type_id = 1
-    ORDER BY film_name, attribute_type;
+    ORDER BY
+        film_name, attribute_type;
