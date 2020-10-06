@@ -2,16 +2,17 @@
 
 namespace Otus;
 
+use Otus\Config\ConfigFactory;
 use Redis;
 
 class RedisClientFactory
 {
     public static function make(): Redis
     {
-        $config = new Config('redis');
+        $config = ConfigFactory::make();
 
         $client = new Redis();
-        $client->connect($config->get('host'), $config->get('port'));
+        $client->connect($config->get('redis_host'), $config->get('redis_port'));
 
         return $client;
     }

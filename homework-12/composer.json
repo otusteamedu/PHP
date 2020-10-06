@@ -4,7 +4,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-redis": "*",
-        "vlucas/phpdotenv": "^5.2"
+        "vlucas/phpdotenv": "^5.2",
+        "symfony/yaml": "^5.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"
