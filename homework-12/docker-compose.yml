@@ -1,0 +1,34 @@
+version: '2.2'
+services:
+  redis:
+    container_name: redis
+    image: library/redis:6-alpine
+    volumes:
+      - ./docker/redis/data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    container_name: app
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro
+
