@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    container_name: server
+    volumes:
+    - ./tmp
+    links:
+      - client
+  client:
+    build: ./client
+    container_name: client
+    volumes:
+    - ./tmp
+volumes:
+  tmp: {}

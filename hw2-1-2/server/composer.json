@@ -1,0 +1,19 @@
+{
+    "name": "nemroq/code",
+    "authors": [
+        {
+            "name": "Mikhail Kulakov",
+            "email": "nemywolf@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "*",
+        "symfony/yaml": "^5.0",
+        "vlucas/phpdotenv": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\" : "src/"
+        }
+    }
+}
