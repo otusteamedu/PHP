@@ -27,6 +27,11 @@ class SocketClient
         $this->writeToSocket($this->socket, $message);
     }
 
+    public function read(): ?string
+    {
+        return $this->readFromSocket($this->socket);
+    }
+
     public function clearOldSocket(): void
     {
         if (file_exists($this->host)) {

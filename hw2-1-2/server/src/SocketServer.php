@@ -49,7 +49,7 @@ class SocketServer
         }
     }
 
-    public function accept()
+    public function accept(): void
     {
         $this->acceptedSocket = socket_accept($this->socket);
         if ($this->acceptedSocket === false) {
