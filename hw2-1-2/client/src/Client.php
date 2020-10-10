@@ -9,19 +9,19 @@ class Client
         $this->initSocket($host, $port);
     }
 
-    public function waitForMessage(): void
+    public function waitForMessage()
     {
         echo "Введите сообщение:\t";
         $this->message($this->readline());
     }
 
-    public function message(string $message): void
+    public function message(string $message)
     {
         $this->socket->write($message);
         $this->waitingResponse();
     }
 
-    private function initSocket(string $host, int $port): void
+    private function initSocket(string $host, int $port)
     {
         $this->socket = new SocketClient($host, $port);
         $this->socket->clearOldSocket();
@@ -33,7 +33,7 @@ class Client
         return rtrim(fgets(STDIN));
     }
 
-    private function waitingResponse(): void
+    private function waitingResponse()
     {
         echo "Ответ сервера:\t" . $this->socket->read();
     }

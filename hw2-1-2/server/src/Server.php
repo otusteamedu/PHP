@@ -9,7 +9,7 @@ class Server
         $this->initSocket($host, $port);
     }
 
-    public function listen(): void
+    public function listen()
     {
         do {
             $this->socket->accept();
