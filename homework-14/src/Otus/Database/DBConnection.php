@@ -5,7 +5,7 @@ namespace Otus\Database;
 use Otus\Config\ConfigContract;
 use PDO;
 
-abstract class DBConnection
+abstract class DBConnection implements ConnectionContract
 {
     protected PDO $pdo;
 

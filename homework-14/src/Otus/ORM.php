@@ -2,8 +2,6 @@
 
 namespace Otus;
 
-use Otus\Config\ConfigFactory;
-use Otus\Database\ConnectionFactory;
 use Otus\Entities\Mail;
 use Otus\Entities\MailCollection;
 use Otus\Entities\MailMapper;
@@ -14,12 +12,10 @@ class ORM
 
     private MailMapper $mapper;
 
-    public function __construct()
+    public function __construct(MailMapper $mapper, IdentityMap $map)
     {
-        $this->map    = IdentityMap::make();
-        $config       = ConfigFactory::make();
-        $pdo          = ConnectionFactory::make($config)->getPdo();
-        $this->mapper = new MailMapper($pdo);
+        $this->mapper = $mapper;
+        $this->map    = $map;
     }
 
     public function find(int $id): ?Mail

@@ -11,14 +11,14 @@ class MysqlConnection extends DBConnection
     {
         return new PDO(
             $this->getDsn($config),
-            $config->get('db_username'),
-            $config->get('db_password')
+            $config->get('connections.mysql.username'),
+            $config->get('connections.mysql.password')
         );
     }
 
     private function getDsn(ConfigContract $config): string
     {
-        return 'mysql:host='.$config->get('db_host').';port='.$config->get('db_port').
-               ';dbname='.$config->get('db_database');
+        return 'mysql:host='.$config->get('connections.mysql.host').';port='.$config->get('connections.mysql.port').
+               ';dbname='.$config->get('connections.mysql.database');
     }
 }

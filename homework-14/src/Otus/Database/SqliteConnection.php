@@ -14,6 +14,6 @@ class SqliteConnection extends DBConnection
 
     private function getDsn(ConfigContract $config): string
     {
-        return 'sqlite:dbname='.$config->get('db_database');
+        return 'sqlite:dbname='.$config->get('connections.sqlite.database');
     }
 }

@@ -3,21 +3,25 @@
 namespace Otus\Database;
 
 use Otus\Config\ConfigContract;
-use UnknownDriver;
+use Otus\Exceptions\UnknownDriver;
+use Throwable;
 
 class ConnectionFactory
 {
-    public static function make(ConfigContract $config)
+    public static function make(ConfigContract $config): ConnectionContract
     {
-        switch ($config->get('db_driver')) {
-            case 'mysql':
-                return new MysqlConnection($config);
-            case 'postgres':
-                return new PostgresConnection($config);
-            case 'sqlite':
-                return new SqliteConnection($config);
-            default:
-                throw new UnknownDriver();
+        $connection = $config->get('default');
+        $connectionClass = self::getConnectionClass($connection);
+
+        try {
+            return new $connectionClass($config);
+        } catch (Throwable $throwable) {
+            throw new UnknownDriver($connection);
         }
+    }
+
+    private static function getConnectionClass(string $driver): string
+    {
+        return "Otus\\Database\\".ucfirst($driver).'Connection';
     }
 }
