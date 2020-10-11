@@ -36,7 +36,7 @@ INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type)
 INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Ticket sale date', 'date');
 INSERT INTO eav_attribute (entity_type_id, attribute_name, attribute_value_type) VALUES (1, 'Tv ads date', 'date');
 
-DROP TABLE IF EXISTS eav_entity_value;
+DROP TABLE IF EXISTS eav_entity_value CASCADE;
 CREATE TABLE eav_entity_value (
     value_id SERIAL PRIMARY KEY,
     entity_type_id INTEGER,
@@ -44,7 +44,9 @@ CREATE TABLE eav_entity_value (
     attribute_id INTEGER,
     value_text TEXT,
     value_bool BOOLEAN,
-    value_date DATE NOT NULL DEFAULT CURRENT_DATE
+    value_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    value_int INTEGER,
+    value_float FLOAT
 );
 
 INSERT INTO eav_entity_value (entity_type_id, entity_id, attribute_id, value_text) VALUES (1, 1, 1, 'Deal with life or deal with death The Shawshank Redemption in my opinion, this is the rarest case when a film has surpassed the literary work for which it was created...');
@@ -1462,7 +1464,9 @@ CREATE VIEW
         eav_a.attribute_name AS attribute_name,
         eav_v.value_text AS attribute_value_text,
         eav_v.value_bool AS attribute_value_bool,
-        eav_v.value_date AS attribute_value_date
+        eav_v.value_date AS attribute_value_date,
+        eav_v.value_int AS attribute_value_int,
+        eav_v.value_float AS attribute_value_float
     FROM
         eav_attribute eav_a
     LEFT JOIN eav_entity_value eav_v
