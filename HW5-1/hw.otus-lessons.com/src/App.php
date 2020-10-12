@@ -7,18 +7,12 @@ class App
 
     public function run()
     {
-        $email_validator = new \Validator\EmailValidator\EmailValidator();
+        $email_validator = new \Validator\EmailValidator\EmailValidator([new \Validator\EmailValidator\EmailRegexpValidator(), new \Validator\EmailValidator\EmailRegexpValidator()]);
 
-        $emails = [
-            '1',
-            'asd12',
-            'asd@asd',
-            'ter123@',
-            'ter123@ter.ru',
-            'ter123@tsad213.i32184/ ds',
-            'woplek@yandex.ru'
-        ];
-
+        $emails = Util::getEmails();
+        if (empty($emails)) {
+            throw new \Exception('Не введены email на проверку.');
+        }
         $email_validator->setEmails($emails);
 
         $validator = new \Validator\Validator($email_validator);
