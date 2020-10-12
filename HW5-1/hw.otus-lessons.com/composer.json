@@ -1,0 +1,20 @@
+{
+    "name": "farid/hw.otus-lessons.com",
+    "description": "Otus homework 5",
+    "authors": [
+        {
+            "name": "Farid",
+            "email": "woplek@yandex.ru"
+        }
+    ],
+    "require": {
+      "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Validator\\" : "src/Validator/",
+            "Validator\\EmailValidator\\" : "src/Validator/EmailValidator/"
+        }
+    }
+}
