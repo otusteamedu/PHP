@@ -1,0 +1,50 @@
+version: '3'
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    container_name: app
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro
+
+  postgres:
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: default
+    image: postgres:13
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql/data/
+
+  mysql:
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: default
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
