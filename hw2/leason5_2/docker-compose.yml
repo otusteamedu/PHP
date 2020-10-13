@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  backend1:
+    container_name: back1
+    build:
+      context: backend
+      dockerfile: Dockerfile
+
+  backend2:
+    container_name: back2
+    build:
+      context: backend
+      dockerfile: Dockerfile
+
+  balancer:
+    build:
+      context: balancer
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - backend1
+      - backend2

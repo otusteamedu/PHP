@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 services:
   nginx:
     container_name: nginx
@@ -9,6 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./www:/var/www
+      - shared-vol:/var/run
     depends_on :
       - php
 
@@ -19,3 +20,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./www:/var/www
+      - shared-vol:/var/run
+
+volumes:
+  shared-vol:

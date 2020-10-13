@@ -41,6 +41,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --fil
     && composer global require hirak/prestissimo --no-plugins --no-scripts \
     && rm -rf /root/.composer/cache
 
+# swith to unix socket
+#RUN sed -i 's/^listen.*/listen=\/var\/run\/php-fpm.sock/' /usr/local/etc/php-fpm.d/www.conf \
+#    && sed -i 's/.*listen\.mode.*/listen\.mode=0666/' /usr/local/etc/php-fpm.d/www.conf \
+#    && sed -i 's/.*listen\.allowed_clients.*/listen\.allowed_clients=127\.0\.0\.1/' /usr/local/etc/php-fpm.d/www.conf \
+#    && rm -f /usr/local/etc/php-fpm.d/zz-docker.conf
+
 ADD ./php.ini /usr/local/etc/php/php.ini
+ADD ./php-fpm.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /var/www

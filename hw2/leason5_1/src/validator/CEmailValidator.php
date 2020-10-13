@@ -2,7 +2,7 @@
 
 namespace validator;
 
-class CEmailValidator implements IValidator
+class CEmailValidator extends CBaseValidator
 {
     /**
      * @var string Regex pattern for validate
@@ -11,7 +11,7 @@ class CEmailValidator implements IValidator
     /**
      * @var bool Check MX DNS record
      */
-    public $checkMX = true;
+    public $checkMX = false;
 
 
     /**
@@ -23,6 +23,8 @@ class CEmailValidator implements IValidator
      */
     public function validate($value)
     {
+        parent::validate($value);
+
         return $this->checkByPattern($value) && $this->checkMX($value);
     }
 
@@ -30,18 +32,22 @@ class CEmailValidator implements IValidator
     /**
      * Check MX DNS record
      *
-     * @param $email
+     * @param $value
      *
      * @return bool
      */
-    private function checkMX($email)
+    private function checkMX($value)
     {
         if ( ! $this->checkMX) {
             return true;
         }
-        $domain = rtrim(substr($email, strpos($email, '@') + 1), '>');
+        $domain = rtrim(substr($value, strpos($value, '@') + 1), '>');
+        $result = checkdnsrr($domain, 'MX');
+        if ($result === false) {
+            $this->setError("Error validate MX DNS record for  $domain");
+        }
 
-        return checkdnsrr($domain, 'MX');
+        return $result;
     }
 
 
@@ -54,6 +60,11 @@ class CEmailValidator implements IValidator
      */
     private function checkByPattern($email)
     {
-        return preg_match($this->pattern, $email);
+        $result = preg_match($this->pattern, $email);
+        if ($result === false) {
+            $this->setError('Error pattern validate');
+        }
+
+        return $result;
     }
 }
