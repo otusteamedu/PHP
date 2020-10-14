@@ -52,8 +52,9 @@ class SocketClient extends AbstractSocket
         $this->buffer = '';
 
         $this->buffer = fgets($this->socket);
-
-        $this->init();
+        if (!empty($this->buffer)) {
+            $this->init();
+        }
 
         return $this->buffer;
     }

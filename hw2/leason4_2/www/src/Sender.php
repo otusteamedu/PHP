@@ -62,19 +62,24 @@ class Sender
         while (true) {
             //echo sprintf("%s %s \n",date('H:i:s'), ($this->isServer) ? 'Server' : 'Client');
 
-            if (!$this->isServer) {
+            //if ( ! $this->isServer) {
+            //    $read = [$this->socket->getResource()];
+            //    if (false === ($num = stream_select($read, $w = null, $exp = null, 1, 0))) {
+            //        echo "Error \n";
+            //    } elseif ($num > 0) {
+            //        $socketData = $this->socket->read();
+            //    }
+            //} else {
+                sleep(1);
                 $socketData = $this->socket->read();
-                if ( ! empty($socketData)) {
-                    echo sprintf("Client say: %s \n", $socketData);
-                }
-            } else {
-                $stdinData = fgets($this->stdin);
-                if ( ! empty($stdinData)) {
-                    $this->socket->write($stdinData);
-                }
+            //}
+            if ( ! empty($socketData)) {
+                echo sprintf("Client say: %s \n", $socketData);
             }
-
-            sleep(1);
+            $stdinData = fgets($this->stdin);
+            if ( ! empty($stdinData)) {
+                $this->socket->write($stdinData);
+            }
         }
     }
 }

@@ -6,12 +6,16 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    ports:
+      - 81:8080
 
   backend2:
     container_name: back2
     build:
       context: backend
       dockerfile: Dockerfile
+    ports:
+      - 82:8080
 
   balancer:
     build:

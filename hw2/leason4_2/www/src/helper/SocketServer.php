@@ -38,11 +38,22 @@ class SocketServer extends AbstractSocket
      */
     public function read()
     {
-        //echo date("H:i:s");
+        $this->buffer = '';
+
+        //$con = stream_socket_accept($this->socket, 1);
+        //do {
+        //    $this->buffer .= stream_get_line($con, 1024, "\n");
+        //    $metadata = stream_get_meta_data($con);
+        //    print_r([
+        //        'server read ' =>$this->buffer,
+        //        'meta' => $metadata
+        //    ]);
+        //} while (!feof($con) && $metadata['unread_bytes'] > 0);
 
         //while ($con = stream_socket_accept($this->socket, 1)) {
-        //    $this->buffer = stream_get_line($con, 1024, "\n");
+        //    $this->buffer .= stream_get_line($con, 1024, "\n");
         //}
+        //$this->buffer .= stream_get_line($this->socket, 10);
 
         //print_r($this->buffer);
         //$con = stream_socket_accept($this->socket, 0);
