@@ -1,0 +1,11 @@
+version: 3.0
+services:
+  balancer:
+    container_name: balancer
+    build: balancer/
+  node_1:
+    container_name: node 1
+    build: node 1/
+  node_2:
+    container_name: node 2
+    build: node 2/
