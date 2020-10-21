@@ -69,18 +69,24 @@ BEGIN
     DELETE FROM row;
     ALTER SEQUENCE row_id_seq RESTART;
 
+    DROP SEQUENCE IF EXISTS seq_for_row;
+    CREATE SEQUENCE seq_for_row INCREMENT 1
+        START 1;
+
     INSERT INTO row (number, hall_id)
-    SELECT random_int(20) as number, random_int(5) as hall
-    FROM generate_series(1,1000)
-    GROUP BY number, hall;
+    SELECT  nextval('seq_for_row'::regclass) as number, random_int(5) as hall
+    FROM generate_series(1,1000);
 
     DELETE FROM places;
     ALTER SEQUENCE places_id_seq RESTART;
 
+    DROP SEQUENCE IF EXISTS seq_for_places;
+    CREATE SEQUENCE seq_for_places INCREMENT 1
+        START 1;
+
     INSERT INTO places (number, row_id)
-    SELECT random_int(20) as number, random_int(20) as row_id
-    FROM generate_series(1,10000)
-    GROUP BY number, row_id;
+    SELECT nextval('seq_for_places'::regclass) as number, random_int(1000) as row_id
+    FROM generate_series(1,10000);
 
     DELETE FROM film_sessions;
     ALTER SEQUENCE film_sessions_id_seq RESTART;
@@ -107,7 +113,7 @@ BEGIN
     ALTER SEQUENCE tickets_id_seq RESTART;
 
     INSERT INTO tickets (order_id, cost, session_id, place_id)
-    SELECT random_int(div(count, 4)::integer), random_int(1000), random_int(number_of_rows('SELECT * FROM film_sessions')::integer) as session_id, random_int(number_of_rows('SELECT * FROM places')::integer) as place_id
+    SELECT random_int(div(count, 4)::integer), random_int(1000), random_int(div(count,4)::integer) as session_id, random_int(10000) as place_id
     FROM generate_series(1, count)
     GROUP BY session_id, place_id;
 

@@ -11,14 +11,6 @@ EXPLAIN ANALYZE SELECT f.title, COUNT(fs.id) FROM films f
 JOIN film_sessions fs ON fs.film_id = f.id
 GROUP BY (f.id);
 
--- EXPLAIN ANALYZE SELECT f.title,
---        (
---        SELECT COUNT(*)
---        FROM film_sessions fs
---         WHERE fs.film_id = f.id
---        ) AS count_sessions
--- FROM films f;
-
 EXPLAIN ANALYZE SELECT  ch.title,
          (
             SELECT AVG(count) FROM
