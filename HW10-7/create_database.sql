@@ -43,7 +43,7 @@ CREATE TABLE row (
   hall_id INTEGER NOT NULL,
   status SMALLINT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
-  FOREIGN KEY (hall_id) REFERENCES cinema_halls (id)
+  FOREIGN KEY (hall_id) REFERENCES cinema_halls (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -59,7 +59,7 @@ CREATE TABLE places (
   row_id INTEGER NOT NULL,
   status SMALLINT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
-  FOREIGN KEY (row_id) REFERENCES row (id)
+  FOREIGN KEY (row_id) REFERENCES row (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -77,8 +77,8 @@ CREATE TABLE film_sessions (
   session_end TIMESTAMP NOT NULL,
   session_duration INTEGER NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (hall_id) REFERENCES cinema_halls (id),
-  FOREIGN KEY (film_id) REFERENCES films (id)
+  FOREIGN KEY (hall_id) REFERENCES cinema_halls (id) ON DELETE CASCADE,
+  FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -112,7 +112,7 @@ CREATE TABLE orders (
   amount MONEY NOT NULL,
   status SMALLINT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
-  FOREIGN KEY (client_id) REFERENCES clients (id)
+  FOREIGN KEY (client_id) REFERENCES clients (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -129,9 +129,9 @@ CREATE TABLE tickets (
   session_id INTEGER NOT NULL,
   place_id INTEGER NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (place_id) REFERENCES places (id),
-  FOREIGN KEY (session_id) REFERENCES film_sessions (id),
-  FOREIGN KEY (order_id) REFERENCES orders (id)
+  FOREIGN KEY (place_id) REFERENCES places (id) ON DELETE CASCADE,
+  FOREIGN KEY (session_id) REFERENCES film_sessions (id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -147,8 +147,8 @@ CREATE TABLE prices (
   session_id INTEGER NOT NULL,
   place_id INTEGER NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (place_id) REFERENCES places (id),
-  FOREIGN KEY (session_id) REFERENCES film_sessions (id)
+  FOREIGN KEY (place_id) REFERENCES places (id) ON DELETE CASCADE,
+  FOREIGN KEY (session_id) REFERENCES film_sessions (id) ON DELETE CASCADE
 );
 
 -- ---
@@ -166,7 +166,7 @@ CREATE TABLE payments (
   payment_amount MONEY NOT NULL,
   status SMALLINT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES orders (id)
+  FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE
 );
 
 
