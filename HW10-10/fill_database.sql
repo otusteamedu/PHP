@@ -34,6 +34,15 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function number_of_rows(query text)
+    returns bigint language plpgsql as $$
+declare
+    c bigint;
+begin
+    execute format('select count(*) from (%s) s', query) into c;
+    return c;
+end $$;
+
 
 CREATE OR REPLACE PROCEDURE fill(count INT) AS
 $$
@@ -78,10 +87,89 @@ BEGIN
 
     INSERT INTO film_sessions (film_id, hall_id, session_start, session_end, session_duration)
     SELECT random_int(5), random_int(5), random_date_time(), random_date_time(), random_int(240)
-    FROM generate_series(1, div(count,5)::integer);
+    FROM generate_series(1, div(count,4)::integer);
+
+    DELETE FROM clients;
+    ALTER SEQUENCE clients_id_seq RESTART;
+
+    INSERT INTO clients (first_name, middle_name, email, phone)
+    SELECT random_string(6), random_string(6), random_string(13), random_string(11)
+    FROM generate_series(1, div(count, 4)::integer);
+
+    DELETE FROM orders;
+    ALTER SEQUENCE orders_id_seq RESTART;
+
+    INSERT INTO orders(client_id, amount)
+    SELECT random_int(div(count, 4)::integer), random_int(5000)
+    FROM generate_series(1, div(count, 4)::integer);
+
+    DELETE FROM tickets;
+    ALTER SEQUENCE tickets_id_seq RESTART;
+
+    INSERT INTO tickets (order_id, cost, session_id, place_id)
+    SELECT random_int(div(count, 4)::integer), random_int(1000), random_int(number_of_rows('SELECT * FROM film_sessions')::integer) as session_id, random_int(number_of_rows('SELECT * FROM places')::integer) as place_id
+    FROM generate_series(1, count)
+    GROUP BY session_id, place_id;
+
+    DELETE FROM attribute_types;
+    ALTER SEQUENCE attribute_types_id_seq RESTART;
+
+    INSERT INTO attribute_types (name) VALUES ('reviews');
+    INSERT INTO attribute_types (name) VALUES ('award');
+    INSERT INTO attribute_types (name) VALUES ('important_dates');
+    INSERT INTO attribute_types (name) VALUES ('service_dates');
+
+    DELETE FROM attributes;
+    ALTER SEQUENCE attributes_id_seq RESTART;
+
+    INSERT INTO attributes (name, type, film_id) VALUES ('Оскар', 2, 1);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Ника', 2, 2);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Ветвь', 2, 2);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Золотой глобус', 2, 3);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Оскар', 2, 4);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Ветвь', 2, 5);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Оскар', 2, 5);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Отзыв от кинокритика 1', 1, 3);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Отзыв от кинокритика 2', 1, 3);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Отзыв от кинокритика 1', 1, 1);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Отзыв от кинокритика 1', 1, 5);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера', 3, 1);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера в мире', 3, 2);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера в РФ', 3, 3);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера в мире', 3, 3);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера', 3, 4);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Премьера', 3, 5);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Дата начала продаж', 3, 1);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Дата начала продаж', 3, 2);
+    INSERT INTO attributes (name, type, film_id) VALUES ('Дата начала марктинговой кампании', 3, 2);
+
+    DELETE FROM attribute_values;
+    ALTER SEQUENCE attribute_values_id_seq RESTART;
+
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (1, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (2, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (3, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (4, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (5, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (6, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (7, null, null, null, true, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (8, null, random_string(255), null, null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (9, null, random_string(255), null, null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (10, null, random_string(255), null, null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (11, null, random_string(255), null, null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (12, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (13, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (14, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (15, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (16, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (17, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (18, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (19, null, null, random_date_time(), null, null);
+    INSERT INTO attribute_values (attribute_id, int_value, string_value, date_value, boolean_value, float_value) VALUES (20, null, null, random_date_time(), null, null);
+
 
 END;
 $$ LANGUAGE plpgsql;
 
 
-CALL fill(10000);
+CALL fill(10000000);
