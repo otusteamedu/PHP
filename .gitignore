@@ -1,0 +1,7 @@
+/.idea/
+.idea/vcs.xml
+.idea/PHP.iml
+.idea/modules.xml
+.idea/codeStyles/codeStyleConfig.xml
+*.xml
+/vendor/
