@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-class ProductModel
+use App\Core\RenderObserver\Observable;
+
+class ProductModel extends BaseModel
 {
+    private int $id;
     private string $name;
     private string $description;
+    private string $amount;
     private array $images;
     private float $weight;
     private float $volume;
@@ -105,6 +109,43 @@ class ProductModel
     public function setProviderPrice(float $providerPrice): void
     {
         $this->providerPrice = $providerPrice;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmount(): string
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param string $amount
+     */
+    public function setAmount(string $amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    public function update(Observable $object): void
+    {
+        // TODO: Implement update() method.
     }
 
 

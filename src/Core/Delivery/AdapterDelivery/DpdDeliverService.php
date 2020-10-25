@@ -11,6 +11,7 @@ class DpdDeliverService extends DeliverServiceAdapter
 
     /**
      * DpdDeliverService constructor.
+     * @param DpdDeliverApi $api
      */
     public function __construct(DpdDeliverApi $api)
     {

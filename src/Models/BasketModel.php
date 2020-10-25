@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use App\Core\Delivery\AdapterDelivery\DeliverServiceAdapter;
 use App\Core\RenderObserver\Observable;
 use App\Core\Users\UsersFactory\UserFactoryInterface;
 
-class OrderModel extends BaseModel
+class BasketModel extends BaseModel
 {
     private UserFactoryInterface $user;
     private string $dateCreate;
-    private string $isPayed;
     private array $products;
 
     /**
-     * OrderModel constructor.
+     * BasketModel constructor.
      * @param UserFactoryInterface $user
-     * @param string $dateCreate
-     * @param string $isPayed
      * @param array $products
      */
     public function __construct(UserFactoryInterface $user, array $products)
@@ -25,18 +21,14 @@ class OrderModel extends BaseModel
         parent::__construct();
         $this->user = $user;
         $this->dateCreate = time();
-        $this->isPayed = false;
         $this->products = $products;
     }
 
-
-    public function calculateDeliverPrice(DeliverServiceAdapter $deliverService): float
+    public function addProduct(ProductModel $product, int $amount): void
     {
-        $deliverPrice = 0.0;
-        foreach ($this->products as $product) {
-            $deliverPrice += $deliverService->calculateDeliverPrice($product);
+        if ($product->getAmount() > $amount) {
+            $this->products[] = $product;
         }
-        return $deliverPrice;
     }
 
     /**
@@ -56,14 +48,6 @@ class OrderModel extends BaseModel
     }
 
     /**
-     * @return false|string
-     */
-    public function getIsPayed()
-    {
-        return $this->isPayed;
-    }
-
-    /**
      * @return array
      */
     public function getProducts(): array
@@ -73,6 +57,6 @@ class OrderModel extends BaseModel
 
     public function update(Observable $object): void
     {
-        //..
+        // TODO: Implement update() method.
     }
 }
