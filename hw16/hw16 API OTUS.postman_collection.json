@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "6ba883e5-fab9-4989-b526-7f8f7d34b647",
+		"name": "hw16 API OTUS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8000/api/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "'Bearer '.$accessToken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "leff",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "admin@leffo.online",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "c_password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_id",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "altg8dTJl4lqkSfn07aPYcn6uvQgLlcYRZdqfovB",
+							"type": "text",
+							"disabled": true
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"register"
+					]
+				},
+				"description": "Регистрация в API Laravel"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/oauth/token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "'Bearer '.$accessToken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin@leffo.online",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "altg8dTJl4lqkSfn07aPYcn6uvQgLlcYRZdqfovB",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "Login in API"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Список товаров"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Java developers Course",
+							"type": "text"
+						},
+						{
+							"key": "detail",
+							"value": "old, old Java. For oblivion.",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Создание продукта API:"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products/4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/products/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products",
+						"4"
+					]
+				},
+				"description": "Показ продукта API"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products/4",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/products/4?name=Update product&detail=newName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products",
+						"4"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Update product"
+						},
+						{
+							"key": "detail",
+							"value": "newName"
+						}
+					]
+				},
+				"description": "Обновление товара API"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products/4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/products/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Получение всех продуктов"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/products/4",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMWRlMjdmNjk3ZTBkYmIzYmM3ODQ4MzJlZWNkNmQyMDA4NzBjZTUxODhlYjMxNzZlMzBlMjAzNThhMzVkNzI2MmU5NjdkYzEwYmM0NTlkOTciLCJpYXQiOjE2MDMyNzcxMDUsIm5iZiI6MTYwMzI3NzEwNSwiZXhwIjoxNjM0ODEzMTA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.OnOqxpz0bWxSy8LxNJrBRGs5XGK46JhGyNhM0fAAHq7ZQTFpSUAZY6Q2peQUDcrO8kD_DIuhLb51xic0XETZL40AmmcyE5MvalxTdmt9FGLwEKZoOuNpt1G0snlHQ_HLoBRftL1jDfdaqFRw3hZothsHG81tu8YWtNhjzzGbo8Ul6mzsRt9eoM068WMjdFcjUFg7MiKWnOSI_QEhX_afuQXFUQ0v-bhXkG4CgwOyb_yue5_d1FQ-SuaqZMEQhn-vgu1ZhmS5cRL9b6_lx2WTNOr7jyHguODD6B1kh9X6RPode-YkDxLJoUq1Veb7I3GzQdcRFN9RKrIJj_74c7Z7NlWnrsCRUK8BqN6EE8SruvQu3ZIcwBqgPElGXz0zqPSnaaAl1XZzYrrGx1CssbSBNZVrK93qnM20z80xVwZ3BTmzATWP1LC-9M0biqI5ZCpULVqmlRhPu7Bx8PbskTDkP7vA3dmVqlajpZMV53DnOQdZvzVn9_CcMYioHBu2s-8yYUooaKF5nR0RJAvH51YD2VKl74YsJkT-OGhJCcCWla_mcIiViyTUUvBkIxUGljqgcFH9CCF-90QsxHao9z3k8NGkjxFXPZkdeflnKkkHGJBtUhwHTYiEk3E58NMt7IF-lxw-3ZW_2CsaY6eNl1PMocszSGBL-lC7puoEQ3-2RWU"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/products/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products",
+						"4"
+					]
+				},
+				"description": "Удаление продукта API"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
