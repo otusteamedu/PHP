@@ -1,0 +1,26 @@
+version: "3.5"
+services:
+  php:
+    container_name: php
+    build:
+      context: php
+      dockerfile: Dockerfile
+    volumes:
+      - ./www:/var/www
+      - shared-vol:/var/run
+
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www
+      - shared-vol:/var/run
+    depends_on :
+      - php
+
+volumes:
+  shared-vol:
