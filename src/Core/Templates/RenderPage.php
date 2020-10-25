@@ -11,13 +11,13 @@ class RenderPage implements Observable
 {
     private array $observers;
 
-    public function renderByPHP(Page $page): void
+    public function renderEntityByPHP(Page $page): void
     {
         $page->renderEntity(new PHPTemplateFactory());
         $this->notifyObservers();
     }
 
-    public function renderByTwig(Page $page): void
+    public function renderEntityByTwig(Page $page): void
     {
         $page->renderEntity(new TwigTemplateFactory());
         $this->notifyObservers();

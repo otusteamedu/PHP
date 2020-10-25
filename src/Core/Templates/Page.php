@@ -27,7 +27,7 @@ abstract class Page
         ]);
     }
 
-    public function renderFullPage(TemplateFactoryInterface $factory, string $templateName): string
+    public function renderPage(TemplateFactoryInterface $factory, string $templateName): string
     {
         $pageTemplate = $factory->createPageEntityTemplate();
         $renderer = $factory->getRenderer();
