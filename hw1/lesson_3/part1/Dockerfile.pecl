@@ -1,0 +1,7 @@
+FROM php:7.3-fpm-alpine
+
+RUN apk update && apk add libpng-dev libzip libzip-dev curl-dev && apk add autoconf g++ make zip gd zip curl \
+    && pecl install xdebug \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable xdebug
+
