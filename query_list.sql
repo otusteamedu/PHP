@@ -34,7 +34,7 @@ from films as f
          inner join sessions s on f.id = s.film_id
 where at.attributes_type = 'ratio'
   and av.attributes_text = '18+'
-  and s.session_time < '22:00:00'
+  and s.session_time < '22:00:00';
 
 /* определение фильмов без постеров */
 select films.name
