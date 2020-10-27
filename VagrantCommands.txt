@@ -1,0 +1,7 @@
+	vagrant box add laravel/homestead
+	vagrant init laravel/homestead
+	vagrant up
+	vagrant ssh 
+	vagrant ssh-config
+	ssh vagrant@127.0.0.1 -p 2222 -i /c/User/....
+	ssh User@HostName -p Port -i IdentitrsOnly
