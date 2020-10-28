@@ -1,0 +1,7 @@
+.form-error-message {
+    border-radius: 5px;
+    background-color: salmon;
+    padding: 10px;
+    color: white;
+    display: none;
+}
