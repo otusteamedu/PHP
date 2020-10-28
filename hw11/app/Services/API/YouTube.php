@@ -4,7 +4,7 @@ namespace App\Services\Api;
 
 class YouTube {
 
-    private const API_KEY = 'AIzaSyBVigb4kEy2YzsM7EwqkB6lhwRBgEKh1hI';
+    private const API_KEY = '';
     private \Google_Client $client;
     private \Google_Service_YouTube $youtube;
 
