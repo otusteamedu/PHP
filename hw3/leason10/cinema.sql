@@ -21,7 +21,7 @@ create table if not exists seanse
     id         serial not null,
     hall       int    not null references hall (id),
     film       int    not null references film (id),
-    start_show time   not null,
+    start_show timestamp   not null,
     primary key (id)
 );
 
