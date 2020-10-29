@@ -20,13 +20,13 @@ where start_show >= '2020-12-01 09:00:00';
 
 -- все фильмы с дополнительными аттрибутами
 select f.name as "film",
-       att.attr_type,
-       attrs.attr_name,
+       at.attr_type,
+       a.attr_name,
        av.attr_value
 from film f
          left join attr_values av on av.film = f.id
-         left join atts on attrs.id = av.attr
-         left join attr_types at on att.id = attrs.attr_type;
+         left join attrs a on a.id = av.attr
+         left join attr_types at on at.id = a.attr_type;
 
 -- Получить фильм с наибольшей выручкой
 with t_total as (
