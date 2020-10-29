@@ -30,4 +30,5 @@
  ### Полезные ссылки:
  
  - [Wikipedia EAV-model](https://en.wikipedia.org/wiki/Entity–attribute–value_model)
- 
+ - [Частичные индексы Postgres](https://postgrespro.ru/docs/postgrespro/9.5/indexes-partial)
+ - [PlPgSQL](https://postgrespro.ru/docs/postgresql/9.6/plpgsql)
