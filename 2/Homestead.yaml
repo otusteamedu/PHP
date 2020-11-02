@@ -1,0 +1,26 @@
+ip: "192.168.10.10"
+memory: 4048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: ../code
+      to: /home/vagrant/code
+
+sites:
+    - map: homestead.test
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+     - send: 80
+       to: 80
+
