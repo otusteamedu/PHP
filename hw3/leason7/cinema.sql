@@ -16,8 +16,8 @@ primary key (id)
 -- сеанс
 create table if not exists seanse (
 id serial not null,
-hall int not null,
-film int not null,
+hall_id int not null,
+film_id int not null,
 start_show time not null,
 primary key (id)
 );
@@ -25,7 +25,7 @@ primary key (id)
 -- билет
 create table if not exists ticket (
 id serial not null,
-seanse int not null,
+seanse_id int not null,
 row int not null,
 col int not null,
 coast numeric(6,2),
