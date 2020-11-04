@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  elastic:
+    container_name: elasticsearch
+    image: library/elasticsearch:7.9.3
+    environment:
+      - discovery.type=single-node
+    ports:
+    - 9200:9200
+
+  kibana:
+    image: kibana:7.9.3
+    ports:
+    - 5601:5601
