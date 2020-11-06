@@ -1,0 +1,20 @@
+version: '3'
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./../app:/app/
+      - ./run:/var/run
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./../app:/app/
+      - ./run:/var/run
+    links:
+      - php
