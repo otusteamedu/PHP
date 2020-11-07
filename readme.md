@@ -25,6 +25,26 @@ cp .env.example .env
 docker-compose up -d
 ```
 
+## use Homestead
+[Installing/Configuring Homestead](https://laravel.com/docs/8.x/homestead#installing-homestead)
+```
+cp Homestead.yaml.example Homestead.yaml
+# modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/Homestead.yaml"
+
+sudo bash -c "echo \"192.168.10.11 homestead.test\" >> /etc/hosts"
+
+vagrant up
+# vagrant halt - stop VM
+# vagrant destroy - remove VM
+
+# index.php - max priority
+vagrant ssh
+sudo nano /etc/nginx/sites-available/homestead.test
+# modify like index.php index index.html index.htm;
+exit
+# reload
+```
+
 
 ## other commands, examples
 
