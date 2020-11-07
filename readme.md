@@ -9,7 +9,7 @@ example: docker build -t html-nginx-image .
 ## run container
 docker run --rm -d -p <host-port>:80 -v <absolute-path-to-src>:/usr/share/nginx/html --name <container-name> <image-name>
 
-example: docker run --rm -d -p 8010:80 -v /home/bo/code:/usr/share/nginx/html --name html-nginx-container html-nginx-image
+example: docker run --rm -d -p 8010:80 -v $(pwd)/src:/usr/share/nginx/html --name html-nginx-container html-nginx-image
 ```
 --rm - automatically remove container after stopping
 -d - launch container as demon
