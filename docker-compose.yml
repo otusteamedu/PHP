@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/share/nginx/html
+    ports:
+      - $APP_PORT:80

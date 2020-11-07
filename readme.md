@@ -9,7 +9,7 @@ example: docker build -t html-nginx-image .
 ## run container
 docker run --rm -d -p <host-port>:80 -v <absolute-path-to-src>:/usr/share/nginx/html --name <container-name> <image-name>
 
-example: docker run --rm -d -p 8010:80 -v $(pwd)/src:/usr/share/nginx/html --name html-nginx-container html-nginx-image
+example: docker run --rm -d -p 8000:80 -v $(pwd)/src:/usr/share/nginx/html --name html-nginx-container html-nginx-image
 ```
 --rm - automatically remove container after stopping
 -d - launch container as demon
@@ -17,6 +17,12 @@ example: docker run --rm -d -p 8010:80 -v $(pwd)/src:/usr/share/nginx/html --nam
 -v /home/bo/code:/usr/share/nginx/html - sync dir with code
 --name html-nginx-container - name of container
 html-nginx-image - basic image for container
+```
+
+## use docker-compose
+```
+cp .env.example .env
+docker-compose up -d
 ```
 
 
@@ -42,3 +48,12 @@ docker system prune
 
 ### stop and remove all containers
 docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+
+### docker-compose
+```
+docker-compose ps - list of running services
+docker-compose build - build/rebuild
+docker-compose up [-d]
+docker-compose stop
+docker-compose down - remove
+```
