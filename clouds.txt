@@ -1,0 +1,21 @@
+Requirements:
+
+Datacenter location: Switzerland
+Operating system: CentOS 7
+vCPUs: 2
+RAM: 16GB
+Storage: 100 GB SSD
+
+
+
+
+
+                    Are all requirements feasible?      Price per month     Datacenter location
+
+Digital Ocean       ?                                   69 $                ?
+Microsoft Azure     yes                                 92 $                Switzerland West
+Google Cloud        yes                                 69 $                Zurich
+Yandex Cloud        Data Centers are only in Russia     4,102 ₽ = 53 $
+Mail.ru Cloud       Data Centers are only in Moscow     5.060 ₽ = 65 $
+
+
