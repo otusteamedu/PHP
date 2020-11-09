@@ -20,16 +20,17 @@ services:
     image: myapp2/nginx
     container_name: nginx_container
     ports:
-      - "81:80"
-      - "444:443"
+      - $APP_PORT1:80
+      - $APP_PORT2:443
     networks:
       - app-network
 
   db_service:
-    image: mysql:5.7.22
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
     container_name: db_container
     ports:
-      - "3307:3306"
+      - $DB_PORT:3306
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

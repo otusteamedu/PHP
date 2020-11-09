@@ -1,7 +1,53 @@
 # deploy with docker-compose
 ```
+# cd <path-to-repo>
 cp .env.example .env
 docker-compose up -d
+```
+
+# deploy with docker
+```
+# cd <path-to-repo>
+cp .env.example .env
+source .env
+
+docker pull mysql
+
+docker build -t app2-nginx-image ./nginx
+docker build -t app2-phpfrm-image ./php-fpm
+
+docker network create --driver=bridge app2-net
+
+# container with database
+docker run --name db_container \
+     -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+     -e MYSQL_DATABASE=$MYSQL_DATABASE \
+     -d \
+     -p $DB_PORT:3306 \
+     --network=app2-net \
+     --rm \
+     mysql \
+     --default-authentication-plugin=mysql_native_password
+
+# container with php-fpm
+docker run --name php_fpm_container \
+     -v $(pwd)/code:/data/site.default \
+     -d \
+     --network=app2-net \
+     --rm \
+     app2-phpfrm-image
+
+# container with nginx
+docker run --name nginx_container \
+     -d \
+     -p $APP_PORT1:80 \
+     -p $APP_PORT2:443 \
+     --network=app2-net \
+     --rm \
+     app2-nginx-image
+
+## stop containers
+# docker stop db_container php_fpm_container nginx_container
 ```
 
 # deploy with Homestead
@@ -27,64 +73,22 @@ exit
 ```
 
 
-# deploy with DOCKER
+# other commands, examples
 
-## build images
+## build image
 docker build -t <image-name> <path-to-dir-with-Dockerfile>
-```
-docker build -t app2-nginx-image ./nginx
-docker build -t app2-phpfrm-image ./php-fpm
-```
-## pull images (from dockerhub)
+## pull image (from dockerhub)
 docker pull <image-name>
-```
-docker pull mysql:5.7.22
-```
 ## build network
 docker network create --driver=bridge <network-name>
-```
-docker network create --driver=bridge app2-net
-```
-## run containers
+## run container
 docker run --rm -d \
     -p <host-port>:80 \
     -v <absolute-path-to-src-on-host>:<absolute-path-to-src-in-container> \
      --name <container-name> \
      --network=<network-name> \
      <image-name>
-```
-docker run --rm -d -p 8000:80 -v $(pwd)/src:/usr/share/nginx/html --name html-nginx-container html-nginx-image
-
-# container with database
-docker run --name db_container \
-     -e MYSQL_ROOT_PASSWORD=mysql_root_password \
-     -e MYSQL_DATABASE=database_name \
-     -d \
-     -p 3315:3306 \
-     --network=app2-net \
-     --rm \
-     mysql:5.7.22
-
-# container with php-fpm
-docker run --name php_fpm_container \
-     -v $(pwd)/code:/data/site.default \
-     -d \
-     --network=app2-net \
-     --rm \
-     app2-phpfrm-image
-
-# container with nginx
-docker run --name nginx_container \
-     -d \
-     -p 93:80 \
-     --network=app2-net \
-     --rm \
-     app2-nginx-image
-```
-
-
-# other commands, examples
-
+     
 ## explore container / service inside
 docker exec -it <container-name> bash
 
@@ -93,22 +97,16 @@ docker-compose exec <service-name> bash
 
 ## list of images
 docker images
-
 ## list of containers
 docker ps -a
-
 ## stop container
 docker stop html-nginx-container
-
 ## remove container
 docker container rm html-nginx-container
-
 ## remove image
 docker rmi html-nginx-image
-
 ## remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes.
 docker system prune
-
 ## stop and remove all containers
 docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
