@@ -1,5 +1,7 @@
 .idea/
 .vscode/
 
+dbdata/
+
 .env
 Homestead.yaml
