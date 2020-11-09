@@ -66,10 +66,13 @@ vagrant up
 
 # index.php - max priority
 vagrant ssh
-sudo nano /etc/nginx/sites-available/homestead.test
-# modify like index.php index index.html index.htm;
+sudo nano /etc/nginx/sites-available/homestead.php
+# modify like `index index.php index.html index.htm;`
 exit
-# reload
+
+sudo systemctl restart nginx
+
+# modify code/index.php (uncomment 10 - 13 lines)
 ```
 
 
