@@ -10,5 +10,17 @@
     }
   ],
   "require": {
+    "google/apiclient": "~2.0"
+  },
+  "scripts": {
+    "post-update-cmd": "Google\\Task\\Composer::cleanup"
+  },
+  "extra": {
+    "google/apiclient-services": [
+      "YouTube"
+    ]
+  },
+  "autoload": {
+    "classmap": ["app/"]
   }
 }
