@@ -18,4 +18,4 @@ Google Cloud        yes                                 69 $                Zuri
 Yandex Cloud        Data Centers are only in Russia     4,102 ₽ = 53 $
 Mail.ru Cloud       Data Centers are only in Moscow     5.060 ₽ = 65 $
 
-
+More detail report: https://docs.google.com/document/d/1z21MlG_XwFN-bNQtjwJQmxlqyRZFaiJt5bNEyiBmNFM/edit?usp=sharing
