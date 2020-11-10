@@ -22,6 +22,8 @@ services:
     ports:
       - $APP_PORT1:80
       - $APP_PORT2:443
+    volumes:
+      - ./nginx-log:/var/log/nginx
     networks:
       - app-network
 
@@ -36,6 +38,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./dbdata:/var/lib/mysql
+      - ./mysql-log:/var/log/mysql
     networks:
       - app-network
 

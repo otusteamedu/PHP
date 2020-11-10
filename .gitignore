@@ -2,6 +2,8 @@
 .vscode/
 
 dbdata/
+mysql-log/
+nginx-log/
 
 .env
 Homestead.yaml

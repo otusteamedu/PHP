@@ -8,6 +8,7 @@ docker-compose up -d
 # deploy with docker
 ```
 # cd <path-to-repo>
+
 cp .env.example .env
 source .env
 
@@ -18,10 +19,11 @@ docker build -t app2-phpfrm-image ./php-fpm
 
 docker network create --driver=bridge app2-net
 
-# container with database
 docker run --name db_container \
      -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
      -e MYSQL_DATABASE=$MYSQL_DATABASE \
+     -v $(pwd)/dbdata:/var/lib/mysql \
+     -v $(pwd)/mysql-log:/var/log/mysql \
      -d \
      -p $DB_PORT:3306 \
      --network=app2-net \
@@ -29,7 +31,6 @@ docker run --name db_container \
      mysql \
      --default-authentication-plugin=mysql_native_password
 
-# container with php-fpm
 docker run --name php_fpm_container \
      -v $(pwd)/code:/data/site.default \
      -d \
@@ -37,8 +38,8 @@ docker run --name php_fpm_container \
      --rm \
      app2-phpfrm-image
 
-# container with nginx
 docker run --name nginx_container \
+     -v $(pwd)/nginx-log:/var/log/nginx \
      -d \
      -p $APP_PORT1:80 \
      -p $APP_PORT2:443 \
