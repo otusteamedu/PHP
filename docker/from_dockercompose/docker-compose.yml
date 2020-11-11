@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+        hw_1_1_app:
+                build:
+                        context: ./fpm
+                        dockerfile: Dockerfile
+                image: hw_1_1myapp/php
+                container_name: hw_1_1_app
+                volumes:
+                        - ./code:/var/www/html/testsite
+                networks:
+                        - app-network
+        hw_1_1_webserver:
+                build:
+                        context: ./nginx
+                        dockerfile: Dockerfile
+                image: hw_1_1myapp/nginx
+                container_name: hw_1_1_webserver
+                volumes:
+                        - ./code:/var/www/html/testsite
+                ports:
+                        - "80:80"
+                        - "443:443"
+                networks:
+                        - app-network
+        hw_1_1_db:
+                image: mysql:5.7.22
+                container_name: hw_1_1_db
+                ports:
+                        - "3306:3306"
+                environment:
+                        MYSQL_DATABASE: ${MYSQL_DATABASE}
+                        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                volumes:
+                        - ./dbdata:/var/lib/mysql
+                networks:
+                        - app-network
+
+networks:
+        app-network:
+                driver: bridge
