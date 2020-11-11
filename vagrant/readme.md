@@ -1,0 +1,2 @@
+Настроил и запустил homestead в Hyper-v
+Единственный момент при установке vagrant Hyper-v игнорирует сетевые настройки (офиц. документация https://www.vagrantup.com/docs/providers/hyperv/limitations.html), поэтому в yaml указан 192.168.0.50, а виртуалка получила 192.168.0.10

@@ -1,0 +1,26 @@
+---
+ip: "192.168.0.50"
+memory: 2048
+cpus: 2
+provider: hyperv
+
+folders:
+    - map: 'G:\forwork\otus\PHP\PHP\vagrant\code'
+      to: /var/www/html/code
+
+sites:
+    - map: vagrant.test
+      to: /var/www/html/code/public
+
+databases:
+    - test-vagrant
+
+features:
+    - mysql: false
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
