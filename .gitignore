@@ -1,0 +1,4 @@
+
+docker/from_dockercompose/.env
+
+docker/from_dockercompose/dbdata/
