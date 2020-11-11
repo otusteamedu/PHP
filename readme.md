@@ -1,13 +1,18 @@
 # deploy with docker-compose
 ```
 # cd <path-to-repo>
+
+cp code/Env.php.example code/Env.php
 cp .env.example .env
+
 docker-compose up -d
 ```
 
 # deploy with docker
 ```
 # cd <path-to-repo>
+
+cp code/Env.php.example code/Env.php
 
 cp .env.example .env
 source .env
@@ -54,6 +59,8 @@ docker run --name nginx_container \
 # deploy with Homestead
 [Installing/Configuring Homestead](https://laravel.com/docs/8.x/homestead#installing-homestead)
 ```
+# cd <path-to-repo>
+cp code/Env.php.example-homestead code/Env.php
 cp Homestead.yaml.example Homestead.yaml
 
 # modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/Homestead.yaml"

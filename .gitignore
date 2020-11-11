@@ -6,4 +6,5 @@ mysql-log/
 nginx-log/
 
 .env
+code/Env.php
 Homestead.yaml

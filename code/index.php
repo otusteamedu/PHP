@@ -1,16 +1,13 @@
 <?php
+
+include 'Env.php';
+
 echo 'index.php: hello!<br>';
 
-$dbname = 'database_name';
-$servername = 'db_container';
-$username = 'root';
-$password = 'mysql_root_password';
-
-//// homestead
-//$dbname = 'homestead';
-//$servername = '192.168.10.11';
-//$username = 'homestead';
-//$password = 'secret';
+$dbname = Env::DB_NAME;
+$servername = Env::DB_SERVERNAME;
+$username = Env::DB_USERNAME;
+$password = Env::DB_PASSWORD;
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
