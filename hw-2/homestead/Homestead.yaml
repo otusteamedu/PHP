@@ -1,0 +1,28 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: lesson_1
+
+folders:
+    - map: ~/lesson_1
+      to: /home/vagrant/lesson_1
+
+sites:
+    - map: homestead.test
+      to: /home/vagrant/lesson_1/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+
