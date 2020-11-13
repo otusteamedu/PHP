@@ -1,0 +1,14 @@
+version: '3'
+services:
+  php1:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+    - ./app:/app
+  php2:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+    - ./app:/app
