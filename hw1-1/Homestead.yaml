@@ -1,0 +1,34 @@
+---
+ip: "192.168.10.13"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+#authorize: ~/.ssh/id_rsa.pub
+
+#keys:
+#    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/study/otus-1/code
+      to: /home/vagrant/code
+
+sites:
+    - map: otus-1.ikm
+      to: /home/vagrant/code/public
+
+databases:
+    - otus1
+
+features:
+    - mysql: true
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+     - send: 80
+       to: 80
+#     - send: 7777
+#       to: 777
+#       protocol: udp
