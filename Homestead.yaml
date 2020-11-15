@@ -1,0 +1,19 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+  - map: ~/otus/php-2020-10
+    to: /home/vagrant/php-2020-10
+
+sites:
+  - map: otus-app.homestead
+    to: /home/vagrant/php-2020-10/static
+
+features:
+  - mysql: false
+  - mariadb: false
+  - ohmyzsh: false
+  - webdriver: false
