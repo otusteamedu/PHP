@@ -1,0 +1,26 @@
+/etc/php/7.4/cli/conf.d/30-memcache.ini,
+memcache
+memcache support => enabled
+memcache.allow_failover => 1 => 1
+memcache.chunk_size => 32768 => 32768
+memcache.compress_threshold => 20000 => 20000
+memcache.default_port => 11211 => 11211
+memcache.hash_function => crc32 => crc32
+memcache.hash_strategy => consistent => consistent
+memcache.lock_timeout => 15 => 15
+memcache.max_failover_attempts => 20 => 20
+memcache.prefix_host_key => 0 => 0
+memcache.prefix_host_key_remove_subdomain => 0 => 0
+memcache.prefix_host_key_remove_www => 1 => 1
+memcache.prefix_static_key => no value => no value
+memcache.protocol => ascii => ascii
+memcache.redundancy => 1 => 1
+memcache.session_prefix_host_key => 0 => 0
+memcache.session_prefix_host_key_remove_subdomain => 0 => 0
+memcache.session_prefix_host_key_remove_www => 1 => 1
+memcache.session_prefix_static_key => no value => no value
+memcache.session_redundancy => 2 => 2
+memcache.session_save_path => no value => no value
+Registered save handlers => files user redis rediscluster memcached memcache
+OLDPWD => /root/memcache-4.0.5.2
+$_SERVER['OLDPWD'] => /root/memcache-4.0.5.2
