@@ -1,0 +1,1 @@
+cat db | sed '$d'  | tail -n +2 | awk '{print $2 FS $3}' | uniq -f1 | while read coincidence; do grep "$coincidence" db| tail -n 1; done | sort -rnk4 | head -n3
