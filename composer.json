@@ -1,0 +1,27 @@
+{
+  "name": "good-gis/otus-queue",
+  "description": "Try to use queue",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ivan Glushkov",
+      "email": "glushkov1997@icloud.com"
+    }
+  ],
+  "require": {
+    "php": "7.4.*",
+    "ext-json": "*",
+    "php-amqplib/php-amqplib": "^2.12",
+    "vlucas/phpdotenv": "^5.2"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src//"
+    }
+  }
+}
