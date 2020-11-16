@@ -1,0 +1,6 @@
+cd src && make all
+make[1]: Entering directory '/tmp/redis/redis-6.0.9/src'
+
+Hint: It's a good idea to run 'make test' ;)
+
+make[1]: Leaving directory '/tmp/redis/redis-6.0.9/src'
