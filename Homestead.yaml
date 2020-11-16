@@ -1,0 +1,23 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: ~/code
+      to: /srv/app
+
+sites:
+    - map: homestead.test
+      to: /srv/app/public
+
+features:
+    - mysql: false
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 8000
+      to: 80
