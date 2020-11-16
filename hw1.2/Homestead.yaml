@@ -1,0 +1,34 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 4
+provider: virtualbox
+
+authorize: E:/SSH/vargant_pub
+
+keys:
+    - E:/SSH/vargant_private.ppk
+
+folders:
+    - map: C:/code/otus
+      to: /home/vagrant/otus
+
+sites:
+    - map: homestead.test
+      to: /home/vagrant/otus/public
+
+databases:
+    - homestead
+
+services:
+    - enabled:
+        - "postgresql@12-main"
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 8080
+      to: 80
