@@ -1,0 +1,24 @@
+ставим редис:
+mkdir /tmp/redis
+cd /tmp/redis/
+wget https://download.redis.io/releases/redis-6.0.9.tar.gz
+ tar xzf redis-*
+cd redis-6.0.9/
+make
+cd ~
+sudo mkdir /etc/redis
+sudo nano /etc/redis/redis.conf
+настраиваем конфиг:
+#запускать как демон в бекграунде
+daemonize yes
+#задаем порт, по умолчанию 6379
+port 6379
+#задаем ip интерфейса на котором будет слушаться демон,
+#если оставить закоментированным, то будет доступен
+#на всех интерфейсах
+bind 127.0.0.1
+#куда сбрасывать дамп данных
+dir /var/opt
+
+sudo redis-server /etc/redis/redis.conf 
+redis-cli ping
