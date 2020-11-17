@@ -4,5 +4,9 @@ use App\Controllers\Api\QueueApiController;
 
 require_once 'src/bootstrap.php';
 
-$queueApiController = new QueueApiController();
-$queueApiController->run();
+try {
+    $queueApiController = new QueueApiController();
+    $queueApiController->run();
+} catch (RuntimeException $e) {
+    echo $e->getMessage();
+}

@@ -2,13 +2,10 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Services\RabbitMQ;
-use Dotenv\Dotenv;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$channel = RabbitMQ::getAMQPChannel();
+$connection = new AMQPStreamConnection('localhost', '5672', 'guest', 'guest');
+$channel = $connection->channel();
 
 $channel->queue_declare('post_body_queue', false, false, false, false);
 
@@ -24,10 +21,13 @@ while ($channel->is_consuming()) {
     try {
         $channel->wait();
     } catch (ErrorException $e) {
+        $e->getMessage();
     }
 }
 
 try {
-    RabbitMQ::closeChannelAndConnection();
+    $channel->close();
+    $connection->close();
 } catch (Exception $e) {
+    echo $e->getCode() . ' file ' . $e->getFile();
 }

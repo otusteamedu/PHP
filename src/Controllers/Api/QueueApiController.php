@@ -15,6 +15,13 @@ class QueueApiController extends ApiController
 
     protected string $wrongResponse = 'You need to use POST method with body to add message to the queue';
 
+    //соотносит метод запроса и действие в контроллере
+    protected array $actionConfig = [
+        'POST' => 'sendToQueueAction',
+        'DEFAULT' => 'wrongAction'
+    ];
+
+
     public function __construct()
     {
         parent::__construct();
@@ -24,7 +31,7 @@ class QueueApiController extends ApiController
     /**
      * @throws JsonException
      */
-    protected function indexAction(): void
+    protected function wrongAction(): void
     {
         $this->ApiJsonView->response($this->wrongResponse, 405);
     }
@@ -33,7 +40,7 @@ class QueueApiController extends ApiController
      * @throws JsonException
      * @throws Exception
      */
-    protected function createAction(): void
+    protected function sendToQueueAction(): void
     {
         $channel = RabbitMQ::getAMQPChannel();
         $channel->queue_declare('post_body_queue', false, false, false, false);
@@ -44,21 +51,5 @@ class QueueApiController extends ApiController
         RabbitMQ::closeChannelAndConnection();
 
         $this->ApiJsonView->response('Body send to RabbitMQ', 200);
-    }
-
-    /**
-     * @throws JsonException
-     */
-    protected function updateAction(): void
-    {
-        $this->ApiJsonView->response($this->wrongResponse, 405);
-    }
-
-    /**
-     * @throws JsonException
-     */
-    protected function deleteAction(): void
-    {
-        $this->ApiJsonView->response($this->wrongResponse, 405);
     }
 }

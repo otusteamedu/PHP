@@ -13,8 +13,17 @@ abstract class ApiController
     public array $requestUri = [];
     public array $requestParams = [];
 
-    protected string $method = ''; //GET|POST|PUT|DELETE
+    protected string $method = '';
     protected string $action = ''; //Название метода для выполнения
+
+    //соотносит метод запроса и действие в контроллере
+    protected array $actionConfig = [
+        'GET' => 'indexAction',
+        'POST' => 'createAction',
+        'PUT' => 'updateAction',
+        'DELETE' => 'deleteAction',
+        'DEFAULT' => 'indexAction'
+    ];
 
     /**
      * ApiController constructor.
@@ -27,19 +36,14 @@ abstract class ApiController
         $this->requestParams = $_REQUEST;
 
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->formData = $this->getFormData($this->method);
+        $this->formData = $this->getFormData();
     }
 
     /**
-     * @param $method
      * @return array|false|string
      */
-    protected function getFormData($method)
+    protected function getFormData()
     {
-        if ($method === 'GET') {
-            return implode('', $_GET);
-        }
-
         return file_get_contents('php://input');
     }
 
@@ -63,24 +67,10 @@ abstract class ApiController
 
     protected function getAction(): string
     {
-        $method = $this->method;
-        switch ($method) {
-            case 'POST':
-                return 'createAction';
-            case 'PUT':
-                return 'updateAction';
-            case 'DELETE':
-                return 'deleteAction';
-            default:
-                return 'indexAction';
+        if (array_key_exists($this->method, $this->actionConfig)) {
+            return $this->actionConfig[$this->method];
         }
+
+        return $this->actionConfig['DEFAULT'];
     }
-
-    abstract protected function indexAction(): void;
-
-    abstract protected function createAction(): void;
-
-    abstract protected function updateAction(): void;
-
-    abstract protected function deleteAction(): void;
 }
