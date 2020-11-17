@@ -13,7 +13,10 @@ RUN pecl install memcached-3.1.5
 RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 RUN docker-php-ext-enable redis memcached
 
-# RUN pecl install pecl_http && docker-php-ext-enable http
+RUN pecl install raphf && pecl install propro && docker-php-ext-enable propro \
+    && docker-php-ext-enable raphf \
+    && pecl install pecl_http && docker-php-ext-enable http
+
 
 
 
