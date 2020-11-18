@@ -57,4 +57,13 @@ class Events implements IEvent
 
         return array_pop($buf); // возвращаемя последний элемент, имеющий максимальный приоритет
     }
+
+
+    /**
+     * Загрузка данных
+     * @param $data
+     */
+    public function load($data) {
+        $this->data = $data;
+    }
 }
