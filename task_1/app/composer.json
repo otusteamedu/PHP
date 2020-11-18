@@ -1,0 +1,19 @@
+{
+    "name": "vmaltsev90/hw_2_1",
+    "description": "Homework 2.1",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vladislav Maltsev",
+            "email": "v.maltsev90@yandex.ru"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }      
+    }
+}
