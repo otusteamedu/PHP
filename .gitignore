@@ -4,3 +4,4 @@ vendor/
 task_1/app/composer.lock
 
 task_1/docker/sock/docker.sock
+task_1/nginx/log/
