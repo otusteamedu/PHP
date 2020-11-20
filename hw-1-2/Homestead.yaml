@@ -1,0 +1,34 @@
+---
+ip: "192.168.30.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_ed25519.pub
+
+keys:
+    - ~/.ssh/id_ed25519
+
+folders:
+    - map: ~/otusteameduphp/hw-1-2
+      to: /home/vagrant/code
+
+sites:
+    - map: otus-homestead.test
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
