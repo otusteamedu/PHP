@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 RUN apt-get update &&  apt-get install -y nginx
-COPY ./conf/nginx/hosts/mysite.local.conf /etc/nginx/sites-enabled/mysite.local.conf
+COPY ./conf/nginx/hosts/otus-docker.test.conf /etc/nginx/sites-enabled/otus-docker.test.conf
 WORKDIR /data
 VOLUME /data
 EXPOSE 80
