@@ -1,0 +1,23 @@
+{
+    "server": {
+        "unix": {
+            "socket_address": "/mnt/tmp/msg.sock",
+            "cli": {
+                "max_clients": 2,
+                "listen": {
+                    "backlog": 1
+                },
+                "check": {
+                    "timeout": 5
+                },
+                "send": {
+                    "flags": "MSG_DONTROUTE"
+                },
+                "read": {
+                    "buf": 2048,
+                    "type": "PHP_BINARY_READ"
+                }
+            }
+        }
+    }
+}

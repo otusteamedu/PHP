@@ -1,0 +1,17 @@
+{
+    "client": {
+        "unix": {
+            "socket_address": "/mnt/tmp/msg.sock",
+            "cli": {
+                "send": {
+                    "flags": "MSG_DONTROUTE"
+                },
+                "read": {
+                    "buf": 2048,
+                    "type": "PHP_BINARY_READ"
+                },
+                "exit_string": ":q"
+            }
+        }
+    }
+}

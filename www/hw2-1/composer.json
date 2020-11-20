@@ -1,0 +1,25 @@
+{
+  "name": "nlazarev/hw2-1",
+  "description": "OTUS Home work 2-1",
+  "type": "project",
+  "require": {
+    "php": "^7.4",
+    "hassankhan/config": "^2.1"
+  },
+  "require-dev": {
+    "php": "^7.4",
+    "hassankhan/config": "^2.1",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "authors": [
+    {
+      "name": "NickoLaz",
+      "email": "asnickolaz@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Nlazarev\\Hw2_1\\": "src/"
+    }
+  }
+}
