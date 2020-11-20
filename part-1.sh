@@ -6,14 +6,10 @@ if [ -z "$second" ]; then
   echo "Script requires two arguments. "
 fi
 
-while ! [[ $first =~ ^-?[0-9]+[.]?[0-9]*$ ]]; do
-  echo "First argument not a nunber"
-  read first
-done
+re='^[0-9]+([.][0-9]+)?$'
+if ! [[ $first =~ $re && $second =~ $re ]] ; then
+   echo "error: Not a number" >&2; exit 1
+fi
 
-while ! [[ $second =~ ^-?[0-9]+[.]?[0-9]*$ ]]; do
-  echo "Second argument not a nunber"
-  read second
-done
-
-echo $first + $second | bc
+# echo $((first + second))
+awk "BEGIN {print $first+$second}"
