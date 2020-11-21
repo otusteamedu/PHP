@@ -11,15 +11,10 @@
   ],
   "require": {
     "google/apiclient": "~2.0",
-    "elasticsearch/elasticsearch": "^7.0"
+    "elasticsearch/elasticsearch": "^7.10"
   },
   "scripts": {
     "post-update-cmd": "Google\\Task\\Composer::cleanup"
-  },
-  "extra": {
-    "google/apiclient-services": [
-      "YouTube"
-    ]
   },
   "autoload": {
     "classmap": ["app/"]

@@ -4,20 +4,19 @@
  * Class App
  * Simple application for manipulation YouTube channel
  */
+
+use app\src\Youtuber;
+use app\src\ElasticStorage;
+
 class App
 {
-    /**
-     * @var \Google\Client
-     */
-    private $apiClient;
-    /**
-     * @var Google_Service_YouTube
-     */
-    private $youtube;
     /**
      * @var array
      */
     private $config;
+    private $client;
+    private $storage;
+
 
     public function __construct($config = [])
     {
@@ -35,33 +34,66 @@ class App
                 exit(1);
             }
         }
-        // создаем API client
-        $this->apiClient = new Google\Client();
 
         if ( ! isset($config['appName'])) {
             new Exception('missing application name in config');
             exit(1);
         }
-        $this->apiClient->setApplicationName($config['appName']);
 
         if ( ! isset($config['key'])) {
             new Exception('missing developer api key');
             exit(1);
         }
-        $this->apiClient->setDeveloperKey($config['key']);
-
-        // создаем сервис YouTube
-        $this->youtube = new Google_Service_YouTube($this->apiClient);
+        $this->client = new Youtuber($config['key'], $config['appName']);
         $this->config = $config;
+
+        $this->storage = new ElasticStorage();
+        $this->storage->createIndex([
+            'index' => $config['appName'],
+            'body'  => [
+                'number_of_replicas' => 0,
+                'number_of_shards'   => 2,
+            ],
+        ]);
     }
 
 
     public function run()
     {
-        echo "Channels: \n";
-        //$activites = new Google_Service_YouTube_Activity();
-        //$activites->setId($this->config['favorite_channel_id']);
-        $channels = $this->youtube->channels->listChannels('brandingSettings', ['channelId'=>$this->config['favorite_channel_id']]);
-        print_r($channels);
+        echo "Channel info: \n";
+        $chId = $this->config['favorite_channel_id'];
+        try {
+            $channels = $this->client->getChannelInfo($chId);
+        } catch (Exception $e) {
+            print_r(['error' => $e->getMessage()]);
+            print_r(debug_backtrace());
+        }
+
+        $data      = $this->client->getChannelVideos($chId);
+        $videoInfo = [];
+        foreach ($data['items'] as $item) {
+            $videoId = $item['id']['videoId'];
+            try {
+                $data = $this->client->getVideoRating($videoId);
+            } catch (Exception $e) {
+                print_r(['error' => $e->getMessage()]);
+            }
+            $row = [
+                'info' => $item['snippet'],
+            ];
+            if (isset($data)) {
+                $row['raiting'] = $data;
+            }
+            $videoInfo[] = $row;
+            unset($row);
+        }
+
+        $this->storage->add([
+            'index' => $this->config['appName'],
+            'body'  => [
+                'info'  => $channels,
+                'video' => $videoInfo,
+            ],
+        ]);
     }
 }
