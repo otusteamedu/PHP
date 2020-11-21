@@ -1,0 +1,6 @@
+{
+    "name": "root/otus-php",
+    "require": {
+        "bramus/router": "^1.5"
+    }
+}
