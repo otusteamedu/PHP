@@ -1,0 +1,25 @@
+{
+    "name": "mar4ehk0/code",
+    "description": "my packet helloword",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alex",
+            "email": "mar4ehk0@gmail.com"
+        }
+    ],
+    "require": {
+        "mar4ehk0/helloword": "dev-master"
+    },
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/mar4ehk0/Helloword"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mar4ehk0\\Helloword\\": "vendor"
+        }
+    }
+}
