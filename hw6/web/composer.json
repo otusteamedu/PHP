@@ -1,0 +1,13 @@
+{
+    "name": "pivanov/hw6",
+    "description": "Home work #6",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Petr Ivanov",
+            "email": "petr.yrs@gmail.com"
+        }
+    ],
+    "require": {}
+}
