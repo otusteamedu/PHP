@@ -1,0 +1,9 @@
+.idea
+/.editorconfig
+
+*.min.css
+*.min.css.map
+*.min.js
+*.min.js.map
+
+.env
