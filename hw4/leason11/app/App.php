@@ -22,27 +22,22 @@ class App
     {
         if (empty($config)) {
             // читаем конфиг из файла
-            $DS         = DIRECTORY_SEPARATOR;
-            $configFile = __DIR__ . $DS . '..' . $DS . 'config' . $DS . 'youtube.ini';
+            $configFile = __DIR__ . '/../config/youtube.ini';
             if ( ! file_exists($configFile)) {
-                new Exception('missing configuration file config/youtube.ini');
-                exit(1);
+                throw new Exception('missing configuration file config/youtube.ini');
             }
             $config = parse_ini_file($configFile);
             if (empty($config)) {
-                new Exception('missing API key');
-                exit(1);
+                throw new Exception('missing API key');
             }
         }
 
         if ( ! isset($config['appName'])) {
-            new Exception('missing application name in config');
-            exit(1);
+            throw new Exception('missing application name in config');
         }
 
         if ( ! isset($config['key'])) {
-            new Exception('missing developer api key');
-            exit(1);
+            throw new Exception('missing developer api key');
         }
         $this->client = new Youtuber($config['key'], $config['appName']);
         $this->config = $config;
@@ -62,14 +57,23 @@ class App
     {
         echo "Channel info: \n";
         $chId = $this->config['favorite_channel_id'];
-        try {
-            $channels = $this->client->getChannelInfo($chId);
-        } catch (Exception $e) {
-            print_r(['error' => $e->getMessage()]);
-            print_r(debug_backtrace());
-        }
 
+        $channels  = $this->client->getChannelInfo($chId);
         $data      = $this->client->getChannelVideos($chId);
+        $videoInfo = $this->prerateVideoInfo($data);
+        $this->storeData($channels, $videoInfo);
+    }
+
+
+    /**
+     * Добавлемя информацию о лайках/дизлайках к видео
+     *
+     * @param $data
+     *
+     * @return array
+     */
+    private function prerateVideoInfo($data)
+    {
         $videoInfo = [];
         foreach ($data['items'] as $item) {
             $videoId = $item['id']['videoId'];
@@ -88,11 +92,23 @@ class App
             unset($row);
         }
 
+        return $videoInfo;
+    }
+
+
+    /**
+     * Сохраняем информацию о канале в хранилище
+     *
+     * @param $channelInfo
+     * @param $video
+     */
+    private function storeData($channelInfo, $video)
+    {
         $this->storage->add([
             'index' => $this->config['appName'],
             'body'  => [
-                'info'  => $channels,
-                'video' => $videoInfo,
+                'info'  => $channelInfo,
+                'video' => $video,
             ],
         ]);
     }
