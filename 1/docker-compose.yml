@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./app/docker/nginx
+      args:
+        UID: "3000"
+    ports:
+      - 10080:80
+    depends_on:
+      - php
+    volumes:
+      - ./:/var/www/html
+
+  php:
+    build:
+      context: ./app/docker/php
+      args:
+        UID: "3000"
+    working_dir: /app
