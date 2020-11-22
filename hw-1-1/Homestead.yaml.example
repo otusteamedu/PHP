@@ -3,14 +3,14 @@ ip: "192.168.10.11"
 memory: 2048
 cpus: 2
 provider: virtualbox
-name: otus-php-homestead
+name: hw-1-1-homestead
 
 folders:
-    - map: ~/otus/PHP-repo/code
+    - map: ~/otus/PHP-repo/hw-1-1/code
       to: /home/vagrant/code
 
 sites:
-    - map: homestead.php
+    - map: homestead.hw.1.1
       to: /home/vagrant/code
 
 databases:

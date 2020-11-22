@@ -6,8 +6,8 @@ services:
     build:
       context: php-fpm
       dockerfile: Dockerfile
-    image: myapp2/php # имя будущего образа
-    container_name: php_fpm_container # имя контейнера после запуска
+    image: hw_1_1/php # имя будущего образа
+    container_name: hw_1_1_php_fpm_container # имя контейнера после запуска
     volumes:
       - ./code:/data/site.default
     networks:
@@ -17,8 +17,8 @@ services:
     build:
       context: nginx
       dockerfile: Dockerfile
-    image: myapp2/nginx
-    container_name: nginx_container
+    image: hw_1_1/nginx
+    container_name: hw_1_1_nginx_container
     ports:
       - $APP_PORT1:80
       - $APP_PORT2:443
@@ -30,7 +30,7 @@ services:
   db_service:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    container_name: db_container
+    container_name: hw_1_1_db_container
     ports:
       - $DB_PORT:3306
     environment:
