@@ -1,12 +1,12 @@
 <?php
 
-use App\Controllers\Api\QueueApiController;
+use App\Controllers\Api\TaskApiController;
 
 require_once 'src/bootstrap.php';
 
 try {
-    $queueApiController = new QueueApiController();
-    $queueApiController->run();
+    $taskApiController = new TaskApiController();
+    $taskApiController->run();
 } catch (RuntimeException $e) {
     echo $e->getMessage();
 }

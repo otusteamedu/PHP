@@ -13,7 +13,9 @@
     "php": "7.4.*",
     "ext-json": "*",
     "php-amqplib/php-amqplib": "^2.12",
-    "vlucas/phpdotenv": "^5.2"
+    "vlucas/phpdotenv": "^5.2",
+    "ext-amqp": "*",
+    "ext-sqlite3": "*"
   }
   ,
   "require-dev": {
