@@ -1,0 +1,32 @@
+version: "3.1"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - ./logs:/var/log/nginx
+    ports:
+    - "8080:80"
+    links:
+      - server
+      - client
+  server:
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    volumes:
+    - ./src:/var/www/html
+    - ./php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - "9000:9000"
+  client:
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    volumes:
+      - ./src:/var/www/html
+      - ./php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - "9001:9001"
