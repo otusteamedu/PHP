@@ -8,7 +8,6 @@ namespace asterisk;
  */
 
 use asterisk\AsteriskAMI;
-use Google\Exception;
 
 class daemon
 {
@@ -76,7 +75,7 @@ class daemon
 
 
     /**
-     * Основная функция демона
+     * Worker
      */
     public function worker()
     {
@@ -90,6 +89,9 @@ class daemon
     }
 
 
+    /**
+     * Основная функция демона
+     */
     public function run()
     {
         if ( ! function_exists('pcntl_fork')) {
@@ -111,20 +113,3 @@ class daemon
     }
 }
 
-$params = [
-    'server' => '127.0.0.1',
-    'port'   => 5080,
-    'user'   => 'amiuser',
-    'pass'   => 'amipass',
-    'events' => [
-        'Newexten' => [
-            'callback' => function ($data) {
-                echo "New call \n";
-                print_r($data);
-            },
-        ],
-    ],
-];
-include 'ami.php';
-$server = new daemon($params);
-$server->run();

@@ -24,13 +24,12 @@ class AsteriskAMI
      */
     function __construct(string $host, string $port, string $user, string $pass)
     {
-        $this->host  = $host;
-        $this->port  = $port;
-        $this->login = $user;
-        $this->pass  = $pass;
+        $this->host = $host;
+        $this->port = $port;
+        $this->user = $user;
+        $this->pass = $pass;
 
         if ($this->connect() && $this->connection) {
-            sleep(2);
             $this->read();
             $this->init();
         }
@@ -89,7 +88,7 @@ class AsteriskAMI
     public function write(string $msg)
     {
         if ( ! empty($this->connection)) {
-            $this->lastActionId = rand(10000000000000000, 99999999900000000);
+            $this->lastActionId++;
             fwrite($this->connection, sprintf("ActionID: %s\r\n%s\r\n\r\n", $this->lastActionId, $msg));
             $this->sleepi();
 
@@ -117,37 +116,37 @@ class AsteriskAMI
     public function read()
     {
         if ( ! empty($this->connection)) {
-            $b = [];
-            $k = 0;
-            $s = "";
+            $k   = 0;
+            $buf = "";
             $this->sleepi();
+            // получаем данные из сокета
             do {
-                $s .= fread($this->connection, 1024);
+                $buf .= fread($this->connection, 1024);
                 sleep(0.005);
-                $mmm = socket_get_status($this->connection);
-            } while ($mmm['unread_bytes']);
+                $socketStatus = socket_get_status($this->connection);
+            } while ($socketStatus['unread_bytes']);
 
-            $mm             = explode("\r\n", $s);
+            // преобразовываем в массив
+            $lines          = explode("\r\n", $buf);
             $this->lastRead = [];
 
-            for ($i = 0; $i < count($mm); $i++) {
-                if ($mm[$i] == "") {
+            for ($i = 0; $i < count($lines); $i++) {
+                if ($lines[$i] == "") {
                     $k++;
                 }
-                $m = explode(":", $mm[$i]);
-                if (isset($m[1])) {
-                    $this->lastRead[$k][trim($m[0])] = trim($m[1]);
+                [$action, $msg] = explode(":", $lines[$i]);
+                if (isset($msg)) {
+                    $action                      = trim($action);
+                    $this->lastRead[$k][$action] = trim($msg);
                 }
             }
-            unset ($b);
             unset ($k);
-            unset ($mm);
-            unset ($mm);
-            unset ($mmm);
+            unset ($lines);
+            unset ($socketStatus);
             unset ($i);
-            unset ($s);
+            unset ($buf);
 
-            return $this->lastRead;
+            return array_filter($this->lastRead);
         } else {
             return false;
         }
@@ -161,7 +160,7 @@ class AsteriskAMI
      */
     public function init()
     {
-        return $this->write(sprintf("Action: Login\r\nUsername: %s\r\nSecret: %s\r\n\r\n", $this->login, $this->pass));
+        return $this->write(sprintf("Action: Login\r\nUsername: %s\r\nSecret: %s\r\n\r\n", $this->user, $this->pass));
     }
 
 
