@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  php_1:
+    build:
+      context: ./php
+      args:
+        USER_UID: "3000"
+    image: php_hw_2_1_2/php
+    container_name: php_1
+    volumes:
+      - ./sock:/sock
+      - ../app:/var/www/html
+  php_2:
+    build:
+      context: ./php
+      args:
+        USER_UID: "3000"
+    image: php_hw_2_1_2/php
+    container_name: php_2
+    volumes:
+      - ./sock:/sock
+      - ../app:/var/www/html
