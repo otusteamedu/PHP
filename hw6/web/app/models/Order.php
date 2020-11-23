@@ -13,15 +13,24 @@ use SplObjectStorage;
 
 class Order
 {
+    /**
+     * @var float Общая сумма заказа
+     */
+    public $totalCost = 0;
+    /**
+     * @var SplObjectStorage Товары
+     */
     private $products;
+    /**
+     * @var bool Заказ не подтвержден - это корзина
+     */
     private $isBasket  = true;
-    private $totalCost = 0;
     /**
      * @var User
      */
     private $orderUser;
     /**
-     * @var IDiscount
+     * @var float Размер скидки в процентах
      */
     private $discount;
 
@@ -32,6 +41,9 @@ class Order
     }
 
 
+    /**
+     * Подтверждение заказа
+     */
     public function checkOut()
     {
         $this->isBasket = false;
@@ -60,23 +72,27 @@ class Order
             $this->products->attach($product);
             $this->products[$product] = $count;
         }
-        $this->reCalcTotal();
+        $this->calcTotal();
     }
 
 
     /**
      * Подсчет суммы заказа
      */
-    private function reCalcTotal()
+    private function calcTotal()
     {
         $this->totalCost = 0;
         $this->products->rewind();
         while ($this->products->valid()) {
             $product         = $this->products->current();
             $count           = $this->products->getInfo();
-            $this->totalCost += $product->cost * $count;
+            $this->totalCost += $product->retailCost * $count;
 
             $this->products->next();
+        }
+        if ( ! empty($this->discount)) {
+            $discount        = ($this->totalCost * $this->discount) / 100;
+            $this->totalCost = $this->totalCost - $discount;
         }
     }
 
@@ -103,10 +119,48 @@ class Order
             } else {
                 $this->products[$product] = $c;
             }
-            $this->reCalcTotal();
+            $this->calcTotal();
         }
     }
 
+
+    /**
+     * Получить товары из заказа
+     * @return array
+     */
+    public function getProducts(){
+        $res = [];
+        $this->products->rewind();
+        while ($this->products->valid()) {
+            $product         = $this->products->current();
+            $count           = $this->products->getInfo();
+
+            $res[] = [
+                'product' => $product,
+                'count' => $count
+            ];
+
+            $this->products->next();
+        }
+        return $res;
+    }
+
+
+    /**
+     * Установить скидку на товар
+     * @param Product $product
+     * @param float   $discount
+     *
+     * @throws Exception
+     */
+    public function setProductDiscount(Product $product, float $discount){
+        if (!$this->products->contains($product)) {
+            throw new Exception('Product not found');
+        }
+        $prod = $this->products->offsetGet($product);
+        $prod->setDiscount($discount);
+        $this->calcTotal();
+    }
 
     /**
      * Удалить все товары
@@ -120,29 +174,44 @@ class Order
 
 
     /**
-     * Добавить скидку
-     * @param IDiscount $discount
+     * Установить скидку в процентах
+     *
+     * @param float $discount
      */
-    public function addDiscount(IDiscount $discount)
+    public function setDiscount(float $discount)
     {
         $this->discount = $discount;
+        $this->calcTotal();
+    }
+
+
+    /**
+     * Получить размер скидки в процентах
+     * @return float
+     */
+    public function getDiscount(){
+        return $this->discount;
     }
 
 
     /**
      * Установить пользователя
+     *
      * @param User $user
      */
-    public function addUser(User $user){
+    public function addUser(User $user)
+    {
         $this->orderUser = $user;
     }
 
 
     /**
      * Получить пользователя
+     *
      * @return mixed
      */
-    public function getUser(){
+    public function getUser()
+    {
         return $this->orderUser;
     }
 }
