@@ -3,16 +3,16 @@ version: '3.8'
 services:
   php:
     build:
-      context: ./app/docker/php
+      context: ./docker/php
       args:
         UID: "3000"
     volumes:
-      - ./app/public_html:/var/www/public_html
-      - ./app/docker/sock:/sock
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
 
   web:
     build:
-      context: ./app/docker/nginx
+      context: ./docker/nginx
       args:
         UID: "3000"
     ports:
@@ -20,7 +20,19 @@ services:
     depends_on:
       - php
     volumes:
-      - ./app/public_html:/var/www/public_html
-      - ./app/docker/sock:/sock
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
     links:
       - php
+
+  composer:
+    build:
+      context: ./docker/composer
+    depends_on:
+      - php
+      - web
+    volumes:
+      - ./app:/var/www/public_html
+
+
+
