@@ -1,0 +1,80 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: Queue API
+  version: "1.0.0"
+  title: Queue API
+  contact:
+    email: chelout@gmail.com
+paths:
+  /api/queue/{uuid}:
+    get:
+      summary: get message info
+      operationId: getMessage
+      parameters:
+        - name: uuid
+          in: path
+          description: Message UUID
+          required: true
+          schema:
+            format: uuid
+            type: string
+      responses:
+        '200':
+          description: get message info
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Message'
+        '404':
+          description: Pet not found
+  /api/queue:
+    post:
+      summary: adds message
+      operationId: addMessage
+      description: Adds message
+      responses:
+        '202':
+          description: message accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - uuid
+                properties:
+                  uuid:
+                    type: string
+                    format: uuid
+                    example: 'd290f1ee-6c54-4b01-90e6-d701748f0851'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        description: Inventory item to add
+components:
+  schemas:
+    Message:
+      type: object
+      required:
+        - uuid
+        - created_at
+        - status
+        - data
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 'd290f1ee-6c54-4b01-90e6-d701748f0851'
+        name:
+          type: string
+          format: datetime
+          example: '2020-11-25T10:27:40.651559Z'
+        status:
+          type: string
+          example: 'Massage has been processed'
+        data:
+          type: object

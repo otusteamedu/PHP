@@ -1,0 +1,77 @@
+version: '3'
+services:
+  web:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    container_name: web
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro
+
+  console:
+    build:
+      context: docker/php
+      args:
+        UID: 3000
+    command: ["./wait-for-it.sh", "queue:15672", "--timeout=30", "--", "php", "artisan", "queue:work"]
+    container_name: console
+    depends_on:
+      - queue
+      - composer
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./:/app
+
+  queue:
+    container_name: queue
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq
+      - ./docker/rabbitmq/logs/:/var/log/rabbitmq/
+
+  database:
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: default
+    image: postgres:13
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql/data/
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+  composer:
+    build:
+      context: docker/php
+      args:
+        UID: 3000
+    command: ["./wait-for-it.sh", "database:5432", "--timeout=30", "--", "composer", "install"]
+    container_name: composer
+    depends_on:
+      - database
+    working_dir: /app
+    volumes:
+      - ./:/app
+

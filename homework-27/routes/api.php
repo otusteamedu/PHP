@@ -13,6 +13,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->post('queue', 'QueueController@store');
+$router->get('queue/{uuid}', 'QueueController@show');
+
