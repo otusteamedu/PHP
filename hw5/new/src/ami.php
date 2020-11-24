@@ -4,6 +4,7 @@ namespace asterisk;
 
 class AsteriskAMI
 {
+    const CONNECT_TIMEOUT = 180000;
     private $connection;
     private $host;
     private $port         = '5038';
@@ -50,7 +51,7 @@ class AsteriskAMI
     {
         $this->connection = fsockopen($this->host, $this->port, $a, $b, 10);
         if ($this->connection) {
-            stream_set_timeout($this->connection, 0, 400000);
+            stream_set_timeout($this->connection, 0, self::CONNECT_TIMEOUT);
         } else {
             return false;
         }
@@ -90,6 +91,7 @@ class AsteriskAMI
         if ( ! empty($this->connection)) {
             $this->lastActionId++;
             fwrite($this->connection, sprintf("ActionID: %s\r\n%s\r\n\r\n", $this->lastActionId, $msg));
+            // после отправки сообщения, нужно подождать, что-бы сервер успел выполнить команды, иначе может разорвать соединение
             $this->sleepi();
 
             return $this->lastActionId;
@@ -116,8 +118,9 @@ class AsteriskAMI
     public function read()
     {
         if ( ! empty($this->connection)) {
-            $k   = 0;
-            $buf = "";
+            // номер сообщения в ответе
+            $msgId = 0;
+            $buf   = "";
             $this->sleepi();
             // получаем данные из сокета
             do {
@@ -132,15 +135,16 @@ class AsteriskAMI
 
             for ($i = 0; $i < count($lines); $i++) {
                 if ($lines[$i] == "") {
-                    $k++;
+                    // есть новое сообщение
+                    $msgId++;
                 }
                 [$action, $msg] = explode(":", $lines[$i]);
                 if (isset($msg)) {
-                    $action                      = trim($action);
-                    $this->lastRead[$k][$action] = trim($msg);
+                    $action                          = trim($action);
+                    $this->lastRead[$msgId][$action] = trim($msg);
                 }
             }
-            unset ($k);
+            unset ($msgId);
             unset ($lines);
             unset ($socketStatus);
             unset ($i);
