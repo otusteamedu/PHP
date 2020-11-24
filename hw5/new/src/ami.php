@@ -4,6 +4,7 @@ namespace asterisk;
 
 class AsteriskAMI
 {
+    const CONNECT_TIMEOUT = 180000;
     private $connection;
     private $host;
     private $port         = '5038';
@@ -50,7 +51,7 @@ class AsteriskAMI
     {
         $this->connection = fsockopen($this->host, $this->port, $a, $b, 10);
         if ($this->connection) {
-            stream_set_timeout($this->connection, 0, 400000);
+            stream_set_timeout($this->connection, 0, self::CONNECT_TIMEOUT);
         } else {
             return false;
         }
@@ -90,6 +91,7 @@ class AsteriskAMI
         if ( ! empty($this->connection)) {
             $this->lastActionId++;
             fwrite($this->connection, sprintf("ActionID: %s\r\n%s\r\n\r\n", $this->lastActionId, $msg));
+            // после отправки сообщения, нужно подождать, что-бы сервер успел выполнить команды, иначе может разорвать соединение
             $this->sleepi();
 
             return $this->lastActionId;
@@ -116,6 +118,7 @@ class AsteriskAMI
     public function read()
     {
         if ( ! empty($this->connection)) {
+            // номер сообщения в ответе
             $k   = 0;
             $buf = "";
             $this->sleepi();
@@ -132,6 +135,7 @@ class AsteriskAMI
 
             for ($i = 0; $i < count($lines); $i++) {
                 if ($lines[$i] == "") {
+                    // есть новое сообщение
                     $k++;
                 }
                 [$action, $msg] = explode(":", $lines[$i]);
