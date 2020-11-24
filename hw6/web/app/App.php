@@ -93,6 +93,6 @@ class App
      */
     private function setDelivery($name)
     {
-        return new DeliveryFactory($this->order, $name);
+        $this->order->setDelivery(new DeliveryFactory($name));
     }
 }

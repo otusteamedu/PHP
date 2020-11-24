@@ -12,14 +12,8 @@ use models\Order;
 interface IDelivery
 {
     /**
-     * IDelivery constructor.
-     *
-     * @param Order $order
-     */
-    public function __construct(Order $order);
-    /**
      * Расчет стоимости доставки
      * @return mixed
      */
-    public function calc();
+    public function calc(Order $order);
 }

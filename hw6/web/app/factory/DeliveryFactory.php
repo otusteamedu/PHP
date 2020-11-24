@@ -11,11 +11,11 @@ class DeliveryFactory
     ];
 
 
-    public function __construct(Order $order, $name)
+    public function __construct($name)
     {
         switch ($name) {
             case 'boxberry':
-                return new DeliveryBoxberry($order);
+                return new DeliveryBoxberry();
             default:
                 throw new \Exception('Unknown delivery');
         }

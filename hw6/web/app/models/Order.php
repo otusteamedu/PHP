@@ -8,6 +8,7 @@
 namespace models;
 
 use discounts\IDiscount;
+use factory\IDelivery;
 use Google\Exception;
 use SplObjectStorage;
 
@@ -218,5 +219,23 @@ class Order
     public function getUser()
     {
         return $this->orderUser;
+    }
+
+
+    /**
+     * Установить службу доставки
+     * @param IDelivery $delivery
+     */
+    public function setDelivery(IDelivery $delivery){
+        $this->delivery = $delivery;
+    }
+
+
+    /**
+     * Получить службу доставки
+     * @return mixed
+     */
+    public function getDelivery(){
+        return $this->delivery;
     }
 }
