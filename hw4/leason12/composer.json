@@ -1,0 +1,14 @@
+{
+    "name": "petr/leason12",
+    "description": "Home work for leasson 12",
+    "type": "project",
+    "require": {
+        "predis/predis": "^1.1"
+    },
+    "authors": [
+        {
+            "name": "Petr Ivanov",
+            "email": "petr.yrs@gmail.com"
+        }
+    ]
+}

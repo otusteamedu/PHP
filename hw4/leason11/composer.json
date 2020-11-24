@@ -1,0 +1,22 @@
+{
+  "name": "petr_ivanov/leason11",
+  "description": "YouTube crawler",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Petr Ivanov",
+      "email": "petr.yrs@gmail.com"
+    }
+  ],
+  "require": {
+    "google/apiclient": "~2.0",
+    "elasticsearch/elasticsearch": "^7.10"
+  },
+  "scripts": {
+    "post-update-cmd": "Google\\Task\\Composer::cleanup"
+  },
+  "autoload": {
+    "classmap": ["app/"]
+  }
+}
