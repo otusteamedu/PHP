@@ -33,6 +33,10 @@ class Order
      * @var float Размер скидки в процентах
      */
     private $discount;
+    /**
+     * @var
+     */
+    private $delivery;
 
 
     public function __construct()
@@ -44,8 +48,9 @@ class Order
     /**
      * Подтверждение заказа
      */
-    public function checkOut()
+    public function checkOut(User $user)
     {
+        $this->addUser($user);
         $this->isBasket = false;
     }
 
@@ -199,7 +204,7 @@ class Order
      *
      * @param User $user
      */
-    public function addUser(User $user)
+    private function addUser(User $user)
     {
         $this->orderUser = $user;
     }
