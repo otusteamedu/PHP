@@ -9,7 +9,7 @@ use Nlazarev\Hw2_1\Model\Sockets\SocketServer;
 use Nlazarev\Hw2_1\Model\Clients\ClientSocketCli;
 use Nlazarev\Hw2_1\Model\Collections\CollectionClients;
 
-final class AppServer
+final class AppServerSocket
 {
     private static string $conf_path = "../config/server.json";
     private static Config $conf;

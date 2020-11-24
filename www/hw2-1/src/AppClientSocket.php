@@ -7,7 +7,7 @@ namespace Nlazarev\Hw2_1;
 use Noodlehaus\Config;
 use Nlazarev\Hw2_1\Model\Sockets\SocketClient;
 
-final class AppClient
+final class AppClientSocket
 {
     private static string $conf_path = "../config/client.json";
     private static Config $conf;

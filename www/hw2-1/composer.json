@@ -9,7 +9,8 @@
   "require-dev": {
     "php": "^7.4",
     "hassankhan/config": "^2.1",
-    "squizlabs/php_codesniffer": "*"
+    "squizlabs/php_codesniffer": "*",
+    "guzzlehttp/guzzle": "^7.0"
   },
   "authors": [
     {
