@@ -9,9 +9,9 @@ class Request
     /** @var null|array|mixed */
     private $data;
 
-    public function __construct(ParserContract $parser)
+    public function __construct(array $data)
     {
-        $this->data = $parser->parse();
+        $this->data = $data;
     }
 
     public function uri(): string

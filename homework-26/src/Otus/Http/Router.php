@@ -4,6 +4,9 @@
 namespace Otus\Http;
 
 
+use Otus\Exceptions\FileNotFound;
+use Throwable;
+
 class Router
 {
     /** @var \Otus\Http\Route[] */
@@ -11,9 +14,9 @@ class Router
 
     private Request $request;
 
-    public function __construct()
+    public function __construct(string $path)
     {
-        $this->loadRoutes();
+        $this->loadRoutes($path);
         $this->request = RequestFactory::make();
     }
 
@@ -33,9 +36,15 @@ class Router
         return new Response(Response::HTTP_NOT_FOUND);
     }
 
-    private function loadRoutes(): void
+    private function loadRoutes(string $path): void
     {
-        $this->routes = require __DIR__.'/../../../routes/web.php';
+        $routesPath = $path . 'routes/web.php';
+
+        if (! file_exists($routesPath)) {
+            throw new FileNotFound();
+        }
+
+        $this->routes = require $routesPath;
     }
 
     public function addRoute(string $method, string $uri, array $action): self

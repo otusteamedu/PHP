@@ -4,7 +4,6 @@ namespace Otus\Http;
 
 use Otus\Http\Parsers\FormDataParser;
 use Otus\Http\Parsers\JsonParser;
-use Otus\Http\Parsers\QueryParamsParser;
 
 class RequestFactory
 {
@@ -13,18 +12,20 @@ class RequestFactory
     private function __construct()
     {
         if ($this->isForm()) {
-            $this->request = new Request(new FormDataParser());
+            $parser        = new FormDataParser();
+            $this->request = new Request($parser->parse());
 
             return;
         }
 
         if ($this->isJson()) {
-            $this->request = new Request(new JsonParser());
+            $parser        = new JsonParser();
+            $this->request = new Request($parser->parse());
 
             return;
         }
 
-        $this->request = new Request(new QueryParamsParser());
+        $this->request = new Request($_GET);
     }
 
     public static function make(): Request

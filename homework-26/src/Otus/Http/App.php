@@ -18,7 +18,7 @@ class App
         $this->loadEnvironment()
              ->loadConfiguration();
 
-        $this->router = new Router();
+        $this->router = new Router($path);
     }
 
     public function run(): void
