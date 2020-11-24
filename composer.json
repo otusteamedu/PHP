@@ -2,5 +2,10 @@
     "name": "root/otus-php",
     "require": {
         "bramus/router": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "controllers"
+        }
     }
 }

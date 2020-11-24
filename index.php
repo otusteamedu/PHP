@@ -9,8 +9,6 @@ include_once(ROOT . DS . 'vendor' . DS . 'autoload.php');
 
 $route = new Router();
 
-$route->get('/', function(){
-    echo 1;
-});
+$route->get('/app', '\Controllers\QueueController@index');
 
 $route->run();
