@@ -18,7 +18,7 @@ do
         echo "Error. Argument #$count is not a number" >&2
         exit
     else
-        summ=$(echo "$summ + $param" | bc)
+        summ=$(awk "BEGIN {print $summ+$param; exit}")
         count=$(( $count + 1 ))
     fi
 done
