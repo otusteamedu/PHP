@@ -1,0 +1,46 @@
+version: '3'
+services:
+  web:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: 3000
+    container_name: web
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: docker/nginx
+      args:
+        UID: 3000
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/sock:/sock
+      - ./:/app:ro
+
+  console:
+    build:
+      context: docker/php
+      args:
+        UID: 3000
+    command: ["./wait-for-it.sh", "queue:15672", "--", "php", "console/app.php"]
+    container_name: console
+    depends_on:
+      - queue
+    working_dir: /app
+    volumes:
+      - ./:/app
+
+  queue:
+    container_name: queue
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./docker/rabbitmq/data:/var/lib/rabbitmq
