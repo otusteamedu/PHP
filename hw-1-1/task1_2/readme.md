@@ -1,13 +1,20 @@
 # deploy with docker-compose
 ```
+#cd cd hw-1-1/task1_2/
+
 cp code/Env.php.example code/Env.php
 cp .env.example .env
 
 docker-compose up -d
+
+#docker-compose stop
+#docker-compose down
 ```
 
 # deploy with docker
 ```
+#cd cd hw-1-1/task1_2/
+
 cp code/Env.php.example code/Env.php
 
 cp .env.example .env
@@ -55,10 +62,12 @@ docker run --name hw_1_1_nginx_container \
 # deploy with Homestead
 [Installing/Configuring Homestead](https://laravel.com/docs/8.x/homestead#installing-homestead)
 ```
+#cd cd hw-1-1/task1_2/
+
 cp code/Env.php.example-homestead code/Env.php
 cp Homestead.yaml.example Homestead.yaml
 
-# modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/hw-1-1/Homestead.yaml"
+# modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/hw-1-1/task1_2/Homestead.yaml"
 
 # add record to /etc/hosts
 sudo bash -c "echo \"192.168.10.11 homestead.hw.1.1\" >> /etc/hosts"

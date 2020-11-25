@@ -6,7 +6,7 @@ provider: virtualbox
 name: hw-1-1-homestead
 
 folders:
-    - map: ~/otus/PHP-repo/hw-1-1/code
+    - map: ~/otus/PHP-repo/hw-1-1/task1_2/code
       to: /home/vagrant/code
 
 sites:
