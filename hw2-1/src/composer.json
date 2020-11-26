@@ -1,0 +1,23 @@
+{
+  "name": "validator/app",
+  "description": "home work exercise part 2.3",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Aidar",
+      "email": "ai.ilyasov@yandex.ru"
+    }
+  ],
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/var-dumper": "3.2.x"
+  }
+}

@@ -1,11 +1,12 @@
 <?php
 
+namespace App;
 
 class App
 {
-    public function __construct($data)
+    public function run()
     {
-        $this->data = $data;
+        $this->data = $_POST;
 
         if (!$this->validateRequest()) {
             http_response_code(400);
@@ -84,5 +85,27 @@ class App
         }
 
         return false;
+    }
+
+    /**
+     * Проверка строки на корректный email адрес
+     * @param $string
+     * @return bool
+     */
+    public function validateEmail($string)
+    {
+        if (empty($string) && gettype($string) !== 'string') {
+            return false;
+        }
+
+        if (!preg_match('/^.+@.+\..+$/', $string)) {
+            return false;
+        }
+
+        if (!checkdnsrr(array_pop(explode("@",$string)),"MX")) {
+            return false;
+        }
+
+        return true;
     }
 }
