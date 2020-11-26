@@ -12,7 +12,9 @@ services:
 
   server:
     build:
-      context: ./docker/server
+      context: ./docker/php
+      args:
+        TYPE: "server"
     volumes:
       - ./app:/data/app
       - app-volume:/data/sock
@@ -21,7 +23,9 @@ services:
 
   client:
     build:
-      context: ./docker/client
+      context: ./docker/php
+      args:
+        TYPE: "client"
     volumes:
       - ./app:/data/app
       -  app-volume:/data/sock

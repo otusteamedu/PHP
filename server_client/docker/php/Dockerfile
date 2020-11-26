@@ -1,5 +1,5 @@
 FROM php:7.4-cli
-#ARG TYPE
+ARG TYPE
 RUN apt-get update \
     && apt-get install -y \
             autoconf \
@@ -22,4 +22,4 @@ RUN apt-get update \
         zip
 
 WORKDIR /data/app/public
-CMD [ "php", "app.php" , "server"]
+CMD [ "php", "app.php" , "${TYPE}"]
