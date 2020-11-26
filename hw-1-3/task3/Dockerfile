@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     grep \
         libmemcached-dev \
-    zlib1g-dev \
+        zlib1g-dev \
     libcurl4-openssl-dev \
     libbrotli-dev \
     libevent-dev \
