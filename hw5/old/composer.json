@@ -1,0 +1,18 @@
+{
+    "name": "piv/asterisk-ami-server",
+    "description": "Asterisk AMI daemon",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Petr Ivanov",
+            "email": "petr.yrs@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "asterisk\\": "src"
+        }
+    }
+}
