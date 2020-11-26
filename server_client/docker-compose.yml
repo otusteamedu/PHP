@@ -1,23 +1,33 @@
 version: '3.8'
 
+volumes:
+  app-volume:
+
 services:
-  server:
+  composer:
     build:
-      context: ./docker/php
-      args:
-        TYPE: "server"
+      context: ./docker/composer
     volumes:
       - ./app:/data/app
 
-  client:
+  server:
     build:
-      context: ./docker/php
-      args:
-        TYPE: "client"
+      context: ./docker/server
     volumes:
       - ./app:/data/app
+      - app-volume:/data/sock
+    depends_on:
+      - composer
+
+  client:
+    build:
+      context: ./docker/client
+    volumes:
+      - ./app:/data/app
+      -  app-volume:/data/sock
     depends_on:
       - server
+
 
 
 

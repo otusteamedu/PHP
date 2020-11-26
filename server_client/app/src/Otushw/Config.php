@@ -8,17 +8,11 @@ class Config
 {
     protected $path;
 
-    public function __construct($path)
-    {
-        if (!file_exists($path)) {
-            throw new Exception('File "config.ini" does not exist');
-        }
-        $this->path = $path;
-    }
+    const PATH_CONFIG = '../config.ini';
 
     public function readAll()
     {
-        return parse_ini_file($this->path);
+        return parse_ini_file(self::PATH_CONFIG);
     }
 
     public function readParam($nameParam)
