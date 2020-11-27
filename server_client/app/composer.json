@@ -1,0 +1,15 @@
+{
+  "name": "mar4ehk0/hw2-1",
+  "description": "Server and Cleint",
+  "authors": [
+    {
+      "name": "Alex Marchenko",
+      "email": "mar4ehk0@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Otushw\\" : "src/Otushw"
+    }
+  }
+}
