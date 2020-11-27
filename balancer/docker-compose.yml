@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+#1 - nginx+php-fpm
+  php1:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+        NUM: "1"
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+  node1:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+        NUM: "1"
+    depends_on:
+      - php1
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+    links:
+      - php1
+
+#2 - nginx+php-fpm
+  php2:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+        NUM: "2"
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+  node2:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+        NUM: "2"
+    depends_on:
+      - php2
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+    links:
+      - php2
+
+#3 - nginx+php-fpm
+  php3:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+        NUM: "3"
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+  node3:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+        NUM: "3"
+    depends_on:
+      - php3
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+    links:
+      - php3
+
+  balancer:
+    build:
+      context: ./docker/balancer
+    ports:
+      - 8085:80
+    depends_on:
+      - node1
+      - node2
+      - node3
+    links:
+      - node1
+      - node2
+      - node3
