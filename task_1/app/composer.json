@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "7.4.*",
         "phpunit/phpunit": "*"
     },
     "autoload": {

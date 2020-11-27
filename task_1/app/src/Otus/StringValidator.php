@@ -12,7 +12,7 @@ class StringValidator
         $this->string = trim($string);
     }
 
-    public function validate()
+    public function validate():bool
     {
         try {
             $this->checkEmpty();
@@ -26,7 +26,7 @@ class StringValidator
         return true;
     }
 
-    public function getError()
+    public function getError():string
     {
         return $this->error;
     }

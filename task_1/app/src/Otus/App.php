@@ -2,41 +2,22 @@
 
 namespace Otus;
 
+use Otus\Answer;
+
 class App
 {
     public function run()
     {
-        if (isset($_POST['string'])) {
-            $validator = new StringValidator($_POST['string']);
+        $request = new Post();
+        if ($request->string) {
+            $validator = new StringValidator($request->string);
             if ($validator->validate()) {
-                $this->successOutput();
+                Answer::correctAnswer('Данные корректны');
             } else {
-                $this->failedOutput($validator->getError());
+                Answer::errorAnswer($validator->getError());
             }
         } else {
-            $this->failedOutput('Не передан POST-параметр string');
+            Answer::errorAnswer('Не передан POST-параметр string');
         }
-    }
-
-    private function successOutput()
-    {
-        header("HTTP/1.1 200 OK");
-        header('Content-Type: application/json');
-        $result = [
-            'status' => 'success',
-            'message' => 'Данные корректны'
-        ];
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
-    }
-
-    private function failedOutput($error)
-    {
-        header("HTTP/1.1 400 Bad Request");
-        header('Content-Type: application/json');
-        $result = [
-            'status' => 'error',
-            'message' => $error
-        ];
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 }
