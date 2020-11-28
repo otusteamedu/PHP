@@ -1,3 +1,7 @@
-Запущена Docker. Скачан базовый образ, развернут контейнер test-nginx. Запущен статический сайт mysite.local 
+Р—Р°РїСѓС‰РµРЅР° Docker. РЎРєР°С‡Р°РЅ Р±Р°Р·РѕРІС‹Р№ РѕР±СЂР°Р·,
+СЂР°Р·РІРµСЂРЅСѓС‚ РєРѕРЅС‚РµР№РЅРµСЂ test-nginx.
+Р—Р°РїСѓС‰РµРЅ СЃС‚Р°С‚РёС‡РµСЃРєРёР№ СЃР°Р№С‚ mysite.local 
 
-http://joxi.ru/KAgjJ5kTKjLzj2 http://joxi.ru/n2Yj0LnTe4vXGA http://joxi.ru/Vm6V3Kviv1aORm
+http://joxi.ru/KAgjJ5kTKjLzj2
+http://joxi.ru/n2Yj0LnTe4vXGA
+http://joxi.ru/Vm6V3Kviv1aORm
