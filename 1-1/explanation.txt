@@ -1,0 +1,4 @@
+Запущена Виртуальная машина.
+В etc/hosts добавлен сайт learning.test
+http://joxi.ru/nAyR6pBHwVPEqr  
+http://joxi.ru/V2Vjv6aTkM5yE2
