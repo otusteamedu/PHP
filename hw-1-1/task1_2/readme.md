@@ -2,8 +2,7 @@
 ```
 # cd hw-1-1/task1_2/
 
-cp code/.env.example code/.env
-
+cp code/Env.php.example code/Env.php
 cp .env.example .env
 
 docker-compose up -d
@@ -16,7 +15,7 @@ docker-compose up -d
 ```
 # cd hw-1-1/task1_2/
 
-cp code/.env.example code/.env
+cp code/Env.php.example code/Env.php
 
 cp .env.example .env
 source .env
@@ -65,8 +64,7 @@ docker run --name hw_1_1_nginx_container \
 ```
 # cd hw-1-1/task1_2/
 
-cp code/.env.example-homestead code/.env
-
+cp code/Env.php.example-homestead code/Env.php
 cp Homestead.yaml.example Homestead.yaml
 
 # modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/hw-1-1/task1_2/Homestead.yaml"
@@ -79,7 +77,6 @@ vagrant up
 
 # index.php - max priority
 vagrant ssh
-# see example: homestead.conf.example
 sudo nano /etc/nginx/sites-available/homestead.hw.1.1
 # modify like `index index.php index.html index.htm;`
 sudo systemctl restart nginx
