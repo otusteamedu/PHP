@@ -1,0 +1,6 @@
+dbdata/
+mysql-log/
+nginx-log/
+
+code/Env.php
+Homestead.yaml

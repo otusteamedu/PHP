@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  php_fpm_service:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: php-fpm
+      dockerfile: Dockerfile
+    image: hw_1_1/php # имя будущего образа
+    container_name: hw_1_1_php_fpm_container # имя контейнера после запуска
+    volumes:
+      - ./code:/data/site.default
+    networks:
+      - app-network
+
+  nginx_service:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: hw_1_1/nginx
+    container_name: hw_1_1_nginx_container
+    ports:
+      - $APP_PORT1:80
+      - $APP_PORT2:443
+    volumes:
+      - ./../../logs/nginx-log:/var/log/nginx
+    networks:
+      - app-network
+
+  db_service:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: hw_1_1_db_container
+    ports:
+      - $DB_PORT:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./../../logs/dbdata:/var/lib/mysql
+      - ./../../logs/mysql-log:/var/log/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

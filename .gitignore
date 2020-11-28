@@ -2,3 +2,7 @@
 .vscode/
 
 .env
+
+logs/
+
+hw-2-1/
