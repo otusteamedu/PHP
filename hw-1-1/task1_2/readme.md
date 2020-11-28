@@ -2,9 +2,13 @@
 ```
 # cd hw-1-1/task1_2/
 
-cp code/Env.php.example code/Env.php
+cp code/src/repetitor202/Env.php.example code/src/repetitor202/Env.php
+
 cp .env.example .env
 
+docker-compose stop
+docker-compose down
+docker-compose build
 docker-compose up -d
 
 #docker-compose stop
@@ -15,7 +19,7 @@ docker-compose up -d
 ```
 # cd hw-1-1/task1_2/
 
-cp code/Env.php.example code/Env.php
+cp code/src/repetitor202/Env.php.example code/src/repetitor202/Env.php
 
 cp .env.example .env
 source .env
@@ -64,7 +68,7 @@ docker run --name hw_1_1_nginx_container \
 ```
 # cd hw-1-1/task1_2/
 
-cp code/Env.php.example-homestead code/Env.php
+cp code/src/repetitor202/Env.php.example-homestead code/src/repetitor202/Env.php
 cp Homestead.yaml.example Homestead.yaml
 
 # modify Homestead/Vagrantfile like: homesteadYamlPath = "/home/bo/otus/PHP-repo/hw-1-1/task1_2/Homestead.yaml"
