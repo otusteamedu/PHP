@@ -2,26 +2,29 @@
 
 namespace App\Controllers\Api;
 
-use App\Core\TaskSender;
+use App\Core\Task;
 use App\Views\ApiJsonView;
+use Exception;
 use JsonException;
 
 class TaskApiController extends ApiController
 {
     public string $apiName = 'task';
     protected ApiJsonView $apiJsonView;
-
-    //соотносит метод запроса и действие в контроллере
     protected array $actionConfig = [
         'GET' => 'checkTaskAction',
         'POST' => 'createTaskAction',
         'DEFAULT' => 'wrongAction'
     ];
 
+    //соотносит метод запроса и действие в контроллере
+    private Task $task;
+
     public function __construct()
     {
         parent::__construct();
         $this->apiJsonView = new ApiJsonView();
+        $this->task = new Task();
     }
 
     /**
@@ -29,16 +32,18 @@ class TaskApiController extends ApiController
      */
     protected function checkTaskAction(): void
     {
-        $this->apiJsonView->response('get ok', 200);
+        $status = $this->task->getTaskStatus((int)$this->requestUri[2]);
+        $this->apiJsonView->response($status, 200);
     }
 
     /**
      * @throws JsonException
+     * @throws Exception
      */
     protected function createTaskAction(): void
     {
-        (new TaskSender())->newTask();
-        $this->apiJsonView->response('post ok', 200);
+        $taskID = $this->task->newTask();
+        $this->apiJsonView->response('Your task is create. Tasks ID is ' . $taskID, 200);
     }
 
     /**
@@ -46,7 +51,7 @@ class TaskApiController extends ApiController
      */
     protected function wrongAction(): void
     {
-        $this->apiJsonView->response('any ok', 405);
+        $this->apiJsonView->response('This method is not use!', 405);
     }
 
 }

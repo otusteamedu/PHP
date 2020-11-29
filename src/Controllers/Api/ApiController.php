@@ -50,7 +50,7 @@ abstract class ApiController
     public function run()
     {
         //Первые 2 элемента массива URI должны быть "api" и название таблицы
-        if (array_shift($this->requestUri) !== 'api' || array_shift($this->requestUri) !== $this->apiName) {
+        if ($this->requestUri[0] !== 'api' || $this->requestUri[1] !== $this->apiName) {
             throw new RuntimeException('API Not Found', 404);
         }
 
