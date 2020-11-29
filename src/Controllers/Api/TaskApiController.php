@@ -32,8 +32,12 @@ class TaskApiController extends ApiController
      */
     protected function checkTaskAction(): void
     {
-        $status = $this->task->getTaskStatus((int)$this->requestUri[2]);
-        $this->apiJsonView->response($status, 200);
+        if (isset($this->requestUri[2])) {
+            $status = $this->task->getTaskStatus((int)$this->requestUri[2]);
+            $this->apiJsonView->response($status, 200);
+        } else {
+            $this->apiJsonView->response('Tasks ID not found', 200);
+        }
     }
 
     /**

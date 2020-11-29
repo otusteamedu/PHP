@@ -26,11 +26,12 @@ class DbConnector
         static::$db = null;
     }
 
-    private function __clone()
+    public function __clone()
     {
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
     }
+
 }
