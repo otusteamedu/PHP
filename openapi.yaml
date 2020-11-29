@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: 'Otus tasks queue API'
+  contact:
+    email: support@example.com
+  version: '1.0'
+paths:
+  '/api/task/[ID task]':
+    get:
+      summary: 'Get task status by ID'
+      operationId: 'App\Controllers\Api\TaskApiController::checkTaskAction'
+      responses:
+        '404':
+          description: 'Task not found'
+        '200':
+          description: 'Return task status by ID'
+  /api/task:
+    post:
+      operationId: 'App\Controllers\Api\TaskApiController::createTaskAction'
+      responses:
+        '200':
+          description: 'Your task is create. You need to copy your tasks ID'

@@ -21,6 +21,8 @@ class ApiJsonView
     {
         $status = [
             200 => 'OK',
+            201 => 'Created',
+            202 => 'Accepted',
             404 => 'Not Found',
             405 => 'Method Not Allowed',
             500 => 'Internal Server Error',
