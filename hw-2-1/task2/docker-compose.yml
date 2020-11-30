@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  php_fpm_service:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw-2-1-task-2/php
+    volumes:
+      - ./code:/data
