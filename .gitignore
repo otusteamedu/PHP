@@ -3,6 +3,8 @@
 
 .env
 
+vendor/
 logs/
 
-hw-2-1/
+hw-2-1/task1-draft
+hw-2-1/task2
