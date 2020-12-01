@@ -71,12 +71,15 @@ class Order
         }
         if ($this->products->contains($product)) {
             // если товар уже есть, то добавляем кол-во
-            $c                        = $this->products->offsetGet($product);
-            $this->products[$product] = $c + $count;
+            $row = $this->products->offsetGet($product);
+            $row->count += $count;
+            $row->calc();
+            $this->products->offsetSet($product, $row);
         } else {
             // товара нет в корзине
             $this->products->attach($product);
-            $this->products[$product] = $count;
+            $row = new OrderRow($count, $product->cost);
+            $this->products->offsetSet($product, $row);
         }
         $this->calcTotal();
     }
@@ -90,9 +93,8 @@ class Order
         $this->totalCost = 0;
         $this->products->rewind();
         while ($this->products->valid()) {
-            $product         = $this->products->current();
-            $count           = $this->products->getInfo();
-            $this->totalCost += $product->retailCost * $count;
+            $row           = $this->products->getInfo();
+            $this->totalCost += $row->total;
 
             $this->products->next();
         }
@@ -123,7 +125,7 @@ class Order
             if ($c < 1) {
                 $this->products->detach($product);
             } else {
-                $this->products[$product] = $c;
+                $this->products->offsetSet($product, $c);
             }
             $this->calcTotal();
         }
