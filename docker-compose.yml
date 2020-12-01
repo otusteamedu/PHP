@@ -1,0 +1,27 @@
+version: '3'
+services:
+  sender:
+    build:
+      context: ./docker/sender
+      dockerfile: Dockerfile
+    volumes:
+      - ./sender:/app
+      - ./docker/tmp:/var/run/
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./sender:/app
+      - ./docker/tmp:/var/run/
+    links:
+      - sender
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: otus
+      RABBITMQ_DEFAULT_PASS: otus

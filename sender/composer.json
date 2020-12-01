@@ -1,0 +1,10 @@
+{
+  "require": {
+    "php-amqplib/php-amqplib": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otus\\" : "src/Otus"
+    }
+  }
+}
