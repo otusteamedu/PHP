@@ -1,0 +1,22 @@
+{
+  "name": "ayakovlev/rabbitqueue",
+  "description": "rabbit queue with POST request",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "leff",
+      "email": "admin@leffo.ru"
+    }
+  ],
+  "require": {
+    "php-amqplib/php-amqplib": "v2.12.1",
+    "monolog/monolog": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.1.*"
+  },
+  "autoload": {
+    "psr-4": {"AYakovlev\\": "src/"}
+  }
+}
