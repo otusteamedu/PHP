@@ -13,20 +13,20 @@ class Receiver
     private AMQPChannel $channel;
     private string $queue;
 
-    public function __construct(string $host, int $port, string $user, string $password, int $channelId, string $queue)
+    public function __construct()
     {
-        echo "Подключение..";
-        for ($i = 0; $i < 30; $i++) {
-            echo ".";
-            try {
-                $connect = new AMQPStreamConnection($host, $port, $user, $password);
-                $this->channel = $connect->channel($channelId);
-                $this->declareQueue($queue);
-                echo "\nПодключено!\n";
-                break;
-            } catch (AMQPConnectionClosedException $e) {
-                sleep(1);
-            }
+        echo "Подключение.." . PHP_EOL;
+        try {
+            $connect = new AMQPStreamConnection(
+                $_ENV["RABBITMQ_LOCAL_HOST"],
+                $_ENV["RABBITMQ_PORT"],
+                $_ENV["RABBITMQ_USER"], $_ENV["RABBITMQ_PASS"]
+            );
+            $this->channel = $connect->channel($_ENV["RABBITMQ_CHANNEL"]);
+            $this->declareQueue($_ENV["RABBITMQ_QUEUE"]);
+            echo "Подключено!" . PHP_EOL;;
+        } catch (AMQPConnectionClosedException $e) {
+            echo "Ошибка подключения :(" .PHP_EOL . $e->getMessage() . PHP_EOL;
         }
     }
 
@@ -38,7 +38,7 @@ class Receiver
     }
 
 
-    public function handler(callable $callback)
+    public function run()
     {
         $this->channel->basic_consume(
             $this->queue,
@@ -47,7 +47,9 @@ class Receiver
             true,
             false,
             false,
-            $callback
+            function ($msg) {
+                echo PHP_EOL . $msg->body . PHP_EOL;
+            }
         );
 
         while ($this->channel->is_consuming()) {

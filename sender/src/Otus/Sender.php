@@ -15,12 +15,18 @@ class Sender
     private string $queue;
 
 
-    public function __construct(string $host, int $port, string $user, string $password, int $channelId, string $queue)
+    public function __construct()
     {
-        $this->connect = new AMQPStreamConnection($host, $port, $user, $password);
-        $this->channel = $this->connect->channel($channelId);
-        $this->channel->queue_declare($queue, false, true, false, false);
-        $this->queue = $queue;
+        $this->connect = new AMQPStreamConnection(
+            $_ENV["RABBITMQ_DOCKER_HOST"],
+            $_ENV["RABBITMQ_PORT"],
+            $_ENV["RABBITMQ_USER"],
+            $_ENV["RABBITMQ_PASS"]
+        );
+
+        $this->channel = $this->connect->channel($_ENV["RABBITMQ_CHANNEL"]);
+        $this->channel->queue_declare($_ENV["RABBITMQ_QUEUE"], false, true, false, false);
+        $this->queue = $_ENV["RABBITMQ_QUEUE"];
     }
 
 

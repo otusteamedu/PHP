@@ -1,6 +1,7 @@
 {
   "require": {
-    "php-amqplib/php-amqplib": "*"
+    "php-amqplib/php-amqplib": "*",
+    "symfony/dotenv": "^5.2"
   },
   "autoload": {
     "psr-4": {

@@ -1,36 +1,12 @@
 <html lang="ru">
 <head>
     <script src="/js/jquery-3.5.1.min.js"></script>
-    <script>
-        function sendForm(form) {
-            $(".msg-box").text("...");
-            $.post("/", $(form).serialize(), function (data) {
-                $(".msg-box").text(data);
-                form.reset();
-            });
-        }
-    </script>
+    <script src="/js/main.js"></script>
     <title>Задание по очередям</title>
-    <style>
-        form {
-            width: 450px;
-            margin: 20px auto;
-            padding: 20px;
-            box-shadow: 0 0 10px #cacaca;
-        }
-
-        label, .button-box, .msg-box {
-            display: block;
-            margin: 15px;
-        }
-
-        textarea, input {
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-<form onsubmit="sendForm(this); return false;" onclick="$('.msg-box').text('')">
+<form onsubmit="sendForm(this); return false;" onclick="cleanMsgBox();">
     <label> Введите имя: <br>
         <input name="username" type="text" placeholder="Имя">
     </label>

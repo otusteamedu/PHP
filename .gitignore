@@ -2,3 +2,4 @@
 /docker/tmp/
 /receiver/vendor/
 /sender/vendor/
+.env

@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./sender:/app
+      - ./.env:/app/.env
       - ./docker/tmp:/var/run/
   nginx:
     image: nginx:1.19.0-alpine
@@ -18,10 +19,10 @@ services:
     links:
       - sender
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.6.10-management
     ports:
       - 5672:5672
       - 15672:15672
     environment:
-      RABBITMQ_DEFAULT_USER: otus
-      RABBITMQ_DEFAULT_PASS: otus
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
