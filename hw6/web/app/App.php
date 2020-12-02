@@ -17,7 +17,7 @@ use models\User;
 use models\Order;
 use factory\ProdFactory;
 use factory\DeliveryFactory;
-use discounts\DisTotalPercent;
+use discounts\DiscountDocPercent;
 
 class App
 {
@@ -78,7 +78,7 @@ class App
      */
     private function setDiscount($procent)
     {
-        $discount    = new DisTotalPercent($this->order, $procent);
+        $discount    = new DiscountDocPercent($this->order, $procent);
         $this->order = $discount->getOrder();
     }
 

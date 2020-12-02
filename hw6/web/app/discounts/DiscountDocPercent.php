@@ -6,7 +6,7 @@ namespace discounts;
 
 use models\Order;
 
-class DisTotalPercent
+class DiscountDocPercent implements IDiscount
 {
     /**
      * @var Order
@@ -16,6 +16,7 @@ class DisTotalPercent
      * @var float
      */
     private $percent;
+    private $val;
 
 
     /**
@@ -25,19 +26,18 @@ class DisTotalPercent
     public function __constructor(Order $order, float $percent){
         $this->order = $order;
         $this->percent = $percent;
-        $this->do();
     }
-
-    private function do(){
-        $this->order->setDiscount($this->percent);
-    }
-
 
     /**
-     * Получить измененный заказ
-     * @return Order
+     * Расчет скидки в процентах на сумму документа
+     * @param Order $obj
+     *
+     * @return float|int
      */
-    public function getOrder(){
-        return $this->order;
+    public function calc(&$obj)
+    {
+        $this->val = ($obj->totalCost * $this->percent) / 100;
+        $obj->totalCost = $obj->totalCost - $this->val;
+        return $this->val;
     }
 }

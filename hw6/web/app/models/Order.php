@@ -8,6 +8,7 @@
 namespace models;
 
 use discounts\IDiscount;
+use discounts\IDiscountRow;
 use factory\IDelivery;
 use Google\Exception;
 use SplObjectStorage;
@@ -99,8 +100,7 @@ class Order
             $this->products->next();
         }
         if ( ! empty($this->discount)) {
-            $discount        = ($this->totalCost * $this->discount) / 100;
-            $this->totalCost = $this->totalCost - $discount;
+            $this->discount->calc($this);
         }
     }
 
@@ -120,12 +120,12 @@ class Order
         }
         if ($this->products->contains($product)) {
             // текущее кол-во товара в заказе
-            $c = $this->products->offsetGet($product);
-            $c = $c - $count;
-            if ($c < 1) {
+            $row = $this->products->offsetGet($product);
+            $row->count =$row->count - $count;
+            if ($row->count < 1) {
                 $this->products->detach($product);
             } else {
-                $this->products->offsetSet($product, $c);
+                $this->products->offsetSet($product, $row);
             }
             $this->calcTotal();
         }
@@ -141,11 +141,13 @@ class Order
         $this->products->rewind();
         while ($this->products->valid()) {
             $product         = $this->products->current();
-            $count           = $this->products->getInfo();
+            $row           = $this->products->getInfo();
 
             $res[] = [
                 'product' => $product,
-                'count' => $count
+                'count' => $row->count,
+                'cost' => $row->cost,
+                'total' => $row->total
             ];
 
             $this->products->next();
@@ -157,16 +159,16 @@ class Order
     /**
      * Установить скидку на товар
      * @param Product $product
-     * @param float   $discount
+     * @param IDiscountRow   $discount
      *
      * @throws Exception
      */
-    public function setProductDiscount(Product $product, float $discount){
+    public function setProductDiscount(Product $product, IDiscountRow $discount){
         if (!$this->products->contains($product)) {
             throw new Exception('Product not found');
         }
-        $prod = $this->products->offsetGet($product);
-        $prod->setDiscount($discount);
+        $row = $this->products->offsetGet($product);
+        $row->setDiscount($discount);
         $this->calcTotal();
     }
 
@@ -182,25 +184,15 @@ class Order
 
 
     /**
-     * Установить скидку в процентах
+     * Установить скидку на документ
      *
-     * @param float $discount
+     * @param IDiscount $discount
      */
-    public function setDiscount(float $discount)
+    public function setDiscount(IDiscount $discount)
     {
         $this->discount = $discount;
         $this->calcTotal();
     }
-
-
-    /**
-     * Получить размер скидки в процентах
-     * @return float
-     */
-    public function getDiscount(){
-        return $this->discount;
-    }
-
 
     /**
      * Установить пользователя
