@@ -1,0 +1,306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "OpenApi Documentation for hw16 project",
+        "description": "docs for hw16 API",
+        "contact": {
+            "email": "admin@leffo.online"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "hw16 API Server"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "tags": [
+                    "hw16"
+                ],
+                "summary": "Get list of products",
+                "description": "Returns list of resource",
+                "operationId": "getProductsList",
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "hw16"
+                ],
+                "summary": "Store a newly created resource in storage.",
+                "description": "Returns resource data",
+                "operationId": "storeProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "hw16"
+                ],
+                "summary": "Display the specified resource",
+                "description": "Returns resource data",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "hw16"
+                ],
+                "summary": "Update the specified resource in storage",
+                "description": "Returns updated resource data",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "hw16"
+                ],
+                "summary": "Remove the specified resource from storage",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "title": "Product",
+                "description": "Product model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 3
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new product",
+                        "type": "string",
+                        "example": "PHP Course"
+                    },
+                    "detail": {
+                        "title": "Detail",
+                        "description": "Detail of the product",
+                        "type": "string",
+                        "example": "For middle users only!"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Product"
+                }
+            },
+            "ProductResource": {
+                "title": "ProductResource",
+                "description": "Product resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProductResource"
+                }
+            },
+            "StoreProductRequest": {
+                "title": "Store Product request",
+                "description": "Store Product request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the product",
+                        "type": "string",
+                        "example": "JavaScript Course"
+                    },
+                    "detail": {
+                        "title": "Detail",
+                        "description": "Description of the product",
+                        "type": "string",
+                        "example": "Helpers for PHP developer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "hw16",
+            "description": "API Endpoints of Projects"
+        }
+    ]
+}
