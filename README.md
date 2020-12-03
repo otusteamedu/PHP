@@ -9,6 +9,5 @@ POST запрос преобразуется в JSON и отправляется
 #### Запуск
 `./run.sh` <br>
 Отдельно контейнеры `docker-compose up -d`<br>
-Отдельно скрипт `php ./receiver/receiver.php`
 #### Остановка и удаление контейнеров
 `docker-compose down`

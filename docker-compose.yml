@@ -8,15 +8,26 @@ services:
       - ./sender:/app
       - ./.env:/app/.env
       - ./docker/tmp:/var/run/
+    depends_on:
+      - rabbitmq
+  receiver:
+    image: php:7.4-cli
+    working_dir: /app
+    volumes:
+      - ./receiver:/app
+      - ./.env:/app/.env
+    depends_on:
+      - rabbitmq
+    command: ["./wait-for-rabbitmq.sh", "${RABBITMQ_DOCKER_HOST}",  "php", "./receiver.php"]
   nginx:
     image: nginx:1.19.0-alpine
     ports:
-      - "80:80"
+      - 80:80
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./sender:/app
       - ./docker/tmp:/var/run/
-    links:
+    depends_on:
       - sender
   rabbitmq:
     image: rabbitmq:3.6.10-management

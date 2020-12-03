@@ -18,7 +18,7 @@ class Receiver
         echo "Подключение.." . PHP_EOL;
         try {
             $connect = new AMQPStreamConnection(
-                $_ENV["RABBITMQ_LOCAL_HOST"],
+                $_ENV["RABBITMQ_DOCKER_HOST"],
                 $_ENV["RABBITMQ_PORT"],
                 $_ENV["RABBITMQ_USER"], $_ENV["RABBITMQ_PASS"]
             );
@@ -48,7 +48,7 @@ class Receiver
             false,
             false,
             function ($msg) {
-                echo PHP_EOL . $msg->body . PHP_EOL;
+                echo $msg->body . PHP_EOL;
             }
         );
 
