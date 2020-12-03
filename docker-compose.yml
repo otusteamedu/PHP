@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: nginx.docker
+    volumes:
+      - ./src:/var/www/hw-otus
+    ports:
+      - "8787:80"  
+  
+  php-fpm:
+    container_name: php-fpm
+    build: 
+      context: ./php-fpm
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./src:/var/www/hw-otus
