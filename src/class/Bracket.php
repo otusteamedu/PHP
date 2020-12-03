@@ -12,6 +12,7 @@ class Bracket {
         header('HTTP/1.1 400 Bad request');
     }
 
+    //вернет тру если примет ))((
     private function validate($brackets) : bool
     {
         if (!empty(trim($brackets['string']))) {
