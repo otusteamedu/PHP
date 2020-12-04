@@ -1,0 +1,15 @@
+form {
+    width: 450px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px #cacaca;
+}
+
+label, .button-box, .msg-box {
+    display: block;
+    margin: 15px;
+}
+
+textarea, input {
+    width: 100%;
+}
