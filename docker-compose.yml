@@ -21,5 +21,15 @@ services:
       - php-fpm
     networks:
       - internal
+  rabbitmq:
+    image: rabbitmq:3.6.10-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASS: ${RABBITMQ_PASS}
+    networks:
+      - internal
 networks:
   internal:
