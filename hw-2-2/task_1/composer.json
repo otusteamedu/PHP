@@ -1,0 +1,19 @@
+{
+    "name": "vmaltsev90/email_check",
+    "description": "Verify email",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vladislav Maltsev",
+            "email": "v.maltsev90@yandex.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Verify\\": "src/"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "^8.5"
+    }
+}
