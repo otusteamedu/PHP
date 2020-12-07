@@ -1,0 +1,4 @@
+INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
+=========================================
+PACKAGE VERSION STATE
+xdebug  3.0.0   stable
