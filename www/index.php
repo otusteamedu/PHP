@@ -12,10 +12,12 @@ define('ROOT', $_SERVER['DOCUMENT_ROOT']);
 
 include_once(ROOT . DS . 'vendor' . DS . 'autoload.php');
 
-//$mongodb = new MongodbDriver();
-//$mongodb->connect('mongodb://test:test@mongodb', 'project');
-//$id = $mongodb->insert('status', ['test' => 111]);
+$mongodb = new MongodbDriver();
+$mongodb->connect('mongodb://test:test@mongodb', 'project');
+$id = $mongodb->insert('status', ['test' => 111]);
 //$mongodb->update('status', $id, ['test' => 'ddd555']);
+var_dump($mongodb->get('status', $id));
+//
 /*$route = new Router();
 
 $route->get('/app', '\Controllers\QueueController@index');

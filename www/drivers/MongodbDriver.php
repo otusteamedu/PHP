@@ -8,7 +8,7 @@ use MongoDB\BSON\ObjectID;
 class MongodbDriver {
     private $mongodb;
 
-    public function connect(string $dsn, string $database) : void
+    public function __construct(string $dsn, string $database) : void
     {
         $this->mongodb = (new Client($dsn, [], [
             'typeMap' => [
@@ -17,6 +17,13 @@ class MongodbDriver {
                 'array' => 'array',
             ]
         ]))->{$database};
+    }
+
+    public function getById(string $collection, string $id) : array
+    {
+        return $this->mongodb->{$collection}->findOne([
+            '_id' => new ObjectID($id)
+        ]);
     }
 
     public function insert(string $collection, array $data) : string
