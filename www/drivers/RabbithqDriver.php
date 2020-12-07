@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class QueueController {
+class RabbithqDriver {
     public function __construct()
     {
     }

@@ -1,11 +1,14 @@
 {
     "name": "root/otus-php",
     "require": {
-        "bramus/router": "^1.5"
+        "bramus/router": "^1.5",
+        "php-amqplib/php-amqplib": ">=2.9.0",
+        "mongodb/mongodb": "^1.8"
     },
     "autoload": {
         "psr-4": {
-            "Controllers\\": "controllers"
+            "Controllers\\": "controllers",
+            "Drivers\\": "drivers"
         }
     }
 }

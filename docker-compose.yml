@@ -10,6 +10,7 @@ services:
       PHP_IDE_CONFIG: "serverName=Docker"
     networks:
       - internal
+
   nginx:
     build:
       context: docker/nginx
@@ -21,15 +22,30 @@ services:
       - php-fpm
     networks:
       - internal
+
   rabbitmq:
     image: rabbitmq:3.6.10-management
     ports:
       - 5672:5672
       - 15672:15672
     environment:
-      RABBITMQ_USER: ${RABBITMQ_USER}
-      RABBITMQ_PASS: ${RABBITMQ_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
     networks:
       - internal
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - './docker/mongodb:/data/db'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    networks:
+      - internal
+
 networks:
   internal:
