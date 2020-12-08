@@ -1,8 +1,9 @@
 <?php
-require '../src/Otus/App.php';
+require '../vendor/autoload.php';
+
+use Otus\App;
 
 try {
-	$_POST = ['string' => '(l)()'];
 	$app = new App($_POST);
 } catch (Exception $e) {
 	echo $e->getMessage();

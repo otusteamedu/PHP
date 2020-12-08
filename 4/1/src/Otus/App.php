@@ -1,5 +1,6 @@
 <?php
 
+namespace Otus;
 
 class App
 {
@@ -34,14 +35,14 @@ class App
 			return false;
 		}
 
-		$this->message = 'The check was successful! String - ' . $this->data;
+		$this->message = 'The check was successful! String - ' . $this->data['string'];
 
 		return true;
 	}
 
 	public function checkEmpty()
 	{
-		if (!empty($this->data)) {
+		if (isset($this->data['string']) && !empty($this->data['string'])) {
 			return true;
 		}
 
