@@ -1,0 +1,19 @@
+{
+    "name": "pivanov/hw8console",
+    "description": "Home work 8. RabbitMQ console app",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Petr Ivanov",
+            "email": "petr.yrs@gmail.com"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^2.12"
+    },
+    "autoload": {
+        "files": ["app/App.php"],
+        "classmap": ["../common/storage/"]
+    }
+}
