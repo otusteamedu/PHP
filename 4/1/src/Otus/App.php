@@ -74,7 +74,7 @@ class App
 					if (array_pop($stack) !== 0) $stack = [];
 					break;
 				default:
-					$stack = [];
+					$stack = ['error'];
 					break(2);
 			}
 		}
