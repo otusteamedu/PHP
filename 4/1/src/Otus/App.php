@@ -4,12 +4,12 @@ namespace Otus;
 
 class App
 {
-	public $data;
+	public string $string;
 	public string $message = 'Error';
 
-	public function __construct($data)
+	public function __construct($string)
 	{
-		$this->data = $data;
+		$this->string = $string;
 
 		if (!$this->verifyString()) {
 			http_response_code(400);
@@ -18,7 +18,7 @@ class App
 		echo $this->message;
 	}
 
-	public function verifyString()
+	public function verifyString(): bool
 	{
 		if (!$this->checkEmpty()) {
 			$this->message = 'This string is empty!';
@@ -35,38 +35,38 @@ class App
 			return false;
 		}
 
-		$this->message = 'The check was successful! String - ' . $this->data['string'];
+		$this->message = 'The check was successful! String - ' . $this->string;
 
 		return true;
 	}
 
-	public function checkEmpty()
+	public function checkEmpty(): bool
 	{
-		if (isset($this->data['string']) && !empty($this->data['string'])) {
+		if (is_string($this->string) && strlen($this->string) > 0) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public function checkCountOfSymbols()
+	public function checkCountOfSymbols(): bool
 	{
-		if (isset($this->data['string']) && strlen($this->data['string']) <= 54 && strlen($this->data['string']) > 0) {
+		if (strlen($this->string) <= 54 && strlen($this->string) > 0) {
 			return true;
 		}
 
 		return false;
 	}
 
-	public function customCheck()
+	public function customCheck(): bool
 	{
-		if (strlen($this->data['string']) % 2 !== 0) {
+		if (strlen($this->string) % 2 !== 0) {
 			return false;
 		}
 
 		$stack = [];
-		for ($i = 0; $i < strlen($this->data['string']); $i++) {
-			switch ($this->data['string'][$i]) {
+		for ($i = 0; $i < strlen($this->string); $i++) {
+			switch ($this->string[$i]) {
 				case '(':
 					array_push($stack, 0);
 					break;

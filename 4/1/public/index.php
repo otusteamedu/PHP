@@ -4,7 +4,12 @@ require '../vendor/autoload.php';
 use Otus\App;
 
 try {
-	$app = new App($_POST);
+	if (isset($_POST['string'])) {
+		$string = $_POST['string'];
+		$app = new App($string);
+	} else {
+		throw new Exception('Передайте строку с помощью post!');
+	}
 } catch (Exception $e) {
 	echo $e->getMessage();
 }
