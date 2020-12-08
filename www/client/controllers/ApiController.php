@@ -15,17 +15,17 @@ class ApiController {
         $this->rabbitmq = new RabbitmqDriver($_ENV['RABBITMQ_HOST'], $_ENV['RABBITMQ_PORT'], $_ENV['RABBITMQ_USER'], $_ENV['RABBITMQ_PASSWORD'], $_ENV['RABBITMQ_QUEUE']);
     }
 
-    public function get(string $id) : void
+    public function get(string $id) : array
     {
-        echo json_encode($this->mongodb->getById($id));
+        return $this->mongodb->getById($id);
     }   
 
-    public function insert() : void
+    public function insert() 
     {
         $id = $this->mongodb->insert(['status' => false]);
         $this->rabbitmq->insert($id);
         $this->rabbitmq->disconnect();
 
-        echo json_encode($this->mongodb->getById($id));
+        return json_encode($this->mongodb->getById($id));
     }
 }

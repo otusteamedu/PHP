@@ -2,21 +2,28 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 use Bramus\Router\Router;
+use Controllers\ApiController;
 
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', $_SERVER['DOCUMENT_ROOT']);
+include_once(__DIR__ . '/vendor/autoload.php');
 
-include_once(ROOT . DS . 'vendor' . DS . 'autoload.php');
+(new Dotenv())->load(__DIR__ . '/.env');
 
-(new Dotenv())->load(ROOT . DS . '.env');
+try {
+    $route = new Router();
+    $api = new ApiController();
 
-$route = new Router();
+    $route->get('/insert', function() use ($api){
+        echo json_encode($api->insert());
+    });
 
-$route->get('/insert', '\Controllers\ApiController@insert');
-$route->get('/get/{id}', '\Controllers\ApiController@get');
+    $route->get('/get/{id}', function(string $id) use ($api){
+        echo json_encode($api->get($id)); 
+    });
 
-$route->run();
-
+    $route->run();
+} catch (Exception $e) {
+   echo json_encode(['error' => 'Выброшено исключение: ' . $e->getMessage() ]);
+}
 
 
 
