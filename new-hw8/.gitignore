@@ -1,0 +1,6 @@
+/.idea
+/vendor
+/config/settings.php
+/logs/workerReceive.log
+/logs/error.log
+/logs/access.log
