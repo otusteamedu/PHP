@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/php-fpm
+    volumes:
+      - ./app:/data/site.default
+      - ./../../logs/sock:/sock
+    networks:
+      - app-network
+
+  balancer:
+    image: nginx
+    ports:
+      - $APP_PORT1:80
+      - $APP_PORT2:443
+    volumes:
+      - ./docker/balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/balancer/mysite.conf:/etc/nginx/conf.d/default.conf
+      - ./../../logs/nginx-log:/var/log/nginx
+    networks:
+      - app-network
+
+  server1:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/nginx
+#    ports:
+#      - 89:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/sock:/sock
+      - ./../../logs/nginx-log:/var/log/nginx
+    networks:
+      - app-network
+
+  server2:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/nginx
+#    ports:
+#      - 88:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/sock:/sock
+      - ./../../logs/nginx-log:/var/log/nginx
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
