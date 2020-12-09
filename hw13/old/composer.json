@@ -1,0 +1,13 @@
+{
+  "name": "ayakovlev/event_system",
+  "description": "Redis system event application",
+  "require": {
+    "ext-json": "*",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "RedisApp\\": "src/"
+    }
+  }
+}
