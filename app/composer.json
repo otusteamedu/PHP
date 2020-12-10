@@ -1,6 +1,7 @@
 {
     "name": "rsm/app",
     "type": "project",
+    "description": "otus",
     "authors": [
         {
             "name": "yessaliyev",
