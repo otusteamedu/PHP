@@ -1,11 +1,9 @@
 <?php
 
-use Symfony\Component\Dotenv\Dotenv;
 use Controllers\RouterController;
 
 include_once(__DIR__ . '/vendor/autoload.php');
-
-(new Dotenv())->load(__DIR__ . '/.env');
+include_once(__DIR__ . '/bootstrap.php');
 
 try {
     (new RouterController())
