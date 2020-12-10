@@ -1,0 +1,17 @@
+{
+    "name": "rsm/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Bracket\\":"src/Bracket"
+        }
+    }
+}

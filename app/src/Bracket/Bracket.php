@@ -1,5 +1,7 @@
 <?php 
 
+namespace Bracket;
+
 class Bracket {
 
     public function check($request) 
