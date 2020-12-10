@@ -1,0 +1,20 @@
+{
+    "name": "alykov/php-cli-rabbitmq",
+    "description": "simple rabbitmq script",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "leffo",
+            "email": "leffalt@gmail.com"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "v2.12.1",
+        "monolog/monolog": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {"AYakovlev\\": "src/"}
+    }
+}
