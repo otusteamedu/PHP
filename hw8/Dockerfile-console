@@ -1,0 +1,17 @@
+FROM php:7.4-cli
+
+RUN apt-get update && apt-get -y install curl git libzip-dev unzip
+
+COPY ./console /usr/src/myapp
+COPY ./common /usr/src/myapp/common
+
+WORKDIR /usr/src/myapp
+
+RUN docker-php-ext-install sockets zip
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
+RUN cd /usr/src/myapp && composer install \
+    && rm -rf /root/.composer/cache
+
+
+CMD [ "php", "./index.php" ]

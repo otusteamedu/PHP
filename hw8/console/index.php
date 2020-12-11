@@ -1,7 +1,7 @@
 <?php
 include 'vendor/autoload.php';
 
-$config = require '../common/config/main.php';
+$config = require './common/config/main.php';
 
 try {
     $app = new App($config);

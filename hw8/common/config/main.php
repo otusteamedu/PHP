@@ -4,7 +4,7 @@ return [
         'class' => 'storage\\RabbitQueue',
         'host'  => 'rabbitmq',
         'port'  => 5672,
-        'user'  => 'guest',
-        'pass'  => 'guest',
+        'user'  => 'rabbituser',
+        'pass'  => 'rabbitpass',
     ],
 ];

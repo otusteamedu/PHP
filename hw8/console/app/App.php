@@ -1,5 +1,7 @@
 <?php
 
+use PhpAmqpLib\Message\AMQPMessage;
+
 class App
 {
     /**
@@ -20,12 +22,13 @@ class App
 
 
     public function run(){
-        $this->queue->recive('test', $this->logger());
+        $this->queue->recive('test', function(AMQPMessage $msg){
+
+            print_r([
+                'message' => $msg->body
+            ]);
+
+        });
     }
 
-    public function logger($msg){
-        print_r([
-            'message' => json_decode($msg)
-        ]);
-    }
 }
