@@ -1,0 +1,16 @@
+{
+    "name": "root/otus-php",
+    "require": {
+        "bramus/router": "^1.5",
+        "php-amqplib/php-amqplib": ">=2.9.0",
+        "mongodb/mongodb": "^1.8",
+        "symfony/dotenv": "^5.2",
+        "webpatser/laravel-uuid": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "server/controllers",
+            "Drivers\\": "server/drivers"
+        }
+    }
+}
