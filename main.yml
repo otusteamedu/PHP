@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Composer update && test
+      run: |
+        composer update
+        vendor/bin/phpunit tests/
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@4.0
+      with:
+        switches: -avzr --delete --exclude="vendor" --exclude=".git"
+        path: ./
+        remote_path: /home/crmit/web
+        remote_host: crmit.ru
+        remote_user: crmit
+        remote_key: ${{ secrets.PRIVATE_KEY }}
+    - name: Update composer on server
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: composer update -d /home/crmit/web
+        host: crmit.ru
+        username: crmit
+        privateKey: ${{ secrets.PRIVATE_KEY }}
