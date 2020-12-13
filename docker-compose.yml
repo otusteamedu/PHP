@@ -6,8 +6,7 @@ services:
       context: ./hw-2-2-php
       dockerfile: php-fpm.docker
     volumes:
-      - ./socket:/var/www/hw-otus/socket/
-      - ./src/server.php:/var/www/hw-otus/server.php
+      - ./app:/var/www/hw-otus
 
   hw-2-2-php-client:
     container_name: hw-2-2-php-client
@@ -15,5 +14,4 @@ services:
       context: ./hw-2-2-php
       dockerfile: php-fpm.docker
     volumes:
-      - ./socket:/var/www/hw-otus/socket/   
-      - ./src/client.php:/var/www/hw-otus/client.php
+      - ./app:/var/www/hw-otus
