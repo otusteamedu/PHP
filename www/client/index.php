@@ -2,8 +2,6 @@
 
 use Controllers\AppController;
 
-include_once(__DIR__ . '/vendor/autoload.php');
-
 try {
     (new AppController())
         ->run();
