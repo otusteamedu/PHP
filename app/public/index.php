@@ -6,7 +6,7 @@ use EmailValidator\EmailValidator;
 
 try {
     $app = new EmailValidator();
-    $app->run();
+    $app->run($_POST);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
