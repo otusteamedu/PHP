@@ -62,7 +62,9 @@ class RabbitQueue implements IQueue
      */
     public function send($queueName, $msg)
     {
-        $this->createQueue($queueName)->basic_publish(new AMQPMessage($msg, ['delivery_mode' => 2]), '', self::EXCHANGE_ROUTING);
+        $this->createQueue($queueName);
+        $msgObj = new AMQPMessage($msg); // , ['delivery_mode' => 2]
+        $this->channel->basic_publish($msgObj, '', self::EXCHANGE_ROUTING);
     }
 
 
@@ -71,23 +73,23 @@ class RabbitQueue implements IQueue
      */
     public function recive($queueName, $callback)
     {
-        $channel = $this->createQueue($queueName);
+        $this->createQueue($queueName);
 
         /**
          * не отправляем новое сообщение на обработчик, пока он
          * не обработал и не подтвердил предыдущее. Вместо этого
          * направляем сообщение на любой свободный обработчик
          */
-        $channel->basic_qos(
+        $this->channel->basic_qos(
             null,   #размер предварительной выборки - размер окна предварительнйо выборки в октетах, null означает “без определённого ограничения”
             1,      #количество предварительных выборок - окна предварительных выборок в рамках целого сообщения
             null    #глобальный - global=null означает, что настройки QoS должны применяться для получателей, global=true означает, что настройки QoS должны применяться к каналу
-            );
+        );
 
-        $channel->basic_consume($queueName, '', false, true, false, false, $callback);
-        while ($channel->is_consuming()) {
-            $channel->wait();
+        $this->channel->basic_consume($queueName, '', false, true, false, false, $callback);
+        while ($this->channel->is_consuming()) {
+            $this->channel->wait();
         }
-        $channel->close();
+        $this->channel->close();
     }
 }

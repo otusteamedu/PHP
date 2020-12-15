@@ -7,6 +7,9 @@ services:
       dockerfile: Dockerfile-web
     ports:
       - 80:8080
+    volumes:
+      - ./web/app:/var/www/html/app
+      - ./common:/var/www/html/common
     depends_on: [rabbit]
 
   console:
@@ -14,6 +17,9 @@ services:
       context: .
       dockerfile: Dockerfile-console
     depends_on: [rabbit]
+    volumes:
+      - ./console/app:/var/www/html/app
+      - ./common:/var/www/html/common
 
   rabbit:
     container_name: rabbitmq
