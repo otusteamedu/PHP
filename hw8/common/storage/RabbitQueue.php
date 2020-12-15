@@ -25,7 +25,17 @@ class RabbitQueue implements IQueue
      */
     public function __construct($credentials)
     {
-        $this->connection = new AMQPStreamConnection($credentials['host'], $credentials['port'], $credentials['user'], $credentials['pass']);
+        $try = 0;
+        Loop:
+        try {
+            $this->connection = new AMQPStreamConnection($credentials['host'], $credentials['port'], $credentials['user'], $credentials['pass']);
+        } catch (Exception $e) {
+            echo "RabbitMQ server not reached. Sleep 2 seconds and try again... \n";
+            sleep(2);
+            $try++;
+            if ($try > 5) throw new \Exception('Cannection to server RabbitMQ cannot be established');
+            goto Loop;
+        }
         $this->channel    = $this->connection->channel();
     }
 
@@ -62,6 +72,11 @@ class RabbitQueue implements IQueue
      */
     public function send($queueName, $msg)
     {
+        echo "Send:\n";
+        print_r([
+            'Queue' => $queueName,
+            'Message' => $msg
+        ]);
         $this->createQueue($queueName);
         $msgObj = new AMQPMessage($msg); // , ['delivery_mode' => 2]
         $this->channel->basic_publish($msgObj, '', self::EXCHANGE_ROUTING);
