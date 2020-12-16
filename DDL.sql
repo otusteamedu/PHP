@@ -26,20 +26,6 @@ CREATE TABLE public."contentAttrType" (
 	CONSTRAINT contentattrtype_un UNIQUE (name)
 );
 
-CREATE TABLE public."contentAttrValues" (
-	id int4 NOT NULL DEFAULT nextval('contentattrvalues_id_seq'::regclass),
-	"idContent" int4 NOT NULL,
-	val_text varchar NULL,
-	idfield int4 NOT NULL,
-	val_date date NULL,
-	val_boolean bool NULL,
-	val_money money NULL,
-	CONSTRAINT contentattrvalues_pk PRIMARY KEY (id),
-	CONSTRAINT contentattrvalues_un UNIQUE ("idContent", idfield),
-	CONSTRAINT contentattrvalues_fk FOREIGN KEY ("idContent") REFERENCES content(id),
-	CONSTRAINT contentattrvalues_fk_1 FOREIGN KEY (idfield) REFERENCES "contentFields"(id)
-);
-
 CREATE TABLE public."contentFields" (
 	id int4 NOT NULL DEFAULT nextval('contentfields_id_seq'::regclass),
 	"name" varchar(255) NOT NULL,
@@ -48,3 +34,21 @@ CREATE TABLE public."contentFields" (
 	CONSTRAINT contentfields_un UNIQUE (name),
 	CONSTRAINT contentfields_fk FOREIGN KEY ("idAttr") REFERENCES "contentAttr"(id)
 );
+
+CREATE TABLE public."contentAttrValues" (
+	id int4 NOT NULL DEFAULT nextval('contentattrvalues_id_seq'::regclass),
+	"idContent" int4 NOT NULL,
+	val_text varchar NULL,
+	idfield int4 NOT NULL,
+	val_date date NULL,
+	val_boolean bool NULL,
+	val_money money NULL,
+	val_int int8 NULL,
+	val_float float8 NULL,
+	CONSTRAINT contentattrvalues_pk PRIMARY KEY (id),
+	CONSTRAINT contentattrvalues_un UNIQUE ("idContent", idfield),
+	CONSTRAINT contentattrvalues_fk FOREIGN KEY ("idContent") REFERENCES content(id),
+	CONSTRAINT contentattrvalues_fk_1 FOREIGN KEY (idfield) REFERENCES "contentFields"(id)
+);
+
+
