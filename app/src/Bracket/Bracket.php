@@ -4,9 +4,9 @@ namespace Bracket;
 
 class Bracket {
 
-    public function check($request) 
+    public function check() 
     {
-        if ($this->validate($request)) {
+        if (self::validate()) {
             header('HTTP/1.1 200 OK');
             return;
         }
@@ -14,18 +14,18 @@ class Bracket {
         header('HTTP/1.1 400 Bad request');
     }
 
-    private function validate($brakets) : bool
+    private static function validate() : bool
     {
     
-        if (empty(trim($brakets['string']))) {
+        if (empty(trim($_POST['string']))) {
             return false;
         }
 
-        if ( (substr($brakets['string'], 0, 1) == ')') || (substr($brakets['string'], -1, 1) == '(') ) {
+        if ( (substr($_POST['string'], 0, 1) == ')') || (substr($_POST['string'], -1, 1) == '(') ) {
             return false;
         }
 
-        foreach (str_split($brakets['string']) as $value) {
+        foreach (str_split($_POST['string']) as $value) {
 
             if ($value == '(') {
                 $arr[] = $value;
