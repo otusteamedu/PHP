@@ -26,9 +26,11 @@ class BracketsValidator
     {
         if ($this->_checkLength() === false || $this->_checkBrackets() === false) {
             header('HTTP/1.1 400 Bad request');
+            echo "string is not valid";
         }
         else {
             header('HTTP/1.1 200 OK');
+            echo "string is OK";
         }
     }
 
