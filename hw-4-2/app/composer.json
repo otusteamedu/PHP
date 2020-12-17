@@ -1,0 +1,15 @@
+{
+    "name": "szelenskiy/socket_test",
+    "authors": [
+        {
+            "name": "Sergey Zelenskiy",
+            "email": "szelenskiy@me.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Socket\\":"src/Socket"
+        }
+    }
+}
