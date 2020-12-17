@@ -5,16 +5,11 @@ namespace Otus;
 class App
 {
 	public string $message = '';
-	public function run ($emails): void
-	{
-		if (!is_array($emails) || empty($emails)){
-			throw new \Exception('Emails array is empty!');
-		}
 
-		foreach ($emails as $email){
-			$this->verifyEmail($email);
-			echo $this->message;
-		}
+	public function __construct()
+	{
+		$config = new Config();
+		$config->get();
 	}
 
 	public function verifyEmail($email): bool
@@ -36,7 +31,6 @@ class App
 			return false;
 		}
 
-		$this->message = 'Email "' . $email . '" - is valid!<br>';
 		return true;
 	}
 }
