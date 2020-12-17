@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  php-server:
+    container_name: php-server
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./app:/var/www/socket.test
+  php-client:
+    container_name: php-client
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./app:/var/www/socket.test
