@@ -1,1 +1,0 @@
-php ./public/app.php server
