@@ -1,0 +1,19 @@
+version: '3.8'
+services:  
+  hw-2-2-php-server:
+    container_name: hw-2-2-php-server
+    build: 
+      context: ./hw-2-2-php
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./app:/var/www/hw-otus
+      - ./sock:/sock
+
+  hw-2-2-php-client:
+    container_name: hw-2-2-php-client
+    build: 
+      context: ./hw-2-2-php
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./app:/var/www/hw-otus
+      - ./sock:/sock
