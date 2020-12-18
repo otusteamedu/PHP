@@ -4,16 +4,38 @@ namespace Socket;
 
 use Exception;
 
+/**
+ * Class UnixSocket
+ *
+ * @package Socket
+ */
 abstract class UnixSocket
 {
+    /**
+     * @var resource|\Socket
+     */
     protected $_socket;
 
+    /**
+     * @var string
+     */
     private string $_configPath = '../config.ini';
 
+    /**
+     * @var array
+     */
     protected array $_config;
 
+    /**
+     * @return mixed
+     */
     abstract public function start ();
 
+    /**
+     * UnixSocket constructor.
+     *
+     * @throws Exception
+     */
     public function __construct ()
     {
         $socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
@@ -26,11 +48,21 @@ abstract class UnixSocket
         $this->_setConfig();
     }
 
+    /**
+     * @param $fileName
+     *
+     * @return string
+     */
     protected function _getSockFilePath ($fileName): string
     {
         return '../' . $fileName;
     }
 
+    /**
+     * @param string $fileName
+     *
+     * @throws Exception
+     */
     protected function _bindSock (string $fileName): void
     {
         $sock = $this->_getSockFilePath($fileName);
@@ -42,6 +74,9 @@ abstract class UnixSocket
         }
     }
 
+    /**
+     * @param string $filePath
+     */
     protected function _unlinkSock (string $filePath): void
     {
         if (file_exists($filePath)) {
@@ -49,6 +84,9 @@ abstract class UnixSocket
         }
     }
 
+    /**
+     *
+     */
     private function _setConfig (): void
     {
         $this->_config = parse_ini_file($this->_configPath);

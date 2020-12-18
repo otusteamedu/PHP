@@ -4,8 +4,16 @@ namespace Socket;
 
 use Exception;
 
+/**
+ * Class UnixSocketClient
+ *
+ * @package Socket
+ */
 class UnixSocketClient extends UnixSocket
 {
+    /**
+     * @throws Exception
+     */
     public function start (): void
     {
         $this->_bindSock($this->_config['client_filename']);
