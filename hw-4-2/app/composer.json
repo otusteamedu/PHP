@@ -9,6 +9,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
+            "App\\":"src/App",
             "Socket\\":"src/Socket"
         }
     }

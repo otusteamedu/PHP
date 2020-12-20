@@ -5,29 +5,32 @@ namespace Socket;
 use Exception;
 
 /**
- * Class UnixSocketClient
+ * Class SocketClient
  *
  * @package Socket
  */
-class UnixSocketClient extends UnixSocket
+class SocketClient
 {
     /**
+     * @param SocketFile $clientSocketFile
+     * @param SocketFile $serverSocketFile
+     *
      * @throws Exception
      */
-    public function start (): void
+    public static function run (SocketFile $clientSocketFile, SocketFile $serverSocketFile): void
     {
-        $this->_bindSock($this->_config['client_filename']);
+        $socket = SocketCreator::make();
 
-        if (!socket_set_block($this->_socket)) {
-            throw new Exception('Unable to set blocking mode for socket');
+        $clientSocketFilePath = $clientSocketFile->getFilePath();
+
+        if (!socket_bind($socket, $clientSocketFilePath)) {
+            throw new Exception("Unable to bind to {$clientSocketFilePath}");
         }
-
-        $serverSideSock = $this->_getSockFilePath($this->_config['server_filename']);
 
         $msg = "Hello World";
         $len = strlen($msg);
 
-        $bytesSent = socket_sendto($this->_socket, $msg, $len, 0, $serverSideSock);
+        $bytesSent = socket_sendto($socket, $msg, $len, 0, $serverSocketFile->getFilePath());
         if ($bytesSent === -1) {
             throw new Exception('An error occured while sending to the socket');
         }
@@ -35,14 +38,14 @@ class UnixSocketClient extends UnixSocket
             throw new Exception("$bytesSent bytes have been sent instead of the $len bytes expected");
         }
 
-        if (!socket_set_block($this->_socket)) {
+        if (!socket_set_block($socket)) {
             throw new Exception('Unable to set blocking mode for socket');
         }
 
         $buf  = '';
         $from = '';
 
-        $bytesReceived = socket_recvfrom($this->_socket, $buf, 65536, 0, $from);
+        $bytesReceived = socket_recvfrom($socket, $buf, 65536, 0, $from);
 
         if ($bytesReceived === -1) {
             throw new Exception('An error occured while receiving from the socket');
@@ -50,8 +53,8 @@ class UnixSocketClient extends UnixSocket
 
         echo "Received $buf from $from\n";
 
-        socket_close($this->_socket);
-        $this->_unlinkSock($this->_getSockFilePath($this->_config['client_filename']));
+        socket_close($socket);
+        $clientSocketFile->unlink();
 
         echo "Client exits\n";
     }

@@ -2,13 +2,13 @@
 
 require '../vendor/autoload.php';
 
-use Socket\App;
+use App\App;
 
 $mode = $argv[1] ?? '';
 
 try {
-    $app = new App($mode);
-    $app->run();
+    $app = new App();
+    $app->run($mode);
 } catch (Exception $e) {
-    echo $e->getMessage().PHP_EOL;
+    echo $e->getMessage() . PHP_EOL;
 }

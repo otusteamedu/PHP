@@ -5,21 +5,30 @@ namespace Socket;
 use Exception;
 
 /**
- * Class UnixSocketServer
+ * Class SocketServer
  *
  * @package Socket
  */
-class UnixSocketServer extends UnixSocket
+class SocketServer
 {
     /**
+     * @param SocketFile $serverSocketFile
+     *
      * @throws Exception
      */
-    public function start (): void
+    public static function run (SocketFile $serverSocketFile): void
     {
-        $this->_bindSock($this->_config['server_filename']);
+        $socket = SocketCreator::make();
+
+        $serverSocketFilePath = $serverSocketFile->getFilePath();
+        $serverSocketFile->unlink();
+
+        if (!socket_bind($socket, $serverSocketFilePath)) {
+            throw new Exception("Unable to bind to {$serverSocketFilePath}");
+        }
 
         while (true) {
-            if (!socket_set_block($this->_socket)) {
+            if (!socket_set_block($socket)) {
                 throw new Exception('Unable to set blocking mode for socket');
             }
 
@@ -28,7 +37,7 @@ class UnixSocketServer extends UnixSocket
 
             echo "Ready to receive messages...\n";
 
-            $bytesReceived = socket_recvfrom($this->_socket, $buf, 65536, 0, $from);
+            $bytesReceived = socket_recvfrom($socket, $buf, 65536, 0, $from);
 
             if ($bytesReceived === -1) {
                 throw new Exception('An error occured while receiving from the socket');
@@ -38,13 +47,13 @@ class UnixSocketServer extends UnixSocket
 
             $buf .= "->Response";
 
-            if (!socket_set_nonblock($this->_socket)) {
+            if (!socket_set_nonblock($socket)) {
                 throw new Exception('Unable to set nonblocking mode for socket');
             }
 
             $len = strlen($buf);
 
-            $bytesSent = socket_sendto($this->_socket, $buf, $len, 0, $from);
+            $bytesSent = socket_sendto($socket, $buf, $len, 0, $from);
             if ($bytesSent === -1) {
                 throw new Exception('An error occured while sending to the socket');
             }
