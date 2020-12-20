@@ -9,7 +9,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Validators\\":"src/Validators"
+            "App\\":"src/App",
+            "BracketsString\\":"src/BracketsString"
         }
     }
 }

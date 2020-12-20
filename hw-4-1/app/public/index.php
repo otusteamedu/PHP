@@ -2,12 +2,12 @@
 
 require '../vendor/autoload.php';
 
-use Validators\BracketsValidator;
-
-$string = $_POST['string'] ?? '';
+use App\App;
 
 try {
-    (new BracketsValidator($string))->validate();
-} catch (Exception $e) {
+    $app = new App();
+    $app->run();
+}
+catch(Exception $e){
 
 }

@@ -1,22 +1,27 @@
 <?php
 
-namespace Validators;
+namespace BracketsString;
 
-class BracketsValidator
+/**
+ * Class BracketsStringValidator
+ *
+ * @package BracketsString
+ */
+class BracketsStringValidator
 {
     /**
-     * @var string
+     * @var BracketsString
      */
-    private string $_string;
+    private BracketsString $bracketsString;
 
     /**
-     * BracketsValidator constructor.
+     * BracketsStringValidator constructor.
      *
-     * @param string $string
+     * @param BracketsString $bracketsString
      */
-    public function __construct (string $string)
+    public function __construct(BracketsString $bracketsString)
     {
-        $this->_string = trim($string);
+        $this->bracketsString = $bracketsString;
     }
 
     /**
@@ -24,7 +29,7 @@ class BracketsValidator
      */
     public function validate (): void
     {
-        if ($this->_checkLength() === false || $this->_checkBrackets() === false) {
+        if ($this->checkLength() === false || $this->checkBrackets() === false) {
             header('HTTP/1.1 400 Bad request');
             echo "string is not valid";
         }
@@ -39,9 +44,9 @@ class BracketsValidator
      *
      * @return bool
      */
-    private function _checkLength (): bool
+    private function checkLength (): bool
     {
-        if (strlen($this->_string) < 2) {
+        if (strlen($this->bracketsString->value) < 2) {
             return false;
         }
 
@@ -53,19 +58,19 @@ class BracketsValidator
      *
      * @return bool
      */
-    private function _checkBrackets (): bool
+    private function checkBrackets (): bool
     {
-        if (strlen(str_replace(['(', ')'], '', $this->_string)) > 0) {
+        if (strlen(str_replace(['(', ')'], '', $this->bracketsString->value)) > 0) {
             return false;
         }
 
-        if ((substr($this->_string, 0, 1) === ')') || (substr($this->_string, -1, 1) === '(')) {
+        if ((substr($this->bracketsString->value, 0, 1) === ')') || (substr($this->bracketsString->value, -1, 1) === '(')) {
             return false;
         }
 
         $bracketsContainer = [];
 
-        foreach (str_split($this->_string) as $bracket) {
+        foreach (str_split($this->bracketsString->value) as $bracket) {
             if ($bracket === '(') {
                 $bracketsContainer[] = $bracket;
                 continue;
@@ -76,6 +81,10 @@ class BracketsValidator
             }
 
             array_pop($bracketsContainer);
+        }
+
+        if (!empty($bracketsContainer)) {
+            return false;
         }
 
         return true;
