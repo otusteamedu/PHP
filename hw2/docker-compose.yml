@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./nginx/Dockerfile
+      dockerfile: docker/nginx/Dockerfile
     volumes:
       - ./logs:/var/log/nginx
     ports:
@@ -14,7 +14,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./php-fpm/Dockerfile
+      dockerfile: docker/php-fpm/Dockerfile
     volumes:
       - ./src:/var/www/html
       - ./php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
@@ -23,7 +23,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: ./php-fpm/Dockerfile
+      dockerfile: docker/php-fpm/Dockerfile
     volumes:
       - ./src:/var/www/html
       - ./php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
