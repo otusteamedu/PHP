@@ -1,0 +1,82 @@
+// create database
+
+CREATE DATABASE cinema;
+
+
+// users
+
+-- public.users definition
+
+-- Drop table
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users (
+	id serial NOT NULL,
+	username varchar(50) NOT NULL,
+	"password" varchar(50) NOT NULL,
+	email varchar(255) NOT NULL,
+	created_on timestamp NOT NULL,
+	last_login timestamp NULL,
+	CONSTRAINT users_email_key UNIQUE (email),
+	CONSTRAINT users_pkey PRIMARY KEY (id)
+);
+
+
+// movies
+
+-- public.movies definition
+
+-- Drop table
+
+-- DROP TABLE public.movies;
+
+CREATE TABLE public.movies (
+	id int4 NOT NULL,
+	"name" varchar(500) NOT NULL DEFAULT ''::character varying,
+	cost_rental float4 NOT NULL DEFAULT 0,
+	views_num int4 NOT NULL DEFAULT 0,
+	hall_id int4 NOT NULL,
+	started_at timestamp NULL,
+	finished_at timestamp NULL,
+	CONSTRAINT movies_pk PRIMARY KEY (id)
+);
+
+
+-- public.movies foreign keys
+
+ALTER TABLE public.movies ADD CONSTRAINT movies_halls_id_fk FOREIGN KEY (hall_id) REFERENCES halls(id);
+
+// halls
+
+-- public.halls definition
+
+-- Drop table
+
+-- DROP TABLE public.halls;
+
+CREATE TABLE public.halls (
+	id int4 NOT NULL,
+	capacity int4 NOT NULL,
+	CONSTRAINT halls_pk PRIMARY KEY (id)
+);
+
+// movies_users
+
+-- public.moves_users definition
+
+-- Drop table
+
+-- DROP TABLE public.moves_users;
+
+CREATE TABLE public.moves_users (
+	move_id int4 NOT NULL,
+	user_id int4 NOT NULL,
+	CONSTRAINT moves_users_pk PRIMARY KEY (move_id, user_id)
+);
+
+
+-- public.moves_users foreign keys
+
+ALTER TABLE public.moves_users ADD CONSTRAINT moves_users_movies_id_fk FOREIGN KEY (move_id) REFERENCES movies(id);
+ALTER TABLE public.moves_users ADD CONSTRAINT moves_users_users_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
