@@ -19,7 +19,7 @@ services:
       - ./src:/var/www/html
       - ./php-fpm/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
-      - "9000:9000"
+      - "9009:9009"
   client:
     build:
       context: .
