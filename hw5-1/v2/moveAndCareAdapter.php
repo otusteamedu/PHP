@@ -13,7 +13,7 @@ class MoveAndCareAdapter
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::BASEURL . $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.self::key));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
@@ -27,7 +27,7 @@ class MoveAndCareAdapter
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.self::key));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
@@ -42,7 +42,7 @@ class MoveAndCareAdapter
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.self::key));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
