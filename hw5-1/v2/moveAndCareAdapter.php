@@ -2,18 +2,16 @@
 
 class MoveAndCareAdapter
 {
-    private $baseUrl;
-    private $key;
+    public const BASEURL = 'https://move-and-care.api-us1.com/api/3/';
+    public const KEY = 'ba02c260195344a08a64d294d8d5825a9804ed613f2d82743b82a109970d3477cc61ecee';
 
     function __construct() {
-        $this->baseUrl = 'https://move-and-care.api-us1.com/api/3/';
-        $this->key = 'ba02c260195344a08a64d294d8d5825a9804ed613f2d82743b82a109970d3477cc61ecee';
     }
 
     private function getContents($url) {
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_URL, self::BASEURL . $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -25,7 +23,7 @@ class MoveAndCareAdapter
 
     private function setContent($url, $params) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_URL, self::BASEURL . $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
@@ -39,7 +37,7 @@ class MoveAndCareAdapter
 
     private function putContent($url, $params) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_URL, self::BASEURL . $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
