@@ -1,0 +1,30 @@
+---
+ip: "192.168.10.11"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: hw-1-1-homestead
+
+folders:
+    - map: ~/otus/PHP-repo/hw-1-1/task1_2/code
+      to: /home/vagrant/code
+
+sites:
+    - map: homestead.hw.1.1
+      to: /home/vagrant/code
+
+databases:
+    - homestead
+
+features:
+    - mysql: true
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
