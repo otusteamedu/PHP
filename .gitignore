@@ -6,8 +6,4 @@
 vendor/
 logs/
 
-hw-1-1/
-hw-1-2/
-hw-1-3/
-hw-2-1
-#hw-2-2
+Homestead.yaml
