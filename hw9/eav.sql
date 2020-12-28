@@ -60,11 +60,10 @@ insert into attribute_values(movie_id, attribute_id, value_date) values (3,3,'20
 insert into attribute_values(movie_id, attribute_id, value_bool) values (3,4, true);
 insert into attribute_values(movie_id, attribute_id, value_number) values (3,5, 70000000);
 
-
-select movies.name, a.name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
-    inner join attribute_values av on movies.id = av.movie_id
-    inner join attributes a on av.attribute_id = a.id
-    inner join attribute_types t on a.type_id = t.id
+-- select movies.name, a.name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
+--     inner join attribute_values av on movies.id = av.movie_id
+--     inner join attributes a on av.attribute_id = a.id
+--     inner join attribute_types t on a.type_id = t.id
 
 create or replace view otus_view as
     select movies.name as movie_name, a.name as attr_name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
