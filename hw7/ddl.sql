@@ -51,7 +51,38 @@ create table if not exists tickets (
 create index tickets_number_index on tickets (schedule_id, moviegoer_id, number);
 
 
+insert into movies(name, duration, age_limit, description)  select 'tenet-1' || random()::text, 5400, 16, random()::text from generate_series(1,10);
 
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+   RETURNS INT AS
+$$
+BEGIN
+   RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ language 'plpgsql' STRICT;
 
+insert into halls(number, max_moviegoers,floor) select  'num-' || random_between(1,100), 50,random_between(1,5) from generate_series(1, 4);
 
+insert into schedule(movie_id, hall_id, start_time) select m.id,h.id,random_between(1609132499,1609391699) from movies m, halls h
 
+insert into moviegoers(hash_code) select md5(random()::text) from generate_series(1,10);
+
+insert into tickets(schedule_id, moviegoer_id, number)
+    select sh.id, mg.id, random_between(10000,500000) from
+        (select id from schedule where id = random_between(1,40)) sh,
+        (select id from moviegoers where id = random_between(1, 10)) mg;
+
+insert into tickets(schedule_id, moviegoer_id, number)
+    select sh.id, mg.id, random_between(10000,500000) from
+        (select id from schedule where id = random_between(1,40)) sh,
+        (select id from moviegoers where id = random_between(1, 10)) mg;
+
+insert into tickets(schedule_id, moviegoer_id, number)
+    select sh.id, mg.id, random_between(10000,500000) from
+        (select id from schedule where id = random_between(1,40)) sh,
+        (select id from moviegoers where id = random_between(1, 10)) mg;
+
+insert into tickets(schedule_id, moviegoer_id, number)
+    select sh.id, mg.id, random_between(10000,500000) from
+        (select id from schedule where id = random_between(1,40)) sh,
+        (select id from moviegoers where id = random_between(1, 10)) mg;
