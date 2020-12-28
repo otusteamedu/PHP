@@ -6,17 +6,23 @@ create table if not exists movies (
 	description text
 );
 
+create index movies_index on movies(name);
+
 create table if not exists attribute_types (
 	id serial primary key,
-	name char(60) not null,
+	name char(60) unique not null,
 	comment char(250)
 );
 
+create index attribute_types_index on attribute_types(name);
+
 create table if not exists attributes (
 	id serial primary key,
-	name char(60) not null,
+	name char(60) unique not null,
 	type_id int references attribute_types
 );
+
+create index attributes_index on attributes(name)
 
 create table if not exists attribute_values (
 	id serial primary key,
@@ -28,6 +34,10 @@ create table if not exists attribute_values (
     value_bool bool
 );
 
+create index attribute_values_index_text on attribute_values(value_text);
+create index attribute_values_index_date on attribute_values(value_date);
+create index attribute_values_index_number on attribute_values(value_number);
+create index attribute_values_index_bool on attribute_values(value_bool);
 
 insert into movies(name,duration,age_limit,description) values ('tenet-1',5400,16,'some_text');
 insert into movies(name,duration,age_limit,description) values ('tenet-2',5400,16,'some_text');
@@ -60,6 +70,7 @@ insert into attribute_values(movie_id, attribute_id, value_date) values (3,3,'20
 insert into attribute_values(movie_id, attribute_id, value_bool) values (3,4, true);
 insert into attribute_values(movie_id, attribute_id, value_number) values (3,5, 70000000);
 
+
 -- select movies.name, a.name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
 --     inner join attribute_values av on movies.id = av.movie_id
 --     inner join attributes a on av.attribute_id = a.id
@@ -70,3 +81,7 @@ create or replace view otus_view as
     inner join attribute_values av on movies.id = av.movie_id
     inner join attributes a on av.attribute_id = a.id
     inner join attribute_types t on a.type_id = t.id;
+
+
+
+
