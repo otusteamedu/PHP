@@ -15,7 +15,7 @@ services:
       - ./redis_data:/data
 
   php-fpm:
-#    container_name: work-php-fpm
+    #    container_name: work-php-fpm
     build: .
     ports:
       - 9001:9000

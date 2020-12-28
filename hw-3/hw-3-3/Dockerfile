@@ -27,8 +27,6 @@ RUN apt-get update && apt-get install git -y
 RUN apt-get update && apt-get install -y zlib1g-dev \
     && docker-php-ext-install zip
 
-RUN docker-php-ext-install pdo pdo_mysql exif
-
 RUN apt-get -yqq update
 RUN apt-get -yqq install exiftool
 RUN docker-php-ext-configure exif
@@ -36,6 +34,11 @@ RUN docker-php-ext-install exif
 RUN docker-php-ext-enable exif
 
 RUN pecl install redis && docker-php-ext-enable redis
+
+RUN --name my-memcache -d memcached
+RUN pecl install pecl_http && docker-php-ext-enable http
+RUN docker-php-ext-install pgsql pdo pdo_pgsql
+
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
