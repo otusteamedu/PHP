@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS events (
                                       hall_id smallint NOT NULL REFERENCES halls,
                                       film_id integer NOT NULL REFERENCES films,
                                       datetime timestamp NOT NULL,
+                                      price numeric(6, 2) NULL CHECK (price >= 0),
                                       UNIQUE (hall_id, datetime)
 );
 
@@ -52,7 +53,6 @@ CREATE TABLE IF NOT EXISTS orders (
                                       order_status_id integer NOT NULL REFERENCES order_statuses,
                                       user_id integer NULL REFERENCES users,
                                       datetime timestamp NOT NULL,
-                                      price real NULL CHECK (price >= 0),
                                       UNIQUE (event_id, place_id)
 );
 
@@ -85,24 +85,24 @@ INSERT INTO places (id, number, hall_id) VALUES (9, 1, 3);
 INSERT INTO places (id, number, hall_id) VALUES (10, 2, 3);
 INSERT INTO places (id, number, hall_id) VALUES (11, 3, 3);
 
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (1, 1, 1, '2021-01-13 17:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (2, 1, 2, '2021-01-13 19:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (3, 1, 3, '2021-01-14 17:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (4, 1, 4, '2021-01-14 19:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (5, 2, 5, '2021-01-13 17:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (6, 2, 1, '2021-01-13 19:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (7, 2, 2, '2021-01-14 19:00');
-INSERT INTO events (id, hall_id, film_id, datetime) VALUES (8, 3, 3, '2021-01-14 19:00');
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (1, 1, 1, '2021-01-13 17:00', 200.10);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (2, 1, 2, '2021-01-13 19:00', 300.50);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (3, 1, 3, '2021-01-14 17:00', 200.50);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (4, 1, 4, '2021-01-14 19:00', 300.00);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (5, 2, 5, '2021-01-13 17:00', 300.00);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (6, 2, 1, '2021-01-13 19:00', 250.50);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (7, 2, 2, '2021-01-14 19:00', 250.00);
+INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (8, 3, 3, '2021-01-14 19:00', 250.20);
 
 INSERT INTO order_statuses (id, title) VALUES (1, 'booked');
 INSERT INTO order_statuses (id, title) VALUES (2, 'paid');
 INSERT INTO order_statuses (id, title) VALUES (3, 'canceled');
 
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, price)
-VALUES (1, 1, 1, 1, NULL, '2020-11-01 13:00', 200.50);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, price)
-VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00', 200.53);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, price)
-VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00', 209.50);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, price)
-VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00', 200);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
+VALUES (1, 1, 1, 2, NULL, '2020-11-01 13:00');
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
+VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00');
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
+VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00');
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
+VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00');
