@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS halls (
+    id SERIAL PRIMARY KEY,
+    title varchar(50) UNIQUE NOT NULL
+);

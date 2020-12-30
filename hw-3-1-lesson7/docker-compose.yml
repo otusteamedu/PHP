@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  db:
+    build:
+      context: ./docker
+#    restart: always
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./../logs/dbdata/postgresql:/var/lib/postgresql
+      - ./../logs/postgresql-log:/var/log/postgresql
