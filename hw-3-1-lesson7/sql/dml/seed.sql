@@ -8,8 +8,9 @@ DROP TABLE IF EXISTS films;
 
 CREATE TABLE IF NOT EXISTS films (
                                      id SERIAL PRIMARY KEY,
-                                     title varchar(50) UNIQUE NOT NULL
-);
+                                     title varchar(50) UNIQUE NOT NULL,
+                                     duration_in_minutes smallint NOT NULL
+    );
 
 CREATE TABLE IF NOT EXISTS users (
                                      id SERIAL PRIMARY KEY,
@@ -56,11 +57,11 @@ CREATE TABLE IF NOT EXISTS orders (
                                       UNIQUE (event_id, place_id)
 );
 
-INSERT INTO films (id, title) VALUES (1, 'Rocky');
-INSERT INTO films (id, title) VALUES (2, 'Rocky 2');
-INSERT INTO films (id, title) VALUES (3, 'Rocky 3');
-INSERT INTO films (id, title) VALUES (4, 'Terminator');
-INSERT INTO films (id, title) VALUES (5, 'Terminator 2');
+INSERT INTO films (id, title, duration_in_minutes) VALUES (1, 'Rocky', 103);
+INSERT INTO films (id, title, duration_in_minutes) VALUES (2, 'Rocky 2', 107);
+INSERT INTO films (id, title, duration_in_minutes) VALUES (3, 'Rocky 3', 97);
+INSERT INTO films (id, title, duration_in_minutes) VALUES (4, 'Terminator', 105);
+INSERT INTO films (id, title, duration_in_minutes) VALUES (5, 'Terminator 2', 102);
 
 INSERT INTO users (id, username, password,email, created_on, last_login)
 VALUES (1, 'user1', 'password1', 'user1@gmail.com', '2020-01-04', '2020-12-01');
