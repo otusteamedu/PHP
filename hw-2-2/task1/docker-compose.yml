@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/php-fpm
+    image: hw-2-2-task-1/getmxrr
+    volumes:
+      - ./app:/data

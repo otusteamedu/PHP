@@ -1,0 +1,17 @@
+{
+  "name": "repetitor202/hw_2_2/task2",
+  "description": "Homework 2.2 task2",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Viktar Akulenka",
+      "email": "repetitor202@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+}

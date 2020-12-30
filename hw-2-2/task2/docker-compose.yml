@@ -1,0 +1,126 @@
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: docker/nginx-balancer
+    image: hw-2-2-task-2/nginx-balancer
+    ports:
+      - $BALANCER_PORT:80
+    volumes:
+      - ./docker/nginx-balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ./../../logs/nginx-balancer-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.2"
+
+  server1-unix-socket:
+    build:
+      context: docker/nginx-node-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/nginx-node-unix-socket
+    volumes:
+      - ./docker/nginx-node-unix-socket/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/sock1:/sock
+      - ./../../logs/nginx-node1-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.3"
+
+  app1-unix-socket:
+    build:
+      context: docker/php-fpm-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/php-fpm-unix-socket
+    volumes:
+      - ./app:/data/site.default
+      - ./../../logs/sock1:/sock
+
+  server2-unix-socket:
+    build:
+      context: docker/nginx-node-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/nginx-node-unix-socket
+    volumes:
+      - ./docker/nginx-node-unix-socket/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/sock2:/sock
+      - ./../../logs/nginx-node2-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.4"
+
+  app2-unix-socket:
+    build:
+      context: docker/php-fpm-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/php-fpm-unix-socket
+    volumes:
+      - ./app:/data/site.default
+      - ./../../logs/sock2:/sock
+
+  server3-unix-socket:
+    build:
+      context: docker/nginx-node-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/nginx-node-unix-socket
+    volumes:
+      - ./docker/nginx-node-unix-socket/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/sock3:/sock
+      - ./../../logs/nginx-node3-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.5"
+
+  app3-unix-socket:
+    build:
+      context: docker/php-fpm-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-2-2-task-2/php-fpm-unix-socket
+    volumes:
+      - ./app:/data/site.default
+      - ./../../logs/sock3:/sock
+
+  server4-web-socket:
+    build:
+      context: docker/nginx-node-web-socket
+    image: hw-2-2-task-2/nginx-node-web-socket
+    volumes:
+      - ./docker/nginx-node-web-socket/default.conf:/etc/nginx/sites-enabled/default
+      - ./../../logs/nginx-node4-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.6"
+      node4-network:
+        ipv4_address: "${NODE4_NETWORK_ID}.2"
+
+  app4-web-socket:
+    build:
+      context: docker/php-fpm-web-socket
+    image: hw-2-2-task-2/php-fpm-web-socket
+    volumes:
+      - ./app:/data/site.default
+    networks:
+      node4-network:
+        ipv4_address: "${NODE4_NETWORK_ID}.3"
+
+networks:
+  balancer-network:
+    ipam:
+      config:
+        - subnet: "${BALANCER_NETWORK_ID}.0/24"
+  node4-network:
+    ipam:
+      config:
+        - subnet: "${NODE4_NETWORK_ID}.0/24"

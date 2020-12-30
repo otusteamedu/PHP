@@ -5,3 +5,5 @@
 
 vendor/
 logs/
+
+Homestead.yaml
