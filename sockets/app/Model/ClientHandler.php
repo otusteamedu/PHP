@@ -29,7 +29,7 @@ class ClientHandler
             $this->logger->writeln("Send command {$cmd}");
             $socket->write($cmd);
             $result = $socket->read(2048);
-            var_dump($result);
+            $this->logger->writeln("Response: ".print_r($result, true));
         } else {
             $this->logger->writeln("Unknown server response {$result}");
         }
