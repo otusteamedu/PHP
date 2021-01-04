@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use App\Core\ConfigIni;
+use App\Core\ConsoleApplication;
+
+$configFiles = [
+    __DIR__ . '/config/main.ini',
+];
+$config = (new ConfigIni())->loadFile($configFiles);
+$app = new ConsoleApplication($config);
+$app->run();
