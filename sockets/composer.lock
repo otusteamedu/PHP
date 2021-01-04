@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0071b921a60762d4ea3020e2e2abcd89",
+    "content-hash": "33064aff558ea8664926533f09362042",
     "packages": [
         {
             "name": "clue/socket-raw",
-            "version": "v1.4.1",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/php-socket-raw.git",
-                "reference": "00ab102d061f6cdb895e79dd4d69140c7bda31cc"
+                "reference": "089ffa05fa75bdc4e919aac44bbc435b3ef640ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/php-socket-raw/zipball/00ab102d061f6cdb895e79dd4d69140c7bda31cc",
-                "reference": "00ab102d061f6cdb895e79dd4d69140c7bda31cc",
+                "url": "https://api.github.com/repos/clue/php-socket-raw/zipball/089ffa05fa75bdc4e919aac44bbc435b3ef640ef",
+                "reference": "089ffa05fa75bdc4e919aac44bbc435b3ef640ef",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "php": ">=5.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.0 || ^6.0 || ^5.2 || ^4.8.35"
+                "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.35"
             },
             "type": "library",
             "autoload": {
@@ -43,7 +43,7 @@
                     "email": "christian@clue.engineering"
                 }
             ],
-            "description": "Simple and lightweight OOP wrapper for PHP's low-level sockets extension (ext-sockets)",
+            "description": "Simple and lightweight OOP wrapper for PHP's low-level sockets extension (ext-sockets).",
             "homepage": "https://github.com/clue/php-socket-raw",
             "keywords": [
                 "Socket",
@@ -59,27 +59,37 @@
                 "udp",
                 "unix"
             ],
-            "time": "2019-10-28T12:32:07+00:00"
+            "funding": [
+                {
+                    "url": "https://clue.engineering/support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-27T13:16:18+00:00"
         },
         {
             "name": "hassankhan/config",
-            "version": "v2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hassankhan/config.git",
-                "reference": "16fa4d3320ac9bb611dda0c8ea980edb58d227c9"
+                "reference": "62b0fd17540136efa94ab6b39f04044c6dc5e4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hassankhan/config/zipball/16fa4d3320ac9bb611dda0c8ea980edb58d227c9",
-                "reference": "16fa4d3320ac9bb611dda0c8ea980edb58d227c9",
+                "url": "https://api.github.com/repos/hassankhan/config/zipball/62b0fd17540136efa94ab6b39f04044c6dc5e4a7",
+                "reference": "62b0fd17540136efa94ab6b39f04044c6dc5e4a7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8 || ~5.7 || ~6.5 || ~7.5",
+                "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.5 || ~7.5",
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "~2.2",
                 "symfony/yaml": "~3.4"
@@ -117,7 +127,7 @@
                 "yaml",
                 "yml"
             ],
-            "time": "2019-09-01T15:51:42+00:00"
+            "time": "2020-12-07T16:04:15+00:00"
         }
     ],
     "packages-dev": [],
@@ -126,7 +136,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "~7.4"
+    },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
 }

@@ -10,3 +10,4 @@ RUN apk update \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" \
           sockets
+

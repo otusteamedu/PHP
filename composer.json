@@ -1,6 +1,0 @@
-{
-    "require": {
-        "clue/socket-raw": "^1.4",
-        "hassankhan/config": "^2.1"
-    }
-}
