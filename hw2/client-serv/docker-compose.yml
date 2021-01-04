@@ -1,0 +1,31 @@
+version: '3.8'
+
+volumes:
+  tmp:
+
+services:
+  composer:
+    build:
+      context: ./docker/composer
+    volumes:
+      - ./:/data/client-serv
+
+  server:
+    build:
+      context: ./docker/php
+      args:
+        TYPE: "server"
+    volumes:
+      - ./:/data/client-serv
+    depends_on: # ожидать запуска компосера
+      - composer
+
+  client:
+    build:
+      context: ./docker/php
+      args:
+        TYPE: "client"
+    volumes:
+      - ./:/data/client-serv
+    depends_on: # ожидать запуска сервера
+      - server

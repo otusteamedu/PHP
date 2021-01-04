@@ -1,0 +1,16 @@
+{
+    "name": "ikmiuq/client-server-chat",
+    "description": "create easy client-server chat from UNIX socket",
+    "authors": [
+        {
+            "name": "Irina Malovastaja",
+            "email": "irina.malovastaja@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ClientServer\\" : "src/ClientServer"
+        }
+    }
+}
