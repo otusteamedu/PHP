@@ -116,6 +116,7 @@ class ElasticSearchDAO extends NoSQLDAO
         if (!empty($result['acknowledged'])) {
             return true;
         }
+        return false;
     }
 
 
