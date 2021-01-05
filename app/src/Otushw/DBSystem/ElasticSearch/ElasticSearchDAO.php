@@ -120,13 +120,20 @@ class ElasticSearchDAO extends NoSQLDAO
     }
 
 
-    public function getIndex()
+    public function existIndex()
     {
         $params = [
-            'index' => [ 'video' ]
+            'index' => [$this->indexName]
         ];
-        $response = $this->client->indices()->getSettings($params);
-        var_dump($response);
+        try {
+            $response = $this->client->indices()->getSettings($params);
+        } catch (Exception $e) {
+            $response = $this->processException($e);
+        }
+        if (isset($response['error'])) {
+            return false;
+        }
+        return true;
     }
 
     private function index(array $source)
@@ -138,7 +145,7 @@ class ElasticSearchDAO extends NoSQLDAO
 
         foreach ($this->struct as $item) {
             if (!isset($source[$item])) {
-                throw new Exception($item . 'is missing');
+                throw new Exception($item . ' is missing');
             }
             if ($item == 'id') {
                 $params[$item] = $source[$item];
