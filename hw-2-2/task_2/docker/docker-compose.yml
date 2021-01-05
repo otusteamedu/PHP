@@ -1,0 +1,70 @@
+version: '3'
+services:
+  php1:
+    build:
+      context: php
+      args:
+          USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock1:/sock
+  php2:
+    build:
+      context: php
+      args:
+          USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock2:/sock
+  php3:
+    build:
+      context: php
+      args:
+          USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock3:/sock
+  nginx1:
+    build:
+      context: ./nginx
+      args:
+        USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock1:/sock
+      - ./nginx/log1:/var/log/nginx
+    links:
+      - php1
+  nginx2:
+    build:
+      context: ./nginx
+      args:
+        USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock2:/sock
+      - ./nginx/log2:/var/log/nginx
+    links:
+      - php2
+  nginx3:
+    build:
+      context: ./nginx
+      args:
+        USER_UID: "3000"
+    volumes:
+      - ../app:/var/www/html
+      - ./sock3:/sock
+      - ./nginx/log3:/var/log/nginx
+    links:
+      - php3
+  nginx-upstream:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx_balancer/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx_balancer/log:/var/log/nginx
+    depends_on:
+      - nginx1
+      - nginx2
+      - nginx3
