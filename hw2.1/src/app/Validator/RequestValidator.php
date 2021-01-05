@@ -14,11 +14,15 @@ class RequestValidator implements Validator
      */
     public function isValid($val): bool
     {
-        if ($val || $this->checkLength($val) || $this->checkBrackets($val)) {
-            return true;
+        if ($this->isOnlyBrackets($val) && !$this->checkBrackets($val)) {
+            return false;
         }
 
-        return false;
+        if (!$this->checkLength($val)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -27,7 +31,7 @@ class RequestValidator implements Validator
      */
     private function checkLength($val): bool
     {
-        return strlen($val) <= self::LENGTH_STRING;
+        return strlen($val) >= self::LENGTH_STRING;
     }
 
     /**
@@ -55,5 +59,14 @@ class RequestValidator implements Validator
         }
 
         return false;
+    }
+
+    /**
+     * @param string $val
+     * @return bool
+     */
+    private function isOnlyBrackets(string  $val): bool
+    {
+        return preg_match('/^[(,)]*$/', $val);
     }
 }

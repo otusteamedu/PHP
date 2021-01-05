@@ -1,0 +1,21 @@
+{
+    "name": "alexdontsov/hw2",
+    "description": "Home work 2",
+    "minimum-stability": "dev",
+    "type": "project",
+    "require": {
+        "monolog/monolog": "^2.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Dontsov",
+            "email": "dcorpsoftware@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    }
+}
