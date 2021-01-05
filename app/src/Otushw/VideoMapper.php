@@ -49,14 +49,7 @@ class VideoMapper
      */
     public function insert(array $source)
     {
-        $result = $this->db->create([
-            $source['id'],
-            $source['title'],
-            $source['viewCount'],
-            $source['likeCount'],
-            $source['dislikeCount'],
-            $source['commentCount'],
-        ]);
+        $result = $this->db->create($source);
         if (!empty($result)) {
             return new Video(
                 $source['id'],
@@ -80,11 +73,11 @@ class VideoMapper
         return $this->db->update(
             $video->getId(),
             [
-                $video->getTitle(),
-                $video->getViewCount(),
-                $video->getLikeCount(),
-                $video->getDisLikeCount(),
-                $video->getCommentCount()
+                'title' => $video->getTitle(),
+                'viewCount' => $video->getViewCount(),
+                'likeCount' => $video->getLikeCount(),
+                'disLikeCount' => $video->getDisLikeCount(),
+                'commentCount' => $video->getCommentCount()
             ]
         );
     }
