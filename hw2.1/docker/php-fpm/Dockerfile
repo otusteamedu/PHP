@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y curl zlib1g-dev libzip-dev libpng-dev l
     autoconf g++ make zip unzip git libpq-dev
 
 RUN pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo_pgsql gd zip json curl bcmath mbstring
 
