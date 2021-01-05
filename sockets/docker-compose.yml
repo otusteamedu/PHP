@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  php-client:
+    build:
+      context: env/docker/php
+    volumes:
+      - ./:/var/www/html
+  php-server:
+    build:
+      context: env/docker/php
+    volumes:
+      - ./:/var/www/html

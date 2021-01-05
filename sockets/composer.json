@@ -1,0 +1,19 @@
+{
+  "name": "max/repo",
+  "authors": [
+    {
+      "name": "Max IV.",
+      "email": "gm_max@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\" : "app\\"
+    }
+  },
+  "require": {
+    "php": "~7.4",
+    "clue/socket-raw": "^1.4",
+    "hassankhan/config": "^2.1"
+  }
+}
