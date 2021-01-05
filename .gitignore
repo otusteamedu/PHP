@@ -1,11 +1,17 @@
-vendor/
-.idea/
+hw-2-2/task_1/vendor/
 
-task_1/app/composer.lock
+hw-2-2/task_1/composer.lock
 
-task_1/docker/sock/docker.sock
-task_1/nginx/log/
+hw-2-2/task_2/docker/sock1/
 
-task_2/docker/sock/php-socket.sock
+hw-2-2/task_2/docker/sock2/
 
-task_2/app/composer.lock
+hw-2-2/task_2/docker/sock3/
+
+hw-2-2/task_2/docker/nginx_balancer/log/
+
+hw-2-2/task_2/docker/nginx/log1/
+
+hw-2-2/task_2/docker/nginx/log2/
+
+hw-2-2/task_2/docker/nginx/log3/
