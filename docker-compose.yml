@@ -9,36 +9,25 @@ services:
     environment:
       - discovery.type=single-node
 
+#  mongo:
+#    build:
+#      context: ./docker/mongodb
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: example
+
   php:
     build:
       context: ./docker/php
-      args:
-        UID: "3000"
     volumes:
       - ./app:/var/www/public_html
       - ./docker/sock:/sock
-
-  web:
-    build:
-      context: ./docker/nginx
-      args:
-        UID: "3000"
-    ports:
-      - 8081:80
-    depends_on:
-      - php
-    volumes:
-      - ./app:/var/www/public_html
-      - ./docker/sock:/sock
-    links:
-      - php
 
   composer:
     build:
       context: ./docker/composer
     depends_on:
       - php
-      - web
     volumes:
       - ./app:/var/www/public_html
 
