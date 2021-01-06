@@ -3,11 +3,11 @@
 
 namespace Otushw\DBSystem\Mongo;
 
-use Otushw\DBSystem\IndexDTO;
+use Otushw\DBSystem\DocumentDTO;
 
-class VideoIndexDTO extends IndexDTO
+class VideoDocumentDTO extends DocumentDTO
 {
-    const INDEX_STRUCT = [
+    const DOCUMENT_STRUCT = [
         'id' => ['bsonType' => 'string'],
         'title' => ['bsonType' => 'string'],
         'viewCount' => [
@@ -28,15 +28,15 @@ class VideoIndexDTO extends IndexDTO
         ],
     ];
 
-    const INDEX_NAME = 'video';
+    const DOCUMENT_NAME = 'video';
 
-    public function getIndexStruct()
+    public function getDocumentStruct()
     {
-        return self::INDEX_STRUCT;
+        return self::DOCUMENT_STRUCT;
     }
 
-    public function getIndexName()
+    public function getDocumentName()
     {
-        return self::INDEX_NAME;
+        return self::DOCUMENT_NAME;
     }
 }
