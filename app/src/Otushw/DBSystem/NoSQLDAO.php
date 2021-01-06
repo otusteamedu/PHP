@@ -40,4 +40,19 @@ abstract class NoSQLDAO
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
+
+    public function getItems($limit = 10, $offset = 0): array
+    {
+        return [];
+    }
+
+    public function getCount(): int
+    {
+        return 0;
+    }
+
+    public function getSumField($fieldName)
+    {
+        return 0;
+    }
 }

@@ -9,7 +9,7 @@ use Exception;
 class Youtube
 {
     const URL_API = 'https://www.googleapis.com/youtube/v3';
-    const MAX_NUMBER_VIDEOS = 50;
+    const MAX_NUMBER_VIDEOS = 2;
 
     private $channelId;
     private $apiKey;
@@ -62,12 +62,12 @@ class Youtube
         $url = $this->generateURL('videos', $params);
         $response = $this->request($url);
         if (empty($response['items'])) {
-            throw new Exception('1111YouTube returned an unsupported data structure.');
+            throw new Exception('YouTube returned an unsupported data structure.');
         }
         $response = $response['items'][0];
         foreach (['snippet', 'statistics'] as $item) {
             if (empty($response[$item])) {
-                throw new Exception('22222YouTube returned an unsupported data structure.');
+                throw new Exception('YouTube returned an unsupported data structure.');
             }
         }
         return [
@@ -75,7 +75,7 @@ class Youtube
             'title' => $response['snippet']['title'],
             'viewCount' => $response['statistics']['viewCount'],
             'likeCount' => $response['statistics']['likeCount'],
-            'dislikeCount' => $response['statistics']['dislikeCount'],
+            'disLikeCount' => $response['statistics']['dislikeCount'],
             'commentCount' => $response['statistics']['commentCount'],
         ];
     }

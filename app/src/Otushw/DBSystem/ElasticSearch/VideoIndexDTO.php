@@ -12,7 +12,7 @@ class VideoIndexDTO extends IndexDTO
         'title' => ['type' => 'text'],
         'viewCount' => ['type' => 'integer'],
         'likeCount' => ['type' => 'integer'],
-        'dislikeCount' => ['type' => 'integer'],
+        'disLikeCount' => ['type' => 'integer'],
         'commentCount' => ['type' => 'integer'],
     ];
 

@@ -8,6 +8,8 @@ use Otushw\DBSystem\NoSQLDAO;
 
 class VideoMapper
 {
+    const SIZE_BUTCH = 3;
+
     /**
      * @var NoSQLDAO
      */
@@ -35,7 +37,7 @@ class VideoMapper
                 $result['title'],
                 $result['viewCount'],
                 $result['likeCount'],
-                $result['dislikeCount'],
+                $result['disLikeCount'],
                 $result['commentCount']
             );
         }
@@ -56,7 +58,7 @@ class VideoMapper
                 $source['title'],
                 $source['viewCount'],
                 $source['likeCount'],
-                $source['dislikeCount'],
+                $source['disLikeCount'],
                 $source['commentCount']
             );
         }
@@ -90,5 +92,26 @@ class VideoMapper
     public function delete(Video $video): bool
     {
         return $this->db->delete($video->getId());
+    }
+
+    public function getAll()
+    {
+        $result = [];
+        $offset = 0;
+        while ($rows = $this->db->getItems(self::SIZE_BUTCH, $offset)) {
+            $result = array_merge($result, $rows);
+            $offset += self::SIZE_BUTCH;
+        }
+        return $result;
+    }
+
+    public function getSumLikeCount()
+    {
+        return $this->db->getSumField('likeCount');
+    }
+
+    public function getSumDisLikeCount()
+    {
+        return $this->db->getSumField('disLikeCount');
     }
 }

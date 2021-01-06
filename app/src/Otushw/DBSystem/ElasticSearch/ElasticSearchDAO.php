@@ -37,6 +37,90 @@ class ElasticSearchDAO extends NoSQLDAO
         return false;
     }
 
+    /**
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getItems($limit = 10, $offset = 0): array
+    {
+        $params = [
+            'index' => $this->indexName,
+            'size' => $limit,
+            'from' => $offset,
+        ];
+        $response = $this->client->search($params);
+        if (empty($response['hits'])) {
+            throw new Exception('Can not get Items');
+        }
+        if (empty($response['hits']['hits'])) {
+            return [];
+        }
+        $result = [];
+        foreach ($response['hits']['hits'] as $key => $row) {
+            foreach ($this->struct as $item) {
+                if ($item == 'id') {
+                    $result[$key]['id'] = $row['_id'];
+                } else {
+                    $result[$key][$item] = $row['_source'][$item];
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public function getCount(): int
+    {
+        $params = [
+            'index' => $this->indexName,
+        ];
+        try {
+            $response = $this->client->count($params);
+        } catch (Exception $e) {
+            $response = $this->processException($e);
+        }
+        if (empty($response['count'])) {
+            throw new Exception('Does not return count from index Video');
+        }
+        return $response['count'];
+    }
+
+    public function getSumField($fieldName)
+    {
+        $params = [
+            'index' => $this->indexName,
+            'size' => 0,
+            'body' => [
+                'aggs' => [
+                    $fieldName => [
+                        'sum' => ['field' => $fieldName]
+                    ]
+                ]
+            ]
+        ];
+        try {
+            $response = $this->client->search($params);
+        } catch (Exception $e) {
+            $response = $this->processException($e);
+        }
+        if (empty($response)) {
+            throw new Exception('Response is empty.');
+        }
+        if (empty($response['aggregations'])) {
+            throw new Exception('Response has not aggregations.');
+        }
+        if (empty($response['aggregations'][$fieldName])) {
+            throw new Exception('Aggregations has not ' . $fieldName. '.');
+        }
+        return $response['aggregations'][$fieldName]['value'];
+    }
+
     public function read($id): array
     {
         $params = [
@@ -108,7 +192,8 @@ class ElasticSearchDAO extends NoSQLDAO
             'index' => $this->indexName,
             'body' => [
                 'mappings' => [
-                    'properties' => $this->index->getIndexStruct()
+                    'properties' => $this->index->getIndexStruct(),
+                    'dynamic' => 'strict'
                 ]
             ]
         ];
