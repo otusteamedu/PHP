@@ -3,16 +3,20 @@
 
 namespace Otushw\DBSystem;
 
-use Otushw\DBSystem\IndexDTO;
+use Otushw\DBSystem\DocumentDTO;
 
 
 abstract class NoSQLDAO
 {
-    protected $index;
+    protected $doc;
+    protected $struct;
+    protected $documentName;
 
-    public function __construct(IndexDTO $index)
+    public function __construct(DocumentDTO $doc)
     {
-        $this->index = $index;
+        $this->doc = $doc;
+        $this->struct = array_keys($doc->getDocumentStruct());
+        $this->documentName = $doc->getDocumentName();
     }
 
     public function create(array $source):bool

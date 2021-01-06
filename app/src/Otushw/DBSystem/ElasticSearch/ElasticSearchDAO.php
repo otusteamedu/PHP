@@ -5,27 +5,27 @@ namespace Otushw\DBSystem\ElasticSearch;
 
 use Elasticsearch\ClientBuilder;
 use Otushw\DBSystem\NoSQLDAO;
-use Otushw\DBSystem\IndexDTO;
+use Otushw\DBSystem\DocumentDTO;
 use Exception;
 
 class ElasticSearchDAO extends NoSQLDAO
 {
     private $client;
-    private $struct;
-    private $indexName;
+//    private $struct;
+//    private $indexName;
 
 
-    public function __construct(IndexDTO $index)
+    public function __construct(DocumentDTO $doc)
     {
-        parent::__construct($index);
+        parent::__construct($doc);
 
         $clientBuilder = ClientBuilder::create();
         $clientBuilder->setHosts([$_ENV['DB_HOST']]);
         $this->client = $clientBuilder->build();
 
-        $this->struct = array_keys($this->index->getIndexStruct());
-
-        $this->indexName = $this->index->getIndexName();
+//        $this->struct = array_keys($this->index->getIndexStruct());
+//
+//        $this->indexName = $this->index->getIndexName();
     }
 
     public function create(array $source): bool
@@ -47,7 +47,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function getItems($limit = 10, $offset = 0): array
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'size' => $limit,
             'from' => $offset,
         ];
@@ -78,7 +78,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function getCount(): int
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
         ];
         try {
             $response = $this->client->count($params);
@@ -94,7 +94,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function getSumField($fieldName)
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'size' => 0,
             'body' => [
                 'aggs' => [
@@ -124,7 +124,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function read($id): array
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'id'    => $id
         ];
         try {
@@ -172,7 +172,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function delete($id): bool
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'id'    => $id
         ];
         try {
@@ -189,10 +189,10 @@ class ElasticSearchDAO extends NoSQLDAO
     public function createIndex()
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'body' => [
                 'mappings' => [
-                    'properties' => $this->index->getIndexStruct(),
+                    'properties' => $this->doc->getDocumentStruct(),
                     'dynamic' => 'strict'
                 ]
             ]
@@ -208,7 +208,7 @@ class ElasticSearchDAO extends NoSQLDAO
     public function existIndex()
     {
         $params = [
-            'index' => [$this->indexName]
+            'index' => [$this->documentName]
         ];
         try {
             $response = $this->client->indices()->getSettings($params);
@@ -224,7 +224,7 @@ class ElasticSearchDAO extends NoSQLDAO
     private function index(array $source)
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => $this->documentName,
             'body' => []
         ];
 

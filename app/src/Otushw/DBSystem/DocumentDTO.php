@@ -4,14 +4,14 @@
 namespace Otushw\DBSystem;
 
 
-abstract class IndexDTO
+abstract class DocumentDTO
 {
     const INDEX = [];
 
     /**
      * @return array
      */
-    public function getIndexStruct()
+    public function getDocumentStruct()
     {
         return self::INDEX;
     }
@@ -19,7 +19,7 @@ abstract class IndexDTO
     /**
      * @return string
      */
-    public function getIndexName() {
+    public function getDocumentName() {
         return '';
     }
 }
