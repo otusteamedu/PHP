@@ -19,14 +19,20 @@ create table if not exists halls(
 -- поиск будет проходить в основном по номеру зала
 create index halls_number_index on halls (number);
 
+create table if not exists movigoer_types (
+    id serial primary key,
+    name char(60)
+);
+
 create table if not exists schedule (
 	id serial primary key,
 	movie_id integer references movies,
 	hall_id integer references halls,
+	moviegoer_type_id integer references movigoer_types,
+	price float not null check ( price >= 0 ),
 	start_time integer not null, --unix_timestamp буду юзать
 	unique (hall_id, start_time) -- комбинация hall_id и start_time должна быть уникальной
 );
-
 
 create index schedule_index on schedule (movie_id, hall_id, start_time);
 
@@ -50,7 +56,6 @@ create table if not exists tickets (
 
 create index tickets_number_index on tickets (schedule_id, moviegoer_id, number);
 
-
 insert into movies(name, duration, age_limit, description)  select 'tenet-1' || random()::text, 5400, 16, random()::text from generate_series(1,10);
 
 CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
@@ -63,7 +68,9 @@ $$ language 'plpgsql' STRICT;
 
 insert into halls(number, max_moviegoers,floor) select  'num-' || random_between(1,100), 50,random_between(1,5) from generate_series(1, 4);
 
-insert into schedule(movie_id, hall_id, start_time) select m.id,h.id,random_between(1609132499,1609391699) from movies m, halls h
+insert into movigoer_types(name) values ('детский'), ('студенческий'), ('взрослый');
+
+insert into schedule(movie_id, hall_id, start_time, moviegoer_type_id,price) select m.id,h.id,random_between(1609132499,1609391699), mt.id, random_between(500,2000) from movies m, halls h, movigoer_types mt;
 
 insert into moviegoers(hash_code) select md5(random()::text) from generate_series(1,10);
 

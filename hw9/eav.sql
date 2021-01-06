@@ -46,29 +46,36 @@ insert into movies(name,duration,age_limit,description) values ('tenet-3',5400,1
 insert into attribute_types(name) values ('текст');
 insert into attribute_types(name) values ('дата');
 insert into attribute_types(name) values ('логическое значение');
-insert into attribute_types(name) values ('число');
+insert into attribute_types(name) values ('целое число');
+insert into attribute_types(name) values ('плавающее число');
 
 insert into attributes(name,type_id) values ('cюжет', 1);
 insert into attributes(name,type_id) values ('рецензия', 1);
 insert into attributes(name,type_id) values ('дата выхода', 2);
 insert into attributes(name,type_id) values ('премия', 3); -- премия есть/нет
 insert into attributes(name,type_id) values ('сбор', 4);
+insert into attributes(name,type_id) values ('рейтинг', 5);
 
 insert into attribute_values(movie_id, attribute_id, value_text) values (1,1,'сюжет tenet-1');
 insert into attribute_values(movie_id, attribute_id, value_text) values (1,2,'рецензия tenet-1');
 insert into attribute_values(movie_id, attribute_id, value_date) values (1,3,'2021-05-10');
+insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.1);
+
 
 insert into attribute_values(movie_id, attribute_id, value_text) values (2,1,'сюжет tenet-2');
 insert into attribute_values(movie_id, attribute_id, value_text) values (2,2,'рецензия tenet-2');
 insert into attribute_values(movie_id, attribute_id, value_date) values (2,3,'2020-11-10');
 insert into attribute_values(movie_id, attribute_id, value_bool) values (2,4, true);
 insert into attribute_values(movie_id, attribute_id, value_number) values (2,5, 70000000);
+insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.3);
 
 insert into attribute_values(movie_id, attribute_id, value_text) values (3,1,'сюжет tenet-3');
 insert into attribute_values(movie_id, attribute_id, value_text) values (3,2,'рецензия tenet-3');
 insert into attribute_values(movie_id, attribute_id, value_date) values (3,3,'2020-08-10');
 insert into attribute_values(movie_id, attribute_id, value_bool) values (3,4, true);
 insert into attribute_values(movie_id, attribute_id, value_number) values (3,5, 70000000);
+insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.7);
+
 
 
 -- select movies.name, a.name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
