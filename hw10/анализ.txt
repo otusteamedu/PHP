@@ -1,0 +1,198 @@
+6 запросов в базу
+
+1. select * from schedule where hall_id = 2 and movie_id = 2;
+2. select * from tickets where schedule_id = 500 order by id desc;
+3. select * from schedule where hall_id = 4 and moviegoer_type_id = 1 order by movie_id
+
+4. select count(movie_id) as counter,name from movies
+        left join schedule s on movies.id = s.movie_id
+        left join tickets t on s.id = t.schedule_id
+    where t.id is not null
+    group by movie_id,name order by counter desc
+
+5. select * from halls
+        left join schedule s on halls.id = s.hall_id
+        left join movigoer_types mt on mt.id = s.moviegoer_type_id
+    where moviegoer_type_id = 2
+
+6. select count(moviegoer_type_id) from tickets
+        inner join schedule s on s.id = tickets.schedule_id
+        inner join movigoer_types mt on mt.id = s.moviegoer_type_id
+        inner join halls h on h.id = s.hall_id
+    where moviegoer_type_id = 1 and hall_id = 2 group by moviegoer_type_id    
+
+
+Заполнил таблицу schedule через insert_into_schedule.sql
+
+Заполнил таблицу tickets через insert_into_tickets.sql
+
+Запросы с индексом
+
+1. Пробуем простой 1-й запрос 
+    
+    explain select * from schedule where hall_id = 2 and movie_id = 2
+
+    +------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                    |
+    +------------------------------------------------------------------------------+
+    |Bitmap Heap Scan on schedule  (cost=10.71..89.27 rows=237 width=28)           |
+    |  Recheck Cond: ((movie_id = 2) AND (hall_id = 2))                            |
+    |  ->  Bitmap Index Scan on schedule_index  (cost=0.00..10.66 rows=237 width=0)|
+    |        Index Cond: ((movie_id = 2) AND (hall_id = 2))                        |
+    +------------------------------------------------------------------------------+
+
+2. Запрос 2
+
+explain select * from tickets where schedule_id = 500 order by id desc;
+
++--------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                  |
++--------------------------------------------------------------------------------------------+
+|Sort  (cost=24.51..24.53 rows=10 width=200)                                                 |
+|  Sort Key: id DESC                                                                         |
+|  ->  Index Scan using tickets_number_index on tickets  (cost=0.42..24.34 rows=10 width=200)|
+|        Index Cond: (schedule_id = 500)                                                     |
++--------------------------------------------------------------------------------------------+
+
+3. Запрос 3 
+
+explain select * from schedule where hall_id = 4 and moviegoer_type_id = 1 order by movie_id
+
++------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                            |
++------------------------------------------------------------------------------------------------------+
+|Sort  (cost=205.86..207.99 rows=851 width=28)                                                         |
+|  Sort Key: movie_id                                                                                  |
+|  ->  Bitmap Heap Scan on schedule  (cost=51.48..164.45 rows=851 width=28)                            |
+|        Recheck Cond: (hall_id = 4)                                                                   |
+|        Filter: (moviegoer_type_id = 1)                                                               |
+|        ->  Bitmap Index Scan on schedule_hall_id_start_time_key  (cost=0.00..51.27 rows=2531 width=0)|
+|              Index Cond: (hall_id = 4)                                                               |
++------------------------------------------------------------------------------------------------------+
+
+4. Запрос 4
+
+explain
+select count(movie_id) as counter, name
+from movies
+         left join schedule s on movies.id = s.movie_id
+         left join tickets t on s.id = t.schedule_id
+where t.id is not null
+group by movie_id, name
+order by counter desc;
+
++---------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                             |
++---------------------------------------------------------------------------------------+
+|Sort  (cost=5566.85..5568.60 rows=700 width=1036)                                      |
+|  Sort Key: (count(s.movie_id)) DESC                                                   |
+|  ->  HashAggregate  (cost=5526.77..5533.77 rows=700 width=1036)                       |
+|        Group Key: s.movie_id, movies.name                                             |
+|        ->  Hash Join  (cost=314.37..4767.47 rows=101240 width=1028)                   |
+|              Hash Cond: (s.movie_id = movies.id)                                      |
+|              ->  Hash Join  (cost=302.79..4474.06 rows=101240 width=4)                |
+|                    Hash Cond: (t.schedule_id = s.id)                                  |
+|                    ->  Seq Scan on tickets t  (cost=0.00..3905.40 rows=101240 width=4)|
+|                          Filter: (id IS NOT NULL)                                     |
++---------------------------------------------------------------------------------------+
+
+
+5. Запрос 5 
+
+explain
+select * from halls
+        left join schedule s on halls.id = s.hall_id
+        left join movigoer_types mt on mt.id = s.moviegoer_type_id
+    where moviegoer_type_id = 2;
+
++---------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                               |
++---------------------------------------------------------------------------------------------------------+
+|Hash Left Join  (cost=42.25..297.73 rows=3291 width=324)                                                 |
+|  Hash Cond: (s.moviegoer_type_id = mt.id)                                                               |
+|  ->  Hash Join  (cost=34.08..244.30 rows=3291 width=76)                                                 |
+|        Hash Cond: (s.hall_id = halls.id)                                                                |
+|        ->  Seq Scan on schedule s  (cost=0.00..201.55 rows=3291 width=28)                               |
+|              Filter: (moviegoer_type_id = 2)                                                            |
+|        ->  Hash  (cost=20.70..20.70 rows=1070 width=48)                                                 |
+|              ->  Seq Scan on halls  (cost=0.00..20.70 rows=1070 width=48)                               |
+|  ->  Hash  (cost=8.17..8.17 rows=1 width=248)                                                           |
+|        ->  Index Scan using movigoer_types_pkey on movigoer_types mt  (cost=0.15..8.17 rows=1 width=248)|
++---------------------------------------------------------------------------------------------------------+
+
+
+6. Запрос 6 
+
+explain
+select count(moviegoer_type_id) from tickets
+        inner join schedule s on s.id = tickets.schedule_id
+        inner join movigoer_types mt on mt.id = s.moviegoer_type_id
+        inner join halls h on h.id = s.hall_id
+    where moviegoer_type_id = 1 and hall_id = 2 group by moviegoer_type_id
+
++------------------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                                        |
++------------------------------------------------------------------------------------------------------------------+
+|GroupAggregate  (cost=175.68..3316.96 rows=3 width=12)                                                            |
+|  Group Key: s.moviegoer_type_id                                                                                  |
+|  ->  Nested Loop  (cost=175.68..3274.38 rows=8510 width=4)                                                       |
+|        ->  Index Only Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=4)                         |
+|              Index Cond: (id = 2)                                                                                |
+|        ->  Nested Loop  (cost=175.52..3181.11 rows=8510 width=8)                                                 |
+|              ->  Index Only Scan using movigoer_types_pkey on movigoer_types mt  (cost=0.15..8.17 rows=1 width=4)|
+|                    Index Cond: (id = 1)                                                                          |
+|              ->  Hash Join  (cost=175.38..3087.84 rows=8510 width=8)                                             |
+|                    Hash Cond: (tickets.schedule_id = s.id)                                                       |
++------------------------------------------------------------------------------------------------------------------+
+
+
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+
+Запросы без индексов
+
+то что заметил: использования индексов в нужных местах, помогает снизить cost. Так же что я не знал, это то что когда проставляется foreign_key
+он индексируется.
+
+К примеру взял запрос 2 и 6
+
+Запрос 2
+Без индекса
++-----------------------------------------------------------------+
+|QUERY PLAN                                                       |
++-----------------------------------------------------------------+
+|Sort  (cost=4163.67..4163.69 rows=10 width=200)                  |
+|  Sort Key: id DESC                                              |
+|  ->  Seq Scan on tickets  (cost=0.00..4163.50 rows=10 width=200)|
+|        Filter: (schedule_id = 500)                              |
++-----------------------------------------------------------------+
+
+с индексом
+|Sort  (cost=24.51..24.53 rows=10 width=200)                                                 
+|Index Scan using tickets_number_index on tickets  (cost=0.42..24.34 rows=10 width=200)|        
+
+Запрос 6, 
+убрал только один индекс
+
++------------------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                                        |
++------------------------------------------------------------------------------------------------------------------+
+|GroupAggregate  (cost=237.80..4642.88 rows=3 width=12)                                                            |
+|  Group Key: s.moviegoer_type_id                                                                                  |
+|  ->  Nested Loop  (cost=237.80..4600.30 rows=8510 width=4)                                                       |
+|        ->  Index Only Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=4)                         |
+|              Index Cond: (id = 2)                                                                                |
+|        ->  Nested Loop  (cost=237.64..4507.03 rows=8510 width=8)                                                 |
+|              ->  Index Only Scan using movigoer_types_pkey on movigoer_types mt  (cost=0.15..8.17 rows=1 width=4)|
+|                    Index Cond: (id = 1)                                                                          |
+|              ->  Hash Join  (cost=237.50..4413.76 rows=8510 width=8)                                             |
+|                    Hash Cond: (tickets.schedule_id = s.id)                                                       |
+
+
+с индексом 
+
+GroupAggregate  (cost=175.68..3316.96 rows=3 width=12)                                                           
+Nested Loop  (cost=175.68..3274.38 rows=8510 width=4)                                                       
+Nested Loop  (cost=175.52..3181.11 rows=8510 width=8)                                                 
+Hash Join  (cost=175.38..3087.84 rows=8510 width=8)                                             
+Hash Cond: (tickets.schedule_id = s.id)  
