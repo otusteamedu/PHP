@@ -12,5 +12,9 @@
 	"psr-4": {
 	      "RoistatToActiveCampaign\\" : "src/RoistatToActiveCampaign"
 	    }
-    }
+    },
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*"
+  }
 }

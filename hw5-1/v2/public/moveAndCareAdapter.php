@@ -2,53 +2,98 @@
 
 class MoveAndCareAdapter
 {
-    public const BASEURL = 'https://move-and-care.api-us1.com/api/3/';
-    public const KEY = 'ba02c260195344a08a64d294d8d5825a9804ed613f2d82743b82a109970d3477cc61ecee';
-
-    use curlConnector;
+    private $baseUrl;
+    private $key;
 
     function __construct() {
+        $this->baseUrl = 'https://move-and-care.api-us1.com/api/3/';
+        $this->key = 'ba02c260195344a08a64d294d8d5825a9804ed613f2d82743b82a109970d3477cc61ecee';
     }
 
+    private function getContents($url) {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($output,1);
+    }
+
+    private function setContent($url, $params) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($output,1);
+    }
+
+    private function putContent($url, $params) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Api-Token: '.$this->key));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($output,1);
+    }
+
+
+
     public function getDeals($date, $offset = 0) {
-        $url = self::BASEURL . 'deals?';
+        $url = 'deals?';
         $parameters = array(
                 'filters' => array(
                     'updated_after' => $date,
+//                    'nextdate_range' => 'upcoming'
                 ),
                 'offset' => isset($_GET['offset']) ? $_GET['offset'] : 0,
                 'limit'  => 20,
         );
 
-        $deals = $this->getContent($url . http_build_query($parameters), array('Api-Token: ' . self::KEY));
+        $deals = $this->getContents( $url . http_build_query($parameters));
 
         return $deals;
     }
 
     public function searchDeal($phone) {
-        $url = self::BASEURL . 'deals?search=' . $phone;
+        $url = 'deals?search=' . $phone;
 
-        $deals = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $deals = $this->getContents( $url );
 
         return $deals;
     }
 
     public function getDealContact($dealId) {
-        $url = self::BASEURL . 'deals/'.$dealId.'/contact?';
-        $contact = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'deals/'.$dealId.'/contact?';
+        $contact = $this->getContents( $url);
         return $contact;
     }
 
     public function getDealStage($dealId) {
-        $url = self::BASEURL . 'deals/'.$dealId.'/stage?';
-        $stage = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'deals/'.$dealId.'/stage?';
+        $stage = $this->getContents( $url );
 
         return $stage;
     }
 
     public function getDealCustomFields($dealId) {
-        $url = self::BASEURL . 'deals/'.$dealId.'/dealCustomFieldData?';
-        $fields = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'deals/'.$dealId.'/dealCustomFieldData?';
+        $fields = $this->getContents( $url );
 
         return $fields;
     }
@@ -56,7 +101,7 @@ class MoveAndCareAdapter
 
 
     public function createCustomField($name) {
-        $url = self::BASEURL . 'dealCustomFieldMeta';
+        $url = 'dealCustomFieldMeta';
         $parameters = array(
             'dealCustomFieldMetum' => array(
                 'fieldLabel' => $name,
@@ -68,36 +113,36 @@ class MoveAndCareAdapter
             )
         );
 
-        $info = $this->setContent($url, array('Api-Token: ' . self::KEY), $parameters);
+        $info = $this->setContent($url, $parameters);
 
         return $info;
 
     }
 
     public function getStages() {
-        $url = self::BASEURL . 'dealStages';
-        $stages = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'dealStages';
+        $stages = $this->getContents($url);
 
         return $stages;
     }
 
     public function getUsers() {
-        $url = self::BASEURL . 'users';
-        $users = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'users';
+        $users = $this->getContents($url);
 
         return $users;
     }
 
 
     public function getCustomFields() {
-        $url = self::BASEURL . 'dealCustomFieldMeta';
-        $fields = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'dealCustomFieldMeta';
+        $fields = $this->getContents($url);
 
         return $fields;
     }
 
     public function getContacts($date,$offset = 0) {
-        $url = self::BASEURL . 'contacts?';
+        $url = 'contacts?';
         $params = array(
             'filters' => array(
                 'created_after' => $date,
@@ -106,24 +151,24 @@ class MoveAndCareAdapter
             'offset' => $offset
         );
 
-        $contacts = $this->getContent($url . http_build_query($params), array('Api-Token: ' . self::KEY));
+        $contacts = $this->getContents($url . http_build_query($params));
 
         return $contacts;
 
     }
 
     public function getClientByPhoneOrMail($email, $phone) {
-        $url = self::BASEURL . 'contacts?';
+        $url = 'contacts?';
         $params = array(
             'search' => $phone
         );
-        $contacts = $this->getContent($url . http_build_query($params), array('Api-Token: ' . self::KEY));
+        $contacts = $this->getContents($url . http_build_query($params));
         if(!is_array($contacts)||$contacts['meta']['total'] == 0) {
             if(!empty($email)) {
                 $params = array(
                     'search' => $email
                 );
-                $contacts = $this->getContent($url . http_build_query($params), array('Api-Token: ' . self::KEY));
+                $contacts = $this->getContents($url . http_build_query($params));
                 if(!is_array($contacts)|| $contacts['meta']['total'] == 0) {
                     return null;
                 }
@@ -138,13 +183,13 @@ class MoveAndCareAdapter
     }
 
     public function getLeadsByClientId($clientId) {
-        $url = self::BASEURL . 'contacts/'.$clientId.'/deals';
-        $deals = $this->getContent($url, array('Api-Token: ' . self::KEY));
+        $url = 'contacts/'.$clientId.'/deals';
+        $deals = $this->getContents($url);
         return $deals;
     }
 
     public function createDeal($title, $clientId, $stage,$manager) {
-        $url = self::BASEURL . 'deals';
+        $url = 'deals';
         $params = array(
             'deal' => array(
                 'title' => $title,
@@ -155,14 +200,14 @@ class MoveAndCareAdapter
                 'owner' => $manager,
             )
         );
-        $deal = $this->setContent($url, array('Api-Token: ' . self::KEY), $params);
+        $deal = $this->setContent($url,$params);
 
         return $deal;
 
     }
 
     public function setLeadCustomField($leadId, $visit, $roistatFieldId) {
-        $url = self::BASEURL . 'dealCustomFieldData';
+        $url = 'dealCustomFieldData';
         $params = array(
             'dealCustomFieldDatum' => array(
                 'dealId' => $leadId,
@@ -171,18 +216,18 @@ class MoveAndCareAdapter
             )
         );
 
-        return $this->setContent($url, array('Api-Token: ' . self::KEY), $params);
+        return $this->setContent($url, $params);
     }
 
     public function setLeadResponsible($leadId, $userId) {
-        $url = self::BASEURL . 'deals/'.$leadId;
+        $url = 'deals/'.$leadId;
         $params = array(
             'deal' => array(
                 'owner' => $userId,
             )
         );
 
-        return $this->putContent($url, array('Api-Token: ' . self::KEY), $params);
+        return $this->putContent($url, $params);
     }
 
     public function createContact($clientName, $phone, $email = null) {
@@ -194,7 +239,7 @@ class MoveAndCareAdapter
             $clientName = 'Call from '. $phone;
         }
 
-        $url = self::BASEURL . 'contacts';
+        $url = 'contacts';
         $params = array(
           'contact' => array(
               'email' => $email,
@@ -203,9 +248,10 @@ class MoveAndCareAdapter
           )
         );
 
-        $contact = $this->setContent($url, array('Api-Token: ' . self::KEY), $params);
+        $contact = $this->setContent($url, $params);
 
         return $contact;
     }
+
 
 }
