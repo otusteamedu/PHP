@@ -19,22 +19,21 @@ class App
         $value = $_POST['string'] ?? null;
 
         if ($validator->isValid($value)) {
-            echo $this->response('String is valid');
+            $this->response('String is valid');
             return;
         }
 
-        echo $this->response('String is not valid', 400);
+        $this->response('String is not valid', 400);
     }
 
     /**
      * @param $message
      * @param int $httpCode
-     * @return string
+     * @return void
      */
-    private function response($message, $httpCode = 200): string
+    private function response($message, $httpCode = 200): void
     {
         http_response_code($httpCode);
-
-        return $message;
+        echo $message;
     }
 }

@@ -26,10 +26,10 @@ class RequestValidator implements Validator
     }
 
     /**
-     * @param $val
+     * @param string $val
      * @return bool
      */
-    private function checkLength($val): bool
+    private function checkLength(string $val): bool
     {
         return strlen($val) >= self::LENGTH_STRING;
     }

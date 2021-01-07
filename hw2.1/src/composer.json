@@ -3,9 +3,6 @@
     "description": "Home work 2",
     "minimum-stability": "dev",
     "type": "project",
-    "require": {
-        "monolog/monolog": "^2.1"
-    },
     "license": "MIT",
     "authors": [
         {
