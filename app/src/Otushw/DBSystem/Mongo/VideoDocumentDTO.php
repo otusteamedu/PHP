@@ -8,23 +8,19 @@ use Otushw\DBSystem\DocumentDTO;
 class VideoDocumentDTO extends DocumentDTO
 {
     const DOCUMENT_STRUCT = [
-        'id' => ['bsonType' => 'string'],
-        'title' => ['bsonType' => 'string'],
+        'id' => ['$type' => 'string'],
+        'title' => ['$type' => 'string'],
         'viewCount' => [
-            'bsonType' => 'int',
-            'minimum' => 0
+            '$type' => 'int',
         ],
         'likeCount' => [
-            'bsonType' => 'int',
-            'minimum' => 0
+            '$type' => 'int',
         ],
         'disLikeCount' => [
-            'bsonType' => 'int',
-            'minimum' => 0
+            '$type' => 'int',
         ],
         'commentCount' => [
-            'bsonType' => 'int',
-            'minimum' => 0
+            '$type' => 'int',
         ],
     ];
 
