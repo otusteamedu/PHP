@@ -17,8 +17,9 @@ class Grabber implements Application
                 break;
             }
             while ($videoSource = $youtube->getVideo()) {
-                $i++;
-                $video = $videoMapper->insert($videoSource);
+                if ($videoMapper->insert($videoSource)) {
+                    $i++;
+                }
             }
         }
         View::showGrabber($i);

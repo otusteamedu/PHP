@@ -23,15 +23,15 @@ class App
         $dbSystem = $_ENV['DB_SYSTEM'];
         $prefix = __NAMESPACE__ . '\\DBSystem\\' . $dbSystem . '\\';
         $classDAO = $prefix . $dbSystem . 'DAO';
-        $classDTO = $prefix . 'VideoIndexDTO';
+        $classDTO = $prefix . 'VideoDocumentDTO';
         foreach ([$classDAO, $classDTO] as $class) {
             if (!class_exists($class)) {
                 throw new Exception("Class: '$class' does not exist");
             }
         }
         $db = new $classDAO(new $classDTO());
-        if (!$db->existIndex()) {
-            $db->createIndex();
+        if (!$db->existDocStruct()) {
+            $db->createDocStruct();
         }
         $this->db = $db;
 
