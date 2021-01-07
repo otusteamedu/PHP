@@ -1,0 +1,6 @@
+vendor/
+.idea/
+docker/
+redis_data/
+dbdata/
+

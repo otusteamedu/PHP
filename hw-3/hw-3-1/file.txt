@@ -1,0 +1,8 @@
+1. Перешёл в директорию /tmp с помощью команды cd /tmp
+2. Скачал архив env командой wget -O env.tar.gz http://pecl.php.net/get/env
+3. Распаковал архив командой tar xzvf env.tar.gz
+4. Установил пакет с помощью команды /usr/bin/phpize ./configure --with-php-config=/etc/php/7.4/fpm/php-fpm.conf && make && make install
+но мне почему-то постоянно выдаёт, что makefile не найден. Наверное, что-то поменяли в директории. Я немного поигрался и решил взять всё же Redis.
+5. wget http://download.redis.io/redis-stable.tar.gz
+6. tar xvzf redis-stable.tar.gz
+7. make>make_output.txt. Установка прошла успешно.
