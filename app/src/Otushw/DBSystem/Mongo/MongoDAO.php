@@ -4,28 +4,37 @@
 namespace Otushw\DBSystem\Mongo;
 
 use Otushw\DBSystem\NoSQLDAO;
-use Otushw\DBSystem\IndexDTO;
+use Otushw\DBSystem\DocumentDTO;
 use Exception;
 
 class MongoDAO extends NoSQLDAO
 {
+    const DB_NAME = 'stats';
+
     private $client;
+    private $database;
+    private $collection;
 
-    public function __construct(IndexDTO $index)
+    public function __construct(DocumentDTO $doc)
     {
-        parent::__construct($index);
+        parent::__construct($doc);
         $client = new \MongoDB\Client($_ENV['DB_HOST']);
-        $indexName = $this->indexName;
-        $collection = $client->demo->$indexName;
-        var_dump($collection);
+        $this->client = $client;
 
+        $database = $client->{self::DB_NAME};
+        $this->database = $database;
     }
 
     public function create(array $source): bool
     {
-        $response = $this->index($source);
-        if (!empty($response['result']) && $response['result'] == 'created') {
-            return true;
+        $source['_id'] = $source['id'];
+        try {
+            $insertOneResult = $this->collection->insertOne($source);
+            if ($insertOneResult->getInsertedCount()) {
+                return true;
+            }
+        } catch (Exception $e) {
+            return false;
         }
         return false;
     }
@@ -39,28 +48,23 @@ class MongoDAO extends NoSQLDAO
      */
     public function getItems($limit = 10, $offset = 0): array
     {
-        $params = [
-            'index' => $this->indexName,
-            'size' => $limit,
-            'from' => $offset,
-        ];
-        $response = $this->client->search($params);
-        if (empty($response['hits'])) {
-            throw new Exception('Can not get Items');
-        }
-        if (empty($response['hits']['hits'])) {
-            return [];
-        }
+        $response = $this->collection->find(
+            [],
+            [
+                'skip' => $offset,
+                'limit' => $limit
+            ]
+        );
         $result = [];
-        foreach ($response['hits']['hits'] as $key => $row) {
+        foreach ($response as $row) {
+            $row = (array) $row->jsonSerialize();
+            $buf = [];
             foreach ($this->struct as $item) {
-                if ($item == 'id') {
-                    $result[$key]['id'] = $row['_id'];
-                } else {
-                    $result[$key][$item] = $row['_source'][$item];
-                }
+                $buf[$item] = $row[$item];
             }
+            $result[] = $buf;
         }
+
         return $result;
     }
 
@@ -70,93 +74,50 @@ class MongoDAO extends NoSQLDAO
      */
     public function getCount(): int
     {
-        $params = [
-            'index' => $this->indexName,
-        ];
-        try {
-            $response = $this->client->count($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
-        if (empty($response['count'])) {
-            throw new Exception('Does not return count from index Video');
-        }
-        return $response['count'];
+        return $this->collection->count();
     }
 
     public function getSumField($fieldName)
     {
-        $params = [
-            'index' => $this->indexName,
-            'size' => 0,
-            'body' => [
-                'aggs' => [
-                    $fieldName => [
-                        'sum' => ['field' => $fieldName]
+        $cursor = $this->collection->aggregate(
+            [
+                [
+                    '$group' => [
+                        '_id' => 'null',
+                        'total' => ['$sum' => '$'.$fieldName]
                     ]
-                ]
+                ],
             ]
-        ];
-        try {
-            $response = $this->client->search($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
+        );
+
+        $result = 0;
+        foreach ($cursor as $item) {
+            $result = $item->jsonSerialize()->total;
         }
-        if (empty($response)) {
-            throw new Exception('Response is empty.');
-        }
-        if (empty($response['aggregations'])) {
-            throw new Exception('Response has not aggregations.');
-        }
-        if (empty($response['aggregations'][$fieldName])) {
-            throw new Exception('Aggregations has not ' . $fieldName. '.');
-        }
-        return $response['aggregations'][$fieldName]['value'];
+        return $result;
     }
 
     public function read($id): array
     {
-        $params = [
-            'index' => $this->indexName,
-            'id'    => $id
-        ];
-        try {
-            $response = $this->client->get($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
+        $response = $this->collection->findOne(['_id' => $id]);
         if (empty($response)) {
-            throw new Exception('Response is empty.');
-        }
-
-        if (empty($response['found'])) {
             return [];
         }
-        $result = [
-            'id' => $response['_id']
-        ];
-
+        $response = (array) $response->jsonSerialize();
+        $result = [];
         foreach ($this->struct as $item) {
-            if ($item == 'id') {
-                $result['id'] = $response['_id'];
-            } else {
-                $result[$item] = $response['_source'][$item];
-            }
+            $result[$item] = $response[$item];
         }
         return $result;
     }
 
     public function update($id, array $source): bool
     {
-        $exist = $this->read($id);
-        if (empty($exist)) {
-            throw new Exception('Item id:' . $id . ' does not exist.');
-        }
-
-        $source['id'] = $id;
-        $response = $this->index($source);
-
-        if (!empty($response['result']) && $response['result'] == 'updated') {
+        $result = $this->collection->updateOne(
+            ['_id' => $id],
+            ['$set' => $source]
+        );
+        if ($result->getModifiedCount() || $result->getMatchedCount()) {
             return true;
         }
         return false;
@@ -164,89 +125,47 @@ class MongoDAO extends NoSQLDAO
 
     public function delete($id): bool
     {
-        $params = [
-            'index' => $this->indexName,
-            'id'    => $id
-        ];
-        try {
-            $response = $this->client->delete($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
-        if (!empty($response['result']) && $response['result'] == 'deleted') {
+        $result = $this->collection->deleteOne(
+            ['_id' => $id],
+        );
+        if ($result->getDeletedCount()) {
             return true;
         }
         return false;
     }
 
-    public function createIndex()
+    public function createDocStruct()
     {
-        $params = [
-            'index' => $this->indexName,
-            'body' => [
-                'mappings' => [
-                    'properties' => $this->index->getIndexStruct(),
-                    'dynamic' => 'strict'
-                ]
-            ]
-        ];
-        $result = $this->client->indices()->create($params);
-        if (!empty($result['acknowledged'])) {
-            return true;
-        }
-        return false;
+        return $this->createCollectionStruct();
     }
 
-
-    public function existIndex()
+    private function createCollectionStruct()
     {
-        $params = [
-            'index' => [$this->indexName]
-        ];
         try {
-            $response = $this->client->indices()->getSettings($params);
+            $this->database->createCollection(
+                $this->documentName,
+                ['validator' =>  $this->doc->getDocumentStruct()]
+            );
+            $this->collection = $this->database->selectCollection($this->documentName);
         } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
-        if (isset($response['error'])) {
             return false;
         }
         return true;
     }
 
-    private function index(array $source)
+    public function existDocStruct()
     {
-        $params = [
-            'index' => $this->indexName,
-            'body' => []
-        ];
-
-        foreach ($this->struct as $item) {
-            if (!isset($source[$item])) {
-                throw new Exception($item . ' is missing');
-            }
-            if ($item == 'id') {
-                $params[$item] = $source[$item];
-            } else {
-                $params['body'][$item] = $source[$item];
-            }
-        }
-
-        try {
-            $response = $this->client->index($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
-        return $response;
+        return $this->existCollectionStruct();
     }
 
-    private function processException($e)
+    private function existCollectionStruct()
     {
-        $msg = $e->getMessage();
-        if ($this->isJSON($msg)) {
-            return json_decode($msg, true);
-        } else {
-            throw new Exception($msg, $e->getCode());
+        foreach ($this->database->listCollections() as $collection) {
+            if ($collection->getName() == $this->documentName) {
+                $this->collection = $this->database->selectCollection($this->documentName);
+                return true;
+            }
         }
+        return false;
     }
 }
