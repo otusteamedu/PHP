@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use App\Core\ConsoleApplication;
+
+$configFile =  __DIR__ . '/config/main.ini';
+
+try {
+    $app = new ConsoleApplication($configFile);
+    $app->run();
+} catch(\Exception $e) {
+
+}

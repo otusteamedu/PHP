@@ -1,0 +1,18 @@
+{
+  "name": "max/repo",
+  "authors": [
+    {
+      "name": "Max IV.",
+      "email": "gm_max@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\" : "app\\"
+    }
+  },
+  "require": {
+    "php": "~7.4",
+    "elasticsearch/elasticsearch": "^7.0"
+  }
+}
