@@ -73,10 +73,10 @@ class Youtube
         return [
             'id' => $videoID,
             'title' => $response['snippet']['title'],
-            'viewCount' => $response['statistics']['viewCount'],
-            'likeCount' => $response['statistics']['likeCount'],
-            'disLikeCount' => $response['statistics']['dislikeCount'],
-            'commentCount' => $response['statistics']['commentCount'],
+            'viewCount' => intval($response['statistics']['viewCount']),
+            'likeCount' => intval($response['statistics']['likeCount']),
+            'disLikeCount' => intval($response['statistics']['dislikeCount']),
+            'commentCount' => intval($response['statistics']['commentCount']),
         ];
     }
 
