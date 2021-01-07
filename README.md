@@ -1,5 +1,63 @@
+### Исправления
+> 1. У каждого места хранится цена. При этом в реальных кинотеатрах используются типы мест, а не отдельная цена на каждое место. Как вывод, мы нарушаем третью нормальную форму
+
+Внес исправления в схему, теперь цена задается в таблице `seats`:
+```sql
+ALTER TABLE public.seats ADD price numeric(10,2) NULL;
+ALTER TABLE public.place DROP COLUMN price;
+```
+
+> 2. session имеет тип date. А время начала?
+
+В `session` колонка `date` имеет тип `timestamp`, переименовал эту колонку в `datetime`, чтобы не было путаницы.  
+
+```sql
+ALTER TABLE public."session" RENAME COLUMN "date" TO datetime;
+```
+> 3. Как понять, что два фильма не наложатся один на другой в расписании при его составлении?
+
+Добавил колонку duration и добавил триггер, который будет срабатывать при обновлении/добавлении записи и проверять занят ли зал в указанное время
+
+```sql
+ALTER TABLE public."session" ADD duration interval NULL;
+
+CREATE OR REPLACE FUNCTION public.movies_overlay_check()
+	RETURNS trigger
+	LANGUAGE plpgsql
+AS $function$
+DECLARE
+        found integer;
+BEGIN
+    IF NEW.hall_id IS null or NEW.datetime IS null  THEN
+        RETURN NEW;
+    END IF;
+
+    found := array_length(array(select s.id from "session" s 
+			where duration is not null 
+			and hall_id = NEW.hall_id
+			and NEW.datetime between datetime and (s.datetime + s.duration)));
+		
+    IF found > 0 THEN
+            RAISE EXCEPTION 'This movie datetime cannot overlay anocher movie';
+    END IF;
+RETURN NEW;
+END;
+$function$
+;
+
+
+CREATE TRIGGER trigger_movies_overlay_check
+    BEFORE INSERT OR UPDATE
+    ON public."session" FOR EACH ROW
+    EXECUTE PROCEDURE movies_overlay_check();
+```
+
+Пример ошибки, после вставки записи в `session`, если зал в это время занят
+
+![error](overlap_error.png)
+
 ### ER модель
-Файл `otus_12_diagram.png`
+![diagram](otus_12_diagram.png)
 
 ### DDL
 Файл `cinema-ddl-eav.sql`
