@@ -9,7 +9,7 @@ use Exception;
 class Youtube
 {
     const URL_API = 'https://www.googleapis.com/youtube/v3';
-    const MAX_NUMBER_VIDEOS = 2;
+    const MAX_NUMBER_VIDEOS = 50;
 
     private $channelId;
     private $apiKey;
