@@ -11,9 +11,6 @@ use Exception;
 class ElasticSearchDAO extends NoSQLDAO
 {
     private $client;
-//    private $struct;
-//    private $indexName;
-
 
     public function __construct(DocumentDTO $doc)
     {
@@ -22,10 +19,6 @@ class ElasticSearchDAO extends NoSQLDAO
         $clientBuilder = ClientBuilder::create();
         $clientBuilder->setHosts([$_ENV['DB_HOST']]);
         $this->client = $clientBuilder->build();
-
-//        $this->struct = array_keys($this->index->getIndexStruct());
-//
-//        $this->indexName = $this->index->getIndexName();
     }
 
     public function create(array $source): bool
