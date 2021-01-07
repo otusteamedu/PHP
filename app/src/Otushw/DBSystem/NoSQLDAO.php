@@ -19,44 +19,27 @@ abstract class NoSQLDAO
         $this->documentName = $doc->getDocumentName();
     }
 
-    public function create(array $source):bool
-    {
-        return false;
-    }
-
-    public function read($id): array
-    {
-        return [];
-    }
-
-    public function update($id, array $source): bool
-    {
-        return false;
-    }
-
-    public function delete($id): bool
-    {
-        return false;
-    }
-
     protected function isJSON($string)
     {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
 
-    public function getItems($limit = 10, $offset = 0): array
-    {
-        return [];
-    }
+    abstract public function create(array $source):bool;
 
-    public function getCount(): int
-    {
-        return 0;
-    }
+    abstract public function read($id): array;
 
-    public function getSumField($fieldName)
-    {
-        return 0;
-    }
+    abstract public function update($id, array $source): bool;
+
+    abstract public function delete($id): bool;
+
+    abstract public function getItems($limit = 10, $offset = 0): array;
+
+    abstract public function getCount(): int;
+
+    abstract public function getSumField($fieldName);
+
+    abstract public function existDocStruct();
+
+    abstract public function createDocStruct();
 }
