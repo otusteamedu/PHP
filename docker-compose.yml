@@ -9,12 +9,12 @@ services:
     environment:
       - discovery.type=single-node
 
-#  mongo:
-#    build:
-#      context: ./docker/mongodb
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: example
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
   php:
     build:
