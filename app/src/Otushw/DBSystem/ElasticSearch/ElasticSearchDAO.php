@@ -186,41 +186,6 @@ class ElasticSearchDAO extends NoSQLDAO
         return false;
     }
 
-    public function createIndex()
-    {
-        $params = [
-            'index' => $this->documentName,
-            'body' => [
-                'mappings' => [
-                    'properties' => $this->doc->getDocumentStruct(),
-                    'dynamic' => 'strict'
-                ]
-            ]
-        ];
-        $result = $this->client->indices()->create($params);
-        if (!empty($result['acknowledged'])) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public function existIndex()
-    {
-        $params = [
-            'index' => [$this->documentName]
-        ];
-        try {
-            $response = $this->client->indices()->getSettings($params);
-        } catch (Exception $e) {
-            $response = $this->processException($e);
-        }
-        if (isset($response['error'])) {
-            return false;
-        }
-        return true;
-    }
-
     private function index(array $source)
     {
         $params = [
@@ -255,5 +220,49 @@ class ElasticSearchDAO extends NoSQLDAO
         } else {
             throw new Exception($msg, $e->getCode());
         }
+    }
+
+    public function existDocStruct()
+    {
+        return $this->existIndex();
+    }
+
+    private function existIndex()
+    {
+        $params = [
+            'index' => [$this->documentName]
+        ];
+        try {
+            $response = $this->client->indices()->getSettings($params);
+        } catch (Exception $e) {
+            $response = $this->processException($e);
+        }
+        if (isset($response['error'])) {
+            return false;
+        }
+        return true;
+    }
+
+    public function createDocStruct()
+    {
+        return $this->createIndex();
+    }
+
+    private function createIndex()
+    {
+        $params = [
+            'index' => $this->documentName,
+            'body' => [
+                'mappings' => [
+                    'properties' => $this->doc->getDocumentStruct(),
+                    'dynamic' => 'strict'
+                ]
+            ]
+        ];
+        $result = $this->client->indices()->create($params);
+        if (!empty($result['acknowledged'])) {
+            return true;
+        }
+        return false;
     }
 }
