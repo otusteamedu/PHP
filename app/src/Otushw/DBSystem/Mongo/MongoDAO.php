@@ -3,6 +3,9 @@
 
 namespace Otushw\DBSystem\Mongo;
 
+use MongoDB\Client;
+use MongoDB\Collection;
+use MongoDB\Database;
 use Otushw\DBSystem\NoSQLDAO;
 use Otushw\DBSystem\DocumentDTO;
 use Exception;
@@ -11,20 +14,25 @@ class MongoDAO extends NoSQLDAO
 {
     const DB_NAME = 'stats';
 
-    private $client;
-    private $database;
-    private $collection;
+    private Client $client;
+    private Database $database;
+    private Collection $collection;
 
     public function __construct(DocumentDTO $doc)
     {
         parent::__construct($doc);
-        $client = new \MongoDB\Client($_ENV['DB_HOST']);
+        $client = new Client($_ENV['DB_HOST']);
         $this->client = $client;
 
         $database = $client->{self::DB_NAME};
         $this->database = $database;
     }
 
+    /**
+     * @param array $source
+     *
+     * @return bool
+     */
     public function create(array $source): bool
     {
         $source['_id'] = $source['id'];
@@ -77,7 +85,12 @@ class MongoDAO extends NoSQLDAO
         return $this->collection->count();
     }
 
-    public function getSumField($fieldName)
+    /**
+     * @param string $fieldName
+     *
+     * @return int
+     */
+    public function getSumField(string $fieldName): int
     {
         $cursor = $this->collection->aggregate(
             [
@@ -94,10 +107,15 @@ class MongoDAO extends NoSQLDAO
         foreach ($cursor as $item) {
             $result = $item->jsonSerialize()->total;
         }
-        return $result;
+        return (int) $result;
     }
 
-    public function read($id): array
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public function read(int $id): array
     {
         $response = $this->collection->findOne(['_id' => $id]);
         if (empty($response)) {
@@ -111,7 +129,13 @@ class MongoDAO extends NoSQLDAO
         return $result;
     }
 
-    public function update($id, array $source): bool
+    /**
+     * @param int   $id
+     * @param array $source
+     *
+     * @return bool
+     */
+    public function update(int $id, array $source): bool
     {
         $result = $this->collection->updateOne(
             ['_id' => $id],
@@ -123,7 +147,12 @@ class MongoDAO extends NoSQLDAO
         return false;
     }
 
-    public function delete($id): bool
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
         $result = $this->collection->deleteOne(
             ['_id' => $id],
@@ -134,11 +163,17 @@ class MongoDAO extends NoSQLDAO
         return false;
     }
 
-    public function createDocStruct()
+    /**
+     * @return bool
+     */
+    public function createDocStruct(): bool
     {
         return $this->createCollectionStruct();
     }
 
+    /**
+     * @return bool
+     */
     private function createCollectionStruct()
     {
         try {
@@ -153,12 +188,18 @@ class MongoDAO extends NoSQLDAO
         return true;
     }
 
-    public function existDocStruct()
+    /**
+     * @return bool
+     */
+    public function existDocStruct(): bool
     {
         return $this->existCollectionStruct();
     }
 
-    private function existCollectionStruct()
+    /**
+     * @return bool
+     */
+    private function existCollectionStruct(): bool
     {
         foreach ($this->database->listCollections() as $collection) {
             if ($collection->getName() == $this->documentName) {

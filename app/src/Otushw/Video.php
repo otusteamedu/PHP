@@ -5,20 +5,20 @@ namespace Otushw;
 
 class Video
 {
-    private $id;
-    private $title;
-    private $viewCount;
-    private $likeCount;
-    private $disLikeCount;
-    private $commentCount;
+    private string $id;
+    private string $title;
+    private int $viewCount;
+    private int $likeCount;
+    private int $disLikeCount;
+    private int $commentCount;
 
     public function __construct(
-        $id,
-        $title,
-        $viewCount,
-        $likeCount,
-        $disLikeCount,
-        $commentCount
+        string $id,
+        string $title,
+        int $viewCount,
+        int $likeCount,
+        int $disLikeCount,
+        int $commentCount
     ) {
         $this->id = $id;
         $this->title = $title;

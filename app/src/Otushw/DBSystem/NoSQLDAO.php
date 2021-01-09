@@ -8,9 +8,9 @@ use Otushw\DBSystem\DocumentDTO;
 
 abstract class NoSQLDAO
 {
-    protected $doc;
-    protected $struct;
-    protected $documentName;
+    protected DocumentDTO $doc;
+    protected array $struct;
+    protected string $documentName;
 
     public function __construct(DocumentDTO $doc)
     {
@@ -19,27 +19,32 @@ abstract class NoSQLDAO
         $this->documentName = $doc->getDocumentName();
     }
 
-    protected function isJSON($string)
+    /**
+     * @param string $arg
+     *
+     * @return bool
+     */
+    protected function isJSON(string $arg): bool
     {
-        json_decode($string);
+        json_decode($arg);
         return (json_last_error() == JSON_ERROR_NONE);
     }
 
-    abstract public function create(array $source):bool;
+    abstract public function create(array $source): bool;
 
-    abstract public function read($id): array;
+    abstract public function read(int $id): array;
 
-    abstract public function update($id, array $source): bool;
+    abstract public function update(int $id, array $source): bool;
 
-    abstract public function delete($id): bool;
+    abstract public function delete(int $id): bool;
 
-    abstract public function getItems($limit = 10, $offset = 0): array;
+    abstract public function getItems(int $limit = 10, int $offset = 0): array;
 
     abstract public function getCount(): int;
 
-    abstract public function getSumField($fieldName);
+    abstract public function getSumField(string $fieldName): int;
 
-    abstract public function existDocStruct();
+    abstract public function existDocStruct(): bool;
 
-    abstract public function createDocStruct();
+    abstract public function createDocStruct(): bool;
 }

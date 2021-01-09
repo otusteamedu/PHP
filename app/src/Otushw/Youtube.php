@@ -5,16 +5,15 @@ namespace Otushw;
 
 use Exception;
 
-
 class Youtube
 {
     const URL_API = 'https://www.googleapis.com/youtube/v3';
-    const MAX_NUMBER_VIDEOS = 50;
+    const MAX_NUMBER_VIDEOS = 4;
 
-    private $channelId;
-    private $apiKey;
-    private $listVideosID = [];
-    private $pageToken = '';
+    private string $channelId;
+    private string $apiKey;
+    private array $listVideosID = [];
+    private string $pageToken = '';
 
     public function __construct()
     {
@@ -42,17 +41,24 @@ class Youtube
 
         $videosID = [];
         foreach ($response['items'] as $item) {
-            $videosID[] = $item['id']['videoId'];
+            if (!empty($item['id']['videoId'])) {
+                $videosID[] = $item['id']['videoId'];
+            }
         }
         $this->listVideosID = $videosID;
         $this->pageToken = $response['nextPageToken'];
     }
 
-    public function getVideo()
+    /**
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function getVideo(): array
     {
         $videoID = $this->getLastVideoID();
         if (empty($videoID)) {
-            return false;
+            return [];
         }
         $params = [
             'fields' => 'items(id,snippet(channelId,title,categoryId),statistics)',
@@ -80,19 +86,22 @@ class Youtube
         ];
     }
 
-    public function getNumberListVideo()
+    /**
+     * @return int
+     */
+    public function getNumberListVideo(): int
     {
         return count($this->listVideosID);
     }
 
     /**
-     * @return bool|string
+     * @return string
      */
-    private function getLastVideoID()
+    private function getLastVideoID(): string
     {
         $videoID = array_pop($this->listVideosID);
         if (empty($videoID)) {
-            return false;
+            return '';
         }
         return $videoID;
     }
@@ -103,7 +112,7 @@ class Youtube
      *
      * @return string
      */
-    private function generateURL($operation, array $params)
+    private function generateURL($operation, array $params): string
     {
         $params['key'] = $this->apiKey;
         $params['channelId'] = $this->channelId;
@@ -113,7 +122,7 @@ class Youtube
     /**
      * @param string $url
      *
-     * @return bool|string
+     * @return array
      * @throws Exception
      */
     private function request($url)
@@ -125,14 +134,17 @@ class Youtube
     /**
      * @param string $url
      *
-     * @return bool|string
+     * @return string
      */
-    private function sendRequest($url)
+    private function sendRequest($url): string
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
+        if (empty($response)) {
+            $response = '';
+        }
         curl_close($ch);
         return $response;
     }
@@ -142,18 +154,20 @@ class Youtube
      *
      * @throws Exception
      *
-     * @return bool|string
+     * @return array
      */
-    private function validateRequest($response)
+    private function validateRequest($response): array
     {
         if (empty($response)) {
             throw new Exception('YouTube is not available.');
         }
         $response = json_decode($response, true);
         if (empty($response)) {
+            $response = [];
+        }
+        if (empty($response)) {
             throw new Exception('YouTube returned data not in format is not JSON.');
         }
-
         return $response;
     }
 }

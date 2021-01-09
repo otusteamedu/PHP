@@ -6,20 +6,7 @@ namespace Otushw\DBSystem;
 
 abstract class DocumentDTO
 {
-    const INDEX = [];
+    abstract public function getDocumentStruct(): array;
 
-    /**
-     * @return array
-     */
-    public function getDocumentStruct()
-    {
-        return self::INDEX;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDocumentName() {
-        return '';
-    }
+    abstract public function getDocumentName(): string;
 }

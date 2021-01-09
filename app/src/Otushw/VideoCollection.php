@@ -8,11 +8,10 @@ use Exception;
 class VideoCollection implements \Iterator
 {
 
-    private $pointer = 0;
-    private $total = 0;
-    private $result;
-    private $objects = [];
-    private $raw = [];
+    private int $pointer = 0;
+    private int $total = 0;
+    private array $objects = [];
+    private array $raw = [];
 
     public function __construct(array $raw = [])
     {
@@ -28,17 +27,12 @@ class VideoCollection implements \Iterator
         $this->total++;
     }
 
-//    public function delete($num)
-//    {
-//        if (!isset($this->objects[$num])) {
-//            throw new Exception('Cannot be deleted, the requested number does not exist in the collection.');
-//        }
-//
-//        unset($this->objects[$num]);
-//        $this->total = count($this->objects);
-//    }
-
-    private function getRow($num)
+    /**
+     * @param int $num
+     *
+     * @return null|Video
+     */
+    private function getRow(int $num): ?Video
     {
         if ($num >= $this->total || $num < 0) {
             return null;
@@ -56,7 +50,12 @@ class VideoCollection implements \Iterator
         return null;
     }
 
-    private function createVideoObject($source)
+    /**
+     * @param array $source
+     *
+     * @return Video
+     */
+    private function createVideoObject(array $source): Video
     {
         return new Video(
             $source['id'],
@@ -68,23 +67,35 @@ class VideoCollection implements \Iterator
         );
     }
 
-    public function current()
+    /**
+     * @return Video
+     */
+    public function current(): Video
     {
         return $this->getRow($this->pointer);
     }
 
-    public function next()
+    /**
+     * @return Video
+     */
+    public function next(): Video
     {
         $this->pointer++;
         return $this->current();
     }
 
-    public function key()
+    /**
+     * @return int
+     */
+    public function key(): int
     {
         return $this->pointer;
     }
 
-    public function valid()
+    /**
+     * @return bool
+     */
+    public function valid(): bool
     {
         return (!is_null($this->current()));
     }

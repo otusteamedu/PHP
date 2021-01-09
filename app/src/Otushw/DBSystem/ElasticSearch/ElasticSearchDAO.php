@@ -3,6 +3,7 @@
 
 namespace Otushw\DBSystem\ElasticSearch;
 
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Otushw\DBSystem\NoSQLDAO;
 use Otushw\DBSystem\DocumentDTO;
@@ -10,7 +11,7 @@ use Exception;
 
 class ElasticSearchDAO extends NoSQLDAO
 {
-    private $client;
+    private Client $client;
 
     public function __construct(DocumentDTO $doc)
     {
@@ -37,7 +38,7 @@ class ElasticSearchDAO extends NoSQLDAO
      * @return array
      * @throws Exception
      */
-    public function getItems($limit = 10, $offset = 0): array
+    public function getItems(int $limit = 10, int $offset = 0): array
     {
         $params = [
             'index' => $this->documentName,
@@ -84,7 +85,13 @@ class ElasticSearchDAO extends NoSQLDAO
         return $response['count'];
     }
 
-    public function getSumField($fieldName)
+    /**
+     * @param string $fieldName
+     *
+     * @return int
+     * @throws Exception
+     */
+    public function getSumField(string $fieldName): int
     {
         $params = [
             'index' => $this->documentName,
@@ -111,10 +118,16 @@ class ElasticSearchDAO extends NoSQLDAO
         if (empty($response['aggregations'][$fieldName])) {
             throw new Exception('Aggregations has not ' . $fieldName. '.');
         }
-        return $response['aggregations'][$fieldName]['value'];
+        return (int) $response['aggregations'][$fieldName]['value'];
     }
 
-    public function read($id): array
+    /**
+     * @param int $id
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function read(int $id): array
     {
         $params = [
             'index' => $this->documentName,
@@ -146,7 +159,14 @@ class ElasticSearchDAO extends NoSQLDAO
         return $result;
     }
 
-    public function update($id, array $source): bool
+    /**
+     * @param int   $id
+     * @param array $source
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function update(int $id, array $source): bool
     {
         $exist = $this->read($id);
         if (empty($exist)) {
@@ -162,7 +182,13 @@ class ElasticSearchDAO extends NoSQLDAO
         return false;
     }
 
-    public function delete($id): bool
+    /**
+     * @param int $id
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function delete(int $id): bool
     {
         $params = [
             'index' => $this->documentName,
@@ -179,6 +205,12 @@ class ElasticSearchDAO extends NoSQLDAO
         return false;
     }
 
+    /**
+     * @param array $source
+     *
+     * @return array|callable|mixed
+     * @throws Exception
+     */
     private function index(array $source)
     {
         $params = [
@@ -205,7 +237,13 @@ class ElasticSearchDAO extends NoSQLDAO
         return $response;
     }
 
-    private function processException($e)
+    /**
+     * @param Exception $e
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    private function processException(Exception $e)
     {
         $msg = $e->getMessage();
         if ($this->isJSON($msg)) {
@@ -215,12 +253,20 @@ class ElasticSearchDAO extends NoSQLDAO
         }
     }
 
-    public function existDocStruct()
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function existDocStruct(): bool
     {
         return $this->existIndex();
     }
 
-    private function existIndex()
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    private function existIndex(): bool
     {
         $params = [
             'index' => [$this->documentName]
@@ -236,12 +282,18 @@ class ElasticSearchDAO extends NoSQLDAO
         return true;
     }
 
-    public function createDocStruct()
+    /**
+     * @return bool
+     */
+    public function createDocStruct(): bool
     {
         return $this->createIndex();
     }
 
-    private function createIndex()
+    /**
+     * @return bool
+     */
+    private function createIndex(): bool
     {
         $params = [
             'index' => $this->documentName,

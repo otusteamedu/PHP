@@ -4,13 +4,15 @@
 namespace Otushw;
 
 
+use Otushw\DBSystem\NoSQLDAO;
+
 class Stats implements Application
 {
-    private $likeCount = 0;
-    private $disLikeCount = 0;
-    private $videoMapper;
+    private int $likeCount = 0;
+    private int $disLikeCount = 0;
+    private VideoMapper $videoMapper;
 
-    public function __construct($db)
+    public function __construct(NoSQLDAO $db)
     {
         $this->videoMapper = new VideoMapper($db);
 
@@ -24,7 +26,10 @@ class Stats implements Application
         View::showStats($this->getLikeCount(), $this->getDisLikeCount(), $_ENV['TYPE_STATS']);
     }
 
-    private function getLikeCount()
+    /**
+     * @return int
+     */
+    private function getLikeCount(): int
     {
         return $this->likeCount;
     }
@@ -39,14 +44,16 @@ class Stats implements Application
         $this->disLikeCount = $disLikeCount;
     }
 
-    private function getDisLikeCount()
+    /**
+     * @return int
+     */
+    private function getDisLikeCount(): int
     {
         return$this->disLikeCount;
     }
 
     private function getDataViaCollection()
     {
-        var_dump(__METHOD__);
         $likeCount = 0;
         $disLikeCount = 0;
 
@@ -63,7 +70,6 @@ class Stats implements Application
 
     private function getDataViaAggregation()
     {
-        var_dump(__METHOD__);
         $likeCount = $this->videoMapper->getSumLikeCount();
         $this->setLikeCount($likeCount);
         $disLikeCount = $this->videoMapper->getSumDisLikeCount();

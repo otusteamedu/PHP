@@ -36,9 +36,8 @@ class App
         $this->db = $db;
 
         // Argument initialization
-        global $argv;
-        $this->validate($argv);
-        $this->typeApp = $argv[1];
+        $this->validateParam();
+        $this->typeApp = $_SERVER['argv'][1];
     }
 
     public function run()
@@ -56,15 +55,15 @@ class App
         }
     }
 
-    private function validate($argv)
+    private function validateParam()
     {
-        if (!isset($argv[1])) {
+        if (!isset($_SERVER['argv'][1])) {
             throw new Exception('To run the script, need the parameter.');
         }
-        if (empty($argv[1])) {
+        if (empty($_SERVER['argv'][1])) {
             throw new Exception('Parameter is empty.');
         }
-        if (!in_array($argv[1], self::ALLOWED_TYPE)) {
+        if (!in_array($_SERVER['argv'][1], self::ALLOWED_TYPE)) {
             throw new Exception('Invalid parameter value. Allowed "'
                 . self::GRABBER . '" or "' . self::STATS . '"');
         }

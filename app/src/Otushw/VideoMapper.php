@@ -13,10 +13,10 @@ class VideoMapper
     /**
      * @var NoSQLDAO
      */
-    private $db;
+    private NoSQLDAO $db;
 
     /**
-     * @param $db
+     * @param NoSQLDAO $db
      */
     public function __construct(NoSQLDAO $db)
     {
@@ -26,7 +26,7 @@ class VideoMapper
     /**
      * @param string $id
      *
-     * @return mixed
+     * @return Video|false
      */
     public function findById(string $id)
     {
@@ -47,7 +47,7 @@ class VideoMapper
     /**
      * @param array $source
      *
-     * @return mixed
+     * @return Video|false
      */
     public function insert(array $source)
     {
@@ -94,7 +94,10 @@ class VideoMapper
         return $this->db->delete($video->getId());
     }
 
-    public function getAll()
+    /**
+     * @return array
+     */
+    public function getAll(): array
     {
         $result = [];
         $offset = 0;
@@ -105,13 +108,19 @@ class VideoMapper
         return $result;
     }
 
-    public function getSumLikeCount()
+    /**
+     * @return int
+     */
+    public function getSumLikeCount(): int
     {
-        return $this->db->getSumField('likeCount');
+        return (int) $this->db->getSumField('likeCount');
     }
 
-    public function getSumDisLikeCount()
+    /**
+     * @return int
+     */
+    public function getSumDisLikeCount(): int
     {
-        return $this->db->getSumField('disLikeCount');
+        return (int) $this->db->getSumField('disLikeCount');
     }
 }

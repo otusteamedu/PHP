@@ -26,12 +26,12 @@ class VideoDocumentDTO extends DocumentDTO
 
     const DOCUMENT_NAME = 'video';
 
-    public function getDocumentStruct()
+    public function getDocumentStruct(): array
     {
         return self::DOCUMENT_STRUCT;
     }
 
-    public function getDocumentName()
+    public function getDocumentName(): string
     {
         return self::DOCUMENT_NAME;
     }
