@@ -8,9 +8,11 @@
         }
     ],
     "require": {
+        "php": "^7.4",
         "elasticsearch/elasticsearch": "7.9",
         "vlucas/phpdotenv": "^5.2",
         "mongodb/mongodb": "^1.8",
+        "monolog/monolog": "^2.2",
         "ext-json": "*",
         "ext-curl": "*"
     },
