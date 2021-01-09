@@ -6,7 +6,11 @@ docker-compose build
 
 docker-compose up -d
 
-psql -h localhost -U docker -d docker
+docker-compose exec db bash
+
+su postgres
+
+psql -h localhost -p 5432 -U docker -d docker
 
 
 ```
