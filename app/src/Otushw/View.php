@@ -16,4 +16,9 @@ class View
     {
         echo 'Was added: ' . $num . PHP_EOL;
     }
+
+    public static function showClient()
+    {
+        echo 'Something goes wrong and we are already working on this. Please try again later.'. PHP_EOL;
+    }
 }
