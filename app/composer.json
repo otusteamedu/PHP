@@ -9,7 +9,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "google/apiclient": "^2.0",
+        "vlucas/phpdotenv": "^5.2@dev"
+    },
     "autoload": {
         "psr-4": {
             "VideoPlatform\\": "src/hw"
