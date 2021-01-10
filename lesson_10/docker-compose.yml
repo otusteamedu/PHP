@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  database:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+volumes:
+  postgres:

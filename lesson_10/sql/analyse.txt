@@ -1,0 +1,336 @@
+1. Сортировка пользователей по имени
+
+explain (analyse) SELECT * FROM users order by name;
+
+10k:
+Sort  (cost=75.83..78.33 rows=1000 width=972) (actual time=2.319..2.382 rows=1000 loops=1)
+  Sort Key: name
+  Sort Method: quicksort  Memory: 165kB
+  ->  Seq Scan on users  (cost=0.00..26.00 rows=1000 width=972) (actual time=0.009..0.210 rows=1000 loops=1)
+Planning Time: 0.208 ms
+Execution Time: 2.471 ms
+
+6kk:
+Index Scan using users_name_key on users  (cost=0.42..95793.39 rows=1000000 width=103) (actual time=0.032..591.796 rows=1000000 loops=1)
+Planning Time: 0.061 ms
+Execution Time: 638.247 ms
+
+CREATE INDEX IF NOT EXISTS users_name_idx ON users(name);
+
+Index Scan using users_name_idx on users  (cost=0.42..91949.39 rows=1000000 width=103) (actual time=0.103..536.090 rows=1000000 loops=1)
+Planning Time: 0.087 ms
+Execution Time: 580.528 ms
+
+
+2. Фильмы начинающиеся на определенные символы
+EXPLAIN (analyse) SELECT * FROM movies WHERE title LIKE 'Vz%';
+
+10k:
+Seq Scan on movies  (cost=0.00..14.50 rows=3 width=224) (actual time=0.056..0.057 rows=0 loops=1)
+  Filter: ((title)::text ~~ 'Vz%'::text)
+  Rows Removed by Filter: 600
+Planning Time: 0.063 ms
+Execution Time: 0.066 ms
+
+6kk:
+
+Seq Scan on movies  (cost=0.00..382.00 rows=2 width=57) (actual time=0.917..2.652 rows=4 loops=1)
+  Filter: ((title)::text ~~ 'Vz%'::text)
+  Rows Removed by Filter: 15996
+Planning Time: 0.180 ms
+Execution Time: 2.669 ms
+
+CREATE INDEX IF NOT EXISTS movies_title_idx ON movies(title text_pattern_ops);
+
+Index Scan using movies_title_idx on movies  (cost=0.41..8.43 rows=2 width=57) (actual time=0.015..0.020 rows=4 loops=1)
+  Index Cond: (((title)::text ~>=~ 'Vz'::text) AND ((title)::text ~<~ 'V{'::text))
+  Filter: ((title)::text ~~ 'Vz%'::text)
+Planning Time: 0.215 ms
+Execution Time: 0.031 ms
+
+3. Показы на ближайшие 5 часов
+EXPLAIN (analyse) SELECT * FROM sessions WHERE start_time > now() and start_time < now()+ interval '5 hour' ;
+
+10k:
+Seq Scan on sessions  (cost=0.00..39.47 rows=7 width=34) (actual time=0.020..0.397 rows=4 loops=1)
+  Filter: ((start_time > now()) AND (start_time < (now() + '05:00:00'::interval)))
+  Rows Removed by Filter: 996
+Planning Time: 0.097 ms
+Execution Time: 0.414 ms
+
+6kk:
+Gather  (cost=1000.00..18424.30 rows=6963 width=26) (actual time=0.422..102.993 rows=6866 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Parallel Seq Scan on sessions  (cost=0.00..16728.00 rows=2901 width=26) (actual time=0.054..75.347 rows=2289 loops=3)
+        Filter: ((start_time > now()) AND (start_time < (now() + '05:00:00'::interval)))
+        Rows Removed by Filter: 331045
+Planning Time: 0.127 ms
+Execution Time: 103.645 ms
+
+
+CREATE INDEX IF NOT EXISTS sessions_start_time_idx ON sessions(start_time);
+
+Bitmap Heap Scan on sessions  (cost=151.76..7844.98 rows=6959 width=26) (actual time=2.162..31.072 rows=6865 loops=1)
+  Recheck Cond: ((start_time > now()) AND (start_time < (now() + '05:00:00'::interval)))
+  Heap Blocks: exact=4500
+  ->  Bitmap Index Scan on sessions_start_time_idx  (cost=0.00..150.02 rows=6959 width=0) (actual time=1.493..1.494 rows=6865 loops=1)
+        Index Cond: ((start_time > now()) AND (start_time < (now() + '05:00:00'::interval)))
+Planning Time: 0.192 ms
+Execution Time: 31.539 ms
+
+4. Пользователя кто покупал хоть билет за последнюю неделю
+explain (analyse)
+SELECT DISTINCT u.*
+FROM orders o
+         JOIN users u ON o.user_id = u.id
+WHERE o.date_time < now()
+  AND o.date_time > now() - '1 week'::interval;
+
+10k:
+Unique  (cost=136.03..136.34 rows=18 width=972) (actual time=2.090..2.429 rows=557 loops=1)
+  ->  Sort  (cost=136.03..136.07 rows=18 width=972) (actual time=2.089..2.159 rows=825 loops=1)
+        Sort Key: u.id, u.name, u.password, u.email, u.created_on, u.last_login
+        Sort Method: quicksort  Memory: 141kB
+        ->  Hash Join  (cost=104.47..135.65 rows=18 width=972) (actual time=1.384..1.821 rows=825 loops=1)
+              Hash Cond: (u.id = o.user_id)
+              ->  Seq Scan on users u  (cost=0.00..26.00 rows=1000 width=972) (actual time=0.009..0.129 rows=1000 loops=1)
+              ->  Hash  (cost=104.25..104.25 rows=18 width=4) (actual time=1.368..1.369 rows=825 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 38kB
+                    ->  Seq Scan on orders o  (cost=0.00..104.25 rows=18 width=4) (actual time=0.009..1.218 rows=825 loops=1)
+                          Filter: ((date_time < now()) AND (date_time > (now() - '7 days'::interval)))
+                          Rows Removed by Filter: 2704
+Planning Time: 0.176 ms
+Execution Time: 2.484 ms
+
+6kk:
+
+HashAggregate  (cost=207160.68..228140.39 rows=508599 width=103) (actual time=761.301..997.854 rows=400901 loops=1)
+  Group Key: u.id, u.name, u.password, u.email, u.created_on, u.last_login
+  Planned Partitions: 32  Batches: 33  Memory Usage: 4121kB  Disk Usage: 63216kB
+  ->  Gather  (cost=39077.80..125784.84 rows=508599 width=103) (actual time=407.102..525.223 rows=512372 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Parallel Hash Join  (cost=38077.80..73924.94 rows=211916 width=103) (actual time=385.223..489.458 rows=170791 loops=3)
+              Hash Cond: (u.id = o.user_id)
+              ->  Parallel Seq Scan on users u  (cost=0.00..19551.67 rows=416667 width=103) (actual time=0.030..41.030 rows=333333 loops=3)
+              ->  Parallel Hash  (cost=34600.85..34600.85 rows=211916 width=4) (actual time=263.952..263.953 rows=170791 loops=3)
+                    Buckets: 131072  Batches: 8  Memory Usage: 3584kB
+                    ->  Parallel Seq Scan on orders o  (cost=0.00..34600.85 rows=211916 width=4) (actual time=9.203..229.949 rows=170791 loops=3)
+                          Filter: ((date_time < now()) AND (date_time > (now() - '7 days'::interval)))
+                          Rows Removed by Filter: 561755
+Planning Time: 0.555 ms
+JIT:
+  Functions: 43
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 4.354 ms, Inlining 0.000 ms, Optimization 1.505 ms, Emission 26.598 ms, Total 32.457 ms
+Execution Time: 1047.357 ms
+
+CREATE INDEX IF NOT EXISTS orders_date_time_idx ON orders(user_id,date_time);
+
+Unique  (cost=1004.30..177974.87 rows=510029 width=103) (actual time=43.442..742.742 rows=400822 loops=1)
+  ->  Gather Merge  (cost=1004.30..170324.43 rows=510029 width=103) (actual time=43.441..628.301 rows=512254 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Incremental Sort  (cost=4.27..110454.41 rows=212512 width=103) (actual time=6.564..539.805 rows=170751 loops=3)
+              Sort Key: u.id, u.name, u.password, u.email, u.created_on, u.last_login
+              Presorted Key: u.id
+              Full-sort Groups: 2972  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+              Worker 0:  Full-sort Groups: 6437  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+              Worker 1:  Full-sort Groups: 6474  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+              ->  Merge Join  (cost=3.79..100891.37 rows=212512 width=103) (actual time=6.425..482.435 rows=170751 loops=3)
+                    Merge Cond: (u.id = o.user_id)
+                    ->  Parallel Index Scan using users_pkey on users u  (cost=0.42..35535.09 rows=416667 width=103) (actual time=0.025..82.079 rows=333333 loops=3)
+                    ->  Index Only Scan using orders_date_time_idx on orders o  (cost=0.44..60917.10 rows=510029 width=4) (actual time=0.073..296.107 rows=512034 loops=3)
+                          Index Cond: ((date_time < now()) AND (date_time > (now() - '7 days'::interval)))
+                          Heap Fetches: 0
+Planning Time: 0.329 ms
+JIT:
+  Functions: 25
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 2.658 ms, Inlining 0.000 ms, Optimization 0.797 ms, Emission 17.089 ms, Total 20.544 ms
+Execution Time: 764.598 ms
+
+5. Показы определенного фильма на ближайшие два дня
+
+explain (analyse)
+select s.id,s.start_time,s.price,h.title as hall_name,m.title as movie_name
+	from sessions s
+	left join halls h
+		on h.id=s.hall_id
+	left join movies m
+		on m.id=s.movie_id
+where s.movie_id=80 and
+	(s.start_time > now() and s.start_time < now() + '2 days');
+
+10k:
+Nested Loop Left Join  (cost=0.29..59.14 rows=1 width=462) (actual time=0.029..0.107 rows=1 loops=1)
+  Join Filter: (m.id = s.movie_id)
+  ->  Nested Loop Left Join  (cost=0.15..50.96 rows=1 width=248) (actual time=0.023..0.102 rows=1 loops=1)
+        ->  Seq Scan on sessions s  (cost=0.00..42.75 rows=1 width=34) (actual time=0.014..0.091 rows=1 loops=1)
+              Filter: ((movie_id = 80) AND (start_time > now()) AND (start_time < (now() + '2 days'::interval)))
+              Rows Removed by Filter: 999
+        ->  Index Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=222) (actual time=0.008..0.008 rows=1 loops=1)
+              Index Cond: (id = s.hall_id)
+  ->  Index Scan using movies_pkey on movies m  (cost=0.15..8.17 rows=1 width=222) (actual time=0.004..0.004 rows=1 loops=1)
+        Index Cond: (id = 80)
+Planning Time: 0.155 ms
+Execution Time: 0.126 ms
+
+6kk:
+
+Gather  (cost=1008.59..18793.01 rows=4 width=120) (actual time=1.394..37.027 rows=5 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Hash Left Join  (cost=8.59..17792.61 rows=2 width=120) (actual time=11.083..30.349 rows=2 loops=3)
+        Hash Cond: (s.movie_id = m.id)
+        ->  Nested Loop Left Join  (cost=0.28..17784.27 rows=2 width=73) (actual time=10.992..30.253 rows=2 loops=3)
+              ->  Parallel Seq Scan on sessions s  (cost=0.00..17769.67 rows=2 width=26) (actual time=10.974..30.218 rows=2 loops=3)
+                    Filter: ((movie_id = 80) AND (start_time > now()) AND (start_time < (now() + '2 days'::interval)))
+                    Rows Removed by Filter: 333332
+              ->  Index Scan using halls_pkey on halls h  (cost=0.28..7.29 rows=1 width=55) (actual time=0.013..0.013 rows=1 loops=5)
+                    Index Cond: (id = s.hall_id)
+        ->  Hash  (cost=8.30..8.30 rows=1 width=55) (actual time=0.019..0.020 rows=1 loops=2)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.30 rows=1 width=55) (actual time=0.014..0.016 rows=1 loops=2)
+                    Index Cond: (id = 80)
+Planning Time: 0.465 ms
+Execution Time: 37.080 ms
+
+CREATE INDEX IF NOT EXISTS sessions_start_time_idx ON sessions(start_time,movie_id);
+
+Nested Loop Left Join  (cost=0.99..1923.91 rows=4 width=120) (actual time=1.679..9.554 rows=5 loops=1)
+  Join Filter: (m.id = s.movie_id)
+  ->  Nested Loop Left Join  (cost=0.71..1915.55 rows=4 width=73) (actual time=1.669..9.538 rows=5 loops=1)
+        ->  Index Scan using sessions_start_time_idx on sessions s  (cost=0.43..1886.36 rows=4 width=26) (actual time=1.659..9.506 rows=5 loops=1)
+              Index Cond: ((start_time > now()) AND (start_time < (now() + '2 days'::interval)) AND (movie_id = 80))
+        ->  Index Scan using halls_pkey on halls h  (cost=0.28..7.29 rows=1 width=55) (actual time=0.004..0.004 rows=1 loops=5)
+              Index Cond: (id = s.hall_id)
+  ->  Materialize  (cost=0.29..8.31 rows=1 width=55) (actual time=0.002..0.002 rows=1 loops=5)
+        ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.30 rows=1 width=55) (actual time=0.006..0.006 rows=1 loops=1)
+              Index Cond: (id = 80)
+Planning Time: 0.303 ms
+Execution Time: 9.585 ms
+
+6. Фильмы где значение определенного числового атрибута в определенных рамках
+explain(analyse)
+SELECT m.id, m.title as movie_title, ma.name as attribute_name, mav.value_int
+FROM movieAttributes ma
+         LEFT JOIN movieAttributeValues mav ON mav.attribute_id = ma.id
+         LEFT JOIN movies m ON mav.movie_id = m.id
+WHERE ma.id=33
+  AND mav.value_int BETWEEN 5 and 10;
+
+10k:
+Nested Loop Left Join  (cost=0.29..70.83 rows=1 width=742) (actual time=0.219..0.447 rows=34 loops=1)
+  ->  Nested Loop  (cost=0.14..62.62 rows=1 width=524) (actual time=0.214..0.359 rows=34 loops=1)
+        ->  Index Scan using movieattributes_pkey on movieattributes ma  (cost=0.14..8.16 rows=1 width=520) (actual time=0.012..0.013 rows=1 loops=1)
+              Index Cond: (id = 33)
+        ->  Seq Scan on movieattributevalues mav  (cost=0.00..54.44 rows=1 width=12) (actual time=0.199..0.337 rows=34 loops=1)
+              Filter: ((value_int >= 5) AND (value_int <= 10) AND (attribute_id = 33))
+              Rows Removed by Filter: 2466
+  ->  Index Scan using movies_pkey on movies m  (cost=0.15..8.17 rows=1 width=222) (actual time=0.002..0.002 rows=1 loops=34)
+        Index Cond: (id = mav.movie_id)
+Planning Time: 0.167 ms
+Execution Time: 0.474 ms
+
+6kk:
+Nested Loop Left Join  (cost=0.56..2669.27 rows=2 width=575) (actual time=12.928..12.930 rows=0 loops=1)
+  ->  Nested Loop  (cost=0.28..2652.66 rows=2 width=524) (actual time=12.928..12.929 rows=0 loops=1)
+        ->  Index Scan using movieattributes_pkey on movieattributes ma  (cost=0.28..8.29 rows=1 width=520) (actual time=0.014..0.017 rows=1 loops=1)
+              Index Cond: (id = 33)
+        ->  Seq Scan on movieattributevalues mav  (cost=0.00..2644.35 rows=2 width=12) (actual time=12.909..12.910 rows=0 loops=1)
+              Filter: ((value_int >= 5) AND (value_int <= 10) AND (attribute_id = 33))
+              Rows Removed by Filter: 125000
+  ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.30 rows=1 width=55) (never executed)
+        Index Cond: (id = mav.movie_id)
+Planning Time: 0.494 ms
+Execution Time: 12.960 ms
+
+
+CREATE INDEX IF NOT EXISTS mav_value_int_idx ON movieAttributeValues(value_int);
+
+Nested Loop Left Join  (cost=209.23..1528.55 rows=3 width=110) (actual time=1.698..1.699 rows=0 loops=1)
+  ->  Nested Loop  (cost=208.95..1503.64 rows=3 width=59) (actual time=1.698..1.699 rows=0 loops=1)
+        ->  Index Scan using movieattributes_pkey on movieattributes ma  (cost=0.28..8.30 rows=1 width=55) (actual time=0.006..0.007 rows=1 loops=1)
+              Index Cond: (id = 33)
+        ->  Bitmap Heap Scan on movieattributevalues mav  (cost=208.66..1495.31 rows=3 width=12) (actual time=1.689..1.689 rows=0 loops=1)
+              Recheck Cond: ((value_int >= 5) AND (value_int <= 10))
+              Filter: (attribute_id = 33)
+              Rows Removed by Filter: 15273
+              Heap Blocks: exact=136
+              ->  Bitmap Index Scan on mav_value_int_idx  (cost=0.00..208.66 rows=15237 width=0) (actual time=0.300..0.300 rows=15273 loops=1)
+                    Index Cond: ((value_int >= 5) AND (value_int <= 10))
+  ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.30 rows=1 width=55) (never executed)
+        Index Cond: (id = mav.movie_id)
+Planning Time: 0.495 ms
+Execution Time: 1.721 ms
+
+
+7. Размер объектов Public
+
+SELECT nspname || '.' || relname AS "relation",
+pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname='public'
+ORDER BY pg_relation_size(C.oid) DESC
+
+
+public.users
+public.orders
+public.orders_date_time_idx
+public.orders_session_id_seat_id_key
+public.sessions
+public.orders_pkey
+public.sessions_hall_id_start_time_key
+public.users_name_key
+public.users_name_idx
+public.sessions_pkey
+public.sessions_start_time_idx
+public.users_pkey
+public.movieattributevalues
+public.seats
+public.seats_number_hall_id_key
+public.movie_attribute_idx
+public.seats_pkey
+public.movieattributevalues_pkey
+public.movies
+public.movies_title_idx
+public.mav_value_int_idx
+public.movieattributes_name_key
+public.movieattributes
+public.movies_pkey
+public.movieattributes_pkey
+public.movieattributetypes
+public.type_idx
+public.halls_title_key
+public.halls
+public.halls_pkey
+public.movieattributetypes_pkey
+public.halls_id_seq
+public.sessions_id_seq
+public.movieattributes_id_seq
+public.users_id_seq
+public.orders_id_seq
+public.seats_id_seq
+public.movieattributetypes_id_seq
+public.movieattributevalues_id_seq
+public.movies_id_seq
+
+
+8. Наиболее используемые индексы
+
+sessions	sessions_pkey	3197637
+seats	seats_pkey	2407637
+users	users_pkey	2197766
+orders	orders_pkey	2197654
+orders	orders_session_id_seat_id_key	2197654
+
+9. Наименее используемые индексы
+
+movieattributes	type_idx	0
+movieattributevalues	mav_value_int_idx	1
+users	users_name_key	1
+movies	movies_title_idx	1
+sessions	sessions_start_time_idx	1
