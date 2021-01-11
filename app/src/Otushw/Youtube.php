@@ -8,7 +8,7 @@ use Exception;
 class Youtube
 {
     const URL_API = 'https://www.googleapis.com/youtube/v3';
-    const MAX_NUMBER_VIDEOS = 4;
+    const MAX_NUMBER_VIDEOS = 50;
 
     private string $channelId;
     private string $apiKey;
@@ -125,49 +125,58 @@ class Youtube
      * @return array
      * @throws Exception
      */
-    private function request($url)
+    private function request(string $url): array
     {
         $response = $this->sendRequest($url);
-        return $this->validateRequest($response);
+        $this->validateRequest($response);
+        return $this->getResponse($response);
     }
 
     /**
      * @param string $url
      *
      * @return string
+     * @throws Exception
      */
-    private function sendRequest($url): string
+    private function sendRequest(string $url): string
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         if (empty($response)) {
-            $response = '';
+            throw new Exception('Request: ' . $url . ' return failed.');
         }
         curl_close($ch);
         return $response;
     }
 
     /**
-     * @param mixed $response
+     * @param string $response
      *
      * @throws Exception
-     *
-     * @return array
      */
-    private function validateRequest($response): array
+    private function validateRequest(string $response)
     {
         if (empty($response)) {
             throw new Exception('YouTube is not available.');
         }
         $response = json_decode($response, true);
-        if (empty($response)) {
-            $response = [];
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Error: ' . json_last_error());
         }
         if (empty($response)) {
             throw new Exception('YouTube returned data not in format is not JSON.');
         }
-        return $response;
+    }
+
+    /**
+     * @param string $response
+     *
+     * @return array
+     */
+    private function getResponse(string $response): array
+    {
+        return json_decode($response, true);
     }
 }

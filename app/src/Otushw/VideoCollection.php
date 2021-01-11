@@ -3,8 +3,6 @@
 
 namespace Otushw;
 
-use Exception;
-
 class VideoCollection implements \Iterator
 {
 
@@ -70,7 +68,7 @@ class VideoCollection implements \Iterator
     /**
      * @return Video
      */
-    public function current(): Video
+    public function current(): ?Video
     {
         return $this->getRow($this->pointer);
     }
@@ -78,7 +76,7 @@ class VideoCollection implements \Iterator
     /**
      * @return Video
      */
-    public function next(): Video
+    public function next(): ?Video
     {
         $this->pointer++;
         return $this->current();

@@ -3,34 +3,33 @@
 
 namespace Otushw;
 
-
-use Otushw\DBSystem\NoSQLDAO;
+use Exception;
 
 class VideoMapper
 {
     const SIZE_BUTCH = 3;
 
     /**
-     * @var NoSQLDAO
+     * @var StorageInterface
      */
-    private NoSQLDAO $db;
+    private StorageInterface $storage;
 
     /**
-     * @param NoSQLDAO $db
+     * @param StorageInterface $storage
      */
-    public function __construct(NoSQLDAO $db)
+    public function __construct(StorageInterface $storage)
     {
-        $this->db = $db;
+        $this->storage = $storage;
     }
 
     /**
      * @param string $id
      *
-     * @return Video|false
+     * @return Video
      */
-    public function findById(string $id)
+    public function findById(string $id): ?Video
     {
-        $result = $this->db->read($id);
+        $result = $this->storage->read($id);
         if (!empty($result)) {
             return new Video(
                 $id,
@@ -41,17 +40,17 @@ class VideoMapper
                 $result['commentCount']
             );
         }
-        return false;
+        return null;
     }
 
     /**
      * @param array $source
      *
-     * @return Video|false
+     * @return Video
      */
-    public function insert(array $source)
+    public function insert(array $source): ?Video
     {
-        $result = $this->db->create($source);
+        $result = $this->storage->create($source);
         if (!empty($result)) {
             return new Video(
                 $source['id'],
@@ -62,7 +61,7 @@ class VideoMapper
                 $source['commentCount']
             );
         }
-        return false;
+        return null;
     }
 
     /**
@@ -72,7 +71,7 @@ class VideoMapper
      */
     public function update(Video $video): bool
     {
-        return $this->db->update(
+        return $this->storage->update(
             $video->getId(),
             [
                 'title' => $video->getTitle(),
@@ -91,7 +90,7 @@ class VideoMapper
      */
     public function delete(Video $video): bool
     {
-        return $this->db->delete($video->getId());
+        return $this->storage->delete($video->getId());
     }
 
     /**
@@ -101,7 +100,7 @@ class VideoMapper
     {
         $result = [];
         $offset = 0;
-        while ($rows = $this->db->getItems(self::SIZE_BUTCH, $offset)) {
+        while ($rows = $this->storage->getItems(self::SIZE_BUTCH, $offset)) {
             $result = array_merge($result, $rows);
             $offset += self::SIZE_BUTCH;
         }
@@ -113,7 +112,7 @@ class VideoMapper
      */
     public function getSumLikeCount(): int
     {
-        return (int) $this->db->getSumField('likeCount');
+        return (int) $this->storage->getSumField('likeCount');
     }
 
     /**
@@ -121,6 +120,6 @@ class VideoMapper
      */
     public function getSumDisLikeCount(): int
     {
-        return (int) $this->db->getSumField('disLikeCount');
+        return (int) $this->storage->getSumField('disLikeCount');
     }
 }
