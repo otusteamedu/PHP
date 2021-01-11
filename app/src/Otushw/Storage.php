@@ -4,6 +4,7 @@
 namespace Otushw;
 
 use Otushw\DBSystem\ElasticSearch\ElasticSearchDAO;
+use Otushw\DBSystem\MongoDB\MongoDBDAO;
 
 class Storage
 {
@@ -17,6 +18,8 @@ class Storage
         switch ($storageType) {
             case ElasticSearchDAO::STORAGE_NAME:
                 return new ElasticSearchDAO();
+            case MongoDBDAO::STORAGE_NAME:
+                return new MongoDBDAO();
         }
     }
 }
