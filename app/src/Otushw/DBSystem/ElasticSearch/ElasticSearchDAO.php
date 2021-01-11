@@ -6,20 +6,21 @@ namespace Otushw\DBSystem\ElasticSearch;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Otushw\DBSystem\NoSQLDAO;
-use Otushw\DBSystem\DocumentDTO;
 use Exception;
+use Otushw\StorageInterface;
 
 class ElasticSearchDAO extends NoSQLDAO
 {
     private Client $client;
+    const STORAGE_NAME = 'ElasticSearch';
 
-    public function __construct(DocumentDTO $doc)
+    public function __construct()
     {
-        parent::__construct($doc);
-
         $clientBuilder = ClientBuilder::create();
         $clientBuilder->setHosts([$_ENV['DB_HOST']]);
         $this->client = $clientBuilder->build();
+
+        parent::__construct();
     }
 
     public function create(array $source): bool
@@ -208,10 +209,10 @@ class ElasticSearchDAO extends NoSQLDAO
     /**
      * @param array $source
      *
-     * @return array|callable|mixed
+     * @return array
      * @throws Exception
      */
-    private function index(array $source)
+    private function index(array $source): array
     {
         $params = [
             'index' => $this->documentName,
@@ -299,7 +300,7 @@ class ElasticSearchDAO extends NoSQLDAO
             'index' => $this->documentName,
             'body' => [
                 'mappings' => [
-                    'properties' => $this->doc->getDocumentStruct(),
+                    'properties' => $this->generateIndexStruct(),
                     'dynamic' => 'strict'
                 ]
             ]
@@ -309,5 +310,24 @@ class ElasticSearchDAO extends NoSQLDAO
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    private function generateIndexStruct(): array
+    {
+        $result = [];
+        foreach ($_ENV['SCHEMA'] as $field => $dataType) {
+            if ($dataType == 'string') {
+                $esType = 'text';
+            }
+            if ($dataType == 'integer') {
+                $esType = 'integer';
+            }
+            $result[$field] = ['type' => $esType];
+        }
+
+        return $result;
     }
 }

@@ -3,20 +3,21 @@
 
 namespace Otushw\DBSystem;
 
-use Otushw\DBSystem\DocumentDTO;
+use Otushw\StorageInterface;
 
-
-abstract class NoSQLDAO
+abstract class NoSQLDAO implements StorageInterface
 {
-    protected DocumentDTO $doc;
     protected array $struct;
     protected string $documentName;
 
-    public function __construct(DocumentDTO $doc)
+    public function __construct()
     {
-        $this->doc = $doc;
-        $this->struct = array_keys($doc->getDocumentStruct());
-        $this->documentName = $doc->getDocumentName();
+        $this->setDocumentName($_ENV['NAME_DATASET']);
+        $this->setDocumentStruct($_ENV['SCHEMA']);
+
+        if (!$this->existDocStruct()) {
+            $this->createDocStruct();
+        }
     }
 
     /**
@@ -30,19 +31,31 @@ abstract class NoSQLDAO
         return (json_last_error() == JSON_ERROR_NONE);
     }
 
-    abstract public function create(array $source): bool;
+    private function setDocumentStruct(array $schema)
+    {
+        $this->struct = array_keys($schema);
+    }
 
-    abstract public function read(int $id): array;
+    /**
+     * @return array
+     */
+    public function getDocumentStruct(): array
+    {
+        return $this->struct;
+    }
 
-    abstract public function update(int $id, array $source): bool;
+    private function setDocumentName(string $name)
+    {
+        $this->documentName = $name;
+    }
 
-    abstract public function delete(int $id): bool;
-
-    abstract public function getItems(int $limit = 10, int $offset = 0): array;
-
-    abstract public function getCount(): int;
-
-    abstract public function getSumField(string $fieldName): int;
+    /**
+     * @return string
+     */
+    public function getDocumentName(): string
+    {
+        return $this->documentName;
+    }
 
     abstract public function existDocStruct(): bool;
 
