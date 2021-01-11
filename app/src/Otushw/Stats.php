@@ -3,23 +3,23 @@
 
 namespace Otushw;
 
-
-use Otushw\DBSystem\NoSQLDAO;
-
-class Stats implements Application
+class Stats
 {
+    const AGGR = 'AGGREGATION';
+    const COLLECTION = 'COLLECTION';
+
     private int $likeCount = 0;
     private int $disLikeCount = 0;
     private VideoMapper $videoMapper;
 
-    public function __construct(NoSQLDAO $db)
+    public function __construct(StorageInterface $storage)
     {
-        $this->videoMapper = new VideoMapper($db);
+        $this->videoMapper = new VideoMapper($storage);
 
-        if ($_ENV['TYPE_STATS'] == 'COLLECTION') {
+        if ($_ENV['TYPE_STATS'] == self::COLLECTION) {
             $this->getDataViaCollection();
         }
-        if ($_ENV['TYPE_STATS'] == 'AGGREGATION') {
+        if ($_ENV['TYPE_STATS'] == self::AGGR) {
             $this->getDataViaAggregation();
         }
 
@@ -34,14 +34,12 @@ class Stats implements Application
         return $this->likeCount;
     }
 
-    private function setLikeCount($likeCount)
+    /**
+     * @param int $likeCount
+     */
+    private function setLikeCount(int $likeCount)
     {
         $this->likeCount = $likeCount;
-    }
-
-    private function setDisLikeCount($disLikeCount)
-    {
-        $this->disLikeCount = $disLikeCount;
     }
 
     /**
@@ -50,6 +48,14 @@ class Stats implements Application
     private function getDisLikeCount(): int
     {
         return$this->disLikeCount;
+    }
+
+    /**
+     * @param int $disLikeCount
+     */
+    private function setDisLikeCount(int $disLikeCount)
+    {
+        $this->disLikeCount = $disLikeCount;
     }
 
     private function getDataViaCollection()

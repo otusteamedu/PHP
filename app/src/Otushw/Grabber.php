@@ -3,16 +3,17 @@
 
 namespace Otushw;
 
-use Otushw\DBSystem\NoSQLDAO;
-
-class Grabber implements Application
+class Grabber
 {
-    public function __construct(NoSQLDAO $db)
+    public function __construct(StorageInterface $storage)
     {
-        $videoMapper = new VideoMapper($db);
+        $videoMapper = new VideoMapper($storage);
         $youtube = new Youtube();
         $i = 0;
-        while (true) {
+        $j = 0;
+        while($j < 1) {
+            $j++;
+//        while (true) {
             $youtube->getListVideosID();
             if (empty($youtube->getNumberListVideo())) {
                 break;
