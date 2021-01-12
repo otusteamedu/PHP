@@ -1,0 +1,19 @@
+[global]
+# Allows: AGGREGATION, COLLECTION
+TYPE_STATS='AGGREGATION'
+NAME_DATASET='video'
+[youtube]
+YOUTUBE_API_KEY='API_KEYP'
+CHANNEL_ID='CHANNEL_ID'
+[storage]
+;DB_HOST='es:9200'
+DB_HOST='mongodb://root:example@mongo:27017'
+# Allows: ElasticSearch, MongoDB
+DB_SYSTEM='MongoDB'
+[schema]
+SCHEMA[id] = "string"
+SCHEMA[title] = "string"
+SCHEMA[viewCount] = "integer"
+SCHEMA[likeCount] = "integer"
+SCHEMA[disLikeCount] = "integer"
+SCHEMA[commentCount] = "integer"

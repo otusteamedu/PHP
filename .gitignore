@@ -1,3 +1,5 @@
 vendor
 .idea
 files/*
+app/.env
+app/config.ini

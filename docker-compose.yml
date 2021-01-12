@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  es:
+    build:
+      context: ./docker/es
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+
+  composer:
+    build:
+      context: ./docker/composer
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/public_html
+
+
+
