@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+use App\App;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+try {
+    $app = new App($argv[1] ?? '');
+    $app->run();
+} catch (Throwable $exception) {
+    echo $exception->getMessage() . PHP_EOL;
+}

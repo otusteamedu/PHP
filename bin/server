@@ -1,9 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-use App\Server;
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$server = new Server($_ENV['SOCKET_HOST'], $_ENV['SOCKET_PORT']);
-$server->run();
