@@ -3,8 +3,6 @@
 
 namespace Otushw;
 
-use Exception;
-
 class VideoMapper
 {
     const SIZE_BUTCH = 3;
@@ -44,21 +42,21 @@ class VideoMapper
     }
 
     /**
-     * @param array $source
+     * @param VideoDTO $source
      *
      * @return Video
      */
-    public function insert(array $source): ?Video
+    public function insert(VideoDTO $source): ?Video
     {
         $result = $this->storage->create($source);
         if (!empty($result)) {
             return new Video(
-                $source['id'],
-                $source['title'],
-                $source['viewCount'],
-                $source['likeCount'],
-                $source['disLikeCount'],
-                $source['commentCount']
+                $source->id,
+                $source->title,
+                $source->viewCount,
+                $source->likeCount,
+                $source->disLikeCount,
+                $source->commentCount
             );
         }
         return null;
@@ -73,13 +71,14 @@ class VideoMapper
     {
         return $this->storage->update(
             $video->getId(),
-            [
-                'title' => $video->getTitle(),
-                'viewCount' => $video->getViewCount(),
-                'likeCount' => $video->getLikeCount(),
-                'disLikeCount' => $video->getDisLikeCount(),
-                'commentCount' => $video->getCommentCount()
-            ]
+            new VideoDTO(
+                $video->getId(),
+                $video->getTitle(),
+                $video->getViewCount(),
+                $video->getLikeCount(),
+                $video->getDisLikeCount(),
+                $video->getCommentCount()
+            )
         );
     }
 

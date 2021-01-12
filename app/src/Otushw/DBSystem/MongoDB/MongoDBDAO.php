@@ -8,6 +8,7 @@ use MongoDB\Collection;
 use MongoDB\Database;
 use Otushw\DBSystem\NoSQLDAO;
 use Exception;
+use Otushw\VideoDTO;
 
 class MongoDBDAO extends NoSQLDAO
 {
@@ -29,12 +30,13 @@ class MongoDBDAO extends NoSQLDAO
     }
 
     /**
-     * @param array $source
+     * @param VideoDTO $source
      *
      * @return bool
      */
-    public function create(array $source): bool
+    public function create(VideoDTO $source): bool
     {
+        $source = (array) $source;
         $source['_id'] = $source['id'];
         try {
             $insertOneResult = $this->collection->insertOne($source);
@@ -113,33 +115,41 @@ class MongoDBDAO extends NoSQLDAO
     /**
      * @param int $id
      *
-     * @return array
+     * @return VideoDTO
      */
-    public function read(int $id): array
+    public function read(int $id): ?VideoDTO
     {
         $response = $this->collection->findOne(['_id' => $id]);
         if (empty($response)) {
-            return [];
+            return null;
         }
         $response = (array) $response->jsonSerialize();
         $result = [];
         foreach ($this->struct as $item) {
             $result[$item] = $response[$item];
         }
-        return $result;
+
+        return new VideoDTO(
+            $result['id'],
+            $result['title'],
+            $result['viewCount'],
+            $result['likeCount'],
+            $result['disLikeCount'],
+            $result['commentCount']
+        );
     }
 
     /**
      * @param int   $id
-     * @param array $source
+     * @param VideoDTO $source
      *
      * @return bool
      */
-    public function update(int $id, array $source): bool
+    public function update(int $id, VideoDTO $source): bool
     {
         $result = $this->collection->updateOne(
             ['_id' => $id],
-            ['$set' => $source]
+            ['$set' => (array) $source]
         );
         if ($result->getModifiedCount() || $result->getMatchedCount()) {
             return true;
@@ -199,7 +209,7 @@ class MongoDBDAO extends NoSQLDAO
                 $type = 'string';
             }
             if ($dataType == 'integer') {
-                $esType = 'int';
+                $type = 'int';
             }
             $result[$field] = ['$type' => $type];
         }

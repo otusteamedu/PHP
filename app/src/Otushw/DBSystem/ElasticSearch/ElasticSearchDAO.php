@@ -8,6 +8,7 @@ use Elasticsearch\ClientBuilder;
 use Otushw\DBSystem\NoSQLDAO;
 use Exception;
 use Otushw\StorageInterface;
+use Otushw\VideoDTO;
 
 class ElasticSearchDAO extends NoSQLDAO
 {
@@ -23,7 +24,7 @@ class ElasticSearchDAO extends NoSQLDAO
         parent::__construct();
     }
 
-    public function create(array $source): bool
+    public function create(VideoDTO $source): bool
     {
         $response = $this->index($source);
         if (!empty($response['result']) && $response['result'] == 'created') {
@@ -125,10 +126,10 @@ class ElasticSearchDAO extends NoSQLDAO
     /**
      * @param int $id
      *
-     * @return array
+     * @return VideoDTO
      * @throws Exception
      */
-    public function read(int $id): array
+    public function read(int $id): ?VideoDTO
     {
         $params = [
             'index' => $this->documentName,
@@ -144,7 +145,7 @@ class ElasticSearchDAO extends NoSQLDAO
         }
 
         if (empty($response['found'])) {
-            return [];
+            return null;
         }
         $result = [
             'id' => $response['_id']
@@ -157,24 +158,32 @@ class ElasticSearchDAO extends NoSQLDAO
                 $result[$item] = $response['_source'][$item];
             }
         }
-        return $result;
+
+        return new VideoDTO(
+            $result['id'],
+            $result['title'],
+            $result['viewCount'],
+            $result['likeCount'],
+            $result['disLikeCount'],
+            $result['commentCount']
+        );
     }
 
     /**
      * @param int   $id
-     * @param array $source
+     * @param VideoDTO $source
      *
      * @return bool
      * @throws Exception
      */
-    public function update(int $id, array $source): bool
+    public function update(int $id, VideoDTO $source): bool
     {
         $exist = $this->read($id);
         if (empty($exist)) {
             throw new Exception('Item id:' . $id . ' does not exist.');
         }
 
-        $source['id'] = $id;
+        $source->id = $id;
         $response = $this->index($source);
 
         if (!empty($response['result']) && $response['result'] == 'updated') {
@@ -207,12 +216,12 @@ class ElasticSearchDAO extends NoSQLDAO
     }
 
     /**
-     * @param array $source
+     * @param VideoDTO $source
      *
      * @return array
      * @throws Exception
      */
-    private function index(array $source): array
+    private function index(VideoDTO $source): array
     {
         $params = [
             'index' => $this->documentName,
@@ -220,13 +229,13 @@ class ElasticSearchDAO extends NoSQLDAO
         ];
 
         foreach ($this->struct as $item) {
-            if (!isset($source[$item])) {
+            if (!isset($source->{$item})) {
                 throw new Exception($item . ' is missing');
             }
             if ($item == 'id') {
-                $params[$item] = $source[$item];
+                $params[$item] = $source->{$item};
             } else {
-                $params['body'][$item] = $source[$item];
+                $params['body'][$item] = $source->{$item};
             }
         }
 

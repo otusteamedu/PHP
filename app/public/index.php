@@ -14,6 +14,6 @@ try {
 catch (Exception $e) {
     View::showClient();
     $log = new Logger('app');
-    $log->pushHandler(new StreamHandler('app.log'));
+    $log->pushHandler(new StreamHandler('../app.log'));
     $log->error($e->getMessage());
 }

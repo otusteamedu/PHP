@@ -50,15 +50,15 @@ class Youtube
     }
 
     /**
-     * @return array
+     * @return VideoDTO
      *
      * @throws Exception
      */
-    public function getVideo(): array
+    public function getVideo(): ?VideoDTO
     {
         $videoID = $this->getLastVideoID();
         if (empty($videoID)) {
-            return [];
+            return null;
         }
         $params = [
             'fields' => 'items(id,snippet(channelId,title,categoryId),statistics)',
@@ -76,14 +76,23 @@ class Youtube
                 throw new Exception('YouTube returned an unsupported data structure.');
             }
         }
-        return [
-            'id' => $videoID,
-            'title' => $response['snippet']['title'],
-            'viewCount' => intval($response['statistics']['viewCount']),
-            'likeCount' => intval($response['statistics']['likeCount']),
-            'disLikeCount' => intval($response['statistics']['dislikeCount']),
-            'commentCount' => intval($response['statistics']['commentCount']),
-        ];
+
+        return new VideoDTO(
+            $videoID,
+            $response['snippet']['title'],
+            intval($response['statistics']['viewCount']),
+            intval($response['statistics']['likeCount']),
+            intval($response['statistics']['dislikeCount']),
+            intval($response['statistics']['commentCount']),
+        );
+//        return [
+//            'id' => $videoID,
+//            'title' => $response['snippet']['title'],
+//            'viewCount' => intval($response['statistics']['viewCount']),
+//            'likeCount' => intval($response['statistics']['likeCount']),
+//            'disLikeCount' => intval($response['statistics']['dislikeCount']),
+//            'commentCount' => intval($response['statistics']['commentCount']),
+//        ];
     }
 
     /**

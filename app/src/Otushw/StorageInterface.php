@@ -5,11 +5,11 @@ namespace Otushw;
 
 interface StorageInterface
 {
-    public function create(array $source): bool;
+    public function create(VideoDTO $source): bool;
 
-    public function read(int $id): array;
+    public function read(int $id): ?VideoDTO;
 
-    public function update(int $id, array $source): bool;
+    public function update(int $id, VideoDTO $source): bool;
 
     public function delete(int $id): bool;
 
