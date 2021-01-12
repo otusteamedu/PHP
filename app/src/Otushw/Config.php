@@ -17,7 +17,7 @@ class Config
         }
 
         if (empty(file_exists($filePath))) {
-            throw new Exception($filePath . ' does not exit.');
+            throw new UserException($filePath . ' does not exit.');
         }
 
         $this->filePath = $filePath;
@@ -38,7 +38,7 @@ class Config
     {
         $result = parse_ini_file($this->filePath);
         if (empty($result)) {
-            throw new Exception("Cann't read config.ini");
+            throw new UserException("Can not read config.ini");
         }
         return $result;
     }

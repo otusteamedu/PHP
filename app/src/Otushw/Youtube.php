@@ -3,7 +3,7 @@
 
 namespace Otushw;
 
-use Exception;
+use Otushw\AppException;
 
 class Youtube
 {
@@ -52,7 +52,7 @@ class Youtube
     /**
      * @return VideoDTO
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function getVideo(): ?VideoDTO
     {
@@ -68,12 +68,12 @@ class Youtube
         $url = $this->generateURL('videos', $params);
         $response = $this->request($url);
         if (empty($response['items'])) {
-            throw new Exception('YouTube returned an unsupported data structure.');
+            throw new AppException('YouTube returned an unsupported data structure.');
         }
         $response = $response['items'][0];
         foreach (['snippet', 'statistics'] as $item) {
             if (empty($response[$item])) {
-                throw new Exception('YouTube returned an unsupported data structure.');
+                throw new AppException('YouTube returned an unsupported data structure.');
             }
         }
 
@@ -85,14 +85,6 @@ class Youtube
             intval($response['statistics']['dislikeCount']),
             intval($response['statistics']['commentCount']),
         );
-//        return [
-//            'id' => $videoID,
-//            'title' => $response['snippet']['title'],
-//            'viewCount' => intval($response['statistics']['viewCount']),
-//            'likeCount' => intval($response['statistics']['likeCount']),
-//            'disLikeCount' => intval($response['statistics']['dislikeCount']),
-//            'commentCount' => intval($response['statistics']['commentCount']),
-//        ];
     }
 
     /**
@@ -132,7 +124,7 @@ class Youtube
      * @param string $url
      *
      * @return array
-     * @throws Exception
+     * @throws AppException
      */
     private function request(string $url): array
     {
@@ -145,7 +137,7 @@ class Youtube
      * @param string $url
      *
      * @return string
-     * @throws Exception
+     * @throws AppException
      */
     private function sendRequest(string $url): string
     {
@@ -154,7 +146,7 @@ class Youtube
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         if (empty($response)) {
-            throw new Exception('Request: ' . $url . ' return failed.');
+            throw new AppException('Request: ' . $url . ' return failed.');
         }
         curl_close($ch);
         return $response;
@@ -163,19 +155,19 @@ class Youtube
     /**
      * @param string $response
      *
-     * @throws Exception
+     * @throws AppException
      */
     private function validateRequest(string $response)
     {
         if (empty($response)) {
-            throw new Exception('YouTube is not available.');
+            throw new AppException('YouTube is not available.');
         }
         $response = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Error: ' . json_last_error());
+            throw new AppException('Error: ' . json_last_error());
         }
         if (empty($response)) {
-            throw new Exception('YouTube returned data not in format is not JSON.');
+            throw new AppException('YouTube returned data not in format is not JSON.');
         }
     }
 

@@ -22,13 +22,13 @@ class Params
     private function validateParam()
     {
         if (!isset($_SERVER['argv'][1])) {
-            throw new Exception('To run the script, need the parameter.');
+            throw new UserException('To run the script, need the parameter.');
         }
         if (empty($_SERVER['argv'][1])) {
-            throw new Exception('Parameter is empty.');
+            throw new UserException('Parameter is empty.');
         }
         if (!in_array($_SERVER['argv'][1], self::ALLOWED_TYPE)) {
-            throw new Exception('Invalid parameter value. Allowed "'
+            throw new UserException('Invalid parameter value. Allowed "'
                 . self::GRABBER . '" or "' . self::STATS . '"');
         }
     }
@@ -48,7 +48,7 @@ class Params
     public function getParam(): string
     {
         if (empty($this->param)) {
-            throw new Exception('Parameter was not set.');
+            throw new AppException('Parameter was not set.');
         }
         return $this->param;
     }

@@ -21,4 +21,9 @@ class View
     {
         echo 'Something goes wrong and we are already working on this. Please try again later.'. PHP_EOL;
     }
+
+    public static function showMessage(string $msg)
+    {
+        echo $msg . PHP_EOL;
+    }
 }

@@ -6,7 +6,7 @@ namespace Otushw\DBSystem\ElasticSearch;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Otushw\DBSystem\NoSQLDAO;
-use Exception;
+use AppException;
 use Otushw\StorageInterface;
 use Otushw\VideoDTO;
 
@@ -38,7 +38,7 @@ class ElasticSearchDAO extends NoSQLDAO
      * @param int $offset
      *
      * @return array
-     * @throws Exception
+     * @throws AppException
      */
     public function getItems(int $limit = 10, int $offset = 0): array
     {
@@ -49,7 +49,7 @@ class ElasticSearchDAO extends NoSQLDAO
         ];
         $response = $this->client->search($params);
         if (empty($response['hits'])) {
-            throw new Exception('Can not get Items');
+            throw new AppException('Can not get Items');
         }
         if (empty($response['hits']['hits'])) {
             return [];
@@ -69,7 +69,7 @@ class ElasticSearchDAO extends NoSQLDAO
 
     /**
      * @return int
-     * @throws Exception
+     * @throws AppException
      */
     public function getCount(): int
     {
@@ -78,11 +78,11 @@ class ElasticSearchDAO extends NoSQLDAO
         ];
         try {
             $response = $this->client->count($params);
-        } catch (Exception $e) {
+        } catch (AppException $e) {
             $response = $this->processException($e);
         }
         if (empty($response['count'])) {
-            throw new Exception('Does not return count from index Video');
+            throw new Exception('Does not return count from index ' . $this->documentName);
         }
         return $response['count'];
     }
