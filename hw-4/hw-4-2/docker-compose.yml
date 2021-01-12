@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  client:
+    build: .
+    volumes:
+      - ./:/var/www
+      - ./sock:/sock
+
+  sever:
+    build: .
+    volumes:
+      - ./:/var/www
+      - ./sock:/sock

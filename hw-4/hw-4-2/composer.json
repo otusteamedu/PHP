@@ -1,0 +1,23 @@
+{
+    "name": "gena/web_mob_tuts",
+    "type": "project",
+    "require": {
+        "monolog/monolog": "2.x-dev",
+        "symfony/yaml": "5.x-dev"
+    },
+    "authors": [
+        {
+            "name": "genamalugin",
+            "email": "genamalugin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Socket\\":"src/Socket",
+            "Server\\":"src/Server",
+            "Client\\":"src/Client",
+            "Config\\":"src/Config"
+        }
+    },
+    "minimum-stability": "dev"
+}
