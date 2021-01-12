@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/srv/app
+    working_dir: /srv/app
+    env_file:
+      - ./.env
+
+  client:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/srv/app
+    working_dir: /srv/app
+    env_file:
+      - ./.env
