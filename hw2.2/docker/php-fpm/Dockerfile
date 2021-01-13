@@ -3,12 +3,8 @@ FROM php:7.4-fpm
 RUN apt-get update && apt-get install -y curl zlib1g-dev libzip-dev libpng-dev libcurl4-openssl-dev libonig-dev \
     autoconf g++ make zip unzip git libpq-dev
 
-RUN pecl install redis \
-    && pecl install xdebug \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-enable xdebug \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql gd zip json curl bcmath mbstring
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql gd zip json curl bcmath mbstring exif pcntl sockets
 
 COPY ./docker/php-fpm/php.ini /usr/local/etc/php/conf.d/php.ini
 
