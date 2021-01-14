@@ -13,20 +13,16 @@ class ArrayHelper
      */
     public static function getCorrectFormat(DBInterface $db, array $data)
     {
-        $className = get_class($db);
+        $dbName = $_ENV['NO_SQL_DB'];
 
-        switch ($className){
-            case $db::ELASTIC_SEARCH:
-                $data = self::formatForMongoDB($data);
-                break;
+        switch ($dbName){
             case $db::MONGO_DB:
-                $data = self::formatForES($data);
-                break;
+                return self::formatForMongoDB($data);
+            case $db::ELASTIC_SEARCH:
+                return self::formatForES($data);
             default:
                 throw new \Exception('invalid type of DB');
         }
-
-        return $data;
     }
 
     private static function formatForMongoDB(array $data)
@@ -34,8 +30,36 @@ class ArrayHelper
         return $data;
     }
 
-    private function formatForES(array $data)
+    private static function formatForES(array $data)
     {
-        return $data;
+        return [
+            'index' => $data['tableName'],
+            'id' => $data['id'],
+            'body' => [
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'viewCount' => $data['viewCount'],
+                'videoCount' => $data['videoCount'],
+                'subscriberCount' => $data['subscriberCount']
+            ]
+        ];
+    }
+
+    /**
+     * @param $data
+     * @param $index
+     * @return array|bool
+     */
+    public static function index($data, $index)
+    {
+        foreach ($data as $key => $value) {
+            if ($key === $index) {
+                return [
+                    $value => $data
+                ];
+            }
+        }
+
+        return false;
     }
 }

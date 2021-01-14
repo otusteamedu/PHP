@@ -11,7 +11,9 @@
     "minimum-stability": "dev",
     "require": {
         "google/apiclient": "^2.0",
-        "vlucas/phpdotenv": "^5.2@dev"
+        "vlucas/phpdotenv": "^5.2@dev",
+        "guzzlehttp/guzzle": "^7.1@dev",
+        "elasticsearch/elasticsearch": "dev-master"
     },
     "autoload": {
         "psr-4": {

@@ -2,41 +2,43 @@
 
 namespace VideoPlatform;
 
-use VideoPlatform\helpers\ArrayHelper;
-use VideoPlatform\interfaces\DBInterface;
+use Exception;
 use VideoPlatform\interfaces\VideoSharingPlatformInterface;
 
 class VideoPlatform
 {
     private VideoSharingPlatformInterface $platform;
-    private array $data;
-    private DBInterface $db;
 
-    public function __construct(VideoSharingPlatformInterface $platform, DBInterface $db)
+    public function __construct(VideoSharingPlatformInterface $platform)
     {
         $this->platform = $platform;
-        $this->db = $db;
     }
 
     /**
-     * вернет данные канала
-     * @return array
+     * начнет анализировать канал
+     * @return void
+     * @throws Exception
      */
-    public function analyze() : array
+    public function analyze() : void
     {
-        return $this->platform->getChannelDetail();
+        $this->validateParam();
+        $this->platform->analyze();
+    }
+
+    public function findById($id)
+    {
+        print_r($this->platform->getChannelById($id));
     }
 
     /**
-     * сохраняет данные у бд
-     * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    public function save() : bool
+    private function validateParam()
     {
-        $this->db->connect();
-        $data = ArrayHelper::getCorrectFormat($this->db, $this->data);
+        if (empty($_SERVER['argv'][1])) {
+            throw new Exception("необходимо передать id каналов через запятую. Пример: php index.php id1,id2,id3 \n");
+        }
 
-        return $this->db->save($data);
+        return true;
     }
 }
