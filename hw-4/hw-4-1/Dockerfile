@@ -32,6 +32,7 @@ RUN apt-get -yqq install exiftool
 RUN docker-php-ext-configure exif
 RUN docker-php-ext-install exif
 RUN docker-php-ext-enable exif
+RUN apt-get install nano
 
 RUN pecl install redis && docker-php-ext-enable redis
 

@@ -8,9 +8,7 @@ use Homework\Homework;
 
 try {
     $app = new Homework();
-    $app->check();
+    $app->run();
 } catch (Exception $e) {
-    echo "Exception: " . $e->getMessage();
+    echo "Exception: " . $e->getMessage(), "\n";
 }
-
-

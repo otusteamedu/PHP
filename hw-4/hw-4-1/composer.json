@@ -14,7 +14,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Homework\\" :"src/Homework"
+            "Homework\\" :"src/Homework",
+            "Classes\\" : "src/Classes"
         }
     }
 }

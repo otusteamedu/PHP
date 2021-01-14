@@ -2,63 +2,36 @@
 
 namespace Homework;
 
+use Classes\CountBracket;
+use Classes\Validate;
+
 class Homework
 {
-
-    function __construct()
-    {
-        // Расскоментирова строку, можем проверить результат при отправке POST переменной.
-        // Задаём переменную POST.
-//        $_POST['string'] = "(()()()()))((((()()()))(()()()(((()))))))";
-    }
+    private $string = '(()()()()))((((()()()))(()()()(((()))))))';
 
     // Отправляем заголовки в зависимости от ответа функции валидации.
-    public function check()
+    public function run() : void
     {
 
-        if ( self::validate() && self::brackets_count() && self::back_brackets_count()) {
+        if ($this->check() && $this->count()) {
             header('HTTP/1.1 200 OK');
-            return;
+            echo "Успех";
+        } else {
+            header('HTTP/1.1 400 Bad request');
+            echo "Ошибка";
         }
 
-        header('HTTP/1.1 400 Bad request');
     }
 
-    // Функция валидации запроса POST. Если запрос с именем string существует, возвщаем true, в противном случае - false.
-    private function validate()
+    private function check()
     {
-
-        if (empty( trim($_POST['string']) )) {
-            return false;
-        }
-
-
-        return true;
+        return Validate::check_string($this->string);
     }
 
-    // Проверяем количество открывающих скобок. Если соответствует указанному значению, возвращаем true.
-    private function brackets_count ()
+    private function count()
     {
-        $arr = trim($_POST['string']);
-
-        if ( substr_count($arr, '(') === 20 ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    // Проверяем количество закрывающих скобок. Если соответствует указанному значению, возвращаем true.
-    private function back_brackets_count ()
-    {
-        $arr = trim($_POST['string']);
-
-        if ( substr_count($arr, ')') === 21 ) {
-            return true;
-        }
-
-        return false;
+        return CountBracket::brackets_count($this->string);
     }
 
 
-}
+} 
