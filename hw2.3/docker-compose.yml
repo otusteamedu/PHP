@@ -13,8 +13,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./balancer/conf:/etc/nginx
-      - ./balancer/logs:/var/log/nginx
+      - ./docker/balancer/conf:/etc/nginx
+      - ./logs/balancer:/var/log/nginx
     depends_on:
       - server1
       - server2
@@ -28,9 +28,9 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./server1/conf:/etc/nginx/conf.d
-      - ./server1/logs:/var/log/nginx
-      - ./server1/app:/var/www/html
+      - ./docker/server1/conf:/etc/nginx/conf.d
+      - ./logs/server1:/var/log/nginx
+      - ./src:/var/www/html
     depends_on:
       - server1-php
     networks:
@@ -42,7 +42,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./server1/app:/var/www/html
+      - ./src:/var/www/html
     networks:
       mynetwork:
         ipv4_address: 172.30.0.3
@@ -53,9 +53,9 @@ services:
     ports:
       - "8082:80"
     volumes:
-      - ./server2/conf:/etc/nginx/conf.d
-      - ./server2/logs:/var/log/nginx
-      - ./server2/app:/var/www/html
+      - ./docker/server2/conf:/etc/nginx/conf.d
+      - ./logs/server2:/var/log/nginx
+      - ./src:/var/www/html
     depends_on:
       - server2-php
     networks:
@@ -67,7 +67,7 @@ services:
     ports:
       - "9002:9002"
     volumes:
-      - ./server2/app:/var/www/html
+      - ./src:/var/www/html
     networks:
       mynetwork:
         ipv4_address: 172.30.0.5
