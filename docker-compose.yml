@@ -9,8 +9,26 @@ services:
   php:
     build:
       context: ./docker/php
+      args:
+        UID: "3000"
     volumes:
       - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+
+  web:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+    ports:
+      - 8081:80
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/public_html
+      - ./docker/sock:/sock
+    links:
+      - php
 
   composer:
     build:
