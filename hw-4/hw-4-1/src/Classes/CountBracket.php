@@ -12,7 +12,7 @@ class CountBracket
     {
         $arr = trim($string);
 
-        if ( substr_count($arr, '(') === 20 && substr_count($arr, ')') === 21 ) {
+        if ( substr_count($arr, '(') > 0 && substr_count($arr, ')') > 0 ) {
             return true;
         }
 
