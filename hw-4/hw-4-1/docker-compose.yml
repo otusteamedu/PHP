@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  php-fpm:
+#    container_name: work-php-fpm
+    build: .
+    ports:
+      - 9005:9000
+    volumes:
+      - ./:/var/www
+
+  nginx:
+    image: nginx:latest
+    extra_hosts:
+      - '127.0.0.1:127.0.0.1'
+    ports:
+      - 8089:80
+    volumes:
+      - ./:/var/www
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/logs/nginx:/var/log/nginx
