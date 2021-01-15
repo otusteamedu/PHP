@@ -1,3 +1,0 @@
-Скриншот команды pecl list http://joxi.ru/Y2Ll9V1HEVBEw2
-Вывод команды php -i | grep http://joxi.ru/ZrJB9Dxtn04nZr
-Вывод команды php -i | grep redis http://joxi.ru/xAeyKdZiXaNNeA

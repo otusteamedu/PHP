@@ -7,7 +7,7 @@ use Classes\Validate;
 
 class Homework
 {
-    private $string = '(()()()()))((((()()()))(()()()(((()))))))';
+    private $string = '()()()()()';
 
     // Отправляем заголовки в зависимости от ответа функции валидации.
     public function run() : void
