@@ -17,7 +17,7 @@ class Channel
      * название таблицы или индекса
      * @var $table
      */
-    public $tableName = 'channels';
+    private $tableName = 'channels';
 
     /**
      * @param mixed $id
@@ -115,10 +115,15 @@ class Channel
         return $this->viewCount;
     }
 
-    public static function findById(DBInterface $db, $id)
+    /**
+     * @param DBInterface $db
+     * @param $id
+     * @return Channel
+     */
+    public static function findById(DBInterface $db, $id): self
     {
         $result = $db->findById((new self())->tableName, $id);
-        print_r($result);die;
+
         $channel = new self();
         $channel->setId($result['id']);
         $channel->setDescription($result['description']);
@@ -130,11 +135,17 @@ class Channel
         return $channel;
     }
 
+    /**
+     * @param DBInterface $db
+     */
     public function save(DBInterface $db)
     {
         $db->save($this->getProperties());
     }
 
+    /**
+     * @return array
+     */
     public function getProperties()
     {
         return get_object_vars($this);

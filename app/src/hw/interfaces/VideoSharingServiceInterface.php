@@ -2,7 +2,7 @@
 
 namespace VideoPlatform\interfaces;
 
-interface VideoSharingPlatformInterface
+interface VideoSharingServiceInterface
 {
     public function analyze();
 }

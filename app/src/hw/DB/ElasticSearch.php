@@ -2,13 +2,14 @@
 
 namespace VideoPlatform\DB;
 
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use VideoPlatform\helpers\ArrayHelper;
 use VideoPlatform\interfaces\DBInterface;
 
 class ElasticSearch implements DBInterface
 {
-    private $client;
+    private Client $client;
 
     public function __construct()
     {
@@ -17,9 +18,15 @@ class ElasticSearch implements DBInterface
             ->build();
     }
 
+    /**
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
     public function save(array $data): bool
     {
         $correctData = ArrayHelper::getCorrectFormat($this, $data);
+
         $result = $this->client->index($correctData);
 
         if ($result) {
@@ -30,13 +37,25 @@ class ElasticSearch implements DBInterface
         return false;
     }
 
+    /**
+     * @param $index
+     * @param $id
+     * @return array
+     */
     public function findById($index, $id): array
     {
         $params = [
             'index' => $index,
-            'id' => $id
+            'id' => $id,
+            'client' => [ 'ignore' => 404 ]
         ];
 
-        return $this->client->get($params);
+        $result = $this->client->get($params);
+
+        if (!$result['found']) {
+            throw new \Exception('not found');
+        }
+
+        return $result['_source'];
     }
 }

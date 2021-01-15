@@ -30,18 +30,17 @@ class ArrayHelper
         return $data;
     }
 
+    /*
+     * TODO:
+     * попытался сделать так чтобы структура не зависила от модели, и насколько не правильно добавлять  tableName и id
+     * в Body
+     */
     private static function formatForES(array $data)
     {
         return [
             'index' => $data['tableName'],
             'id' => $data['id'],
-            'body' => [
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'viewCount' => $data['viewCount'],
-                'videoCount' => $data['videoCount'],
-                'subscriberCount' => $data['subscriberCount']
-            ]
+            'body' => $data
         ];
     }
 
@@ -61,5 +60,20 @@ class ArrayHelper
         }
 
         return false;
+    }
+
+    public static function getColumn(array $array, string $column): array
+    {
+        $result = [];
+
+        foreach ($array as $item) {
+            foreach ($item as $key => $value) {
+                if ($key == $column) {
+                    $result[] = $value;
+                }
+            }
+        }
+
+        return $result;
     }
 }

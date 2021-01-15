@@ -1,7 +1,7 @@
 <?php
 require_once '../bootstrap/bootstrap.php';
 
-use VideoPlatform\platforms\Youtube;
+use VideoPlatform\services\YoutubeService;
 use VideoPlatform\VideoPlatform;
 
 try {
@@ -10,10 +10,11 @@ try {
         throw new Exception('need to run in cli mode');
     }
 
-    $videoPlatform = new Youtube();
+    $videoPlatform = new YoutubeService();
     $app = new VideoPlatform($videoPlatform);
-//    $app->analyze();
-    $app->findById('UCGNIf8qTK5lgwp0yysGKc7g');
+
+    $app->analyze();
+//    $app->findById('UCOxqgCwgOqC2lMqC5PYz_D');
 
 } catch (\Exception $e) {
     echo $e->getMessage();

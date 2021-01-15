@@ -3,15 +3,15 @@
 namespace VideoPlatform;
 
 use Exception;
-use VideoPlatform\interfaces\VideoSharingPlatformInterface;
+use VideoPlatform\interfaces\VideoSharingServiceInterface;
 
 class VideoPlatform
 {
-    private VideoSharingPlatformInterface $platform;
+    private VideoSharingServiceInterface $service;
 
-    public function __construct(VideoSharingPlatformInterface $platform)
+    public function __construct(VideoSharingServiceInterface $service)
     {
-        $this->platform = $platform;
+        $this->service = $service;
     }
 
     /**
@@ -22,12 +22,12 @@ class VideoPlatform
     public function analyze() : void
     {
         $this->validateParam();
-        $this->platform->analyze();
+        $this->service->analyze();
     }
 
     public function findById($id)
     {
-        print_r($this->platform->getChannelById($id));
+        print_r($this->service->getChannelById($id));
     }
 
     /**
