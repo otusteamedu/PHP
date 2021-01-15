@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS hall_seats (
     hall_id int DEFAULT 0,
     type_id int DEFAULT 0,
     row int DEFAULT 0,
-    number int DEFAULT 0,
+    place int DEFAULT 0,
     CONSTRAINT FK_hall_seats_halls FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
     CONSTRAINT FK_hall_seats_seat_type FOREIGN KEY (type_id) REFERENCES seat_type(id) ON DELETE CASCADE
 );
