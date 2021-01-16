@@ -10,6 +10,7 @@ use VideoPlatform\interfaces\DBInterface;
 use VideoPlatform\interfaces\VideoSharingServiceInterface;
 use VideoPlatform\models\youtube\Channel;
 use VideoPlatform\models\youtube\Video;
+use VideoPlatform\statistics\YoutubeChannelStatistics;
 use VideoPlatform\traits\RequestTrait;
 
 class YoutubeService implements VideoSharingServiceInterface
@@ -50,7 +51,7 @@ class YoutubeService implements VideoSharingServiceInterface
      */
     public function getChannelDetail(): array
     {
-        $url = $this->baseUrl . '/channels?part=snippet,contentDetails,statistics' . '&id=' . $_SERVER['argv'][1]
+        $url = $this->baseUrl . '/channels?part=snippet,contentDetails,statistics' . '&id=' . $_SERVER['argv'][2]
             . '&key=' . $this->apiKey;
 
         $data = $this->sendRequest('GET', $url);
@@ -70,7 +71,7 @@ class YoutubeService implements VideoSharingServiceInterface
      */
     public function getVideos($channelId, $nextPageToken = ''): array
     {
-        $url = $this->baseUrl . '/search?channelId=' . $channelId . '&part=snippet&order=date&maxResults=5' .
+        $url = $this->baseUrl . '/search?channelId=' . $channelId . '&part=snippet&order=date&maxResults=50' .
             '&key=' . $this->apiKey;
 
         if (!empty($nextPageToken)) $url .= '&pageToken=' . $nextPageToken;
@@ -190,9 +191,34 @@ class YoutubeService implements VideoSharingServiceInterface
         }
     }
 
+    /**
+     * @param $videos
+     * @return array
+     */
     private function getVideoIds($videos)
     {
         $ids = ArrayHelper::getColumn($videos['items'], 'id');
         return ArrayHelper::getColumn($ids, 'videoId');
+    }
+
+    /**
+     *
+     */
+    public function getStatistics()
+    {
+        $channelIds = explode(',', $_SERVER['argv'][2]);
+
+        foreach ($channelIds as $channelId) {
+            $channel = Channel::findById($this->db, $channelId);
+            $youtubeStatistics = new YoutubeChannelStatistics($this->db, $channel);
+            $statistics = $youtubeStatistics->getTotalLikesDislikes();
+
+            $result = [
+                'channelId'=> $channelId,
+                'LikeDislikeCounter' => $statistics
+            ];
+
+            print_r($result);
+        }
     }
 }

@@ -3,8 +3,9 @@
 namespace VideoPlatform\models\youtube;
 
 use VideoPlatform\interfaces\DBInterface;
+use VideoPlatform\models\ActiveRecord;
 
-class Video
+class Video extends ActiveRecord
 {
     private $id;
     private $publishedAt;
@@ -18,6 +19,14 @@ class Video
     private $commentCount;
 
     private $tableName = 'videos';
+
+    /**
+     * @return string
+     */
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
 
     /**
      * @return mixed

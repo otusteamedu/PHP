@@ -3,9 +3,13 @@
 namespace VideoPlatform\models\youtube;
 
 use VideoPlatform\interfaces\DBInterface;
+use VideoPlatform\models\ActiveRecord;
 
-class Channel
+class Channel extends ActiveRecord
 {
+    const TOTAL_LIKE_DISLIKE = 'total_like_dislike';
+    const TOP_CHANNEL = 'top_channel';
+
     private $id;
     private $title;
     private $description;
@@ -17,7 +21,15 @@ class Channel
      * название таблицы или индекса
      * @var $table
      */
-    private $tableName = 'channels';
+    private string $tableName = 'channels';
+
+    /**
+     * @return mixed
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
 
     /**
      * @param mixed $id

@@ -4,6 +4,7 @@ namespace VideoPlatform\DB;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Exception;
 use VideoPlatform\helpers\ArrayHelper;
 use VideoPlatform\interfaces\DBInterface;
 
@@ -21,7 +22,7 @@ class ElasticSearch implements DBInterface
     /**
      * @param array $data
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(array $data): bool
     {
@@ -30,7 +31,7 @@ class ElasticSearch implements DBInterface
         $result = $this->client->index($correctData);
 
         if ($result) {
-            print_r($result);
+            echo ".";
             return true;
         }
 
@@ -41,6 +42,7 @@ class ElasticSearch implements DBInterface
      * @param $index
      * @param $id
      * @return array
+     * @throws Exception
      */
     public function findById($index, $id): array
     {
@@ -53,9 +55,73 @@ class ElasticSearch implements DBInterface
         $result = $this->client->get($params);
 
         if (!$result['found']) {
-            throw new \Exception('not found');
+            throw new Exception('not found');
         }
 
         return $result['_source'];
+    }
+
+    /**
+     * @param $index
+     * @param $queryParams
+     * example:
+     * [
+     *  'where' => ['channelId' => 'someId']',
+     *  'limit' => 100,
+     *  'offset' => 0
+     * ]
+     * @return array|callable
+     * @throws Exception
+     */
+    public function query($index, $queryParams)
+    {
+        $params = [
+            'index' => $index,
+            'body' => [
+                'query' => [
+                    'match' => $queryParams['where']
+                ]
+            ],
+            'size' => $queryParams['limit'],
+            'from' => $queryParams['offset'],
+            'client' => [ 'ignore' => 404 ]
+        ];
+
+        $result = $this->client->search($params);
+
+        if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+            echo 'not found => here is result : ';
+            print_r($result);
+        }
+
+        return $result;
+    }
+
+    public function scroll($index)
+    {
+        $params = [
+            'scroll' => '1s',
+            'size' => 200,
+            'index' => $index,
+            'body' => [
+                'query' => [
+                    'match_all' => new \stdClass()
+                ]
+            ]
+        ];
+
+        $response = $this->client->search($params);
+
+        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+
+            $scroll_id = $response['_scroll_id'];
+
+            $response = $this->client->scroll([
+                'body' => [
+                    'scroll_id' => $scroll_id,
+                    'scroll' => '1s'
+                ]
+            ]);
+        }
     }
 }

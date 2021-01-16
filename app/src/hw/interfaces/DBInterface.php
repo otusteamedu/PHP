@@ -12,4 +12,8 @@ interface DBInterface
     public function save(array $data): bool;
 
     public function  findById($tableName, $id): array;
+
+    public function query($tableName, $queryParams);
+
+//    public function scroll();
 }
