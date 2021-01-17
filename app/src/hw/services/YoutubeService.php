@@ -180,7 +180,6 @@ class YoutubeService implements VideoSharingServiceInterface
     public function findChannelById($id)
     {
         return Channel::findById($this->db, $id);
-//        return $channel->getProperties();
     }
 
     /**

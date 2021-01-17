@@ -13,7 +13,8 @@
         "google/apiclient": "^2.0",
         "vlucas/phpdotenv": "^5.2@dev",
         "guzzlehttp/guzzle": "^7.1@dev",
-        "elasticsearch/elasticsearch": "dev-master"
+        "elasticsearch/elasticsearch": "dev-master",
+        "mongodb/mongodb": "1.9.x-dev"
     },
     "autoload": {
         "psr-4": {

@@ -223,4 +223,8 @@ class Video extends ActiveRecord
         return $video;
     }
 
+    public static function getAll(DBInterface $db, $limit, $offset)
+    {
+        // TODO: Implement getAll() method.
+    }
 }
