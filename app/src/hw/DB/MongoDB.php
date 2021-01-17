@@ -6,6 +6,14 @@ use MongoDB\Client;
 use MongoDB\Database;
 use VideoPlatform\interfaces\DBInterface;
 
+/**
+ *
+ * не стал доводить этот класс до конца.
+ * нужно было убедиться что замена no_sql работатет корректно
+ *
+ * Class MongoDB
+ * @package VideoPlatform\DB
+ */
 class MongoDB implements DBInterface
 {
     private Client $client;
