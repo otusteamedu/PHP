@@ -11,9 +11,9 @@ services:
     image: nginx:latest
     container_name: balancer
     ports:
-      - "8080:80"
+      - "8084:80"
     volumes:
-      - ./docker/balancer/conf:/etc/nginx
+      - ./docker/nginx/balancer:/etc/nginx
       - ./logs/balancer:/var/log/nginx
     depends_on:
       - server1
@@ -28,7 +28,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ./docker/server1/conf:/etc/nginx/conf.d
+      - ./docker/nginx/server1:/etc/nginx/conf.d
       - ./logs/server1:/var/log/nginx
       - ./src:/var/www/html
     depends_on:
@@ -40,7 +40,7 @@ services:
   server1-php:
     image: php:7.4-fpm
     ports:
-      - "9000:9000"
+      - "9004:9000"
     volumes:
       - ./src:/var/www/html
     networks:
@@ -53,7 +53,7 @@ services:
     ports:
       - "8082:80"
     volumes:
-      - ./docker/server2/conf:/etc/nginx/conf.d
+      - ./docker/nginx/server2:/etc/nginx/conf.d
       - ./logs/server2:/var/log/nginx
       - ./src:/var/www/html
     depends_on:
