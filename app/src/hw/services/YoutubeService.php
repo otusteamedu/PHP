@@ -51,7 +51,8 @@ class YoutubeService implements VideoSharingServiceInterface
      */
     public function getChannelDetail(): array
     {
-        $url = $this->baseUrl . '/channels?part=snippet,contentDetails,statistics' . '&id=' . $_SERVER['argv'][2]
+
+        $url = $this->baseUrl . '/channels?part=snippet,contentDetails,statistics' . '&id=' . trim($_SERVER['argv'][2])
             . '&key=' . $this->apiKey;
 
         $data = $this->sendRequest('GET', $url);
