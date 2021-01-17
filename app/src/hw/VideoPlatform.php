@@ -67,9 +67,9 @@ class VideoPlatform
     /**
      * @param $id
      */
-    public function findById($id)
+    public function findChannelById($id)
     {
-        print_r($this->service->getChannelById($id));
+        return $this->service->findChannelById($id);
     }
 
     /**

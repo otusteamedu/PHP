@@ -5,8 +5,6 @@ use VideoPlatform\services\YoutubeService;
 use VideoPlatform\VideoPlatform;
 
 try {
-
-
     if (php_sapi_name() != 'cli') {
         throw new Exception('need to run in cli mode');
     }

@@ -4,6 +4,7 @@ namespace VideoPlatform\models\youtube;
 
 use VideoPlatform\interfaces\DBInterface;
 use VideoPlatform\models\ActiveRecord;
+use VideoPlatform\models\ObjectWatcher;
 
 class Channel extends ActiveRecord
 {
@@ -133,6 +134,12 @@ class Channel extends ActiveRecord
     {
         $result = $db->findById((new self())->tableName, $id);
 
+        $identityMap = ObjectWatcher::getRecord(self::class, $id);
+
+        if ($identityMap) {
+            return  $identityMap;
+        }
+
         $channel = new self();
         $channel->setId($result['id']);
         $channel->setDescription($result['description']);
@@ -141,10 +148,12 @@ class Channel extends ActiveRecord
         $channel->setVideoCount($result['videoCount']);
         $channel->setViewCount($result['viewCount']);
 
+        ObjectWatcher::addRecord($channel, $channel->getId());
+
         return $channel;
     }
 
-    public static function getAll(DBInterface $db, $limit = 1, $offset = 0)
+    public static function getAll(DBInterface $db, $limit = 100, $offset = 0)
     {
         $response = $db->getAll((new self())->getTableName(), $limit, $offset);
 

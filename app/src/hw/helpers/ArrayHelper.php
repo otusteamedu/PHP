@@ -31,9 +31,7 @@ class ArrayHelper
     }
 
     /*
-     * TODO:
-     * попытался сделать так чтобы структура не зависила от модели, и насколько не правильно добавлять  tableName и id
-     * в Body
+     * попытался сделать так чтобы структура не зависила от модели
      */
     private static function formatForES(array $data)
     {
