@@ -26,3 +26,16 @@ services:
       - 9200:9200
     environment:
       - discovery.type=single-node
+
+  mongo-db:
+    container_name: mongo-db
+    build:
+      context: ./docker/mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: otus
+    volumes:
+      - ./docker/mongo-db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
