@@ -73,7 +73,7 @@ class ElasticSearch implements DBInterface
      * @return array|callable
      * @throws Exception
      */
-    public function query($index, $queryParams)
+    public function query($index, $queryParams = [])
     {
         $params = [
             'index' => $index,
@@ -87,6 +87,7 @@ class ElasticSearch implements DBInterface
             'client' => [ 'ignore' => 404 ]
         ];
 
+//        print_r($params);die;
         $result = $this->client->search($params);
 
         if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
@@ -123,5 +124,23 @@ class ElasticSearch implements DBInterface
                 ]
             ]);
         }
+    }
+
+    public function getAll($index, $limit, $offset)
+    {
+        $params = [
+            'index' => $index,
+            'size' => $limit,
+            'from' => $offset,
+            'client' => [ 'ignore' => 404 ]
+        ];
+
+        $result = $this->client->search($params);
+
+        if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+            echo 'not found';
+        }
+
+        return $result;
     }
 }

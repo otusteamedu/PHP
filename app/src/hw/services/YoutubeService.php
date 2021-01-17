@@ -111,8 +111,18 @@ class YoutubeService implements VideoSharingServiceInterface
             $this->saveChannelDetails($channel);
 
             $videos = $this->getVideos($channel['id']);
+            $ids = $this->getVideoIds($videos);
+
+            if (empty($ids)) {
+                echo "There is no any video on channel: " . $channel['id'] . "\n";
+                continue;
+            }
+
+            $videosDetails = $this->getVideoDetail($ids);
+            $this->saveChannelVideos($videosDetails);
 
             while (!empty($videos['nextPageToken'])) {
+                $videos = $this->getVideos($channel['id'], $videos['nextPageToken']);
                 $ids = $this->getVideoIds($videos);
 
                 if (empty($ids)) {
@@ -122,7 +132,6 @@ class YoutubeService implements VideoSharingServiceInterface
 
                 $videosDetails = $this->getVideoDetail($ids);
                 $this->saveChannelVideos($videosDetails);
-                $videos = $this->getVideos($channel['id'], $videos['nextPageToken']);
             }
         }
     }
@@ -210,8 +219,8 @@ class YoutubeService implements VideoSharingServiceInterface
 
         foreach ($channelIds as $channelId) {
             $channel = Channel::findById($this->db, $channelId);
-            $youtubeStatistics = new YoutubeChannelStatistics($this->db, $channel);
-            $statistics = $youtubeStatistics->getTotalLikesDislikes();
+            $youtubeStatistics = new YoutubeChannelStatistics($this->db);
+            $statistics = $youtubeStatistics->getTotalLikesDislikes($channel->getId());
 
             $result = [
                 'channelId'=> $channelId,
@@ -220,5 +229,20 @@ class YoutubeService implements VideoSharingServiceInterface
 
             print_r($result);
         }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getTopChannels()
+    {
+        $n = (int)$_SERVER['argv'][2];
+
+        if (!is_int($n)) {
+            throw new \Exception('specify an integer');
+        }
+
+        $topN = new YoutubeChannelStatistics($this->db);
+        print_r($topN->getTopChannels($n));
     }
 }

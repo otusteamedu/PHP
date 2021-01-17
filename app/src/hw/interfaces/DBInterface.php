@@ -15,5 +15,5 @@ interface DBInterface
 
     public function query($tableName, $queryParams);
 
-//    public function scroll();
+    public function getAll($tableName, $limit, $offset);
 }

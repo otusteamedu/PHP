@@ -7,9 +7,6 @@ use VideoPlatform\models\ActiveRecord;
 
 class Channel extends ActiveRecord
 {
-    const TOTAL_LIKE_DISLIKE = 'total_like_dislike';
-    const TOP_CHANNEL = 'top_channel';
-
     private $id;
     private $title;
     private $description;
@@ -145,6 +142,25 @@ class Channel extends ActiveRecord
         $channel->setViewCount($result['viewCount']);
 
         return $channel;
+    }
+
+    public static function getAll(DBInterface $db, $limit = 1, $offset = 0)
+    {
+        $response = $db->getAll((new self())->getTableName(), $limit, $offset);
+
+        $result = [];
+
+        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+
+            foreach ($response['hits']['hits'] as $hit){
+                $result[] = $hit;
+            }
+
+            $offset = $limit + $offset;
+            $response = $db->getAll((new self())->getTableName(), $limit, $offset);
+        }
+
+        return $result;
     }
 
     /**

@@ -10,6 +10,7 @@ class VideoPlatform
 {
     const ANALYZE = 'analyze';
     const STATISTICS = 'statistics';
+    const TOP_N = 'top_n';
 
     private VideoSharingServiceInterface $service;
 
@@ -38,6 +39,11 @@ class VideoPlatform
         $this->service->getStatistics();
     }
 
+    public function getTopChannels()
+    {
+        $this->service->getTopChannels();
+    }
+
     /**
      * @throws Exception
      */
@@ -49,6 +55,9 @@ class VideoPlatform
                 break;
             case self::STATISTICS:
                 $this->getStatistics();
+                break;
+            case self::TOP_N:
+                $this->getTopChannels();
                 break;
             default:
                 throw new Exception('необходимо передать тип: php index.php analyze или statistics');

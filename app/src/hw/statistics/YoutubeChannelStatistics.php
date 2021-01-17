@@ -8,21 +8,19 @@ use VideoPlatform\models\youtube\Video;
 class YoutubeChannelStatistics
 {
     private DBInterface $db;
-    private Channel $channel;
 
-    public function __construct(DBInterface $db, Channel $channel)
+    public function __construct(DBInterface $db)
     {
         $this->db = $db;
-        $this->channel = $channel;
     }
 
-    public function getTotalLikesDislikes()
+    public function getTotalLikesDislikes($channelId)
     {
         $queryParams = [
             'where' => [
-                'channelId' => $this->channel->getId()
+                'channelId' => $channelId
             ],
-            'limit' => 5,
+            'limit' => 200,
             'offset' => 0
         ];
 
@@ -43,5 +41,27 @@ class YoutubeChannelStatistics
         }
 
         return ['totalLikes' => $totalLikes, 'totalDislikes' => $totalDislikes];
+    }
+
+    public function getTopChannels(int $topN)
+    {
+        $channels = Channel::getAll($this->db);
+
+        $result = [];
+
+        foreach ($channels as $channel) {
+            $total= $this->getTotalLikesDislikes($channel['_id']);
+            $value = $total['totalLikes']/$total['totalDislikes'];
+            $result[] =  [
+                "channel_id" => $channel['_id'],
+                "value" => $value
+            ];
+        }
+
+        usort($result, function($a, $b) {
+            return $b['value'] <=> $a['value'];
+        });
+
+        return array_slice($result, 0, $topN);
     }
 }
