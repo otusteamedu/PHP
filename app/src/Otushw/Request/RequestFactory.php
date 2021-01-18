@@ -5,7 +5,6 @@ namespace Otushw\Request;
 
 use Otushw\Params;
 use Otushw\EventDTO;
-use Otushw\Event;
 use Otushw\UserRequestDTO;
 use Otushw\UserException;
 use Otushw\AppException;
@@ -34,7 +33,7 @@ class RequestFactory
         switch ($this->typeRequest) {
             case Add::getTypeRequest():
                 $event = new EventDTO(
-                    Event::generateNewID(),
+                    time(),
                     $params['priority'],
                     $params['conditions'],
                     $params['event']
