@@ -9,5 +9,6 @@ use Otushw\Storage\StorageInterface;
 interface Request
 {
     public function process(StorageInterface $storage): void;
-    public function getStatus(): string;
+    public static function getTypeRequest(): string;
+    public function showResult();
 }

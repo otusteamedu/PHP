@@ -1,4 +1,4 @@
 .idea
 files/*
-app/config.ini
+app/config.yaml
 app/vendor

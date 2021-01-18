@@ -6,8 +6,6 @@ use Exception;
 
 class Config
 {
-    const FILE_NAME = 'config.ini';
-
     private string $filePath;
 
     public function __construct(string $filePath = '')
@@ -36,11 +34,7 @@ class Config
      */
     private function readFile(): array
     {
-        $result = parse_ini_file($this->filePath);
-        if (empty($result)) {
-            throw new UserException("Can not read config.ini");
-        }
-        return $result;
+        return \Symfony\Component\Yaml\Yaml::parseFile($this->filePath);
     }
 
 }

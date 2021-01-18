@@ -1,0 +1,9 @@
+storage_name: Redis
+request_params_add:
+  priority: integer
+  conditions: array
+  event: string
+request_params_get_item:
+  conditions: array
+request_params_delete:
+  type: string

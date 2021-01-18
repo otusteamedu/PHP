@@ -4,23 +4,22 @@
 namespace Otushw\Request;
 
 use Otushw\EventDTO;
-use Otushw\UserRequestDTO;
 use Otushw\Storage\StorageInterface;
+use Exception;
 use Otushw\View;
 use Otushw\UserException;
 use Otushw\AppException;
 
-
-class Find implements Request
+class Add implements Request
 {
-    CONST TYPE_REQUEST = 'get_item';
+    CONST TYPE_REQUEST = 'add';
 
-    private UserRequestDTO $userRequest;
-    private EventDTO $result;
+    private EventDTO $event;
+    private bool $result;
 
-    public function __construct(UserRequestDTO $userRequest)
+    public function __construct(EventDTO $event)
     {
-        $this->userRequest = $userRequest;
+        $this->event = $event;
     }
 
     /**
@@ -30,12 +29,15 @@ class Find implements Request
      */
     public function process(StorageInterface $storage): void
     {
-        $this->result = $storage->find($this->userRequest);
-        if (empty($this->result)) {
-            throw new AppException('Could not find Event by given conditions.');
+        $this->result = $storage->set($this->event);
+        if (!$this->result) {
+            throw new AppException('Could not set Event in storage');
         }
     }
 
+    /**
+     * @return string
+     */
     public static function getTypeRequest(): string
     {
         return self::TYPE_REQUEST;
@@ -46,6 +48,8 @@ class Find implements Request
      */
     public function showResult()
     {
-        View::showSearchResult($this->result);
+        View::showAdd($this->result);
     }
+
+
 }
