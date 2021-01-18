@@ -77,9 +77,7 @@ class RedisDAO implements StorageInterface
         $raw = $this->getEventMaxPriority($eventIDs);
         $rrr = $this->generateKeyEvent($raw['event_id']);
         $eventData = $this->redis->get($this->generateKeyEvent($raw['event_id']));
-var_dump($eventData);
         $conditions = $this->redis->sMembers($this->generateKeyConditions($raw['event_id']));
-var_dump($conditions);
         return new EventDTO($raw['event_id'], $raw['priority'], $conditions, $eventData);
     }
 
