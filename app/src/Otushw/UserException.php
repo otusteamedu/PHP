@@ -8,8 +8,11 @@ use Monolog\Logger;
 class UserException extends AppException
 {
 
-    public function addTolog(string $message)
+    /**
+     * @param string $message
+     */
+    protected function addTologException(string $message): void
     {
-        $this->log->log($this->log->getLevelUser(), $message);
+        $this->log->addTolog(Logger::NOTICE, $message);
     }
 }

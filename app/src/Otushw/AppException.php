@@ -4,7 +4,6 @@
 namespace Otushw;
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Throwable;
 use Exception;
 
@@ -12,15 +11,26 @@ class AppException extends Exception
 {
     protected LoggerFactory $log;
 
+    /**
+     * AppException constructor.
+     *
+     * @param string         $message
+     * @param int            $code
+     * @param Throwable|null $previous
+     */
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        $this->log = new LoggerFactory($type = 'file');
-        $this->addTolog($message);
+
+        $this->log = new LoggerFactory();
+        $this->addTologException($message);
     }
 
-    protected function addTolog(string $message)
+    /**
+     * @param string $message
+     */
+    protected function addTologException(string $message): void
     {
-        $this->log->log($this->log->getLevelApp(), $message);
+        $this->log->addTolog(Logger::ERROR, $message);
     }
 }
