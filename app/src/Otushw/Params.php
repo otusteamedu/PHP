@@ -20,9 +20,11 @@ class Params
     }
 
     /**
-     * @return
+     * @param string $paramName
+     *
+     * @return mixed
      */
-    public function getParam(string $paramName)
+    public function getParam(string $paramName): mixed
     {
         if (!empty($this->allParams[$paramName])) {
             return $this->allParams[$paramName];
@@ -61,6 +63,10 @@ class Params
         $this->checkParam($_ENV[$section], $rawParams);
     }
 
+    /**
+     * @return array
+     * @throws AppException
+     */
     private function checkJSON(): array
     {
         $raw = file_get_contents('php://input');
@@ -74,11 +80,22 @@ class Params
         return $rawParams;
     }
 
+    /**
+     * @param array $rawParams
+     *
+     * @throws UserException
+     */
     private function checkRequiredParam(array $rawParams): void
     {
         $this->checkParam(self::REQUIRED_PARAM_DATA_TYPE, $rawParams);
     }
 
+    /**
+     * @param array $params
+     * @param array $rawParams
+     *
+     * @throws UserException
+     */
     private function checkParam(array $params, array $rawParams): void
     {
         foreach ($params as $param => $dateType) {
