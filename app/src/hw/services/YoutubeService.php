@@ -157,7 +157,6 @@ class YoutubeService implements VideoSharingServiceInterface
 
         $result = $channel->save($this->db);
         echo "Channel ID: $result \n";
-
     }
 
     public function saveChannelVideos($videoDetails)
