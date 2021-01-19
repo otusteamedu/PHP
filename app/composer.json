@@ -1,0 +1,25 @@
+{
+    "name": "rsm/app",
+    "description": "hw-otus",
+    "type": "project",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "google/apiclient": "^2.0",
+        "vlucas/phpdotenv": "^5.2@dev",
+        "guzzlehttp/guzzle": "^7.1@dev",
+        "elasticsearch/elasticsearch": "dev-master",
+        "mongodb/mongodb": "1.9.x-dev",
+        "monolog/monolog": "2.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "VideoPlatform\\": "src/hw"
+        }
+    }
+}
