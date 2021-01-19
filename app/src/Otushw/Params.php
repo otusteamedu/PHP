@@ -22,9 +22,9 @@ class Params
     /**
      * @param string $paramName
      *
-     * @return mixed
+     * @return string
      */
-    public function getParam(string $paramName): mixed
+    public function getParam(string $paramName): string
     {
         if (!empty($this->allParams[$paramName])) {
             return $this->allParams[$paramName];
