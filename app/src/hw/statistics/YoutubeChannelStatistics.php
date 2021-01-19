@@ -49,6 +49,11 @@ class YoutubeChannelStatistics
         return ['totalLikes' => $totalLikes, 'totalDislikes' => $totalDislikes];
     }
 
+    /**
+     * вернет топ N каналов по соотношению totalLikes/totalDislikes
+     * @param int $topN
+     * @return array
+     */
     public function getTopChannels(int $topN)
     {
         $channels = Channel::getAll($this->db);

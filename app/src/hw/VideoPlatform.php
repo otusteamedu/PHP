@@ -20,6 +20,11 @@ class VideoPlatform
     }
 
     /**
+     * анализ канала
+     *  - данные о канале
+     *  - данные о видео этого канала
+     * сохраняет в noSql хранилище
+     *
      * @return mixed
      * @throws Exception
      */
@@ -60,7 +65,6 @@ class VideoPlatform
      */
     public function run()
     {
-        $result = [];
         switch ($_SERVER['argv'][1]) {
             case self::ANALYZE:
                 $result = $this->analyze();

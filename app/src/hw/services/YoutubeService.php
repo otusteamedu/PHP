@@ -217,7 +217,11 @@ class YoutubeService implements VideoSharingServiceInterface
         return ArrayHelper::getColumn($ids, 'videoId');
     }
 
-
+    /**
+     * тут собирается статистика по лайкам/дислайкам
+     *
+     * @return array
+     */
     public function getStatistics()
     {
         $channelIds = explode(',', $_SERVER['argv'][2]);
@@ -237,6 +241,8 @@ class YoutubeService implements VideoSharingServiceInterface
     }
 
     /**
+     * вернет топ N каналов по соотношению totalLikes/totalDislikes
+     *
      * @throws \Exception
      */
     public function getTopChannels()

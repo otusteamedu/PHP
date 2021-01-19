@@ -17,7 +17,7 @@ class Channel extends ActiveRecord
 
     /**
      * название таблицы или индекса
-     * @var $table
+     * @var string $table
      */
     private string $tableName = 'channels';
 
