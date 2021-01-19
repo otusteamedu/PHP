@@ -2,3 +2,4 @@
 .DS_Store
 app/.env
 app/vendor
+app/logs
