@@ -27,6 +27,9 @@ class RequestFactory
         $this->setTypeRequest($typeRequest);
     }
 
+    /**
+     * @return Request
+     */
     public function create(): Request
     {
         $params = $this->params->getAllParams();
@@ -47,6 +50,11 @@ class RequestFactory
         }
     }
 
+    /**
+     * @param string $typeRequest
+     *
+     * @throws UserException
+     */
     private function validateTypeRequest(string $typeRequest): void
     {
         if (!in_array($typeRequest, self::ALLOWED_TYPE_REQUEST)) {
@@ -54,6 +62,9 @@ class RequestFactory
         }
     }
 
+    /**
+     * @param string $typeRequest
+     */
     private function setTypeRequest(string $typeRequest): void
     {
         $this->typeRequest = strtolower($typeRequest);

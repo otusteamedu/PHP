@@ -44,7 +44,7 @@ class Find implements Request
     /**
      * @return string
      */
-    public function showResult()
+    public function showResult(): void
     {
         View::showSearchResult($this->result);
     }

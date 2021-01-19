@@ -31,7 +31,7 @@ class Delete implements Request
     /**
      * @return string
      */
-    public function showResult()
+    public function showResult(): void
     {
         View::ShowStatusDelete($this->result);
     }

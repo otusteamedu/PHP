@@ -10,5 +10,5 @@ interface Request
 {
     public function process(StorageInterface $storage): void;
     public static function getTypeRequest(): string;
-    public function showResult();
+    public function showResult(): void;
 }
