@@ -1,4 +1,10 @@
 storage_name: Redis
+log:
+  name_channel: main
+  type: file
+  file_settings:
+    file_path: ../path/to/app.log
+
 request_params_add:
   priority: integer
   conditions: array
