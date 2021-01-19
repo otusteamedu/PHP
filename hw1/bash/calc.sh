@@ -1,15 +1,11 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-reg="^-?[0-9]+[.]?[0-9]+?$"
-number1=$1
-number2=$2
+reg="^-?[0-9]+[,]?[0-9]+?$"
 
-if ! [[ "$number1" =~ $reg && "$number2" =~ $reg ]]; then
+if ! [[ "$1" =~ $reg && "$2" =~ $reg ]]; then
     echo "Неверный тип данных"
     exit 1
 fi
 
-result=$(echo "$number1+$number2" | bc -l)
-echo "$result"
-
+echo "$1 $2" | awk '{ print $1+$2}'
 exit 0
