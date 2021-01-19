@@ -21,7 +21,7 @@ class Config
         $this->filePath = $filePath;
     }
 
-    public function load()
+    public function load(): void
     {
         foreach ($this->readFile() as $varName => $varValue) {
             $_ENV[$varName] = $varValue;
