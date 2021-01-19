@@ -3,8 +3,8 @@
 namespace VideoPlatform;
 
 use Exception;
+use VideoPlatform\exceptions\AppException;
 use VideoPlatform\interfaces\VideoSharingServiceInterface;
-use VideoPlatform\models\youtube\Channel;
 
 class VideoPlatform
 {
@@ -20,28 +20,39 @@ class VideoPlatform
     }
 
     /**
-     * начнет анализировать канал
-     * @return void
+     * @return mixed
      * @throws Exception
      */
-    public function analyze() : void
+    public function analyze()
     {
         $this->validateParam();
-        $this->service->analyze();
+        return $this->service->analyze();
     }
 
     /**
+     * Вернет статистику канала. А именно:
+     * [
+     *  'totalLikes' => 123,
+     *  'totalDislikes' => 12,
+     * ]
+     * @return mixed
      * @throws Exception
      */
     public function getStatistics()
     {
         $this->validateParam();
-        $this->service->getStatistics();
+        return $this->service->getStatistics();
     }
 
+    /**
+     * Топ N каналов по соотношению totalLikes/Dislikes
+     * N - передается как параметр и находится в $_SERVER[argv]
+     *
+     * @return mixed
+     */
     public function getTopChannels()
     {
-        $this->service->getTopChannels();
+        return $this->service->getTopChannels();
     }
 
     /**
@@ -49,23 +60,27 @@ class VideoPlatform
      */
     public function run()
     {
+        $result = [];
         switch ($_SERVER['argv'][1]) {
             case self::ANALYZE:
-                $this->analyze();
+                $result = $this->analyze();
                 break;
             case self::STATISTICS:
-                $this->getStatistics();
+                $result = $this->getStatistics();
                 break;
             case self::TOP_N:
-                $this->getTopChannels();
+                $result = $this->getTopChannels();
                 break;
             default:
                 throw new Exception('необходимо передать тип: php index.php analyze или statistics');
         }
+
+        print_r($result);
     }
 
     /**
      * @param $id
+     * @return
      */
     public function findChannelById($id)
     {
@@ -78,7 +93,7 @@ class VideoPlatform
     private function validateParam()
     {
         if (empty($_SERVER['argv'][2])) {
-            throw new Exception("необходимо передать id каналов через запятую. Пример: php index.php analyze|statistics id1,id2,id3 \n");
+            throw new AppException("необходимо передать id каналов через запятую. Пример: php index.php analyze|statistics id1,id2,id3 \n");
         }
 
         return true;

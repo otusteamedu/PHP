@@ -14,7 +14,8 @@
         "vlucas/phpdotenv": "^5.2@dev",
         "guzzlehttp/guzzle": "^7.1@dev",
         "elasticsearch/elasticsearch": "dev-master",
-        "mongodb/mongodb": "1.9.x-dev"
+        "mongodb/mongodb": "1.9.x-dev",
+        "monolog/monolog": "2.x-dev"
     },
     "autoload": {
         "psr-4": {

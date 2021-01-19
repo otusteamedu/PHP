@@ -193,7 +193,7 @@ class Video extends ActiveRecord
      */
     public function save(DBInterface $db)
     {
-        $db->save($this->getProperties());
+        return $db->save($this->getProperties());
     }
 
     /**

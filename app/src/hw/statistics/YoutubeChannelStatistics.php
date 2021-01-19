@@ -29,7 +29,13 @@ class YoutubeChannelStatistics
         $totalLikes = 0;
         $totalDislikes = 0;
 
-        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+        /*
+         * $response['hits']['total']['value'] вот эта штука возвращает всегда total в индексе, а не в hits
+         * поэтому не получится определить через $response['hits']['total']['value'] > 0
+         * здесь наверное тогда лучше через !empty($response['hits']['hits']) или isset($response['hits']['hits'][0])
+         * хотя даже если использовать count($response['hits']['hits']), я же поставил лимит, разом максимум 200 записей
+         */
+        while (!empty($response['hits']['hits'])) {
 
             foreach ($response['hits']['hits'] as $hit) {
                 $totalLikes = $totalLikes + $hit['_source']['likeCount'];

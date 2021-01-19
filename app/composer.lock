@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5f49dea040706cb2f627abc02bc022d",
+    "content-hash": "c34491169215ad26f5054e992b7f2ff8",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -901,6 +901,7 @@
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -930,6 +931,10 @@
                 "logging",
                 "psr-3"
             ],
+            "support": {
+                "issues": "https://github.com/Seldaek/monolog/issues",
+                "source": "https://github.com/Seldaek/monolog/tree/main"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Seldaek",
@@ -1838,7 +1843,8 @@
         "vlucas/phpdotenv": 20,
         "guzzlehttp/guzzle": 20,
         "elasticsearch/elasticsearch": 20,
-        "mongodb/mongodb": 20
+        "mongodb/mongodb": 20,
+        "monolog/monolog": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

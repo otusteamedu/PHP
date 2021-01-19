@@ -159,7 +159,7 @@ class Channel extends ActiveRecord
 
         $result = [];
 
-        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+        while (!empty($response['hits']['hits'])) {
 
             foreach ($response['hits']['hits'] as $hit){
                 $result[] = $hit;
@@ -177,7 +177,7 @@ class Channel extends ActiveRecord
      */
     public function save(DBInterface $db)
     {
-        $db->save($this->getProperties());
+        return $db->save($this->getProperties());
     }
 
     /**

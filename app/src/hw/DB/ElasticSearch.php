@@ -5,8 +5,10 @@ namespace VideoPlatform\DB;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Exception;
+use Monolog\Logger;
 use VideoPlatform\helpers\ArrayHelper;
 use VideoPlatform\interfaces\DBInterface;
+use VideoPlatform\loggers\AppLogger;
 
 class ElasticSearch implements DBInterface
 {
@@ -21,18 +23,17 @@ class ElasticSearch implements DBInterface
 
     /**
      * @param array $data
-     * @return bool
+     * @return mixed
      * @throws Exception
      */
-    public function save(array $data): bool
+    public function save(array $data)
     {
         $correctData = ArrayHelper::getCorrectFormat($this, $data);
 
         $result = $this->client->index($correctData);
 
         if ($result) {
-            echo ".";
-            return true;
+            return $result['_id'];
         }
 
         return false;
@@ -87,45 +88,22 @@ class ElasticSearch implements DBInterface
             'client' => [ 'ignore' => 404 ]
         ];
 
-//        print_r($params);die;
         $result = $this->client->search($params);
 
-        if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
-            echo 'not found => here is result : ';
-            print_r($result);
+        if (empty($response['hits']['hits'])) {
+            AppLogger::addLog(Logger::WARNING,'not found by query', $params);
         }
 
         return $result;
     }
 
-    public function scroll($index)
-    {
-        $params = [
-            'scroll' => '1s',
-            'size' => 200,
-            'index' => $index,
-            'body' => [
-                'query' => [
-                    'match_all' => new \stdClass()
-                ]
-            ]
-        ];
-
-        $response = $this->client->search($params);
-
-        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
-
-            $scroll_id = $response['_scroll_id'];
-
-            $response = $this->client->scroll([
-                'body' => [
-                    'scroll_id' => $scroll_id,
-                    'scroll' => '1s'
-                ]
-            ]);
-        }
-    }
-
+    /**
+     * получает все записи, по лимиту и офсету
+     * @param $index
+     * @param $limit
+     * @param $offset
+     * @return array|callable
+     */
     public function getAll($index, $limit, $offset)
     {
         $params = [
@@ -137,8 +115,8 @@ class ElasticSearch implements DBInterface
 
         $result = $this->client->search($params);
 
-        if (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
-            echo 'not found';
+        if (empty($response['hits']['hits'])) {
+            AppLogger::addLog(Logger::WARNING, 'not found by index: ' . $index, $params);
         }
 
         return $result;

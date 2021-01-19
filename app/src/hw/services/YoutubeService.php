@@ -3,11 +3,14 @@
 namespace VideoPlatform\services;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Monolog\Logger;
 use VideoPlatform\DB\ElasticSearch;
 use VideoPlatform\DB\MongoDB;
+use VideoPlatform\exceptions\AppException;
 use VideoPlatform\helpers\ArrayHelper;
 use VideoPlatform\interfaces\DBInterface;
 use VideoPlatform\interfaces\VideoSharingServiceInterface;
+use VideoPlatform\loggers\AppLogger;
 use VideoPlatform\models\youtube\Channel;
 use VideoPlatform\models\youtube\Video;
 use VideoPlatform\statistics\YoutubeChannelStatistics;
@@ -16,6 +19,8 @@ use VideoPlatform\traits\RequestTrait;
 class YoutubeService implements VideoSharingServiceInterface
 {
     use RequestTrait;
+
+    const PLATFORM_NAME = 'youtube';
 
     private $apiKey;
     private $clientSecret;
@@ -46,8 +51,7 @@ class YoutubeService implements VideoSharingServiceInterface
 
     /**
      * @return array
-     * @throws GuzzleException
-     * @throws \Exception
+     * @throws GuzzleException|AppException
      */
     public function getChannelDetail(): array
     {
@@ -58,7 +62,7 @@ class YoutubeService implements VideoSharingServiceInterface
         $data = $this->sendRequest('GET', $url);
 
         if (empty($data['items'])) {
-            throw new \Exception('not found');
+            throw new AppException('not found');
         }
 
         return $data['items'];
@@ -83,8 +87,7 @@ class YoutubeService implements VideoSharingServiceInterface
     /**
      * @param $videoIds
      * @return array
-     * @throws GuzzleException
-     * @throws \Exception
+     * @throws GuzzleException|AppException
      */
     public function getVideoDetail($videoIds): array
     {
@@ -95,14 +98,16 @@ class YoutubeService implements VideoSharingServiceInterface
         $data = $this->sendRequest('GET', $url);
 
         if (empty($data['items'])) {
-            throw new \Exception('not found');
+            throw new AppException('not found');
         }
 
         return $data['items'];
     }
 
     /**
+     * Получит данные о канале и видео канала, затем сохраняет в хранилище
      * @throws GuzzleException
+     * @throws AppException
      */
     public function analyze()
     {
@@ -115,7 +120,7 @@ class YoutubeService implements VideoSharingServiceInterface
             $ids = $this->getVideoIds($videos);
 
             if (empty($ids)) {
-                echo "There is no any video on channel: " . $channel['id'] . "\n";
+                AppLogger::addLog(Logger::NOTICE, "There is no any video on channel: " . $channel['id']);
                 continue;
             }
 
@@ -127,7 +132,7 @@ class YoutubeService implements VideoSharingServiceInterface
                 $ids = $this->getVideoIds($videos);
 
                 if (empty($ids)) {
-                    echo "There is no any video on channel: " . $channel['id'] . "\n";
+                    AppLogger::addLog(Logger::NOTICE, "There is no any video on channel: " . $channel['id']);
                     continue 2;
                 }
 
@@ -150,7 +155,9 @@ class YoutubeService implements VideoSharingServiceInterface
         $channel->setSubscriberCount($details['statistics']['subscriberCount']);
         $channel->setVideoCount($details['statistics']['videoCount']);
 
-        $channel->save($this->db);
+        $result = $channel->save($this->db);
+        echo "Channel ID: $result \n";
+
     }
 
     public function saveChannelVideos($videoDetails)
@@ -169,7 +176,8 @@ class YoutubeService implements VideoSharingServiceInterface
             $video->setDislikeCount($videoDetail['statistics']['dislikeCount']);
             $video->setCommentCount($videoDetail['statistics']['commentCount']);
 
-            $video->save($this->db);
+            $result = $video->save($this->db);
+            echo "Video ID: $result \n";
         }
     }
 
@@ -209,9 +217,7 @@ class YoutubeService implements VideoSharingServiceInterface
         return ArrayHelper::getColumn($ids, 'videoId');
     }
 
-    /**
-     *
-     */
+
     public function getStatistics()
     {
         $channelIds = explode(',', $_SERVER['argv'][2]);
@@ -221,13 +227,13 @@ class YoutubeService implements VideoSharingServiceInterface
             $youtubeStatistics = new YoutubeChannelStatistics($this->db);
             $statistics = $youtubeStatistics->getTotalLikesDislikes($channel->getId());
 
-            $result = [
+            return [
                 'channelId'=> $channelId,
                 'LikeDislikeCounter' => $statistics
             ];
-
-            print_r($result);
         }
+
+        return [];
     }
 
     /**
@@ -237,11 +243,11 @@ class YoutubeService implements VideoSharingServiceInterface
     {
         $n = (int)$_SERVER['argv'][2];
 
-        if (!is_int($n)) {
-            throw new \Exception('specify an integer');
+        if (!is_int($n) or $n < 1) {
+            throw new AppException('specify an integer');
         }
 
         $topN = new YoutubeChannelStatistics($this->db);
-        print_r($topN->getTopChannels($n));
+        return $topN->getTopChannels($n);
     }
 }
