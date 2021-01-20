@@ -1,0 +1,2 @@
+packagist : composer require okbear/testmessage
+github : https://github.com/okolesnikov/testmessage.git
