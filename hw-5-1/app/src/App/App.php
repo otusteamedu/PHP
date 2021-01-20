@@ -4,8 +4,9 @@ namespace App;
 
 use Exception;
 use Readers\RowsReader;
-use Renderers\ValidationResultRenderer;
-use Validators\EmailValidator;
+use Validators\EmailMXValidator;
+use Validators\EmailPatternValidator;
+use Validators\EmptyStringValidator;
 
 /**
  * Class App
@@ -25,9 +26,17 @@ class App
         $rows     = (new RowsReader($filePath))->read();
 
         foreach ($rows as $email) {
-            $validationResult = (new EmailValidator($email))->validate();
+            $email = trim($email);
 
-            echo (new ValidationResultRenderer($validationResult))->render();
+            $validator = new EmptyStringValidator();
+            $validator->linkWith(new EmailPatternValidator())
+                      ->linkWith(new EmailMXValidator());
+
+            echo 'checking ' . $email . PHP_EOL;
+
+            if ($validator->check($email) === true) {
+                echo $email . ' is valid' . PHP_EOL;
+            }
         }
     }
 }
