@@ -10,7 +10,9 @@
     "autoload": {
         "psr-4": {
             "App\\":"src/App",
-            "Readers\\":"src/Readers"
+            "Readers\\":"src/Readers",
+            "Validators\\":"src/Validators",
+            "Renderers\\":"src/Renderers"
         }
     }
 }

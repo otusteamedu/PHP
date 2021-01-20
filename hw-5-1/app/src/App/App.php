@@ -4,6 +4,8 @@ namespace App;
 
 use Exception;
 use Readers\RowsReader;
+use Renderers\ValidationResultRenderer;
+use Validators\EmailValidator;
 
 /**
  * Class App
@@ -20,6 +22,11 @@ class App
     {
         $filePath = '../files/emails.txt';
         $rows     = (new RowsReader($filePath))->read();
-        var_dump($rows);
+
+        foreach ($rows as $email) {
+            $validationResult = (new EmailValidator($email))->validate();
+
+            echo (new ValidationResultRenderer($validationResult))->render();
+        }
     }
 }
