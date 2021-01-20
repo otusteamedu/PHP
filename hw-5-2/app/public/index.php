@@ -1,0 +1,1 @@
+<?= $_SERVER['SERVER_ADDR'] ?>

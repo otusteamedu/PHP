@@ -1,0 +1,76 @@
+version: '3.8'
+services:
+  balancer:
+    container_name: balancer
+    build:
+      context: ./docker/nginx-balancer
+    volumes:
+      - ./var/log/balancer:/var/log/nginx
+    ports:
+      - "80:80"
+  nginx_1:
+    container_name: nginx_1
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/var/www/hw-5-2.test
+      - ./var/log/nodes:/var/log/nginx
+    environment:
+      - NODE_N=1
+    command: >
+      /bin/sh -c
+      "envsubst '
+      $${NODE_N}
+      '< /etc/nginx/conf.d/nginx.conf.template
+      > /etc/nginx/nginx.conf
+      && nginx -g 'daemon off;'"
+  php-fpm_1:
+    container_name: php-fpm_1
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-5-2.test
+  nginx_2:
+    container_name: nginx_2
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/var/www/hw-5-2.test
+      - ./var/log/nodes:/var/log/nginx
+    environment:
+      - NODE_N=2
+    command: >
+      /bin/sh -c
+      "envsubst '
+      $${NODE_N}
+      '< /etc/nginx/conf.d/nginx.conf.template
+      > /etc/nginx/nginx.conf
+      && nginx -g 'daemon off;'"
+  php-fpm_2:
+    container_name: php-fpm_2
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-5-2.test
+  nginx_3:
+    container_name: nginx_3
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/var/www/hw-5-2.test
+      - ./var/log/nodes:/var/log/nginx
+    environment:
+      - NODE_N=3
+    command: >
+      /bin/sh -c
+      "envsubst '
+      $${NODE_N}
+      '< /etc/nginx/conf.d/nginx.conf.template
+      > /etc/nginx/nginx.conf
+      && nginx -g 'daemon off;'"
+  php-fpm_3:
+    container_name: php-fpm_3
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-5-2.test
