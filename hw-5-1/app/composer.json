@@ -12,6 +12,7 @@
             "App\\":"src/App",
             "Readers\\":"src/Readers",
             "Validators\\":"src/Validators",
+            "ValidationResult\\":"src/ValidationResult",
             "Renderers\\":"src/Renderers"
         }
     }

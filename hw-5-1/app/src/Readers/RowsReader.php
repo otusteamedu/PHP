@@ -2,16 +2,39 @@
 
 namespace Readers;
 
+use Exception;
+
+/**
+ * Читает файл построчно
+ *
+ * Class RowsReader
+ *
+ * @package Readers
+ */
 class RowsReader
 {
+    /**
+     * Путь к файлу
+     *
+     * @var string
+     */
     private string $filePath;
 
-    public function __construct(string $filePath)
+    /**
+     * RowsReader constructor.
+     *
+     * @param string $filePath
+     */
+    public function __construct (string $filePath)
     {
         $this->filePath = $filePath;
     }
 
-    public function read(): array
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function read (): array
     {
         $result = [];
         $handle = fopen($this->filePath, "r");
@@ -20,7 +43,7 @@ class RowsReader
                 $result[] = $buffer;
             }
             if (!feof($handle)) {
-                throw new \Exception('При чтении из файла произошла ошибка');
+                throw new Exception('При чтении из файла произошла ошибка');
             }
             fclose($handle);
         }

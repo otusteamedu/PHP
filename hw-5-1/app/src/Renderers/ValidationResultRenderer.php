@@ -2,18 +2,36 @@
 
 namespace Renderers;
 
-use Validators\ValidationResult;
+use ValidationResult\ValidationResult;
 
+/**
+ * Генерирует html с результатом валидации
+ *
+ * Class ValidationResultRenderer
+ *
+ * @package Renderers
+ */
 class ValidationResultRenderer
 {
+    /**
+     * @var ValidationResult
+     */
     private ValidationResult $validationResult;
 
-    public function __construct(ValidationResult $validationResult)
+    /**
+     * ValidationResultRenderer constructor.
+     *
+     * @param ValidationResult $validationResult
+     */
+    public function __construct (ValidationResult $validationResult)
     {
         $this->validationResult = $validationResult;
     }
 
-    public function render(): string
+    /**
+     * @return string
+     */
+    public function render (): string
     {
         $result = '<p>Email: ' . $this->validationResult->getSubject() . '</p>';
         $result .= '<p>Status: ' . $this->validationResult->getStatus() . '</p>';

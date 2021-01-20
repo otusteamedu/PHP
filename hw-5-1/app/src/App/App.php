@@ -16,6 +16,7 @@ class App
 {
     /**
      * run the app
+     *
      * @throws Exception
      */
     public function run (): void
