@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Config\Config;
 use Exception;
 use Readers\RowsReader;
 use Validators\EmailMXValidator;
@@ -15,6 +16,8 @@ use Validators\EmptyStringValidator;
  */
 class App
 {
+    private const EMAIL_LIST_CONFIG_KEY = 'email_list_path';
+
     /**
      * run the app
      *
@@ -22,7 +25,8 @@ class App
      */
     public function run (): void
     {
-        $filePath = '../files/emails.txt';
+        $config   = new Config();
+        $filePath = $config->getItem(self::EMAIL_LIST_CONFIG_KEY);
         $rows     = (new RowsReader($filePath))->read();
 
         foreach ($rows as $email) {
