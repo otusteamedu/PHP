@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ./app:/var/www/hw-5-1.test
+    ports:
+      - "80:80"
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./app:/var/www/hw-5-1.test
