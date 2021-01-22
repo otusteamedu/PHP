@@ -11,9 +11,6 @@ use Exception;
 
 class LoggerFactory
 {
-    const TYPE_FILE = 'file';
-    const TYPE_ES = 'ElasticSearch';
-
     private Logger $log;
 
     /**
@@ -45,12 +42,10 @@ class LoggerFactory
     private function getHandler(string $type): HandlerInterface
     {
         switch ($type) {
-            case self::TYPE_FILE:
+            case 'file':
                 $file = $this->getFilePath();
                 $handler = new StreamHandler($file);
                 break;
-//            case self::TYPE_ES:
-//                $handler = new ElasticsearchHandler($client);
         }
 
         return $handler;
