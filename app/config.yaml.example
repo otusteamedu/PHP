@@ -1,0 +1,15 @@
+storage_name: Redis
+log:
+  name_channel: main
+  type: file
+  file_settings:
+    file_path: ../path/to/app.log
+
+request_params_add:
+  priority: integer
+  conditions: array
+  event: string
+request_params_get_item:
+  conditions: array
+request_params_delete:
+  type: string

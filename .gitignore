@@ -1,3 +1,5 @@
-vendor
 .idea
 files/*
+app/config.yaml
+app/vendor
+app/log
