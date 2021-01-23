@@ -1,0 +1,11 @@
+FROM rabbitmq
+
+ENV RABBITMQ_USER rabbituser
+ENV RABBITMQ_PASSWORD rabbitpass
+ENV RABBITMQ_PID_FILE /var/lib/rabbitmq/mnesia/rabbitmq
+
+ADD rabbit-init.sh /rabbit-init.sh
+RUN chmod +x /rabbit-init.sh
+EXPOSE 15672
+
+CMD ["/rabbit-init.sh"]
