@@ -2,7 +2,7 @@
 
 namespace Otushw;
 
-use Exception;
+use Otushw\Exception\AppException;
 
 class Config
 {
@@ -24,6 +24,9 @@ class Config
     public function load(): void
     {
         foreach ($this->readFile() as $varName => $varValue) {
+            if (empty($varValue)) {
+                throw new AppException('Config has empty variable "' . $varName . '"');
+            }
             $_ENV[$varName] = $varValue;
         }
     }
