@@ -13,9 +13,6 @@ libpq-dev \
 libcurl4-openssl-dev \
 nano
 
-RUN pecl install mongodb \
-    &&  echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 WORKDIR /var/www/hw-otus/
