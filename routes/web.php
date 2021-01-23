@@ -19,4 +19,4 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('/order/new', 'OrderController@newOrder');
-$router->get("/order/checkStatus", 'OrderController@checkStatus');
+$router->post("/order/checkStatus", 'OrderController@checkStatus');
