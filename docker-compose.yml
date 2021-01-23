@@ -37,33 +37,35 @@ services:
       MYSQL_PASSWORD: "${DB_PASSWORD}"
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./docker/var/data/mysql:/var/lib/mysql
-      - ./db.sql:/db.sql
     restart: always
     command: --default-authentication-plugin=mysql_native_password
-    networks:
-      default:
-        ipv4_address: 10.100.0.10
 
-  composer:
-    image: composer/composer
-    container_name: composer
+  rabbitmq:
+    image: rabbitmq:3.6.10-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    hostname: redis
+    command: redis-server
+    ports:
+      - 6379:6379
+
+  worker:
+    build:
+      context: ./docker/worker
+      dockerfile: Dockerfile
+    restart: always
+    hostname: worker
     volumes:
       - ./:/var/www/html
-    working_dir: /var/www/html
-    command: install
-
-  frontend:
-    image: node
-    container_name: frontend
-    volumes:
-      - ./:/var/www/html
-    working_dir: /var/www/html
-    command: npm run dev
-
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.100.0.0/16
+    depends_on:
+      - rabbitmq
