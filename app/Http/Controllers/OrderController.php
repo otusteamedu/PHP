@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Jobs\OrdersJob;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class OrderController extends Controller
         $order->status = "new";
         $order->save();
         $id = $order->id;
-
+        $this->dispatch(new OrdersJob($id));
         return response()->json([
             "status" => "success",
             "order" => [

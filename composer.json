@@ -6,12 +6,15 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
-        "laravel/lumen-framework": "^8.0"
+        "illuminate/redis": "^8.24",
+        "laravel/lumen-framework": "^8.0",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.3.1",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "predis/predis": "^1.1"
     },
     "autoload": {
         "psr-4": {
