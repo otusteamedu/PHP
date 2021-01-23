@@ -27,6 +27,8 @@ class ContentMapper implements StorageInterface
 
     /**
      * ContentMapper constructor.
+     *
+     * @param PDO $pdo
      */
     public function __construct(PDO $pdo)
     {
