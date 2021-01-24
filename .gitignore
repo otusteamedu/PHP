@@ -2,3 +2,4 @@ vendor
 .idea
 files/*
 app/config.yaml
+app/log
