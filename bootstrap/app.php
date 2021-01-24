@@ -62,6 +62,7 @@ $app->singleton(
 $app->configure('app');
 $app->configure('database');
 $app->configure('queue');
+$app->configure('swagger-lume');
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,7 @@ $app->configure('queue');
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

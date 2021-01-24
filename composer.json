@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "darkaonline/swagger-lume": "^8.0",
         "illuminate/redis": "^8.24",
         "laravel/lumen-framework": "^8.0",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.1"
