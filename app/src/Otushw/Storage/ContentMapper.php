@@ -3,11 +3,13 @@
 
 namespace Otushw\Storage;
 
+use Otushw\ContentWatcher;
 use PDO;
 use PDOException;
 use PDOStatement;
 use Otushw\Content;
 use Otushw\ContentDTO;
+use Otushw\ContentCollection;
 use Otushw\Exception\MapperException;
 use Otushw\Storage\StorageInterface;
 
@@ -19,11 +21,35 @@ use Otushw\Storage\StorageInterface;
 class ContentMapper implements StorageInterface
 {
 
+    /**
+     * @var PDO
+     */
     private PDO $pdo;
+
+    /**
+     * @var PDOStatement
+     */
     private PDOStatement $selectStmt;
+
+    /**
+     * @var PDOStatement
+     */
     private PDOStatement $insertStmt;
+
+    /**
+     * @var PDOStatement
+     */
     private PDOStatement $updateStmt;
+
+    /**
+     * @var PDOStatement
+     */
     private PDOStatement $deleteStmt;
+
+    /**
+     * @var PDOStatement
+     */
+    private PDOStatement $batchStmt;
 
     /**
      * ContentMapper constructor.
@@ -37,23 +63,35 @@ class ContentMapper implements StorageInterface
         $this->selectStmt = $pdo->prepare(
             "select name, id_genre, age_limit, movie_length from content where id = ?"
         );
+
         $this->insertStmt = $pdo->prepare(
             "insert into content (name, id_genre, age_limit, movie_length) values (?, ?, ?, ?)"
         );
+
         $this->updateStmt = $pdo->prepare(
             "update content set name = ?, id_genre = ?, age_limit = ?, movie_length = ? where id = ?"
         );
+
         $this->deleteStmt = $pdo->prepare("delete from content where id = ?");
+
+        $this->batchStmt = $pdo->prepare(
+            'select id, name, id_genre, age_limit, movie_length from content order by id ASC limit ?  offset ?'
+        );
     }
 
     /**
      * @param int $id
      *
-     * @return Content
+     * @return null|Content
      * @throws MapperException
      */
     public function findById(int $id): ?Content
     {
+        $current = $this->getFromMap($id);
+        if (!is_null($current)) {
+            return $current;
+        }
+
         try {
             $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
             $this->selectStmt->execute([$id]);
@@ -99,14 +137,17 @@ class ContentMapper implements StorageInterface
                 'it is not possible to add a record to the table "content"'
             );
         }
+
         $id = (int) $this->pdo->lastInsertId('content_id_seq');
-        return new Content(
+        $content = new Content(
             (int) $id,
             $content->name,
             $content->id_genre,
             $content->age_limit,
             $content->move_lenght
         );
+        $this->addToMap($content);
+        return $content;
     }
 
     /**
@@ -129,6 +170,10 @@ class ContentMapper implements StorageInterface
             throw new MapperException($e->getMessage(), $e->getCode());
         }
 
+        if ($result) {
+            $this->addToMap($content);
+        }
+
         return $result;
     }
 
@@ -145,6 +190,60 @@ class ContentMapper implements StorageInterface
             throw new MapperException($e->getMessage(), $e->getCode());
         }
 
+        if ($result) {
+            $this->deleteFromMap($id);
+        }
+
         return $result;
     }
+
+    /**
+     * @param int $number
+     * @param int $offset
+     *
+     * @return null|ContentCollection
+     */
+    public function getBatch(int $limit = 10, int $offset = 0): ?ContentCollection
+    {
+        try{
+            $this->batchStmt->setFetchMode(PDO::FETCH_ASSOC);
+            $this->batchStmt->execute([$limit, $offset]);
+            $result = $this->batchStmt->fetchAll();
+        } catch (PDOException $e) {
+            throw new MapperException($e->getMessage(), $e->getCode());
+        }
+
+        if (empty($result)) {
+            return null;
+        }
+        return new ContentCollection($result);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Content|null
+     */
+    private function getFromMap(int $id): ?Content
+    {
+        return ContentWatcher::getItem($id);
+    }
+
+    /**
+     * @param Content $content
+     */
+    private function addToMap(Content $content)
+    {
+        return ContentWatcher::store($content);
+    }
+
+    /**
+     * @param Content $content
+     */
+    private function deleteFromMap(int $id): bool
+    {
+        return ContentWatcher::remove($id);
+    }
+
+
 }
