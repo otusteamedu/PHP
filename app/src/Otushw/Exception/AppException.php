@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Otushw;
+namespace Otushw\Exception;
 
 use Monolog\Logger;
 use Throwable;
