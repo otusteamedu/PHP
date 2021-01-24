@@ -1,0 +1,71 @@
+version: '3'
+services:
+  php:
+    container_name: php
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    hostname: php
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    hostname: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx/default-dev.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www/html
+    depends_on:
+      - php
+
+  mysql:
+    container_name: mysql
+    image: library/mysql:5.7
+    hostname: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+
+  rabbitmq:
+    image: rabbitmq:3.6.10-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    hostname: redis
+    command: redis-server
+    ports:
+      - 6379:6379
+
+  worker:
+    build:
+      context: ./docker/worker
+      dockerfile: Dockerfile
+    restart: always
+    hostname: worker
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - rabbitmq
