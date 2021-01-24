@@ -5,6 +5,11 @@ namespace Otushw\Exception;
 
 use Monolog\Logger;
 
+/**
+ * Class UserException
+ *
+ * @package Otushw\Exception
+ */
 class UserException extends AppException
 {
 

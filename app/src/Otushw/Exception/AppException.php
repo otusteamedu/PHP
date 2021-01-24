@@ -6,9 +6,18 @@ namespace Otushw\Exception;
 use Monolog\Logger;
 use Throwable;
 use Exception;
+use Otushw\LoggerFactory;
 
+/**
+ * Class AppException
+ *
+ * @package Otushw\Exception
+ */
 class AppException extends Exception
 {
+    /**
+     * @var LoggerFactory
+     */
     protected LoggerFactory $log;
 
     /**

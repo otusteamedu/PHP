@@ -5,6 +5,11 @@ namespace Otushw\Exception;
 
 use Monolog\Logger;
 
+/**
+ * Class MapperException
+ *
+ * @package Otushw\Exception
+ */
 class MapperException extends AppException
 {
 
@@ -13,6 +18,6 @@ class MapperException extends AppException
      */
     protected function addTologException(string $message): void
     {
-        $this->log->addTolog(Logger::ERROR, $message);
+        $this->log->addTolog(Logger::ERROR, 'Mapper: '. $message);
     }
 }
