@@ -3,6 +3,7 @@
 namespace Otushw;
 
 use Otushw\Exception\AppException;
+use Otushw\Exception\UserException;
 
 class Config
 {
