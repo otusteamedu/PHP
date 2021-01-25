@@ -2,13 +2,27 @@
 
 namespace Otushw;
 
-use Otushw\Exception\AppException;
 use Otushw\Exception\UserException;
 
+/**
+ * Class Config
+ *
+ * @package Otushw
+ */
 class Config
 {
+    /**
+     * @var string
+     */
     private string $filePath;
 
+    /**
+     * Config constructor.
+     *
+     * @param string $filePath
+     *
+     * @throws UserException
+     */
     public function __construct(string $filePath = '')
     {
         if (empty($filePath)) {
@@ -22,11 +36,14 @@ class Config
         $this->filePath = $filePath;
     }
 
+    /**
+     * @throws UserException
+     */
     public function load(): void
     {
         foreach ($this->readFile() as $varName => $varValue) {
             if (empty($varValue)) {
-                throw new AppException('Config has empty variable "' . $varName . '"');
+                throw new UserException('Config has empty variable "' . $varName . '"');
             }
             $_ENV[$varName] = $varValue;
         }
