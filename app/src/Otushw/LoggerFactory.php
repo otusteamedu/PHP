@@ -5,7 +5,6 @@ namespace Otushw;
 
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
-use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Logger;
 use Exception;
 

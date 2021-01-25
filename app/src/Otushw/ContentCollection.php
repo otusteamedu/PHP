@@ -5,11 +5,31 @@ namespace Otushw;
 
 use Iterator;
 
+/**
+ * Class ContentCollection
+ *
+ * @package Otushw
+ */
 class ContentCollection implements Iterator
 {
+    /**
+     * @var int
+     */
     private int $pointer = 0;
+
+    /**
+     * @var int
+     */
     private int $total = 0;
+
+    /**
+     * @var array
+     */
     private array $objects = [];
+
+    /**
+     * @var array
+     */
     private array $raw = [];
 
     /**
@@ -30,6 +50,12 @@ class ContentCollection implements Iterator
      */
     public function add(Content $content): void
     {
+        $id = $content->getId();
+        $current = $this->getFromMap($id);
+        if (!is_null($current)) {
+            $content = $current;
+        }
+
         $this->objects[$this->total] = $content;
         $this->total++;
     }
@@ -111,6 +137,9 @@ class ContentCollection implements Iterator
         return (!is_null($this->current()));
     }
 
+    /**
+     *
+     */
     public function rewind()
     {
         $this->pointer = 0;

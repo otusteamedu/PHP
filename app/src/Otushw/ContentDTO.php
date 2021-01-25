@@ -11,9 +11,24 @@ namespace Otushw;
  */
 class ContentDTO
 {
+    /**
+     * @var string
+     */
     public string $name;
+
+    /**
+     * @var int
+     */
     public int $id_genre;
+
+    /**
+     * @var int
+     */
     public int $age_limit;
+
+    /**
+     * @var int
+     */
     public int $move_lenght;
 
     /**

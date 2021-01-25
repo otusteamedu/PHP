@@ -4,11 +4,26 @@
 namespace Otushw;
 
 
+/**
+ * Class ContentWatcher
+ *
+ * @package Otushw
+ */
 class ContentWatcher
 {
+    /**
+     * @var array
+     */
     private array $all = [];
+
+    /**
+     * @var null
+     */
     private static $instance = null;
 
+    /**
+     * ContentWatcher constructor.
+     */
     private function __construct() { }
 
     /**
@@ -16,18 +31,18 @@ class ContentWatcher
      */
     public static function instance(): ContentWatcher
     {
-        if (is_null((self::$instance))) {
+        if (is_null(self::$instance)) {
             self::$instance = new ContentWatcher();
         }
         return self::$instance;
     }
 
     /**
-     * @param Content $content
+     * @param int $id
      *
      * @return string
      */
-    private function getKey(): string
+    private function getKey(int $id): string
     {
         return Content::class . '.' . $id;
     }
