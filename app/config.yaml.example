@@ -1,0 +1,12 @@
+storage_name: PostgreSQL
+log:
+  name_channel: main
+  type: file
+  file_settings:
+    file_path: ../log/app.log
+DB:
+  host: host
+  port: port
+  name: DBNAME
+  user_name: USER_NAME
+  password: USER_PASSWORD
