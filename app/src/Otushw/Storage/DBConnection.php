@@ -3,16 +3,33 @@
 
 namespace Otushw\Storage;
 
-use Otushw\AppException;
+use Otushw\Exception\AppException;
+use Otushw\Exception\UserException;
 use PDO;
 use PDOException;
 
+/**
+ * Class DBConnection
+ *
+ * @package Otushw\Storage
+ */
 class DBConnection
 {
+
+    CONST REQUIRED_VAR = ['host', 'port', 'name', 'user_name', 'password'];
+
+    /**
+     * @var null
+     */
     private static $pdo = null;
 
+    /**
+     * DBConnection constructor.
+     */
     private function __construct() { }
+
     private function __clone() { }
+
     private function __wakeup() { }
 
     /**
@@ -29,11 +46,21 @@ class DBConnection
     }
 
     /**
+     *
+     */
+    public function __destruct()
+    {
+        self::$pdo = null;
+    }
+
+    /**
      * @return PDO
      * @throws AppException
      */
     private function connect(): PDO
     {
+        self::validateParam();
+
         $host = $_ENV['DB']['host'];
         $port = $_ENV['DB']['port'];
         $dbName = $_ENV['DB']['name'];
@@ -44,11 +71,27 @@ class DBConnection
         try {
             $pdo = new PDO($dsn);
             if(empty($pdo)) {
-                throw new AppException('DB connection is unsuccessful');
+                throw new UserException('DB connection is unsuccessful');
             }
             return $pdo;
         } catch (PDOException $e) {
             throw new AppException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * @throws UserException
+     */
+    private function validateParam(): void
+    {
+        if (empty($_ENV['DB'])) {
+            throw new UserException('DB section not declared in config file');
+        }
+
+        foreach (self::REQUIRED_VAR as $item) {
+            if (!isset($_ENV['DB'][$item])) {
+                throw new UserException($item . ': is missing in config file');
+            }
         }
     }
 

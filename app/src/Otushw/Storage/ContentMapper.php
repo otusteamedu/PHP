@@ -11,14 +11,14 @@ use Otushw\Content;
 use Otushw\ContentDTO;
 use Otushw\ContentCollection;
 use Otushw\Exception\MapperException;
-use Otushw\Storage\StorageInterface;
+use Otushw\Storage\MapperInterface;
 
 /**
  * Class ContentMapper
  *
  * @package Otushw
  */
-class ContentMapper implements StorageInterface
+class ContentMapper implements MapperInterface
 {
 
     /**
@@ -75,7 +75,7 @@ class ContentMapper implements StorageInterface
         $this->deleteStmt = $pdo->prepare("delete from content where id = ?");
 
         $this->batchStmt = $pdo->prepare(
-            'select id, name, id_genre, age_limit, movie_length from content order by id ASC limit ?  offset ?'
+            'select id, name, id_genre, age_limit, movie_length from content order by id DESC limit ?  offset ?'
         );
     }
 
@@ -104,13 +104,16 @@ class ContentMapper implements StorageInterface
             return null;
         }
 
-        return new Content(
+        $content = new Content(
             $id,
             $result['name'],
             $result['id_genre'],
             $result['age_limit'],
             $result['movie_length'],
         );
+        $this->addToMap($content);
+
+        return $content;
     }
 
     /**
@@ -202,8 +205,9 @@ class ContentMapper implements StorageInterface
      * @param int $offset
      *
      * @return null|ContentCollection
+     * @throws MapperException
      */
-    public function getBatch(int $limit = 10, int $offset = 0): ?ContentCollection
+    public function getBatch(int $limit = 5, int $offset = 0): ?ContentCollection
     {
         try{
             $this->batchStmt->setFetchMode(PDO::FETCH_ASSOC);

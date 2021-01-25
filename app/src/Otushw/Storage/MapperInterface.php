@@ -6,7 +6,7 @@ namespace Otushw\Storage;
 use Otushw\Content;
 use Otushw\ContentDTO;
 
-interface StorageInterface
+interface MapperInterface
 {
     public function findById(int $id): ?Content;
     public function insert(ContentDTO $content): Content;
