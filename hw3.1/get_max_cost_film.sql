@@ -1,0 +1,1 @@
+SELECT MAX(cost_rental * views_num) AS max FROM films;
