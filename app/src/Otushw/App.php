@@ -35,7 +35,7 @@ class App
     public function run(): void
     {
         $mapper = new ContentMapper($this->pdo);
-        $mapper->demonstrate();
+        $demo = new DemoContentMapper($mapper);
     }
 
 

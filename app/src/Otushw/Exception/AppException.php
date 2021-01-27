@@ -6,7 +6,7 @@ namespace Otushw\Exception;
 use Monolog\Logger;
 use Throwable;
 use Exception;
-use Otushw\LoggerFactory;
+use Otushw\Logger\AppLogger;
 
 /**
  * Class AppException
@@ -30,16 +30,7 @@ class AppException extends Exception
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-
-        $this->log = new LoggerFactory();
-        $this->addTologException($message);
+        AppLogger::addError($message);
     }
 
-    /**
-     * @param string $message
-     */
-    protected function addTologException(string $message): void
-    {
-        $this->log->addTolog(Logger::ERROR, $message);
-    }
 }

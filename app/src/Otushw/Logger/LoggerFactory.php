@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Otushw;
+namespace Otushw\Logger;
 
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
@@ -10,26 +10,25 @@ use Exception;
 
 class LoggerFactory
 {
-    private Logger $log;
+    private static $instance = null;
 
     /**
      * LoggerFactory constructor.
      *
      * @throws Exception
      */
-    public function __construct()
-    {
-        $this->log = new Logger($_ENV['log']['name_channel']);
-        $this->log->pushHandler($this->getHandler($_ENV['log']['type']));
-    }
+    private function __construct() { }
 
-    /**
-     * @param int    $level
-     * @param string $msg
-     */
-    public function addTolog(int $level, string $msg): void
+    public static function getInstance()
     {
-        $this->log->addRecord($level, $msg);
+        if (self::$instance != null) {
+            return self::$instance;
+        }
+        $log = new Logger($_ENV['log']['name_channel']);
+        $log->pushHandler(self::getHandler($_ENV['log']['type']));
+
+        self::$instance = $log;
+        return self::$instance;
     }
 
     /**
@@ -42,7 +41,7 @@ class LoggerFactory
     {
         switch ($type) {
             case 'file':
-                $file = $this->getFilePath();
+                $file = self::getFilePath();
                 $handler = new StreamHandler($file);
                 break;
         }

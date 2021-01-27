@@ -4,6 +4,7 @@
 namespace Otushw\Storage;
 
 use Otushw\ContentWatcher;
+use Otushw\Logger\AppLogger;
 use Otushw\View;
 use PDO;
 use PDOException;
@@ -11,7 +12,7 @@ use PDOStatement;
 use Otushw\Content;
 use Otushw\ContentDTO;
 use Otushw\ContentCollection;
-use Otushw\Exception\MapperException;
+use Otushw\Exception\AppException;
 use Otushw\Storage\MapperInterface;
 
 /**
@@ -84,7 +85,7 @@ class ContentMapper implements MapperInterface
      * @param int $id
      *
      * @return null|Content
-     * @throws MapperException
+     * @throws AppException
      */
     public function findById(int $id): ?Content
     {
@@ -98,7 +99,7 @@ class ContentMapper implements MapperInterface
             $this->selectStmt->execute([$id]);
             $result = $this->selectStmt->fetch();
         } catch (PDOException $e) {
-            throw new MapperException($e->getMessage(), $e->getCode());
+            throw new AppException($e->getMessage(), $e->getCode());
         }
 
         if (empty($result)) {
@@ -121,7 +122,7 @@ class ContentMapper implements MapperInterface
      * @param ContentDTO $content
      *
      * @return Content
-     * @throws MapperException
+     * @throws AppException
      */
     public function insert(ContentDTO $content): Content
     {
@@ -133,13 +134,12 @@ class ContentMapper implements MapperInterface
                 $content->move_lenght
             ]);
         } catch (PDOException $e) {
-            throw new MapperException($e->getMessage(), $e->getCode());
+            throw new AppException($e->getMessage(), $e->getCode());
         }
 
         if (empty($result)) {
-            throw new MapperException(
-                'it is not possible to add a record to the table "content"'
-            );
+            throw new AppException('It is not possible to add a record'
+                .  ' (' . $content . ') to table "content"');
         }
 
         $id = (int) $this->pdo->lastInsertId('content_id_seq');
@@ -171,7 +171,7 @@ class ContentMapper implements MapperInterface
                 $id
             ]);
         } catch (PDOException $e) {
-            throw new MapperException($e->getMessage(), $e->getCode());
+            throw new AppException($e->getMessage(), $e->getCode());
         }
 
         if ($result) {
@@ -191,7 +191,7 @@ class ContentMapper implements MapperInterface
         try {
             $result = $this->deleteStmt->execute([$content->getId()]);
         } catch (PDOException $e) {
-            throw new MapperException($e->getMessage(), $e->getCode());
+            throw new AppException($e->getMessage(), $e->getCode());
         }
 
         if ($result) {
@@ -206,7 +206,7 @@ class ContentMapper implements MapperInterface
      * @param int $offset
      *
      * @return null|ContentCollection
-     * @throws MapperException
+     * @throws AppException
      */
     public function getBatch(int $limit = 5, int $offset = 0): ?ContentCollection
     {
@@ -215,7 +215,7 @@ class ContentMapper implements MapperInterface
             $this->batchStmt->execute([$limit, $offset]);
             $result = $this->batchStmt->fetchAll();
         } catch (PDOException $e) {
-            throw new MapperException($e->getMessage(), $e->getCode());
+            throw new AppException($e->getMessage(), $e->getCode());
         }
 
         if (empty($result)) {
@@ -248,37 +248,6 @@ class ContentMapper implements MapperInterface
     private function deleteFromMap(int $id): bool
     {
         return ContentWatcher::remove($id);
-    }
-
-    /**
-     * @throws MapperException
-     */
-    public function demonstrate()
-    {
-        $content = [];
-        for ($i = 0; $i < 5; $i++) {
-            $content[] = $this->insert(new ContentDTO('php' . random_int(0, 1000), 1, random_int(0, 1000), random_int(60, 120)));
-        }
-        $this->isSameObjects($content[0]);
-
-        $content[1]->setName('php00000000');
-        $this->update($content[1]);
-        $this->isSameObjects($content[1]);
-
-        $collection = $this->getBatch();
-        foreach ($collection as $key => $item) {
-            $this->isSameObjects($item);
-        }
-    }
-
-    /**
-     * @param Content $content
-     */
-    private function isSameObjects(Content $content): void
-    {
-        $checkedContent = $this->findById($content->getId());
-        $result = $content === $checkedContent;
-        View::showChecking($result);
     }
 
 }

@@ -4,7 +4,6 @@
 namespace Otushw\Storage;
 
 use Otushw\Exception\AppException;
-use Otushw\Exception\UserException;
 use PDO;
 use PDOException;
 
@@ -71,7 +70,7 @@ class DBConnection
         try {
             $pdo = new PDO($dsn);
             if(empty($pdo)) {
-                throw new UserException('DB connection is unsuccessful');
+                throw new AppException('DB connection is unsuccessful');
             }
             return $pdo;
         } catch (PDOException $e) {
@@ -80,17 +79,17 @@ class DBConnection
     }
 
     /**
-     * @throws UserException
+     * @throws AppException
      */
     private function validateParam(): void
     {
         if (empty($_ENV['DB'])) {
-            throw new UserException('DB section not declared in config file');
+            throw new AppException('DB section not declared in config file');
         }
 
         foreach (self::REQUIRED_VAR as $item) {
             if (!isset($_ENV['DB'][$item])) {
-                throw new UserException($item . ': is missing in config file');
+                throw new AppException($item . ': is missing in config file');
             }
         }
     }
