@@ -11,7 +11,6 @@ CREATE TABLE films
 (
     id              serial       NOT NULL,
     title           varchar(100) NOT NULL,
-    description     text DEFAULT ''::TEXT NOT NULL,
     show_start_date timestamp    NOT NULL,
     length          int4         NOT NULL,
     CONSTRAINT films_pk PRIMARY KEY (id),
@@ -90,6 +89,16 @@ CREATE TABLE films_attr_values
 );
 
 -- functions
+
+CREATE
+OR REPLACE FUNCTION random_between(low INT, high INT)
+   RETURNS INT AS
+$$
+BEGIN
+RETURN floor(random() * (high - low + 1) + low);
+END;
+$$
+language 'plpgsql' STRICT;
 
 CREATE
 OR REPLACE FUNCTION random_string(length integer) RETURNS text AS
