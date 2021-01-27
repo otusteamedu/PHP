@@ -4,6 +4,7 @@
 namespace Otushw\Storage;
 
 use Otushw\ContentWatcher;
+use Otushw\View;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -249,5 +250,35 @@ class ContentMapper implements MapperInterface
         return ContentWatcher::remove($id);
     }
 
+    /**
+     * @throws MapperException
+     */
+    public function demonstrate()
+    {
+        $content = [];
+        for ($i = 0; $i < 5; $i++) {
+            $content[] = $this->insert(new ContentDTO('php' . random_int(0, 1000), 1, random_int(0, 1000), random_int(60, 120)));
+        }
+        $this->isSameObjects($content[0]);
+
+        $content[1]->setName('php00000000');
+        $this->update($content[1]);
+        $this->isSameObjects($content[1]);
+
+        $collection = $this->getBatch();
+        foreach ($collection as $key => $item) {
+            $this->isSameObjects($item);
+        }
+    }
+
+    /**
+     * @param Content $content
+     */
+    private function isSameObjects(Content $content): void
+    {
+        $checkedContent = $this->findById($content->getId());
+        $result = $content === $checkedContent;
+        View::showChecking($result);
+    }
 
 }
