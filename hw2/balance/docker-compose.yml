@@ -1,20 +1,6 @@
 version: "3.3"
 
 services:
-  weserver:
-    build:
-      context: ./docker/nginx
-    container_name: nginx-balance
-    working_dir: /home/rainbow/Otus/PHP/hw2/balance
-    volumes:
-      - ./balance.ikm:/balance.ikm
-    links:
-      - php-fpm
-    depends_on:
-      - php-fpm
-    ports:
-      - 80:80
-
   php-fpm:
     build:
       context: ./docker/php-fpm
@@ -25,3 +11,15 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
+        
+  weserver:
+    build:
+      context: ./docker/nginx
+    container_name: nginx-balance
+    working_dir: /home/rainbow/Otus/PHP/hw2/balance
+    volumes:
+      - ./balance.ikm:/balance.ikm
+    ports:
+      - "80:80"
+      - "443:443"
+
