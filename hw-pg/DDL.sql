@@ -56,8 +56,8 @@ UNIQUE INDEX tickets_seance_place_idx ON tickets USING btree (seance_id, place_i
 CREATE TABLE films_attr_types
 (
     id      serial       NOT NULL,
-    name    varchar(255) NOT NULL,
-    comment text DEFAULT ''::text NOT NULL,
+    name    varchar(50)  NOT NULL,
+    comment varchar(100) NOT NULL,
     CONSTRAINT filmsattr_type_pk PRIMARY KEY (id),
     CONSTRAINT films_attr_types_un UNIQUE (name)
 );
@@ -77,7 +77,7 @@ CREATE TABLE films_attr_values
     id        serial  NOT NULL,
     film_id   integer NOT NULL,
     attr_id   integer NOT NULL,
-    val_time  timestamp NULL,
+    val_date  date NULL,
     val_char  varchar NULL,
     val_text  text NULL,
     val_int   integer NULL,
