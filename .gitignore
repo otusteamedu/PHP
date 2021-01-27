@@ -1,3 +1,4 @@
+vendor/
 .directory
 .idea
 *.zip
