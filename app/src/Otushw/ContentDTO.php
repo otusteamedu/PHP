@@ -52,4 +52,13 @@ class ContentDTO
         $this->move_lenght = $move_lenght;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Name: $this->name, ID_genre: $this->id_genre, "
+            . "Age limit: $this->age_limit, Move lenght: $this->move_lenght";
+    }
+
 }
