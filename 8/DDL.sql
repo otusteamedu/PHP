@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS movie_attribute_value (
 );
 
 CREATE VIEW test_view AS
-SELECT m.name as movie_name, ma.name as attribute_name, mf.name as filed_name, mav.value_text, mav.value_date, mav.value_boolean FROM movies m
-JOIN movie_attribute_value mav on m.id = mav.movie_id
-JOIN movie_fields mf on mf.id = mav.field_id
-JOIN movie_attribute ma on mf.attribute_id = ma.id
-JOIN movie_attribute_type mat on ma.type_id = mat.id;
+SELECT m.name AS movie_name, ma.name as attribute_name, mf.name as filed_name, mav.value_text, mav.value_date, mav.value_boolean FROM movies m
+JOIN movie_attribute_value mav ON m.id = mav.movie_id
+JOIN movie_fields mf ON mf.id = mav.field_id
+JOIN movie_attribute ma ON mf.attribute_id = ma.id
+JOIN movie_attribute_type mat ON ma.type_id = mat.id;
