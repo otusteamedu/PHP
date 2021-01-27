@@ -64,8 +64,8 @@ CREATE TABLE films_attr_types
 
 CREATE TABLE films_attr
 (
-    id   serial      NOT NULL,
-    name varchar(60) NOT NULL,
+    id      serial      NOT NULL,
+    name    varchar(60) NOT NULL,
     type_id int4        NOT NULL,
     CONSTRAINT films_attr_pk PRIMARY KEY (id),
     CONSTRAINT films_attr_un UNIQUE (name),
@@ -78,7 +78,7 @@ CREATE TABLE films_attr_values
     film_id   integer NOT NULL,
     attr_id   integer NOT NULL,
     val_date  date NULL,
-    val_char  varchar NULL,
+    val_bool  bool NULL,
     val_text  text NULL,
     val_int   integer NULL,
     val_float float NULL,
@@ -120,4 +120,20 @@ end loop;
 return result;
 end;
 $$
+LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE FUNCTION random_date_between(start_date date, end_date date) RETURNS date AS
+$BODY$
+DECLARE
+    interval_days integer;
+    random_days   integer;
+    random_date   date;
+BEGIN
+	interval_days := end_date - start_date;
+	random_days := random_between(0, interval_days);
+	random_date := start_date + random_days;
+RETURN random_date;
+END;
+$BODY$
 LANGUAGE plpgsql;
