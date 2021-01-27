@@ -2,7 +2,7 @@ FROM php:7.4-fpm
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV DEBIAN_FRONTEND=teletype
-
+ARG UID
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -24,7 +24,16 @@ RUN apt-get update && \
     && docker-php-ext-install pdo \
     && docker-php-ext-configure pgsql \
     && docker-php-ext-install pdo_pgsql \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && addgroup --gid $UID --system brackets \
+    && adduser --uid $UID --system --disabled-login --disabled-password --gid $UID brackets
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-CMD ["php-fpm"]
+#RUN mkdir -p /var/log/php/ && touch /var/log/php/fpm-php.www.log && chown www-data:www-data /var/log/php/fpm-php.www.log
+COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+#EXPOSE 9000
+#CMD ["php-fpm"]
+

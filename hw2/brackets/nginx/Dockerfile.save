@@ -1,0 +1,16 @@
+FROM debian
+
+MAINTAINER Irina Malovastaja <irina.malovastaja@yandex.ru>
+
+RUN apt-get update 
+RUN apt-get install -y nginx
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+WORKDIR /var/www/client-serv.ikm
+COPY ./../../client-serv.conf /var/www/client-serv.ikm/client-serv.conf
+#COPY ./../client-serv.ikm/index.php /var/www/client-serv.ikm/index.php
+RUN mkdir logs
+VOLUME ./../../client-serv.ikm
+EXPOSE 8ENTRYPOINT ["/etc/init.d/php7.0-fpm"]
+CMD [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT ["/usr/local/bin/docker-php-entrypoint"]

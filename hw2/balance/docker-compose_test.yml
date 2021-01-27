@@ -18,10 +18,7 @@ services:
   php-fpm:
     build:
       context: ./docker/php-fpm
+    container_name: php-balance
     working_dir: /home/rainbow/Otus/PHP/hw2/balance
     volumes:
       - ./balance.ikm:/balance.ikm
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure

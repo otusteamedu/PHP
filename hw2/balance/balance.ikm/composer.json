@@ -1,0 +1,16 @@
+{
+    "name": "ikmiuq/balance.ikm",
+    "description": "test balance setting",
+    "authors": [
+        {
+            "name": "Irina Malovastaja",
+            "email": "irina.malovastaja@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "WorkloadPhpFpm\\" : "src/WorkloadPhpFpm"
+        }
+    }
+}
