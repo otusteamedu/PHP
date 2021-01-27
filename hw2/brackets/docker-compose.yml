@@ -1,0 +1,35 @@
+version: "3.1"
+
+services:
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+    container_name: php-fpm_server
+    working_dir: /brackets.ikm
+    volumes:
+      - ./brackets.ikm:/var/www/brackets.ikm
+      - ./logs/php:/var/log/php
+      - ./sock:/sock
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        UID: "3000"
+    container_name: nginx_server
+    working_dir: /brackets.ikm
+    volumes:
+      - ./logs/nginx:/var/log/nginx # адрес снаружи:адрес внутри контейнера
+      - ./brackets.ikm:/var/www/brackets.ikm
+      - ./sock:/sock
+    links:
+      - php-fpm
+    depends_on:
+      - php-fpm
+    ports:
+      - 80:80 # порт снаружи:порт внутри контейнера
