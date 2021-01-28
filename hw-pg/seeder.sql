@@ -62,6 +62,23 @@ BEGIN
 END
 $seances_seeder$;
 
+-- заполняем таблицу tickets
+DO
+$tickets_seeder$
+DECLARE
+    tickets_count integer;
+    seance        record;
+    place         record;
+BEGIN
+    FOR seance IN (SELECT id, hall_id FROM seances) LOOP
+        tickets_count := random_between(50, 800);
+
+        FOR place IN (SELECT id FROM places WHERE hall_id = seance.hall_id ORDER BY random() LIMIT tickets_count) LOOP
+            INSERT INTO tickets (seance_id, place_id) VALUES (seance.id, place.id);
+        END LOOP;
+    END LOOP;
+END
+$tickets_seeder$;
 
 -- заполняем таблицу films_attr_types
 INSERT INTO films_attr_types (name, comment)
