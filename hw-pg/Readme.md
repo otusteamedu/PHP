@@ -8,6 +8,14 @@ ORDER BY price DESC
 LIMIT 10
 ```
 
+Фильмы, получившие Золотой глобус
+```
+SELECT f.id, f.title
+FROM films AS f
+INNER JOIN films_attr_values AS fav ON fav.film_id = f.id
+WHERE fav.attr_id = 6 AND fav.val_bool
+```
+
 Фильмы, премьера в мире которых уже состоялась
 ```
 SELECT f.title, fav.val_date 
@@ -42,3 +50,13 @@ ORDER BY SUM(s.price) DESC
 LIMIT 10
 ```
 
+Посещаемость залов за диапазон дат
+```
+SELECT h.id AS hall_id, h.title, COUNT(t.id) AS tickets_count
+FROM tickets AS t
+INNER JOIN seances AS s ON t.seance_id = s.id
+INNER JOIN halls AS h ON s.hall_id = h.id
+WHERE s.date_start BETWEEN '2021-01-01' AND '2021-01-07'
+GROUP BY h.id, h.title
+ORDER BY COUNT(t.id) DESC
+```
