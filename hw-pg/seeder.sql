@@ -38,6 +38,31 @@ BEGIN
 END
 $places_seeder$;
 
+-- заполняем таблицу seances
+DO
+$seances_seeder$
+DECLARE
+    films_count   integer = NULL;
+    seances_count integer = NULL;
+    halls_count   integer = NULL;
+BEGIN
+    films_count   := (SELECT count(id) FROM films);
+    halls_count   := (SELECT count(id) FROM halls);
+    seances_count = films_count / 10;
+
+    FOR n IN 1..seances_count LOOP
+        INSERT INTO seances (hall_id, film_id, date_start, price)
+        VALUES (
+            random_between(1, halls_count),
+            random_between(1, films_count),
+            random_film_start_datetime('2021-01-01', '2021-05-01'),
+            random_between(100, 300)
+        );
+    END LOOP;
+END
+$seances_seeder$;
+
+
 -- заполняем таблицу films_attr_types
 INSERT INTO films_attr_types (name, comment)
 VALUES ('int', 'integer value'),
