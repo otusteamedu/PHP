@@ -27,18 +27,19 @@ class Main
      */
     public function run()
     {
-        echo $this->validate();
+        $this->validate();
+        echo "Сообщение корректно";
     }
 
     /**
-     * @return string
      * @throws StringException
      * @throws ValidateStringException
      */
-    private function validate(): string
+    private function validate()
     {
         if ($this->string === '') {
-            throw new StringException();
+            header('HTTP/1.1 400 Bad Request');
+            throw new StringException("POST['string'] - пустой или не передан");
         }
 
         $count = 0;
@@ -48,14 +49,14 @@ class Main
             $count = ($char === "(") ? ++$count : --$count;
 
             if ($count < 0) {
-                throw new ValidateStringException($count);
+                header('HTTP/1.1 400 Bad Request');
+                throw new ValidateStringException("Строка не корректна count: $count");
             }
         }
 
         if ($count !== 0 || $stringArray[0] !== '(' || $stringArray[count($stringArray) - 1] !== ')') {
-            throw new ValidateStringException($count);
+            header('HTTP/1.1 400 Bad Request');
+            throw new ValidateStringException("Строка не корректна count: $count");
         }
-
-        return 'Сообщение корректно';
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
-
 namespace App\Exception;
-
 
 use Throwable;
 
+/**
+ * Class ValidateStringException
+ * @package App\Exception
+ */
 class ValidateStringException extends \Exception
 {
     /**
@@ -16,9 +18,6 @@ class ValidateStringException extends \Exception
      */
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
-        $message = "Строка не корректна count: $message";
         parent::__construct($message, $code, $previous);
-        header('HTTP/1.1 400 Bad Request');
-        die($message);
     }
 }
