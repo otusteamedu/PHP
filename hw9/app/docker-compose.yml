@@ -1,0 +1,54 @@
+version: '3.5'
+
+services:
+  mysql:
+    image: library/mysql:5.6
+    hostname: "${DB_HOST}"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/log/mysql:/var/log
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
+
+  rabbitmq:
+    image: library/rabbitmq:3.6.10-management-alpine
+    hostname: "${RABBITMQ_HOST}"
+    volumes:
+      - ./docker/log/rabbitmq:/var/log
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASS}"
+
+  php:
+    image: yiisoftware/yii2-php:7.4-apache
+    ports:
+      - 80:80
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app
+      - ./docker/log/php:/var/log/apache2
+    environment:
+      DB_HOST: "${DB_HOST}"
+      DB_DATABASE: "${DB_DATABASE}"
+      DB_USER: "${DB_USER}"
+      DB_PASS: "${DB_PASS}"
+    depends_on:
+      - mysql
+      - rabbitmq
+
+  worker:
+    build:
+      context: docker/worker
+      dockerfile: Dockerfile
+    restart: always
+    hostname: worker
+    volumes:
+      - ./:/app
+    depends_on:
+      - rabbitmq
