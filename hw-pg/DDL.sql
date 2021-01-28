@@ -131,9 +131,25 @@ DECLARE
     random_date   date;
 BEGIN
 	interval_days := end_date - start_date;
-	random_days := random_between(0, interval_days);
-	random_date := start_date + random_days;
+	random_days   := random_between(0, interval_days);
+	random_date   := start_date + random_days;
 RETURN random_date;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE FUNCTION random_film_start_datetime(start_date date, end_date date) RETURNS timestamp AS
+$BODY$
+DECLARE
+    random_date       date;
+    random_hour       integer;
+    random_film_start timestamp;
+BEGIN
+	random_date       := random_date_between(start_date, end_date);
+    random_hour       := random_between(10, 23);
+    random_film_start = to_timestamp(random_date::text || ' ' || random_hour::text || ':00', 'YYYY-MM-DD HH24:MI');
+RETURN random_film_start;
 END;
 $BODY$
 LANGUAGE plpgsql;
