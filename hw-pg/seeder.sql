@@ -19,6 +19,25 @@ VALUES ('Зал 1'),
        ('Зал 11'),
        ('Зал 12');
 
+-- заполняем таблицу places
+DO
+$places_seeder$
+DECLARE
+    halls_count  integer = NULL;
+    rows_count   integer = 20;
+    places_count integer = 40;
+BEGIN
+    halls_count := (SELECT count(id) FROM halls);
+
+    FOR hall_id IN 1..halls_count LOOP
+        FOR row_number IN 1..rows_count LOOP
+            INSERT INTO places (hall_id, hall_row, row_place)
+            SELECT hall_id AS hall_id, row_number AS hall_row, generate_series(1, places_count)::integer AS row_place;
+        END LOOP;
+    END LOOP;
+END
+$places_seeder$;
+
 -- заполняем таблицу films_attr_types
 INSERT INTO films_attr_types (name, comment)
 VALUES ('int', 'integer value'),
