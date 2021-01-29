@@ -1,0 +1,17 @@
+{
+  "name": "vendor_name/hello.dev",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "bear",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4" : {
+      "App3\\" : "app/"
+    }
+  }
+}
