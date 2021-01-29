@@ -1,5 +1,5 @@
 {
-  "name": "vendor_name/hello.dev",
+  "name": "vendor_name/www",
   "description": "description",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -10,11 +10,10 @@
     }
   ],
   "require": {
-    "ext-sockets": "*"
   },
   "autoload": {
-    "psr-4" : {
-      "App\\" : "app/"
+    "psr-4": {
+      "App2\\" : "app/"
     }
   }
 }

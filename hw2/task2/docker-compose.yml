@@ -1,0 +1,12 @@
+version: '3'
+services:
+  server:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+      - ./socket:/tmp
+  client:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+      - ./socket:/tmp
