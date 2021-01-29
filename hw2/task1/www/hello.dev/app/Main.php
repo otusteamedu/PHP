@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Exception\StringException;
+use App\Exception\EmailException;
 use App\Exception\ValidateStringException;
 
 /**
@@ -22,7 +22,7 @@ class Main
     }
 
     /**
-     * @throws StringException
+     * @throws EmailException
      * @throws ValidateStringException
      */
     public function run()
@@ -32,14 +32,14 @@ class Main
     }
 
     /**
-     * @throws StringException
+     * @throws EmailException
      * @throws ValidateStringException
      */
     private function validate()
     {
         if ($this->string === '') {
             header('HTTP/1.1 400 Bad Request');
-            throw new StringException("POST['string'] - пустой или не передан");
+            throw new EmailException("POST['string'] - пустой или не передан");
         }
 
         $count = 0;
