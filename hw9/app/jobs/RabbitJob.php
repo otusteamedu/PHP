@@ -8,6 +8,7 @@ namespace app\jobs;
 
 use app\models\Job;
 use yii\db\Exception;
+use app\components\JobExecutor;
 
 class RabbitJob extends \yii\base\BaseObject implements \yii\queue\JobInterface
 {
@@ -23,12 +24,14 @@ class RabbitJob extends \yii\base\BaseObject implements \yii\queue\JobInterface
         if (empty($model)) {
             throw new Exception(sprintf('Job [%s] not found', $this->jobId));
         }
+        // Сохраняем время, когда начали обработку задачи
         $model->work_at = date('Y-m-d H:i:s', time());
         $model->save();
 
-        $sleepTime = random_int(2, 60);
-        sleep($sleepTime); // имитация сложного процесса
+        $executor = new JobExecutor();
+        $executor->someWork();
 
+        // Сохраняем время завершения обработки
         $model->done_at = date('Y-m-d H:i:s', time());
         $model->save();
     }
