@@ -1,0 +1,14 @@
+image: atlassian/default-image:latest
+
+pipelines:
+  custom:
+    staging:
+      - step:
+          deployment: staging
+          script:
+          - cat ./deploy.sh | ssh -T $HOST -o "StrictHostKeyChecking=no"
+  branches:
+    master:
+      - step:
+          script:
+            - cat ./deploy.sh | ssh -T $HOST -o "StrictHostKeyChecking=no"
