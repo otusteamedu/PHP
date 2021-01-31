@@ -34,3 +34,39 @@ LIMIT 15
 |films                   |table            |default|68321280  |
 |mv_film_tasks           |materialized view|default|36716544  |
 
+
+часто используемые индексы
+
+```
+select indexrelname AS index_name, stat.idx_scan AS index_scans_count
+from pg_stat_user_indexes AS stat
+join pg_indexes as pgi on indexrelname = indexname AND stat.schemaname = pgi.schemaname
+join pg_stat_user_tables AS tabstat on stat.relid = tabstat.relid
+ORDER by stat.idx_scan DESC limit 5
+```
+|index_name          |index_scans_count|
+|--------------------|-----------------|
+|i_fav_film_id       |2244464          |
+|films_attr_pk       |28476            |
+|films_pk            |117              |
+|i_seances_date_start|17               |
+|films_attr_values_pk|7                |
+
+редко используемые индексы
+
+```
+select indexrelname AS index_name, stat.idx_scan AS index_scans_count
+from pg_stat_user_indexes AS stat
+join pg_indexes as pgi on indexrelname = indexname AND stat.schemaname = pgi.schemaname
+join pg_stat_user_tables AS tabstat on stat.relid = tabstat.relid
+ORDER by stat.idx_scan asc limit 5
+```
+|index_name          |index_scans_count|
+|--------------------|-----------------|
+|halls_pk            |0                |
+|films_title_and_date_un|0                |
+|seances_pk          |0                |
+|places_pk           |0                |
+|places_place_in_hall_idx|0                |
+
+
