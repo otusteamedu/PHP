@@ -1,0 +1,56 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - nginx2
+      - nginx3
+      - nginx4
+  nginx2:
+    image: nginx:latest
+    ports:
+      - "82:82"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - php2
+  nginx3:
+    image: nginx:latest
+    ports:
+      - "83:83"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - php3
+  nginx4:
+    image: nginx:latest
+    ports:
+      - "84:84"
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - php4
+  php2:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+  php3:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
+  php4:
+    build: ./images/php
+    volumes:
+      - ./www:/var/www
