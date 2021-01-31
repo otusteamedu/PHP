@@ -1,0 +1,33 @@
+version: '3.8'
+
+volumes:
+  app-volume:
+
+services:
+  composer:
+    build:
+      context: ./docker/composer
+    volumes:
+      - ./app:/var/www/html
+
+  server:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/var/www/html
+      - app-volume:/data/sock
+    depends_on:
+      - composer
+
+  client:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/var/www/html
+      -  app-volume:/data/sock
+    depends_on:
+      - server
+
+
+
+
