@@ -1,0 +1,25 @@
+---
+ip: "192.168.10.48"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: homestead_VNikitin2
+
+folders:
+    - map: C:\OTUS\hw1-2\homestead\Code
+      to: /home/vagrant/code
+
+sites:
+    - map: hw1-2.local
+      to: /home/vagrant/code/public
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
