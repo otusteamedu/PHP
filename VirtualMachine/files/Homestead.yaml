@@ -1,0 +1,28 @@
+---
+ip: "192.168.10.10"
+memory: 4196
+cpus: 2
+provider: virtualbox
+name: homestead_otus
+
+folders:
+    - map: C:\MyWork\School\Otus\HomeWork
+      to: /home/vagrant/code
+
+sites:
+    - map: otus.loc
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443

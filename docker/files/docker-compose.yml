@@ -1,0 +1,59 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Контейнер с PHP (application - просто имя)
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: otus/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+      # для проброски кода
+      - ./code:/var/www/html/otus.loc
+      # пробрасываем файл конфигурации php.ini (по умолчанию его нужно скопировать в php.ini-production)
+      - ./fpm/conf/php:/usr/local/etc/php
+
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #контейне с Nginx
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/var/www/html/otus.loc
+    networks:
+      - app-network
+
+  # контейнер с MySQL
+  # строим на базе стандартного образа
+  mariadb:
+    image: mariadb:10.5.8
+    container_name: db
+    ports:
+      - "3306:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
