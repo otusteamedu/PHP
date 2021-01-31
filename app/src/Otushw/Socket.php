@@ -49,7 +49,7 @@ class Socket implements CommunicationInterface
     /**
      * @throws SocketException
      */
-    private function create()
+    private function create(): void
     {
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         if ($socket == false) {
