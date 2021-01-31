@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Exception\EmailException;
+use App\Exception\StringException;
 use App\Exception\ValidateStringException;
 
 /**
@@ -11,18 +11,20 @@ use App\Exception\ValidateStringException;
  */
 class Main
 {
-    private $string = '';
+    private string $string = '';
+    private array $query = [];
 
     /**
      * Main constructor.
      */
     public function __construct()
     {
-        $this->string = $_POST['string'] ?? '';
+        $this->query = Request::query() ?? [];
+        $this->string = $this->query['POST']['string'] ?? '';
     }
 
     /**
-     * @throws EmailException
+     * @throws StringException
      * @throws ValidateStringException
      */
     public function run()
@@ -32,14 +34,14 @@ class Main
     }
 
     /**
-     * @throws EmailException
+     * @throws StringException
      * @throws ValidateStringException
      */
     private function validate()
     {
         if ($this->string === '') {
-            header('HTTP/1.1 400 Bad Request');
-            throw new EmailException("POST['string'] - пустой или не передан");
+            Request::response(400);
+            throw new StringException("POST['string'] - пустой или не передан");
         }
 
         $count = 0;
@@ -49,13 +51,13 @@ class Main
             $count = ($char === "(") ? ++$count : --$count;
 
             if ($count < 0) {
-                header('HTTP/1.1 400 Bad Request');
+                Request::response(400);
                 throw new ValidateStringException("Строка не корректна count: $count");
             }
         }
 
         if ($count !== 0 || $stringArray[0] !== '(' || $stringArray[count($stringArray) - 1] !== ')') {
-            header('HTTP/1.1 400 Bad Request');
+            Request::response(400);
             throw new ValidateStringException("Строка не корректна count: $count");
         }
     }
