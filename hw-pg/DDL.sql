@@ -153,3 +153,54 @@ RETURN random_film_start;
 END;
 $BODY$
 LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE FUNCTION film_tasks(film_id integer, tasks_date date)
+RETURNS text
+AS
+$BODY$
+DECLARE
+    task  record;
+    tasks text = '';
+BEGIN
+    FOR task IN
+        SELECT fa.name AS name
+        FROM films_attr_values AS fav
+        INNER JOIN films_attr AS fa ON fav.attr_id = fa.id
+        WHERE fav.film_id = $1 AND fav.val_date = $2 AND fa.type_id = 3
+    LOOP
+    	tasks := tasks || task.name || '\n';
+    END LOOP;
+    RETURN tasks;
+END;
+$BODY$
+LANGUAGE plpgsql;
+
+-- materialized views
+
+-- сборки данных для маркетинга
+CREATE MATERIALIZED VIEW mv_films_attributes AS
+    SELECT f.id AS film_id, f.title AS film_title, fat.name AS attr_type, fa.name AS attr_name,
+    CASE
+        WHEN fat.name = 'int' THEN fav.val_int::text
+        WHEN fat.name = 'date' THEN fav.val_date::text
+        WHEN fat.name = 'date_ext' THEN fa.name || ': ' || fav.val_date
+        WHEN fat.name = 'bool' THEN fav.val_bool::text
+        WHEN fat.name = 'text' THEN fav.val_text
+        WHEN fat.name = 'float' THEN fav.val_float::text
+        ELSE NULL
+    END AS attr_value
+    FROM films AS f
+    INNER JOIN films_attr_values AS fav ON fav.film_id = f.id
+    INNER JOIN films_attr AS fa ON fav.attr_id = fa.id
+    INNER JOIN films_attr_types AS fat ON fa.type_id = fat.id
+WITH DATA;
+
+-- фильм, задачи актуальные на сегодня, задачи актуальные через 20 дней
+CREATE MATERIALIZED VIEW mv_film_tasks AS
+    SELECT
+        f.id AS film_id,
+        film_tasks(f.id, CURRENT_DATE) AS current_tasks,
+        film_tasks(f.id, CURRENT_DATE + 20) AS future20_tasks
+    FROM films AS f
+WITH DATA;
