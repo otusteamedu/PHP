@@ -23,3 +23,11 @@
 * `make install`
 * `nano /etc/php/7.4/cli/php.ini` - добавляем строку `extension=redis.so`
 * `php -i | grep Redis` (см. `screen_make_php_ini.png`)
+
+## 1.3.2 Создание пакетов и распространение
+
+Для домашнего задания создал тестовый пакет, который реализует класс с одним единственным методом возвращающим строку.
+
+* https://github.com/felixmind/packagist-test - ссылка на исходный код пакета
+* https://packagist.org/packages/felixmind/packagist-test - ссылка на Packagist
+* `composer require felixmind/packagist-test` - команда для установки как зависимости
