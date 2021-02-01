@@ -32,7 +32,7 @@
 * https://packagist.org/packages/felixmind/packagist-test - ссылка на Packagist
 * `composer require felixmind/packagist-test` - команда для установки как зависимости
 
-### 1.3.3 Создание docker-образа для работы
+## 1.3.3 Создание docker-образа для работы
 
 * Создан `Dockerfile` использующий простой docker-образ `php:7.4-fpm`.
 * Для сборки образа использовать команду: `docker build -t otus-php-image .`
