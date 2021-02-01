@@ -31,3 +31,10 @@
 * https://github.com/felixmind/packagist-test - ссылка на исходный код пакета
 * https://packagist.org/packages/felixmind/packagist-test - ссылка на Packagist
 * `composer require felixmind/packagist-test` - команда для установки как зависимости
+
+### 1.3.3 Создание docker-образа для работы
+
+* Создан `Dockerfile` использующий простой docker-образ `php:7.4-fpm`.
+* Для сборки образа использовать команду: `docker build -t otus-php-image .`
+* Для запуска контейнера из образа использовать команду: `docker run --name otus-php -d otus-php-image`
+* После запуска контейнера можно перейти внутрь контейнера для запуска скриптов: `docker exec -it otus-php bash`
