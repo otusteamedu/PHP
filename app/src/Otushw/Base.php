@@ -5,7 +5,9 @@ namespace Otushw;
 
 
 /**
- * Class Base
+ * Class Base.
+ *
+ * This class is used to create client-server architecture.
  *
  * @package Otushw
  */
