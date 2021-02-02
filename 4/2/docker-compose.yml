@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  php:
+    container_name: php-fpm
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./:/var/www/html

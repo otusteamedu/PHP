@@ -1,0 +1,20 @@
+{
+  "name": "yurkaap/otus",
+  "description": "Otus",
+  "version": "1.0",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.4"
+  },
+  "authors": [
+    {
+      "name": "yurkaap",
+      "email": "yurban1717@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Otus\\" : "src/Otus"
+    }
+  }
+}
