@@ -78,6 +78,7 @@ class App
 					break(2);
 			}
 		}
+
 		return (empty($stack));
 	}
 }
