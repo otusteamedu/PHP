@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS movie_attribute_value (
     value_text varchar,
     value_date date,
     value_boolean bool,
-    value_money money,
     CONSTRAINT FK_value_movie FOREIGN KEY (movie_id) REFERENCES movies(id),
     CONSTRAINT FK_value_field FOREIGN KEY (field_id) REFERENCES movie_fields(id)
 );

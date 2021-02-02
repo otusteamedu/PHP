@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS session (
     id serial PRIMARY KEY,
     movie_id int,
     hall_id int,
-    price money,
+    price float,
     start_time timestamp(0) DEFAULT NULL,
     end_time timestamp(0) DEFAULT NULL,
     CONSTRAINT FK_session_halls FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS orders (
     customer_id int,
     session_id int,
     seat_id int,
-    cost money,
+    cost float,
     CONSTRAINT FK_orders_hall_seats FOREIGN KEY (seat_id) REFERENCES hall_seats(id) ON DELETE CASCADE,
     CONSTRAINT FK_orders_session FOREIGN KEY (session_id) REFERENCES session(id) ON DELETE CASCADE
 );
