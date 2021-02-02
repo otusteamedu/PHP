@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  gateway: #Отдельный шлюз для проброски на сервера фронта, API, чтобы неморочится с установкой сертификатов в дальнейшем
+    build:
+      context: gateway/docker/development/nginx
+    ports:
+      - "8080:8080" #Frontend
+      - "8090:8090" #Api
+    depends_on:
+      - frontend
+      - api
+
+  frontend: #Фронт, который будет отдавать только статику
+    build:
+      context: frontend/docker/development/nginx
+    volumes:
+      - ./frontend:/app
+
+  api:  #API, будет отвечать на запросы с любого фронта - web, mobile
+    build:
+      context: api/docker/development/nginx
+    volumes:
+      - ./api:/app
+    depends_on:
+      - api-php-fpm
+
+  api-php-fpm: #Контейнер нужный для обработки PHP запросов от nginx
+    build:
+      context: api/docker/development/php-fpm
+    volumes:
+      - ./api:/app
+
+  api-php-cli: # Контейнер нужный для работы с Composer, в случае необходимости
+    build:
+      context: api/docker/development/php-cli
+    volumes:
+      - ./api:/app
