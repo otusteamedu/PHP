@@ -14,6 +14,6 @@ COPY ./code/index.html ./mysite.local/index.html
 
 COPY ./code/info.html ./mysite.local/info.html
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
