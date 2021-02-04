@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  webserver:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: atimofeev/static-webserver
+    container_name: static-webserver
+    ports:
+    - 80:80
+
