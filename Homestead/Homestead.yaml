@@ -1,0 +1,29 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: C:\OTUS\PHP\hw1
+      to: /home/vagrant/code/hw1
+
+sites:
+    - map: hw1.homestead.local
+      to: /home/vagrant/code/hw1/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
