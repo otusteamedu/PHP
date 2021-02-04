@@ -1,0 +1,28 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: homestead_hw1
+
+folders:
+    - map: ~/OTUS/hw1_homestead/code
+      to: /home/vagrant/code
+
+sites:
+    - map: hw1.loc
+      to: /home/vagrant/code/
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
