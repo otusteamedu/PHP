@@ -18,8 +18,11 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd 
 
-# Устанавливаем Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Устанавливка Composer не требуется в докере. Ее необходимо осуществить на хосте.
+# Т.к. в контейнере проиходит только интерпретация кода. Все зависимости обновляются и устанавливаются
+# в месте расопложения кода. Хотя бы потому что по умолчанию он будет установлен из под рута. Для решения
+# проблемы требуется завести другого пользователя и из под него ставить composer.
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www/html
 
