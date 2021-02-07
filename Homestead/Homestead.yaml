@@ -1,0 +1,43 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: homestead
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: C:\otus\code
+      to: /home/vagrant/code
+
+sites:
+    - map: homestead.local
+      to: /home/vagrant/code/public
+      php: "8.0"
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
+ports:
+     - send: 80
+       to: 80
+     - send: 443
+       to: 443
+#       protocol: udp
