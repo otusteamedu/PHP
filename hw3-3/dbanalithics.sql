@@ -44,7 +44,7 @@ CREATE TABLE movie_attr_values (
     attr_id integer NOT NULL,
     val_date date,
     val_text varchar(255),
-    val_num float(24),
+    val_num numeric(10,10),
     movie_id integer NOT NULL
 );
 
