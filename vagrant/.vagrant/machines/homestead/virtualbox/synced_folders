@@ -1,1 +1,0 @@
-{"virtualbox":{"/home/vagrant/code":{"type":null,"mount_options":["uid=1000","gid=1000"],"guestpath":"/home/vagrant/code","hostpath":"/var/www/otus/PHP/vagrant/code","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/var/www/otus/PHP/vagrant","disabled":false,"__vagrantfile":true}}}
