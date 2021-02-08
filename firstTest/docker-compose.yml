@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+  php:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: first-test/fpm
+    container_name: php-app
+    volumes:
+       - ./app:/data/first-test.local
+    networks:
+      - app-network
+
+  nginx-server:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: first-test/nginx
+    container_name: nginx-server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+       - ./app:/data/first-test.local
+    networks:
+      - app-network
+
+  db:
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MARIA_DATABASE} 
+      MYSQL_ROOT_PASSWORD: ${MARIA_ROOT_PASSWORD}
+    networks:
+      - app-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
