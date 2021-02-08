@@ -17,8 +17,6 @@ RUN docker-php-ext-install pdo_mysql \
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install nodejs npm -yqq
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 RUN sudo apt-get clean
 
 WORKDIR /data
