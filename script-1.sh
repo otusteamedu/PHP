@@ -1,16 +1,17 @@
-#!/bin/bash #указываем где у нас хранится bash-интерпретатор
-re = "^-?[0-9]+$"
 echo 'Введите первый аргумент'
 read param1
 echo 'Введите второй аргумент'
 read param2
+re="^\-?[0-9]*\.?[0-9]+$"
 
-if ! (("$param1" | grep -E -q "$re")) || ! (("$param2" | grep -E -q "$re"));
- then
-    echo "Можно складывать только числа!"
-    exit 1
+
+check1=`echo "$param1" | grep -E "$re"`
+check2=`echo "$param2" | grep -E "$re"`
+
+if [ "$check1" != '' ] && [ "$check2" != '' ]; then    
+  res=`echo "$param1 + $param2" | bc`
+  echo "Результат: ${res}"
 else
-    let "result = $param1 + $param2 "
-    echo "Сумма равна $result"
+  echo "Можно складывать только числа!"
+  exit 1
 fi
-
