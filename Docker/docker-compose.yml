@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: app
+    volumes:
+      - ../OTUS/PHP:/var/www
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ../OTUS/Logs/nginx:/var/log/nginx
+      - ../OTUS/PHP:/var/www
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ../OTUS/Logs/mysql:/var/log/mysql
+      - ../OTUS/DB:/var/lib/mysql
+      - ../OTUS/DB:/var/lib/mysql-files
+    restart: always
+    networks:
+      - app-network
+
+networks:
+
+  app-network:
+    driver: bridge
