@@ -14,6 +14,6 @@ echo "Введенные значения не являются целыми ч�
 exit 1
 fi
 
-sum=$(($firstNumber + $secondNumber))
+sum=$(echo $firstNumber + $secondNumber | bc -l)
 echo "Сумма: $sum"
 exit 0
