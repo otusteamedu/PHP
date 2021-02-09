@@ -4,70 +4,36 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1;
 
-use Noodlehaus\Config;
+use Nlazarev\Hw2_1\Model\ClientManager\ClientSocket\ClientManagerSocketCli;
+use Nlazarev\Hw2_1\Model\ClientManager\ClientSocket\IClientManagerSocketCli;
+use Nlazarev\Hw2_1\Model\Config\ConfigFileJson;
+use Nlazarev\Hw2_1\Model\Config\IConfig;
+use Nlazarev\Hw2_1\Model\Sockets\ISocketClient;
 use Nlazarev\Hw2_1\Model\Sockets\SocketClient;
+use Nlazarev\Hw2_1\Model\Viewers\IViewer;
+use Nlazarev\Hw2_1\Model\Viewers\ViewerCli;
 
 final class AppClientSocket
 {
     private static string $conf_path = "../config/client.json";
-    private static Config $conf;
-    private static SocketClient $socket;
+    private static IConfig $conf;
+    private static ISocketClient $socket;
+    private static IClientManagerSocketCli $client;
+    private static IViewer $info_viewer;
 
     public static function run()
     {
+        static::$conf = new ConfigFileJson(static::$conf_path);
         static::$socket = new SocketClient();
-        static::$conf = new Config(static::$conf_path);
+        static::$info_viewer = new ViewerCli();
 
-        if (!static::$socket->isCreated()) {
+        static::$client = new ClientManagerSocketCli(static::$socket, static::$conf, static::$info_viewer);
+
+
+        if (!static::$client->init()) {
             exit;
         }
 
-        static::setParams();
-
-        if (!static::$socket->connect((string) static::$conf->get('client.unix.socket_address'))) {
-            exit;
-        }
-
-        static::goCliMsg();
-    }
-
-    private static function setParams()
-    {
-        static::$socket->setSendFlags((int) static::$conf->get('client.unix.cli.send.flags'))
-            ->setReadBuf((int) static::$conf->get('client.unix.cli.read.buf'))
-            ->setReadType((int) static::$conf->get('client.unix.cli.read.type'));
-    }
-
-    private static function goCliMsg()
-    {
-        echo "Connected to " . (string) static::$conf->get('client.unix.socket_address') . " - Done \n";
-        echo "Type a message for send to the server [Enter] \n";
-        echo "for exit, type '" . (string) static::$conf->get('client.unix.cli.exit_string') . "' \n";
-
-        $stdin = fopen("php://stdin", "r");
-
-        $connected = true;
-
-        while ($connected) {
-
-            if (!is_null($answ = static::$socket->readMsg())) {
-                echo $answ . PHP_EOL;
-            }
-
-            echo "Message: ";
-
-            $msg = fgets($stdin);
-
-            echo PHP_EOL;
-
-            if ($msg == (string) static::$conf->get('client.unix.cli.exit_string') . PHP_EOL) {
-                $connected = false;
-                fclose($stdin);
-                static::$socket->close();
-                continue;
-            }
-
-            static::$socket->sendMsg($msg);
-        }
+        static::$client->run();
     }
 }

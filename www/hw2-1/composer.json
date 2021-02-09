@@ -4,13 +4,15 @@
   "type": "project",
   "require": {
     "php": "^7.4",
-    "hassankhan/config": "^2.1"
+    "hassankhan/config": "^2.1",
+    "guzzlehttp/guzzle": "^7.0"
   },
   "require-dev": {
     "php": "^7.4",
     "hassankhan/config": "^2.1",
+    "guzzlehttp/guzzle": "^7.0",
     "squizlabs/php_codesniffer": "*",
-    "guzzlehttp/guzzle": "^7.0"
+    "friendsofphp/php-cs-fixer": "^2.18"
   },
   "authors": [
     {

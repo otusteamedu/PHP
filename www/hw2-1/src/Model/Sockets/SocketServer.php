@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\Sockets;
 
-class SocketServer extends Socket implements ISocketServer
+final class SocketServer extends Socket implements ISocketServer
 {
-    private int $max_clients = 1;
     private int $check_timeout = 1;
+    private ?array $read_sockets = null;
+    private ?array $write_sockets = null;
+    private ?array $except_sockets = null;
 
     public function __construct()
     {
@@ -16,24 +18,12 @@ class SocketServer extends Socket implements ISocketServer
 
     public function bind(string $address, int $port = 0): bool
     {
-        $this->setAddress($address);
-
         $socket = $this->getInstance();
 
-        if (!$this->prepareForBind()) {
-            return false;
-        }
+        $this->setAddress($address)
+            ->setPort($port);
 
-        try {
-            if (!socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1)) {
-                $errorcode = socket_last_error();
-                $errormsg = socket_strerror($errorcode);
-                throw new \Exception('Socket error: [$errorcode] $errormsg');
-                //TODO: Loging
-                return false;
-            }
-        } catch (\Exception $e) {
-            //TODO: Loging
+        if (!$this->prepareForBind()) {
             return false;
         }
 
@@ -49,6 +39,21 @@ class SocketServer extends Socket implements ISocketServer
         }
 
         return $res;
+    }
+
+    protected function prepareForBind(): bool
+    {
+        if ($this->getSocketType() == AF_UNIX) {
+            if (!$this->preparePath($this->address)) {
+                return false;
+            }
+        }
+
+        if (!$this->setOption(SOL_SOCKET, SO_REUSEADDR, 1)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function listen(int $listen_backlog): bool
@@ -69,7 +74,7 @@ class SocketServer extends Socket implements ISocketServer
         return true;
     }
 
-    public function set_nonblock(): bool
+    public function setNonBlock(): bool
     {
         $socket = $this->getInstance();
 
@@ -87,7 +92,7 @@ class SocketServer extends Socket implements ISocketServer
         return $res;
     }
 
-    public function acceptConnection()
+    public function accept()
     {
         $socket = $this->getInstance();
 
@@ -107,10 +112,30 @@ class SocketServer extends Socket implements ISocketServer
         return $con;
     }
 
-    public function writeMsg($client, string $msg): int
+    public function shutdownClient($client): bool
     {
         try {
-            if (!($bytes = socket_write($client, $msg))) {
+            if (($key = array_search($client, $this->read_sockets)) !== false) {
+                unset($this->read_sockets[$key]);
+            }
+
+            if (!($res = socket_shutdown($client, 2))) {
+                $errorcode = socket_last_error();
+                $errormsg = socket_strerror($errorcode);
+                throw new \Exception('Socket error: [$errorcode] $errormsg');
+                //TODO: Loging
+            }
+        } catch (\Exception $e) {
+            //TODO: Loging
+        }
+
+        return $res;
+    }
+
+    public function write($socket, string $buffer, int $write_length = 2048): int
+    {
+        try {
+            if (!($bytes = socket_write($socket, $buffer, $write_length))) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
                 throw new \Exception("Socket error: [$errorcode] $errormsg");
@@ -125,10 +150,10 @@ class SocketServer extends Socket implements ISocketServer
         return $bytes;
     }
 
-    public function readMsg($client): ?string
+    public function read($socket, int $length = 2048, int $type = PHP_BINARY_READ): ?string
     {
         try {
-            if (!($data = socket_read($client, $this->read_buf, $this->read_type))) {
+            if (!($data = socket_read($socket, $length, $type))) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
                 throw new \Exception('Socket error: [$errorcode] $errormsg');
@@ -143,28 +168,19 @@ class SocketServer extends Socket implements ISocketServer
         }
     }
 
-    public function shutdownClient($client): bool
-    {
-        try {
-            if (!($res = socket_shutdown($client, 2))) {
-                $errorcode = socket_last_error();
-                $errormsg = socket_strerror($errorcode);
-                throw new \Exception('Socket error: [$errorcode] $errormsg');
-                //TODO: Loging
-            }
-        } catch (\Exception $e) {
-            //TODO: Loging
-        }
-
-        return $res;
-    }
-
-    public function getChangesCount(array &$read, ?array &$write, ?array &$except): int
+    public function getChangesCount(): int
     {
         $tv_sec = $this->getCheckTimeout();
 
         try {
-            if (($con = socket_select($read, $write, $except, $tv_sec)) === false) {
+            if (
+                ($con = socket_select(
+                    $this->read_sockets,
+                    $this->write_sockets,
+                    $this->except_sockets,
+                    $tv_sec
+                )) === false
+            ) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
                 throw new \Exception("Socket error: [$errorcode] $errormsg");
@@ -178,26 +194,24 @@ class SocketServer extends Socket implements ISocketServer
         return $con;
     }
 
-    public function getMaxClientsCount(): int
+    public function getReadSockets(): array
     {
-        return $this->max_clients;
-        return $this;
+        return $this->read_sockets;
     }
 
-    public function setMaxClientsCount(int $max_clients)
+    public function addSocketToRead($socket)
     {
-        $this->max_clients = $max_clients;
-        return $this;
+        $this->read_sockets[] = &$socket;
+    }
+
+    public function getCheckTimeout(): int
+    {
+        return $this->check_timeout;
     }
 
     public function setCheckTimeout(int $check_timeout)
     {
         $this->check_timeout = $check_timeout;
         return $this;
-    }
-
-    public function getCheckTimeout(): int
-    {
-        return $this->check_timeout;
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nlazarev\Hw2_1\Model\Validators;
+namespace Nlazarev\Hw2_1\Model\General\String;
 
-class ValidatingString
+final class StringObject implements IStringObject
 {
     private ?string $value = null;
     private int $length = 0;
@@ -25,7 +25,16 @@ class ValidatingString
         return $this->length;
     }
 
-    protected function isEmpty(): bool
+    public function isNull(): bool
+    {
+        if (is_null($this->value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isEmpty(): bool
     {
         if ($this->length == 0) {
             return true;
@@ -33,14 +42,4 @@ class ValidatingString
 
         return false;
     }
-
-    protected function isLengthEven(): bool
-    {
-        if ($this->length % 2 == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
 }

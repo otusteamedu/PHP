@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\Sockets\Traits;
 
-trait hasUnixSocket
+trait HasUnixSocket
 {
     private bool $is_unix = false;
 
@@ -32,8 +32,9 @@ trait hasUnixSocket
     {
         if ($this->is_unix) {
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     protected function preparePath(string $path): bool

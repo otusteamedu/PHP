@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nlazarev\Hw2_1\Model\Collections;
+namespace Nlazarev\Hw2_1\Model\Collections\Generic;
 
-use Iterator;
-
-abstract class CollectionGeneric implements Iterator
+abstract class CollectionGeneric implements ICollectionGeneric
 {
     protected $values = array();
 
@@ -22,7 +20,7 @@ abstract class CollectionGeneric implements Iterator
         return key($this->values);
     }
 
-    public function key_last()
+    public function keyLast()
     {
         return array_key_last($this->values);
     }
@@ -40,6 +38,11 @@ abstract class CollectionGeneric implements Iterator
     public function rewind()
     {
         reset($this->values);
+    }
+
+    public function push($value)
+    {
+        $this->values[] = $value;
     }
 
     public function set($key, $value)

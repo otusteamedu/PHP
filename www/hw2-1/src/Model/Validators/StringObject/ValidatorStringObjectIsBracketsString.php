@@ -2,21 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Nlazarev\Hw2_1\Model\Validators;
+namespace Nlazarev\Hw2_1\Model\Validators\StringObject;
 
-class ValidatingStringBrackets extends ValidatingString
+use Nlazarev\Hw2_1\Model\General\String\IStringObject;
+
+final class ValidatorStringObjectIsBracketsString extends ValidatorStringObject implements IValidatorStringObjectIsBracketsString
 {
+    protected IStringObject $string_object;
     protected $brackets_symbols = array("open" => "(", "close" => ")");
 
-    public function __construct(?string $brackets_string)
+    protected function isLengthEven(): bool
     {
-        parent::__construct($brackets_string);
+        $len = $this->string_object->getLength();
+        
+        if ($len % 2 == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function isCorrectSymbols(): bool
     {
-        $len = $this->getLength();
-        $str = $this->getValue();
+        $len = $this->string_object->getLength();
+        $str = $this->string_object->getValue();
 
         for ($pos = 0; $pos < $len; $pos++) {
             if (!in_array($str[$pos], $this->brackets_symbols)) {
@@ -29,8 +38,8 @@ class ValidatingStringBrackets extends ValidatingString
 
     protected function isOpenEqualClose(): bool
     {
-        $len = $this->getLength();
-        $str = $this->getValue();
+        $len = $this->string_object->getLength();
+        $str = $this->string_object->getValue();
 
         $count_open = 0;
 
@@ -53,8 +62,8 @@ class ValidatingStringBrackets extends ValidatingString
             return false;
         }
 
-        $len = $this->getLength();
-        $str = $this->getValue();
+        $len = $this->string_object->getLength();
+        $str = $this->string_object->getValue();
         $open = $this->brackets_symbols["open"];
         $close = $this->brackets_symbols["close"];
 
@@ -72,24 +81,24 @@ class ValidatingStringBrackets extends ValidatingString
     }
 
 
-    public function validate(bool $precheck = false): bool
+    public function isStringObjectBalancedBracketsString(IStringObject $string_object): bool
     {
-        if ($precheck) {
-            if ($this->isEmpty()) {
-                return false;
-            }
+        if (!parent::isValidStringObject($string_object)) {
+            return false;
+        }
 
-            if (!$this->isLengthEven()) {
-                return false;
-            }
+        $this->string_object = $string_object;
 
-            if (!$this->isCorrectSymbols()) {
-                return false;
-            }
+        if (!$this->isLengthEven()) {
+            return false;
+        }
 
-            if (!$this->isOpenEqualClose()) {
-                return false;
-            }
+        if (!$this->isCorrectSymbols()) {
+            return false;
+        }
+
+        if (!$this->isOpenEqualClose()) {
+            return false;
         }
 
         if (!$this->isBalanced()) {

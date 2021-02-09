@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\Sockets;
 
-class SocketClient extends Socket implements ISocketClient
+final class SocketClient extends Socket implements ISocketClient
 {
     private bool $is_connected = false;
 
@@ -15,7 +15,8 @@ class SocketClient extends Socket implements ISocketClient
 
     public function connect(string $address, int $port = 0): bool
     {
-        $this->setAddress($address);
+        $this->setAddress($address)
+            ->setPort($port);
 
         $socket = $this->getInstance();
 
@@ -37,33 +38,35 @@ class SocketClient extends Socket implements ISocketClient
     {
         if ($this->is_connected) {
             return true;
-        } else
+        } else {
             return false;
-    }
-
-    public function sendMsg(string $msg)
-    {
-        $socket = $this->getInstance();
-        $len = strlen($msg);
-
-        try {
-            if (!socket_send($socket, $msg, $len, $this->send_flags)) {
-                $errorcode = socket_last_error();
-                $errormsg = socket_strerror($errorcode);
-                throw new \Exception('Socket error: [$errorcode] $errormsg');
-                //TODO: Loging
-            }
-        } catch (\Exception $e) {
-            //TODO: Loging
         }
     }
 
-    public function readMsg(): ?string
+    public function write($socket, string $buffer, int $write_length = 2048): int
+    {
+        try {
+            if (!($bytes = socket_write($socket, $buffer, $write_length))) {
+                $errorcode = socket_last_error();
+                $errormsg = socket_strerror($errorcode);
+                throw new \Exception("Socket error: [$errorcode] $errormsg");
+                $bytes = 0;
+                //TODO: Loging
+            }
+        } catch (\Exception $e) {
+            $bytes = 0;
+            //TODO: Loging
+        }
+
+        return $bytes;
+    }
+
+    public function read($socket, int $length = 2048, int $type = PHP_BINARY_READ): ?string
     {
         $socket = $this->getInstance();
 
         try {
-            if (!($data = socket_read($socket, $this->read_buf, $this->read_type))) {
+            if (!($data = socket_read($socket, $length, $type))) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
                 throw new \Exception('Socket error: [$errorcode] $errormsg');
