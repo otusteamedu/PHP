@@ -6,7 +6,7 @@ namespace Nlazarev\Hw2_1\Model\Config;
 
 use Noodlehaus\Config;
 
-final class ConfigFileJson implements IConfig
+class ConfigFileJson implements IConfig
 {
     private Config $conf;
 

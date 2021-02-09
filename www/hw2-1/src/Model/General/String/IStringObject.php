@@ -10,6 +10,7 @@ interface IStringObject extends IObject
 {
     public function __construct(?string $value);
     public function getValue(): ?string;
+    public function setValue(?string $value);
     public function getLength(): int;
     public function isNull(): bool;
     public function isEmpty(): bool;

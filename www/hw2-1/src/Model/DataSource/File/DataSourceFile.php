@@ -32,7 +32,7 @@ class DataSourceFile implements IDataSourceFile
         if (!is_readable($this->path)) {
             return false;
         }
-        
+
         return true;
     }
 }

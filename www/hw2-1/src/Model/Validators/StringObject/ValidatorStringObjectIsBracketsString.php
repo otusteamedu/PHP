@@ -14,7 +14,7 @@ final class ValidatorStringObjectIsBracketsString extends ValidatorStringObject 
     protected function isLengthEven(): bool
     {
         $len = $this->string_object->getLength();
-        
+
         if ($len % 2 == 0) {
             return true;
         }

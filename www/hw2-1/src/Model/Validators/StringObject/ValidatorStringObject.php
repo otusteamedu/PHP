@@ -23,11 +23,11 @@ class ValidatorStringObject implements IValidatorStringObject, IValidatorStringO
 
     public function isValidToRegExpStringObject(IStringObject $string_object, IStringObject $regexp): bool
     {
-        if ($this->isValidStringObject($string_object)) {
+        if (!$this->isValidStringObject($string_object)) {
             return false;
         }
 
-        if ($this->isValidStringObject($regexp)) {
+        if (!$this->isValidStringObject($regexp)) {
             return false;
         }
 

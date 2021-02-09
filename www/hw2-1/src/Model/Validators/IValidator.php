@@ -9,5 +9,4 @@ use Nlazarev\Hw2_1\Model\Validators\StringObject\IValidatorStringObjectIsEmail;
 
 interface IValidator extends IValidatorStringObjectIsBracketsString, IValidatorStringObjectIsEmail
 {
-    
 }

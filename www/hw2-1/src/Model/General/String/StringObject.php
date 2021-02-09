@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\General\String;
 
-final class StringObject implements IStringObject
+class StringObject implements IStringObject
 {
     private ?string $value = null;
     private int $length = 0;
@@ -12,12 +12,24 @@ final class StringObject implements IStringObject
     public function __construct(?string $value)
     {
         $this->value = $value;
-        $this->length = strlen($value);
+
+        if (!$this->isNull()) {
+            $this->length = strlen($value);
+        }
     }
 
     public function getValue(): ?string
     {
         return $this->value;
+    }
+
+    public function setValue(?string $value)
+    {
+        $this->value = $value;
+
+        if (!$this->isNull()) {
+            $this->length = strlen($value);
+        }
     }
 
     public function getLength(): int
