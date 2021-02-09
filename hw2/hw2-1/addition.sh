@@ -10,7 +10,7 @@ read secondNumber
 
 if ! [[ $firstNumber =~ $regEx ]] || ! [[ $secondNumber =~ $regEx ]]
 then
-echo "Введенные значения не являются целыми числами"
+echo "Введенные значения не являются числами"
 exit 1
 fi
 
