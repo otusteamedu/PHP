@@ -23,7 +23,7 @@ class Config
      *
      * @param string $filePath
      *
-     * @throws AppException
+     * @throws Exception
      */
     public function __construct(string $filePath = '')
     {
@@ -39,7 +39,7 @@ class Config
     }
 
     /**
-     * @throws AppException
+     * @throws Exception
      */
     public function load(): void
     {

@@ -29,7 +29,12 @@ abstract class Article
     /**
      * @return string
      */
-    abstract protected function getTitle(): string;
+    abstract public function getTitle(): string;
+
+    public function getTitleWithoutFormat(): string
+    {
+        return $this->title;
+    }
 
     /**
      * @param string $title
@@ -42,7 +47,7 @@ abstract class Article
     /**
      * @return string
      */
-    abstract protected function getBody(): string;
+    abstract public function getBody(): string;
 
     /**
      * @param string $body
@@ -53,16 +58,16 @@ abstract class Article
     }
 
     /**
-     * @return int
+     * @return string
      */
-    abstract protected function getCreated(): int;
+    abstract public function getCreated(): string;
 
     /**
      * @param int $created
      */
-    protected function setCreated(int $created): void
+    public function setCreated(int $created): void
     {
-        $this->created = $this->wrapperProperty($created);
+        $this->created = $created;
     }
 
     /**
@@ -72,6 +77,6 @@ abstract class Article
      */
     protected function wrapperProperty(string $value): string
     {
-        return self::class . ': ' . $value;
+        return get_class($this) . ': ' . $value;
     }
 }

@@ -1,0 +1,5 @@
+log:
+  name_channel: main
+  type: file
+  file_settings:
+    file_path: ../log/app.log

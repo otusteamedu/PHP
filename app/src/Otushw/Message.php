@@ -16,7 +16,7 @@ class Message
      */
     public static function showMessage(string $message): void
     {
-        echo $message;
+        echo $message . '<br />';
     }
 
 }
