@@ -1,0 +1,81 @@
+/usr/local/etc/php/conf.d/xdebug.ini
+xdebug
+Support Xdebug on Patreon, GitHub, or as a business: https://xdebug.org/support
+           Enabled Features<br/>(through 'xdebug.mode' setting)           
+xdebug.auto_trace => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.cli_color => 0 => 0
+xdebug.client_discovery_header => no value => no value
+xdebug.client_host => localhost => localhost
+xdebug.client_port => 9003 => 9003
+xdebug.cloud_id => no value => no value
+xdebug.collect_assignments => Off => Off
+xdebug.collect_includes => (setting removed in Xdebug 3) => (setting removed in Xdebug 3)
+xdebug.collect_params => (setting removed in Xdebug 3) => (setting removed in Xdebug 3)
+xdebug.collect_return => Off => Off
+xdebug.collect_vars => (setting removed in Xdebug 3) => (setting removed in Xdebug 3)
+xdebug.connect_timeout_ms => 200 => 200
+xdebug.coverage_enable => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.default_enable => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.discover_client_host => Off => Off
+xdebug.dump.COOKIE => no value => no value
+xdebug.dump.ENV => no value => no value
+xdebug.dump.FILES => no value => no value
+xdebug.dump.GET => no value => no value
+xdebug.dump.POST => no value => no value
+xdebug.dump.REQUEST => no value => no value
+xdebug.dump.SERVER => no value => no value
+xdebug.dump.SESSION => no value => no value
+xdebug.dump_globals => On => On
+xdebug.dump_once => On => On
+xdebug.dump_undefined => Off => Off
+xdebug.file_link_format => no value => no value
+xdebug.filename_format => no value => no value
+xdebug.force_display_errors => Off => Off
+xdebug.force_error_reporting => 0 => 0
+xdebug.gc_stats_enable => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.gc_stats_output_dir => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.gc_stats_output_name => gcstats.%p => gcstats.%p
+xdebug.halt_level => 0 => 0
+xdebug.idekey => no value => no value
+xdebug.log => no value => no value
+xdebug.log_level => 7 => 7
+xdebug.max_nesting_level => 256 => 256
+xdebug.max_stack_frames => -1 => -1
+xdebug.mode => develop => develop
+xdebug.output_dir => /tmp => /tmp
+xdebug.overload_var_dump => (setting removed in Xdebug 3) => (setting removed in Xdebug 3)
+xdebug.profiler_append => Off => Off
+xdebug.profiler_enable => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.profiler_enable_trigger => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.profiler_enable_trigger_value => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.profiler_output_dir => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.profiler_output_name => cachegrind.out.%p => cachegrind.out.%p
+xdebug.remote_autostart => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_connect_back => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_enable => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_host => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_log => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_log_level => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_mode => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_port => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.remote_timeout => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.scream => Off => Off
+xdebug.show_error_trace => Off => Off
+xdebug.show_exception_trace => Off => Off
+xdebug.show_local_vars => Off => Off
+xdebug.show_mem_delta => (setting removed in Xdebug 3) => (setting removed in Xdebug 3)
+xdebug.start_upon_error => default => default
+xdebug.start_with_request => default => default
+xdebug.trace_enable_trigger => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.trace_enable_trigger_value => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.trace_format => 0 => 0
+xdebug.trace_options => 0 => 0
+xdebug.trace_output_dir => (setting renamed in Xdebug 3) => (setting renamed in Xdebug 3)
+xdebug.trace_output_name => trace.%c => trace.%c
+xdebug.trigger_value => no value => no value
+xdebug.var_display_max_children => 128 => 128
+xdebug.var_display_max_data => 512 => 512
+xdebug.var_display_max_depth => 3 => 3
+OLDPWD => /var/www/html/ext/xdebug-3.0.2
+$_SERVER['OLDPWD'] => /var/www/html/ext/xdebug-3.0.2
+$_ENV['OLDPWD'] => /var/www/html/ext/xdebug-3.0.2
