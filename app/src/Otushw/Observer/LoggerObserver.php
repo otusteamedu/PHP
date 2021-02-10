@@ -8,13 +8,10 @@ use Otushw\Article;
 
 class LoggerObserver implements ObserverInterface
 {
-    /**
-     * @param Article $article
-     */
     public function update(Article $article): void
     {
         AppLogger::addInfo(
-            'Was added Article: ' . get_class($article) . ': ' . $article->getTitleWithoutFormat()
+            'Was added Article: ' . $article->getTitle()
         );
     }
 }

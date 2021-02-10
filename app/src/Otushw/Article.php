@@ -3,80 +3,45 @@
 
 namespace Otushw;
 
-
-/**
- * Class Article
- *
- * @package Otushw
- */
 abstract class Article
 {
-    /**
-     * @var string
-     */
+
     protected string $title;
 
-    /**
-     * @var string
-     */
     protected string $body;
 
-    /**
-     * @var int
-     */
     protected int $created;
 
-    /**
-     * @return string
-     */
-    abstract public function getTitle(): string;
+    protected string $format;
 
-    public function getTitleWithoutFormat(): string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    protected function setTitle(string $title): void
+    public function setTitle(string $title): void
     {
-        $this->title = $this->wrapperProperty($title);
+        $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getBody(): string;
-
-    /**
-     * @param string $body
-     */
-    protected function setBody(string $body): void
+    public function getBody(): string
     {
-        $this->body = $this->wrapperProperty($body);
+        return $this->body;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getCreated(): string;
+    public function setBody(string $body): void
+    {
+        $this->body = $body;
+    }
 
-    /**
-     * @param int $created
-     */
+    public function getCreated(): string
+    {
+        return date('c', $this->created);
+    }
+
     public function setCreated(int $created): void
     {
         $this->created = $created;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    protected function wrapperProperty(string $value): string
-    {
-        return get_class($this) . ': ' . $value;
-    }
 }

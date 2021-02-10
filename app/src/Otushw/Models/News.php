@@ -4,34 +4,32 @@
 namespace Otushw\Models;
 
 use Otushw\Article;
+use Otushw\DTOs\NewsDTO;
 use Otushw\Visitor\Entity;
 use Otushw\Visitor\Visitor;
 
-/**
- * Class News
- *
- * @package Otushw\Models
- */
-abstract class News extends Article implements Entity
+class News extends Article implements Entity
 {
-    /**
-     * @var string
-     */
     protected string $event;
 
-    /**
-     * @return string
-     */
-    abstract public function getEvent(): string;
+    public function __construct(NewsDTO $raw)
+    {
+        $this->setTitle($raw->title);
+        $this->setBody($raw->body);
+        $this->setCreated($raw->created);
+        $this->setEvent($raw->event);
+    }
 
-    /**
-     * @param string $event
-     */
-    abstract public function setEvent(string $event): void;
+    public function getEvent(): string
+    {
+        return $this->event;
+    }
 
-    /**
-     * @param Visitor $visitor
-     */
+    public function setEvent(string $event): void
+    {
+        $this->event = $event;
+    }
+
     public function accept(Visitor $visitor): void
     {
         $visitor->visitNews($this);
