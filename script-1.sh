@@ -9,8 +9,8 @@ check1=`echo "$param1" | grep -E "$re"`
 check2=`echo "$param2" | grep -E "$re"`
 
 if [ "$check1" != '' ] && [ "$check2" != '' ]; then    
-  res=`echo "$param1 + $param2" | bc`
-  echo "Результат: ${res}"
+  echo "Результат:"  
+  awk 'BEGIN {print ARGV[1] + ARGV[2]}' "$param1" "$param2"
 else
   echo "Можно складывать только числа!"
   exit 1
