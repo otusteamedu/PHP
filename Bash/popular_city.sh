@@ -1,0 +1,1 @@
+cat users | tail -n 5 | awk '{print $3}' | sort | uniq -c | sort -r | awk '{print $2}' | head -n 3
