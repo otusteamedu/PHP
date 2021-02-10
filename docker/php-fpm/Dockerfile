@@ -13,6 +13,7 @@ libpq-dev \
 libcurl4-openssl-dev \
 nano
 
+RUN pecl install -o redis && docker-php-ext-enable redis
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 WORKDIR /var/www/hw-otus/

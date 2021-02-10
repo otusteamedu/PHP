@@ -17,3 +17,8 @@ services:
       context: ./docker/php-fpm
     volumes:
       - ./app:/var/www/hw-otus
+
+  redis:
+    container_name: redis
+    build:
+      context: ./docker/redis
