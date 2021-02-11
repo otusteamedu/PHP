@@ -20,7 +20,7 @@ isFirtsValid=$( checkNumber $first)
 isSecondValid=$( checkNumber $second)
 
 if [[ isFirtsValid -eq 1 && isSecondValid -eq 1 ]]; then
-	let "sum = first + second"
+	 sum=$(echo "$first+$second" | bc)
 else
 	echo 'Ошибка: введены некорректные символы'.
 fi
