@@ -2,8 +2,8 @@ version: '3'
 services:
     mysite-nginx:
         build:
-            context: ./nginx
-            dockerfile: Dockerfile
+            context: nginx
+            dockerfile: nginx/Dockerfile
         image: otus/mysite-nginx
         container_name: mysite-nginx
         volumes:
@@ -17,8 +17,8 @@ services:
 
     mysite-php-fpm:
         build:
-            context: ./php-fpm
-            dockerfile: Dockerfile
+            context: php-fpm
+            dockerfile: php-fpm/Dockerfile
         image: otus/mysite-php-fpm
         container_name: mysite-php-fpm
         volumes:
