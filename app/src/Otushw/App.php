@@ -2,17 +2,9 @@
 
 namespace Otushw;
 
-/**
- * Class App
- *
- * @package Otushw
- */
 class App
 {
 
-    /**
-     * App constructor.
-     */
     public function __construct()
     {
         $this->loadConfig();

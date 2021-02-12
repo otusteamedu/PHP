@@ -3,45 +3,113 @@
 
 namespace Otushw;
 
-abstract class Article
+use Otushw\DTOs\ArticleDTO;
+use Otushw\DTOs\NewsDTO;
+use Otushw\DTOs\ReviewsDTO;
+use Otushw\Exception\AppException;
+use Otushw\Factory\ArticleFactory;
+use Otushw\Factory\HTML\HTMLArticleFactory;
+use Otushw\Factory\News;
+use Otushw\Factory\Reviews;
+use Otushw\Factory\XML\XMLArticleFactory;
+use Otushw\Observer\ObserverInterface;
+use Otushw\Factory\Article as ArticleInterface;
+
+class Article
 {
+    private string $format;
+    private array $observers = [];
 
-    protected string $title;
-
-    protected string $body;
-
-    protected int $created;
-
-    protected string $format;
-
-    public function getTitle(): string
+    public function __construct(string $format)
     {
-        return $this->title;
+        $this->format = strtoupper($format);
     }
 
-    public function setTitle(string $title): void
+    /**
+     * Создал такой метод, для того чтобы не дублировать метод вызова Наблюдателя,
+     * в каждой реализации generateNews и generateReviews
+     *
+     * @param NewsDTO | ReviewsDTO $article
+     *
+     * @return News | Reviews $readyArticle.
+     *
+     * @throws AppException
+     */
+    public function create($article)
     {
-        $this->title = $title;
+        $typeArticle = $this->getTypeArticle($article);
+        switch ($typeArticle) {
+            case 'news':
+                $readyArticle = $this->generateNews($article);
+                break;
+            case 'reviews':
+                $readyArticle = $this->generateReviews($article);
+                break;
+        }
+
+        $this->notify($readyArticle);
+        return $readyArticle;
     }
 
-    public function getBody(): string
+    private function generateNews(NewsDTO $rawNews): News
     {
-        return $this->body;
+        $factory = $this->getFactory($this->format);
+        $news = $factory->createNews($rawNews);
+        $render = $factory->getRender('news');
+        $news->setRender($render);
+        return $news;
     }
 
-    public function setBody(string $body): void
+    private function generateReviews(ReviewsDTO $rawReviews): Reviews
     {
-        $this->body = $body;
+        $factory = $this->getFactory($this->format);
+        $reviews = $factory->createReviews($rawReviews);
+        $render = $factory->getRender('reviews');
+        $reviews->setRender($render);
+        return $reviews;
     }
 
-    public function getCreated(): string
+    private function getFactory(string $typeFactory): ArticleFactory
     {
-        return date('c', $this->created);
+        switch ($typeFactory) {
+            case 'HTML':
+                return new HTMLArticleFactory();
+            case 'XML':
+                return new XMLArticleFactory();
+        }
     }
 
-    public function setCreated(int $created): void
+    public function attach(ObserverInterface $observer): void
     {
-        $this->created = $created;
+        $this->observers[] = $observer;
+    }
+
+    public function detach(ObserverInterface $observer): void
+    {
+        foreach ($this->observers as &$search) {
+            if ($search === $observer) {
+                unset($search);
+            }
+        }
+    }
+
+    private function notify(ArticleInterface $article): void
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($article);
+        }
+    }
+
+    private function getTypeArticle($article): string
+    {
+        $classNameFull = get_class($article);
+        $function = new \ReflectionClass($classNameFull);
+        $classNameShort = strtolower($function->getShortName());
+        preg_match('/([a-z]+)dto/', $classNameShort, $matches);
+        if (empty($matches[1])) {
+            throw new AppException('Only accepts classes *DTO');
+        }
+        return $matches[1];
     }
 
 }

@@ -3,23 +3,12 @@
 
 namespace Otushw\Visitor;
 
-use Otushw\Models\News;
-use Otushw\Models\Reviews;
+use Otushw\Factory\News;
+use Otushw\Factory\Reviews;
 
-/**
- * Interface Visitor
- *
- * @package Otushw\Visitor
- */
 interface Visitor
 {
-    /**
-     * @param News $news
-     */
     public function visitNews(News $news): void;
 
-    /**
-     * @param Reviews $reviews
-     */
     public function visitReviews(Reviews $reviews): void;
 }

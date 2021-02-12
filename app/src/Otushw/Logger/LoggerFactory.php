@@ -12,11 +12,6 @@ class LoggerFactory
 {
     private static $instance = null;
 
-    /**
-     * LoggerFactory constructor.
-     *
-     * @throws Exception
-     */
     private function __construct()
     {
     }
@@ -33,12 +28,7 @@ class LoggerFactory
         return self::$instance;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return HandlerInterface
-     * @throws Exception
-     */
+
     private function getHandler(string $type): HandlerInterface
     {
         switch ($type) {
@@ -51,10 +41,6 @@ class LoggerFactory
         return $handler;
     }
 
-    /**
-     * @return string
-     * @throws Exception
-     */
     private function getFilePath(): string
     {
         $nameSettings = $_ENV['log']['type'] . '_settings';

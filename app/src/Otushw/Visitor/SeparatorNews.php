@@ -3,55 +3,46 @@
 
 namespace Otushw\Visitor;
 
-use Otushw\Collection;
-use Otushw\Message;
-use Otushw\Models\News;
-use Otushw\Models\Reviews;
+use Otushw\Factory\News;
+use Otushw\Factory\Reviews;
 
-/**
- * Class SeparatorNews
- *
- * @package Otushw\Visitor
- */
 class SeparatorNews implements Visitor
 {
 
-    const PREFIX_MSG = 'Visitor is checking: ';
+    private array $articles;
 
-    /**
-     * @var Collection
-     */
-    private Collection $collection;
-
-    /**
-     * SeparatorNews constructor.
-     *
-     * @param Collection $collection
-     */
-    public function __construct(Collection $collection)
+    public function __construct(array $articles)
     {
-        $this->collection = $collection;
+        $this->articles = $articles;
     }
 
-    /**
-     * @param News $news
-     *
-     * @return void
-     */
     public function visitNews(News $news): void
     {
-        Message::showMessage(self::PREFIX_MSG . 'This is News, I will not delete it.');
+        // Задача для посетиля убрать все кроме новостей,
+        // поэтому этот метод оставляю пустым.
+        // Или его вообще не нужно было объявлять в интерфейсе?
     }
 
-    /**
-     * @param Reviews $reviews
-     *
-     * @return void
-     */
     public function visitReviews(Reviews $reviews): void
     {
-        Message::showMessage(self::PREFIX_MSG . 'This is Reviews, I will delete it.');
-        $this->collection->delete($reviews);
+        $this->revomeReviews($reviews);
     }
+
+    public function getNews(): array
+    {
+        return $this->articles;
+    }
+
+
+    private function revomeReviews(Reviews $reviews)
+    {
+        $buf = $this->articles;
+        foreach ($this->articles as $ky => $article) {
+            if ($article === $reviews) {
+                unset($this->articles[$ky]);
+            }
+        }
+    }
+
 
 }

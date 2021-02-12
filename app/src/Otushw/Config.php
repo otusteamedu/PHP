@@ -4,27 +4,12 @@ namespace Otushw;
 
 use Exception;
 
-/**
- * Class Config
- *
- * @package Otushw
- */
 class Config
 {
     const FILE_NAME = 'config.yaml';
 
-    /**
-     * @var string
-     */
     private string $filePath;
 
-    /**
-     * Config constructor.
-     *
-     * @param string $filePath
-     *
-     * @throws Exception
-     */
     public function __construct(string $filePath = '')
     {
         if (empty($filePath)) {
@@ -38,9 +23,6 @@ class Config
         $this->filePath = $filePath;
     }
 
-    /**
-     * @throws Exception
-     */
     public function load(): void
     {
         foreach ($this->readFile() as $varName => $varValue) {
@@ -51,10 +33,6 @@ class Config
         }
     }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
     private function readFile(): array
     {
         return \Symfony\Component\Yaml\Yaml::parseFile($this->filePath);

@@ -3,74 +3,41 @@
 
 namespace Otushw\Factory;
 
-use Otushw\Article;
-use Otushw\Exception\AppException;
-
-class Render
+abstract class Render
 {
-    const TEMPLATE_FOLDER = 'template';
-
-    private string $pathTemplate;
-    private array $tokens = [];
-
-    public function __construct(string $format, string $templateName)
-    {
-        $templateName = $templateName . '.' . strtolower($format);
-        $folderName = [strtoupper($format), self::TEMPLATE_FOLDER, $templateName];
-        $pathTemplate = $this->generatePath($folderName);
-        if (!file_exists($pathTemplate)) {
-            throw new AppException('Template does not exist! File: ' . $templateName);
-        }
-        $this->pathTemplate = $pathTemplate;
-    }
-
-    private function generatePath(array $folderName): string
-    {
-        $path = __DIR__;
-        foreach ($folderName as $item) {
-            $path .= DIRECTORY_SEPARATOR . $item;
-        }
-
-        return $path;
-    }
 
     /**
-     * Adds tokens which can use in template.
+     * Подготавливает специальный массив со свойствами объектов.
+     * Для каждого Render'a имеет определенный формат.
      *
-     * @param string $tokenName
-     * @param mixed $tokenValue
+     * @param Article $article
+     *
+     * @return array
      */
-    public function addToken(string $tokenName, $tokenValue): void
+    protected function prepareProperty(Article $article): array
     {
-        $tokenName = '%%' . strtoupper($tokenName) . '%%';
-        $this->tokens[$tokenName] = $tokenValue;
-    }
-
-    public function render(Article $article): void
-    {
-        $this->prepareTokens($article);
-        $content = file_get_contents($this->pathTemplate);
-        echo $this->replaceTokens($content);
-    }
-
-    private function prepareTokens(Article $article): void
-    {
+        $properties = [];
         $methods = $this->getMethods($article);
         foreach ($methods as $methodName) {
             preg_match('/get([A-Z]([a-z]|[A-Z])+)/', $methodName, $matches);
             if (!empty($matches[1])) {
-                $tokenName = $this->generateTokenName($matches[1]);
-                $this->tokens[$tokenName] = $article->$methodName();
+                $tokenName = $this->generatePropertyName($matches[1]);
+                $properties[$tokenName] = $article->$methodName();
             }
         }
+        return $properties;
     }
 
     /**
      * Возможно это не очень хорошее решение получать таким образом методы,
      * от News и Reviews, но оба наследуются от Article,
      * я попробовал отдает только public.
+     *
+     * @param Article $article
+     *
+     * @return array
      */
-    private function getMethods(Article $article): array
+    protected function getMethods(Article $article): array
     {
         $className = get_class($article);
         $methods = get_class_methods($className);
@@ -83,16 +50,7 @@ class Render
         return $allowedMethods;
     }
 
-    private function generateTokenName(string $tokenName): string
-    {
-        return '%%' . strtoupper($tokenName) . '%%';
-    }
+    abstract protected function generatePropertyName(string $propertyName): string;
 
-    private function replaceTokens(string $content): string
-    {
-        foreach ($this->tokens as $tokenName => $tokenValue) {
-            $content = str_replace($tokenName, $tokenValue, $content);
-        }
-        return $content;
-    }
+    abstract public function render(Article $article): void;
 }

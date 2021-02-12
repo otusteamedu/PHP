@@ -4,7 +4,7 @@
 namespace Otushw\Observer;
 
 use Otushw\Logger\AppLogger;
-use Otushw\Article;
+use Otushw\Factory\Article;
 
 class LoggerObserver implements ObserverInterface
 {
