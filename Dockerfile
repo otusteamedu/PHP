@@ -26,7 +26,6 @@ RUN apk update \
         curl-dev \
         postgresql-dev \
         bzip2 \
-        git \
         curl \
         wget \
         grep
