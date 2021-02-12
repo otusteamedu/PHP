@@ -1,0 +1,21 @@
+{
+  "name": "mar4ehk0/hw6-1",
+  "description": "Design Patterns",
+  "authors": [
+    {
+      "name": "Alex Marchenko",
+      "email": "mar4ehk0@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "monolog/monolog": "^2.2",
+    "symfony/yaml": "^5.2.1",
+    "ext-dom": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otushw\\" : "src/Otushw"
+    }
+  }
+}

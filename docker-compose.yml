@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  php:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+    network_mode: host
+
+  web:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+    ports:
+      - 8081:80
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+    links:
+      - php
+
+  composer:
+    build:
+      context: ./docker/composer
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/html
+
+
+
