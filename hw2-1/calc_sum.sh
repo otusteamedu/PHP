@@ -6,7 +6,6 @@ function isNumber() {
 
 function showErrorIsNotNumber() {
   echo "$1 значение $2 не является числом!"
-  exit 1
 }
 
 read -p 'Введите первое число: ' number1
@@ -15,9 +14,11 @@ read -p 'Введите второе число: ' number2
 if ! isNumber $number1
 then
   showErrorIsNotNumber 'Первое' $number1
+  exit 1
 elif ! isNumber $number2
 then
   showErrorIsNotNumber 'Второе' $number2
+  exit 1
 fi
 
 # Т.к. bash не поддерживает вычисления с числами с плавающей точкой.
