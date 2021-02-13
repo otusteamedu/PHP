@@ -1,0 +1,25 @@
+Installing shared extensions:     /usr/lib/php/20170718/
+Makefile:88: recipe for target 'install-modules' failed
+/bin/bash /home/alexander/Загрузки/memcached/memcached-3.1.5/libtool --mode=install cp ./memcached.la /home/alexander/Загрузки/memcached/memcached-3.1.5/modules
+libtool: install: cp ./.libs/memcached.so /home/alexander/Загрузки/memcached/memcached-3.1.5/modules/memcached.so
+libtool: install: cp ./.libs/memcached.lai /home/alexander/Загрузки/memcached/memcached-3.1.5/modules/memcached.la
+libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin" ldconfig -n /home/alexander/Загрузки/memcached/memcached-3.1.5/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /home/alexander/Загрузки/memcached/memcached-3.1.5/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the '-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the 'LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the 'LD_RUN_PATH' environment variable
+     during linking
+   - use the '-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to '/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Installing shared extensions:     /usr/lib/php/20170718/
