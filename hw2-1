@@ -1,0 +1,11 @@
+#!/bin/bash
+pattern="^?[0-9]+$"
+if(echo "$1" | grep -E -q "$pattern"); then
+  if(echo "$2" | grep -E -q "$pattern"); then	
+  	echo $[$1 + $2]
+  else
+  	echo "Ошибка! Второй аргумент либо пустой, либо не является числом"
+  fi
+else
+  echo "Ошибка! Первый аргумент либо пустой, либо не является числом"
+fi
