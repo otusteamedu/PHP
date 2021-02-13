@@ -1,6 +1,8 @@
 {
     "app": {
-        "use_filter_var": false,
+        "email_source": {
+            "file_path": "../in/emails.txt"
+        },
         "email_regexp": {
             "patern": "/^(?!\\.)((?!.*\\.{2})[a-zA-Z{{unicode}}\\d\\-{{spec_symb}}]+)@(?!\\.|\\-)(?:(?!.*\\-{2})[a-zA-Z{{unicode}}\\d\\-]{0,62}[a-zA-Z{{unicode}}\\d]\\.){1,126}([a-zA-Z{{unicode}}]{2,63})$/ui",
             "options": {

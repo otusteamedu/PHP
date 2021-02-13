@@ -4,35 +4,22 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\DataSource\File;
 
-class DataSourceFile implements IDataSourceFile
+use Nlazarev\Hw2_1\Model\DataSource\Generic\DataSourceGeneric;
+use Nlazarev\Hw2_1\Model\File\IFile;
+
+class DataSourceFile extends DataSourceGeneric implements IDataSourceFile
 {
-    private ?string $path = null;
-
-    public function __construct(string $path)
+    public function fromFile(IFile $file)
     {
-        $this->path = $path;
-    }
-
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function isExists(): bool
-    {
-        if (!is_file($this->path)) {
-            return false;
+        if ($file->isReadable()) {
+            $this->source = $file;
+        } else {
+            throw new \Exception("Not readable file");
         }
-
-        return true;
     }
 
-    public function isReadable(): bool
+    public function getSource(): IFile
     {
-        if (!is_readable($this->path)) {
-            return false;
-        }
-
-        return true;
+        return parent::getSource();
     }
 }

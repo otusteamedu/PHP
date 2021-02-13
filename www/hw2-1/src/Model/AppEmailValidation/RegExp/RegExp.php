@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\AppEmailValidation\RegExp;
 
-use Nlazarev\Hw2_1\Model\Config\IConfig;
+use Nlazarev\Hw2_1\Model\AppEmailValidation\Config\IConfig;
 use Nlazarev\Hw2_1\Model\General\String\StringObject;
 
-final class EmailRegExp extends StringObject implements IEmailRegExp
+final class RegExp extends StringObject implements IRegExp
 {
     public function fromConfig(IConfig $conf)
     {

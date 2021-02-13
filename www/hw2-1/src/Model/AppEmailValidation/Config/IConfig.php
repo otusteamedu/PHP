@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw2_1\Model\AppEmailValidation\Config;
 
-use Nlazarev\Hw2_1\Model\Config\IConfig;
+use Nlazarev\Hw2_1\Model\Config\Json\IConfigJson;
 
-interface IEmailConfig extends IConfig
+interface IConfig extends IConfigJson
 {
 }

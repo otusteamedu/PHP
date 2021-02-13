@@ -8,6 +8,7 @@ use Nlazarev\Hw2_1\Model\General\String\IStringObject;
 use Nlazarev\Hw2_1\Model\General\String\StringObject;
 use Nlazarev\Hw2_1\Model\Validators\StringObject\IValidatorStringObjectIsBracketsString;
 use Nlazarev\Hw2_1\Model\Validators\StringObject\ValidatorStringObjectIsBracketsString;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class AppServerBrackets
 {
@@ -16,21 +17,20 @@ final class AppServerBrackets
 
     public static function run()
     {
-        if (($_SERVER["REQUEST_METHOD"] ?? "GET") == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($_POST["string"])) {
                 static::$brackets_string = new StringObject($_POST["string"]);
             }
         }
 
-//        static::$brackets_string = new StringObject('(())()');
+        //        static::$brackets_string = new StringObject('(())()');
 
         static::$validator = new ValidatorStringObjectIsBracketsString();
 
         if (static::$validator->isStringObjectBalancedBracketsString(static::$brackets_string)) {
             header("HTTP/1.1 200 OK");
-            exit;
+        } else {
+            header("HTTP/1.1 404 Not Found");
         }
-
-        header("HTTP/1.1 404 Not Found");
     }
 }
