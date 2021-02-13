@@ -1,0 +1,4 @@
+#!/bin/bash
+read -p "Enter input file name [cities.csv]: " cities
+cities=${cities:-cities.csv}
+awk '{print $3}' $cities | tail -n +2 | sort | uniq -ci | sort -r | head -n 3

@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "Please input first number!"
+read x
+echo "Please input second number!"
+read y
+
+if [[ ${x} =~ (^\-?[0-9]+(\.[0-9]+)?$) && ${y} =~ (^\-?[0-9]+(\.[0-9]+)?$) ]];
+then
+    sum="$( bc <<<"$x + $y" )"
+    echo "Sum equals: $sum"
+else
+    echo "Wrong parameters, try again"
+fi
+
