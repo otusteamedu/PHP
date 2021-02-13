@@ -1,4 +1,5 @@
 <?php
-echo "Hello, Otus!";
+
+echo 'HELLO otus-docker-test';
 
 phpinfo();
