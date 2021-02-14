@@ -1,0 +1,3 @@
+#!/bin/bash
+
+awk '{print $3}' cities.txt | tail +2 | sort | uniq -c | sort -k1nr -k2 | head -3 | awk '{print $2}'
