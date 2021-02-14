@@ -6,8 +6,8 @@ namespace Nlazarev\Hw2_1;
 
 use Nlazarev\Hw2_1\Model\ClientManager\ClientSocket\ClientManagerSocketCli;
 use Nlazarev\Hw2_1\Model\ClientManager\ClientSocket\IClientManagerSocketCli;
-use Nlazarev\Hw2_1\Model\Config\ConfigFileJson;
 use Nlazarev\Hw2_1\Model\Config\IConfig;
+use Nlazarev\Hw2_1\Model\Config\Json\ConfigJson;
 use Nlazarev\Hw2_1\Model\Sockets\ISocketClient;
 use Nlazarev\Hw2_1\Model\Sockets\SocketClient;
 use Nlazarev\Hw2_1\Model\Viewers\IViewer;
@@ -23,7 +23,7 @@ final class AppClientSocket
 
     public static function run()
     {
-        static::$conf = new ConfigFileJson(static::$conf_path);
+        static::$conf = new ConfigJson(static::$conf_path);
         static::$socket = new SocketClient();
         static::$info_viewer = new ViewerCli();
 

@@ -5,7 +5,9 @@
   "require": {
     "php": "^7.4",
     "hassankhan/config": "^2.1",
-    "guzzlehttp/guzzle": "^7.0"
+    "guzzlehttp/guzzle": "^7.0",
+    "laminas/laminas-diactoros": "^2.5",
+    "laminas/laminas-httphandlerrunner": "^1.3"
   },
   "require-dev": {
     "php": "^7.4",
