@@ -1,0 +1,22 @@
+{
+    "name": "nkleymenov/otus-package",
+    "description": "simple package for homework-3",
+    "authors": [
+        {
+            "name": "KleymenovN",
+            "email": "kleymenov68@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src"
+        }
+    }
+}
