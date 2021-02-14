@@ -1,0 +1,2 @@
+git clone https://github.com/vita-nostra/otus-hw3-2.git
+composer require vita-nostra/otus-hw3-2
