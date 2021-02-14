@@ -14,6 +14,5 @@ echo "Введенные значения не являются числами"
 exit 1
 fi
 
-sum=$(echo $firstNumber + $secondNumber | bc -l)
-echo "Сумма: $sum"
+awk "BEGIN { print \"Result:\", $firstNumber + $secondNumber; exit }"
 exit 0
