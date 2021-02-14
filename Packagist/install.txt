@@ -1,0 +1,5 @@
+Via git:
+get clone https://github.com/k0nstantin777/laravel-github-deploy.git .
+
+Via composer:
+composer require konstantinn/laravel-github-deploy
