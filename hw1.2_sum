@@ -6,8 +6,7 @@ read y
 
 if [[ ${x} =~ (^\-?[0-9]+(\.[0-9]+)?$) && ${y} =~ (^\-?[0-9]+(\.[0-9]+)?$) ]];
 then
-    sum="$( bc <<<"$x + $y" )"
-    echo "Sum equals: $sum"
+    echo | awk -v n1=$x -v n2=$y '{ print n1 + n2 }'
 else
     echo "Wrong parameters, try again"
 fi
