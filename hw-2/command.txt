@@ -1,0 +1,1 @@
+tail -n +2 users.txt | awk '{ print $3 }' | sort -db | uniq -c | sort -dbr
