@@ -1,0 +1,16 @@
+{
+    "name": "sergeyzelenskiy/hw-11-elastic",
+    "description": "Elastic Test",
+    "authors": [
+        {
+            "name": "Sergey Zelenskiy",
+            "email": "szelenskiy@me.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\":"src/App"
+        }
+    }
+}
