@@ -1,0 +1,14 @@
+#! /bin/bash
+if [ $# -ne 2 ]; then
+  echo "Необходимо передать два числа" >&2
+  exit
+elif [[ $1 =~ [^0-9\.\/\-]+ ]]; then
+  echo "Первый аргумент должен быть числом!" >&2
+  exit
+elif [[ $2 =~ [^0-9]+ ]]; then
+  echo "Второй аргумент должен быть числом!" >&2
+  exit
+else
+  echo The sum of $1 and $2 is
+  echo $1 + $2 |bc
+fi
