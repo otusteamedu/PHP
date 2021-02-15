@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Config\Config;
+
 /**
  * Class App
  *
@@ -9,6 +11,13 @@ namespace App;
  */
 class App
 {
+    private Config $config;
+
+    public function __construct ()
+    {
+        $this->config = new Config();
+    }
+
     /**
      * run the app
      */
