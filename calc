@@ -13,4 +13,7 @@ if ! [[ $2 =~ ^-?([0-9]*[.])?[0-9]+$ ]]; then
     exit;
 fi
 
+perl -e "print $1 + $2"
+echo ""
+awk "BEGIN {z= $1 + $2; print z}"
 echo  "$1 + $2" | bc
