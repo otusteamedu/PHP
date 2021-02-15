@@ -68,5 +68,7 @@ echo -e "Слагаемое1 = $param1, Слагаемое2 = $param2 и их с
 echo "Результат сложения двух чисел используя библиотеку bc:"
 sum=$(echo "$param1 + $param2" | bc)
 echo "Слагаемое1 = $param1, Слагаемое2 = $param2 и их сумма равна $sum"
-
+newsum=$(echo "$param1 $param2" | awk '{print $1+$2}')
+echo "Результат сложения двух чисел используя библиотеку awk:"
+echo "Слагаемое1 = $param1, Слагаемое2 = $param2 и их сумма равна $newsum"
 exit 0
