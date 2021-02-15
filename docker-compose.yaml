@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      args:
+        UID: ${SERVER_UID}
+        USER: ${SERVER_USER}
+        GID: ${SERVER_GID}
+        GROUP: ${SERVER_GROUP}
+        SOCKET_FILE: ${SOCKET_FILE}
+      context: ./docker/nginx
+    image: atimofeev/nginx-alpine-mysite
+    container_name: mysite-webserver
+    working_dir: ${WORKDIR}
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - .:${WORKDIR}
+    - ./sock:/var/run
+
+  app:
+    build:
+      args:
+        UID: ${SERVER_UID}
+        USER: ${SERVER_USER}
+        GID: ${SERVER_GID}
+        GROUP: ${SERVER_GROUP}
+      context: ./docker/fpm
+    image: atimofeev/php-fpm-deb-mysite
+    container_name: mysite-app
+    working_dir: ${WORKDIR}
+    volumes:
+    - .:${WORKDIR}
+    - ./sock:/var/run
+
+
