@@ -1,0 +1,19 @@
+{
+    "name": "atimofeev/sockets",
+    "description": "Home work 2.1.2",
+    "require": {
+        "php": ">=7.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandr Timofeev",
+            "email": "tim31al@gmail.com"
+        }
+    ],
+    "autoload": {
+	    "psr-4": {
+		    "App\\": "src/"
+	    }
+    }
+}

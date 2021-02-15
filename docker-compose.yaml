@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./docker
+    image: my-php
+    working_dir: ${WORKDIR}
+    environment:
+      - SOCKET_DIR=${SOCKET_DIR}
+      - SOCKET_FILE=${SOCKET_FILE}
+    volumes:
+    - ./:${WORKDIR}
+    - ./sock:${SOCKET_DIR}
+    command: ["php", "console/server.php"]
+
+  client:
+    image: my-php
+    working_dir: ${WORKDIR}
+    environment:
+      - SOCKET_DIR=${SOCKET_DIR}
+      - SOCKET_FILE=${SOCKET_FILE}
+    depends_on:
+      - server
+    volumes:
+      - ./:${WORKDIR}
+      - ./sock:${SOCKET_DIR}
