@@ -7,7 +7,6 @@ RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
 RUN echo "extension=raphf" >> /usr/local/etc/php/conf.d/raphf.ini
 
-RUN apt install -y
 RUN pecl install pecl_http
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
