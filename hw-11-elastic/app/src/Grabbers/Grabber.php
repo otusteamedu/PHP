@@ -4,5 +4,5 @@ namespace Grabbers;
 
 interface Grabber
 {
-    public function grab (string $path): void;
+    public function grab (array $channelsList): void;
 }

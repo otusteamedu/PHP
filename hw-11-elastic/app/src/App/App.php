@@ -5,6 +5,7 @@ namespace App;
 use Config\Config;
 use Exception;
 use Grabbers\YoutubeGrabber;
+use Readers\RowsReader;
 
 /**
  * Class App
@@ -16,7 +17,7 @@ class App
     public const GRAB_CMD  = 'grab';
     public const STATS_CMD = 'stats';
 
-    private const CHANNELS_LIST_CONFIG_PARAM = 'channels_list_path';
+    private const CHANNELS_LIST_CONFIG_KEY = 'channels_list_path';
 
     private const ALLOWED_COMMANDS = [
         self::GRAB_CMD,
@@ -42,7 +43,10 @@ class App
         }
 
         if ($cmd === self::GRAB_CMD) {
-            (new YoutubeGrabber())->grab($this->config->getItem(self::CHANNELS_LIST_CONFIG_PARAM));
+            $filePath     = $this->config->getItem(self::CHANNELS_LIST_CONFIG_KEY);
+            $channelsList = (new RowsReader($filePath))->read();
+
+            (new YoutubeGrabber())->grab($channelsList);
         }
     }
 }

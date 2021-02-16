@@ -12,7 +12,8 @@
         "psr-4": {
             "App\\":"src/App",
             "Config\\":"src/Config",
-            "Grabbers\\":"src/Grabbers"
+            "Grabbers\\":"src/Grabbers",
+            "Readers\\":"src/Readers"
         }
     }
 }
