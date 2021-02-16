@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php
+    volumes:
+      - ./data:/data/mysite.loc
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: server
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./data:/data/mysite.loc
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
