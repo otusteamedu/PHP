@@ -1,0 +1,11 @@
+log:
+  name_channel: main
+  type: file
+  file_settings:
+    file_path: ../log/app.log
+method: socket
+socket:
+  path: /path/to/socket
+  port: port socket
+stop_server: exit
+EOL: PHP_EOL
