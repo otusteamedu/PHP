@@ -1,0 +1,86 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: app
+    volumes:
+      - ../OTUS/PHP:/var/www
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./hosts:/etc/nginx/conf.d
+      - ../OTUS/Logs/nginx:/var/log/nginx
+      - ../OTUS/PHP:/var/www
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ../OTUS/Logs/mysql:/var/log/mysql
+      - ../OTUS/DB/mysql:/var/lib/mysql
+      - ../OTUS/DB/mysql:/var/lib/mysql-files
+    restart: always
+    networks:
+      - app-network
+
+  pgsql:
+    image: postgres:latest
+    container_name: pgsql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ../OTUS/Logs/pgsql:/var/log/pgsql
+      - ../OTUS/DB/pgsql:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcache
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command:
+      - 'redis-server'
+      - '--loglevel ${REDIS_LOGLEVEL:-warning}'
+      - '--databases 2'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+      - '--maxmemory ${REDIS_MAXMEM:-50mb}'
+      - '--maxmemory-policy ${REDIS_POLICY:-noeviction}'
+      - '--requirepass ${REDIS_PASS}'
+    volumes:
+      - ../OTUS/DB/redis:/var/lib/redis/data
+    ports:
+      - "6379:6379"
+
+networks:
+
+  app-network:
+    driver: bridge
