@@ -15,7 +15,7 @@ git clone
  docker-compose build && docker-compose run server composer install
  
  
- docker-compose up -d && docker-compose exec client php console/client.php
+ docker-compose up -d && docker-compose exec client php console/app.php client
 
 ```
 

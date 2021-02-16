@@ -12,7 +12,7 @@ services:
     volumes:
     - ./:${WORKDIR}
     - ./sock:${SOCKET_DIR}
-    command: ["php", "console/server.php"]
+    command: ["php", "console/app.php", "server"]
 
   client:
     image: my-php
