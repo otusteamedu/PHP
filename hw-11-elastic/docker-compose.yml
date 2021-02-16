@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-11.test
+  elasticsearch:
+    build:
+      context: ./docker/elasticsearch
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
