@@ -13,7 +13,8 @@
             "App\\":"src/App",
             "Config\\":"src/Config",
             "Grabbers\\":"src/Grabbers",
-            "Readers\\":"src/Readers"
+            "Readers\\":"src/Readers",
+            "Youtube\\":"src/Youtube"
         }
     }
 }
