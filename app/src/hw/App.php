@@ -1,44 +1,28 @@
 <?php
-namespace VideoPlatform;
 
-use Exception;
-use VideoPlatform\exceptions\AppException;
-use VideoPlatform\interfaces\VideoSharingServiceInterface;
-use VideoPlatform\services\YoutubeService;
+namespace Otus;
+
+use Otus\Processes\EventProcessFactory;
+use Otus\Storage\StorageFactory;
+use Otus\Storage\StorageInterface;
 
 class App
 {
-    private VideoSharingServiceInterface $videoPlatform;
+    private StorageInterface $storage;
 
     public function __construct()
     {
-        $this->identifyService();
+        $this->storage = $this->getStorage();
     }
 
-    /**
-     * @throws Exception
-     */
     public function run()
     {
-        if (php_sapi_name() != 'cli') {
-            throw new AppException('need to run in cli mode');
-        }
-
-        $platform = new VideoPlatform($this->videoPlatform);
-        $platform->run();
+        $event = EventProcessFactory::getProcess();
+        $event->process($this->storage);
     }
 
-    /**
-     * @throws Exception
-     */
-    private function identifyService()
+    private function getStorage(): StorageInterface
     {
-        switch ($_ENV['VIDEOPLATFORM']) {
-            case YoutubeService::PLATFORM_NAME:
-                $this->videoPlatform = new YoutubeService();
-                break;
-            default:
-                throw new AppException('undefined video platform');
-        }
+        return StorageFactory::create();
     }
 }

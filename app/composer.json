@@ -14,11 +14,11 @@
         "monolog/monolog": "2.x-dev",
         "ext-redis": "*",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^7.2"
+        "rakit/validation": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "VideoPlatform\\": "src/hw"
+            "Otus\\": "src/hw"
         }
     }
 }

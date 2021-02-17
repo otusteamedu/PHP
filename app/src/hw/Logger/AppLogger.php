@@ -1,5 +1,5 @@
 <?php
-namespace VideoPlatform\loggers;
+namespace Otus\Logger;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

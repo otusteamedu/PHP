@@ -1,16 +1,17 @@
 <?php
-namespace VideoPlatform\exceptions;
+namespace Otus\Exceptions;
 
 use Exception;
 use Monolog\Logger;
+use Otus\Logger\AppLogger;
 use Throwable;
-use VideoPlatform\loggers\AppLogger;
 
 class AppException extends Exception
 {
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        AppLogger::addLog(Logger::ERROR,$message);
+        http_response_code($code);
+        AppLogger::addLog(Logger::ERROR, $message);
     }
 }
