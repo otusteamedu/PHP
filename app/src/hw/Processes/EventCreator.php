@@ -20,7 +20,7 @@ class EventCreator implements EventProcessInterface
     public function process(StorageInterface $storage)
     {
         $storage->save($this->event);
-        View::showAdd("event was added");
+        View::showMessage("event was added");
     }
 
     private function createEvent($data)

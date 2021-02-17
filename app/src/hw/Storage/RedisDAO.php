@@ -58,6 +58,11 @@ class RedisDAO implements StorageInterface
         return array_merge($partOne, $partTwo);
     }
 
+    public function delete(): bool
+    {
+        return $this->redis->del($this->redis->keys(self::KEY . '*'));
+    }
+
     private function findEvents(array $conditions): array
     {
         $sets = [];

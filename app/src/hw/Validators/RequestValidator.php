@@ -10,19 +10,22 @@ use Rakit\Validation\Validator;
 
 class RequestValidator
 {
-    const GET_REQUEST = "GET";
-    const POST_REQUEST = "POST";
+    const ADD_REQUEST = "add";
+    const SEARCH_REQUEST = "search";
+    const DELETE_REQUEST = "delete";
 
-    private string $requestType;
     private Validator $validator;
     private array $data;
 
     public function __construct()
     {
         $this->validator = new Validator();
-        $this->requestType = $_SERVER['REQUEST_METHOD'];
 
         $json = file_get_contents('php://input');
+
+        if (empty($json)) {
+            throw new AppException('body is empty', Logger::ERROR);
+        }
 
         $this->data = json_decode($json,true);
     }
@@ -32,12 +35,14 @@ class RequestValidator
      */
     public function validate()
     {
-        switch ($this->requestType) {
-            case RequestValidator::GET_REQUEST:
+        switch ($this->data['request_type']) {
+            case self::SEARCH_REQUEST:
                 $this->validateGet();
                 break;
-            case RequestValidator::POST_REQUEST:
+            case self::ADD_REQUEST:
                 $this->validatePost();
+                break;
+            case self::DELETE_REQUEST:
                 break;
             default:
                 throw new AppException("Invalid request method", Logger::ERROR);

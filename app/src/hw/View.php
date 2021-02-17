@@ -6,7 +6,7 @@ namespace Otus;
 
 class View
 {
-    public static function showAdd(string $string)
+    public static function showMessage(string $string)
     {
         header("Content-type: application/json; charset=utf-8");
         echo $string;

@@ -1,19 +1,29 @@
 **Как использовать**
+\
 
-1)зайти в контейнер php-fpm через команду  docker-compose exec php-fpm bash
-2)зайти в директорию public
-3)запустить скрипть через команду php index.php
+Везде использовать POST
 
-index.php принимает параметры
+Для того чтобы добавить event, надо отправить запрос с JSON данными
+```json
+{
+  "request_type": "add",
+  "priority": 4000,
+  "conditions": ["param1=1", "param2=2", "param3=3"],
+  "event": "event_4"
+}
+```
 
-- analyze (id youtube каналов через запятую)
-- statistics (id канала для получения статистики)
-- top_n (получить топ n каналов по соотношению likes/dislikes);
+Для поиск нужно отправить запрос с JSON-данными
+```json
+{
+  "request_type": "search",
+  "conditions": ["param1=1", "param2=2", "param3=3"],
+}
+```
 
-пример:
-
-php index.php analyze UCMcDsSeqS531-HKz6GiJgtA,UC2QJf0YXCH57FR588wQIaSg
-
-php index.php statistics UCMcDsSeqS531-HKz6GiJgtA
-
-php index.php ton_n 3
+Для удаления нужно отправить запрос с JSON-данными
+```json
+{
+  "type_request": "delete"
+}
+```

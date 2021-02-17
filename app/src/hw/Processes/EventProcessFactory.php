@@ -9,17 +9,15 @@ use Otus\Validators\RequestValidator;
 
 class EventProcessFactory
 {
-    public static function getProcess(): EventProcessInterface
+    public static function getProcess(array $data): EventProcessInterface
     {
-        $validator = new RequestValidator();
-
-        switch ($_SERVER['REQUEST_METHOD']){
-            case RequestValidator::POST_REQUEST:
-                $validator->validatePost();
-                return new EventCreator($validator->getValidatedData());
-            case RequestValidator::GET_REQUEST:
-                $validator->validateGet();
-                return new EventSearcher($validator->getValidatedData());
+        switch ($data['request_type']){
+            case RequestValidator::ADD_REQUEST:
+                return new EventCreator($data);
+            case RequestValidator::SEARCH_REQUEST:
+                return new EventSearcher($data);
+            case RequestValidator::DELETE_REQUEST:
+                return new EventDeleter();
             default:
                 throw new AppException('Invalid request method');
         }
