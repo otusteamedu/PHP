@@ -1,0 +1,3 @@
+git clone https://github.com/kaivladimirv/SecretCodeGenerator.git
+
+composer require kaivladimirv/secret-code-generator
