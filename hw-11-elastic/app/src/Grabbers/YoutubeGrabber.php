@@ -2,6 +2,7 @@
 
 namespace Grabbers;
 
+use Models\ChannelDTO;
 use Youtube\YoutubeClient;
 
 class YoutubeGrabber implements Grabber
@@ -13,6 +14,11 @@ class YoutubeGrabber implements Grabber
 
             $client     = new YoutubeClient();
             $channelDTO = $client->getChannelData($channelId);
+
+            if ($channelDTO instanceof ChannelDTO)
+            {
+                // save
+            }
         }
     }
 }

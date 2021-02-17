@@ -21,7 +21,7 @@ class YoutubeClient
         $this->apiKey = $config->getItem(self::YOUTUBE_API_KEY_CONFIG_KEY);
     }
 
-    public function getChannelData (string $channelId): ChannelDTO
+    public function getChannelData (string $channelId): ?ChannelDTO
     {
         $params = [
             'part'  => 'snippet',
