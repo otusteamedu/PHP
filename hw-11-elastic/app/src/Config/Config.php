@@ -3,8 +3,9 @@
 namespace Config;
 
 use Exception;
+use Singleton\Singleton;
 
-class Config
+class Config extends Singleton
 {
     /**
      * Путь к файлу конфига
@@ -21,7 +22,7 @@ class Config
      *
      * @throws Exception
      */
-    public function __construct ()
+    protected function __construct ()
     {
         $this->setConfig();
     }

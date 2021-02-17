@@ -16,7 +16,8 @@
             "Readers\\":"src/Readers",
             "Youtube\\":"src/Youtube",
             "Parsers\\":"src/Parsers",
-            "Models\\":"src/Models"
+            "Models\\":"src/Models",
+            "Singleton\\":"src/Singleton"
         }
     }
 }

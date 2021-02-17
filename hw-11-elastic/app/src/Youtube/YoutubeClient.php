@@ -16,7 +16,9 @@ class YoutubeClient
 
     public function __construct()
     {
-        $this->apiKey = (new Config())->getItem(self::YOUTUBE_API_KEY_CONFIG_KEY);
+        $config = Config::getInstance();
+
+        $this->apiKey = $config->getItem(self::YOUTUBE_API_KEY_CONFIG_KEY);
     }
 
     public function getChannelData (string $channelId): ChannelDTO

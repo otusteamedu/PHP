@@ -36,7 +36,7 @@ class App
         }
 
         if ($cmd === self::GRAB_CMD) {
-            $filePath     = (new Config())->getItem(self::CHANNELS_LIST_CONFIG_KEY);
+            $filePath     = Config::getInstance()->getItem(self::CHANNELS_LIST_CONFIG_KEY);
             $channelsList = (new RowsReader($filePath))->read();
 
             (new YoutubeGrabber())->grab($channelsList);
