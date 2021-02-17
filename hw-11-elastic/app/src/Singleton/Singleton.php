@@ -12,7 +12,7 @@ class Singleton
 
     public function __wakeup () { }
 
-    public static function getInstance()
+    public static function getInstance ()
     {
         $subclass = static::class;
 
