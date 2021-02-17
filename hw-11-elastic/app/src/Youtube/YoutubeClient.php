@@ -3,7 +3,9 @@
 namespace Youtube;
 
 use Config\Config;
+use DTO\Youtube\ChannelDTO;
 use Exception;
+use Parsers\Youtube\YoutubeChannelDataParser;
 
 class YoutubeClient
 {
@@ -17,18 +19,21 @@ class YoutubeClient
         $this->apiKey = (new Config())->getItem(self::YOUTUBE_API_KEY_CONFIG_KEY);
     }
 
-    public function getChannelData (string $channelId): ?array
+    public function getChannelData (string $channelId): ChannelDTO
     {
         $params = [
-            'part'      => 'snippet,contentDetails,statistics',
-            'order'     => 'date',
-            'id'        => $channelId,
-            'key'       => $this->apiKey,
+            'part'  => 'snippet',
+            'order' => 'date',
+            'id'    => $channelId,
+            'key'   => $this->apiKey,
         ];
 
-        $url = $this->generateURL('channels', $params);
-        echo $url . PHP_EOL;
-        return json_decode($this->sendRequest($url), true);
+        $url      = $this->generateURL('channels', $params);
+        $response = $this->sendRequest($url);
+
+        $parser = new YoutubeChannelDataParser();
+
+        return $parser->parse($response);
     }
 
     private function generateURL (string $cmd, array $params): string

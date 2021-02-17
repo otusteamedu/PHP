@@ -10,10 +10,9 @@ class YoutubeGrabber implements Grabber
     {
         foreach ($channelsList as $channelId) {
             echo $channelId . PHP_EOL;
-            $client      = new YoutubeClient();
-            $channelData = $client->getChannelData($channelId);
 
-            var_dump($channelData);
+            $client     = new YoutubeClient();
+            $channelDTO = $client->getChannelData($channelId);
         }
     }
 }

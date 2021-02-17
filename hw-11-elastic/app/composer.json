@@ -14,7 +14,9 @@
             "Config\\":"src/Config",
             "Grabbers\\":"src/Grabbers",
             "Readers\\":"src/Readers",
-            "Youtube\\":"src/Youtube"
+            "Youtube\\":"src/Youtube",
+            "Parsers\\":"src/Parsers",
+            "DTO\\":"src/DTO"
         }
     }
 }

@@ -1,5 +1,556 @@
-- черновик запроса инфы о канале
-- черновик запроса списка видео
-- черновик запроса инфы о видео
-- чтение списка каналов из channels.txt
-- чтение конфига из ini файла
+root@52a5185b1e08:/var/www/hw-11.test/public# php index.php grab
+UCMCgOm8GZkHp8zJ6l7_hIuA
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UCMCgOm8GZkHp8zJ6l7_hIuA&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "LaLc9ss7E-uLqlI2ck8Dc4zs0PQ"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "KK6OXCs7pPUw11_OXuT4uNPQSd8"
+      ["id"]=>
+      string(24) "UCMCgOm8GZkHp8zJ6l7_hIuA"
+      ["snippet"]=>
+      array(6) {
+        ["title"]=>
+        string(10) "вДудь"
+        ["description"]=>
+        string(38) "Здесь задают вопросы"
+        ["customUrl"]=>
+        string(4) "vdud"
+        ["publishedAt"]=>
+        string(20) "2014-01-03T06:27:22Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(96) "https://yt3.ggpht.com/ytc/AAUvwngbTgzQVrAJk7Ij8ZZ9Hwb_6uKPYe5pfYrC8433=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(97) "https://yt3.ggpht.com/ytc/AAUvwngbTgzQVrAJk7Ij8ZZ9Hwb_6uKPYe5pfYrC8433=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(97) "https://yt3.ggpht.com/ytc/AAUvwngbTgzQVrAJk7Ij8ZZ9Hwb_6uKPYe5pfYrC8433=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(10) "вДудь"
+          ["description"]=>
+          string(38) "Здесь задают вопросы"
+        }
+      }
+    }
+  }
+}
+UCeObZv89Stb2xLtjLJ0De3Q
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UCeObZv89Stb2xLtjLJ0De3Q&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "bIsyQ5FhKHPXpbiBo-sb7E9Eqlk"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "ogxZ2B_vScs74jhZxo_rCqt_Mhs"
+      ["id"]=>
+      string(24) "UCeObZv89Stb2xLtjLJ0De3Q"
+      ["snippet"]=>
+      array(8) {
+        ["title"]=>
+        string(20) "АйТиБорода"
+        ["description"]=>
+        string(1527) "Ку! Меня зовут Лекс и я бородатый программист. С 2012 года у меня накопилось много опыта, историй и знакомств, которыми я делюсь здесь, на этом канале.
+
+Но канал - это не просто хобби. Для меня это целый Проект, посвященный не столько программированию, сколько жизни айтишников изнутри. Без всякой цензуры, ярлыков и лишнего пафоса. Весь контент на канале вместе с вами формирует цельное сообщество единомышленников, способных перевернуть этот мир ко всем чертям, в добром смысле слова :)
+
+Так что, ПОГНАЛИ!
+
+Полезные ссылки:
+ 🔸 Стать спонсором - youtube.com/itbeard/join
+ 🔹 Сайт - itbeard.com
+ 🔹 YouTube - youtube.com/itbeard
+ 🔹 SoundCloud - soundcloud.com/itbeard
+ 🔹 Discord: https://s.itbeard.com/discord
+ 🔹 Telegram - t.me/itbeard
+ 🔹 Instagram - instagram.com/itbeard
+ 🔹 Все контакты и соцсети - itbeard.com/contacts
+
+Почтовый адрес для ваших открыточек и ништяков 😊
+ 🔸 Республика Беларусь, г.Минск, а/я 254, 22050
+ 🔸  Republic of Belarus, Minsk, PO Box 254, 22050"
+        ["customUrl"]=>
+        string(7) "itbeard"
+        ["publishedAt"]=>
+        string(20) "2018-04-11T11:39:26Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(98) "https://yt3.ggpht.com/ytc/AAUvwniybOdacADQ9oqKRX6fFroqHKQdgcBK2SGKGoWjDA=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwniybOdacADQ9oqKRX6fFroqHKQdgcBK2SGKGoWjDA=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwniybOdacADQ9oqKRX6fFroqHKQdgcBK2SGKGoWjDA=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["defaultLanguage"]=>
+        string(2) "ru"
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(20) "АйТиБорода"
+          ["description"]=>
+          string(1527) "Ку! Меня зовут Лекс и я бородатый программист. С 2012 года у меня накопилось много опыта, историй и знакомств, которыми я делюсь здесь, на этом канале.
+
+Но канал - это не просто хобби. Для меня это целый Проект, посвященный не столько программированию, сколько жизни айтишников изнутри. Без всякой цензуры, ярлыков и лишнего пафоса. Весь контент на канале вместе с вами формирует цельное сообщество единомышленников, способных перевернуть этот мир ко всем чертям, в добром смысле слова :)
+
+Так что, ПОГНАЛИ!
+
+Полезные ссылки:
+ 🔸 Стать спонсором - youtube.com/itbeard/join
+ 🔹 Сайт - itbeard.com
+ 🔹 YouTube - youtube.com/itbeard
+ 🔹 SoundCloud - soundcloud.com/itbeard
+ 🔹 Discord: https://s.itbeard.com/discord
+ 🔹 Telegram - t.me/itbeard
+ 🔹 Instagram - instagram.com/itbeard
+ 🔹 Все контакты и соцсети - itbeard.com/contacts
+
+Почтовый адрес для ваших открыточек и ништяков 😊
+ 🔸 Республика Беларусь, г.Минск, а/я 254, 22050
+ 🔸  Republic of Belarus, Minsk, PO Box 254, 22050"
+        }
+        ["country"]=>
+        string(2) "BY"
+      }
+    }
+  }
+}
+UCTW0FUhT0m-Bqg2trTbSs0g
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UCTW0FUhT0m-Bqg2trTbSs0g&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "i0W_wcTAGztgsxB4h2LyfeKLAlg"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "dncIKebNLj2u0JN54Bnkvc7SuYI"
+      ["id"]=>
+      string(24) "UCTW0FUhT0m-Bqg2trTbSs0g"
+      ["snippet"]=>
+      array(7) {
+        ["title"]=>
+        string(12) "IT-KAMASUTRA"
+        ["description"]=>
+        string(779) "Канал про программирование на JavaScript. Секреты и инсайды, как стать программистом абсолютно любому человеку.
+
+Для более подвинутых программистов на канале есть крутые плейлисты:
+"React Путь Самуаря 2.0": https://www.youtube.com/playlist?list=PLcvhF2Wqh7DM3z1XqMw0kPuxpbyMo3HvN
+"Архитектура, Путь Самурая": https://www.youtube.com/watch?v=rn-fJ-m8WOY&list=PLcvhF2Wqh7DOdobDvalrWb2iSKhpf_xj7
+
+а так же контент для спонсоров канала:
+Font-end разработка крупной CRM-системы: https://www.youtube.com/playlist?list=PLcvhF2Wqh7DOaokc4A-kUM0SE7zxZbmIC
+"
+        ["customUrl"]=>
+        string(11) "itkamasutra"
+        ["publishedAt"]=>
+        string(20) "2015-11-11T18:16:18Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(98) "https://yt3.ggpht.com/ytc/AAUvwnhcOYdTa8LLrCrXBvmGL2kd1pP1xiGLChGUaz4KGA=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnhcOYdTa8LLrCrXBvmGL2kd1pP1xiGLChGUaz4KGA=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnhcOYdTa8LLrCrXBvmGL2kd1pP1xiGLChGUaz4KGA=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(12) "IT-KAMASUTRA"
+          ["description"]=>
+          string(779) "Канал про программирование на JavaScript. Секреты и инсайды, как стать программистом абсолютно любому человеку.
+
+Для более подвинутых программистов на канале есть крутые плейлисты:
+"React Путь Самуаря 2.0": https://www.youtube.com/playlist?list=PLcvhF2Wqh7DM3z1XqMw0kPuxpbyMo3HvN
+"Архитектура, Путь Самурая": https://www.youtube.com/watch?v=rn-fJ-m8WOY&list=PLcvhF2Wqh7DOdobDvalrWb2iSKhpf_xj7
+
+а так же контент для спонсоров канала:
+Font-end разработка крупной CRM-системы: https://www.youtube.com/playlist?list=PLcvhF2Wqh7DOaokc4A-kUM0SE7zxZbmIC
+"
+        }
+        ["country"]=>
+        string(2) "BY"
+      }
+    }
+  }
+}
+UC_Q1vhf7wcR_zGlc5ahAg0A
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UC_Q1vhf7wcR_zGlc5ahAg0A&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "JJVjVEB9iziulLGzoCsNvufcTaU"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "bgqLp3gmysdj39GlpJ8sVVCXwbU"
+      ["id"]=>
+      string(24) "UC_Q1vhf7wcR_zGlc5ahAg0A"
+      ["snippet"]=>
+      array(7) {
+        ["title"]=>
+        string(18) "Игромания"
+        ["description"]=>
+        string(965) "Официальный канал «Игромании» на YouTube.
+Игровые новости, обзоры, мнение редакции, релизы, еженедельные итоги, во что поиграть и многое другое!
+Подписывайтесь и будьте в курсе всех событий игровой индустрии!
+
+Руководитель видео: Анна Федорова
+Редакторы: Дмитрий Шепелёв, Павел Бажин, Владимир Макаров
+Главный редактор «Игромании» и автор «Железного цеха»: Дмитрий Колганов
+Монтаж: Богдан Зиновой, Иван Щипанов
+Звукорежиссёр: Александр Домингес
+Ведущая новостей ALL IN: Даша Островская
+Текст читают: Борис Репетур, Олекса Мельник
+
+
+"
+        ["customUrl"]=>
+        string(18) "игромания"
+        ["publishedAt"]=>
+        string(20) "2011-09-05T14:37:35Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(98) "https://yt3.ggpht.com/ytc/AAUvwnibq_zoJC-lbYShtcsFp6ca5bOtO3G7wjXEYVhS0A=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnibq_zoJC-lbYShtcsFp6ca5bOtO3G7wjXEYVhS0A=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnibq_zoJC-lbYShtcsFp6ca5bOtO3G7wjXEYVhS0A=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(18) "Игромания"
+          ["description"]=>
+          string(965) "Официальный канал «Игромании» на YouTube.
+Игровые новости, обзоры, мнение редакции, релизы, еженедельные итоги, во что поиграть и многое другое!
+Подписывайтесь и будьте в курсе всех событий игровой индустрии!
+
+Руководитель видео: Анна Федорова
+Редакторы: Дмитрий Шепелёв, Павел Бажин, Владимир Макаров
+Главный редактор «Игромании» и автор «Железного цеха»: Дмитрий Колганов
+Монтаж: Богдан Зиновой, Иван Щипанов
+Звукорежиссёр: Александр Домингес
+Ведущая новостей ALL IN: Даша Островская
+Текст читают: Борис Репетур, Олекса Мельник
+
+
+"
+        }
+        ["country"]=>
+        string(2) "RU"
+      }
+    }
+  }
+}
+UClI9aidW3X044NeB4QS-yxw
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UClI9aidW3X044NeB4QS-yxw&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "T_lHhHxn1edKHW06nAlh0Loz52o"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "Frmgkdrtd40UgE09DEheFFz0efg"
+      ["id"]=>
+      string(24) "UClI9aidW3X044NeB4QS-yxw"
+      ["snippet"]=>
+      array(7) {
+        ["title"]=>
+        string(25) "Антон Птушкин"
+        ["description"]=>
+        string(0) ""
+        ["customUrl"]=>
+        string(10) "ptuxermann"
+        ["publishedAt"]=>
+        string(20) "2008-04-01T20:42:14Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(98) "https://yt3.ggpht.com/ytc/AAUvwnjr1Q5r_M21HlzSBFBK6EYOwvf1U-Mz1nhRlQSTFw=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnjr1Q5r_M21HlzSBFBK6EYOwvf1U-Mz1nhRlQSTFw=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwnjr1Q5r_M21HlzSBFBK6EYOwvf1U-Mz1nhRlQSTFw=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(25) "Антон Птушкин"
+          ["description"]=>
+          string(0) ""
+        }
+        ["country"]=>
+        string(2) "UA"
+      }
+    }
+  }
+}
+UCoRAnB8KixJiszlSpMHa-SA
+https://youtube.googleapis.com/youtube/v3/channels?part=snippet&order=date&id=UCoRAnB8KixJiszlSpMHa-SA&key=AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg
+array(4) {
+  ["kind"]=>
+  string(27) "youtube#channelListResponse"
+  ["etag"]=>
+  string(27) "UoJZx23JUXo2aFUvRdfi8iMgAX0"
+  ["pageInfo"]=>
+  array(2) {
+    ["totalResults"]=>
+    int(1)
+    ["resultsPerPage"]=>
+    int(5)
+  }
+  ["items"]=>
+  array(1) {
+    [0]=>
+    array(4) {
+      ["kind"]=>
+      string(15) "youtube#channel"
+      ["etag"]=>
+      string(27) "nf2n-fKt66GGOnrFm4NltisLs70"
+      ["id"]=>
+      string(24) "UCoRAnB8KixJiszlSpMHa-SA"
+      ["snippet"]=>
+      array(7) {
+        ["title"]=>
+        string(14) "КраСава"
+        ["description"]=>
+        string(620) "Привет! Я – Жека Савин, и я показываю настоящий русский футбол. Крутые гости, топовые события и погружение на футбольное дно без акваланга – смотрите все на моем канале. Наш футбол живее, чем вы думали!!!
+
+🔥 МЕРЧ https://krasavastore.ru
+
+⚽️ PUMA
+
+Welcome guys! My name is Evgeny SAVIN and I show you truly Russian football. Cool guests, top event and crawling up the football shit-ass. Watch my channel.
+Our football more alive than you think!!!"
+        ["customUrl"]=>
+        string(14) "красава"
+        ["publishedAt"]=>
+        string(20) "2018-08-25T07:40:12Z"
+        ["thumbnails"]=>
+        array(3) {
+          ["default"]=>
+          array(3) {
+            ["url"]=>
+            string(98) "https://yt3.ggpht.com/ytc/AAUvwngemfPpx8FbgagTojnYDbiO1D1YKmb6fABDE63w1w=s88-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(88)
+            ["height"]=>
+            int(88)
+          }
+          ["medium"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwngemfPpx8FbgagTojnYDbiO1D1YKmb6fABDE63w1w=s240-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(240)
+            ["height"]=>
+            int(240)
+          }
+          ["high"]=>
+          array(3) {
+            ["url"]=>
+            string(99) "https://yt3.ggpht.com/ytc/AAUvwngemfPpx8FbgagTojnYDbiO1D1YKmb6fABDE63w1w=s800-c-k-c0x00ffffff-no-rj"
+            ["width"]=>
+            int(800)
+            ["height"]=>
+            int(800)
+          }
+        }
+        ["localized"]=>
+        array(2) {
+          ["title"]=>
+          string(14) "КраСава"
+          ["description"]=>
+          string(620) "Привет! Я – Жека Савин, и я показываю настоящий русский футбол. Крутые гости, топовые события и погружение на футбольное дно без акваланга – смотрите все на моем канале. Наш футбол живее, чем вы думали!!!
+
+🔥 МЕРЧ https://krasavastore.ru
+
+⚽️ PUMA
+
+Welcome guys! My name is Evgeny SAVIN and I show you truly Russian football. Cool guests, top event and crawling up the football shit-ass. Watch my channel.
+Our football more alive than you think!!!"
+        }
+        ["country"]=>
+        string(2) "RU"
+      }
+    }
+  }
+}
+root@52a5185b1e08:/var/www/hw-11.test/public#
