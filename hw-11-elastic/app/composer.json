@@ -17,7 +17,8 @@
             "Youtube\\":"src/Youtube",
             "Parsers\\":"src/Parsers",
             "Models\\":"src/Models",
-            "Singleton\\":"src/Singleton"
+            "Singleton\\":"src/Singleton",
+            "Exceptions\\":"src/Exceptions"
         }
     }
 }

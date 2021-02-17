@@ -2,16 +2,24 @@
 
 namespace Parsers\Youtube;
 
+use Exceptions\DataParserException;
 use Models\ChannelDTO;
 use Exception;
 
 class YoutubeChannelDataParser
 {
-    public function parse (string $json): ChannelDTO
+    public function parse (string $json): ?ChannelDTO
     {
         $rawData = json_decode($json, true);
 
-        return $this->makeDTO($rawData);
+        try {
+            $dto = $this->makeDTO($rawData);
+        } catch (DataParserException $e) {
+            echo 'Error in parsing data: ' . $e->getMessage() . PHP_EOL;
+            return null;
+        }
+
+        return $dto;
     }
 
     private function makeDTO ($rawData): ChannelDTO
@@ -19,13 +27,13 @@ class YoutubeChannelDataParser
         $id = $rawData['items'][0]['id'] ?? '';
 
         if (empty($id)) {
-            throw new Exception('Channel id is not parsed');
+            throw new DataParserException('Channel id is not parsed');
         }
 
         $title = $rawData['items'][0]['snippet']['title'] ?? '';
 
         if (empty($title)) {
-            throw new Exception('Title is not parsed');
+            throw new DataParserException('Title is not parsed');
         }
 
         $description = $rawData['items'][0]['snippet']['description'] ?? '';
