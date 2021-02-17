@@ -7,7 +7,7 @@ use Singleton\Singleton;
 
 class Storage extends Singleton
 {
-    public $storage;
+    private $storage;
 
     public const STORAGE_MODE_CONFIG_KEY = 'storage_mode';
     public const DB_HOST_CONFIG_KEY = 'db_host';
@@ -24,5 +24,10 @@ class Storage extends Singleton
         if ($storageMode === ElasticSearchDAO::STORAGE_NAME) {
             $this->storage = new ElasticSearchDAO();
         }
+    }
+
+    public function getStorage()
+    {
+        return $this->storage;
     }
 }

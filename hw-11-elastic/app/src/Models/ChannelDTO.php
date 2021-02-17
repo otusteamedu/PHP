@@ -9,6 +9,8 @@ class ChannelDTO
     public string $description;
     public string $thumbnail;
 
+    public string $table = 'channels';
+
     public function __construct (
         string $id,
         string $title,

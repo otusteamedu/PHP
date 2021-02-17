@@ -1,0 +1,14 @@
+{
+  "index": "channels",
+  "body": {
+    "mappings": {
+      "properties": {
+        "id": "integer",
+        "title": "text",
+        "description": "text",
+        "thumbnail": "text"
+      },
+      "dynamic": "strict"
+    }
+  }
+}

@@ -3,6 +3,7 @@
 namespace Grabbers;
 
 use Models\ChannelDTO;
+use Storage\Storage;
 use Youtube\YoutubeClient;
 
 class YoutubeGrabber implements Grabber
@@ -17,7 +18,7 @@ class YoutubeGrabber implements Grabber
 
             if ($channelDTO instanceof ChannelDTO)
             {
-                // save
+                Storage::getInstance()->getStorage()->store($channelDTO);
             }
         }
     }
