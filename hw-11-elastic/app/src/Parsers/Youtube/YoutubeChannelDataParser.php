@@ -2,7 +2,7 @@
 
 namespace Parsers\Youtube;
 
-use DTO\Youtube\ChannelDTO;
+use Models\ChannelDTO;
 use Exception;
 
 class YoutubeChannelDataParser

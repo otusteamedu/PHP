@@ -3,7 +3,7 @@
 namespace Youtube;
 
 use Config\Config;
-use DTO\Youtube\ChannelDTO;
+use Models\ChannelDTO;
 use Exception;
 use Parsers\Youtube\YoutubeChannelDataParser;
 

@@ -1,7 +1,6 @@
 <?php
 
-
-namespace DTO\Youtube;
+namespace Models;
 
 class ChannelDTO
 {
@@ -10,15 +9,16 @@ class ChannelDTO
     public string $description;
     public string $thumbnail;
 
-    public function __construct(
+    public function __construct (
         string $id,
         string $title,
         string $description,
         string $thumbnail
-    ) {
-        $this->id = $id;
-        $this->title = $title;
+    )
+    {
+        $this->id          = $id;
+        $this->title       = $title;
         $this->description = $description;
-        $this->thumbnail = $thumbnail;
+        $this->thumbnail   = $thumbnail;
     }
 }

@@ -16,7 +16,7 @@
             "Readers\\":"src/Readers",
             "Youtube\\":"src/Youtube",
             "Parsers\\":"src/Parsers",
-            "DTO\\":"src/DTO"
+            "Models\\":"src/Models"
         }
     }
 }
