@@ -37,10 +37,10 @@ class RequestValidator
     {
         switch ($this->data['request_type']) {
             case self::SEARCH_REQUEST:
-                $this->validateGet();
+                $this->validateSearch();
                 break;
             case self::ADD_REQUEST:
-                $this->validatePost();
+                $this->validateAdd();
                 break;
             case self::DELETE_REQUEST:
                 break;
@@ -49,11 +49,7 @@ class RequestValidator
         }
     }
 
-    /**
-     * @return bool
-     * @throws AppException
-     */
-    public function validateGet()
+    private function validateSearch()
     {
         $validation = $this->validator->validate($this->data,[
            'conditions' => 'required|array'
@@ -66,11 +62,7 @@ class RequestValidator
         return true;
     }
 
-    /**
-     * @return bool
-     * @throws AppException
-     */
-    public function validatePost()
+    private function validateAdd()
     {
         $validation = $this->validator->validate($this->data, [
            'event' => 'required',
