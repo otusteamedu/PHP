@@ -6,6 +6,7 @@ use Config\Config;
 use Exception;
 use Grabbers\YoutubeGrabber;
 use Readers\RowsReader;
+use Storage\Storage;
 
 /**
  * Class App
@@ -29,6 +30,8 @@ class App
      */
     public function run (): void
     {
+        Storage::getInstance()->init();
+
         $cmd = $_SERVER['argv'][1] ?? null;
 
         if (!isset($cmd) || !in_array($cmd, self::ALLOWED_COMMANDS)) {
