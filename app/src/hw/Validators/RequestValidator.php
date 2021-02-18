@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Otus\Validators;
-
 
 use Monolog\Logger;
 use Otus\Exceptions\AppException;
