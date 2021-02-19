@@ -22,7 +22,8 @@
             "Models\\":"src/Models",
             "Singleton\\":"src/Singleton",
             "Exceptions\\":"src/Exceptions",
-            "Storage\\":"src/Storage"
+            "Storage\\":"src/Storage",
+            "Structures\\":"src/Structures"
         }
     }
 }

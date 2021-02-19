@@ -21,8 +21,8 @@ class Storage extends Singleton
 
     private function setStorage(string $storageMode)
     {
-        if ($storageMode === ElasticSearchDAO::STORAGE_NAME) {
-            $this->storage = new ElasticSearchDAO();
+        if ($storageMode === ElasticSearch::STORAGE_NAME) {
+            $this->storage = new ElasticSearch();
         }
     }
 

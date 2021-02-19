@@ -3,10 +3,10 @@
   "body": {
     "mappings": {
       "properties": {
-        "id": "integer",
-        "title": "text",
-        "description": "text",
-        "thumbnail": "text"
+        "id": { "type": "text" },
+        "title": { "type": "text" },
+        "description": { "type": "text" },
+        "thumbnail": { "type": "text" }
       },
       "dynamic": "strict"
     }
