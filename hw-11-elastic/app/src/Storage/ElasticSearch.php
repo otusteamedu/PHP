@@ -7,6 +7,7 @@ use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Exception;
 use Models\Channel;
+use Models\ChannelDTO;
 use Models\DTO;
 use Models\Video;
 use Structures\ElasticStructureReader;
@@ -130,5 +131,29 @@ class ElasticSearch
         $response = $this->client->indices()->delete($params);
 
         return !empty($response['acknowledged']);
+    }
+
+    public function getAll(string $indexName): array
+    {
+        $params = [
+            'index' => $indexName,
+        ];
+
+        $response = $this->client->search($params);
+
+        $result = [];
+
+        if (isset($response['hits']['hits'])) {
+            foreach ($response['hits']['hits'] as $channel) {
+                $result[] = new ChannelDTO(
+                    $channel['_id'],
+                    $channel['_source']['title'] ?? '',
+                    $channel['_source']['description'] ?? '',
+                    $channel['_source']['thumbnail'] ?? ''
+                );
+            }
+        }
+
+        return $result;
     }
 }

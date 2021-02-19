@@ -2,10 +2,9 @@
 
 namespace Models;
 
-class ChannelMapper
-{
-    public function store(ChannelDTO $channelDTO)
-    {
+use Storage\Storage;
 
-    }
+class ChannelMapper extends Mapper
+{
+    public const TABLE_NAME = 'channels';
 }

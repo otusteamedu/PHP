@@ -11,8 +11,8 @@ class Model
         return Storage::getInstance()->getStorage()->store($dto, static::TABLE_NAME);
     }
 
-    public function delete(string $id)
+    public function delete (string $id)
     {
-        return Storage::getInstance()->getStorage()->store($id, static::TABLE_NAME);
+        return Storage::getInstance()->getStorage()->delete($id, static::TABLE_NAME);
     }
 }

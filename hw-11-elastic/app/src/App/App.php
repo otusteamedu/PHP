@@ -5,6 +5,7 @@ namespace App;
 use Config\Config;
 use Exception;
 use Grabbers\YoutubeGrabber;
+use Models\ChannelMapper;
 use Readers\RowsReader;
 use Storage\Storage;
 
@@ -43,6 +44,11 @@ class App
             $channelsList = (new RowsReader($filePath))->read();
 
             (new YoutubeGrabber())->grab($channelsList);
+        }
+        else if ($cmd === self::STATS_CMD) {
+            echo 'CALCULATING STATS' . PHP_EOL;
+
+            $channels = ChannelMapper::getAll();
         }
     }
 }
