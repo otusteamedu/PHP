@@ -21,6 +21,21 @@ class ChannelMapper extends Mapper
             'commentSum' => $rawStats['commentSum']['value'] ?? 0,
         ];
 
+        $result['likesPlusDislikesSum'] = $result['likeSum'] + $result['dislikeSum'];
+
+        $result['likeWeight'] = self::getLikeWeight($result['likeSum'], $result['dislikeSum']);
+
+        return $result;
+    }
+
+    private static function getLikeWeight($likeSum, $dislikeSum): float
+    {
+        $result = 0;
+
+        if ($dislikeSum > 0) {
+            $result = round($likeSum / $dislikeSum, 2);
+        }
+
         return $result;
     }
 }
