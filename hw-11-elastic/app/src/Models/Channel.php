@@ -4,6 +4,8 @@ namespace Models;
 
 class Channel
 {
+    public const TABLE_NAME = 'channels';
+
     private string $id;
     private string $title;
     private string $description;

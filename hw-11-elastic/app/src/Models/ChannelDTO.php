@@ -2,14 +2,13 @@
 
 namespace Models;
 
-class ChannelDTO
+class ChannelDTO extends DTO
 {
     public string $id;
     public string $title;
     public string $description;
     public string $thumbnail;
-
-    public string $table = 'channels';
+    public string $tableName;
 
     public function __construct (
         string $id,
@@ -22,5 +21,6 @@ class ChannelDTO
         $this->title       = $title;
         $this->description = $description;
         $this->thumbnail   = $thumbnail;
+        $this->tableName   = Channel::TABLE_NAME;
     }
 }

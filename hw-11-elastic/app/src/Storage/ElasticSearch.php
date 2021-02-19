@@ -6,16 +6,26 @@ use Config\Config;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Exception;
+use Models\Channel;
+use Models\DTO;
 use Structures\ElasticStructureReader;
 
 class ElasticSearch
 {
     public const STORAGE_NAME = 'elasticsearch';
 
+    public const RESULT_UPDATED = 'updated';
+    public const RESULT_CREATED = 'created';
+
+    public const SUCCESS_RESULTS = [
+        self::RESULT_CREATED,
+        self::RESULT_UPDATED,
+    ];
+
     private Client $client;
 
     public const INDEXES = [
-        'channels',
+        Channel::TABLE_NAME,
     ];
 
     public function __construct()
@@ -64,5 +74,33 @@ class ElasticSearch
         $result = $this->client->indices()->create($structure->getStructure());
 
         return !empty($result['acknowledged']);
+    }
+
+    public function store (DTO $dto): bool
+    {
+        $params = [
+            'index' => $dto->tableName,
+            'body'  => [],
+        ];
+
+        $dataArray = $dto->asArray();
+        unset($dataArray['tableName']);
+
+        foreach ($dataArray as $key => $value) {
+            if ($key === 'id') {
+                $params[$key] = $value;
+            }
+            else {
+                $params['body'][$key] = $value;
+            }
+        }
+
+        $result = $this->client->index($params);
+
+        if (isset($result['result']) && in_array($result['result'], self::SUCCESS_RESULTS)) {
+            return true;
+        }
+
+        return false;
     }
 }
