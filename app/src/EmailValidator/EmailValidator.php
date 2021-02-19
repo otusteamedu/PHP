@@ -2,15 +2,24 @@
 
 namespace EmailValidator;
 
+use EmailValidator\Exceptions\AppException;
+
 class EmailValidator {
-    
-    public function run($request = [])
+
+    private array $emails;
+
+    public function __construct()
     {
-        if (empty($request['emails']) and !is_array($request['emails'])) {
-            throw new \Exception('something wrong with emails');
-        } 
-        
-        foreach($request['emails'] as $email) {
+        if (empty($_POST['emails']) and !is_array($_POST['emails'])) {
+            throw new AppException('something wrong with emails');
+        }
+
+        $this->emails = $_POST['emails'];
+    }
+
+    public function run()
+    {
+        foreach($this->emails as $email) {
             if (!$this->validEmail($email,true)){
                 echo "$email is not a valid" . "\n";
             } else {
@@ -31,6 +40,7 @@ class EmailValidator {
 
         $domain = substr($email, strrpos($email, '@') + 1);
         $mxhosts = [];
+
         $checkDomain = getmxrr($domain, $mxhosts);
 
         if (!$checkDomain || empty($mxhosts)) {
