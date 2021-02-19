@@ -49,6 +49,10 @@ class App
             echo 'CALCULATING STATS' . PHP_EOL;
 
             $channels = ChannelMapper::getAll();
+
+            foreach ($channels as $channel) {
+                echo json_encode(ChannelMapper::getStats($channel->id)) . PHP_EOL;
+            }
         }
     }
 }

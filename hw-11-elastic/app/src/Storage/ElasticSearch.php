@@ -156,4 +156,44 @@ class ElasticSearch
 
         return $result;
     }
+
+    public function calculateStats (string $channelId): array
+    {
+        $params = [
+            'index' => Video::TABLE_NAME,
+            'body'  => [
+                'query' => [
+                    'match' => [
+                        'channelId' => $channelId,
+                    ]
+                ],
+                'aggs' => [
+                    'likeSum' => [
+                        'sum' => [
+                            'field' => 'likeCount',
+                        ],
+                    ],
+                    'dislikeSum' => [
+                        'sum' => [
+                            'field' => 'dislikeCount',
+                        ],
+                    ],
+                    'viewSum' => [
+                        'sum' => [
+                            'field' => 'viewCount',
+                        ],
+                    ],
+                    'commenSum' => [
+                        'sum' => [
+                            'field' => 'commentCount',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $response = $this->client->search($params);
+
+        return $response['aggregations'] ?? [];
+    }
 }
