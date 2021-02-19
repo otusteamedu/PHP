@@ -10,4 +10,9 @@ class Model
     {
         return Storage::getInstance()->getStorage()->store($dto, static::TABLE_NAME);
     }
+
+    public function delete(string $id)
+    {
+        return Storage::getInstance()->getStorage()->store($id, static::TABLE_NAME);
+    }
 }

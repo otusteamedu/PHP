@@ -104,4 +104,31 @@ class ElasticSearch
 
         return false;
     }
+
+    public function delete (string $id, string $indexName): bool
+    {
+        $params = [
+            'index' => $indexName,
+            'id'    => $id,
+        ];
+
+        $response = $this->client->delete($params);
+
+        if (isset($response['result']) && $response['result'] === 'deleted') {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function dropIndex (string $indexName): bool
+    {
+        $params = [
+            'index' => $indexName,
+        ];
+
+        $response = $this->client->indices()->delete($params);
+
+        return !empty($response['acknowledged']);
+    }
 }
