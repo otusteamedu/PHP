@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Channel
+class Channel extends Model
 {
     public const TABLE_NAME = 'channels';
 

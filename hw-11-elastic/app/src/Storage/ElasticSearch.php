@@ -78,15 +78,14 @@ class ElasticSearch
         return !empty($result['acknowledged']);
     }
 
-    public function store (DTO $dto): bool
+    public function store (DTO $dto, string $indexName): bool
     {
         $params = [
-            'index' => $dto->tableName,
+            'index' => $indexName,
             'body'  => [],
         ];
 
         $dataArray = $dto->asArray();
-        unset($dataArray['tableName']);
 
         foreach ($dataArray as $key => $value) {
             if ($key === 'id') {

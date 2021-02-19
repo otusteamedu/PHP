@@ -11,7 +11,6 @@ class VideoDTO extends DTO
     public int    $likeCount;
     public int    $dislikeCount;
     public int    $commentCount;
-    public string $tableName;
 
     public function __construct (
         string $id,
@@ -30,6 +29,5 @@ class VideoDTO extends DTO
         $this->likeCount    = $likeCount;
         $this->dislikeCount = $dislikeCount;
         $this->commentCount = $commentCount;
-        $this->tableName    = Video::TABLE_NAME;
     }
 }

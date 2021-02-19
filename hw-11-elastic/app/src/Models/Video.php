@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Video
+class Video extends Model
 {
     public const TABLE_NAME = 'videos';
 
