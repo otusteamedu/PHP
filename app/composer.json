@@ -1,0 +1,21 @@
+{
+    "name": "rsm/app",
+    "description": "otus",
+    "type": "project",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "monolog/monolog": "2.x-dev",
+        "vlucas/phpdotenv": "^5.3@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "EmailValidator\\":"src/EmailValidator"
+        }
+    }
+}
