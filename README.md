@@ -6,19 +6,20 @@
 
 
 ```bash
-git clone 
+ git clone https://github.com/otusteamedu/PHP/tree/ATimofeev/hw2-1.2
 ```
 
-## Usage
+### Usage
 
+#### Init
 ```python
- docker-compose build && docker-compose run server composer install
- 
- 
- docker-compose up -d && docker-compose exec client php console/app.php client
-
+ bash init.sh
 ```
 
+#### Start
+```python
+ bash start.sh
+```
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

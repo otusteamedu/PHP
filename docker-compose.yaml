@@ -10,8 +10,8 @@ services:
       - SOCKET_DIR=${SOCKET_DIR}
       - SOCKET_FILE=${SOCKET_FILE}
     volumes:
-    - ./:${WORKDIR}
-    - ./sock:${SOCKET_DIR}
+    - ./code:${WORKDIR}
+    - sock:${SOCKET_DIR}
     command: ["php", "console/app.php", "server"]
 
   client:
@@ -23,5 +23,8 @@ services:
     depends_on:
       - server
     volumes:
-      - ./:${WORKDIR}
-      - ./sock:${SOCKET_DIR}
+      - ./code:${WORKDIR}
+      - sock:${SOCKET_DIR}
+
+volumes:
+  sock:
