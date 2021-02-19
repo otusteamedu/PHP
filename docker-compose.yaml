@@ -8,14 +8,14 @@ services:
         USER: ${SERVER_USER}
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
-      context: ./docker/nginx
+      context: docker/nginx
     image: atimofeev/webserer-mysite
     working_dir: ${WORKDIR}
     ports:
     - 80:80
     - 443:443
     volumes:
-    - .:${WORKDIR}
+    - ./code:${WORKDIR}
     - ./sock:${SOCKET_DIR}
 
   app:
@@ -25,11 +25,11 @@ services:
         USER: ${SERVER_USER}
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
-      context: ./docker/fpm
+      context: docker/fpm
     image: atimofeev/php-fpm-mysite
     working_dir: ${WORKDIR}
     volumes:
-    - .:${WORKDIR}
+    - ./code:${WORKDIR}
     - ./sock:${SOCKET_DIR}
 
 

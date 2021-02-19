@@ -26,16 +26,11 @@ class App
         if ($this->method === 'POST' && $this->path === '/') {
             $this->postHandler();
         } else {
-            $this->index();
+            phpinfo();
+            xdebug_info();
         }
-
     }
 
-    private function index()
-    {
-        phpinfo();
-        xdebug_info();
-    }
 
     private function postHandler()
     {
