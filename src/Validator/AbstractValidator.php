@@ -18,8 +18,18 @@ abstract class AbstractValidator implements ValidatorInterface
         return $this->errors;
     }
 
-    protected function setError($msg)
+    protected function setError($key, $msg)
     {
-        array_push($this->errors, $msg);
+        if (! array_key_exists($key, $this->errors)) {
+            $this->errors[$key] = [];
+        }
+
+        array_push($this->errors[$key], $msg);
     }
+
+    public function clear()
+    {
+        $this->errors = [];
+    }
+
 }

@@ -6,21 +6,21 @@ namespace App\Validator;
 
 class BracesValidator extends AbstractValidator
 {
-    private string $regex = '/^[()]*$/';
+    const BRACES_REGEX = '/^[()]*$/';
+    private $key = 'braces';
 
     public function validate($value): bool
     {
-        $this->errors = [];
 
-        if (!preg_match($this->regex, $value)) {
-            $this->setError('Wrong format');
+        if (!preg_match(self::BRACES_REGEX, $value)) {
+            $this->setError($this->key,'Wrong format');
             return false;
         }
 
         $length = strlen($value);
 
         if (0 === $length) {
-            $this->setError('Length == 0');
+            $this->setError($this->key,'Length == 0');
             return false;
         }
 
@@ -43,12 +43,16 @@ class BracesValidator extends AbstractValidator
         }
 
         if (count($opened) !== 0) {
-            $this->setError('Not closed');
+            $this->setError($this->key,'Not closed');
             return false;
         }
 
         return true;
     }
 
+    public function getErrors(): array
+    {
+        return $this->errors[$this->key] ?? [];
+    }
 
 }
