@@ -13,3 +13,9 @@ services:
       - 9200:9200
     environment:
       - discovery.type=single-node
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
