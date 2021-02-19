@@ -1,22 +1,6 @@
 FROM php:7.4-fpm
-
-RUN apt-get update && apt-get install -y \
-        curl \
-        wget \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-	libpng-dev \
-	libonig-dev \
-	libzip-dev \
-	libmcrypt-dev \
-        && pecl install mcrypt-1.0.3 \
-	&& docker-php-ext-enable mcrypt \
-        && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-        && docker-php-ext-install -j$(nproc) gd 
-
+COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf
 WORKDIR /code
-
 VOLUME /code
-
 CMD ["php-fpm"]

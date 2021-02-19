@@ -9,6 +9,7 @@ services:
     container_name: php
     volumes:
        - ./code:/code
+       - ./socket:/socket
     expose:
        - "9000"
     networks:
@@ -26,6 +27,7 @@ services:
       - "80:80"
     volumes:
        - ./code:/code
+       - ./socket:/socket
     networks:
       - app-network
 
