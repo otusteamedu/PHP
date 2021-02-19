@@ -32,6 +32,9 @@ class YoutubeGrabber implements Grabber
 
     private function grabVideos (string $channelId)
     {
+        echo 'grabbing videos from channel ' . $channelId . PHP_EOL;
 
+        $client = new YoutubeClient();
+        $videos = $client->getChannelVideos($channelId);
     }
 }
