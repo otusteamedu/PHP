@@ -5,6 +5,7 @@ namespace Youtube;
 use Config\Config;
 use Models\ChannelDTO;
 use Exception;
+use Models\VideoDTO;
 use Parsers\Youtube\YoutubeChannelDataParser;
 use Parsers\Youtube\YoutubeVideoDataParser;
 
@@ -67,7 +68,22 @@ class YoutubeClient
 
         foreach ($videosIdList as $videoId)
         {
-            // тут запрашиваем инфо о видео и кидаем в парсер, чтобы получить DTO
+            $params = [
+                'fields' => 'items(id,snippet(channelId,title,categoryId),statistics)',
+                'part'   => 'snippet,statistics',
+                'id'     => $videoId,
+                'key'    => $this->apiKey,
+            ];
+
+            $url      = $this->generateURL('videos', $params);
+            $response = $this->sendRequest($url);
+
+            $parser   = new YoutubeVideoDataParser();
+            $videoDTO = $parser->parseVideoData($response);
+
+            if ($videoDTO instanceof VideoDTO) {
+                $result[] = $videoDTO;
+            }
         }
 
         return $result;
@@ -76,10 +92,10 @@ class YoutubeClient
     private function getVideosIdList(string $channelId): array
     {
         $params = [
-            'part'      => 'snippet',
-            'order'     => 'date',
-            'channelId' => $channelId,
-            'key'       => $this->apiKey,
+            'part'       => 'snippet',
+            'order'      => 'date',
+            'channelId'  => $channelId,
+            'key'        => $this->apiKey,
             'maxResults' => self::MAX_RESULTS,
         ];
 

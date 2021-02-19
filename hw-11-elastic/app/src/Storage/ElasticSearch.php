@@ -8,6 +8,7 @@ use Elasticsearch\ClientBuilder;
 use Exception;
 use Models\Channel;
 use Models\DTO;
+use Models\Video;
 use Structures\ElasticStructureReader;
 
 class ElasticSearch
@@ -26,6 +27,7 @@ class ElasticSearch
 
     public const INDEXES = [
         Channel::TABLE_NAME,
+        Video::TABLE_NAME,
     ];
 
     public function __construct()

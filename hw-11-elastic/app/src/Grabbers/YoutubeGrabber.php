@@ -36,5 +36,20 @@ class YoutubeGrabber implements Grabber
 
         $client = new YoutubeClient();
         $videos = $client->getChannelVideos($channelId);
+
+        echo count($videos) . ' videos was grabbed from channel. saving...' . PHP_EOL;
+
+        $result = true;
+
+        foreach ($videos as $videoDTO) {
+            $result = Storage::getInstance()->getStorage()->store($videoDTO);
+        }
+
+        if ($result === true) {
+            echo 'success' . PHP_EOL;
+        }
+        else {
+            echo 'some videos are not stored' . PHP_EOL;
+        }
     }
 }

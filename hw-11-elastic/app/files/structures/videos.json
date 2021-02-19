@@ -1,0 +1,17 @@
+{
+  "index": "videos",
+  "body": {
+    "mappings": {
+      "properties": {
+        "id": { "type": "text" },
+        "title": { "type": "text" },
+        "channelId": { "type": "text" },
+        "viewCount": { "type": "integer" },
+        "likeCount": { "type": "integer" },
+        "dislikeCount": { "type": "integer" },
+        "commentCount": { "type": "integer" }
+      },
+      "dynamic": "strict"
+    }
+  }
+}
