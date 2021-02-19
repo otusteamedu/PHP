@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
 	libssl-dev \
 	libpng-dev \
 	libmemcached-dev \
-	vim \
 	unzip
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
