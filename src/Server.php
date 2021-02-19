@@ -8,7 +8,7 @@ use App\Socket\Socket;
 final class Server
 {
     private Socket $socket;
-    private Message $message;
+    private MessageGenerator $message;
 
 
     /**
@@ -18,7 +18,7 @@ final class Server
     public function __construct(string $socketFile)
     {
         $this->init($socketFile);
-        $this->message = new Message();
+        $this->message = new MessageGenerator();
     }
 
     public function listen(): void

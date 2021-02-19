@@ -4,7 +4,7 @@
 namespace App;
 
 
-class Message
+class MessageGenerator
 {
     const MESSAGES = [
         'Привет!',

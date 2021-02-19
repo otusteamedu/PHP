@@ -27,11 +27,6 @@ final class Socket
         $this->socketFile = $socketFile;
     }
 
-    public function __destruct()
-    {
-        echo 'Closed' . PHP_EOL;
-    }
-
 
     public function create(): void
     {
