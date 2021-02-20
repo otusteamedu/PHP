@@ -1,0 +1,19 @@
+{
+    "name": "nick/sockets",
+    "authors": [
+        {
+            "name": "KleymenovN",
+            "email": "kleymenov68@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "symfony/yaml": "^5.0",
+        "vlucas/phpdotenv": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\" : "src"
+        }
+    }
+}

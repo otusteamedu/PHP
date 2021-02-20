@@ -1,0 +1,15 @@
+{
+    "name": "nick/code",
+    "authors": [
+        {
+            "name": "KleymenovN",
+            "email": "kleymenov68@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src"
+        }
+    }
+}

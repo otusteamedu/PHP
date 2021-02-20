@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: server
+    container_name: server
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: client
+    container_name: client
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
