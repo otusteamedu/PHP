@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  php.client:
+    build: ./images/php
+    volumes:
+      - ./../:/var/www
+    working_dir: /var/www
+    environment:
+      SOCKET_PATH: ${SOCKET_PATH}
+      SOCKET_PORT: ${SOCKET_PORT}
+
+  php:
+    build: ./images/php
+    volumes:
+      - ./../:/var/www
+      - ./images/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket:/sock
+    working_dir: /var/www
+    networks:
+      - app-network
+    environment:
+      SOCKET_PATH: ${SOCKET_PATH}
+      SOCKET_PORT: ${SOCKET_PORT}
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+    links:
+      - php
+    volumes:
+      - ./../:/var/www
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./images/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./images/nginx/sites:/etc/nginx/sites-available
+      - socket:/sock
+    working_dir: /var/www
+    networks:
+      - app-network
+
+volumes:
+  socket:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
+
+
