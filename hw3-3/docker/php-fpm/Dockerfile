@@ -16,7 +16,9 @@ RUN apt-get update && apt-get install -y \
     && pecl install -of raphf propro && docker-php-ext-enable raphf propro \
     && pecl install -of pecl_http-3.2.4 && docker-php-ext-enable http \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql
+    && docker-php-ext-install pdo_pgsql pdo_mysql
+
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

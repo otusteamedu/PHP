@@ -1,0 +1,80 @@
+version: '3'
+services:
+    mysite-nginx:
+        build:
+            context: nginx
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx
+        container_name: mysite-nginx
+        volumes:
+            - ../src:/app:delegated
+        depends_on:
+            - mysite-php-fpm
+        ports:
+            - "80:80"
+        networks:
+            - mysite-network
+
+    mysite-php-fpm:
+        build:
+            context: php-fpm
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm
+        container_name: mysite-php-fpm
+        depends_on:
+            - mysite-redis
+            - mysite-memcached
+            - mysite-mysql
+            - mysite-postgres
+        volumes:
+            - ../src:/app:delegated
+        networks:
+            - mysite-network
+
+    mysite-redis:
+        image: redis:latest
+        container_name: mysite-redis
+        volumes:
+            - ../storages/redis:/data:delegated
+        command: redis-server --requirepass ${REDIS_PASSWORD}
+        networks:
+            - mysite-network
+
+    mysite-memcached:
+        image: memcached:latest
+        container_name: mysite-memcached
+        networks:
+            - mysite-network
+
+    mysite-mysql:
+        image: mysql:latest
+        container_name: mysite-mysql
+        volumes:
+            - ../storages/mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ports:
+            - "3306:3306"
+        networks:
+            - mysite-network
+
+    mysite-postgres:
+        image: postgres:latest
+        container_name: mysite-postgres
+        volumes:
+            - ../storages/postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        ports:
+            - "5432:5432"
+        networks:
+            - mysite-network
+
+networks:
+    mysite-network:
+        driver: bridge
