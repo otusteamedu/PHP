@@ -13,7 +13,12 @@ class Handler
 
     public function run()
     {
+        $this->handleString();
+    }
+
+    private function handleString() {
         $parser = new Parser($this->string);
-        $parser->parse();
+        $result = $parser->parse();
+        Printer::printResult($result);
     }
 }
