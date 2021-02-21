@@ -1,0 +1,5 @@
+OLDPWD => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/redis
+PWD => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/redis/redis-5.3.3
+$_SERVER['OLDPWD'] => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/redis
+$_SERVER['PWD'] => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/redis/redis-5.3.3
+This program is free software; you can redistribute it and/or modify
