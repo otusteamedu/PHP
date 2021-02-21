@@ -1,4 +1,0 @@
-##!/bin/bash
-awk -F" " '{
-	print $3;
-}' cities | sort | uniq -c | sort -r | head -3

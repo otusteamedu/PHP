@@ -1,0 +1,3 @@
+json_post
+json_post support => enabled
+json_post.flags => 1 => 1
