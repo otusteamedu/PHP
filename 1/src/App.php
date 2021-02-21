@@ -13,15 +13,12 @@ class App
 
     public function run()
     {
+        $this->handle();
+    }
+
+    private function handle() {
         $parser = new Parser();
         $result = $parser->parseList($this->list);
-        if (!empty($result)) {
-            echo 'Validated emails list: ' . PHP_EOL;
-            foreach ($result as $email) {
-                echo $email;
-            }
-        } else {
-            echo 'No valid email found';
-        }
+        Printer::printResult($result);
     }
 }
