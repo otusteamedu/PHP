@@ -1,0 +1,147 @@
+WARNING: channel "pecl.php.net" has updated its protocols, use "pecl channel-update pecl.php.net" to update
+downloading json_post-1.0.2.tgz ...
+Starting to download json_post-1.0.2.tgz (6,642 bytes)
+.....done: 6,642 bytes
+4 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20200930
+Zend Module Api No:      20200930
+Zend Extension Api No:   420200930
+building in /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2
+running: /tmp/pear/temp/json_post/configure --with-php-config=/usr/bin/php-config
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for PHP prefix... /usr
+checking for PHP includes... -I/usr/include/php/20200930 -I/usr/include/php/20200930/main -I/usr/include/php/20200930/TSRM -I/usr/include/php/20200930/Zend -I/usr/include/php/20200930/ext -I/usr/include/php/20200930/ext/date/lib
+checking for PHP extension directory... /usr/lib/php/20200930
+checking for PHP installed headers prefix... /usr/include/php/20200930
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for gawk... gawk
+checking whether to enable json-post support... yes, shared
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /bin/sed
+checking for fgrep... /bin/grep -F
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking for gawk... (cached) gawk
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for sysroot... no
+checking for a working dd... /bin/dd
+checking how to truncate binary pipes... /bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC -DPIC
+checking if cc PIC flag -fPIC -DPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking if cc supports -c -o file.o... (cached) yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+configure: patching config.h.in
+configure: creating ./config.status
+config.status: creating config.h
+config.status: executing libtool commands
+running: make
+/bin/bash /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/libtool --mode=compile cc -I. -I/tmp/pear/temp/json_post -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/include -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/main -I/tmp/pear/temp/json_post -I/usr/include/php/20200930 -I/usr/include/php/20200930/main -I/usr/include/php/20200930/TSRM -I/usr/include/php/20200930/Zend -I/usr/include/php/20200930/ext -I/usr/include/php/20200930/ext/date/lib  -DHAVE_CONFIG_H  -g -O2    -c /tmp/pear/temp/json_post/php_json_post.c -o php_json_post.lo
+libtool: compile:  cc -I. -I/tmp/pear/temp/json_post -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/include -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/main -I/tmp/pear/temp/json_post -I/usr/include/php/20200930 -I/usr/include/php/20200930/main -I/usr/include/php/20200930/TSRM -I/usr/include/php/20200930/Zend -I/usr/include/php/20200930/ext -I/usr/include/php/20200930/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/json_post/php_json_post.c  -fPIC -DPIC -o .libs/php_json_post.o
+/bin/bash /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/libtool --mode=link cc -shared -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/include -I/tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/main -I/tmp/pear/temp/json_post -I/usr/include/php/20200930 -I/usr/include/php/20200930/main -I/usr/include/php/20200930/TSRM -I/usr/include/php/20200930/Zend -I/usr/include/php/20200930/ext -I/usr/include/php/20200930/ext/date/lib  -DHAVE_CONFIG_H  -g -O2    -o json_post.la -export-dynamic -avoid-version -prefer-pic -module -rpath /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules  php_json_post.lo
+libtool: link: cc -shared  -fPIC -DPIC  .libs/php_json_post.o    -g -O2   -Wl,-soname -Wl,json_post.so -o .libs/json_post.so
+libtool: link: ( cd ".libs" && rm -f "json_post.la" && ln -s "../json_post.la" "json_post.la" )
+/bin/bash /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/libtool --mode=install cp ./json_post.la /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules
+libtool: install: cp ./.libs/json_post.so /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules/json_post.so
+libtool: install: cp ./.libs/json_post.lai /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules/json_post.la
+libtool: finish: PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin" ldconfig -n /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /tmp/pear/temp/pear-build-root0K0P2H/json_post-1.0.2/modules
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the '-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the 'LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the 'LD_RUN_PATH' environment variable
+     during linking
+   - use the '-Wl,-rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to '/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+running: make INSTALL_ROOT="/tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2" install
+Installing shared extensions:     /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr/lib/php/20200930/
+running: find "/tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2" | xargs ls -dils
+917826  4 drwxr-xr-x 3 root root  4096 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2
+917847  4 drwxr-xr-x 3 root root  4096 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr
+917848  4 drwxr-xr-x 3 root root  4096 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr/lib
+917849  4 drwxr-xr-x 3 root root  4096 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr/lib/php
+917850  4 drwxr-xr-x 2 root root  4096 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr/lib/php/20200930
+917845 60 -rwxr-xr-x 1 root root 57368 Feb 21 16:22 /tmp/pear/temp/pear-build-root0K0P2H/install-json_post-1.0.2/usr/lib/php/20200930/json_post.so
+
+Build process completed successfully
+Installing '/usr/lib/php/20200930/json_post.so'
+install ok: channel://pecl.php.net/json_post-1.0.2
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=json_post.so" to php.ini
