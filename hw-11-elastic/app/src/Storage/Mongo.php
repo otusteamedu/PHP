@@ -3,10 +3,13 @@
 namespace Storage;
 
 use Config\Config;
+use Exception;
 use Models\ChannelDTO;
+use Models\DTO;
 use MongoDB\Client;
 use Models\Channel;
 use Models\Video;
+use MongoDB\Collection;
 use Structures\MongoStructureReader;
 
 class Mongo extends NoSQLStorage
@@ -15,6 +18,8 @@ class Mongo extends NoSQLStorage
 
     protected $client;
     private   $database;
+
+    private Collection $collection;
 
     public function __construct()
     {
@@ -63,5 +68,26 @@ class Mongo extends NoSQLStorage
     public function getAll(string $indexName): array
     {
         return [];
+    }
+
+    public function store (DTO $dto, string $indexName): bool
+    {
+        $this->collection = $this->database->selectCollection($indexName);
+
+        $row = $dto->asArray();
+
+        $row['_id'] = $row['id'];
+
+        try {
+            $insertResult = $this->collection->insertOne($row);
+
+            if ($insertResult->getInsertedCount() === 1) {
+                return true;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return false;
     }
 }
