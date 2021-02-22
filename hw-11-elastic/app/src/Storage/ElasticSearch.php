@@ -136,17 +136,25 @@ class ElasticSearch extends NoSQLStorage
 
         $response = $this->client->search($params);
 
+        $structureReader = new ElasticStructureReader($indexName);
+        $properties      = $structureReader->getPropertiesList();
+
+        $hits = $response['hits']['hits'] ?? [];
+
         $result = [];
 
-        if (isset($response['hits']['hits'])) {
-            foreach ($response['hits']['hits'] as $channel) {
-                $result[] = new ChannelDTO(
-                    $channel['_id'],
-                    $channel['_source']['title'] ?? '',
-                    $channel['_source']['description'] ?? '',
-                    $channel['_source']['thumbnail'] ?? ''
-                );
+        foreach ($hits as $row) {
+            $item = [];
+
+            $item['id'] = $row['_id'];
+
+            foreach ($row['_source'] as $field => $value) {
+                if (in_array($field, $properties)) {
+                    $item[$field] = $value;
+                }
             }
+
+            $result[] = $item;
         }
 
         return $result;
@@ -178,7 +186,7 @@ class ElasticSearch extends NoSQLStorage
                             'field' => 'viewCount',
                         ],
                     ],
-                    'commenSum' => [
+                    'commentSum' => [
                         'sum' => [
                             'field' => 'commentCount',
                         ],
@@ -189,6 +197,14 @@ class ElasticSearch extends NoSQLStorage
 
         $response = $this->client->search($params);
 
-        return $response['aggregations'] ?? [];
+        $rawStats = $response['aggregations'] ?? [];
+
+        return [
+            'channelId'  => $channelId ?? '',
+            'likeSum'    => $rawStats['likeSum']['value'] ?? 0,
+            'dislikeSum' => $rawStats['dislikeSum']['value'] ?? 0,
+            'viewSum'    => $rawStats['viewSum']['value'] ?? 0,
+            'commentSum' => $rawStats['commentSum']['value'] ?? 0,
+        ];
     }
 }

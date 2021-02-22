@@ -20,6 +20,11 @@ class StructureReader
         $this->setParams();
     }
 
+    public function getPropertiesList (): array
+    {
+        return array_keys($this->readStructure()['body']['mappings']['properties'] ?? []);
+    }
+
     protected function readStructure (): array
     {
         if (!file_exists($this->filePath)) {

@@ -65,9 +65,32 @@ class Mongo extends NoSQLStorage
         return true;
     }
 
-    public function getAll(string $indexName): array
+    public function getAll (string $indexName): array
     {
-        return [];
+        $this->collection = $this->database->selectCollection($indexName);
+
+        $structureReader = new MongoStructureReader($indexName);
+        $properties      = $structureReader->getPropertiesList();
+
+        $response = $this->collection->find([], []);
+
+        $result = [];
+
+        foreach ($response as $row) {
+            $item = [];
+
+            $row = (array) $row->jsonSerialize();
+
+            foreach ($row as $field => $value) {
+                if (in_array($field, $properties)) {
+                    $item[$field] = $value;
+                }
+            }
+
+            $result[] = $item;
+        }
+
+        return $result;
     }
 
     public function store (DTO $dto, string $indexName): bool
@@ -89,5 +112,62 @@ class Mongo extends NoSQLStorage
         }
 
         return false;
+    }
+
+    public function delete (string $id, string $indexName): bool
+    {
+        $this->collection = $this->database->selectCollection($indexName);
+
+        $result = $this->collection->deleteOne(
+            [
+                '_id' => $id
+            ],
+        );
+
+        if ($result->getDeletedCount() === 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function calculateStats (string $channelId): array
+    {
+        $this->collection = $this->database->selectCollection(Video::TABLE_NAME);
+
+        $cursor = $this->collection->aggregate(
+            [
+                [
+                    '$group' => [
+                        '_id'          => '$channelId',
+                        'likeSum'    => ['$sum' => '$likeCount'],
+                        'dislikeSum' => ['$sum' => '$dislikeCount'],
+                        'viewSum'    => ['$sum' => '$viewCount'],
+                        'commentSum' => ['$sum' => '$commentCount'],
+                    ],
+                ],
+                [
+                    '$match' => [
+                        '_id' => [
+                            '$eq' => $channelId,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        $rawStats = [];
+
+        foreach ($cursor as $item) {
+            $rawStats = (array)$item->jsonSerialize();
+        }
+
+        return [
+            'channelId'  => $channelId ?? '',
+            'likeSum'    => $rawStats['likeSum'] ?? 0,
+            'dislikeSum' => $rawStats['dislikeSum'] ?? 0,
+            'viewSum'    => $rawStats['viewSum'] ?? 0,
+            'commentSum' => $rawStats['commentSum'] ?? 0,
+        ];
     }
 }

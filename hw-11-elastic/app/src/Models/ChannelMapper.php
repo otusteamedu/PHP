@@ -2,24 +2,33 @@
 
 namespace Models;
 
-use Storage\ElasticSearch;
 use Storage\Storage;
 
-class ChannelMapper extends Mapper
+class ChannelMapper
 {
     public const TABLE_NAME = 'channels';
 
+    public static function getAll (): array
+    {
+        $result = [];
+
+        $hits = Storage::getInstance()->getStorage()->getAll(self::TABLE_NAME);
+
+        foreach ($hits as $channel) {
+            $result[] = new ChannelDTO(
+                $channel['id'],
+                $channel['title'] ?? '',
+                $channel['description'] ?? '',
+                $channel['thumbnail'] ?? ''
+            );
+        }
+
+        return $result;
+    }
+
     public static function getStats(string $channelId): array
     {
-        $rawStats = Storage::getInstance()->getStorage()->calculateStats($channelId);
-
-        $result = [
-            'channelId'  => $channelId,
-            'likeSum'    => $rawStats['likeSum']['value'] ?? 0,
-            'dislikeSum' => $rawStats['dislikeSum']['value'] ?? 0,
-            'viewSum'    => $rawStats['viewSum']['value'] ?? 0,
-            'commentSum' => $rawStats['commentSum']['value'] ?? 0,
-        ];
+        $result = Storage::getInstance()->getStorage()->calculateStats($channelId);
 
         $result['likesPlusDislikesSum'] = $result['likeSum'] + $result['dislikeSum'];
 
