@@ -24,6 +24,9 @@ class Storage extends Singleton
         if ($storageMode === ElasticSearch::STORAGE_NAME) {
             $this->storage = new ElasticSearch();
         }
+        else if ($storageMode === Mongo::STORAGE_NAME) {
+            $this->storage = new Mongo();
+        }
     }
 
     public function getStorage()

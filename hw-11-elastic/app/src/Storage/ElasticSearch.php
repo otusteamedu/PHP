@@ -12,7 +12,7 @@ use Models\DTO;
 use Models\Video;
 use Structures\ElasticStructureReader;
 
-class ElasticSearch
+class ElasticSearch extends NoSQLStorage
 {
     public const STORAGE_NAME = 'elasticsearch';
 
@@ -24,12 +24,7 @@ class ElasticSearch
         self::RESULT_UPDATED,
     ];
 
-    private Client $client;
-
-    public const INDEXES = [
-        Channel::TABLE_NAME,
-        Video::TABLE_NAME,
-    ];
+    protected $client;
 
     public function __construct()
     {
