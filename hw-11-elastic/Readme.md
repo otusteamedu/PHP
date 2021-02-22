@@ -2,6 +2,10 @@
 
 `hw-11-elastic/app/config.ini`
 
+### Папка со структурами в json
+
+`hw-11-elastic/app/files/structures`
+
 ### Список id каналов, которые будут обработаны
 
 `hw-11-elastic/app/files/channels.txt`
