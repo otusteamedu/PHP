@@ -3,11 +3,8 @@
 namespace Storage;
 
 use Config\Config;
-use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Exception;
-use Models\Channel;
-use Models\ChannelDTO;
 use Models\DTO;
 use Models\Video;
 use Structures\ElasticStructureReader;

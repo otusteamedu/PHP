@@ -4,10 +4,8 @@ namespace Storage;
 
 use Config\Config;
 use Exception;
-use Models\ChannelDTO;
 use Models\DTO;
 use MongoDB\Client;
-use Models\Channel;
 use Models\Video;
 use MongoDB\Collection;
 use Structures\MongoStructureReader;
