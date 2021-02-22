@@ -23,12 +23,19 @@ class App
 
     public function run()
     {
-        if ($this->method === 'POST' && $this->path === '/') {
-            $this->postHandler();
-        } else {
-            phpinfo();
-            xdebug_info();
-        }
+//        if ($this->method === 'POST' && $this->path === '/') {
+//            $this->postHandler();
+//        } else {
+//            phpinfo();
+//            xdebug_info();
+//        }
+        $this->serverInfo();
+    }
+
+    private function serverInfo()
+    {
+        echo '<h1>' . $_SERVER['SERVER_NAME'] . '</h1>';
+        echo '<h2>' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT'] . '</h2>';
     }
 
 
