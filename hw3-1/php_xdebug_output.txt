@@ -76,6 +76,6 @@ xdebug.var_display_max_children => 128 => 128
 xdebug.var_display_max_data => 512 => 512
 xdebug.var_display_max_depth => 3 => 3
 OLDPWD => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug
-PWD => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug/xdebug-3.0.2
+PWD => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug/xdebug-3.0.3
 $_SERVER['OLDPWD'] => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug
-$_SERVER['PWD'] => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug/xdebug-3.0.2
+$_SERVER['PWD'] => /Users/dmuser/projects/PHP/otus.ru/PHP/hw3-1/packages/xdebug/xdebug-3.0.3
