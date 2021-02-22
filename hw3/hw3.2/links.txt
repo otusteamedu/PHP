@@ -1,0 +1,2 @@
+composer require alyonach/otus
+https://github.com/AlyonaCh/tryPackagist.git

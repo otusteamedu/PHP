@@ -1,0 +1,8 @@
+make redis
+http://joxi.ru/DrlY9MEFyqykEm
+php -i | grep redis
+http://joxi.ru/E2pP9nMiGoG1a2
+pecl list
+http://joxi.ru/ZrJL0jEinxngV2
+php -i | grep xdebug
+http://joxi.ru/v29Mny7ipgplw2
