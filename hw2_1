@@ -1,0 +1,20 @@
+#!/bin/bash
+check1=`echo "$1" | grep -E ^\-?[0-9]*\.?[0-9]+$`
+check2=`echo "$2" | grep -E ^\-?[0-9]*\.?[0-9]+$`
+if ! [ "$check1" != '' ]
+then    
+	echo "Not numbers entered: $1"
+    exit
+fi
+if ! [ "$check2" != '' ]
+then    
+	echo "Not numbers entered: $2"
+    exit
+fi
+if [ $# = 2 ]
+then
+	#sudo apt-get install apcalc
+	calc $1 + $2
+else
+	echo "You must enter two parameters."
+fi
