@@ -3,9 +3,6 @@ FROM php:8.0-fpm
 RUN apt-get update && apt-get install -y \
 		curl \
 		wget \
-		git \
-		nano \
-		mc \
 		libc-dev \
 		libssl-dev \
 		libfreetype6-dev \
@@ -33,8 +30,6 @@ RUN apt-get update && apt-get install -y \
 	&& phpize \
 	&& ./configure --enable-xdebug \
 	&& make > /var/tmp/make_output.txt && make install \
-	### composer ###
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	### cleaning ###
 	&& apt-get autoremove -y && apt-get autoclean -y && apt-get clean -y \
 	&& rm -rf /var/lib/apt/lists/* /var/tmp/xdebug-3.0.2.tgz \
