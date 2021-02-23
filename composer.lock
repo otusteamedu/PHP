@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a12adfa34cad1f4cc1f8b9f62eab2d2b",
+    "packages": [
+        {
+            "name": "vladi/otus",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NightWizard75/otus.git",
+                "reference": "98fc39afb2355dfa0cb83dd1b47fdfaa42910493"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NightWizard75/otus/zipball/98fc39afb2355dfa0cb83dd1b47fdfaa42910493",
+                "reference": "98fc39afb2355dfa0cb83dd1b47fdfaa42910493",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "vladi\\otus\\": "code/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "NightWizard75",
+                    "email": "vladimir@valyakin.ru"
+                }
+            ],
+            "description": "docker enviroment package",
+            "support": {
+                "issues": "https://github.com/NightWizard75/otus/issues",
+                "source": "https://github.com/NightWizard75/otus/tree/main"
+            },
+            "time": "2021-02-22T23:28:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "vladi/otus": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}
