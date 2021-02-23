@@ -17,7 +17,7 @@ services:
     networks:
       - app-network
 
-  #контейне с Nginx
+  # контейнер с Nginx
   webserver:
     build:
       context: ./nginx
