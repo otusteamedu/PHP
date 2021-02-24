@@ -1,0 +1,6 @@
+cd src && make all
+make[1]: вход в каталог «/home/gaini/tmp/redis-stable/src»
+
+Hint: It's a good idea to run 'make test' ;)
+
+make[1]: выход из каталога «/home/gaini/tmp/redis-stable/src»
