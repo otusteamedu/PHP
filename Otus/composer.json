@@ -13,7 +13,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Patterns\\": "Patterns"
+            "Patterns\\": "Patterns",
+            "Otus\\": "Otus/src"
         }
     }
 }
