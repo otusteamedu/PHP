@@ -1,0 +1,23 @@
+{
+  "name": "nlazarev/hw6",
+  "description": "OTUS Home work 6",
+  "type": "project",
+  "require": {
+    "php": "^7.4",
+    "hassankhan/config": "^2.1"
+  },
+  "require-dev": {
+    "php": "^7.4"
+  },
+  "authors": [
+    {
+      "name": "NickoLaz",
+      "email": "asnickolaz@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Nlazarev\\Hw6\\": "src/"
+    }
+  }
+}
