@@ -35,13 +35,14 @@ services:
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
       context: docker/fpm
-    image: atimofeev/php-fpm-mysite
+    image: atimofeev/php-fpm-without-extensions
     depends_on:
       - backend1
     working_dir: ${WORKDIR}
     volumes:
-    - ./code:${WORKDIR}
-    - sock1:${SOCKET_DIR}
+      - ./code:${WORKDIR}
+      - sock1:${SOCKET_DIR}
+
 
   backend2:
     build:
@@ -67,7 +68,7 @@ services:
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
       context: docker/fpm
-    image: atimofeev/php-fpm-mysite
+    image: atimofeev/php-fpm-without-extensions
     depends_on:
       - backend2
     working_dir: ${WORKDIR}
