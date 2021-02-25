@@ -4,7 +4,7 @@
 namespace App;
 
 
-use App\Commands\Command;
+use App\Console\Command;
 use App\Exceptions\IsNullException;
 use App\Validators\BracketValidator;
 use App\Validators\EmailValidator;
@@ -16,11 +16,13 @@ class App
     private $responceCode = 200;
     private $responce = null;
 
+    /**
+     * @return string
+     * @throws Console\Exceptions\CommandNotFound
+     */
     public function run()
     {
-        if ($this->hasCommand()) {
-            Command::run($GLOBALS['argv'][1], array_slice($GLOBALS['argv'], 2));
-        }
+        Command::exec();
         if (Request::isPost()) {
             $this->responce = $this->validPost([
                 'string'    => BracketValidator::class,
@@ -32,12 +34,6 @@ class App
             ]);
         }
         return $this->responce;
-    }
-
-
-    private function hasCommand(): bool
-    {
-        return !empty($GLOBALS['argv'][1]);
     }
 
     public function validPost(array $fields)
