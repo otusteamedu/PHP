@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./docker/nginx.docker
+      args:
+        DOMAIN_NAME: ${DOCKER_NGINX_DOMAIN_NAME}
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./:/var/www
+      - ./storage/docker/nginx:/var/log/nginx
+    ports:
+      - "${HTTP_PORT_DOCKER}:${HTTP_PORT}"
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: ./docker/php-fpm.docker
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    user: "${LINUX_UID}:${LINUX_GID}"
+    environment:
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_HOST: redis
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    user: "${LINUX_UID}:${LINUX_GID}"
+    ports:
+      - "${DB_PORT_DOCKER}:${DB_PORT}"
+    restart: always
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    depends_on:
+      - ${DB_HOST}
+    ports:
+      - ${PMA_DOCKER_PORT}:${PMA_PORT}
+    environment:
+      PMA_HOST: ${DB_HOST}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      UPLOAD_LIMIT: 200000000
+    restart: always
+  redis:
+    image: redis:latest
+    ports:
+      - "${REDIS_PORT_DOCKER}:${REDIS_PORT}"
+  node:
+    image: node:14.4.0-alpine3.10
+    user: "${LINUX_UID}:${LINUX_GID}"
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    tty: true
