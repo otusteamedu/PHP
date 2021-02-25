@@ -7,7 +7,7 @@ namespace Otus\Visitor;
 use Otus\AbstractFactory\Interfaces\News;
 use Otus\AbstractFactory\Interfaces\Review;
 
-class SomeAction implements ArticleVisitor
+class Visitor implements ArticleVisitor
 {
     public function visitReview(Review $review)
     {

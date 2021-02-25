@@ -4,7 +4,12 @@
 namespace Otus\Observer;
 
 
-class SubscriberA
-{
+use SplSubject;
 
+class SubscriberA implements Observer
+{
+    public function update()
+    {
+        echo 'SubscriberA updated' . PHP_EOL;
+    }
 }

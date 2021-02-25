@@ -11,7 +11,7 @@ use Otus\Observer\Observable;
 use Otus\Observer\Observer;
 use Otus\Visitor\Visitor;
 
-class Article implements Observable
+class ArticleService implements Observable
 {
     private ArticleFactory $factory;
     private News $news;

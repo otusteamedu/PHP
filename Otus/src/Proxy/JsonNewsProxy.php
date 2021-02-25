@@ -1,15 +1,29 @@
 <?php
 namespace Otus\Proxy;
 
-use Otus\ArticleService;
+use Otus\AbstractFactory\Interfaces\News;
+use Otus\Visitor\ArticleVisitor;
 
-class ArticleProxy
+class JsonNewsProxy implements News
 {
-    private ArticleService $article;
-
-    public function __construct(ArticleService $article)
+    public function getNews()
     {
-        $this->article = $article;
+       $cachedNews = $this->getChachedNews();
+
+       if (!empty($cachedNews)) {
+           echo 'cached news' . PHP_EOL;
+       }
+
+       echo 'not cached news' . PHP_EOL;
     }
 
+    public function accept(ArticleVisitor $visitor)
+    {
+        $visitor->visitNews($this);
+    }
+
+    private function getChachedNews()
+    {
+        return [];
+    }
 }

@@ -1,8 +1,11 @@
 <?php
-namespace Otus\Visitor\Interfaces;
+namespace Otus\Visitor;
+
+use Otus\AbstractFactory\Interfaces\News;
+use Otus\AbstractFactory\Interfaces\Review;
 
 interface ArticleVisitor
 {
-    public function visitReview();
-    public function visitNews();
+    public function visitReview(Review $review);
+    public function visitNews(News $news);
 }
