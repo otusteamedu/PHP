@@ -16,7 +16,7 @@ class Parser
 
     private function parse()
     {
-        $this->command = $GLOBALS['argv'][1];
+        $this->command = (string)$GLOBALS['argv'][1];
         $this->arguments = array_slice($GLOBALS['argv'], 2);
     }
 

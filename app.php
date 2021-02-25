@@ -9,5 +9,5 @@ try {
     $app = new App();
     echo $app->run();
 } catch (Throwable $e) {
-
+    echo  $e->getMessage() . "\n";
 }
