@@ -20,14 +20,14 @@ final class App
     private static ICollectionArticle $articles;
     private static ICollectionNews $news;
     private static IStoragePublisher $storage_publisher;
-    
+
     public static function run()
     {
         static::$storage_publisher = StoragePublisher::getInstance();
-        
+
         static::$articles = new CollectionArticle();
         static::$news = new CollectionNews();
-        
+
         try {
             $event = static::$articles::EVENTS_ARTICLE_ADD;
             static::$articles->attach(static::$news, $event);
@@ -45,7 +45,7 @@ final class App
         static::generateArticles(static::$articles, ArticleFactoryHtml::getInstance());
         static::generateArticles($articles2, ArticleFactoryXml::getInstance());
         static::generateArticles(static::$articles, ArticleFactoryJson::getInstance());
-        
+
 
         //Some results
         echo "<br>";
@@ -53,32 +53,31 @@ final class App
         echo "<br>";
         echo "total: " . count(static::$news->toArray());
         echo "<br>";
-        
+
         echo "<br>";
         echo "[NewsCollection2]";
         echo "<br>";
         echo "total: " . count($news2->toArray());
         echo "<br>";
-       
+
         echo "<br>";
         echo "Publisher-objects in storage: " . static::$storage_publisher->count();
         echo "<br>";
         echo "<br>";
-        
+
         foreach (static::$storage_publisher->getPublishers()->toArray() as $publisher) {
             echo serialize($publisher);
             echo "<br>";
-            
+
             foreach (static::$storage_publisher->getObservers($publisher)->toArray() as $key => $observers) {
                 echo "[$key]" . "<br>";
                 echo serialize($observers);
                 echo "<br>";
             }
-            
+
             echo "<br>";
             echo "<br>";
         }
-     
     }
 
     private static function generateArticles(ICollectionArticle $articles, IArticleFactory $articles_factory)

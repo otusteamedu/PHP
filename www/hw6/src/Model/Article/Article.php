@@ -11,22 +11,23 @@ abstract class Article implements IArticle
     private string $header;
     private string $main_text;
     private IWrapperArticle $wrapper;
- 
+
     public function setWrapper(IWrapperArticle $wrapper)
     {
         $this->wrapper = $wrapper;
 
         return $this;
     }
-    
+
     public function getContent()
     {
-        if (isset($this->wrapper))
+        if (isset($this->wrapper)) {
             return $this->wrapper->build();
+        }
 
         throw new \Exception("Wrapper for build content isn't set");
     }
-    
+
     public function getHeader(): string
     {
         return $this->header;
@@ -52,5 +53,4 @@ abstract class Article implements IArticle
     }
 
     abstract public function accept(IArticleVisitor $visitor);
-
 }

@@ -9,8 +9,8 @@ use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\IWrapperArticle;
 
 abstract class WrapperReview implements IWrapperArticle
 {
-    private IReview $review; 
-    
+    private IReview $review;
+
     public function __construct(IReview $review)
     {
         $this->review = $review;
@@ -28,5 +28,5 @@ abstract class WrapperReview implements IWrapperArticle
         return $this;
     }
 
-    abstract function build();
+    abstract public function build();
 }

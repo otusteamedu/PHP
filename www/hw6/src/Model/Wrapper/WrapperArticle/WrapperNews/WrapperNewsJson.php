@@ -10,9 +10,10 @@ class WrapperNewsJson extends WrapperNews implements IWrapperArticle
 {
     public function build()
     {
-        return json_encode(array(
-            'header' => $this->getNews()->getHeader(), 
-            'main_text' => $this->getNews()->getMainText(), 
+        return json_encode(
+            array(
+            'header' => $this->getNews()->getHeader(),
+            'main_text' => $this->getNews()->getMainText(),
             'source' => $this->getNews()->getSource()
             )
         );

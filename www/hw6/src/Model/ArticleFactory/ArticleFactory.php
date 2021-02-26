@@ -32,7 +32,7 @@ abstract class ArticleFactory implements IArticleFactory
 
         return self::$instance;
     }
-    
+
     abstract public function createNews(string $header = "", string $main_text = "", string $source = ""): INews;
     abstract public function createReview(string $header = "", string $main_text = "", int $rating = 1): IReview;
 }

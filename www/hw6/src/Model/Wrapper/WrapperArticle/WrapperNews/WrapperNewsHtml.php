@@ -10,10 +10,10 @@ class WrapperNewsHtml extends WrapperNews implements IWrapperArticle
 {
     public function build()
     {
-        return "<div>" . 
-            "<h1>" . $this->getNews()->getHeader() . "</h1>" . 
-            "<p>" . $this->getNews()->getMainText() . "</p>" . 
-            "<p>" . $this->getNews()->getSource() . "</p>" . 
-            "</div>"; 
+        return "<div>" .
+            "<h1>" . $this->getNews()->getHeader() . "</h1>" .
+            "<p>" . $this->getNews()->getMainText() . "</p>" .
+            "<p>" . $this->getNews()->getSource() . "</p>" .
+            "</div>";
     }
 }

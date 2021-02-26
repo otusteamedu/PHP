@@ -19,7 +19,7 @@ class CollectionObserver implements ICollectionObserver
             $this->initEventGroup($event);
         }
     }
-   
+
     private function initEventGroup($event): void
     {
         if (!isset($this->observers[$event])) {
@@ -31,7 +31,7 @@ class CollectionObserver implements ICollectionObserver
     {
         return array_keys($this->observers);
     }
-    
+
     public function add(SplObserver $observer, $event)
     {
         $this->initEventGroup($event);

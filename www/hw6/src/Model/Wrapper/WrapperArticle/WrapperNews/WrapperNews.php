@@ -9,8 +9,8 @@ use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\IWrapperArticle;
 
 abstract class WrapperNews implements IWrapperArticle
 {
-    private INews $news; 
-    
+    private INews $news;
+
     public function __construct(INews $news)
     {
         $this->news = $news;
@@ -28,5 +28,5 @@ abstract class WrapperNews implements IWrapperArticle
         return $this;
     }
 
-    abstract function build();
+    abstract public function build();
 }

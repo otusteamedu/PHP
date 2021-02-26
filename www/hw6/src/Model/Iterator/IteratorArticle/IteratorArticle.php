@@ -28,5 +28,4 @@ class IteratorArticle extends IteratorCustom implements IIteratorCustom
     {
         return isset($this->articles[$this->key()]);
     }
-
 }

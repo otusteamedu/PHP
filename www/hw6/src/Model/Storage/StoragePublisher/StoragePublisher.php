@@ -37,7 +37,7 @@ class StoragePublisher implements IStoragePublisher
 
         return self::$instance;
     }
-    
+
     public function attach(IPublisherWithEvents $publisher): void
     {
         self::$instance->storage->attach($publisher, $publisher->getObservers());
@@ -46,13 +46,13 @@ class StoragePublisher implements IStoragePublisher
     public function getPublishers(): ICollectionPublisher
     {
         $publishers = new CollectionPublisher();
-        
+
         foreach (self::$instance->storage as $key) {
             $publishers->add($key);
         }
-         
+
         return $publishers;
-    } 
+    }
 
     public function getObservers(SplSubject $publisher): ICollectionObserver
     {
@@ -63,5 +63,4 @@ class StoragePublisher implements IStoragePublisher
     {
         return self::$instance->storage->count($mode);
     }
-
 }

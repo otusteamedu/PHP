@@ -13,7 +13,7 @@ use Nlazarev\Hw6\Model\Article\Review\Review;
 use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\WrapperNews\WrapperNewsHtml;
 use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\WrapperReview\WrapperReviewHtml;
 
-class ArticleFactoryHtml  extends ArticleFactory implements IArticleFactory
+class ArticleFactoryHtml extends ArticleFactory implements IArticleFactory
 {
     public function createNews(string $header = "", string $main_text = "", string $source = ""): INews
     {

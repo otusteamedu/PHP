@@ -34,5 +34,4 @@ class News extends Article implements INews
     {
         $visitor->visitNews($this);
     }
-
 }

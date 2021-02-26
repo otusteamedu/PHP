@@ -10,10 +10,10 @@ class WrapperReviewHtml extends WrapperReview implements IWrapperArticle
 {
     public function build()
     {
-        return "<div>" . 
-            "<h1>" . $this->getReview()->getHeader() . "</h1>" . 
-            "<p>" . $this->getReview()->getMainText() . "</p>" . 
-            "<p>" . $this->getReview()->getRating() . "</p>" . 
-            "</div>"; 
+        return "<div>" .
+            "<h1>" . $this->getReview()->getHeader() . "</h1>" .
+            "<p>" . $this->getReview()->getMainText() . "</p>" .
+            "<p>" . $this->getReview()->getRating() . "</p>" .
+            "</div>";
     }
 }
