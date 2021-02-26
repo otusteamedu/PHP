@@ -1,0 +1,6 @@
+SELECT CONCAT('Самый прибыльный ', session_id, ' сеанс.') as best
+FROM ticket
+WHERE is_free = 0
+GROUP BY session_id
+ORDER BY COUNT(is_free) DESC 
+LIMIT 1
