@@ -7,6 +7,7 @@ namespace App\Validator;
 abstract class AbstractValidator implements ValidatorInterface
 {
     protected array $errors = [];
+    protected string $error = '';
 
     public function validate($value): bool
     {
@@ -18,7 +19,17 @@ abstract class AbstractValidator implements ValidatorInterface
         return $this->errors;
     }
 
-    protected function setError($key, $msg)
+    public function getError(): string
+    {
+        return $this->error;
+    }
+
+    protected function setError($msg)
+    {
+        $this->error = $msg;
+    }
+
+    protected function setErrors($key, $msg)
     {
         if (! array_key_exists($key, $this->errors)) {
             $this->errors[$key] = [];

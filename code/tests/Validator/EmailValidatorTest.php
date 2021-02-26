@@ -33,23 +33,20 @@ class EmailValidatorTest extends TestCase
 
         $validator = new EmailValidator();
 
-        $validator->validate($goodEmail);
-        $errors = $validator->getErrors();
-        $this->assertEmpty($errors);
+        $status = $validator->validate($goodEmail);
+        $this->assertTrue($status);
+        $error = $validator->getError();
+        $this->assertEquals('', $error);
 
-        $validator->validate($badEmail);
-        $errors = $validator->getErrors();
-        $this->assertCount(1, $errors);
-        $this->assertContains('Invalid email address', $errors[$badEmail]);
+        $status = $validator->validate($badEmail);
+        $this->assertFalse($status);
+        $error = $validator->getError();
+        $this->assertEquals('Invalid email address', $error);
 
-        $validator->clear();
 
         $validator->validate($badDomain);
-        $errors = $validator->getErrors();
-
-
-        $this->assertCount(1, $errors);
-        $this->assertContains('Domain in not valid', $errors[$badDomain]);
+        $error = $validator->getError();
+        $this->assertEquals('Domain in not valid', $error);
     }
 
     public function testValidateAll()

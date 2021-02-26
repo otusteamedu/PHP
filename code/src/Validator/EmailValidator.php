@@ -10,8 +10,13 @@ class EmailValidator extends AbstractValidator
 
     public function validate($value): bool
     {
+        if (strlen($value) === 0) {
+            $this->setError('Empty value');
+            return false;
+        }
+
         if (!preg_match(self::EMAIL_REGEX, $value)) {
-            $this->setError($value,'Invalid email address');
+            $this->setError('Invalid email address');
             return false;
         }
 
@@ -23,7 +28,7 @@ class EmailValidator extends AbstractValidator
         list(, $domain) = explode('@', $value);
 
         if (!checkdnsrr($domain, 'MX')) {
-            $this->setError($value,'Domain in not valid');
+            $this->setError('Domain in not valid');
             return false;
         }
 
@@ -36,6 +41,9 @@ class EmailValidator extends AbstractValidator
 
         foreach ($values as $value) {
             $state = $this->validate($value);
+            if (!$state) {
+                $this->setErrors($value, $this->getError());
+            }
         }
 
         return $state;

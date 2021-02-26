@@ -4,73 +4,38 @@
 namespace App;
 
 
-use App\Validator\BracesValidator;
+use DI\Container;
+use Slim\Factory\AppFactory;
 
-class App
+
+final class App
 {
-    private $path;
-    private string $method;
+    private \Slim\App $app;
 
     /**
      * App constructor.
      */
     public function __construct()
     {
-        $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    }
+        $container = new Container();
+        AppFactory::setContainer($container);
+        $app = AppFactory::create();
 
+        $app->addRoutingMiddleware();
+        $app->addBodyParsingMiddleware();
+        $app->addErrorMiddleware(true, false, false);
+
+
+        $app->get('/', 'App\Controller\HomeController:index');
+        $app->post('/', 'App\Controller\HomeController:index');
+
+        $this->app = $app;
+    }
 
     public function run()
     {
-//        if ($this->method === 'POST' && $this->path === '/') {
-//            $this->postHandler();
-//        } else {
-//            phpinfo();
-//            xdebug_info();
-//        }
-        $this->serverInfo();
+        $this->app->run();
     }
-
-    private function serverInfo()
-    {
-        echo '<h1>' . $_SERVER['SERVER_NAME'] . '</h1>';
-        echo '<h2>' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT'] . '</h2>';
-    }
-
-
-    private function postHandler()
-    {
-        $validator = new BracesValidator();
-
-        if (isset($_POST['string'])) {
-            $braces = $_POST['string'];
-
-        } else {
-            $data = file_get_contents('php://input');
-
-            list($key, $braces) = explode('=', $data);
-
-            if ($key !== 'string') {
-                $this->badRequest('Wrong format');
-                return;
-            }
-        }
-
-        if (! $validator->validate($braces)) {
-            $this->badRequest(implode(PHP_EOL, $validator->getErrors()));
-            return;
-        }
-
-        echo 'All good';
-    }
-
-    private function badRequest($msg)
-    {
-        header('Bad request', true, 400);
-        echo $msg, PHP_EOL;
-        echo 'All bad';
-    }
-
 
 }
+

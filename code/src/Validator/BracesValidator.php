@@ -13,14 +13,14 @@ class BracesValidator extends AbstractValidator
     {
 
         if (!preg_match(self::BRACES_REGEX, $value)) {
-            $this->setError($this->key,'Wrong format');
+            $this->setErrors($this->key,'Wrong format');
             return false;
         }
 
         $length = strlen($value);
 
         if (0 === $length) {
-            $this->setError($this->key,'Length == 0');
+            $this->setErrors($this->key,'Length == 0');
             return false;
         }
 
@@ -43,7 +43,7 @@ class BracesValidator extends AbstractValidator
         }
 
         if (count($opened) !== 0) {
-            $this->setError($this->key,'Not closed');
+            $this->setErrors($this->key,'Not closed');
             return false;
         }
 

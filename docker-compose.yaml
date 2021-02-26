@@ -6,28 +6,29 @@ services:
       context: docker/frontend
     image: atimofeev/fronted-mysite
     depends_on:
-      - backend1
-      - backend2
+      - backend
     ports:
     - 80:80
+    volumes:
+    - ./code/public:/data
 
-  backend1:
+  backend:
     build:
       args:
         UID: ${SERVER_UID}
         USER: ${SERVER_USER}
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
-      context: docker/backend1
-    image: atimofeev/backend1-mysite
+      context: docker/backend
+    image: atimofeev/backend-mysite
     working_dir: ${WORKDIR}
-    ports:
-      - 8081:80
+    depends_on:
+      - app
     volumes:
       - ./code:${WORKDIR}
-      - sock1:${SOCKET_DIR}
+      - sock:${SOCKET_DIR}
 
-  app1:
+  app:
     build:
       args:
         UID: ${SERVER_UID}
@@ -36,47 +37,12 @@ services:
         GROUP: ${SERVER_GROUP}
       context: docker/fpm
     image: atimofeev/php-fpm-without-extensions
-    depends_on:
-      - backend1
     working_dir: ${WORKDIR}
     volumes:
       - ./code:${WORKDIR}
-      - sock1:${SOCKET_DIR}
-
-
-  backend2:
-    build:
-      args:
-        UID: ${SERVER_UID}
-        USER: ${SERVER_USER}
-        GID: ${SERVER_GID}
-        GROUP: ${SERVER_GROUP}
-      context: docker/backend2
-    image: atimofeev/backend2-mysite
-    working_dir: ${WORKDIR}
-    ports:
-      - 8082:80
-    volumes:
-      - ./code:${WORKDIR}
-      - sock2:${SOCKET_DIR}
-
-  app2:
-    build:
-      args:
-        UID: ${SERVER_UID}
-        USER: ${SERVER_USER}
-        GID: ${SERVER_GID}
-        GROUP: ${SERVER_GROUP}
-      context: docker/fpm
-    image: atimofeev/php-fpm-without-extensions
-    depends_on:
-      - backend2
-    working_dir: ${WORKDIR}
-    volumes:
-      - ./code:${WORKDIR}
-      - sock2:${SOCKET_DIR}
+      - sock:${SOCKET_DIR}
 
 volumes:
-  sock1:
-  sock2:
+  sock:
+
 
