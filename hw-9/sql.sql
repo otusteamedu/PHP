@@ -29,11 +29,11 @@ CREATE TABLE attribute_value
     id            SERIAL PRIMARY KEY,
     attributes_id INTEGER REFERENCES attributes,
     movie_id      INTEGER REFERENCES movies,
-    text          TEXT,
-    date          DATE,
-    bool          BOOLEAN,
-    integer       INTEGER,
-    float         FLOAT
+    text_attribute          TEXT,
+    date_attribute          DATE,
+    bool_attribute          BOOLEAN,
+    integer_attribute       INTEGER,
+    float_attribute         FLOAT
 );
 
 INSERT INTO movies(title)
