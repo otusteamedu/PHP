@@ -4,37 +4,46 @@
 namespace App;
 
 
-use DI\Container;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
+use Slim\App as SlimApp;
 
 
 final class App
 {
-    private \Slim\App $app;
+    private SlimApp $app;
 
     /**
      * App constructor.
      */
     public function __construct()
     {
-        $container = new Container();
-        AppFactory::setContainer($container);
-        $app = AppFactory::create();
+        $appConfig = parse_ini_file(__DIR__ . '/../config/app.ini', );
 
-        $app->addRoutingMiddleware();
-        $app->addBodyParsingMiddleware();
-        $app->addErrorMiddleware(true, false, false);
-
-
-        $app->get('/', 'App\Controller\HomeController:index');
-        $app->post('/', 'App\Controller\HomeController:index');
-
-        $this->app = $app;
+        $this->init($appConfig);
     }
 
     public function run()
     {
         $this->app->run();
+    }
+
+    private function init(array $configs): void
+    {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions($configs);
+        $container = $builder->build();
+
+
+        $app = AppFactory::createFromContainer($container);
+
+        $app->addRoutingMiddleware();
+        $app->addBodyParsingMiddleware();
+        $app->addErrorMiddleware($container->get('development'), false, false);
+
+        $app->map(['GET', 'POST'], '/', 'App\Controller\HomeController:index' );
+
+        $this->app = $app;
     }
 
 }

@@ -30,7 +30,7 @@ abstract class AbstractController
 
         $this->view = new PhpRenderer(
             __DIR__ . '/../../templates',
-            ['title' => 'Otus'],
+            ['title' => $container->get('name')],
             'layout.php'
         );
     }
