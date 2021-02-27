@@ -28,7 +28,7 @@ class HomeController extends AbstractController
 
         return $this->render($response, 'home/index.php', [
             'name' => $_SERVER['SERVER_NAME'],
-            'addr' => $_SERVER['SERVER_ADDR'],
+            'addr' => $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT'],
             'result' => $result,
             ]);
     }

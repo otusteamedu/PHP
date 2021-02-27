@@ -3,4 +3,5 @@
 /code/vendor
 *.cache
 *.bak
+/var
 vendor
