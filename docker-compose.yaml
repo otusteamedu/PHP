@@ -6,14 +6,14 @@ services:
       context: docker/frontend
     image: atimofeev/fronted-mysite
     depends_on:
-      - backend1
-      - backend2
+      - backend1.local
+      - backend2.local
     ports:
     - 80:80
     volumes:
     - ./code/public:/data
 
-  backend1:
+  backend1.local:
     build:
       args:
         UID: ${SERVER_UID}
@@ -45,7 +45,7 @@ services:
       - ./code:${WORKDIR}
       - sock1:${SOCKET_DIR}
 
-  backend2:
+  backend2.local:
     build:
       args:
         UID: ${SERVER_UID}
