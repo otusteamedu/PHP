@@ -7,12 +7,12 @@ services:
   app:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
-      context: ./fpm
+      context: ./docker/php
       dockerfile: Dockerfile
     image: myapp/php # имя будущего образа
     container_name: app # имя контейнера после запуска
     volumes:
-       - ./code:/data/hw1.loc
+       - ./:/var/www/hw.loc
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
@@ -20,7 +20,7 @@ services:
   # контейнер с Nginx
   webserver:
     build:
-      context: ./nginx
+      context: ./docker/nginx
       dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver
@@ -29,7 +29,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-       - ./code:/data/hw1.loc
+       - ./:/var/www/hw.loc
     networks:
       - app-network
 

@@ -24,9 +24,9 @@ RUN apt-get update && apt-get install -y \
 # one more RUN and internet connection
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-WORKDIR /data
+WORKDIR /var/www
 
-VOLUME /data
+VOLUME /var/www
 
 CMD ["php-fpm"]
 
