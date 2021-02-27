@@ -1,0 +1,19 @@
+version: '3.6'
+
+services:
+  php-client:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./docker/php/config.ini:/usr/local/etc/php/conf.d/config.ini
+      - /tmp:/tmp
+  php-server:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./docker/php/config.ini:/usr/local/etc/php/conf.d/config.ini
+      - /tmp:/tmp

@@ -1,0 +1,19 @@
+{
+    "name": "konstantin/sockets",
+    "type": "project",
+    "authors": [
+        {
+            "name": "konstantin",
+            "email": "noskov.kos@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "vlucas/phpdotenv": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\" : "src"
+        }
+    }
+}
