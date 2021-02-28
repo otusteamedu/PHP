@@ -1,19 +1,14 @@
 {
-    "name": "home/otus",
-    "description": "docker enviroment package",
-    "type": "project",
-    "authors": [
-        {
-            "name": "NightWizard75",
-            "email": "vladimir@valyakin.ru"
-        }
-    ],
-    "require": {
-      "vladi/otus": "dev-main"
-    },
-    "autoload": {
-        "psr-4": {
-            "vladi\\otus\\": "code/"
-        }
-    }
+  "name": "home/otus",
+  "description": "docker enviroment package",
+  "type": "project",
+  "authors": [
+      {
+          "name": "NightWizard75",
+          "email": "vladimir@valyakin.ru"
+      }
+  ],
+  "require": {
+  "vladi/otus": "dev-main"
+  }
 }
