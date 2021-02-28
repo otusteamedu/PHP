@@ -28,7 +28,7 @@ class EmailValidator extends AbstractValidator
         list(, $domain) = explode('@', $value);
 
         if (!checkdnsrr($domain, 'MX')) {
-            $this->setError('Domain in not valid');
+            $this->setError('Domain is not valid');
             return false;
         }
 

@@ -46,7 +46,7 @@ class EmailValidatorTest extends TestCase
 
         $validator->validate($badDomain);
         $error = $validator->getError();
-        $this->assertEquals('Domain in not valid', $error);
+        $this->assertEquals('Domain is not valid', $error);
     }
 
     public function testValidateAll()
@@ -68,7 +68,7 @@ class EmailValidatorTest extends TestCase
         $this->assertArrayHasKey('user@xyz.ru', $errors);
 
         $this->assertContains('Invalid email address', $errors['user_mail.ru']);
-        $this->assertContains('Domain in not valid', $errors['user@xyz.ru']);
+        $this->assertContains('Domain is not valid', $errors['user@xyz.ru']);
     }
 
 
