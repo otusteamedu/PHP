@@ -23,9 +23,9 @@ class App
         $this->argv = $argv;
     }
 
-    public function run()
+    public function run(): void
     {
-        if(false === $this->checkRequriedArgument()){
+        if(false === $this->checkRequiredArgument()){
             throw new \Exception('Invalid argument passed');
         }
 
@@ -33,18 +33,18 @@ class App
 
         switch ($type){
             case self::SOCKET_SERVER:
-                return $this->runServer();
+                 $this->runServer(); break;
             case self::SOCKET_CLIENT:
-                return $this->runClient();
+                 $this->runClient(); break;
         }
     }
 
-    private function checkRequriedArgument()
+    private function checkRequiredArgument(): bool
     {
         return isset($this->argv[1]) && in_array($this->argv[1], self::ALLOWED_ARGUMENTS, true);
     }
 
-    private function runClient()
+    private function runClient(): void
     {
         try {
             $client = new Client(
@@ -59,7 +59,7 @@ class App
         }
     }
 
-    private function runServer()
+    private function runServer(): void
     {
         try {
             $server = new Server(

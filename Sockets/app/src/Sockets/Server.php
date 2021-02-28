@@ -12,7 +12,7 @@ final class Server
         $this->initSocket($host, $port);
     }
 
-    public function listen()
+    public function listen(): void
     {
         $this->socket->accept();
 

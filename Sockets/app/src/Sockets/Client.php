@@ -1,9 +1,6 @@
 <?php
 namespace App\Sockets;
 
-
-use App\Sockets\Exceptions\SocketsException;
-
 final class Client
 {
 
@@ -14,13 +11,13 @@ final class Client
         $this->initSocket($host, $port);
     }
 
-    public function waitForMessage()
+    public function waitForMessage(): void
     {
         echo 'Enter Message:';
         $this->message($this->readline());
     }
 
-    private function message(string $message)
+    private function message(string $message): void
     {
         $this->socket->write($message);
         $this->waitingResponse();

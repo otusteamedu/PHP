@@ -13,10 +13,16 @@ use App\Sockets\Exceptions\SocketsException;
 
 final class Socket
 {
+    /**
+     * @var resource
+     */
     private $socket;
+
+    /**
+     * @var resource
+     */
     private $acceptedSocket;
-    private $connect;
-    private $bind;
+    private bool $bind;
     private string $host;
     private int $port;
     private int $maxConnections = 5;
@@ -58,7 +64,7 @@ final class Socket
         }
     }
 
-    public function accept()
+    public function accept(): void
     {
         $this->acceptedSocket = socket_accept($this->socket);
         if ($this->acceptedSocket === false) {
@@ -71,7 +77,7 @@ final class Socket
         return $this->readFromSocket($this->socket);
     }
 
-    public function readFromAccepted()
+    public function readFromAccepted(): ?string
     {
         return $this->readFromSocket($this->acceptedSocket);
     }
@@ -86,8 +92,8 @@ final class Socket
 
     public function connect(): void
     {
-        $this->connect = socket_connect($this->socket, $this->host, $this->port);
-        if ($this->connect === false) {
+        $connect = socket_connect($this->socket, $this->host, $this->port);
+        if ($connect === false) {
             throw new CanNotCreateSocketException();
         }
     }
