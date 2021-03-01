@@ -1,0 +1,33 @@
+version: '3'
+services:
+    mysite-nginx:
+        build:
+            context: nginx
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx
+        container_name: mysite-nginx
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-php-fpm
+        ports:
+            - "80:80"
+        networks:
+            - mysite-network
+
+    mysite-php-fpm:
+        build:
+            context: php-fpm
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm
+        container_name: mysite-php-fpm
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        networks:
+            - mysite-network
+
+networks:
+    mysite-network:
+        driver: bridge
