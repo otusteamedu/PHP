@@ -4,3 +4,5 @@
 code
 docker
 vendor
+data
+*.bak
