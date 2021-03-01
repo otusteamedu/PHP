@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nlazarev\Hw6\Model\Article\News;
 
 use Nlazarev\Hw6\Model\Article\Article;
-use Nlazarev\Hw6\Model\Article\IArticleVisitor;
 
 class News extends Article implements INews
 {
@@ -28,10 +27,5 @@ class News extends Article implements INews
         $this->source = $source;
 
         return $this;
-    }
-
-    public function accept(IArticleVisitor $visitor)
-    {
-        $visitor->visitNews($this);
     }
 }

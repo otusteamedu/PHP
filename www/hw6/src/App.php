@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6;
 
+use Nlazarev\Hw6\Model\ArticleContent\NewsContent\INewsContent;
 use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactoryHtml\ArticleFactoryHtml;
 use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactoryJson\ArticleFactoryJson;
 use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactoryXml\ArticleFactoryXml;
@@ -12,8 +13,13 @@ use Nlazarev\Hw6\Model\Collection\CollectionArticle\CollectionArticle;
 use Nlazarev\Hw6\Model\Collection\CollectionArticle\ICollectionArticle;
 use Nlazarev\Hw6\Model\Collection\CollectionNews\CollectionNews;
 use Nlazarev\Hw6\Model\Collection\CollectionNews\ICollectionNews;
+use Nlazarev\Hw6\Model\External\News\NewsExternal;
+use Nlazarev\Hw6\Model\External\News\NewsToNewsExternal;
 use Nlazarev\Hw6\Model\Storage\StoragePublisher\IStoragePublisher;
 use Nlazarev\Hw6\Model\Storage\StoragePublisher\StoragePublisher;
+use Nlazarev\Hw6\Model\Wrapper\WrapperInput\Html\HtmlInput;
+use Nlazarev\Hw6\Model\Wrapper\WrapperInput\Html\HtmlInputPlaceholder\HtmlInputPlaceholder;
+use Nlazarev\Hw6\Model\Wrapper\WrapperInput\Html\HtmlInputType\HtmlInputType;
 
 final class App
 {
@@ -60,8 +66,29 @@ final class App
         echo "total: " . count($news2->toArray());
         echo "<br>";
 
+        $exporteApi = new NewsExternal();
+        $dest = "some destination";
+        echo "<br>";
+
+        foreach ($news2->toArray() as $news) {
+            $adapter = new NewsToNewsExternal($news->getNews(), $exporteApi, $dest);
+            echo static::exportThisNews($adapter);
+            echo "<br>";
+        }
+
         echo "<br>";
         echo "Publisher-objects in storage: " . static::$storage_publisher->count();
+        echo "<br>";
+        echo "<br>";
+
+        $input_html1 = new HtmlInput();
+        $input_html2 = new HtmlInputType($input_html1, "password");
+        $input_html3 = new HtmlInputPlaceholder($input_html2, "some input");
+        echo $input_html1->get();
+        echo "<br>";
+        echo $input_html2->get();
+        echo "<br>";
+        echo $input_html3->get();
         echo "<br>";
         echo "<br>";
 
@@ -82,11 +109,16 @@ final class App
 
     private static function generateArticles(ICollectionArticle $articles, IArticleFactory $articles_factory)
     {
-        $articles->add($articles_factory->createNews());
-        $articles->add($articles_factory->createNews());
-        $articles->add($articles_factory->createReview());
-        $articles->add($articles_factory->createNews());
-        $articles->add($articles_factory->createReview());
-        $articles->add($articles_factory->createNews());
+        $articles->add($articles_factory->createNewsContent("header1"));
+        $articles->add($articles_factory->createNewsContent("header2"));
+        $articles->add($articles_factory->createReviewContent());
+        $articles->add($articles_factory->createNewsContent());
+        $articles->add($articles_factory->createReviewContent());
+        $articles->add($articles_factory->createNewsContent());
+    }
+
+    private static function exportThisNews(INewsContent $news)
+    {
+        return $news->getContent();
     }
 }

@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6\Model\ArticleFactory\ArticleFactoryXml;
 
+use Nlazarev\Hw6\Model\ArticleContent\NewsContent\INewsContent;
+use Nlazarev\Hw6\Model\ArticleContent\NewsContent\NewsContent;
+use Nlazarev\Hw6\Model\ArticleContent\ReviewContent\IReviewContent;
+use Nlazarev\Hw6\Model\ArticleContent\ReviewContent\ReviewContent;
+use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactory;
 use Nlazarev\Hw6\Model\ArticleFactory\IArticleFactory;
-use Nlazarev\Hw6\Model\Article\News\INews;
 use Nlazarev\Hw6\Model\Article\News\News;
-use Nlazarev\Hw6\Model\Article\Review\IReview;
 use Nlazarev\Hw6\Model\Article\Review\Review;
 use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\WrapperNews\WrapperNewsXml;
 use Nlazarev\Hw6\Model\Wrapper\WrapperArticle\WrapperReview\WrapperReviewXml;
-use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactory;
 
 class ArticleFactoryXml extends ArticleFactory implements IArticleFactory
 {
-    public function createNews(string $header = "", string $main_text = "", string $source = ""): INews
+    public function createNewsContent(string $header = "", string $main_text = "", string $source = ""): INewsContent
     {
-        return ($news = new News($header, $main_text, $source))
-            ->setWrapper(new WrapperNewsXml($news));
+        return new NewsContent($news = new News($header, $main_text, $source), new WrapperNewsXml($news));
     }
 
-    public function createReview(string $header = "", string $main_text = "", int $rating = 1): IReview
+    public function createReviewContent(string $header = "", string $main_text = "", int $rating = 1): IReviewContent
     {
-        return ($review = new Review($header, $main_text, $rating))
-            ->setWrapper(new WrapperReviewXml($review));
+        return new ReviewContent($review = new Review($header, $main_text, $rating), new WrapperReviewXml($review));
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6\Model\Collection\CollectionArticle;
 
-use Nlazarev\Hw6\Model\Article\IArticle;
+use Nlazarev\Hw6\Model\ArticleContent\IArticleContent;
 use Nlazarev\Hw6\Model\Collection\CollectionObserver\CollectionObserver;
 use Nlazarev\Hw6\Model\Collection\CollectionObserver\ICollectionObserver;
 use Nlazarev\Hw6\Model\Iterator\IIteratorCustom;
@@ -16,7 +16,7 @@ class CollectionArticle implements ICollectionArticle
     private array $articles;
     private ICollectionObserver $observers;
 
-    public function __construct(IArticle ...$articles)
+    public function __construct(IArticleContent ...$articles)
     {
         $this->articles = $articles;
         $this->observers = new CollectionObserver(self::EVENTS_ALL, self::EVENTS_ARTICLE_ADD);
@@ -54,7 +54,7 @@ class CollectionArticle implements ICollectionArticle
         }
     }
 
-    public function add(IArticle $article)
+    public function add(IArticleContent $article)
     {
         $this->articles[] = $article;
         $this->notify(self::EVENTS_ARTICLE_ADD, $article);

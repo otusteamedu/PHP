@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6\Model\Collection\CollectionNews;
 
-use Nlazarev\Hw6\Model\Article\IArticle;
-use Nlazarev\Hw6\Model\Article\IArticleVisitor;
-use Nlazarev\Hw6\Model\Article\News\INews;
-use Nlazarev\Hw6\Model\Article\Review\IReview;
+use Nlazarev\Hw6\Model\ArticleContent\IArticleContent;
+use Nlazarev\Hw6\Model\ArticleContent\IArticleVisitor;
+use Nlazarev\Hw6\Model\ArticleContent\NewsContent\INewsContent;
+use Nlazarev\Hw6\Model\ArticleContent\ReviewContent\IReviewContent;
 use Nlazarev\Hw6\Model\Collection\CollectionArticle\ICollectionArticle;
 use SplSubject;
 
@@ -15,12 +15,12 @@ class CollectionNews implements ICollectionNews, IArticleVisitor
 {
     private array $news;
 
-    public function __construct(INews ...$news)
+    public function __construct(INewsContent ...$news)
     {
         $this->news = $news;
     }
 
-    public function add(INews $news)
+    public function add(INewsContent $news)
     {
         $this->news[] = $news;
 
@@ -44,19 +44,19 @@ class CollectionNews implements ICollectionNews, IArticleVisitor
             return;
         }
 
-        if (!($data instanceof IArticle)) {
+        if (!($data instanceof IArticleContent)) {
             return;
         }
 
         $data->accept($this);
     }
 
-    public function visitNews(INews $news): void
+    public function visitNews(INewsContent $news): void
     {
         $this->add($news);
     }
 
-    public function visitReview(IReview $review): void
+    public function visitReview(IReviewContent $review): void
     {
         return;
     }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6\Model\ArticleFactory;
 
-use Nlazarev\Hw6\Model\Article\News\INews;
-use Nlazarev\Hw6\Model\Article\Review\IReview;
+use Nlazarev\Hw6\Model\ArticleContent\NewsContent\INewsContent;
+use Nlazarev\Hw6\Model\ArticleContent\ReviewContent\IReviewContent;
 
 interface IArticleFactory
 {
     public static function getInstance(): IArticleFactory;
-    public function createNews(string $header = "", string $main_text = "", string $source = ""): INews;
-    public function createReview(string $header = "", string $main_text = "", int $rating = 1): IReview;
+    public function createNewsContent(string $header = "", string $main_text = "", string $source = ""): INewsContent;
+    public function createReviewContent(string $header = "", string $main_text = "", int $rating = 1): IReviewContent;
 }

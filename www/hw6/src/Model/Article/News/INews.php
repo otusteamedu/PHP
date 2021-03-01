@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nlazarev\Hw6\Model\Article\News;
 
 use Nlazarev\Hw6\Model\Article\IArticle;
-use Nlazarev\Hw6\Model\Article\IArticleVisitor;
 
 interface INews extends IArticle
 {

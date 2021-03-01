@@ -16,12 +16,12 @@ abstract class WrapperNews implements IWrapperArticle
         $this->news = $news;
     }
 
-    public function getNews()
+    public function getNews(): INews
     {
         return $this->news;
     }
 
-    public function setNews($news)
+    public function setNews(INews $news)
     {
         $this->news = $news;
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nlazarev\Hw6\Model\Article\Review;
 
 use Nlazarev\Hw6\Model\Article\Article;
-use Nlazarev\Hw6\Model\Article\IArticleVisitor;
 
 class Review extends Article implements IReview
 {
@@ -26,10 +25,5 @@ class Review extends Article implements IReview
     public function setRating(int $rating)
     {
         $this->raitng = $rating;
-    }
-
-    public function accept(IArticleVisitor $visitor)
-    {
-        $visitor->visitReview($this);
     }
 }

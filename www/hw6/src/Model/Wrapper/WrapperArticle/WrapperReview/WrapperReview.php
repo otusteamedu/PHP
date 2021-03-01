@@ -16,12 +16,12 @@ abstract class WrapperReview implements IWrapperArticle
         $this->review = $review;
     }
 
-    public function getReview()
+    public function getReview(): IReview
     {
         return $this->review;
     }
 
-    public function setReview($review)
+    public function setReview(IReview $review)
     {
         $this->review = $review;
 

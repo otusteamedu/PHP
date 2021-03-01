@@ -10,6 +10,4 @@ interface IArticle
     public function setHeader(string $header);
     public function getMainText(): string;
     public function setMainText(string $main_text);
-    public function getContent();
-    public function accept(IArticleVisitor $visitor);
 }
