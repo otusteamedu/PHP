@@ -3,3 +3,4 @@
 vendor
 *.cache
 *.bak
+data
