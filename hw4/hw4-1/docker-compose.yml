@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: webserver
+    ports:
+      - 80:80
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./code:/var/www/html
+      - ./socket:/socket
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    container_name: php-fpm
+    volumes:
+      - ./code:/var/www/html
+      - ./socket:/socket
+    expose:
+      - "9000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
