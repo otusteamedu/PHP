@@ -1,73 +1,58 @@
-CREATE TABLE `hall` (
-  `id` tinyint(1) NOT NULL,
-  `name` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- Drop table
 
-CREATE TABLE `location` (
-  `id` tinyint NOT NULL,
-  `hall_id` tinyint(1) NOT NULL,
-  `place` int NOT NULL,
-  `row` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE public.hall;
 
-CREATE TABLE `movie` (
-  `id` int NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE public.hall (
+	id int2 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	"name" varchar(20) NOT NULL,
+	CONSTRAINT hall_pk PRIMARY KEY (id)
+);
+CREATE INDEX hall_id_idx ON public.hall USING btree (id);
+-- Drop table
 
-CREATE TABLE `session` (
-  `id` int NOT NULL,
-  `movie_id` int NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- DROP TABLE public."location";
 
-CREATE TABLE `ticket` (
-  `session_id` int NOT NULL,
-  `location_id` tinyint NOT NULL,
-  `is_free` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE public."location" (
+	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	hall_id int2 NOT NULL,
+	place int2 NOT NULL,
+	"row" int2 NOT NULL,
+	CONSTRAINT location_pk PRIMARY KEY (id),
+	CONSTRAINT location_fk FOREIGN KEY (id) REFERENCES hall(id)
+);
+CREATE INDEX location_id_idx ON public.location USING btree (id);
+-- Drop table
 
-ALTER TABLE `hall`
-  ADD PRIMARY KEY (`id`);
+-- DROP TABLE public.movie;
 
-ALTER TABLE `location`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `location_hall_id` (`hall_id`);
+CREATE TABLE public.movie (
+	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	"name" varchar(40) NOT NULL,
+	CONSTRAINT movie_pk PRIMARY KEY (id)
+);
+CREATE INDEX movie_id_idx ON public.movie USING btree (id);
+-- Drop table
 
-ALTER TABLE `movie`
-  ADD PRIMARY KEY (`id`);
+-- DROP TABLE public."session";
 
-ALTER TABLE `session`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `session_movie_id` (`movie_id`);
+CREATE TABLE public."session" (
+	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	movie_id int4 NOT NULL,
+	"date" timestamptz(0) NOT NULL,
+	CONSTRAINT session_pk PRIMARY KEY (id),
+	CONSTRAINT session_fk FOREIGN KEY (movie_id) REFERENCES movie(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+-- Drop table
 
-ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`session_id`,`location_id`),
-  ADD KEY `ticket_location_id` (`location_id`);
+-- DROP TABLE public.ticket;
 
+CREATE TABLE public.ticket (
+	session_id int4 NOT NULL,
+	location_id int4 NOT NULL,
+	is_bought int2 NOT NULL DEFAULT 0,
+	price money NOT NULL,
+	CONSTRAINT ticket_pk PRIMARY KEY (session_id, location_id),
+	CONSTRAINT ticket_fk FOREIGN KEY (session_id) REFERENCES session(id),
+	CONSTRAINT ticket_fk_1 FOREIGN KEY (location_id) REFERENCES location(id)
+);
 
-ALTER TABLE `hall`
-  MODIFY `id` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
-
-ALTER TABLE `location`
-  MODIFY `id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
-
-ALTER TABLE `movie`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
-
-ALTER TABLE `session`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-ALTER TABLE `location`
-  ADD CONSTRAINT `location_hall_id` FOREIGN KEY (`hall_id`) REFERENCES `hall` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE `session`
-  ADD CONSTRAINT `session_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `ticket`
-  ADD CONSTRAINT `ticket_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `ticket_session_id` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
