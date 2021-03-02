@@ -55,7 +55,6 @@ CREATE TABLE session
 CREATE TABLE ticket
 (
     id            BIGSERIAL PRIMARY KEY,
-    customer_name VARCHAR(255),
     movie_id      INTEGER,
     hall_id       INTEGER,
     price         NUMERIC(6, 2) NOT NULL,
@@ -64,19 +63,26 @@ CREATE TABLE ticket
     session_id    BIGINT REFERENCES session
 );
 
-INSERT INTO ticket (customer_name, movie_id, hall_id, price, seat_no, seat_row)
-VALUES ('Ivan', 1, 2, 200, 1, 8),
-       ('Ivan', 2, 2, 300, 2, 12),
-       ('Ivan', 3, 2, 400, 3, 8),
-       ('Ivan', 2, 2, 500, 4, 18),
-       ('Ivan', 4, 2, 500, 5, 22),
-       ('Ivan', 2, 2, 300, 1, 10);
+INSERT INTO ticket (movie_id, hall_id, price, seat_no, seat_row)
+VALUES (1, 2, 200, 1, 8),
+       (2, 2, 300, 2, 12),
+       (3, 2, 400, 3, 8),
+       (2, 2, 500, 4, 18),
+       (4, 2, 500, 5, 22),
+       (2, 2, 300, 1, 10);
 
-
+CREATE TABLE orders
+(
+    id            BIGSERIAL PRIMARY KEY,
+    order_time    TIMESTAMP,
+    ticket_id     BIGINT REFERENCES ticket
+);
 
 SELECT t.movie_id,
        sum(t.price) sum
 FROM ticket t
 GROUP BY t.movie_id
 ORDER BY sum DESC
-LIMIT 1;```
+LIMIT 1;
+
+select now();```
