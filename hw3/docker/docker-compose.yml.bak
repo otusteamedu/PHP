@@ -1,0 +1,54 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  app:
+    image: myapp/php7.4-fpm
+    container_name: app7.4
+    volumes:
+       - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+       - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+        - "11211:11211"
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7.33
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
