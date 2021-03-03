@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./php7.4-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+       - ./code:/var/www/mysite.local
+       - ./php7.4-fpm/php.ini:/usr/local/etc/php/custom.d
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
