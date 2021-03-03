@@ -1,0 +1,71 @@
+CREATE DATABASE cinema;
+
+CREATE SCHEMA cinema_storage;
+
+CREATE TABLE cinema_storage.cinema (
+    name VARCHAR(255),
+    cinema_hall VARCHAR(255)
+);
+
+CREATE TABLE cinema_storage.halls (
+    cinema_id SERIAL PRIMARY KEY ,
+    name VARCHAR(255),
+    schedule JSON,
+    current_movie VARCHAR(500),
+    seats JSON
+);
+
+-- DROP TABLE cinema_storage.halls;
+
+CREATE TABLE cinema_storage.hall_movie (
+    id SERIAL PRIMARY KEY ,
+    cinema_id INTEGER,
+    movie_id INTEGER,
+    date_time TIMESTAMP
+);
+
+-- DROP TABLE cinema_storage.hall_movie;
+
+CREATE TABLE cinema_storage.movies (
+    id SERIAL PRIMARY KEY ,
+    name VARCHAR(500),
+    description TEXT,
+    time TIME,
+    price FLOAT,
+    box_office FLOAT
+);
+
+-- DROP TABLE cinema_storage.movies;
+
+CREATE TABLE cinema_storage.orders (
+    id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(255),
+    movie_id INTEGER,
+    hall_id INTEGER,
+    price INTEGER
+);
+
+DROP TABLE cinema_storage.orders;
+-- DROP TABLE public.orders;
+
+INSERT INTO orders (customer_name, movie_id, hall_id, price)
+VALUES ('Ivan', 1, 2, 200),
+       ('Ivan', 2, 2, 300),
+       ('Ivan', 3, 2, 400),
+       ('Ivan', 2, 2, 500),
+       ('Ivan', 4, 2, 500);
+
+-- SELECT movie_id,
+--        price
+-- FROM orders
+
+SELECT movie_id,
+       price
+FROM orders;
+
+SELECT orders.movie_id,
+       sum(orders.price) profit
+FROM orders
+GROUP BY orders.movie_id
+ORDER BY profit DESC
+LIMIT 1;

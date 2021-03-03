@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres
+    env_file:
+      - database.env
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - database:/var/lib/postgresql/data/
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8088:8080
+
+volumes:
+  database:
