@@ -52,6 +52,13 @@ CREATE TABLE session
     price         NUMERIC(6, 2) NOT NULL
 );
 
+CREATE TABLE orders
+(
+    id            BIGSERIAL PRIMARY KEY,
+    order_time    TIMESTAMP,
+    total_price   NUMERIC(3)
+);
+
 CREATE TABLE ticket
 (
     id            BIGSERIAL PRIMARY KEY,
@@ -60,7 +67,8 @@ CREATE TABLE ticket
     price         NUMERIC(6, 2) NOT NULL,
     seat_no       NUMERIC(3),
     seat_row      NUMERIC(3),
-    session_id    BIGINT REFERENCES session
+    session_id    BIGINT REFERENCES session,
+    order_id      BIGINT REFERENCES orders
 );
 
 INSERT INTO ticket (movie_id, hall_id, price, seat_no, seat_row)
@@ -71,12 +79,6 @@ VALUES (1, 2, 200, 1, 8),
        (4, 2, 500, 5, 22),
        (2, 2, 300, 1, 10);
 
-CREATE TABLE orders
-(
-    id            BIGSERIAL PRIMARY KEY,
-    order_time    TIMESTAMP,
-    ticket_id     BIGINT REFERENCES ticket
-);
 
 SELECT t.movie_id,
        sum(t.price) sum
