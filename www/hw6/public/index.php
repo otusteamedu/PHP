@@ -18,4 +18,5 @@ use Nlazarev\Hw6\App;
 try {
     App::run();
 } catch (Exception $e) {
+    echo $e->getMessage();
 }
