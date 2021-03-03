@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  client_php:
+    build:
+      context: ../php7.4-fpm
+      dockerfile: Dockerfile
+    image: client/php
+    container_name: client_php
+    volumes:
+       - ../code:/var/www/mysite.local
+    networks:
+      - client-network
+
+  client_nginx:
+    build:
+      context: ../nginx
+      dockerfile: Dockerfile
+    image: client/nginx
+    container_name: client_nginx
+    volumes:
+       - ../code:/var/www/mysite.local
+    networks:
+      - client-network
+
+networks:
+  client-network:
+    driver: bridge
