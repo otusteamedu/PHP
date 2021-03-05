@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Validator;
+namespace App\Validator\Rules;
 
-class ParenthesesSequenceValidator
+class ParenthesesSequenceRule implements RuleInterface
 {
 
-    public function validate(string $value): bool
+    public function validate($value): bool
     {
         $count = 0;
 
@@ -28,6 +28,11 @@ class ParenthesesSequenceValidator
 
         //Если $count не нулевой, значит есть открывающиеся скобки, для которых нет соответствующих закрывающихся скобок
         return ($count === 0);
+    }
+
+    public function getErrorMessage(): string
+    {
+        return 'Некорректная последовательность скобок. Каждая открывающая скобка должна имеет соответствующую закрывающую скобку';
     }
 
 }
