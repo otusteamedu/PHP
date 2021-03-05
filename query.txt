@@ -1,0 +1,6 @@
+SELECT session_id
+FROM ticket
+WHERE is_bought = 1
+GROUP BY session_id
+ORDER BY SUM(price) DESC
+LIMIT 1
