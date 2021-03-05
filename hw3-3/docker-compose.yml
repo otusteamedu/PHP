@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    app:
+        build: ./fpm
+        working_dir: /var/www/html
+        volumes:
+            - ./code:/var/www/html
+        networks:
+            - app-network
+    nginx:
+        image: nginx:alpine
+        ports:
+            - 8000:80
+        volumes:
+            - ./code:/var/www/html
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        networks:
+            - app-network
+    mysql:
+        image: mysql:8
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./mysql/data:/var/lib/mysql
+        networks:
+            - app-network
+    redis:
+        image: redis
+        networks:
+            - app-network
+    memcached:
+        image: memcached
+        networks:
+            - app-network
+networks:
+    app-network:
+        driver: bridge
