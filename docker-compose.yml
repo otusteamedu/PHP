@@ -9,7 +9,6 @@ services:
     container_name: app
     volumes:
        - ./app:/data/app.local
-       - ./fpm/php.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
     links:
@@ -41,14 +40,13 @@ services:
     image: mysql
     container_name: db
     ports:
-      - "3306:3306"
+      - "0.0.0.0:3306:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./dbdata:/var/lib/mysql  
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
 
@@ -65,8 +63,6 @@ services:
       - "6379:6379"
     volumes:
       - ./redis-data:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-    entrypoint: redis-server /usr/local/etc/redis/redis.conf
     networks:
       - app-network
 
