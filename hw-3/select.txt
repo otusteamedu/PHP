@@ -1,0 +1,14 @@
+SELECT 
+	s.movie_id,
+	count(s.movie_id) AS movie_tickets
+FROM 
+	tickets AS t
+LEFT JOIN 
+	sessions AS s
+ON 
+	t.session_id = s.id
+GROUP BY
+	s.movie_id
+ORDER BY
+	movie_tickets DESC
+LIMIT 1;
