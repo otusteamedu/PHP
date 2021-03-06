@@ -1,0 +1,2 @@
+php ~/composer.phar require golubev/hello-composer
+git clone https://github.com/Vogelswagen/hello-composer.git

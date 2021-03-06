@@ -1,0 +1,27 @@
+CREATE TABLE Halls (
+	id smallint NOT NULL,
+	name varchar(255) NOT NULL
+);
+
+CREATE TABLE Seats (
+	id smallint NOT NULL,
+	number smallint NOT NULL,
+	hall_id smallint NOT NULL
+);
+
+CREATE TABLE Movies (
+	id int NOT NULL,
+	name varchar(255) NOT NULL
+);
+
+CREATE TABLE Sessions (
+	id int NOT NULL,
+	hall_id smallint NOT NULL,
+	movie_id int NOT NULL
+);
+
+CREATE TABLE Tickets (
+	id int NOT NULL,
+	session_id int NOT NULL,
+	seat_id smallint NOT NULL
+);
