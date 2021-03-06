@@ -1,3 +1,12 @@
 <?php
-use app\src\Validator;
-echo '747';
+require_once 'vendor/autoload.php';
+
+use App\App;
+
+try {
+    $app = new App();
+    $app->run();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+
