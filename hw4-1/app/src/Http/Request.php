@@ -7,7 +7,7 @@ namespace App\Http;
 class Request
 {
 
-    public function getPost(string $paramName): string
+    public function getPost($paramName): string
     {
         return $_POST[$paramName] ?? '';
     }
