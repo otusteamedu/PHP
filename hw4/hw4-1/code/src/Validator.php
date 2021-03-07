@@ -5,9 +5,9 @@ namespace Src;
 
 class Validator
 {
-    private string $string;
+    private $string;
 
-    public function __construct(string $string)
+    public function __construct($string)
     {
         $this->string = $string;
     }
@@ -24,21 +24,8 @@ class Validator
 
     private function isBracketsEqual(): bool
     {
-        $brackets = [];
-
-        for($i = 0; $i < strlen($this->string); $i++) {
-            switch ($this->string[$i]) {
-                case '(':
-                    $brackets[] = $this->string[$i];
-                    break;
-                case ')':
-                    array_pop($brackets);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return empty($brackets);
+        $openedBrackets = substr_count($this->string, '(');
+        $closedBrackets = substr_count($this->string, ')');
+        return $closedBrackets === $openedBrackets;
     }
 }
