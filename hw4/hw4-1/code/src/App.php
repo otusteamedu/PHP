@@ -8,9 +8,9 @@ class App
 {
     public $string;
 
-    public function __construct($string)
+    public function __construct()
     {
-        $this->string = $string;
+        $this->string = $_POST('string');
     }
 
     public function run()
