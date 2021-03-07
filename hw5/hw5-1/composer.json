@@ -1,0 +1,19 @@
+{
+    "name": "mpodtykanov/email-validator",
+    "description": "Validate emails",
+    "authors": [
+        {
+            "name": "ghostlyit",
+            "email": "supermaximal23@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    }
+}
