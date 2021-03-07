@@ -1,0 +1,18 @@
+{
+    "name": "konstantin/web-server",
+    "type": "project",
+    "authors": [
+        {
+            "name": "konstantin",
+            "email": "noskov.kos@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Service\\": "src"
+        }
+    }
+}
