@@ -1,0 +1,70 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  b1-app:
+    build:
+      context: ./docker/backend1/fpm
+      dockerfile: Dockerfile
+    image: backend1/php # имя будущего образа
+    container_name: b1-app # имя контейнера после запуска
+    volumes:
+       - ./app:/app/backend1.loc
+    networks:
+      - app-network1
+
+  b1-webserver:
+    build:
+      context: ./docker/backend1/nginx
+      dockerfile: Dockerfile
+    image: backend1/nginx
+    container_name: b1-webserver
+    # проброс портов
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/app/backend1.loc
+    networks:
+      - app-network1
+
+  b2-app:
+    build:
+      context: ./docker/backend2/fpm
+      dockerfile: Dockerfile
+    image: backend2/php # имя будущего образа
+    container_name: b2-app # имя контейнера после запуска
+    volumes:
+      - ./app:/app/backend2.loc
+    networks:
+      - app-network1
+
+  b2-webserver:
+    build:
+      context: ./docker/backend2/nginx
+      dockerfile: Dockerfile
+    image: backend2/nginx
+    container_name: b2-webserver
+    # проброс портов
+    ports:
+      - "8001:80"
+    volumes:
+      - ./app:/app/backend2.loc
+    networks:
+      - app-network1
+
+  balancer:
+    build:
+      context: ./docker/nginx-balancer
+      dockerfile: Dockerfile
+    image: balancer
+    container_name: balancer
+    # проброс портов
+    ports:
+      - "80:80"
+    networks:
+      - app-network1
+
+#Docker Networks
+networks:
+  app-network1:
+    driver: bridge
