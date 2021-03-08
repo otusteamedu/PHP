@@ -1,6 +1,6 @@
 <?php
-// берем данные из файла настроек
-require_once __DIR__ . '/../bootstrap/init.php';
+
+use \Sockets\serverSocket;
 
 try {
     $client = new Sockets\clientSocket(
@@ -11,7 +11,5 @@ try {
     );
     $client->start();
 } catch (\Exception $exception) {
-    echo "Error:". $exception->getCode().". ".$exception->getMessage().PHP_EOL;
+    throw new Exception($exception->getMessage(),$exception->getCode());
 }
-
-echo "Good bye. See you later...\n";

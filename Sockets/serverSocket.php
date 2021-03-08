@@ -50,12 +50,12 @@ class serverSocket extends mainSocket
         );
         try {
             $this->socket->create();
-            echo "Сокет создан по адресу [$this->host:$this->port]\n";
             $address = ($this->domain != AF_UNIX) ? $this->host : $this->path;
             $this->socket->bind($address);
             $this->socket->listen();
+            echo "Сокет создан по адресу [$this->host:$this->port]\n";
         } catch (\Exception $exception) {
-            die("Error with code:" . $exception->getCode() . ". " .$exception->getMessage() . PHP_EOL);
+            throw new \Exception($exception->getMessage(), $exception->getCode());
         }
     }
 

@@ -14,7 +14,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Sockets\\" : "Sockets"
+            "Sockets\\" : "Sockets",
+            "app\\" : "app"
         }
     },
     "minimum-stability": "dev"

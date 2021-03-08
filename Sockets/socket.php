@@ -96,7 +96,7 @@ final class socket
      */
     public function bind($address = '127.0.0.1'):void
     {
-        $bind = @socket_bind($this->socket, $address, $this->port);
+        $bind = socket_bind($this->socket, $address, $this->port);
         if ($bind === false) {
             throw new \Exception(socket_strerror(socket_last_error($this->socket)), socket_last_error($this->socket));
         }
@@ -172,7 +172,7 @@ final class socket
      */
     private function read($socket): string
     {
-        $socketData = @socket_read($socket, $this->buffer_length);
+        $socketData = socket_read($socket, $this->buffer_length);
         if ($socketData === false) {
             throw new \Exception("Can't read data from socket. " . socket_strerror(socket_last_error()),
                 socket_last_error($this->socket));
@@ -192,7 +192,7 @@ final class socket
      */
     public function write($socket, string $data):void
     {
-        $result = @socket_write($socket, $data);
+        $result = socket_write($socket, $data);
         if ($result === false) {
             throw new \Exception(
                 "Can't to write to $this->host:$this->port, " . socket_strerror(socket_last_error($this->socket)),
@@ -206,7 +206,7 @@ final class socket
      */
     public function listen():void
     {
-        if (@socket_listen($this->socket, $this->maxConnections) === false) {
+        if (socket_listen($this->socket, $this->maxConnections) === false) {
          throw new \Exception(
              "Can't to listen at $this->host:$this->port, " . socket_strerror(socket_last_error($this->socket)),
              socket_last_error($this->socket));
@@ -219,7 +219,7 @@ final class socket
      */
     public function connect():void
     {
-        if (@socket_connect($this->socket, $this->host, $this->port) === false) {
+        if (socket_connect($this->socket, $this->host, $this->port) === false) {
             throw new \Exception(
                 "Can't to connect to socket $this->host:$this->port, " .socket_strerror(socket_last_error($this->socket)),
                 socket_last_error($this->socket));
@@ -236,12 +236,12 @@ final class socket
     public function accept($acceptBlockMode = true)
     {
         if (!$acceptBlockMode) {
-            if (@socket_set_nonblock($this->socket) === false ) {
+            if (socket_set_nonblock($this->socket) === false ) {
                 throw new \Exception(socket_strerror(socket_last_error($this->socket)), socket_last_error($this->socket));
             }
-            return @socket_accept($this->socket);
+            return socket_accept($this->socket);
         }
-        $this->acceptedSocket = @socket_accept($this->socket);
+        $this->acceptedSocket = socket_accept($this->socket);
     }
 
     /**

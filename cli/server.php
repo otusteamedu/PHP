@@ -1,7 +1,7 @@
 <?php
 use \Sockets\serverSocket;
 // берем данные из файла настроек
-require_once __DIR__ . '/../bootstrap/init.php';
+//require_once __DIR__ . '/../bootstrap/init.php';
 
 try {
     $createdObject = ($_ENV['SERVER_SOCKET_MULTICONNECTION'] == 'true') ? 'Sockets\serverConnections' : 'Sockets\serverSocket';
@@ -15,8 +15,6 @@ try {
     );
     $server->start();
 } catch (\Exception $exception) {
-    echo "Error:". $exception->getCode().". ".$exception->getMessage().PHP_EOL;
+    throw new Exception($exception->getMessage(),$exception->getCode());
 }
-
-echo "Good bye. See you later...\n";
 

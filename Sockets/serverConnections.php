@@ -55,7 +55,7 @@ class serverConnections extends serverSocket
                 try {
                     $this->OnReadSockets($readSock);
                     if ($this->stopFlag) {
-                        exit(0);
+                        break(2);
                     }
                 } catch (\Exception $exception) {
                     $id  = $this->getIdBySocket($readSock);
@@ -148,7 +148,7 @@ class serverConnections extends serverSocket
         return (int)array_search($socket, array_column($this->SocketBeans, 'Connection','ID'), true);
     }
 
-    private function OnClientDisconnect ($Socket)
+    private function OnClientDisconnect($Socket)
     {
 
     }
