@@ -1,0 +1,16 @@
+{
+    "name": "mpodtykanov/code",
+    "type": "library",
+    "authors": [
+        {
+            "name": "ghostlyit",
+            "email": "supermaximal23@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src"
+        }
+    }
+}
