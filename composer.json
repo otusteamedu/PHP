@@ -13,10 +13,17 @@
         }
     ],
     "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "ext-sockets": "*"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "helpers\/http_routes.php",
+            "helpers\/console_routes.php",
+            "helpers\/rules.php"
+        ]
     }
 }

@@ -1,23 +1,18 @@
-# версия синтаксиса
 version: '3'
 
-# в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #Контейнер с PHP, назовём его app
   app:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./docker/php
       dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: app # имя контейнера после запуска
+    image: myapp/php
+    container_name: app
     volumes:
        - ./:/var/www/hw.loc
-    # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
 
-  # контейнер с Nginx
   webserver:
     build:
       context: ./docker/nginx
@@ -33,23 +28,28 @@ services:
     networks:
       - app-network
 
-  # контейнер с MySQL
-  # строим на базе стандартного образа
-  db:
-    image: mysql:5.7.22
-    container_name: db
-    ports:
-      - "3306:3306"
-    # описываем, какую БД мы создаём
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  socket_server:
+    build:
+      context: ./docker/socket_server
+      dockerfile: Dockerfile
+    image: myapp/socket_server
+    container_name: socket_server
     volumes:
-      - ./dbdata:/var/lib/mysql  
+      - ./:/var/www/hw.loc
     networks:
       - app-network
 
-#Docker Networks
+  socket_client:
+    build:
+      context: ./docker/socket_client
+      dockerfile: Dockerfile
+    image: myapp/socket_client
+    container_name: socket_client
+    volumes:
+      - ./:/var/www/hw.loc
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
