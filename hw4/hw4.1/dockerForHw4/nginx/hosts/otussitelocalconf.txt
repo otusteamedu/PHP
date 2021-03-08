@@ -1,0 +1,78 @@
+server {
+    # указываем 80 порт для соединения
+    listen 80;
+    # нужно указать, какому доменному имени принадлежит наш конфиг
+    server_name otussite.local;
+
+    # задаём корневую директорию
+    root /data/otussite.local;
+
+    # стартовый файл
+    index index.php index.html;
+
+    # при обращении к статическим файлам логи не нужны, равно как и обращение к fpm
+    location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        access_log off;
+        expires max;
+    }
+
+    # помним про единую точку доступа
+    # все запросы заворачиваются в корневую директорию root на index.php
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # location ~* /POST/ {
+    #     if ($request_body ~* "^((?>[^()]|\((?1)\))*)$") {
+    #         return 405;
+    #     }
+    #     try_files $uri = 404;
+    #     error_page 404 /index.html;
+    #     fastcgi_split_path_info ^(.+.php)(/.+)$;
+    #     fastcgi_pass app:9000;
+    #     fastcgi_index index.php;
+    #     fastcgi_param REQUEST_METHOD  $request_method;
+    #     fastcgi_param CONTENT_TYPE    $content_type;
+    #     fastcgi_param CONTENT_LENGTH  $content_length;  
+    #     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    #     include fastcgi_params;
+    # }
+
+    # и наконец правило обращения к php-fpm
+    location ~* .php$ {
+        try_files $uri = 404;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        fastcgi_param REQUEST_METHOD  $request_method;
+        fastcgi_param CONTENT_TYPE    $content_type;
+        fastcgi_param CONTENT_LENGTH  $content_length;  
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~* /error {
+        return 400;
+        try_files $uri = 400;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index app.php;
+        fastcgi_param REQUEST_METHOD  $request_method;
+        fastcgi_param CONTENT_TYPE    $content_type;
+        fastcgi_param CONTENT_LENGTH  $content_length;  
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~* /good {
+        return 200 "All good";
+        try_files $uri = 400;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_param REQUEST_METHOD  $request_method;
+        fastcgi_param CONTENT_TYPE    $content_type;
+        fastcgi_param CONTENT_LENGTH  $content_length;  
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
