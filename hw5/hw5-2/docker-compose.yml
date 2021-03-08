@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: webserver
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./code:/var/www/html
+      - ./socket:/socket
+
+  php1:
+    build:
+      context: ./docker/php/php1
+      dockerfile: Dockerfile
+    container_name: php1
+    volumes:
+      - ./code:/var/www/html
+      - ./socket:/socket
+
+  php2:
+    build:
+      context: ./docker/php/php2
+      dockerfile: Dockerfile
+    container_name: php2
+    volumes:
+      - ./code:/var/www/html
+      - ./socket:/socket
+
+  php3:
+    build:
+      context: ./docker/php/php3
+      dockerfile: Dockerfile
+    container_name: php3
+    volumes:
+      - ./code:/var/www/html
+      - ./socket:/socket
