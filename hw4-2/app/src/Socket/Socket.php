@@ -68,7 +68,7 @@ class Socket
 
     protected static function assertPortIsSpecified(int $port)
     {
-        if ($port <= 0) {
+        if ($port < 0) {
             throw new InvalidArgumentException('Не указан порт');
         }
     }
