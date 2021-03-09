@@ -1,8 +1,6 @@
 FROM php:7.4.6-fpm
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-#
-#ENV PKG_CONFIG_PATH "/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig"
 
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
 
@@ -22,16 +20,15 @@ RUN apt-get update && apt-get install -y \
 		&& docker-php-ext-install pdo_pgsql \
 		&& docker-php-ext-install iconv \
 		&& docker-php-ext-install pdo_pgsql gd zip json curl bcmath mbstring exif pcntl sockets \
-		&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-		&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
-        && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/memcached.ini \
-        && echo "extension=raphf.so\nextension=propro.so\nextension=iconv.so\nextension=http.so" > /usr/local/etc/php/conf.d/docker-php-ext-http.ini \
-           && echo "extension=http.so" > /usr/local/etc/php/conf.d/http.ini
+		&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
+
 VOLUME /var/www/html
+
 EXPOSE 9000
+
 CMD ["php-fpm"]

@@ -26,6 +26,7 @@ services:
     volumes:
       - ./app:/var/www/html/app
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./tmp/sockets:/tmp/sockets
     ports:
       - "9000:9000"
     networks:
@@ -40,6 +41,7 @@ services:
     volumes:
       - ./app:/var/www/html/app
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./tmp/sockets:/tmp/sockets
     ports:
       - "9010:9010"
     networks:

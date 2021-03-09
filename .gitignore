@@ -5,3 +5,6 @@
 /part1/app/vendor
 /part1/logs
 /part2/logs
+/part2/app/vendor
+/part2/app/.env
+/part2/tmp/*

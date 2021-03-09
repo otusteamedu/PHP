@@ -1,0 +1,25 @@
+{
+    "name": "denis/app",
+    "description": "hw1-4/part-2",
+    "keywords": [
+        "otus",
+        "hw1-4/2"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
