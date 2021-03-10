@@ -1,0 +1,21 @@
+version: '3'
+services:
+    server-php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/server-php-cli
+        container_name: server-php-cli
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+
+    client-php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/client-php-cli
+        container_name: client-php-cli
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
