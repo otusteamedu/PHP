@@ -49,7 +49,6 @@ CREATE TABLE public.movie_attribute_value (
 	movie_id int4 NOT NULL,
 	date_value date NULL,
 	text_value text NULL,
-	num_value numeric(8,2) NULL,
 	bool_value bool NULL,
 	int_value int4 NULL,
 	float_value float4 NULL,
