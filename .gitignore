@@ -2,3 +2,11 @@
 /1) Environment/docker/dbdata
 /1) Environment/docker/docker-compose.yml.bak
 /1) Environment/docker/.env
+/part1/app/vendor
+/part1/logs
+/part2/logs
+/part2/app/vendor
+/part2/app/.env
+/part2/tmp/
+/hw1-5/emailValidator/vendor
+/hw1-5/emailValidator/.env
