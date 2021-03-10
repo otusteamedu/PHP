@@ -1,0 +1,55 @@
+INSERT INTO public.film_attribute_values (id,film_attribute_id,film_id,text_value,boolean_value,date_value,created_at,updated_at) VALUES
+	 (2,2,1,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (4,2,2,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (5,2,3,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (6,2,4,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (7,3,1,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (8,3,2,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (9,3,3,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (10,3,4,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (11,2,5,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242'),
+	 (12,3,5,'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."',NULL,NULL,'2021-03-10 20:41:08.176242','2021-03-10 20:41:08.176242');
+INSERT INTO public.film_attribute_values (id,film_attribute_id,film_id,text_value,boolean_value,date_value,created_at,updated_at) VALUES
+	 (13,4,1,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (14,4,2,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (15,4,3,NULL,false,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (16,4,4,NULL,false,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (17,4,5,NULL,false,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (18,5,1,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (19,5,3,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (20,5,5,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (21,6,1,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815'),
+	 (22,6,2,NULL,true,NULL,'2021-03-10 20:43:40.001815','2021-03-10 20:43:40.001815');
+INSERT INTO public.film_attribute_values (id,film_attribute_id,film_id,text_value,boolean_value,date_value,created_at,updated_at) VALUES
+	 (23,7,1,NULL,NULL,'2021-01-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (24,7,2,NULL,NULL,'2021-01-02 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (25,7,3,NULL,NULL,'2021-01-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (26,7,4,NULL,NULL,'2021-01-04 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (27,7,5,NULL,NULL,'2021-01-05 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (28,8,1,NULL,NULL,'2021-02-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (29,8,2,NULL,NULL,'2021-03-02 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (30,8,3,NULL,NULL,'2021-04-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (31,8,4,NULL,NULL,'2021-05-04 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (32,8,5,NULL,NULL,'2021-06-05 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195');
+INSERT INTO public.film_attribute_values (id,film_attribute_id,film_id,text_value,boolean_value,date_value,created_at,updated_at) VALUES
+	 (33,9,1,NULL,NULL,'2021-02-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (35,9,3,NULL,NULL,'2021-04-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (37,9,5,NULL,NULL,'2021-06-05 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (38,10,1,NULL,NULL,'2021-02-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (40,10,3,NULL,NULL,'2021-04-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (41,10,4,NULL,NULL,'2021-05-04 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (42,10,5,NULL,NULL,'2021-06-05 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (36,9,4,NULL,NULL,'2021-03-30 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (39,10,2,NULL,NULL,'2021-03-10 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (44,12,1,NULL,NULL,'2021-02-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195');
+INSERT INTO public.film_attribute_values (id,film_attribute_id,film_id,text_value,boolean_value,date_value,created_at,updated_at) VALUES
+	 (46,12,3,NULL,NULL,'2021-04-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (47,12,4,NULL,NULL,'2021-05-04 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (48,12,5,NULL,NULL,'2021-06-05 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (49,13,1,NULL,NULL,'2021-02-01 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (51,13,3,NULL,NULL,'2021-04-03 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (52,13,4,NULL,NULL,'2021-05-04 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (34,9,2,NULL,NULL,'2021-03-10 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (45,12,2,NULL,NULL,'2021-03-10 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (50,13,2,NULL,NULL,'2021-03-10 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195'),
+	 (53,13,5,NULL,NULL,'2021-03-10 00:00:00','2021-03-10 20:46:03.1195','2021-03-10 20:46:03.1195');
