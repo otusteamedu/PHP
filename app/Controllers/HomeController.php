@@ -13,13 +13,32 @@ class HomeController
 
     /**
      * @param array $request
+     * @param array $validatingRule
      *
      * @return BadResponse|GoodResponse
      */
-    public function index(array $request) : AbstractResponse
+    public function index(array $request, array $validatingRule): AbstractResponse
     {
         try {
-            $this->validateRequest($request);
+            $this->validateRequest($request, $validatingRule);
+
+            return new GoodResponse();
+
+        } catch (BadRequestException $e) {
+            return new BadResponse();
+        }
+    }
+
+    /**
+     * @param array $request
+     * @param array $validatingRule
+     *
+     * @return AbstractResponse
+     */
+    public function verifyEmail(array $request, array $validatingRule): AbstractResponse
+    {
+        try {
+            $this->validateRequest($request, $validatingRule);
 
             return new GoodResponse();
 

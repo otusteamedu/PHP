@@ -8,12 +8,13 @@ trait CanValidateRequestTrait
 {
     /**
      * @param $request
+     * @param $validatingRule
      *
      * @throws BadRequestException
      */
-    protected function validateRequest($request)
+    protected function validateRequest($request, $validatingRule)
     {
-        foreach (rules() as $key => $rules) {
+        foreach ($validatingRule as $key => $rules) {
             //take key parameter from rules array and check if it is present in the request
             if (!isset($request[$key])) {
                 throw new BadRequestException('Bad Request');

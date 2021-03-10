@@ -25,14 +25,16 @@ class HttpKernel
 
     /**
      * @throws NoSuchHttpRoute
+     * @throws Exceptions\NoValidatingRulesForThisRoute
      */
     public function run()
     {
         $route = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = strtolower($_SERVER['REQUEST_METHOD']);
+        $validatingRule = rules("{$method}@{$route}");
 
         $route = $this->evaluateRoute($route, $method);
-        $response = $this->instantiateController($route, $_REQUEST);
+        $response = $this->instantiateController($route, $_REQUEST, $validatingRule);
         $this->dispatchResponse($response);
     }
 
@@ -56,15 +58,16 @@ class HttpKernel
     /**
      * @param array $route
      * @param array $request
+     * @param array $validatingRule
      *
      * @return mixed
      */
-    protected function instantiateController(array $route, array $request)
+    protected function instantiateController(array $route, array $request, array $validatingRule)
     {
         $controller = "App\Controllers\\{$route[0]}";
         $method = $route[1];
 
-        return (new $controller)->$method($request);
+        return (new $controller)->$method($request, $validatingRule);
     }
 
     /**
