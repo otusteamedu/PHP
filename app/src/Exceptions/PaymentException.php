@@ -10,6 +10,8 @@ use Throwable;
 
 class PaymentException extends \Exception
 {
+    const PAYMENT_ERROR_CODE = 403;
+
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);

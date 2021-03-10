@@ -20,16 +20,20 @@ class OrderValidator
     /**
      * @return bool
      * @throws ValidationException
+     * @throws \Rakit\Validation\RuleQuashException
      */
     public function validate()
     {
+        $this->validator->addValidator('order_sum', new SumValidatorRule());
+        $this->validator->addValidator('card_holder', new CardHolderValidatorRule());
+
         $validation = $this->validator->validate($this->requestData, [
             'card_number' => 'required|digits:16',
-            'card_holder' => 'required|alpha_spaces',
-            'card_expiration' => 'required|date',
+            'card_holder' => 'required|card_holder',
+            'card_expiration' => 'required|after:' . date('Y-m-d'),
             'cvv' => 'required|digits:3',
             "order_number" => 'required',
-            "sum" => "required"
+            "sum" => "required|order_sum:100,1000000"
         ]);
 
 

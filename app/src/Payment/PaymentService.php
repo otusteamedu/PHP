@@ -26,7 +26,7 @@ class PaymentService
         sleep(1);
 
         if (self::WITH_ERROR){
-            throw new PaymentException('payment service error,', Logger::CRITICAL);
+            throw new PaymentException('payment service error,', PaymentException::PAYMENT_ERROR_CODE);
         }
 
         $this->requestData['additional_data'] = ['data' => 'data'];

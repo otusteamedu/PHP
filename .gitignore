@@ -1,2 +1,4 @@
 /.idea
 /app/vendor
+/app/logs
+/app/tests/logs
