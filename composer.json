@@ -15,7 +15,8 @@
     "autoload": {
         "psr-4": {
             "Sockets\\" : "Sockets",
-            "app\\" : "app"
+            "app\\" : "app",
+            "Controllers\\" : "src/controllers"
         }
     },
     "minimum-stability": "dev"
