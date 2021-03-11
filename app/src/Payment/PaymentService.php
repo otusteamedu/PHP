@@ -8,12 +8,14 @@ use Otus\Repository\OrderRepository;
 
 class PaymentService
 {
-    const WITH_ERROR = false; //чист для теста
-    private array $requestData;
 
-    public function __construct(array $requestData)
+    private array $requestData;
+    private bool $error; // чист для теста
+
+    public function __construct(array $requestData, bool $error = false)
     {
         $this->requestData = $requestData;
+        $this->error = $error;
     }
 
     /**
@@ -25,7 +27,7 @@ class PaymentService
         //имитация оплаты
         sleep(1);
 
-        if (self::WITH_ERROR){
+        if ($this->error){
             throw new PaymentException('payment service error,', PaymentException::PAYMENT_ERROR_CODE);
         }
 

@@ -3,7 +3,6 @@
 
 namespace OtusTest\unit;
 
-
 use Monolog\Logger;
 use Otus\Exceptions\ValidationException;
 use Otus\Validator\OrderValidator;

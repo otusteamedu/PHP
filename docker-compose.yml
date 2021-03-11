@@ -26,19 +26,19 @@ services:
       PHP_IDE_CONFIG: "serverName=Docker"
     networks:
       - internal
-
-  postgres:
-    image: "postgres:12.6"
-    restart: always
-    container_name: postgres
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: otus
-      POSTGRES_USER: otus
-      POSTGRES_PASSWORD: otus
-    ports:
-      - "5432:5432"
+#
+#  postgres:
+#    image: "postgres:12.6"
+#    restart: always
+#    container_name: postgres
+#    volumes:
+#      - ./data/postgres:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: otus
+#      POSTGRES_USER: otus
+#      POSTGRES_PASSWORD: otus
+#    ports:
+#      - "5432:5432"
 
 
 networks:

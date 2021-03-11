@@ -2,7 +2,6 @@
 
 namespace Otus\Controller;
 
-use Otus\Exceptions\ValidationException;
 use Otus\Payment\PaymentService;
 use Otus\Request\AppRequest;
 use Otus\Response\AppResponse;
