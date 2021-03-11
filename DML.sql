@@ -1,0 +1,61 @@
+INSERT INTO public.movies ("name") VALUES
+	('Green Book'),
+	('Django Unchained'),
+	('Now You See Me');
+
+INSERT INTO public.movie_attrs_types ("name") VALUES
+	 ('Текст'),
+	 ('Сумма'),
+	 ('Время'),
+	 ('Оценка'),
+	 ('Служебная дата'),
+	 ('Информационная дата');
+
+INSERT INTO public.movie_attrs ("name",type_id) VALUES
+	 ('Режисёр',1),
+	 ('Премьера РФ',3),
+	 ('Премьера мир',3),
+	 ('Бюджет',2),
+	 ('Сборы РФ',2),
+	 ('Сборы мир',2),
+	 ('Длительность',4),
+	 ('Слоган',1),
+	 ('Рейтинг',5),
+	 ('Выпуск на DVD',6),
+	 ('Выпуск в онлайн-кинотеатрах',6),
+	 ('Запуск рекламы',6);
+
+INSERT INTO public.movie_attrs_values (movie_id,attr_id,text_value,int_value,date_value,time_value,numeric_value) VALUES
+	 (1,1,'Питер Фаррелли',NULL,NULL,NULL,NULL),
+	 (1,2,'2021-04-10',NULL,NULL,NULL,NULL),
+	 (1,3,NULL,NULL,'2021-04-10',NULL,NULL),
+	 (1,4,NULL,23000000,NULL,NULL,NULL),
+	 (1,5,NULL,9319659,NULL,NULL,NULL),
+	 (1,6,NULL,321752656,NULL,NULL,NULL),
+	 (1,7,NULL,NULL,'2021-03-11',NULL,NULL),
+	 (1,8,NULL,NULL,NULL,'02:10:00',NULL),
+	 (1,9,'«Inspired by a True Friendship»',NULL,NULL,NULL,NULL),
+	 (1,10,NULL,NULL,NULL,NULL,8.3),
+	 (1,12,NULL,NULL,'2021-03-11',NULL,NULL),
+	 (2,1,'Квентин Тарантино',NULL,NULL,NULL,NULL),
+	 (2,2,'2021-04-10',NULL,NULL,NULL,NULL),
+	 (2,3,NULL,NULL,'2021-03-21',NULL,NULL),
+	 (2,4,NULL,100000000,NULL,NULL,NULL),
+	 (2,5,NULL,15990907,NULL,NULL,NULL),
+	 (2,6,NULL,425368236,NULL,NULL,NULL),
+	 (2,7,NULL,NULL,'2021-04-10',NULL,NULL),
+	 (2,8,NULL,NULL,NULL,'02:10:00',NULL),
+	 (2,9,'«Они забрали его свободу. Он заберёт у них всё»',NULL,NULL,NULL,NULL),
+	 (2,10,NULL,NULL,NULL,NULL,8.2),
+	 (2,12,NULL,NULL,'2021-03-22',NULL,NULL),
+	 (3,1,'Луи Летерье',NULL,NULL,NULL,NULL),
+	 (3,2,'2021-04-10',NULL,NULL,NULL,NULL),
+	 (3,3,NULL,NULL,'2021-03-31',NULL,NULL),
+	 (3,4,NULL,75000000,NULL,NULL,NULL),
+	 (3,5,NULL,20956962,NULL,NULL,NULL),
+	 (3,6,NULL,351723989,NULL,NULL,NULL),
+	 (3,7,NULL,NULL,'2021-03-31',NULL,NULL),
+	 (3,8,NULL,NULL,NULL,'02:10:00',NULL),
+	 (3,9,'«Чем вы ближе, тем меньше вы видите»',NULL,NULL,NULL,NULL),
+	 (3,10,NULL,NULL,NULL,NULL,7.7),
+	 (3,12,NULL,NULL,'2021-03-11',NULL,NULL);
