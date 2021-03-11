@@ -6,36 +6,49 @@ use Exception;
 
 class Config
 {
-    const FILE_NAME = 'config.yaml';
+    const ROOT_PATH = __DIR__ . '/../../config.yaml';
 
-    private string $filePath;
-
-    public function __construct(string $filePath = '')
+    private function __construct()
     {
-        if (empty($filePath)) {
-            $filePath = self::FILE_NAME;
-        }
-
-        if (empty(file_exists($filePath))) {
-            throw new Exception($filePath . ' does not exit.');
-        }
-
-        $this->filePath = $filePath;
     }
 
-    public function load(): void
+    public static function create()
     {
-        foreach ($this->readFile() as $varName => $varValue) {
+        if (empty(file_exists(self::ROOT_PATH))) {
+            throw new Exception(self::ROOT_PATH . ' does not exit.');
+        }
+
+        self::load(self::ROOT_PATH);
+    }
+
+    private function load(string $filePath): void
+    {
+        $data = self::process($filePath);
+        foreach ($data as $key => $item) {
+            $_ENV[$key] = $item;
+        }
+    }
+
+    private function process(string $filePath): array
+    {
+        $data = [];
+
+        foreach (self::readFile($filePath) as $varName => $varValue) {
             if (empty($varValue)) {
                 throw new Exception('Config has empty variable "' . $varName . '"');
             }
-            $_ENV[$varName] = $varValue;
+            if (file_exists($varValue)) {
+                $varValue = self::process($varValue);
+            }
+            $data[$varName] = $varValue;
         }
+
+        return $data;
     }
 
-    private function readFile(): array
+    private function readFile(string $filePath): array
     {
-        return \Symfony\Component\Yaml\Yaml::parseFile($this->filePath);
+        return \Symfony\Component\Yaml\Yaml::parseFile($filePath);
     }
 
 }

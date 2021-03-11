@@ -18,8 +18,7 @@ class App
 
     private function loadConfig(): void
     {
-        $config = new Config(__DIR__ . '/../../config.yaml');
-        $config->load();
+        Config::create();
     }
 
     private function getQueue(): ?QueueInterface
