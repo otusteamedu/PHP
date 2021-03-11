@@ -7,6 +7,8 @@ CREATE TABLE public.film_attribute_values (
       date_value timestamp NULL,
       created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      integer_value int4 NULL,
+      float_value float8 NULL,
       CONSTRAINT film_attribute_values_pkey PRIMARY KEY (id),
       CONSTRAINT film_attribute_values_film_attribute_id_fkey FOREIGN KEY (film_attribute_id) REFERENCES film_attributes(id) ON UPDATE CASCADE ON DELETE CASCADE,
       CONSTRAINT film_attribute_values_film_id_fkey FOREIGN KEY (film_id) REFERENCES films(id) ON UPDATE CASCADE ON DELETE CASCADE
