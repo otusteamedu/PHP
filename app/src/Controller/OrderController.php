@@ -3,6 +3,7 @@
 namespace Otus\Controller;
 
 use Otus\Payment\PaymentService;
+use Otus\Repository\OrderRepository;
 use Otus\Request\AppRequest;
 use Otus\Response\AppResponse;
 use Otus\Validator\OrderValidator;
@@ -17,7 +18,10 @@ class OrderController
         $validator->validate();
 
         $paymentService = new PaymentService($requestData->getData());
-        $paymentService->pay();
+        $result = $paymentService->pay();
+
+        $orderRepository = new OrderRepository($result);
+        $orderRepository->save();
 
         AppResponse::response(['order_status' => 'completed']);
     }

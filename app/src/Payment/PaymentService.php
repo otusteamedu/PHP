@@ -19,23 +19,23 @@ class PaymentService
     }
 
     /**
-     * @return bool
+     * @return mixed
      * @throws PaymentException
      */
-    public function pay(): bool
+    public function pay(): array
     {
         //имитация оплаты
         sleep(1);
 
         if ($this->error){
-            throw new PaymentException('payment service error,', PaymentException::PAYMENT_ERROR_CODE);
+            throw new PaymentException('payment service error,',
+                PaymentException::PAYMENT_ERROR_CODE);
         }
 
-        $this->requestData['additional_data'] = ['data' => 'data'];
+        $dataFromService = ['data' => 'data'];
 
-        $orderRepository = new OrderRepository($this->requestData);
-        $orderRepository->save();
+        $this->requestData['additional_data'] = $dataFromService;
 
-        return true;
+        return $dataFromService;
     }
 }

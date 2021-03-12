@@ -25,6 +25,6 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0@dev"
+        "codeception/codeception": "5.0.x-dev"
     }
 }
