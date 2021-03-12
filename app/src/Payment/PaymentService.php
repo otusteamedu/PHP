@@ -36,6 +36,6 @@ class PaymentService
 
         $this->requestData['additional_data'] = $dataFromService;
 
-        return $dataFromService;
+        return $this->requestData;
     }
 }
