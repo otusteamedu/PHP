@@ -22,56 +22,73 @@ class serverConnections extends serverSocket
         // Ждем подключения и сообщения от клиентов, пока не придет команда на завершение
         do {
             // Ожидаем подключения
-            if (($tmpSock = $this->socket->accept(static::ACCEPT_BLOCK_MODE))) {
-                // Добавляем новое подключение в массив бинов $this->SocketBeans
-                if (socket_getpeername($tmpSock, $tmpIP)) {
-                    $NewSession = array_key_first($this->SocketBeans) ?? 0;
-                    $NewSession++;
-                    while (true) {
-                        if (!isset ($this->SocketBeans[$NewSession])) {
-                            $this->SocketBeans[$NewSession]['Connection'] = $tmpSock;
-                            $this->SocketBeans[$NewSession]['ID'] = $NewSession;
-                            socket_getpeername(
-                                $this->SocketBeans[$NewSession]['Connection'],
-                                $this->SocketBeans[$NewSession]['IP'],
-                                $this->SocketBeans[$NewSession]['Port']
-                            );
-                            break;
-                        } else $NewSession++;
-                    }
-                    $this->OnClientConnect($this->SocketBeans[$NewSession]);
-                    unset ($NewSession);
-                    unset ($tmpSock);
-                }
-            }
-            // создаем массив из действующих сокетов
-            $SendedMsgSockets = [];
-            foreach ($this->SocketBeans as $readSock) {
-                $SendedMsgSockets[] = $readSock['Connection'];
-            }
+            $this->waitingConnections();
             // узнаем какие сокеты что-то сказали
-            $activeSocket = $this->socket->select($SendedMsgSockets);
-            foreach ($activeSocket as $readSock) {
-                try {
-                    $this->OnReadSockets($readSock);
-                    if ($this->stopFlag) {
-                        break(2);
-                    }
-                } catch (\Exception $exception) {
-                    $id  = $this->getIdBySocket($readSock);
-                    $this->closeConnection($readSock);
-                    echo "Error with client number". $id .". ".$exception->getMessage() . PHP_EOL;
-                }
+            $this->checkMessages($this->getTalkingSocketsList());
+        } while (!$this->stopFlag);
+    }
+
+    private function checkMessages(array $activeSockets):void
+    {
+        // получаем сокеты с сообщениями
+        $activeSocket = $this->socket->select($activeSockets);
+        foreach ($activeSocket as $readSock) {
+            try {
+                $this->OnReadSockets($readSock);
+            } catch (\Exception $exception) {
+                $id  = $this->getIdBySocket($readSock);
+                $this->closeConnection($readSock);
+                echo "Error with client number". $id .". ".$exception->getMessage() . PHP_EOL;
             }
-            // usleep (200000);
-        } while (true);
+        }
+    }
+
+    private function addNewConnection(\Socket $Sock):void
+    {
+        if (socket_getpeername($Sock, $tmpIP)) {
+            $NewSession = array_key_first($this->SocketBeans) ?? 0;
+            $NewSession++;
+            while (true) {
+                if (!isset ($this->SocketBeans[$NewSession])) {
+                    $this->SocketBeans[$NewSession]['Connection'] = $Sock;
+                    $this->SocketBeans[$NewSession]['ID'] = $NewSession;
+                    socket_getpeername(
+                        $this->SocketBeans[$NewSession]['Connection'],
+                        $this->SocketBeans[$NewSession]['IP'],
+                        $this->SocketBeans[$NewSession]['Port']
+                    );
+                    break;
+                } else $NewSession++;
+            }
+            $this->OnClientConnect($this->SocketBeans[$NewSession]);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function getTalkingSocketsList(): array
+    {
+        $SendedMsgSockets = [];
+        foreach ($this->SocketBeans as $readSock) {
+            $SendedMsgSockets[] = $readSock['Connection'];
+        }
+        return $SendedMsgSockets;
+    }
+
+    private function waitingConnections():void
+    {
+        if (($tmpSock = $this->socket->accept(static::ACCEPT_BLOCK_MODE))) {
+            // Добавляем новое подключение в массив бинов $this->SocketBeans
+            $this->addNewConnection($tmpSock);
+        }
     }
 
     /**
      * Закрывает соединение с клиентом
      * @param $socket
      */
-    private function closeConnection($socket)
+    private function closeConnection($socket):void
     {
         echo "Мавр" . $this->getIdBySocket($socket) . " сделал свое дело, Мавр может уходить!" . PHP_EOL;
         $this->socket->closeAcceptedSocket($socket);
@@ -105,7 +122,7 @@ class serverConnections extends serverSocket
      * @param $socket
      * @throws \Exception
      */
-    private function OnReadSockets ($socket)
+    private function OnReadSockets ($socket):void
     {
         // Вызывается для работы с каждым сокетом, в котором появлиось сообщение
         // поочередно.
@@ -132,7 +149,7 @@ class serverConnections extends serverSocket
      * Вызывается при возникновении подключения клиента
      * @param $socketBean
      */
-    private function OnClientConnect ($socketBean)
+    private function OnClientConnect ($socketBean):void
     {
         // Присоединение нового клиента
         echo "Wow, I see new connection with number=". $socketBean['ID'] .". Hello my friend. What do you want to say me?\n";

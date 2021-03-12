@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../bootstrap/init.php';
-//header('HTTP/1.0 400 Bad Request', true, 400);
 
 $route = "Controllers\\" . explode("?" ,explode("/", $_SERVER['REQUEST_URI'])[1])[0];
 if (class_exists($route)) {
@@ -13,3 +12,4 @@ if (class_exists($route)) {
     }
 }
 echo "Good Bye" . PHP_EOL;
+

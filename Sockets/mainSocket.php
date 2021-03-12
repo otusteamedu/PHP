@@ -11,7 +11,6 @@ abstract class mainSocket
     protected \Sockets\socket $socket;
     protected int $domain;
 
-
     /**
      * mainSocket constructor.
      * @param string $host
@@ -80,6 +79,12 @@ abstract class mainSocket
         return $this->validateData($this->readStream());
     }
 
+    /**
+     * Возвращает строку без спец символов в начале и конце
+     * @param $str
+     * @return string
+     * @throws \Exception
+     */
     private function validateData($str):string
     {
         $str = (trim($str));

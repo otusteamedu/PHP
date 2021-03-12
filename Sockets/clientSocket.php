@@ -15,16 +15,12 @@ class clientSocket extends mainSocket
     protected function initSocket()
     {
         parent::chooseDomain();
-        try {
-            $this->socket = new \Sockets\socket("$this->host", "$this->port", "$this->domain");
-            $this->socket->create();
-            $this->socket->connect();
-        } catch (\Exception $exception) {
-            die("Error:". $exception->getCode().". " . $exception->getMessage() . PHP_EOL);
-        }
+        $this->socket = new \Sockets\socket("$this->host", "$this->port", "$this->domain");
+        $this->socket->create();
+        $this->socket->connect();
     }
 
-    public function start()
+    public function start():void
     {
         $exitMessages = [
             'quit',

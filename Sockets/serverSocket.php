@@ -48,21 +48,17 @@ class serverSocket extends mainSocket
             "$this->maxConnections",
             "$this->buffer_length",
         );
-        try {
             $this->socket->create();
             $address = ($this->domain != AF_UNIX) ? $this->host : $this->path;
             $this->socket->bind($address);
             $this->socket->listen();
             echo "Сокет создан по адресу [$this->host:$this->port]\n";
-        } catch (\Exception $exception) {
-            throw new \Exception($exception->getMessage(), $exception->getCode());
-        }
     }
 
     /**
      * Старт работы
      */
-    public function start()
+    public function start():void
     {
         $this->socket->accept(static::ACCEPT_BLOCK_MODE);
         $this->setDialog();
@@ -121,18 +117,14 @@ class serverSocket extends mainSocket
         }
     }
 
-
     /**
      * Очистка предыдущего сокета
      */
-    private function clearOldSocket()
+    private function clearOldSocket():void
     {
         if (file_exists($this->path)) {
             unlink($this->path);
         }
-        /*if ($this->socket !== false) {
-            echo "this->socket = $this->socket\n";
-        }*/
     }
 
 }
