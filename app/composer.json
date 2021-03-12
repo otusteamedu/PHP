@@ -1,0 +1,30 @@
+{
+    "name": "rsm/app",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "vlucas/phpdotenv": "^5.2@dev",
+        "gabordemooij/redbean": "dev-master",
+      "ext-json": "*",
+        "monolog/monolog": "2.x-dev",
+        "rakit/validation": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OtusTest\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "5.0.x-dev"
+    }
+}
