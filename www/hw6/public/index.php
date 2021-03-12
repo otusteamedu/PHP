@@ -16,7 +16,8 @@ require_once '../vendor/autoload.php';
 use Nlazarev\Hw6\App;
 
 try {
-    App::run();
+    $app = new App();
+    $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

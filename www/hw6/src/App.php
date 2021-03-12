@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace Nlazarev\Hw6;
 
-use Nlazarev\Hw6\Model\ArticleFactory\ArticleFactoryHtml\ArticleFactoryHtml;
-use Nlazarev\Hw6\Model\Articles;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Nlazarev\Hw6\Routes\Routes;
 
 final class App
 {
-    public static function run()
+    public function run()
     {
-        $articles = new Articles(ArticleFactoryHtml::getInstance());
+        $request = ServerRequestFactory::fromGlobals(
+            $_SERVER,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
+        );
+        
+        Routes::getInstance()->initArticleRoutes();
+        
+        $response = Routes::getInstance()->getRouter()->dispatch($request);
 
-        $articles->createNews()
-            ->createReview();
+        (new SapiEmitter)->emit($response);
     }
 }
