@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  nginx-balancer:
+    image: nginx:latest
+    container_name: nginx-balancer
+    ports:
+      - "8088:80"
+    volumes:
+      - ./docker/nginx-balancer:/etc/nginx
+      - ./logs/balancer:/var/log/nginx
+    networks:
+      - app-network
+
+  nginx-server-1:
+    image: nginx:latest
+    container_name: nginx-server-1
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docker/nginx-server-1:/etc/nginx/conf.d
+      - ./logs/server1:/var/log/nginx
+      - ./src:/var/www/html
+    networks:
+      - app-network
+
+  server-php-1:
+    image: php:7.4-fpm
+    container_name: server-php-1
+    ports:
+      - "9001:9000"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - app-network
+
+  nginx-server-2:
+    image: nginx:latest
+    container_name: nginx-server-2
+    ports:
+      - "8082:80"
+    volumes:
+      - ./docker/nginx-server-2:/etc/nginx/conf.d
+      - ./logs/server2:/var/log/nginx
+      - ./src:/var/www/html
+    networks:
+      - app-network
+
+  server-php-2:
+    image: php:7.4-fpm
+    container_name: server-php-2
+    ports:
+      - "9002:9000"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

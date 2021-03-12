@@ -1,0 +1,11 @@
+me@example.com
+a.nonymous@example.com
+nametag@example.com
+name@tag@example.com
+me@
+@example.com
+me.@example.com
+.me@example.com
+me@example..com
+me.example@com
+me\@example.com
