@@ -4,3 +4,6 @@ vendor
 *.cache
 *.bak
 data
+sql
+dbdata
+pgadmin
