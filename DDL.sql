@@ -27,11 +27,11 @@ CREATE TABLE public.movie_attrs_values (
 	id serial NOT NULL,
 	movie_id int4 NOT NULL,
 	attr_id int4 NOT NULL,
-	text_value varchar NULL,
+	text_value text NULL,
 	int_value int4 NULL,
 	date_value date NULL,
 	time_value time NULL,
-	numeric_value numeric(3,1) NULL,
+	numeric_value float4 NULL,
 	CONSTRAINT movie_attrs_values_pkey PRIMARY KEY (id),
 	CONSTRAINT movie_attrs_values_attr_id_fkey FOREIGN KEY (attr_id) REFERENCES movie_attrs(id),
 	CONSTRAINT movie_attrs_values_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES movies(id)
