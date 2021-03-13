@@ -2,32 +2,25 @@
 
 namespace Otushw;
 
-use Otushw\Exception\AppException;
-use Otushw\Queue\QueueInterface;
-use Otushw\Queue\RabbitMQ;
+use Otushw\Queue\QueueConnectionInterface;
+use Otushw\Queue\QueueInstance;
 
 class App
 {
-    private AbstractInstance $instance;
+    private QueueInstance $instance;
+    private QueueConnectionInterface $queueConnection;
 
     public function __construct()
     {
         $this->loadConfig();
-        $this->instance = AppFactory::create($this->getQueue());
+        $queue = AppFactory::create();
+        $this->instance = $queue->instance;
+        $this->queueConnection = $queue->queueConnection;
     }
 
     private function loadConfig(): void
     {
         Config::create();
-    }
-
-    private function getQueue(): ?QueueInterface
-    {
-        switch ($_ENV['queue']['name']) {
-            case 'RabbitMQ':
-                return new RabbitMQ();
-        }
-        throw new AppException('Unknown queue system');
     }
 
     public function run()
