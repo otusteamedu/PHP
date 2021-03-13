@@ -1,6 +1,5 @@
 SELECT 
-  f.title, 
-  p.price * COUNT(t.id) * COUNT(s.id) AS sales
+  f.title, SUM(t.price) AS sales
 FROM sessions s
 JOIN tickets t ON t.session_id = s.id
 JOIN prices p ON prices.id = s.price_id

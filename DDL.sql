@@ -42,6 +42,7 @@ CREATE TABLE `sessions` (
 CREATE TABLE `tickets` (
   `id` int NOT NULL AUTO_INCREMENT,
   `session_id` int NOT NULL,
+  `price` float NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `tickets_FK` (`session_id`),
