@@ -42,10 +42,13 @@ CREATE TABLE `sessions` (
 CREATE TABLE `tickets` (
   `id` int NOT NULL AUTO_INCREMENT,
   `session_id` int NOT NULL,
+  `film_id` int NOT NULL,
   `price` float NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `tickets_FK` (`session_id`),
-  CONSTRAINT `tickets_FK` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`)
+  KEY `tickets_FK_1` (`film_id`),
+  CONSTRAINT `tickets_FK` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
+  CONSTRAINT `tickets_FK_1` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
