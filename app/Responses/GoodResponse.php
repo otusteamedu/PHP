@@ -12,6 +12,7 @@ class GoodResponse extends AbstractResponse
      */
     public function __construct(int $httpStatusCode = 200, string $httpStatusMessage = 'Request is valid!')
     {
+        parent::__construct();
         $this->httpStatusCode = $httpStatusCode;
         $this->httpStatusMessage = $httpStatusMessage;
     }

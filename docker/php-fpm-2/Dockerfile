@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
 	libmcrypt-dev \
     && pecl install mcrypt-1.0.3 \
 	&& docker-php-ext-enable mcrypt \
+#	&& htop \
    #     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip pecl_http pdo_pgsql redis memcached\
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -20,7 +21,8 @@ RUN apt-get update && apt-get install -y \
 
 # COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY php-fpm-2/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY socket/php-fpm.sock /var/run/php-fpm/php-fpm.sock
 
 WORKDIR /var/www/hw.loc
 

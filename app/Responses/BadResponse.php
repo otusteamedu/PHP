@@ -12,6 +12,7 @@ class BadResponse extends AbstractResponse
      */
     public function __construct(int $httpStatusCode = 400, string $httpStatusMessage = 'Bad request!')
     {
+        parent::__construct();
         $this->httpStatusCode = $httpStatusCode;
         $this->httpStatusMessage = $httpStatusMessage;
     }

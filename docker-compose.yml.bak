@@ -1,28 +1,46 @@
 version: '3'
 
 services:
-  app:
+  php-fpm-1:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
-      context: ./docker/php
-      dockerfile: Dockerfile
+      context: ./docker
+      dockerfile: php-fpm-1/Dockerfile
     image: myapp/php
-    container_name: app
+    ports:
+      - "9001:9000"
+    container_name: php-fpm-1
     volumes:
        - ./:/var/www/hw.loc
     networks:
       - app-network
-
-  webserver:
+  php-fpm-2:
+    # Если нет секции build, то система будет искать образ в репозиториях
     build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+      context: ./docker
+      dockerfile: php-fpm-2/Dockerfile
+    image: myapp/php
+    ports:
+      - "9002:9000"
+    container_name: php-fpm-2
+    volumes:
+      - ./:/var/www/hw.loc
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: nginx/Dockerfile
     image: myapp/nginx
-    container_name: webserver
+    container_name: nginx
     # проброс портов
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
     volumes:
        - ./:/var/www/hw.loc
     networks:

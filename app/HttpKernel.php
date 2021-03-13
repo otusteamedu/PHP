@@ -76,6 +76,8 @@ class HttpKernel
     protected function dispatchResponse(AbstractResponse $response)
     {
         http_response_code($response->getCode());
+
+        echo sprintf('Node ip is: <strong>%s</strong><hr>', $response->getNodeIP());
         echo $response->getMessage();
     }
 }
