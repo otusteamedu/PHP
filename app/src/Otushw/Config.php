@@ -8,9 +8,11 @@ class Config
 {
     const ROOT_PATH = __DIR__ . '/../../config.yaml';
 
-    private function __construct()
-    {
-    }
+    /**
+     * config.yaml has special struct
+     * @see '/../../config.yaml'
+     */
+    const SECTION_SUFFIX = '_path';
 
     public static function create()
     {
@@ -37,8 +39,9 @@ class Config
             if (empty($varValue)) {
                 throw new Exception('Config has empty variable "' . $varName . '"');
             }
-            if (file_exists($varValue)) {
+            if (strpos($varName, self::SECTION_SUFFIX) !== false && file_exists($varValue)) {
                 $varValue = self::process($varValue);
+                $varName = str_replace(self::SECTION_SUFFIX, '', $varName);
             }
             $data[$varName] = $varValue;
         }
