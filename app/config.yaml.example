@@ -1,0 +1,12 @@
+# in this file you can connect extra config files
+# Usage:
+# sectionname_path: /path/to/file.yaml
+# variable $_ENV will contain
+#   [sectionname] => [
+#      'variable1' => 'value1',
+#      'variable2' => 'value2',
+#   ]
+# suffix '_path' is required for connect extra config file
+log_path: /path/to/log.yaml
+queue_path: /path/to/queue.yaml
+request_path: /path/to/request.yaml
