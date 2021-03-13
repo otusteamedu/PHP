@@ -1,0 +1,6 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+
+index.search.slowlog.threshold.query.debug: 0s
+index.search.slowlog.threshold.fetch.debug: 0s
+index.indexing.slowlog.threshold.index.debug: 0s
