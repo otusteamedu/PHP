@@ -6,37 +6,32 @@ namespace Repetitor202\Application;
 
 use Exception;
 
-class AppException
+class AppException extends Exception
 {
-    public static function undefinedArgv(string $argv)
+    private static function throwException(string $message): void
+    {
+        throw (new parent($message . PHP_EOL));
+    }
+
+    public static function needCliMode(): void
+    {
+        self::throwException('Need to run in cli mode.');
+    }
+
+    public static function undefinedArgv(string $argv): void
     {
         if (php_sapi_name() === 'cli') {
-            throw new Exception("Undefined argv $argv." . PHP_EOL);
+            self::throwException("Undefined argv $argv.");
         }
     }
 
-    public static function needCliMode()
+    public static function argvIsRequired(): void
     {
-        throw new Exception('Need to run in cli mode.' . PHP_EOL);
+        self::throwException('Argv is required.');
     }
 
-    public static function needChangeEnvFile()
+    public static function keyIsRequired(string $key): void
     {
-        throw new Exception('Need to change .env file.' . PHP_EOL);
-    }
-
-    public static function argvIsRequired()
-    {
-        throw new Exception('Argv is required.' . PHP_EOL);
-    }
-
-    public static function keyIsRequired(string $key)
-    {
-        throw new Exception('Key ' . $key . ' is required.' . PHP_EOL);
-    }
-
-    public static function infoIsAbsent()
-    {
-        throw new Exception('Info in database is absent.' . PHP_EOL);
+        self::throwException('Key ' . $key . ' is required.');
     }
 }
