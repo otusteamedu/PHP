@@ -4,7 +4,7 @@
 namespace Repetitor202\Domain\Factories\Explorers\YouTube\Video;
 
 
-use Repetitor202\Application\Clients\SQL\ElasticsearchClient;
+use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
 use Repetitor202\Domain\ActiveRecords\Explorers\YouTube\VideoActiveRecord;
 
 class VideoElasticsearchFactory extends VideoFactory
@@ -12,7 +12,7 @@ class VideoElasticsearchFactory extends VideoFactory
 
     public function getVideos(array $params = []): ?array
     {
-        $videos = ElasticsearchClient::selectItems(VideoActiveRecord::TABLE, $params);
+        $videos = ElasticsearchQuery::selectItems(VideoActiveRecord::TABLE, $params);
 
         if(is_null($videos)) {
             return null;
@@ -35,6 +35,6 @@ class VideoElasticsearchFactory extends VideoFactory
 
     public function deleteVideos(array $params): bool
     {
-        return ElasticsearchClient::deleteByParams(VideoActiveRecord::TABLE, $params);
+        return ElasticsearchQuery::deleteByParams(VideoActiveRecord::TABLE, $params);
     }
 }

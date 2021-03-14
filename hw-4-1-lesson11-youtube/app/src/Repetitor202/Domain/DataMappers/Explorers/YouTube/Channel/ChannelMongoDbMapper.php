@@ -4,7 +4,7 @@
 namespace Repetitor202\Domain\DataMappers\Explorers\YouTube\Channel;
 
 
-use Repetitor202\Application\Clients\SQL\MongoDbClient;
+use Repetitor202\Application\Clients\SQL\MongoDbQuery;
 use Repetitor202\Domain\Entities\Explorers\YouTube\ChannelEntity;
 
 class ChannelMongoDbMapper implements IChannelMapper
@@ -32,7 +32,7 @@ class ChannelMongoDbMapper implements IChannelMapper
      */
     public function getCollection(array $params = []): ?iterable
     {
-        $items = MongoDbClient::selectItems(self::TABLE, $params);
+        $items = MongoDbQuery::selectItems(self::TABLE, $params);
 
         if(! is_array($items)) {
             return null;
@@ -59,7 +59,7 @@ class ChannelMongoDbMapper implements IChannelMapper
 
     public function findChannelById(string $channelId): ?ChannelEntity
     {
-        $channel = MongoDbClient::findById(self::TABLE, $channelId);
+        $channel = MongoDbQuery::findById(self::TABLE, $channelId);
 
         if(! $this->validateDbChannel($channel)) {
             return null;
@@ -74,7 +74,7 @@ class ChannelMongoDbMapper implements IChannelMapper
 
     public function createChannel(array $channel, string $channelId): ChannelEntity
     {
-        MongoDbClient::createOneItem(self::TABLE, $channel, $channelId);
+        MongoDbQuery::createOneItem(self::TABLE, $channel, $channelId);
 
         return new ChannelEntity(
             $channelId,
@@ -85,6 +85,6 @@ class ChannelMongoDbMapper implements IChannelMapper
 
     public function deleteChannel(ChannelEntity $channelEntity): bool
     {
-        return MongoDbClient::deleteById(self::TABLE, $channelEntity->getId());
+        return MongoDbQuery::deleteById(self::TABLE, $channelEntity->getId());
     }
 }

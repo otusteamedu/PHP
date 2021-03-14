@@ -4,7 +4,7 @@
 namespace Repetitor202\Application\Clients\SQL;
 
 
-abstract class SqlClient
+abstract class SqlQuery
 {
 //    Example for @selectItems:
 //        $params = [

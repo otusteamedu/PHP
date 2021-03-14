@@ -5,27 +5,16 @@ namespace Repetitor202\Application\Clients\SQL;
 
 
 use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
 use Exception;
+use Repetitor202\Application\Clients\SQL\Connections\ElasticsearchConnection;
 
-class ElasticsearchClient extends SqlClient
+class ElasticsearchQuery extends SqlQuery
 {
     public const STORAGE_NAME = 'Elasticsearch';
-    protected static ?Client $client = null;
-
-    final private function __construct(){}
-    final private function __clone(){}
-    final private function __wakeup(){}
 
     final private static function getClient(): ?Client
     {
-        if (self::$client === null) {
-            self::$client = ClientBuilder::create()
-                ->setHosts([$_ENV['ELASTIC_SEARCH_HOST']])
-                ->build();
-        }
-
-        return self::$client;
+        return ElasticsearchConnection::getClient();
     }
 
     public static function selectItems(string $table, array $params = []): ?array

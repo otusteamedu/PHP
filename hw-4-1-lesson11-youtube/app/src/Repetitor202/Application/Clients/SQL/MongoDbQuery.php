@@ -5,36 +5,15 @@ namespace Repetitor202\Application\Clients\SQL;
 
 
 use Exception;
-use MongoDB\Client;
+use Repetitor202\Application\Clients\SQL\Connections\MongoDbConnection;
 
-class MongoDbClient extends SqlClient
+class MongoDbQuery extends SqlQuery
 {
     public const STORAGE_NAME = 'MongoDB';
-    protected static ?Client $client = null;
-
-    final private function __construct(){}
-    final private function __clone(){}
-    final private function __wakeup(){}
-
-    final private static function getClient(): ?Client
-    {
-        if (self::$client === null) {
-            self::$client = new Client("mongodb://${_ENV['MONGODB_HOST']}:${_ENV['MONGODB_PORT']}");
-        }
-
-        return self::$client;
-    }
-
-    final private static function getDbConnection()
-    {
-        return self::getClient()->{$_ENV['DB_NAME']};
-    }
 
     final private static function getTableConnection(string $table)
     {
-        $dbConnection = self::getDbConnection();
-
-        return $dbConnection->{$table};
+        return MongoDbConnection::getTableConnection($table);
     }
 
     public static function selectItems(string $table, array $params = []): array

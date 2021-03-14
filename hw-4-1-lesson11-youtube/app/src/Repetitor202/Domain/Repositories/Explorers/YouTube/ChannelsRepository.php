@@ -5,8 +5,8 @@ namespace Repetitor202\Domain\Repositories\Explorers\YouTube;
 
 
 use Repetitor202\Application\helpers\Helper;
-use Repetitor202\Application\Clients\SQL\ElasticsearchClient;
-use Repetitor202\Application\Clients\SQL\MongoDbClient;
+use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
+use Repetitor202\Application\Clients\SQL\MongoDbQuery;
 use Repetitor202\Domain\DataMappers\Explorers\YouTube\Channel\ChannelElasticsearchMapper;
 use Repetitor202\Domain\DataMappers\Explorers\YouTube\Channel\ChannelMongoDbMapper;
 use Repetitor202\Domain\DataMappers\Explorers\YouTube\Channel\IChannelMapper;
@@ -20,10 +20,10 @@ class ChannelsRepository
     public function __construct()
     {
         switch ($_ENV['SQL_CLIENT']) {
-            case ElasticsearchClient::STORAGE_NAME:
+            case ElasticsearchQuery::STORAGE_NAME:
                 $this->mapper = new ChannelElasticsearchMapper();
                 break;
-            case MongoDbClient::STORAGE_NAME:
+            case MongoDbQuery::STORAGE_NAME:
                 $this->mapper = new ChannelMongoDbMapper();
                 break;
             default:

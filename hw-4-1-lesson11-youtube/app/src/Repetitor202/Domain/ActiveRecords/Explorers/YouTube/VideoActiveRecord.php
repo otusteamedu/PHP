@@ -4,8 +4,8 @@
 namespace Repetitor202\Domain\ActiveRecords\Explorers\YouTube;
 
 
-use Repetitor202\Application\Clients\SQL\ElasticsearchClient;
-use Repetitor202\Application\Clients\SQL\MongoDbClient;
+use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
+use Repetitor202\Application\Clients\SQL\MongoDbQuery;
 
 class VideoActiveRecord
 {
@@ -21,11 +21,11 @@ class VideoActiveRecord
     public function __construct()
     {
         switch ($_ENV['SQL_CLIENT']) {
-            case ElasticsearchClient::STORAGE_NAME:
-                $this->sqlClientClassname = ElasticsearchClient::class;
+            case ElasticsearchQuery::STORAGE_NAME:
+                $this->sqlClientClassname = ElasticsearchQuery::class;
                 break;
-            case MongoDbClient::STORAGE_NAME:
-                $this->sqlClientClassname = MongoDbClient::class;
+            case MongoDbQuery::STORAGE_NAME:
+                $this->sqlClientClassname = MongoDbQuery::class;
                 break;
             default:
                 $this->sqlClientClassname = null;

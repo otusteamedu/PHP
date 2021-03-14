@@ -4,7 +4,7 @@
 namespace Repetitor202\Domain\DataMappers\Explorers\YouTube\Channel;
 
 
-use Repetitor202\Application\Clients\SQL\ElasticsearchClient;
+use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
 use Repetitor202\Domain\Entities\Explorers\YouTube\ChannelEntity;
 
 class ChannelElasticsearchMapper implements IChannelMapper
@@ -45,7 +45,7 @@ class ChannelElasticsearchMapper implements IChannelMapper
      */
     public function getCollection(array $params = []): ?iterable
     {
-        $items = ElasticsearchClient::selectItems(self::TABLE, $params);
+        $items = ElasticsearchQuery::selectItems(self::TABLE, $params);
 
         if(! $this->validateDbChannels($items)) {
             return null;
@@ -71,7 +71,7 @@ class ChannelElasticsearchMapper implements IChannelMapper
 
     public function findChannelById(string $channelId): ?ChannelEntity
     {
-        $channel = ElasticsearchClient::findById(self::TABLE, $channelId);
+        $channel = ElasticsearchQuery::findById(self::TABLE, $channelId);
         if(! $this->validateDbChannel($channel)) {
             return null;
         }
@@ -85,7 +85,7 @@ class ChannelElasticsearchMapper implements IChannelMapper
 
     public function createChannel(array $channel, string $channelId): ChannelEntity
     {
-        ElasticsearchClient::createOneItem(self::TABLE, $channel, $channelId);
+        ElasticsearchQuery::createOneItem(self::TABLE, $channel, $channelId);
 
         return new ChannelEntity(
             $channelId,
@@ -96,6 +96,6 @@ class ChannelElasticsearchMapper implements IChannelMapper
 
     public function deleteChannel(ChannelEntity $channelEntity): bool
     {
-        return ElasticsearchClient::deleteById(self::TABLE, $channelEntity->getId());
+        return ElasticsearchQuery::deleteById(self::TABLE, $channelEntity->getId());
     }
 }

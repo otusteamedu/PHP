@@ -4,8 +4,8 @@
 namespace Repetitor202\Domain\Services\Explorers\YouTube;
 
 
-use Repetitor202\Application\Clients\SQL\ElasticsearchClient;
-use Repetitor202\Application\Clients\SQL\MongoDbClient;
+use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
+use Repetitor202\Application\Clients\SQL\MongoDbQuery;
 use Repetitor202\Domain\ActiveRecords\Explorers\YouTube\VideoActiveRecord;
 use Repetitor202\Domain\Factories\Explorers\YouTube\Video\VideoElasticsearchFactory;
 use Repetitor202\Domain\Factories\Explorers\YouTube\Video\VideoFactory;
@@ -19,10 +19,10 @@ class VideoService
     public function __construct()
     {
         switch ($_ENV['SQL_CLIENT']) {
-            case ElasticsearchClient::STORAGE_NAME:
+            case ElasticsearchQuery::STORAGE_NAME:
                 $this->factory = new VideoElasticsearchFactory();
                 break;
-            case MongoDbClient::STORAGE_NAME:
+            case MongoDbQuery::STORAGE_NAME:
                 $this->factory = new VideoMongoDbFactory();
                 break;
             default:
