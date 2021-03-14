@@ -1,0 +1,16 @@
+{
+    "name": "ikmiuq/email_validation",
+    "description": "validation email with DNS review",
+    "authors": [
+        {
+            "name": "Irina Malovastaja",
+            "email": "irina.malovastaja@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "EmailValid\\" : "src/EmailValid"
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "name": "ikmiuq/valid_brackets",
+    "description": "validetion open and close brackets in line",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Irina Malovastaja",
+            "email": "irina.malovastaja@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ValidBrackets\\" : "src/ValidBrackets"
+        }
+    }
+}

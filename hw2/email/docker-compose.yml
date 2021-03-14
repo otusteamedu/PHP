@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  weserver:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3003"
+    container_name: nginx-emzil_valid
+    working_dir: /home/rainbow/Otus/PHP/hw2/email/email_valid.ikm
+    volumes:
+      - ./email_valid.ikm:/var/www/email_valid.ikm
+      - ./logs/nginx:/var/log/nginx
+      - ./sock:/sock
+    links:
+      - php-fpm
+    depends_on:
+      - php-fpm
+    ports:
+      - 80:80
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      args:
+        UID: "3003"
+    container_name: phpF-email_valid
+    working_dir: /home/rainbow/Otus/PHP/hw2/email/email_valid.ikm
+    volumes:
+      - ./email_valid.ikm:/var/www/email_valid.ikm
+      - ./logs/php:/var/log/php
+      - ./sock:/sock
