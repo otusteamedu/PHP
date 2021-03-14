@@ -1,0 +1,17 @@
+{
+    "name": "wnickitin/hw4-1",
+    "authors": [
+        {
+            "name": "Vladimir Nikitin",
+            "email": "v.nikitin@squesito.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Http\\": "src/Http/",
+            "Validation\\": "src/Validation",
+            "Application\\": "src/Application"
+        }
+    }
+}
