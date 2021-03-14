@@ -12,22 +12,11 @@ use Exception;
 
 class EmailValid
 {
-    public function __construct()
-    {
-        echo "<form action='/' method='post'>
-                <textarea name='arr_email' placeholder='Введите email через ; :'></textarea>
-                <br/>
-                <input type='submit' value='Проверить'>
-              </form>";
 
-    }
-
-    public function review($arr) {
+    public function review(string $emails) {
         $arrEmail = array();
-        if (gettype($arr) == "array" && !empty($arr['arr_email'])) {
-            $arrEmail = explode(";", $arr['arr_email']);
-        } elseif (gettype($arr) == 'string') {
-            $arrEmail = explode(";", $arr);
+        if (gettype($emails) == 'string') {
+            $arrEmail = explode(";", $emails);
         } else {
             throw new Exception("Передан не верный тип данных!");
         }
@@ -35,22 +24,28 @@ class EmailValid
         foreach ($arrEmail as $email) {
             $str = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $email);
             $str = str_replace(array("\r\n", "\r", "\n", "\t", ' ', '    ', '    '), '', $str);
-            if (!self::review1level($str)) {
-                echo $email." - не прошел валидацию 1 уровня по регулярному выражению.<br/>";
-            } elseif (!self::review2level($str)) {
-                echo $email." - не прошел валидацию 2 уровня по MX записям.<br/>";
-            } else {
+            if (self::review1level($str) && self::review2level($str)) {
                 echo $email." - является валидным E-mail адресом<br/>";
             }
         }
     }
 
     public function review1level(string  $email) {
-        return preg_match('/^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u', $email);
+        if(preg_match('/^(([0-9A-zА-я]{1}[-0-9A-zА-я\.]{1,}[0-9A-zА-я]{1})@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u', $email)){
+            return true;
+        }
+        echo $email." - не прошел валидацию 1 уровня по регулярному выражению.<br/>";
+        return false;
     }
 
     public function review2level(string  $email) {
+        $for_error = $email;
         $str = explode("@", $email);
-        return getmxrr($str[1], $email);
+        if (getmxrr($str[1], $email)){
+            return true;
+        }
+        echo $for_error." - не прошел валидацию 2 уровня по MX записям.<br/>";
+        return false;
+
     }
 }
