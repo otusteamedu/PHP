@@ -16,7 +16,9 @@ class App
     {
         $validator = new Validator();
         if ($validator->isValid($_POST['string'])) {
-            Responser::response();
+            Responser::responseOk();
+        } else {
+            Responser::responseFail();
         }
     }
 }

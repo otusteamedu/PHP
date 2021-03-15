@@ -33,8 +33,7 @@ class Validator
         $this->isNotEmpty($string);
 
         if (strlen($string) >= self::STRING_LENGTH) {
-            http_response_code(400);
-            throw new \Exception('String length longer, than necessary. String is not valid.');
+            Responser::responseFail('String length longer, than necessary');
         }
 
         return true;
@@ -49,8 +48,7 @@ class Validator
     public function isNotEmpty(string $string): bool
     {
         if (empty($string)) {
-            http_response_code(400);
-            throw new \Exception('String is empty. String is not valid');
+            Responser::responseFail('String is empty');
         }
 
         return true;
@@ -79,8 +77,7 @@ class Validator
         }
 
         if (count($stack) !== 0) {
-            http_response_code(400);
-            throw new \Exception('Brackets is not balanced. String is not valid');
+            Responser::responseFail('Brackets is not balanced');
         }
 
         return true;
