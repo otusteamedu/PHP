@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+
+  app:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: app
+    container_name: app
+    volumes:
+      - ./app:/var/www/html/app
+      - ./logs:/var/log/nginx
+    ports:
+      - "8080:80"
+      - "443:443"
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: server
+    container_name: server
+    volumes:
+      - ./app:/var/www/html/app
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./tmp/sockets:/tmp/sockets
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: client
+    container_name: client
+    volumes:
+      - ./app:/var/www/html/app
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./tmp/sockets:/tmp/sockets
+    ports:
+      - "9010:9010"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
