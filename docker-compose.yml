@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  php-client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/app
+      - /tmp:/tmp
+  php-server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/app
+      - /tmp:/tmp
