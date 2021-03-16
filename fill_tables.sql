@@ -1,0 +1,1 @@
+SELECT fill_tables(1425000);

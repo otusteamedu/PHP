@@ -1,0 +1,14 @@
+Создадим частичный индекс для всех майских сеансов.
+cinema_theater=# CREATE INDEX "seances_on_may" on "seances" using btree (show_at) WHERE EXTRACT(MONTH FROM show_at) = 5;
+CREATE INDEX
+
+Получим план:
+cinema_theater=# EXPLAIN SELECT id FROM seances WHERE EXTRACT(MONTH FROM show_at) = 5 AND EXTRACT(YEAR FROM show_at) = EXTRACT(YEAR FROM NOW()) LIMIT 10;
+                                       QUERY PLAN
+----------------------------------------------------------------------------------------
+ Limit  (cost=116.06..3368.27 rows=10 width=4)
+   ->  Bitmap Heap Scan on seances  (cost=116.06..11824.01 rows=36 width=4)
+         Recheck Cond: (date_part('month'::text, show_at) = '5'::double precision)
+         Filter: (date_part('year'::text, show_at) = date_part('year'::text, now()))
+         ->  Bitmap Index Scan on seances_on_may  (cost=0.00..116.05 rows=7125 width=0)
+(5 rows)

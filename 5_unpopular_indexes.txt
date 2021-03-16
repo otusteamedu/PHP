@@ -1,0 +1,42 @@
+cinema_theater=# SELECT
+cinema_theater-#     t.schemaname,
+cinema_theater-#     t.tablename,
+cinema_theater-#     indexname,
+cinema_theater-#     c.reltuples AS num_rows,
+cinema_theater-#     pg_size_pretty(pg_relation_size(quote_ident(t.schemaname)::text || '.' || quote_ident(t.tablename)::text)) AS table_size,
+cinema_theater-#     pg_size_pretty(pg_relation_size(quote_ident(t.schemaname)::text || '.' || quote_ident(indexrelname)::text)) AS index_size,
+cinema_theater-#     CASE WHEN indisunique THEN 'Y'
+cinema_theater-#         ELSE 'N'
+cinema_theater-#     END AS UNIQUE,
+cinema_theater-#     number_of_scans,
+cinema_theater-#     tuples_read,
+cinema_theater-#     tuples_fetched
+cinema_theater-# FROM pg_tables t
+cinema_theater-# LEFT OUTER JOIN pg_class c ON t.tablename = c.relname
+cinema_theater-# LEFT OUTER JOIN (
+cinema_theater(#     SELECT
+cinema_theater(#         c.relname AS ctablename,
+cinema_theater(#         ipg.relname AS indexname,
+cinema_theater(#         x.indnatts AS number_of_columns,
+cinema_theater(#         idx_scan AS number_of_scans,
+cinema_theater(#         idx_tup_read AS tuples_read,
+cinema_theater(#         idx_tup_fetch AS tuples_fetched,
+cinema_theater(#         indexrelname,
+cinema_theater(#         indisunique,
+cinema_theater(#         schemaname
+cinema_theater(#     FROM pg_index x
+cinema_theater(#     JOIN pg_class c ON c.oid = x.indrelid
+cinema_theater(#     JOIN pg_class ipg ON ipg.oid = x.indexrelid
+cinema_theater(#     JOIN pg_stat_all_indexes psai ON x.indexrelid = psai.indexrelid
+cinema_theater(# ) AS foo ON t.tablename = foo.ctablename AND t.schemaname = foo.schemaname
+cinema_theater-# WHERE t.schemaname NOT IN ('pg_catalog', 'information_schema')
+cinema_theater-# ORDER BY number_of_scans
+cinema_theater-# LIMIT 5;
+ schemaname |       tablename       |         indexname         | num_rows  | table_size | index_size | unique | number_of_scans | tuples_read | tuples_fetched
+------------+-----------------------+---------------------------+-----------+------------+------------+--------+-----------------+-------------+----------------
+ public     | film_attribute_values | film_attribute_date_value | 1.425e+06 | 112 MB     | 5872 kB    | N      |               0 |           0 |              0
+ public     | seances               | seances_on_current_year   | 1.425e+06 | 104 MB     | 31 MB      | N      |               0 |           0 |              0
+ public     | films                 | films_name                | 1.425e+06 | 165 MB     | 35 MB      | N      |               0 |           0 |              0
+ public     | film_attributes       | film_attributes_name      | 1.425e+06 | 162 MB     | 35 MB      | N      |               0 |           0 |              0
+ public     | films                 | films_duration_less_2     | 1.425e+06 | 165 MB     | 15 MB      | N      |               0 |           0 |              0
+(5 rows)

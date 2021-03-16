@@ -1,0 +1,1 @@
+SELECT * FROM films WHERE age_restrict > 6 AND EXTRACT(hour FROM duration) < 2 ORDER BY age_restrict LIMIT 10;

@@ -1,0 +1,18 @@
+Создадим составной индекс
+cinema_theater=# CREATE INDEX "films_ar_d" on "films" using btree (age_restrict,duration);
+CREATE INDEX
+
+
+Получим план запроса:
+
+cinema_theater=# EXPLAIN SELECT * FROM films WHERE age_restrict > 6 AND EXTRACT(hour FROM duration) < 2 ORDER BY age_restrict LIMIT 10;
+                                       QUERY PLAN
+-----------------------------------------------------------------------------------------
+ Limit  (cost=0.43..4.26 rows=10 width=87)
+   ->  Index Scan using films_ar_d on films  (cost=0.43..119946.35 rows=312772 width=87)
+         Index Cond: (age_restrict > 6)
+         Filter: (date_part('hour'::text, duration) < '2'::double precision)
+(4 rows)
+
+
+

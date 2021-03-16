@@ -1,0 +1,11 @@
+cinema_theater=# EXPLAIN SELECT * FROM films WHERE age_restrict > 6 AND EXTRACT(hour FROM duration) < 2 ORDER BY age_restrict LIMIT 10;
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=49824.62..49825.79 rows=10 width=87)
+   ->  Gather Merge  (cost=49824.62..80235.21 rows=260644 width=87)
+         Workers Planned: 2
+         ->  Sort  (cost=48824.60..49150.41 rows=130322 width=87)
+               Sort Key: age_restrict
+               ->  Parallel Seq Scan on films  (cost=0.00..31515.62 rows=130322 width=87)
+                     Filter: ((age_restrict > 6) AND (date_part('hour'::text, duration) < '2'::double precision))
+(7 rows)

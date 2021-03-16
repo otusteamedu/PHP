@@ -1,0 +1,26 @@
+cinema_theater=# EXPLAIN SELECT f.name, COUNT (t.id) as tickets_count_purchase, SUM(t.price) as yield FROM public.films AS f
+cinema_theater-# JOIN public.seances AS s ON f.id = s.film_id
+cinema_theater-# JOIN public.tickets AS t ON s.id = t.seance_id
+cinema_theater-# GROUP BY f.id
+cinema_theater-# ORDER BY yield DESC
+cinema_theater-# LIMIT 1;
+                                           QUERY PLAN
+-------------------------------------------------------------------------------------------------
+ Limit  (cost=169.01..169.01 rows=1 width=27)
+   ->  Sort  (cost=169.01..172.63 rows=1450 width=27)
+         Sort Key: (sum(t.price)) DESC
+         ->  HashAggregate  (cost=147.26..161.76 rows=1450 width=27)
+               Group Key: f.id
+               ->  Hash Join  (cost=101.25..136.38 rows=1450 width=19)
+                     Hash Cond: (s.film_id = f.id)
+                     ->  Hash Join  (cost=46.62..77.94 rows=1450 width=12)
+                           Hash Cond: (t.seance_id = s.id)
+                           ->  Seq Scan on tickets t  (cost=0.00..27.50 rows=1450 width=12)
+                           ->  Hash  (cost=28.50..28.50 rows=1450 width=8)
+                                 ->  Seq Scan on seances s  (cost=0.00..28.50 rows=1450 width=8)
+                     ->  Hash  (cost=36.50..36.50 rows=1450 width=11)
+                           ->  Seq Scan on films f  (cost=0.00..36.50 rows=1450 width=11)
+(14 rows)
+
+
+

@@ -1,0 +1,32 @@
+cinema_theater=# SELECT f.name AS film_name, fa."name" AS date_name, fav.date_value as service_dates FROM films AS f
+cinema_theater-# JOIN film_attribute_values fav ON f.id = fav.film_id
+cinema_theater-# JOIN film_attributes fa ON fa.id = fav.film_attribute_id
+cinema_theater-# JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
+cinema_theater-# where fav.date_value IS NOT NULL AND DATE(fav.date_value) = DATE(NOW() + INTERVAL '20 days')
+cinema_theater-# LIMIT 20;
+ film_name  |  date_name  |    service_dates
+------------+-------------+---------------------
+ Om         | 19nIuB9Ht2  | 2021-04-04 00:00:00
+ 1L7v8      | JMT9        | 2021-04-04 00:00:00
+ GHGSiTiUAd | i3FDVcfjzo  | 2021-04-04 00:00:00
+ wlkf       | enTYbZ6ME   | 2021-04-04 00:00:00
+ kdQF       | A26         | 2021-04-04 00:00:00
+ Bofy5fyr   | B2n         | 2021-04-04 00:00:00
+ 2VnCOGu8K  | WN5Wb       | 2021-04-04 00:00:00
+ K          | 4mdrWwwA8q  | 2021-04-04 00:00:00
+ JmTY9ciyQ3 | Ce          | 2021-04-04 00:00:00
+ NbGUHTG7   | yeUePLYVH5h | 2021-04-04 00:00:00
+ Q2WeX      | SVwHdf      | 2021-04-04 00:00:00
+ hDIvAXmXR  | MR6k5bEcUW8 | 2021-04-04 00:00:00
+ seI2Kan    | 8           | 2021-04-04 00:00:00
+ MgPHoTs2   | bPNi        | 2021-04-04 00:00:00
+ Ul         | 5qwnQH      | 2021-04-04 00:00:00
+ 8WfY       | JUMh        | 2021-04-04 00:00:00
+ kg         | Os          | 2021-04-04 00:00:00
+ v8CJy      | nMzXHMUh2   | 2021-04-04 00:00:00
+ DRAut043t1 | Z63m5KPhuS  | 2021-04-04 00:00:00
+ irBLbuSxZP | xa8Qh       | 2021-04-04 00:00:00
+(20 rows)
+
+
+

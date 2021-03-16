@@ -1,0 +1,1 @@
+SELECT * FROM tickets WHERE price > 10000 ORDER BY price DESC LIMIT 10;

@@ -1,0 +1,23 @@
+cinema_theater=# EXPLAIN SELECT f.name AS film_name, fa."name" AS date_name, fav.date_value as service_dates FROM films AS f
+cinema_theater-# JOIN film_attribute_values fav ON f.id = fav.film_id
+cinema_theater-# JOIN film_attributes fa ON fa.id = fav.film_attribute_id
+cinema_theater-# JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
+cinema_theater-# where fav.date_value IS NOT NULL AND DATE(fav.date_value) = DATE(NOW() + INTERVAL '20 days')
+cinema_theater-# LIMIT 20;
+                                                        QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.83..64.61 rows=1 width=21)
+   ->  Nested Loop  (cost=0.83..64.61 rows=1 width=21)
+         ->  Nested Loop  (cost=0.56..64.24 rows=1 width=25)
+               ->  Nested Loop  (cost=0.28..55.93 rows=1 width=19)
+                     ->  Seq Scan on film_attribute_values fav  (cost=0.00..47.62 rows=1 width=16)
+                           Filter: ((date_value IS NOT NULL) AND (date(date_value) = date((now() + '20 days'::interval))))
+                     ->  Index Scan using films_pkey on films f  (cost=0.28..8.29 rows=1 width=11)
+                           Index Cond: (id = fav.film_id)
+               ->  Index Scan using film_attributes_id_name on film_attributes fa  (cost=0.28..8.29 rows=1 width=14)
+                     Index Cond: (id = fav.film_attribute_id)
+         ->  Index Only Scan using film_attribute_types_pkey on film_attribute_types fat  (cost=0.28..0.37 rows=1 width=4)
+               Index Cond: (id = fa.film_attribute_type_id)
+(12 rows)
+
+

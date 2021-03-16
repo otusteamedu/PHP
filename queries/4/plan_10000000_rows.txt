@@ -1,0 +1,37 @@
+cinema_theater=# EXPLAIN SELECT f.name AS film_name, fat."name" AS attr_type, fa."name" AS attr_name,
+cinema_theater-#        (CASE
+cinema_theater(#             WHEN fav.date_value IS NOT NULL THEN fav.date_value ::text
+cinema_theater(#             WHEN fav.text_value IS NOT NULL THEN fav.text_value ::text
+cinema_theater(#             WHEN fav.boolean_value IS NOT NULL THEN fav.boolean_value ::text
+cinema_theater(#             WHEN fav.integer_value IS NOT NULL THEN fav.integer_value ::text
+cinema_theater(#             WHEN fav.float_value IS NOT NULL THEN fav.float_value ::text
+cinema_theater(#            END) AS attr_value
+cinema_theater-# FROM films AS f
+cinema_theater-# JOIN film_attribute_values fav ON f.id = fav.film_id
+cinema_theater-# JOIN film_attributes fa ON fa.id = fav.film_attribute_id
+cinema_theater-# JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
+cinema_theater-# ORDER BY f.name ASC
+cinema_theater-# LIMIT 20;
+                                                           QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=366252.06..366254.39 rows=20 width=53)
+   ->  Gather Merge  (cost=366252.06..504803.40 rows=1187500 width=53)
+         Workers Planned: 2
+         ->  Sort  (cost=365252.04..366736.41 rows=593750 width=53)
+               Sort Key: f.name
+               ->  Hash Join  (cost=181927.50..288016.41 rows=593750 width=53)
+                     Hash Cond: (fa.film_attribute_type_id = fat.id)
+                     ->  Hash Join  (cost=119940.00..189724.69 rows=593750 width=89)
+                           Hash Cond: (fav.film_attribute_id = fa.id)
+                           ->  Hash Join  (cost=60146.50..105177.59 rows=593750 width=83)
+                                 Hash Cond: (fav.film_id = f.id)
+                                 ->  Parallel Seq Scan on film_attribute_values fav  (cost=0.00..20277.50 rows=593750 width=81)
+                                 ->  Hash  (cost=35375.00..35375.00 rows=1425000 width=10)
+                                       ->  Seq Scan on films f  (cost=0.00..35375.00 rows=1425000 width=10)
+                           ->  Hash  (cost=35022.00..35022.00 rows=1425000 width=14)
+                                 ->  Seq Scan on film_attributes fa  (cost=0.00..35022.00 rows=1425000 width=14)
+                     ->  Hash  (cost=37216.00..37216.00 rows=1425000 width=13)
+                           ->  Seq Scan on film_attribute_types fat  (cost=0.00..37216.00 rows=1425000 width=13)
+(18 rows)
+
+

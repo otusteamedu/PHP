@@ -1,0 +1,11 @@
+cinema_theater=# EXPLAIN SELECT * FROM tickets WHERE price > 10000 ORDER BY price DESC LIMIT 10;
+                              QUERY PLAN
+-----------------------------------------------------------------------
+ Limit  (cost=47.18..47.21 rows=10 width=32)
+   ->  Sort  (cost=47.18..49.04 rows=743 width=32)
+         Sort Key: price DESC
+         ->  Seq Scan on tickets  (cost=0.00..31.12 rows=743 width=32)
+               Filter: (price > 10000)
+(5 rows)
+
+
