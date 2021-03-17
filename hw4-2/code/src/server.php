@@ -5,8 +5,9 @@ use \Otus\Socket\Server as Server;
 require_once 'init.php';
 
 try {
+    $socketPath = realpath(__DIR__ . '/../tmp') . '/' . $_ENV['SOCKET_FILE'];
     $server = new Server(
-        $_ENV['SOCKET_PATH'],
+        $socketPath,
         $_ENV['SOCKET_PORT']
     );
 

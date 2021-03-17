@@ -17,21 +17,33 @@ services:
     networks:
       - app-network
 
-  # Nginx
-  webserver:
+  # Socket server
+  socket-server-app:
     build:
-      context: ./nginx
+      context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
-    # проброс портов
-    ports:
-      - "8080:80"
-    #      - "443:443"
+    image: myapp/php # имя будущего образа
+    container_name: socket-server-app # имя контейнера после запуска
     volumes:
       - ./code:/var/www/html
     networks:
       - app-network
+
+  # Nginx
+#  webserver:
+#    build:
+#      context: ./nginx
+#      dockerfile: Dockerfile
+#    image: myapp/nginx
+#    container_name: webserver
+#    # проброс портов
+#    ports:
+#      - "8080:80"
+#    #      - "443:443"
+#    volumes:
+#      - ./code:/var/www/html
+#    networks:
+#      - app-network
 
 #Docker Networks
 networks:

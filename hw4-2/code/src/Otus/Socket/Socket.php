@@ -56,7 +56,6 @@ class Socket
 
     public function connect(): void
     {
-//        var_dump(is_file($this->host));
         if (!socket_connect($this->socket, $this->host, $this->port)) {
             throw new Exception('Can\'t connect the socket' . PHP_EOL . socket_strerror(socket_last_error()));
         }

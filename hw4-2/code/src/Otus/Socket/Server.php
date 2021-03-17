@@ -4,7 +4,6 @@ namespace Otus\Socket;
 
 class Server
 {
-
     private Socket $socket;
 
     public function __construct(string $host, int $port)
@@ -45,5 +44,4 @@ class Server
     {
         return rtrim(fgets(STDIN));
     }
-
 }
