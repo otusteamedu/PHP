@@ -1,0 +1,107 @@
+version: '3'
+services:
+    mysite-nginx-load-balancer:
+        build:
+            context: nginx-load-balancer
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx-load-balancer
+        container_name: mysite-nginx-load-balancer
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-nginx-1
+            - mysite-nginx-2
+            - mysite-nginx-3
+        ports:
+            - "80:80"
+        networks:
+            - mysite-network
+
+    mysite-nginx-1:
+        build:
+            context: nginx-1
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx-1
+        container_name: mysite-nginx-1
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-php-fpm-1
+            - mysite-php-fpm-2
+            - mysite-php-fpm-3
+        networks:
+            - mysite-network
+
+    mysite-nginx-2:
+        build:
+            context: nginx-2
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx-2
+        container_name: mysite-nginx-2
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-php-fpm-1
+            - mysite-php-fpm-2
+            - mysite-php-fpm-3
+        networks:
+            - mysite-network
+
+    mysite-nginx-3:
+        build:
+            context: nginx-3
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx-3
+        container_name: mysite-nginx-3
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-php-fpm-1
+            - mysite-php-fpm-2
+            - mysite-php-fpm-3
+        networks:
+            - mysite-network
+
+    mysite-php-fpm-1:
+        build:
+            context: php-fpm-1
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm-1
+        container_name: mysite-php-fpm-1
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        networks:
+            - mysite-network
+
+    mysite-php-fpm-2:
+        build:
+            context: php-fpm-2
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm-2
+        container_name: mysite-php-fpm-2
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        networks:
+            - mysite-network
+
+    mysite-php-fpm-3:
+        build:
+            context: php-fpm-3
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm-3
+        container_name: mysite-php-fpm-3
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        networks:
+            - mysite-network
+
+networks:
+    mysite-network:
+        driver: bridge
