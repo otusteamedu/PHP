@@ -9,14 +9,14 @@ use Repetitor202\Application\Routers\Events\EventsRouter;
 
 abstract class Router implements IRouter
 {
-    private const TYPE_EXPLORER = 'explorer';
+    private const TYPE_EVENTS = 'events';
 
     public static function run(int $argvNumber = 1): void
     {
         $argv = self::getArgv();
 
         switch ($argv) {
-            case self::TYPE_EXPLORER:
+            case self::TYPE_EVENTS:
                 EventsRouter::run($argvNumber+1);
                 break;
             default:
@@ -26,10 +26,14 @@ abstract class Router implements IRouter
 
     public static function getArgv(int $argvNumber = 1): ?string
     {
-        if (php_sapi_name() === 'cli') {
-            return $_SERVER['argv'][$argvNumber] ?? null;
+        if (php_sapi_name() === 'fpm-fcgi') {
+            $params = explode('?', $_ENV['REQUEST_URI']);
+            $pathParams = $params[0];
+            $pathParamsArr = explode('/', $pathParams);
+
+            return $pathParamsArr[$argvNumber];
         } else {
-            AppException::needCliMode();
+            throw (new \Exception('Sapi_name is not fpm-fcgi!'));
         }
     }
 }

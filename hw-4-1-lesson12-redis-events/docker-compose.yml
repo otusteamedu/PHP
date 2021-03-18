@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
+
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+        CLIENT_HOST: "${NETWORK_ID}.1"
+    image: hw-4-1-lesson11-youtube/app
+    volumes:
+      - ./app:/data/site.default
+      - ./../logs/hw-4-1-lesson12-redis-events/sock:/sock
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.4"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-4-1-lesson12-redis-events/nginx
+    volumes:
+      - ./app:/data/site.default
+      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./../logs/hw-4-1-lesson12-redis-events/sock:/sock
+      - ./../logs/hw-4-1-lesson12-redis-events/nginx:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  redis:
+    image: redis:6.2-rc2
+    expose:
+      - 6379
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Repetitor202\Application\Routers\Explorers\YouTube;
+namespace Repetitor202\Application\Routers\Events\YouTube;
 
 
 use Repetitor202\Application\AppException;

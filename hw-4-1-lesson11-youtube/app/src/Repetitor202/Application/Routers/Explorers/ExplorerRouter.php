@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Repetitor202\Application\Routers\Explorers;
+namespace Repetitor202\Application\Routers\Events;
 
 
 use Repetitor202\Application\AppException;
-use Repetitor202\Application\Routers\Explorers\YouTube\YouTubeRouter;
+use Repetitor202\Application\Routers\Events\YouTube\YouTubeRouter;
 use Repetitor202\Application\Routers\IRouter;
 use Repetitor202\Application\Routers\Router;
 

@@ -1,0 +1,21 @@
+{
+  "name": "repetitor202/hw-4-1-lesson12-redis-events",
+  "description": "hw-4-1-lesson12-redis-events",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Viktar Akulenka",
+      "email": "repetitor202@gmail.com"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.3",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src",
+      "Repetitor202\\": "src/Repetitor202"
+    }
+  }
+}
