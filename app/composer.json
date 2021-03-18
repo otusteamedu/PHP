@@ -6,13 +6,15 @@
     "type": "project",
     "require": {
         "php": "^7.4",
+        "ext-bcmath": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-sockets": "*",
         "ext-zip": "*",
         "laravel/lumen-framework": ">=8.2.3",
-        "ext-sockets": "*",
-        "ext-bcmath": "*",
-        "php-amqplib/php-amqplib": ">=2.9.0",
-        "ext-dom": "*",
-        "ext-json": "*"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2",
+        "ext-amqp": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -15,5 +15,14 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ExampleEvent::class => [
             \App\Listeners\ExampleListener::class,
         ],
+        \App\Events\OrderCreated::class => [
+            \App\Listeners\OrderCreatedListener::class,
+        ],
+        \App\Events\OrderDeleted::class => [
+            \App\Listeners\OrderDeletedListener::class,
+        ],
+        \App\Events\OrderUpdated::class => [
+            \App\Listeners\OrderUpdatedListener::class,
+        ],
     ];
 }

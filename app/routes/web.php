@@ -17,14 +17,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('events',  ['uses' => 'AuthorController@showAllAuthors']);
-
-    $router->get('authors/{id}', ['uses' => 'AuthorController@showOneAuthor']);
-
-    $router->post('authors', ['uses' => 'AuthorController@create']);
-
-    $router->delete('authors/{id}', ['uses' => 'AuthorController@delete']);
-
-    $router->put('authors/{id}', ['uses' => 'AuthorController@update']);
+$router->group(['prefix' => 'api/v1/'], function () use ($router) {
+    $router->get('orders',  ['uses' => 'OrderController@index']);
+    $router->get('orders/{id}', ['uses' => 'OrderController@show']);
+    $router->post('orders', ['uses' => 'OrderController@create']);
+    $router->delete('orders/{id}', ['uses' => 'OrderController@delete']);
+    $router->put('orders/{id}', ['uses' => 'OrderController@update']);
 });
