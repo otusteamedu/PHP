@@ -41,15 +41,15 @@ services:
     volumes:
       - ./app:/var/www/html
 
-#  rabbitmq:
-#    build:
-#      context: ./docker/rabbit-mq
-#    ports:
-#      - 15672:15672
-#      - 5672:5672
-#    environment:
-#      RABBITMQ_DEFAULT_USER: user
-#      RABBITMQ_DEFAULT_PASS: password
+  rabbitmq:
+    build:
+      context: ./docker/rabbit-mq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
 
 
 

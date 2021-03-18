@@ -2,8 +2,20 @@ FROM php:7.4-cli
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
   && apt-get update \
-  && apt install -y zip unzip git libcurl4-openssl-dev libssl-dev libzip-dev \
+  && apt install -y zip \
+                unzip \
+                git \
+                libcurl4-openssl-dev \
+                libssl-dev \
+                libzip-dev \
+                libonig-dev \
+                libpq-dev \
+                libpq-dev \
+                librabbitmq-dev \
   && docker-php-ext-install zip sockets bcmath \
+  && docker-php-ext-install mbstring \
+  && pecl install amqp \
+  && docker-php-ext-enable amqp \
   && pecl install -o redis && docker-php-ext-enable redis
 
 # Install Composer
