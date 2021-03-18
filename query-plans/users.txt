@@ -1,0 +1,65 @@
+-- Пользователь ru количество билетов и потраченная сумма
+select
+	tu.firstname || ' ' || tu.lastname as "Пользователь",
+	tu.email as "Почта",
+	sum(tt.price) as "Потраченная сумма",
+	count(tt.id) as "Количество билетов"
+from "tUserTickets" tut
+	left join "tTickets" tt on tt.id = tut.ticket_id
+	left join "tUsers" tu on tu.id = tut.user_id
+where tu.email like '%ru'
+group by tu.id
+order by "Потраченная сумма" DESC;
+
+-- 1000 пользователей
+
+                                                                    QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=246.12..246.52 rows=162 width=68) (actual time=1.751..1.758 rows=95 loops=1)
+   Sort Key: (sum(tt.price)) DESC
+   Sort Method: quicksort  Memory: 38kB
+   ->  HashAggregate  (cost=237.74..240.17 rows=162 width=68) (actual time=1.635..1.686 rows=95 loops=1)
+         Group Key: tu.id
+         Batches: 1  Memory Usage: 64kB
+         ->  Nested Loop Left Join  (cost=28.81..236.47 rows=170 width=62) (actual time=0.813..1.536 rows=148 loops=1)
+               ->  Hash Join  (cost=28.52..46.80 rows=170 width=58) (actual time=0.763..1.044 rows=148 loops=1)
+                     Hash Cond: (tut.user_id = tu.id)
+                     ->  Seq Scan on "tUserTickets" tut  (cost=0.00..15.51 rows=1051 width=8) (actual time=0.014..0.110 rows=1051 loops=1)
+                     ->  Hash  (cost=26.50..26.50 rows=162 width=54) (actual time=0.705..0.705 rows=150 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 21kB
+                           ->  Seq Scan on "tUsers" tu  (cost=0.00..26.50 rows=162 width=54) (actual time=0.020..0.546 rows=150 loops=1)
+                                 Filter: ((email)::text ~~ '%ru'::text)
+                                 Rows Removed by Filter: 850
+               ->  Index Scan using "tTickets_pkey" on "tTickets" tt  (cost=0.29..1.12 rows=1 width=8) (actual time=0.003..0.003 rows=1 loops=148)
+                     Index Cond: (id = tut.ticket_id)
+ Planning Time: 2.054 ms
+ Execution Time: 1.962 ms
+(19 rows)
+
+-- после добавления индекса userEmail
+
+                                                                      QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=14074.54..14074.94 rows=162 width=68) (actual time=65.149..65.157 rows=150 loops=1)
+   Sort Key: (sum(tt.price)) DESC
+   Sort Method: quicksort  Memory: 46kB
+   ->  HashAggregate  (cost=14066.16..14068.59 rows=162 width=68) (actual time=65.007..65.063 rows=150 loops=1)
+         Group Key: tu.id
+         Batches: 1  Memory Usage: 64kB
+         ->  Nested Loop Left Join  (cost=27.41..13989.32 rows=10246 width=62) (actual time=0.526..60.620 rows=9628 loops=1)
+               ->  Hash Join  (cost=26.99..1106.17 rows=10246 width=58) (actual time=0.478..20.250 rows=9628 loops=1)
+                     Hash Cond: (tut.user_id = tu.id)
+                     ->  Seq Scan on "tUserTickets" tut  (cost=0.00..912.46 rows=63246 width=8) (actual time=0.013..6.687 rows=63246 loops=1)
+                     ->  Hash  (cost=24.96..24.96 rows=162 width=54) (actual time=0.427..0.428 rows=150 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 21kB
+                           ->  Bitmap Heap Scan on "tUsers" tu  (cost=8.94..24.96 rows=162 width=54) (actual time=0.081..0.263 rows=150 loops=1)
+                                 Recheck Cond: ((email)::text ~~ '%ru'::text)
+                                 Heap Blocks: exact=14
+                                 ->  Bitmap Index Scan on "userEmail"  (cost=0.00..8.89 rows=162 width=0) (actual time=0.058..0.058 rows=150 loops=1)
+               ->  Index Scan using "tTickets_pkey" on "tTickets" tt  (cost=0.43..1.26 rows=1 width=8) (actual time=0.004..0.004 rows=1 loops=9628)
+                     Index Cond: (id = tut.ticket_id)
+ Planning Time: 1.926 ms
+ Execution Time: 65.456 ms
+(20 rows)
+
+

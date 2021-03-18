@@ -1,0 +1,15 @@
+-- Количество проданных билетов проданных 3 дня назад
+select count(*) from "tTickets" tt
+where tt.date_sale::date = (current_date - '3 days'::interval)::date;
+
+                                                     QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=622.78..622.79 rows=1 width=8) (actual time=10.123..10.124 rows=1 loops=1)
+   ->  Seq Scan on "tTickets" tt  (cost=0.00..622.52 rows=104 width=0) (actual time=0.023..9.936 rows=2134 loops=1)
+         Filter: ((date_sale)::date = ((CURRENT_DATE - '3 days'::interval))::date)
+         Rows Removed by Filter: 18689
+ Planning Time: 0.177 ms
+ Execution Time: 10.175 ms
+(6 rows)
+
+

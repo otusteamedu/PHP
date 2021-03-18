@@ -1,0 +1,46 @@
+-- Сеансы на 9 часов
+select * from "tSessions" ts where ts.date = current_date and ts ."time" = '9:00'::time;
+
+-- В базе 20 сеансов на сегодня
+
+                                                 QUERY PLAN
+------------------------------------------------------------------------------------------------------------
+ Seq Scan on "tSessions" ts  (cost=0.00..35.38 rows=145 width=28) (actual time=0.017..0.027 rows=4 loops=1)
+   Filter: (("time" = '09:00:00'::time without time zone) AND (date = CURRENT_DATE))
+   Rows Removed by Filter: 16
+ Planning Time: 0.678 ms
+ Execution Time: 0.051 ms
+(5 rows)
+
+
+-- В базе 1220 +- 30 дней
+-- Сеансы на дату + 5 дней от текущей
+cinema=# explain analyze select * from "tSessions" ts where ts.date = current_date + '5 days'::interval order by ts.time;
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=30.78..30.83 rows=20 width=28) (actual time=1.538..1.545 rows=20 loops=1)
+   Sort Key: "time"
+   Sort Method: quicksort  Memory: 26kB
+   ->  Seq Scan on "tSessions" ts  (cost=0.00..30.35 rows=20 width=28) (actual time=0.809..1.482 rows=20 loops=1)
+         Filter: (date = (CURRENT_DATE + '5 days'::interval))
+         Rows Removed by Filter: 1200
+ Planning Time: 0.187 ms
+ Execution Time: 1.623 ms
+(8 rows)
+
+-- Добавить индекс даты
+create index "sessionDate" on "tSessions" using btree ("date");
+
+-- после добавления индекса
+cinema=# explain analyze select * from "tSessions" ts where ts.date = current_date + '5 days'::interval order by ts.time;
+                                                              QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=9.06..9.11 rows=20 width=28) (actual time=0.187..0.192 rows=20 loops=1)
+   Sort Key: "time"
+   Sort Method: quicksort  Memory: 26kB
+   ->  Index Scan using "sessionDate" on "tSessions" ts  (cost=0.28..8.63 rows=20 width=28) (actual time=0.138..0.148 rows=20 loops=1)
+         Index Cond: (date = (CURRENT_DATE + '5 days'::interval))
+ Planning Time: 0.757 ms
+ Execution Time: 0.259 ms
+(7 rows)
+

@@ -1,0 +1,29 @@
+-- пользователи с доменом ru
+select
+	tu.firstname || ' ' || tu.lastname as "Пользователь",
+	tu.email as "Почта"
+from "tUsers" tu where tu.email like '%ru';
+
+-- 1000 пользователей
+                                                QUERY PLAN
+-----------------------------------------------------------------------------------------------------------
+ Seq Scan on "tUsers" tu  (cost=0.00..27.31 rows=162 width=48) (actual time=0.032..0.677 rows=150 loops=1)
+   Filter: ((email)::text ~~ '%ru'::text)
+   Rows Removed by Filter: 850
+ Planning Time: 0.204 ms
+ Execution Time: 0.723 ms
+(5 rows)
+
+
+
+-- После добавления индекса "userEmail"
+                                                       QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on "tUsers" tu  (cost=8.94..25.77 rows=162 width=48) (actual time=0.098..0.334 rows=150 loops=1)
+   Recheck Cond: ((email)::text ~~ '%ru'::text)
+   Heap Blocks: exact=14
+   ->  Bitmap Index Scan on "userEmail"  (cost=0.00..8.89 rows=162 width=0) (actual time=0.070..0.071 rows=150 loops=1)
+ Planning Time: 6.492 ms
+ Execution Time: 0.451 ms
+
+

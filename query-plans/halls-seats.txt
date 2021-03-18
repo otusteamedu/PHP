@@ -1,0 +1,153 @@
+-- количество свободных мест в залах на сегодня 12 часов
+select
+	th.name as "Зал",
+	th.number_rows * th.seats_in_row - count(tt.id) as "Количество свободных мест",
+	ts."date"::text || ' ' || ts."time"::text as "Дата время"
+from "tTickets" tt
+	left join "tSessions" ts on ts.id = tt.session_id
+	left join "tHalls" th on th.id = ts.hall_id
+	where ts.date = current_date and ts.time = '9:00'::time
+	group by th.id, ts.id
+	order by th.name;
+
+-- Всего билетов в базе 20823
+
+
+                                                                QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=680.79..685.99 rows=2082 width=80) (actual time=19.987..19.996 rows=4 loops=1)
+   Sort Key: th.name
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=503.57..566.03 rows=2082 width=80) (actual time=19.915..19.954 rows=4 loops=1)
+         Group Key: th.id, ts.id
+         Batches: 1  Memory Usage: 121kB
+         ->  Hash Left Join  (cost=65.41..487.96 rows=2082 width=60) (actual time=0.601..16.467 rows=4168 loops=1)
+               Hash Cond: (ts.hall_id = th.id)
+               ->  Hash Join  (cost=37.19..454.23 rows=2082 width=24) (actual time=0.527..12.964 rows=4168 loops=1)
+                     Hash Cond: (tt.session_id = ts.id)
+                     ->  Seq Scan on "tTickets" tt  (cost=0.00..362.23 rows=20823 width=8) (actual time=0.014..4.604 rows=20823 loops=1)
+                     ->  Hash  (cost=35.38..35.38 rows=145 width=20) (actual time=0.048..0.050 rows=4 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                           ->  Seq Scan on "tSessions" ts  (cost=0.00..35.38 rows=145 width=20) (actual time=0.015..0.024 rows=4 loops=1)
+                                 Filter: (("time" = '12:00:00'::time without time zone) AND (date = CURRENT_DATE))
+                                 Rows Removed by Filter: 16
+               ->  Hash  (cost=18.10..18.10 rows=810 width=40) (actual time=0.036..0.037 rows=4 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     ->  Seq Scan on "tHalls" th  (cost=0.00..18.10 rows=810 width=40) (actual time=0.012..0.014 rows=4 loops=1)
+ Planning Time: 0.932 ms
+ Execution Time: 20.459 ms
+
+
+-- Всего билетов в базе 1272222
+
+                                                                           QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=17957.19..17965.29 rows=3240 width=80) (actual time=95.944..100.494 rows=4 loops=1)
+   Sort Key: th.name
+   Sort Method: quicksort  Memory: 25kB
+   ->  Finalize GroupAggregate  (cost=17209.02..17768.27 rows=3240 width=80)
+                            (actual time=95.667..100.466 rows=4 loops=1)
+         Group Key: th.id, ts.id
+         ->  Gather Merge  (cost=17209.02..17645.00 rows=3476 width=64)
+                            (actual time=95.578..100.445 rows=12 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               ->  Partial GroupAggregate  (cost=16209.00..16243.76 rows=1738 width=64)
+                                            (actual time=72.410..72.623 rows=4 loops=3)
+                     Group Key: th.id, ts.id
+                     ->  Sort  (cost=16209.00..16213.34 rows=1738 width=60)
+                                        (actual time=72.344..72.406 rows=1388 loops=3)
+                           Sort Key: th.id, ts.id
+                           Sort Method: quicksort  Memory: 144kB
+                           Worker 0:  Sort Method: quicksort  Memory: 166kB
+                           Worker 1:  Sort Method: quicksort  Memory: 161kB
+                           ->  Hash Left Join  (cost=58.62..16115.47 rows=1738 width=60)
+                                                (actual time=43.187..71.439 rows=1388 loops=3)
+                                 Hash Cond: (ts.hall_id = th.id)
+                                 ->  Hash Join  (cost=30.40..16082.66 rows=1738 width=24)
+                                                (actual time=43.125..71.122 rows=1388 loops=3)
+                                       Hash Cond: (tt.session_id = ts.id)
+                                       ->  Parallel Seq Scan on "tTickets" tt  (cost=0.00..14655.93 rows=530092 width=8)
+                                                        (actual time=0.031..32.528 rows=424074 loops=3)
+                                       ->  Hash  (cost=30.35..30.35 rows=4 width=20) (actual time=0.716..0.717 rows=4 loops=3)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Seq Scan on "tSessions" ts  (cost=0.00..30.35 rows=4 width=20)
+                                                                        (actual time=0.368..0.679 rows=4 loops=3)
+                                                   Filter: (("time" = '12:00:00'::time without time zone) AND (date = CURRENT_DATE))
+                                                   Rows Removed by Filter: 1216
+                                 ->  Hash  (cost=18.10..18.10 rows=810 width=40)
+                                            (actual time=0.032..0.033 rows=4 loops=3)
+                                       Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                       ->  Seq Scan on "tHalls" th  (cost=0.00..18.10 rows=810 width=4
+                                                            (actual time=0.024..0.025 rows=4 loops=3)
+ Planning Time: 1.234 ms
+ Execution Time: 100.860 ms
+(30 rows)
+
+
+--  После добавления индекса даты
+
+                                                                                  QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=17935.52..17943.62 rows=3240 width=80) (actual time=68.974..72.682 rows=4 loops=1)
+   Sort Key: th.name
+   Sort Method: quicksort  Memory: 25kB
+   ->  Finalize GroupAggregate  (cost=17187.35..17746.60 rows=3240 width=80) (actual time=68.701..72.648 rows=4 loops=1)
+         Group Key: th.id, ts.id
+         ->  Gather Merge  (cost=17187.35..17623.33 rows=3476 width=64) (actual time=68.624..72.629 rows=12 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               ->  Partial GroupAggregate  (cost=16187.33..16222.09 rows=1738 width=64) (actual time=61.104..61.272 rows=4 loops=3)
+                     Group Key: th.id, ts.id
+                     ->  Sort  (cost=16187.33..16191.67 rows=1738 width=60) (actual time=61.048..61.099 rows=1389 loops=3)
+                           Sort Key: th.id, ts.id
+                           Sort Method: quicksort  Memory: 166kB
+                           Worker 0:  Sort Method: quicksort  Memory: 159kB
+                           Worker 1:  Sort Method: quicksort  Memory: 147kB
+                           ->  Hash Left Join  (cost=36.95..16093.80 rows=1738 width=60) (actual time=32.456..60.693 rows=1389 loops=3)
+                                 Hash Cond: (ts.hall_id = th.id)
+                                 ->  Hash Join  (cost=8.73..16060.99 rows=1738 width=24) (actual time=32.397..60.354 rows=1389 loops=3)
+                                       Hash Cond: (tt.session_id = ts.id)
+                                       ->  Parallel Seq Scan on "tTickets" tt  (cost=0.00..14655.93 rows=530092 width=8) (actual time=0.012..27.766 rows=424074 loops=3)
+                                       ->  Hash  (cost=8.68..8.68 rows=4 width=20) (actual time=0.064..0.064 rows=4 loops=3)
+                                             Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                             ->  Index Scan using "sessionDate" on "tSessions" ts  (cost=0.28..8.68 rows=4 width=20) (actual time=0.041..0.050 rows=4 loops=3)
+                                                   Index Cond: (date = CURRENT_DATE)
+                                                   Filter: ("time" = '09:00:00'::time without time zone)
+                                                   Rows Removed by Filter: 16
+                                 ->  Hash  (cost=18.10..18.10 rows=810 width=40) (actual time=0.025..0.025 rows=4 loops=3)
+                                       Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                       ->  Seq Scan on "tHalls" th  (cost=0.00..18.10 rows=810 width=40) (actual time=0.016..0.017 rows=4 loops=3)
+ Planning Time: 1.443 ms
+ Execution Time: 73.005 ms
+(31 rows)
+
+-- После добавления индекса сеанса
+
+                                                                      QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=610.79..618.89 rows=3240 width=80) (actual time=7.183..7.189 rows=4 loops=1)
+   Sort Key: th.name
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=324.67..421.87 rows=3240 width=80) (actual time=7.109..7.151 rows=4 loops=1)
+         Group Key: th.id, ts.id
+         Batches: 1  Memory Usage: 121kB
+         ->  Nested Loop  (cost=9.16..293.38 rows=4171 width=60) (actual time=0.223..3.984 rows=4167 loops=1)
+               ->  Hash Right Join  (cost=8.73..32.95 rows=4 width=56) (actual time=0.144..0.168 rows=4 loops=1)
+                     Hash Cond: (th.id = ts.hall_id)
+                     ->  Seq Scan on "tHalls" th  (cost=0.00..18.10 rows=810 width=40) (actual time=0.013..0.017 rows=4 loops=1)
+                     ->  Hash  (cost=8.68..8.68 rows=4 width=20) (actual time=0.089..0.090 rows=4 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                           ->  Index Scan using "sessionDate" on "tSessions" ts  (cost=0.28..8.68 rows=4 width=20) (actual time=0.050..0.065 rows=4 loops=1)
+                                 Index Cond: (date = CURRENT_DATE)
+                                 Filter: ("time" = '09:00:00'::time without time zone)
+                                 Rows Removed by Filter: 16
+               ->  Index Scan using "ticketsSession" on "tTickets" tt  (cost=0.43..54.68 rows=1043 width=8) (actual time=0.037..0.494 rows=1042 loops=4)
+                     Index Cond: (session_id = ts.id)
+ Planning Time: 1.944 ms
+ Execution Time: 7.626 ms
+(20 rows)
+
+
+
+

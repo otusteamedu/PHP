@@ -1,0 +1,122 @@
+-- Сборы с фильмов
+select
+	tf.title as "Фильм",
+	count(tt.id) "Количество билетов",
+	sum(tt.price) as "Сумма сбора"
+from "tFilms" tf
+	left join "tSessions" ts on ts.movie_id = tf.id
+	left join "tTickets" tt on tt.session_id = ts.id
+	group by tf.id
+	order by "Сумма сбора" DESC;
+
+
+-- Всего билетов в базе 20823
+
+
+                                                                QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=787.43..790.60 rows=1270 width=52) (actual time=41.079..41.084 rows=3 loops=1)
+   Sort Key: (sum(tt.price)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=709.26..721.96 rows=1270 width=52)
+                        (actual time=41.031..41.045 rows=3 loops=1)
+         Group Key: tf.id
+         Batches: 1  Memory Usage: 73kB
+         ->  Hash Right Join  (cost=81.20..553.08 rows=20823 width=44)
+                                (actual time=0.170..30.271 rows=20823 loops=1)
+               Hash Cond: (ts.movie_id = tf.id)
+               ->  Hash Right Join  (cost=42.62..459.67 rows=20823 width=12)
+                                        (actual time=0.105..18.677 rows=20823 loops=1)
+                     Hash Cond: (tt.session_id = ts.id)
+                     ->  Seq Scan on "tTickets" tt  (cost=0.00..362.23 rows=20823 width=12)
+                                                    (actual time=0.012..4.732 rows=20823 loops=1)
+                     ->  Hash  (cost=24.50..24.50 rows=1450 width=8) (actual time=0.045..0.046 rows=20 loops=1)
+                           Buckets: 2048  Batches: 1  Memory Usage: 17kB
+                           ->  Seq Scan on "tSessions" ts  (cost=0.00..24.50 rows=1450 width=8)
+                                                            (actual time=0.007..0.015 rows=20 loops=1)
+               ->  Hash  (cost=22.70..22.70 rows=1270 width=36)
+                            (actual time=0.049..0.050 rows=3 loops=1)
+                     Buckets: 2048  Batches: 1  Memory Usage: 17kB
+                     ->  Seq Scan on "tFilms" tf  (cost=0.00..22.70 rows=1270 width=36)
+                                                    (actual time=0.018..0.022 rows=3 loops=1)
+ Planning Time: 1.091 ms
+ Execution Time: 41.408 ms
+(19 rows)
+
+
+-- Всего билетов в базе 1272222
+
+                                                                QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=38865.05..38868.22 rows=1270 width=52) (actual time=638.327..638.330 rows=3 loops=1)
+   Sort Key: (sum(tt.price)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=38786.88..38799.58 rows=1270 width=52)
+                        (actual time=638.296..638.302 rows=3 loops=1)
+         Group Key: tf.id
+         Batches: 1  Memory Usage: 73kB
+         ->  Hash Right Join  (cost=75.03..28854.16 rows=1324362 width=44)
+                                (actual time=1.207..475.109 rows=1272222 loops=1)
+               Hash Cond: (ts.movie_id = tf.id)
+               ->  Hash Right Join  (cost=36.45..25464.86 rows=1272222 width=12)
+                                        (actual time=1.142..294.781 rows=1272222 loops=1)
+                     Hash Cond: (tt.session_id = ts.id)
+                     ->  Seq Scan on "tTickets" tt  (cost=0.00..22077.22 rows=1272222 width=12)
+                                                    (actual time=0.008..79.351 rows=1272222 loops=1)
+                     ->  Hash  (cost=21.20..21.20 rows=1220 width=8) (actual time=1.089..1.090 rows=1220 loops=1)
+                           Buckets: 2048  Batches: 1  Memory Usage: 64kB
+                           ->  Seq Scan on "tSessions" ts  (cost=0.00..21.20 rows=1220 width=8)
+                                                            (actual time=0.008..0.466 rows=1220 loops=1)
+               ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.050..0.050 rows=3 loops=1)
+                     Buckets: 2048  Batches: 1  Memory Usage: 17kB
+                     ->  Seq Scan on "tFilms" tf  (cost=0.00..22.70 rows=1270 width=36)
+                                                    (actual time=0.018..0.021 rows=3 loops=1)
+ Planning Time: 1.866 ms
+ Execution Time: 638.598 ms
+(19 rows)
+
+-- После перестроения запроса
+select
+	tf.title as "Фильм",
+	count(tt.id) "Количество билетов",
+	sum(tt.price) as "Сумма сбора"
+from "tTickets" tt
+	left join "tSessions" ts on ts.id = tt.session_id
+	left join "tFilms" tf on tf.id = ts.movie_id
+group by tf.id
+order by "Сумма сбора" desc;
+                                                                                QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=22970.87..22974.05 rows=1270 width=52) (actual time=292.157..296.248 rows=3 loops=1)
+   Sort Key: (sum(tt.price)) DESC
+   Sort Method: quicksort  Memory: 25kB
+   ->  Finalize GroupAggregate  (cost=22577.30..22905.40 rows=1270 width=52) (actual time=292.131..296.224 rows=3 loops=1)
+         Group Key: tf.id
+         ->  Gather Merge  (cost=22577.30..22873.65 rows=2540 width=52) (actual time=292.117..296.208 rows=9 loops=1)
+               Workers Planned: 2
+               Workers Launched: 2
+               ->  Sort  (cost=21577.27..21580.45 rows=1270 width=52) (actual time=280.101..280.103 rows=3 loops=3)
+                     Sort Key: tf.id
+                     Sort Method: quicksort  Memory: 25kB
+                     Worker 0:  Sort Method: quicksort  Memory: 25kB
+                     Worker 1:  Sort Method: quicksort  Memory: 25kB
+                     ->  Partial HashAggregate  (cost=21499.10..21511.80 rows=1270 width=52) (actual time=279.984..279.990 rows=3 loops=3)
+                           Group Key: tf.id
+                           Batches: 1  Memory Usage: 73kB
+                           Worker 0:  Batches: 1  Memory Usage: 73kB
+                           Worker 1:  Batches: 1  Memory Usage: 73kB
+                           ->  Hash Left Join  (cost=75.03..17523.41 rows=530092 width=44) (actual time=1.394..209.347 rows=424074 loops=3)
+                                 Hash Cond: (ts.movie_id = tf.id)
+                                 ->  Hash Left Join  (cost=36.45..16088.71 rows=530092 width=12) (actual time=1.296..132.305 rows=424074 loops=3)
+                                       Hash Cond: (tt.session_id = ts.id)
+                                       ->  Parallel Seq Scan on "tTickets" tt  (cost=0.00..14655.93 rows=530092 width=12) (actual time=0.024..34.591 rows=424074 loops=3)
+                                       ->  Hash  (cost=21.20..21.20 rows=1220 width=8) (actual time=1.185..1.185 rows=1220 loops=3)
+                                             Buckets: 2048  Batches: 1  Memory Usage: 64kB
+                                             ->  Seq Scan on "tSessions" ts  (cost=0.00..21.20 rows=1220 width=8) (actual time=0.059..0.547 rows=1220 loops=3)
+                                 ->  Hash  (cost=22.70..22.70 rows=1270 width=36) (actual time=0.051..0.052 rows=3 loops=3)
+                                       Buckets: 2048  Batches: 1  Memory Usage: 17kB
+                                       ->  Seq Scan on "tFilms" tf  (cost=0.00..22.70 rows=1270 width=36) (actual time=0.026..0.028 rows=3 loops=3)
+ Planning Time: 1.124 ms
+ Execution Time: 296.641 ms
+
+
