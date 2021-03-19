@@ -5,7 +5,7 @@ namespace controllers;
 
 
 use Services\Email\allowedEmails;
-use Services\Email\emailSericesLib;
+use Services\Email\emailServicesLib;
 
 class TestEmail
 {
@@ -14,7 +14,7 @@ class TestEmail
         echo "<pre>";
         echo "Адрес вебсервера: ", $_SERVER['SERVER_ADDR'], PHP_EOL;
         echo 'Адрес ноды FPM: ' . getHostByName(php_uname('n')), PHP_EOL;
-        $this->emailLib = new emailSericesLib(allowedEmails::getList());
+        $this->emailLib = new emailServicesLib(allowedEmails::getList());
         print_r($this->emailLib->getFormattedEmailList());
         foreach (allowedEmails::getList() as $mail) {
             $this->checkEmail($mail);

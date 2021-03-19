@@ -4,12 +4,12 @@
 namespace Services\Email;
 
 
-class emailSericesLib
+class emailServicesLib
 {
     private array $reason = [];
 
     /**
-     * emailSericesLib constructor.
+     * emailServicesLib constructor.
      * @param array $emails
      */
     public function __construct(private array $emails)
