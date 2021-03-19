@@ -19,6 +19,8 @@ class EventsRedisRepository implements IEventsRepository
 
     private const KEY_NAMES = 'events:names';
 
+    private array $identityMapParams = [];
+
     private function getClient(): ?Redis
     {
         return RedisConnection::getClient();
@@ -32,8 +34,7 @@ class EventsRedisRepository implements IEventsRepository
             foreach ($searchDto->conditions as $key => $value) {
                 $match = true;
                 if(
-                    !$this->getClient()->hGet(self::KEY_EVENT . ':' . $id . ':params', $key) ||
-                    $this->getClient()->hGet(self::KEY_EVENT . ':' . $id . ':params', $key) != $value
+                    $this->getEventParam($id, $key) != $value
                 ) {
                     $match = false;
                 }
@@ -77,6 +78,8 @@ class EventsRedisRepository implements IEventsRepository
 
     public function clean(): bool
     {
+        $this->identityMapParams = [];
+
         $number = $this->getClient()->del($this->getClient()->keys(self::KEY_EVENT . '*'));
 
         if(is_numeric($number) && $number > 0) {
@@ -84,5 +87,21 @@ class EventsRedisRepository implements IEventsRepository
         }
 
         return false;
+    }
+
+    private function getEventParam(int $id, string $param): ?string
+    {
+        if(is_null($this->identityMapParams[$id])) {
+            $this->identityMapParams[$id] = [];
+        }
+
+        $paramValue = $this->identityMapParams[$id][$param];
+
+        if(is_null($paramValue)) {
+            $paramValue = $this->getClient()->hGet(self::KEY_EVENT . ':' . $id . ':params', $param);
+            $this->identityMapParams[$id][$param] = $paramValue;
+        }
+
+        return $this->identityMapParams[$id][$param];
     }
 }
