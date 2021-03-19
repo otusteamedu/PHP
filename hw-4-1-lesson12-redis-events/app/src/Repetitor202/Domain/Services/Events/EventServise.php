@@ -7,9 +7,12 @@ namespace Repetitor202\Domain\Services\Events;
 use Repetitor202\Domain\DTO\EventSearchDTO;
 use Repetitor202\Domain\DTO\EventStoreDTO;
 use Repetitor202\Domain\Repositories\Events\EventsRedisRepository;
+use Repetitor202\Domain\Repositories\Events\IEventsRepository;
 
 class EventServise
 {
+    private IEventsRepository $repository;
+
     public function __construct()
     {
         $this->repository = new EventsRedisRepository();
