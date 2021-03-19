@@ -9,7 +9,7 @@ use Repetitor202\Domain\DTO\EventStoreDTO;
 use Repetitor202\Domain\Repositories\Events\EventsRedisRepository;
 use Repetitor202\Domain\Repositories\Events\IEventsRepository;
 
-class EventServise
+class EventService
 {
     private IEventsRepository $repository;
 

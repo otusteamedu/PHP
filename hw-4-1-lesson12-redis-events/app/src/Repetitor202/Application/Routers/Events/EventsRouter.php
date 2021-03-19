@@ -5,7 +5,7 @@ namespace Repetitor202\Application\Routers\Events;
 
 
 use Repetitor202\Application\Routers\IRouter;
-use Repetitor202\Domain\Services\Events\EventServise;
+use Repetitor202\Domain\Services\Events\EventService;
 
 abstract class EventsRouter implements IRouter
 {
@@ -15,7 +15,7 @@ abstract class EventsRouter implements IRouter
 
     public static function run(int $argvNumber = 1): void
     {
-        $service = new EventServise();
+        $service = new EventService();
 
         if(isset($_GET) && isset($_GET[self::TYPE_SEARCH])) {
             unset($_GET[self::TYPE_SEARCH]);
