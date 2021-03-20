@@ -17,7 +17,7 @@ class App
 
     public function run()
     {
-        if(!$this->request->isPostRequest()) 
+        if(is_null($this->request->post)) 
             return $this->response->response(false, "Метод запроса не является корректным!");
         
         if(!$this->request->hasParam('string'))
