@@ -34,7 +34,7 @@ class EventsRedisRepository implements IEventsRepository
             foreach ($searchDto->conditions as $key => $value) {
                 $match = true;
                 if(
-                    $this->getEventParam($id, $key) != $value
+                    $this->getParamValueFromIdentityMap($id, $key) != $value
                 ) {
                     $match = false;
                 }
@@ -70,7 +70,9 @@ class EventsRedisRepository implements IEventsRepository
         ;
 
         foreach ($storeDto->conditions as $key => $value) {
-            $transaction->hSet(self::KEY_EVENT . ':' . $id . ':params', $key, $value);
+            if($this->insertParamIntoIdentityMap($id, $key, $value)) {
+                $transaction->hSet(self::KEY_EVENT . ':' . $id . ':params', $key, $value);
+            }
         }
 
         return $transaction->exec();
@@ -89,7 +91,7 @@ class EventsRedisRepository implements IEventsRepository
         return false;
     }
 
-    private function getEventParam(int $id, string $param): ?string
+    private function getParamValueFromIdentityMap(int $id, string $param): ?string
     {
         if(is_null($this->identityMapParams[$id])) {
             $this->identityMapParams[$id] = [];
@@ -103,5 +105,20 @@ class EventsRedisRepository implements IEventsRepository
         }
 
         return $this->identityMapParams[$id][$param];
+    }
+
+    private function insertParamIntoIdentityMap($id, $param, $paramValue): bool
+    {
+        if(is_null($this->identityMapParams[$id])) {
+            $this->identityMapParams[$id] = [];
+        }
+
+        if(is_null($this->identityMapParams[$id][$param])) {
+            $this->identityMapParams[$id][$param] = $paramValue;
+
+            return true;
+        }
+
+        return false;
     }
 }
