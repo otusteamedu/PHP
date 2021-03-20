@@ -32,6 +32,8 @@ final class App
     {
         $builder = new ContainerBuilder();
         $builder->addDefinitions($configs);
+        $builder->addDefinitions(__DIR__ . '/../config/services.php');
+
         $container = $builder->build();
 
 
@@ -41,7 +43,9 @@ final class App
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware($container->get('development'), false, false);
 
-        $app->map(['GET', 'POST'], '/', 'App\Controller\HomeController:index' );
+        $app->get('/', 'App\Controller\HomeController:index');
+        $app->get('/channel', 'App\Controller\ChannelController:index');
+        $app->map(['GET', 'POST'], '/test', 'App\Controller\ValidationController:index' );
 
         $this->app = $app;
     }

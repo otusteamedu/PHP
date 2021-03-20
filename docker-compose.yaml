@@ -28,6 +28,8 @@ services:
         GROUP: ${SERVER_GROUP}
       context: docker/fpm
     image: atimofeev/php-fpm-mysite
+    env_file:
+      - .env
     working_dir: ${WORKDIR}
     volumes:
       - ./code:${WORKDIR}

@@ -30,9 +30,13 @@ abstract class AbstractController
 
         $this->view = new PhpRenderer(
             __DIR__ . '/../../templates',
-            ['title' => $container->get('name')],
+            [
+                'title' => $container->get('name'),
+                'style' => '/css/bootstrap.min.css',
+            ],
             'layout.php'
         );
+
     }
 
     protected function render(Response $response, string $template, array $params = []): Response
