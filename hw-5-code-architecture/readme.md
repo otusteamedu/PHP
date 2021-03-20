@@ -3,7 +3,7 @@
 
 before: hw-5-code-architecture/before-hw2-task1.png
 
-after: hw-5-code-architecture/after.png
+after: hw-5-code-architecture/after-v-2.png
 
 
 - deploy
