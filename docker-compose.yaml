@@ -1,37 +1,25 @@
 version: "3"
 
 services:
-  frontend:
+  webserver:
     build:
-      context: docker/frontend
-    image: atimofeev/fronted-mysite
-    depends_on:
-      - backend1.local
-      - backend2.local
+      args:
+        UID: ${SERVER_UID}
+        USER: ${SERVER_USER}
+        GID: ${SERVER_GID}
+        GROUP: ${SERVER_GROUP}
+      context: docker/nginx
+    image: atimofeev/webserer-mysite
+    working_dir: ${WORKDIR}
     ports:
     - 80:80
-    volumes:
-    - ./code/public:/data
-
-  backend1.local:
-    build:
-      args:
-        UID: ${SERVER_UID}
-        USER: ${SERVER_USER}
-        GID: ${SERVER_GID}
-        GROUP: ${SERVER_GROUP}
-      context: docker/backend1
-    image: atimofeev/backend1-mysite
-    working_dir: ${WORKDIR}
-    ports:
-    - 8081:80
     depends_on:
-      - app1
+      - app
     volumes:
       - ./code:${WORKDIR}
-      - sock1:${SOCKET_DIR}
+      - sock:${SOCKET_DIR}
 
-  app1:
+  app:
     build:
       args:
         UID: ${SERVER_UID}
@@ -39,46 +27,14 @@ services:
         GID: ${SERVER_GID}
         GROUP: ${SERVER_GROUP}
       context: docker/fpm
-    image: atimofeev/php-fpm-without-extensions
+    image: atimofeev/php-fpm-mysite
     working_dir: ${WORKDIR}
     volumes:
       - ./code:${WORKDIR}
-      - sock1:${SOCKET_DIR}
-
-  backend2.local:
-    build:
-      args:
-        UID: ${SERVER_UID}
-        USER: ${SERVER_USER}
-        GID: ${SERVER_GID}
-        GROUP: ${SERVER_GROUP}
-      context: docker/backend2
-    image: atimofeev/backend2-mysite
-    working_dir: ${WORKDIR}
-    ports:
-    - 8082:80
-    depends_on:
-      - app2
-    volumes:
-      - ./code:${WORKDIR}
-      - sock2:${SOCKET_DIR}
-
-  app2:
-    build:
-      args:
-        UID: ${SERVER_UID}
-        USER: ${SERVER_USER}
-        GID: ${SERVER_GID}
-        GROUP: ${SERVER_GROUP}
-      context: docker/fpm
-    image: atimofeev/php-fpm-without-extensions
-    working_dir: ${WORKDIR}
-    volumes:
-      - ./code:${WORKDIR}
-      - sock2:${SOCKET_DIR}
+      - sock:${SOCKET_DIR}
 
 volumes:
-  sock1:
-  sock2:
+  sock:
+
 
 

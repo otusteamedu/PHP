@@ -2,5 +2,5 @@
 
 docker-compose build
 
-docker-compose run app1 composer install
+docker-compose run app composer install
 
