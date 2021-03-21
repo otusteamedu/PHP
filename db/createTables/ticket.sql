@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS `otus_cinema`.`ticket` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `seat_number` TINYINT NULL COMMENT 'номер места из схемы зала',
-  `cost_fact` DECIMAL(6,2) NULL COMMENT 'фактическая стоимость места',
-  `schedule_id` INT NOT NULL,
-  `room_schema_id` TINYINT NOT NULL,
+  `cost` DECIMAL(6,2) NULL COMMENT 'фактическая стоимость места',
+  `schedule_id` INT NOT NULL  COMMENT 'на какой сеанс билет',
+  `room_schema_id` TINYINT NOT NULL COMMENT 'номер места из схемы зала',
   PRIMARY KEY (`id`, `schedule_id`, `room_schema_id`),
   INDEX `fk_ticket_schedule1_idx` (`schedule_id` ASC),
   INDEX `fk_ticket_room_schema1_idx` (`room_schema_id` ASC),
