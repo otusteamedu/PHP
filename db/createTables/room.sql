@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS `otus_cinema`.`room` (
+  `id` TINYINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(25) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB
