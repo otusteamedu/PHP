@@ -30,7 +30,7 @@ CREATE TABLE hall_seats
     "row_number"           INT NOT NULL,
     seat_number            INT NOT NULL,
     seat_price_modificator float default 0,
-    CONSTRAINT hall_seats_to_halls FOREIGN KEY (hall_id) REFERENCES halls (id)
+    CONSTRAINT hall_seats_fk FOREIGN KEY (hall_id) REFERENCES halls (id)
 );
 
 CREATE TABLE movies
@@ -105,7 +105,7 @@ CREATE TABLE orders
 );
 
 create VIEW prices as
-select tickets.id  as ticket_id,
+select tickets.id                                                        as ticket_id,
        session_id,
        hall_seat_id,
        base_price,
@@ -116,3 +116,75 @@ from tickets
          left join hall_seats on hall_seats.id = tickets.hall_seat_id
          left join sessions on sessions.id = tickets.session_id
          left join movies on movies.id = sessions.movie_id;
+
+create table movie_attributes
+(
+    id   INT GENERATED ALWAYS AS IDENTITY,
+    PRIMARY KEY (id),
+    name varchar(255)
+);
+
+create table movie_attribute_types
+(
+    id   INT GENERATED ALWAYS AS IDENTITY,
+    PRIMARY KEY (id),
+    name varchar(255)
+);
+
+create table movie_attribute_values
+(
+    id                INT GENERATED ALWAYS AS IDENTITY,
+    PRIMARY KEY (id),
+    movie_id          INT NOT NULL,
+    attribute_id      INT NOT NULL,
+    attribute_type_id INT NOT NULL,
+    value             varchar(255),
+    CONSTRAINT attribute_value_to_movie
+        FOREIGN KEY (movie_id)
+            REFERENCES movies (id),
+    CONSTRAINT attribute_value_to_attribute
+        FOREIGN KEY (attribute_id)
+            REFERENCES movie_attributes (id),
+    CONSTRAINT attribute_value_to_attribute_type
+        FOREIGN KEY (attribute_type_id)
+            REFERENCES movie_attribute_types (id)
+);
+
+CREATE
+INDEX movie_attribute_values_movie_id_idx ON otus.movie_attribute_values (movie_id);
+CREATE
+INDEX movie_attribute_values_attribute_id_idx ON otus.movie_attribute_values (attribute_id);
+CREATE
+INDEX movie_attribute_values_attribute_type_id_idx ON otus.movie_attribute_values (attribute_type_id);
+CREATE
+INDEX movie_attribute_types_name_idx ON otus.movie_attribute_types ("name");
+
+create view service_dates as
+select t.name as type, a.name as name, v.value as value from movie_attribute_values v
+left join movie_attributes a on a.id = v.attribute_id
+left join movie_attribute_types t on t.id = v.attribute_type_id;
+
+create view movies_data as
+select m.id, m.title, m.slogan, m.base_price, t.name as type, a.name as name, v.value as value from movie_attribute_values v
+left join movie_attributes a on a.id = v.attribute_id
+left join movie_attribute_types t on t.id = v.attribute_type_id
+left join movies m on m.id = v.movie_id;
+
+create view task_data as
+with tasks as (
+    select (case
+                when v.value = cast(CURRENT_DATE as varchar) then v.value
+                else null
+        END)        as actual_tasks,
+           (case
+                when v.value = cast(date (CURRENT_DATE + interval '20' day) as varchar) then v.value
+                else null
+               END) as actual_in_20_days,
+           movie_id
+    from movie_attribute_values v
+             left join movie_attribute_types t on t.id = v.attribute_type_id
+    where t.name = 'Служебные задачи'
+)
+select m.title, tasks.actual_tasks, actual_in_20_days
+from movies m
+         left join tasks on m.id = tasks.movie_id;
