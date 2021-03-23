@@ -13,7 +13,7 @@
                     <a href="/flush">Flush redis</a>
                 </div>
             </div>
-        @include('store.blocks.form')
+        @include('store.blocks.get')
         </div>
     </div>
 </div>

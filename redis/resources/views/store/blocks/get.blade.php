@@ -1,36 +1,19 @@
  <div class="card-body" style="justify-content: center;display: flex">
-        <div class="row">
-            @if(Session::has('success'))
-                {{Session::get('success')}}
-            @elseif(Session::has('failed'))
-                {{Session::get('failed')}}
-            @endif
-        </div>
-        <form method="POST" action="/store">
+        <form method="GET" action="/get">
             @csrf
             <div class="row card-title" style="font-size: 18px; margin: 25px">
                 <div class="col-md-12">
-                    Add new event
-                </div>
-            </div>
-            <div class="row" style="margin: 25px">
-                <div class="col-md-12">
-                    <input type="text" class="form-control" name="event[event_name]" placeholder="event" required>
-                </div>
-            </div>
-            <div class="row" style="margin: 25px">
-                <div class="col-md-12">
-                    <input type="text" class="form-control" name="event[priority]" placeholder="priority" required>
+                    Put your conditions here
                 </div>
             </div>
             <div id="conditions">
                 <div class="row" style="margin: 25px">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="event[conditions][1][key]" placeholder="key"
+                        <input type="text" class="form-control" name="conditions[1][key]" placeholder="key"
                                required>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="event[conditions][1][value]" placeholder="value"
+                        <input type="text" class="form-control" name="conditions[1][value]" placeholder="value"
                                required>
                     </div>
                     <div class="col-md-4">
@@ -40,7 +23,14 @@
             </div>
             <div class="row" style="margin: 25px">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success">Store event</button>
+                @if($event)
+                    Event is "{{ $event }}"
+                @endif
+                </div>
+            </div>
+            <div class="row" style="margin: 25px">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">Get event</button>
                 </div>
             </div>
         </form>
@@ -53,9 +43,9 @@
             $(".add").click(function () {
                 ++i;
                 $("#conditions").append('<div class="row" style="margin: 25px"><div class="col-md-4">' +
-                    '<input type="text" class="form-control" name="event[conditions][' + i + '][key]" placeholder="key" required>' +
+                    '<input type="text" class="form-control" name="conditions[' + i + '][key]" placeholder="key" required>' +
                     '</div><div class="col col-md-4">' +
-                    '<input type="text" class="form-control" name="event[conditions][' + i + '][value]" placeholder="value" required>' +
+                    '<input type="text" class="form-control" name="conditions[' + i + '][value]" placeholder="value" required>' +
                     '</div></div>');
             });
             $(document).on('click', '.remove-tr', function () {
