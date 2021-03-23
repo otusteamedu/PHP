@@ -99,7 +99,7 @@ CREATE TABLE if not exists film_schedule_place_price
     id                serial primary key,
     film_schedule_id  integer REFERENCES film_schedule (id),
     place_category_id integer REFERENCES place_category (id),
-    price             numeric(10, 2)
+    price             numeric(5, 2)
     );
 
 SELECT film.name, earnings.money
