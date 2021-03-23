@@ -6,10 +6,10 @@
  * Time: 13:18
  */
 
-namespace ValidBrackets;
+namespace ValidBrackets\Model;
 use Exception;
 
-class ValidBrackets extends Exception
+class BracketsModel extends Exception
 {
     const HTTP_NOT_VALID = 400;
 
@@ -57,6 +57,6 @@ class ValidBrackets extends Exception
             self::getError(1);
         }
 
-        return "Принятое значение: '".$brackets."'<br/>".$request;
+        return $request;
     }
 }

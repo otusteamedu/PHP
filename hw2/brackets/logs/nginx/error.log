@@ -79,3 +79,213 @@
 2021/01/04 17:43:11 [error] 28#28: *9 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 192.168.112.1, server: brackets.ikm, request: "GET /robots.txt?1609782191670 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
 2021/01/04 17:43:16 [error] 28#28: *6 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 2 in /var/www/brackets.ikm/src/ValidBrackets/ValidBrackets.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 2 in /var/www/brackets.ikm/src/ValidBrackets/ValidBrackets.php on line 48" while reading response header from upstream, client: 192.168.112.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
 2021/01/04 17:43:16 [error] 28#28: *9 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 192.168.112.1, server: brackets.ikm, request: "GET /robots.txt?1609782196973 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:38 [error] 31#31: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 4" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:39 [error] 31#31: *4 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525379091 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:41 [error] 31#31: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 4" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:41 [error] 31#31: *4 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525381529 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:51 [error] 31#31: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 4" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:49:51 [error] 31#31: *4 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525391973 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:54:59 [error] 31#31: *11 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 4" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:54:59 [error] 31#31: *14 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525699859 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:55:02 [error] 31#31: *11 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 4" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:55:02 [error] 31#31: *14 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525702329 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:55:44 [error] 31#31: *18 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:6
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:55:44 [error] 31#31: *21 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525744739 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:56:45 [error] 31#31: *23 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:6
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:56:45 [error] 31#31: *26 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525805579 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:56:47 [error] 31#31: *23 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:6
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:56:47 [error] 31#31: *26 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525807537 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:58:35 [error] 31#31: *30 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:6
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:58:35 [error] 31#31: *33 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525915623 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:58:53 [error] 31#31: *33 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525933851 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:58:55 [error] 31#31: *30 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 18:58:59 [error] 31#31: *30 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:58:59 [error] 31#31: *33 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525939660 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:59:08 [error] 31#31: *30 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:59:08 [error] 31#31: *33 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525948601 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:59:45 [error] 31#31: *44 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'src\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 18:59:46 [error] 31#31: *47 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616525986007 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:12 [error] 31#31: *44 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:12 [error] 31#31: *47 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526012691 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:36 [error] 31#31: *44 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:36 [error] 31#31: *47 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526036382 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:41 [error] 31#31: *44 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:00:41 [error] 31#31: *47 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526041352 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:01:40 [error] 31#31: *57 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:01:40 [error] 31#31: *60 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526100371 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:02:09 [error] 31#31: *57 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:02:09 [error] 31#31: *60 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526129582 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:03:54 [error] 31#31: *65 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:03:54 [error] 31#31: *68 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526234140 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:05:01 [error] 31#31: *70 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:05:01 [error] 31#31: *73 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526301153 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:05:08 [error] 31#31: *70 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\App' not found in /var/www/brackets.ikm/public/index.php:7
+Stack trace:
+#0 {main}
+  thrown in /var/www/brackets.ikm/public/index.php on line 7" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:05:08 [error] 31#31: *73 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526308161 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:06:03 [error] 31#31: *80 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616526363562 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:06:05 [error] 31#31: *77 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 19:29:07 [error] 31#31: *84 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 7PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\ValidBrackets' not found in /var/www/brackets.ikm/src/Core/App.php:9
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 9" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:29:07 [error] 31#31: *86 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616527747926 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:31:43 [error] 31#31: *89 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 7PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\BracketsController' not found in /var/www/brackets.ikm/src/Core/App.php:9
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 9" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:31:43 [error] 31#31: *91 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616527903463 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:46:20 [error] 31#31: *93 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 7PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Core\BracketsController' not found in /var/www/brackets.ikm/src/Core/App.php:9
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 9" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:46:20 [error] 31#31: *96 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616528780297 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:52:03 [error] 31#31: *99 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'BracketsController' not found in /var/www/brackets.ikm/src/Core/App.php:11
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 11" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:52:03 [error] 31#31: *101 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529123741 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:52:35 [error] 31#31: *104 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'BracketsController' not found in /var/www/brackets.ikm/src/Core/App.php:11
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 11" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:52:36 [error] 31#31: *106 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529156055 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:53:31 [error] 31#31: *108 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class '\Controller\BracketsController' not found in /var/www/brackets.ikm/src/Core/App.php:11
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 11" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:53:31 [error] 31#31: *111 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529211792 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:54:31 [error] 31#31: *113 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Controller\BracketsController::index() from context 'ValidBrackets\Core\App' in /var/www/brackets.ikm/src/Core/App.php:13
+Stack trace:
+#0 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#1 {main}
+  thrown in /var/www/brackets.ikm/src/Core/App.php on line 13" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:54:31 [error] 31#31: *116 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529271217 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:55:17 [error] 31#31: *118 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 3PHP message: PHP Warning:  Use of undefined constant data - assumed 'data' (this will throw an Error in a future version of PHP) in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6PHP message: PHP Warning:  Illegal string offset 'request' in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:55:18 [error] 31#31: *121 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529318062 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:58:17 [error] 31#31: *124 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 19PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Model\BracketsModel' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:58:17 [error] 31#31: *126 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529497699 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:59:14 [error] 31#31: *128 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 19PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Controller\ValidBrackets' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 19:59:15 [error] 31#31: *131 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529555076 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:00:29 [error] 31#31: *133 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 13PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Controller\ValidBrackets' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:00:30 [error] 31#31: *136 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529629989 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:02:26 [error] 31#31: *138 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 13PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Controller\ValidBrackets' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:02:26 [error] 31#31: *141 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529746877 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:03:58 [error] 31#31: *144 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 13PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Controller\ValidBrackets' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:03:58 [error] 31#31: *146 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529838397 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:04:36 [error] 31#31: *149 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 13PHP message: PHP Fatal error:  Uncaught Error: Class 'ValidBrackets\Controller\ValidBrackets' not found in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:04:36 [error] 31#31: *151 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529876182 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:04:47 [error] 31#31: *149 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/Core/App.php on line 13PHP message: PHP Notice:  Undefined index: brackets in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 3PHP message: PHP Warning:  Use of undefined constant data - assumed 'data' (this will throw an Error in a future version of PHP) in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6PHP message: PHP Warning:  Illegal string offset 'request' in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:04:48 [error] 31#31: *151 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529888035 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:04:59 [error] 31#31: *149 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Warning:  Use of undefined constant data - assumed 'data' (this will throw an Error in a future version of PHP) in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6PHP message: PHP Warning:  Illegal string offset 'request' in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:04:59 [error] 31#31: *151 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616529899433 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:07:19 [error] 31#31: *159 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Warning:  Use of undefined constant data - assumed 'data' (this will throw an Error in a future version of PHP) in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6PHP message: PHP Warning:  Illegal string offset 'request' in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:07:19 [error] 31#31: *162 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530039693 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:07:22 [error] 31#31: *159 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Warning:  Use of undefined constant data - assumed 'data' (this will throw an Error in a future version of PHP) in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6PHP message: PHP Warning:  Illegal string offset 'request' in /var/www/brackets.ikm/src/View/BracketsView.tpl.php on line 6" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:07:22 [error] 31#31: *162 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530042839 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:07:55 [error] 31#31: *166 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:07:55 [error] 31#31: *169 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530075748 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:09:05 [error] 31#31: *171 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:09:05 [error] 31#31: *174 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530145651 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:09:10 [error] 31#31: *171 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:09:10 [error] 31#31: *174 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530150642 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:09:56 [error] 31#31: *178 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:09:56 [error] 31#31: *181 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530196947 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:10:01 [error] 31#31: *178 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 9 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:10:01 [error] 31#31: *181 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530201106 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/23 20:10:06 [error] 31#31: *178 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/23 20:10:07 [error] 31#31: *181 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530207068 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"

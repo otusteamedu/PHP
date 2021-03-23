@@ -1,6 +1,12 @@
 <?php
 require_once('../vendor/autoload.php');
 
+use ValidBrackets\Core\App;
+
+//echo "Hello";
+$app = new App();
+$app->run();
+/*
 use ValidBrackets\ValidBrackets;
 
 ?>
@@ -16,5 +22,5 @@ try {
     echo $app->isValid($brackets);
 } catch (Exception $e) {
     echo $e->getMessage() . "\n";
-}
+}*/
 ?>
