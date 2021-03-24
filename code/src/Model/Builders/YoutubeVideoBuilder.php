@@ -4,22 +4,23 @@
 namespace App\Model\Builders;
 
 
-use App\Model\YouTubeVideo;
+use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\YoutubeVideo;
 use DateTime;
 use Google_Service_YouTube_Video;
 
-class VideoBuilder
+class YoutubeVideoBuilder implements BuilderModelElasticsearchInterface
 {
-    public function buildFromGoogle(Google_Service_YouTube_Video $video): YouTubeVideo
+    public function buildFromGoogle(Google_Service_YouTube_Video $video): YoutubeVideo
     {
-        $model = new YouTubeVideo();
+        $model = new YoutubeVideo();
 
         $snippet = $video->getSnippet();
 
         $model->setId($snippet->getChannelId());
         $model->setTitle($snippet->getTitle());
         $model->setDescription($snippet->getDescription());
-        $model->setPublishedAt(new \DateTime($snippet->getPublishedAt()));
+        $model->setPublishedAt(new DateTime($snippet->getPublishedAt()));
         $model->setChannelId($snippet->getChannelId());
 
         $tags = $snippet->getTags() ?? [];
@@ -36,9 +37,9 @@ class VideoBuilder
         return $model;
     }
 
-    public function buildFromElasticResult(array $data): YouTubeVideo
+    public function buildFromElasticResult(array $data): YoutubeVideo
     {
-        $model = new YouTubeVideo();
+        $model = new YoutubeVideo();
 
         $model->setId($data['id']);
         $model->setTitle($data['title']);

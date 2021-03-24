@@ -6,9 +6,9 @@ namespace App\Util;
 
 class TerminalLogger
 {
-    public function log($message, $date = false)
+    public function log(\Exception $e, $date = false)
     {
-        error_log(print_r($message, TRUE));
+        error_log(print_r($e, TRUE));
     }
 
 }

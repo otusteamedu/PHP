@@ -1,14 +1,13 @@
 <?php
 /**
- * @var YouTubeChannel[] $channels
+ * @var YoutubeChannel[] $channels
  * @var string $q
  * @var mixed $error
  */
 
-use App\Model\YouTubeChannel;
-
-
+use App\Model\YoutubeChannel;
 ?>
+
 <h1 class="h3 visually-hidden">Поиск канала</h1>
 
 <form method="get">
@@ -29,10 +28,10 @@ use App\Model\YouTubeChannel;
 
 <ul class="list-group list-group-flush">
 <?php foreach ($channels as $ch) :?>
-
-    <li class="list-group-item">
-        <h3><a href="/<?=$ch->getId()?>"<?= $ch->getTitle() ?></a></h3>
-        <p><?= $ch->getDescription() ?></p>
-    </li>
+    <h2 class="h4">
+        <a class="list-group-item list-group-item-action" href="/<?= $ch->getId() ?>">
+            <?= $ch->getTitle() ?>
+        </a>
+    </h2>
 <?php endforeach; ?>
 </ul>

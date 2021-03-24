@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @var YouTubeChannel[] $channels
+ * @var YoutubeChannel[] $channels
  * @var mixed $error
  */
 
-use App\Model\YouTubeChannel;
+use App\Model\YoutubeChannel;
 
 ?>
 <h1 class="h3 visually-hidden">Channel</h1>

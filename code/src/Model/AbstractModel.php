@@ -4,41 +4,16 @@
 namespace App\Model;
 
 
+use App\Model\Interfaces\ModelInterface;
 use DateTime;
 
-class YouTubeChannel implements SearchInterface
+class AbstractModel implements ModelInterface
 {
-    private string $id;
-    private string $title;
-    private string $description;
-    private DateTime $publishedAt;
-    private int $ratio;
+    protected string $id;
+    protected string $title;
+    protected string $description;
+    protected DateTime $publishedAt;
 
-    /**
-     * @return int
-     */
-    public function getRatio(): int
-    {
-        return $this->ratio;
-    }
-
-    /**
-     * @param int $ratio
-     */
-    public function setRatio(int $ratio): void
-    {
-        $this->ratio = $ratio;
-    }
-
-    public function getSearchIndex(): string
-    {
-        return 'channel_index';
-    }
-
-    public function getSearchArray(): array
-    {
-        return get_object_vars($this);
-    }
 
     /**
      * @return string
@@ -104,4 +79,8 @@ class YouTubeChannel implements SearchInterface
         $this->publishedAt = $publishedAt;
     }
 
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
 }

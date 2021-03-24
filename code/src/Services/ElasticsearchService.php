@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Model\SearchInterface;
+use App\Model\Interfaces\ModelElasticsearchInterface;
 use Elasticsearch\Client;
 
 class ElasticsearchService
@@ -20,7 +20,7 @@ class ElasticsearchService
         $this->client = $client;
     }
 
-    public function loadModel(SearchInterface $model)
+    public function loadModel(ModelElasticsearchInterface $model)
     {
         $this->client->index([
             'index' => $model->getSearchIndex(),

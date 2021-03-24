@@ -3,9 +3,14 @@
 
 namespace App\Controller;
 
-use App\Repository\ElastisearchChannelStatistics;
-use App\Repository\ElasticsearchChannels;
-use App\Services\YouTubeService;
+use App\Model\YoutubeChannel;
+use App\Repository\ElasticsearchRepository;
+use App\Repository\Exceptions\ElasticsearchNotFoundException;
+use App\Repository\Interfaces\ElasticsearchInterface;
+use App\Repository\ElasticsearchSearch;
+use App\Repository\ElasticsearchChannelStatistics;
+use App\Services\ChannelStatisticsService;
+use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,8 +18,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ChannelController extends AbstractController
 {
-    private ElasticsearchChannels $searchClient;
-    private ElastisearchChannelStatistics $statsClient;
+    private ElasticsearchInterface $searchClient;
 
     /**
      * ChannelController constructor.
@@ -23,8 +27,7 @@ class ChannelController extends AbstractController
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->searchClient = new ElasticsearchChannels($container);
-        $this->statsClient = new ElastisearchChannelStatistics($container);
+        $this->searchClient = new ElasticsearchSearch($container);
     }
 
 
@@ -36,13 +39,13 @@ class ChannelController extends AbstractController
         $offset = 0;
 
         $query = $request->getQueryParams()['q'] ?? '';
+        $model = new YoutubeChannel();
 
         try {
-            $result = $this->searchClient->search($query, $limit, $offset);
-        } catch (\Exception $e) {
-            $error = $e;
+            $result = $this->searchClient->search($model, $query, $limit, $offset);
+        } catch (ElasticsearchNotFoundException | Exception $e) {
+            $error = $e->getMessage();
         }
-
 
         return $this->render($response, 'channel/index.php', [
             'channels' => $result,
@@ -57,29 +60,33 @@ class ChannelController extends AbstractController
         $error = null;
         $channel = null;
         $stats = null;
+        $video = null;
 
         $id = $request->getAttribute('id');
+        $model = new YoutubeChannel();
+        $repository = new ElasticsearchRepository($this->container);
+
         try {
-            $channel = $this->searchClient->findOne($id);
-
-            $stats = $this->statsClient->getStatistics($id);
-
-        }catch (\Exception $e) {
-            $error = $e;
+            $channel = $repository->findOne($id, $model);
+            $stats = $repository->getStatistics($id);
+            $video = $repository->findVideoByChannelId($id);
+        }catch (ElasticsearchNotFoundException | Exception $e) {
+            $error = $e->getMessage();
         }
 
         return $this->render($response, 'channel/show.php', [
             'error' => null,
             'channel' => $channel,
             'stats' => $stats,
+            'video' => $video,
         ]);
     }
 
     public function top(Request $request, Response $response): Response
     {
         $error = null;
-
-        $channels = $this->statsClient->topChannels(3);
+        $statisticsService = new ChannelStatisticsService($this->container);
+        $channels = $statisticsService->topChannels(5);
 
         return $this->render($response, 'channel/top.php', [
             'error' => null,

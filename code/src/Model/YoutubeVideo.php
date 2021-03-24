@@ -4,14 +4,13 @@
 namespace App\Model;
 
 
-class YouTubeVideo implements SearchInterface
-{
-    private string $id;
+use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\Builders\YoutubeVideoBuilder;
+use App\Model\Interfaces\ModelElasticsearchInterface;
 
-    private \DateTime $publishedAt;
+class YoutubeVideo extends AbstractModel implements ModelElasticsearchInterface
+{
     private string $channelId;
-    private string $title;
-    private string $description;
     private array $tags;
 
     private int $viewCount;
@@ -33,38 +32,6 @@ class YouTubeVideo implements SearchInterface
     /**
      * @return string
      */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId(string $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedAt(): \DateTime
-    {
-        return $this->publishedAt;
-    }
-
-    /**
-     * @param \DateTime $publishedAt
-     */
-    public function setPublishedAt(\DateTime $publishedAt): void
-    {
-        $this->publishedAt = $publishedAt;
-    }
-
-    /**
-     * @return string
-     */
     public function getChannelId(): string
     {
         return $this->channelId;
@@ -76,38 +43,6 @@ class YouTubeVideo implements SearchInterface
     public function setChannelId(string $channelId): void
     {
         $this->channelId = $channelId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
     }
 
     /**
@@ -206,4 +141,17 @@ class YouTubeVideo implements SearchInterface
         $this->commentCount = $commentCount;
     }
 
+    public function getSearchFields(): array
+    {
+        return [
+            'title^2',
+            'description',
+            'tags^2'
+        ];
+    }
+
+    public function getBuilder(): BuilderModelElasticsearchInterface
+    {
+        return new YoutubeVideoBuilder();
+    }
 }

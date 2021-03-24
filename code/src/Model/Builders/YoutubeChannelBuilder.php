@@ -6,13 +6,14 @@ namespace App\Model\Builders;
 
 use DateTime;
 use Google_Service_YouTube_SearchResultSnippet;
-use App\Model\YouTubeChannel;
+use App\Model\YoutubeChannel;
+use App\Model\Interfaces\BuilderModelElasticsearchInterface;
 
-class ChannelBuilder
+class YoutubeChannelBuilder implements BuilderModelElasticsearchInterface
 {
-    public function buildFromGoogleResult(Google_Service_YouTube_SearchResultSnippet $snippet): YouTubeChannel
+    public function buildFromGoogle(Google_Service_YouTube_SearchResultSnippet $snippet): YoutubeChannel
     {
-        $model = new YouTubeChannel();
+        $model = new YoutubeChannel();
 
         $model->setId($snippet->getChannelId());
         $model->setTitle($snippet->getTitle());
@@ -22,9 +23,9 @@ class ChannelBuilder
         return $model;
     }
 
-    public function buildFromElasticResult(array $data): YouTubeChannel
+    public function buildFromElasticResult(array $data): YoutubeChannel
     {
-        $model = new YouTubeChannel();
+        $model = new YoutubeChannel();
 
         $model->setId($data['id']);
         $model->setTitle($data['title']);

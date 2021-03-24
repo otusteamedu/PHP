@@ -4,9 +4,9 @@
 namespace App;
 
 
-use App\Model\Builders\ChannelBuilder;
+use App\Model\Builders\YoutubeChannelBuilder;
 
-use App\Model\Builders\VideoBuilder;
+use App\Model\Builders\YoutubeVideoBuilder;
 use App\Services\ElasticsearchService;
 use App\Services\YouTubeService;
 use DI\Container;
@@ -19,8 +19,8 @@ class AppConsole
     private Client $client;
     private YouTubeService $youtubeService;
     private ElasticsearchService $elasticService;
-    private ChannelBuilder $channelBuilder;
-    private VideoBuilder $videoBuilder;
+    private YoutubeChannelBuilder $channelBuilder;
+    private YoutubeVideoBuilder $videoBuilder;
 
     /**
      * AppConsole constructor.
@@ -35,8 +35,8 @@ class AppConsole
         $this->client = $this->container->get('elastic');
 
         $this->elasticService = new ElasticsearchService($this->client);
-        $this->channelBuilder = new ChannelBuilder();
-        $this->videoBuilder = new VideoBuilder();
+        $this->channelBuilder = new YoutubeChannelBuilder();
+        $this->videoBuilder = new YoutubeVideoBuilder();
     }
 
     public function run()
@@ -70,7 +70,7 @@ class AppConsole
 
         foreach($items as $item) {
             $snippet = $item->getSnippet();
-            $channel = $this->channelBuilder->buildFromGoogleResult($snippet);
+            $channel = $this->channelBuilder->buildFromGoogle($snippet);
             $this->elasticService->loadModel($channel);
 
             $this->loadVideo($channel->getId());
