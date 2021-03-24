@@ -1,4 +1,4 @@
-# Client Server
+# Elastic
 
 
 ### Usage
@@ -11,11 +11,6 @@
 #### Start
 ```python
  bash start.sh
-```
-
-#### Test
-```python
- bash test.sh
 ```
 
 ## License
