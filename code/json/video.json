@@ -1,0 +1,14 @@
+{
+  "id": "string",
+  "publishedAt": "datetime",
+  "channelId": "string",
+  "title": "string",
+  "description": "string",
+  "tags": [],
+
+  "viewCount": "integer",
+  "likeCount": "integer",
+  "dislikeCount": "integer",
+  "favoriteCount": "integer",
+  "commentCount": "integer"
+}

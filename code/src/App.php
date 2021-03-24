@@ -43,9 +43,11 @@ final class App
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware($container->get('development'), false, false);
 
-        $app->get('/', 'App\Controller\HomeController:index');
-        $app->get('/channel', 'App\Controller\ChannelController:index');
-        $app->map(['GET', 'POST'], '/test', 'App\Controller\ValidationController:index' );
+//        $app->get('/', 'App\Controller\HomeController:index');
+        $app->get('/', 'App\Controller\ChannelController:index');
+        $app->get('/channels/top', 'App\Controller\ChannelController:top');
+        $app->get('/{id}', 'App\Controller\ChannelController:show');
+//        $app->map(['GET', 'POST'], '/validation', 'App\Controller\ValidationController:index' );
 
         $this->app = $app;
     }

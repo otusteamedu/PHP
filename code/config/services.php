@@ -1,11 +1,21 @@
 <?php
 
 
-use App\Services\YouTubeChannels;
+use App\Services\YouTubeService;
+use App\Util\TerminalLogger;
+use Elasticsearch\ClientBuilder;
 
 
 return [
-    YouTubeChannels::class => function () {
-        return new YouTubeChannels();
+    YouTubeService::class => function () {
+        return new YouTubeService();
+    },
+    'elastic' => function () {
+        return ClientBuilder::create()
+            ->setHosts([getenv('ELASTIC_HOST')])
+            ->build();
+    },
+    TerminalLogger::class => function () {
+        return new TerminalLogger();
     }
 ];

@@ -35,6 +35,18 @@ services:
       - ./code:${WORKDIR}
       - sock:${SOCKET_DIR}
 
+  elasticsearch:
+    image: library/elasticsearch:7.11.1
+    container_name: ${ELASTIC_HOST}
+    volumes:
+      - ./elastic-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+    depends_on:
+      - app
+
 volumes:
   sock:
 
