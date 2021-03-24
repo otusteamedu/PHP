@@ -1,0 +1,46 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  balancer:
+    container_name: balancer
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  app_1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php_fpm
+    container_name: app_1
+    volumes:
+       - ./code:/var/www/balancer.local
+
+  nginx_1:
+    container_name: nginx_1
+    build:
+      context: ./nginx_1
+      dockerfile: Dockerfile
+    volumes:
+       - ./code:/var/www/balancer.local
+
+  app_2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php_fpm
+    container_name: app_2
+    volumes:
+       - ./code:/var/www/balancer.local
+
+  nginx_2:
+    container_name: nginx_2
+    build:
+      context: ./nginx_2
+      dockerfile: Dockerfile
+    volumes:
+       - ./code:/var/www/balancer.local
