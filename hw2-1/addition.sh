@@ -21,7 +21,7 @@ then
     exit 3
 fi
 
-sum=$(echo "$term1 + $term2" | bc)
+sum=$(awk "BEGIN {print $term1+$term2; exit}")
 
 echo $sum
 exit 0
