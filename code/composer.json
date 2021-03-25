@@ -1,0 +1,21 @@
+{
+    "name": "shakurovga/mail_validator",
+    "description": "check Email",
+    "authors": [
+        {
+            "name": "Гайни",
+            "email": "shakurovga@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4.0",
+        "vlucas/phpdotenv": "^5.3@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App",
+            "Validate\\":"src/Validate"
+        }
+    }
+}
