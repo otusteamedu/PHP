@@ -43,6 +43,7 @@ create table films_attrs_values
     value_date timestamp,
     value_text text,
     value_bool boolean,
+    value_int integer,
     unique (film_id, attr_id)
 );
 
@@ -54,7 +55,8 @@ SELECT films.name AS film_name,
            films_attrs_values.value_bool::text,
            films_attrs_values.value_date::text,
            films_attrs_values.value_float::text,
-           films_attrs_values.value_text) AS attr_value
+           films_attrs_values.value_text,
+           films_attrs_values.value_int::text) AS attr_value
 FROM films_attrs_values
          JOIN films ON films_attrs_values.film_id = films.id
          JOIN films_attrs ON films_attrs.id = films_attrs_values.attr_id
