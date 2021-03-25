@@ -43,7 +43,7 @@ class ChannelController extends AbstractController
 
         try {
             $result = $this->searchClient->search($model, $query, $limit, $offset);
-        } catch (ElasticsearchNotFoundException | Exception $e) {
+        } catch (ElasticsearchNotFoundException $e) {
             $error = $e->getMessage();
         }
 
@@ -70,7 +70,7 @@ class ChannelController extends AbstractController
             $channel = $repository->findOne($id, $model);
             $stats = $repository->getStatistics($id);
             $video = $repository->findVideoByChannelId($id);
-        }catch (ElasticsearchNotFoundException | Exception $e) {
+        }catch (ElasticsearchNotFoundException $e) {
             $error = $e->getMessage();
         }
 
@@ -92,7 +92,6 @@ class ChannelController extends AbstractController
             'error' => null,
             'channels' => $channels,
         ]);
-
     }
 
 }

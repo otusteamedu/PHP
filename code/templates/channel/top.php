@@ -16,11 +16,10 @@ use App\Model\YoutubeChannel;
 
 <ul class="list-group list-group-flush">
     <?php foreach ($channels as $ch) :?>
-
-        <li class="list-group-item">
-            <h3><a href="/<?=$ch->getId()?>"<?= $ch->getTitle() ?></a></h3>
-            <p><?= $ch->getDescription() ?></p>
-        </li>
+    <a href="/<?=$ch->getId()?>" class="list-group-item list-group-item-action">
+        <h3><?= $ch->getTitle() ?></h3>
+        <p><?= $ch->getDescription() ?></p>
+    </a>
     <?php endforeach; ?>
 </ul>
 
