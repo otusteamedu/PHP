@@ -10,7 +10,8 @@
     "require": {
         "symfony/yaml": "^5.2",
         "monolog/monolog": "^2.2",
-        "elasticsearch/elasticsearch": "7.10"
+        "elasticsearch/elasticsearch": "7.10",
+        "mongodb/mongodb": "^1.8"
     },
     "autoload": {
         "psr-4": {
