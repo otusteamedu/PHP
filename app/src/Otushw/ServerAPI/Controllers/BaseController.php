@@ -8,6 +8,7 @@ use Otushw\Queue\QueueProducerInterface;
 use PDO;
 use Otushw\Storage\DBConnection;
 use Psr\Http\Message\ServerRequestInterface;
+use Otushw\ServerAPI\Exception\BaseControllerException;
 
 abstract class BaseController
 {
@@ -31,11 +32,11 @@ abstract class BaseController
     {
         $data = $request->getBody()->getContents();
         if (!Helper::isJSON($data)) {
-            // return null/ Exception
+            throw new BaseControllerException('Only JSON supported');
         }
         $data = json_decode($data, true);
         if ($this->validParam($data)) {
-            // return null/ Exception
+            throw new BaseControllerException('Parameters are not valid');
         }
         return $data;
     }
@@ -44,9 +45,9 @@ abstract class BaseController
     {
         foreach (self::REQUIRED_PARAM as $item) {
             if (empty($data[$item])) {
-                return true;
+                throw new BaseControllerException('Parameter ('. $item .') is missing');
             }
         }
-        return true;
+        return false;
     }
 }

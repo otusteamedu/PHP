@@ -3,11 +3,11 @@
 
 namespace Otushw\ServerAPI\Controllers;
 
-use Otushw\Queue\QueueFactory;
 use Otushw\Queue\QueueProducerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Otushw\Storage\Order\OrderMapper;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Otushw\ServerAPI\Exception\OrderControllerException;
 
 class OrderController extends BaseController
 {
@@ -39,6 +39,9 @@ class OrderController extends BaseController
     {
         $id = $this->getID($request);
         $order = $this->orderMapper->findById($id);
+        if (empty($order)) {
+            throw new OrderControllerException('Order does not exit');
+        }
         return JsonResponse::create([
             'id' => $order->getId(),
             'productName' => $order->getProductName(),

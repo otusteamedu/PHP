@@ -9,6 +9,7 @@ use Otushw\Queue\QueueProducerInterface;
 use Otushw\Storage\Query\QueryMapper;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Otushw\ServerAPI\Exception\QueryControllerException;
 
 class QueryController extends BaseController
 {
@@ -66,7 +67,7 @@ class QueryController extends BaseController
 
         $query = $this->queryMapper->insert($queryRaw);
         if (empty($query)) {
-            // return Excetption
+            throw new QueryControllerException('Something goes wrong');
         }
         return $query->getId();
     }

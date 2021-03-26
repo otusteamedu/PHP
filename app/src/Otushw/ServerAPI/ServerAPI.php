@@ -4,10 +4,12 @@
 namespace Otushw\ServerAPI;
 
 use Otushw\Queue\QueueProducerInterface;
+use Otushw\ServerAPI\Exception\ServerAPIException;
 use Otushw\ServerAPI\Router\ControllerFactory;
 use Otushw\ServerAPI\Router\RouterFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use Otushw\AppInstanceAbstract;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ServerAPI extends AppInstanceAbstract
 {
@@ -17,53 +19,34 @@ class ServerAPI extends AppInstanceAbstract
 
     public function __construct()
     {
-//        try {
+        try {
+            parent::__construct();
+            $request = Request::getInstance();
+            $router = RouterFactory::create();
+            $controllerFactory = $router->process($request);
+            $request = $request->withAttribute('id', $controllerFactory->getID());
 
-        parent::__construct();
-
-        $request = Request::getInstance();
-        $router = RouterFactory::create();
-        $controllerFactory = $router->process($request);
-        $request = $request->withAttribute('id', $controllerFactory->getID());
-
-        $this->request = $request;
-        $this->controllerFactory = $controllerFactory;
-
-//        var_dump($_ENV['routes']);
-////        $this->queueProducer = $this->queueFactory->createProducer();
-//        // get HTTP-message
-//        // get Router
-//
-////        $this->getRequest();
-//////        $var = $this->request->getParsedBody(); // post
-////          $method = $this->request->getMethod(); // post
-////        print_r($method);
-////        $json = $this->request->getBody()->getContents(); // post
-////        print_r($json);
-////        var_dump(json_decode($json, true));
-//
-//        $data = array(
-//            'post' => array(
-//                'id' => 1,
-//                'title' => 'A blog post',
-//            )
-//        );
-////        $message = 'The Blog post was successfully created.';
-////        $title = 'Successfully created!';
-//        $statusCode = 205;
-//        $res = new ErrorJsonResponse($data, 'aaaaaaaaaa ');
-//        }
-//catch (\Exception $e) {
-//        $res->send();
-//}
+            $this->request = $request;
+            $this->controllerFactory = $controllerFactory;
+        }
+        catch (ServerAPIException $e) {
+            $response = JsonResponse::create($e->getMessage(), 500);
+            $response->send();
+        }
     }
 
     public function run()
     {
-        $queueProducer = $this->queueFactory->createProducer();
-        $controller = $this->controllerFactory->getController($queueProducer);
-        $action = [$controller, $this->controllerFactory->getAction()];
-        $response = $action($this->request);
+        try {
+            $queueProducer = $this->queueFactory->createProducer();
+            $controller = $this->controllerFactory->getController($queueProducer);
+            $action = [$controller, $this->controllerFactory->getAction()];
+            $response = $action($this->request);
+        }
+        catch (ServerAPIException $e) {
+            $response = JsonResponse::create($e->getMessage(), 500);
+            $response->send();
+        }
         $response->send();
     }
 

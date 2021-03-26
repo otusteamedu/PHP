@@ -3,7 +3,7 @@
 namespace Otushw\ServerAPI\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Otushw\ServerAPI\Router\Exception\RequestNotMatchedException;
+use Otushw\ServerAPI\Exception\RouterException;
 
 class Router
 {
@@ -22,7 +22,7 @@ class Router
             }
         }
 
-        throw new RequestNotMatchedException($request);
+        throw new RouterException('No route matched');
     }
 
 }

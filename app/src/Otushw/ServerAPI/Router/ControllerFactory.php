@@ -4,6 +4,7 @@ namespace Otushw\ServerAPI\Router;
 
 use Otushw\Queue\QueueProducerInterface;
 use Otushw\ServerAPI\Controllers\BaseController;
+use Otushw\ServerAPI\Exception\ControllerFactoryException;
 
 class ControllerFactory
 {
@@ -25,7 +26,7 @@ class ControllerFactory
         if (class_exists($class)) {
             return new $class($queueProducer);
         }
-        // Exception
+        throw new ControllerFactoryException("Controller ($this->controller) does not exist");
     }
 
     public function getAction(): string

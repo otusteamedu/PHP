@@ -4,7 +4,7 @@
 namespace Otushw\ServerAPI;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use Otushw\Exception\AppException;
+use Otushw\ServerAPI\Exception\ServerAPIException;
 use Psr\Http\Message\ServerRequestInterface;
 use Exception;
 
@@ -33,7 +33,7 @@ class Request
             $request = ServerRequest::fromGlobals();
             return $request;
         } catch (Exception $e) {
-            throw new AppException($e->getMessage(), $e->getCode());
+            throw new ServerAPIException($e->getMessage(), $e->getCode());
         }
     }
 }
