@@ -15,4 +15,10 @@ class ServerQueue extends AppInstanceAbstract
         parent::__construct();
         $this->queueConsumer = $this->queueFactory->createConsumer();
     }
+
+    public function run()
+    {
+        $this->queueConsumer->consume();
+    }
+
 }
