@@ -4,10 +4,10 @@ namespace App\Clients;
 
 use App\Config\Config;
 use App\Models\DTO\ChannelDTO;
+use App\Models\DTO\VideoDTO;
+use App\Parsers\YoutubeVideoDataParser;
 use App\Parsers\YoutubeChannelDataParser;
 use Exception;
-/*use Models\VideoDTO;
-use Parsers\Youtube\YoutubeVideoDataParser;*/
 
 class YoutubeClient
 {

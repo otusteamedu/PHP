@@ -4,13 +4,10 @@ namespace App\Grabbers;
 
 use App\Clients\YoutubeClient;
 use App\Log\Log;
-/*
-use Models\Video;*/
-
 use App\Models\Channel;
 use App\Models\DTO\ChannelDTO;
+use App\Models\Video;
 use Monolog\Logger;
-/*use Storage\Storage;*/
 
 class YoutubeGrabber implements Grabber
 {
@@ -34,23 +31,25 @@ class YoutubeGrabber implements Grabber
 
                 if ($result === true) {
                     Log::getInstance()->addRecord('success grabbing channel ' . $channelId);
-                    //$this->grabVideos($channel->getId());
+                    $this->grabVideos($channel->getId());
                 }
                 else {
-                    //echo 'not stored' . PHP_EOL;
+                    Log::getInstance()->addRecord('not stored channel ' . $channelId, Logger::ERROR);
                 }
             }
         }
     }
 
-    /*private function grabVideos (string $channelId)
+    private function grabVideos (string $channelId)
     {
-        echo 'grabbing videos from channel ' . $channelId . PHP_EOL;
+        $logger = Log::getInstance();
+
+        $logger->addRecord('grabbing videos from channel ' . $channelId);
 
         $client = new YoutubeClient();
         $videos = $client->getChannelVideos($channelId);
 
-        echo count($videos) . ' videos was grabbed from channel. saving...' . PHP_EOL;
+        $logger->addRecord(count($videos) . ' videos was grabbed from channel. saving...');
 
         $result = true;
 
@@ -69,10 +68,10 @@ class YoutubeGrabber implements Grabber
         }
 
         if ($result === true) {
-            echo 'success' . PHP_EOL;
+            $logger->addRecord('success');
         }
         else {
-            echo 'some videos are not stored' . PHP_EOL;
+            $logger->addRecord('some videos are not stored', Logger::ERROR);
         }
-    }*/
+    }
 }
