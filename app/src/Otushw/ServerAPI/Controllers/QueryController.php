@@ -29,7 +29,7 @@ class QueryController extends BaseController
             'command' => 'create',
             'data' => $data
         ];
-        $this->queueProducer->publish(json_encode($data));
+        $this->publish($data);
         return JsonResponse::create(['id_query' => $id]);
     }
 
@@ -40,23 +40,23 @@ class QueryController extends BaseController
         $data = [
             'id_query' => $id,
             'command' => 'delete',
-            'data' => ['orderID' => $orderID]
+            'data' => ['id' => $orderID]
         ];
-        $this->queueProducer->publish(json_encode($data));
+        $this->publish($data);
         return JsonResponse::create(['id_query' => $id]);
     }
 
     public function update(ServerRequestInterface $request): JsonResponse
     {
         $data = $this->getBodyParam($request);
-        $data['orderID'] = $this->getID($request);
+        $data['id'] = $this->getID($request);
         $id = $this->createQuery();
         $data = [
             'id_query' => $id,
             'command' => 'update',
             'data' => $data
         ];
-        $this->queueProducer->publish(json_encode($data));
+        $this->publish($data);
         return JsonResponse::create(['id_query' => $id]);
     }
 
@@ -69,5 +69,10 @@ class QueryController extends BaseController
             // return Excetption
         }
         return $query->getId();
+    }
+
+    private function publish(array $data): void
+    {
+        $this->queueProducer->publish(json_encode($data));
     }
 }
