@@ -1,4 +1,5 @@
 youtube_api_key: 'youtube_api_key'
+log_path: '../log/app.log'
 channels_list_path: '../files/channels.txt'
 database:
   storage_mode: 'elasticsearch'
