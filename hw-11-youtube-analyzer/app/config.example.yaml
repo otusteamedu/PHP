@@ -1,8 +1,17 @@
 youtube_api_key: 'youtube_api_key'
 log_path: '../log/app.log'
-channels_list_path: '../files/channels.txt'
+allowed_commands:
+  - grab
+  - stats
 database:
   storage_mode: 'elasticsearch'
   db_host: 'elasticsearch:9200'
   #storage_mode = 'mongo';
   #db_host = 'mongodb://root:example@mongo:27017'
+channels_for_grabbing_list:
+  - UCMCgOm8GZkHp8zJ6l7_hIuA
+  - UCeObZv89Stb2xLtjLJ0De3Q
+  - UCTW0FUhT0m-Bqg2trTbSs0g
+  - UC_Q1vhf7wcR_zGlc5ahAg0A
+  - UClI9aidW3X044NeB4QS-yxw
+  - UCoRAnB8KixJiszlSpMHa-SA
