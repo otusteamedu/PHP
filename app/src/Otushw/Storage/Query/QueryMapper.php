@@ -29,7 +29,7 @@ class QueryMapper
             "insert into querycm (statuscm) values (?)"
         );
         $this->updateStmt = $pdo->prepare(
-            "update querycm set statuscm = ? where id = ?"
+            "update querycm set id = ?, statuscm = ? where id = ?"
         );
         $this->deleteStmt = $pdo->prepare("delete from querycm where id = ?");
 
