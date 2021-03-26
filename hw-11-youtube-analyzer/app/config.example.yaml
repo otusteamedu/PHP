@@ -1,4 +1,4 @@
-youtube_api_key: 'AIzaSyBAMLaZo0g-lbuwP1N7TQlkFJiW92HC1Eg'
+youtube_api_key: 'youtube_api_key'
 channels_list_path: '../files/channels.txt'
 database:
   storage_mode: 'elasticsearch'
