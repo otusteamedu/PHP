@@ -1,0 +1,11 @@
+{
+    "name": "sergeyzelenskiy/app",
+    "description": "Youtube analyzer",
+    "authors": [
+        {
+            "name": "Sergey Zelenskiy",
+            "email": "szelenskiy@me.com"
+        }
+    ],
+    "require": {}
+}
