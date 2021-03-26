@@ -1,5 +1,7 @@
 youtube_api_key: 'youtube_api_key'
 log_path: '../log/app.log'
+structures_extension: 'json'
+structures_path: '../files/structures'
 allowed_commands:
   - grab
   - stats

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Config\Config;
+use App\Grabbers\YoutubeGrabber;
 use App\Log\Log;
 use Monolog\Logger;
 
@@ -28,8 +29,8 @@ class App
 
         if ($cmd === self::GRAB_CMD) {
             $channelsList = $config->getItem('channels_for_grabbing_list');
-            var_dump($channelsList);
-            //(new YoutubeGrabber())->grab($channelsList);
+
+            (new YoutubeGrabber())->grab($channelsList);
         }
         else if ($cmd === self::STATS_CMD) {
 
