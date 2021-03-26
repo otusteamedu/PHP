@@ -3,7 +3,7 @@
 
 namespace Otushw\ServerAPI\Controllers;
 
-use Otushw\Queue\QueueFactory;
+use Otushw\Helper;
 use Otushw\Queue\QueueProducerInterface;
 use PDO;
 use Otushw\Storage\DBConnection;
@@ -22,12 +22,6 @@ abstract class BaseController
         $this->queueProducer = $queueProducer;
     }
 
-    protected function isJSON(string $data): bool
-    {
-        json_decode($data);
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
-
     protected function getID(ServerRequestInterface $request): ?int
     {
         return $request->getAttribute('id');
@@ -36,7 +30,7 @@ abstract class BaseController
     protected function getBodyParam(ServerRequestInterface $request): ?array
     {
         $data = $request->getBody()->getContents();
-        if (!$this->isJSON($data)) {
+        if (!Helper::isJSON($data)) {
             // return null/ Exception
         }
         $data = json_decode($data, true);
