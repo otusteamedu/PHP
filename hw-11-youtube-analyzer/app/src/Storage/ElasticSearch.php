@@ -5,6 +5,7 @@ namespace App\Storage;
 use App\Config\Config;
 use App\Log\Log;
 use App\Models\DTO\DTO;
+use App\Models\Video;
 use App\Structures\ElasticStructureReader;
 use Elasticsearch\ClientBuilder;
 use Exception;
@@ -83,15 +84,10 @@ class ElasticSearch extends NoSQLStorage
         $structureReader = new ElasticStructureReader($indexName);
         $properties      = $structureReader->getPropertiesList();
 
-        foreach ($properties as $name => $property)
+        foreach ($properties as $property)
         {
-            if (isset($dto->{$name})) {
-                if ($name === 'id') {
-                    $params[$name] = $dto->{$name};
-                }
-                else {
-                    $params['body'][$name] = $dto->{$name};
-                }
+            if (isset($dto->{$property})) {
+                $params['body'][$property] = $dto->{$property};
             }
         }
 
@@ -104,7 +100,7 @@ class ElasticSearch extends NoSQLStorage
         return false;
     }
 
-    /*public function delete (string $id, string $indexName): bool
+    public function delete (string $id, string $indexName): bool
     {
         $params = [
             'index' => $indexName,
@@ -148,8 +144,6 @@ class ElasticSearch extends NoSQLStorage
 
         foreach ($hits as $row) {
             $item = [];
-
-            $item['id'] = $row['_id'];
 
             foreach ($row['_source'] as $field => $value) {
                 if (in_array($field, $properties)) {
@@ -209,5 +203,5 @@ class ElasticSearch extends NoSQLStorage
             'viewSum'    => $rawStats['viewSum']['value'] ?? 0,
             'commentSum' => $rawStats['commentSum']['value'] ?? 0,
         ];
-    }*/
+    }
 }

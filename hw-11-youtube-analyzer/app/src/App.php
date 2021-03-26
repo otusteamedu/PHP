@@ -5,6 +5,7 @@ namespace App;
 use App\Config\Config;
 use App\Grabbers\YoutubeGrabber;
 use App\Log\Log;
+use App\Models\ChannelMapper;
 use Monolog\Logger;
 
 class App
@@ -33,7 +34,13 @@ class App
             (new YoutubeGrabber())->grab($channelsList);
         }
         else if ($cmd === self::STATS_CMD) {
+            Log::getInstance()->addRecord('CALCULATING STATS');
 
+            $channels = ChannelMapper::getAll();
+
+            foreach ($channels as $channel) {
+                echo json_encode(ChannelMapper::getStats($channel->id)) . PHP_EOL;
+            }
         }
     }
 }

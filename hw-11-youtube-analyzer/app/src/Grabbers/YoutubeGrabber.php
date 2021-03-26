@@ -7,6 +7,7 @@ use App\Log\Log;
 use App\Models\Channel;
 use App\Models\DTO\ChannelDTO;
 use App\Models\Video;
+use App\Storage\Storage;
 use Monolog\Logger;
 
 class YoutubeGrabber implements Grabber
@@ -20,18 +21,11 @@ class YoutubeGrabber implements Grabber
             $channelDTO = $client->getChannelData($channelId);
 
             if ($channelDTO instanceof ChannelDTO) {
-                $channel = new Channel(
-                    $channelDTO->id,
-                    $channelDTO->title,
-                    $channelDTO->description,
-                    $channelDTO->thumbnail
-                );
-
-                $result = $channel->store($channelDTO);
+                $result = Storage::getInstance()->getStorage()->store($channelDTO, Channel::TABLE_NAME);
 
                 if ($result === true) {
                     Log::getInstance()->addRecord('success grabbing channel ' . $channelId);
-                    $this->grabVideos($channel->getId());
+                    $this->grabVideos($channelId);
                 }
                 else {
                     Log::getInstance()->addRecord('not stored channel ' . $channelId, Logger::ERROR);
@@ -54,17 +48,7 @@ class YoutubeGrabber implements Grabber
         $result = true;
 
         foreach ($videos as $videoDTO) {
-            $video = new Video(
-                $videoDTO->id,
-                $videoDTO->title,
-                $videoDTO->channelId,
-                $videoDTO->viewCount,
-                $videoDTO->likeCount,
-                $videoDTO->dislikeCount,
-                $videoDTO->commentCount
-            );
-
-            $result = $video->store($videoDTO);
+            $result = Storage::getInstance()->getStorage()->store($videoDTO, Video::TABLE_NAME);
         }
 
         if ($result === true) {
