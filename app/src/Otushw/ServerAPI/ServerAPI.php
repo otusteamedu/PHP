@@ -3,12 +3,9 @@
 
 namespace Otushw\ServerAPI;
 
-use Gridonic\JsonResponse\ErrorJsonResponse;
-use Gridonic\JsonResponse\SuccessJsonResponse;
 use Otushw\Queue\QueueProducerInterface;
 use Otushw\ServerAPI\Router\ControllerFactory;
 use Otushw\ServerAPI\Router\RouterFactory;
-use Otushw\Storage\OrderMapper;
 use Psr\Http\Message\ServerRequestInterface;
 use Otushw\AppInstanceAbstract;
 
@@ -17,7 +14,6 @@ class ServerAPI extends AppInstanceAbstract
     protected QueueProducerInterface $queueProducer;
     protected ServerRequestInterface $request;
     protected ControllerFactory $controllerFactory;
-
 
     public function __construct()
     {
@@ -31,10 +27,7 @@ class ServerAPI extends AppInstanceAbstract
         $request = $request->withAttribute('id', $controllerFactory->getID());
 
         $this->request = $request;
-
         $this->controllerFactory = $controllerFactory;
-
-
 
 //        var_dump($_ENV['routes']);
 ////        $this->queueProducer = $this->queueFactory->createProducer();
@@ -67,9 +60,11 @@ class ServerAPI extends AppInstanceAbstract
 
     public function run()
     {
-        $controller = $this->controllerFactory->getController();
+        $queueProducer = $this->queueFactory->createProducer();
+        $controller = $this->controllerFactory->getController($queueProducer);
         $action = [$controller, $this->controllerFactory->getAction()];
-        $action($this->request);
+        $response = $action($this->request);
+        $response->send();
     }
 
 }

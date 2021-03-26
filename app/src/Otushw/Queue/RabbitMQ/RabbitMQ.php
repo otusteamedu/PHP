@@ -3,7 +3,6 @@
 
 namespace Otushw\Queue\RabbitMQ;
 
-use Otushw\Queue\QueueConnectionInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 
 class RabbitMQ
@@ -12,14 +11,11 @@ class RabbitMQ
     const QUEUE_NAME = 'custom_queue_name';
     const ROUTING_KEY = 'custom_routing_key';
 
-    protected RabbitMQConnection $queueConnection;
     protected AMQPChannel $channel;
 
     public function __construct()
     {
-        $queueConnection = RabbitMQConnection::getInstance();
-
-        $this->channel = $queueConnection->getChannel();
+        $this->channel = RabbitMQConnection::getInstanceChannel();
         $this->queueDeclare();
     }
 

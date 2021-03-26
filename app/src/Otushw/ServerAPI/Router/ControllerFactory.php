@@ -2,6 +2,7 @@
 
 namespace Otushw\ServerAPI\Router;
 
+use Otushw\Queue\QueueProducerInterface;
 use Otushw\ServerAPI\Controllers\BaseController;
 
 class ControllerFactory
@@ -18,11 +19,11 @@ class ControllerFactory
         $this->id = $id;
     }
 
-    public function getController(): BaseController
+    public function getController(QueueProducerInterface $queueProducer): BaseController
     {
         $class = $_ENV['controllers'] . '\\' . $this->controller;
         if (class_exists($class)) {
-            return new $class;
+            return new $class($queueProducer);
         }
         // Exception
     }

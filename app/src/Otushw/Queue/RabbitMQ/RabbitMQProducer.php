@@ -3,7 +3,6 @@
 
 namespace Otushw\Queue\RabbitMQ;
 
-use Otushw\Queue\QueueConnectionInterface;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
 use PhpAmqpLib\Message\AMQPMessage;
 use Otushw\Queue\QueueProducerInterface;
@@ -39,8 +38,4 @@ class RabbitMQProducer extends RabbitMQ implements QueueProducerInterface
         );
     }
 
-    public function run(): void
-    {
-        $this->publish();
-    }
 }

@@ -3,7 +3,7 @@
 
 namespace Otushw\Queue;
 
-interface QueueConsumerInterface extends QueueInstance
+interface QueueConsumerInterface
 {
     public function consume(): void;
 }

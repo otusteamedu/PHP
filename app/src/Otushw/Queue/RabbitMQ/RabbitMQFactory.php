@@ -3,26 +3,21 @@
 
 namespace Otushw\Queue\RabbitMQ;
 
-use Otushw\Queue\QueueConnectionInterface;
 use Otushw\Queue\QueueConsumerInterface;
 use Otushw\Queue\QueueFactory;
 use Otushw\Queue\QueueProducerInterface;
 
 class RabbitMQFactory extends QueueFactory
 {
-    public function createConnection(): QueueConnectionInterface
+
+    public function createProducer(): QueueProducerInterface
     {
-        return new RabbitMQConnection();
+        return new RabbitMQProducer();
     }
 
-    public function createProducer(QueueConnectionInterface $queueConnection): QueueProducerInterface
+    public function createConsumer(): QueueConsumerInterface
     {
-        return new RabbitMQProducer($queueConnection);
-    }
-
-    public function createConsumer(QueueConnectionInterface $queueConnection): QueueConsumerInterface
-    {
-        return new RabbitMQConsumer($queueConnection);
+        return new RabbitMQConsumer();
     }
 
 }

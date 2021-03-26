@@ -3,7 +3,7 @@
 
 namespace Otushw\Queue;
 
-interface QueueProducerInterface extends QueueInstance
+interface QueueProducerInterface
 {
     public function publish(string $data): void;
 }

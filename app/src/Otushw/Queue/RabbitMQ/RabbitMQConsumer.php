@@ -38,9 +38,4 @@ class RabbitMQConsumer extends RabbitMQ implements QueueConsumerInterface
         }
     }
 
-    public function run(): void
-    {
-        $this->consume();
-    }
-
 }

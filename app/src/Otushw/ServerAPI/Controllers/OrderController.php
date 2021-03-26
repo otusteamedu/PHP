@@ -3,29 +3,25 @@
 
 namespace Otushw\ServerAPI\Controllers;
 
-use Otushw\DTOs\OrderDTO;
-use Otushw\Models\Order;
+use Otushw\Queue\QueueFactory;
+use Otushw\Queue\QueueProducerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Otushw\Storage\DBConnection;
-use Otushw\Storage\OrderMapper;
-use PDO;
+use Otushw\Storage\Order\OrderMapper;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OrderController extends BaseController
 {
-    const REQUIRED_PARAM = ['productName', 'quantity', 'total'];
 
-    private PDO $pdo;
     private OrderMapper $orderMapper;
 
-    public function __construct()
+    public function __construct(QueueProducerInterface $queueProducer)
     {
-        $this->pdo = DBConnection::getInstance();
+        parent::__construct($queueProducer);
         $this->orderMapper = new OrderMapper($this->pdo);
     }
 
-    public function index(ServerRequestInterface $request)
+    public function index(ServerRequestInterface $request): JsonResponse
     {
-        var_dump(__METHOD__);
         $limit = 5;
         $offset = 0;
         $params = $request->getQueryParams();
@@ -36,62 +32,19 @@ class OrderController extends BaseController
             $offset = $params['offset'];
         }
         $orders = $this->orderMapper->getBatch($limit, $offset);
-        var_dump($orders);
+        return JsonResponse::create($orders->toArray());
     }
 
-    public function show(ServerRequestInterface $request)
+    public function show(ServerRequestInterface $request): JsonResponse
     {
-        var_dump(__METHOD__);
         $id = $this->getID($request);
         $order = $this->orderMapper->findById($id);
-        var_dump($order);
+        return JsonResponse::create([
+            'id' => $order->getId(),
+            'productName' => $order->getProductName(),
+            'quantity' => $order->getQuantity(),
+            'total' => $order->getTotal(),
+        ]);
     }
 
-    public function create(ServerRequestInterface $request)
-    {
-        var_dump(__METHOD__);
-        $data = $this->getBodyParam($request);
-        $orderRaw = new OrderDTO(1, $data['productName'], $data['quantity'], $data['total']);
-        $order = $this->orderMapper->insert($orderRaw);
-        var_dump($order);
-    }
-
-    public function delete(ServerRequestInterface $request)
-    {
-        var_dump(__METHOD__);
-        $id = $this->getID($request);
-        $result = $this->orderMapper->delete($id);
-        var_dump($result);
-    }
-
-    public function update(ServerRequestInterface $request)
-    {
-        var_dump(__METHOD__);
-        $id = $this->getID($request);
-        $data = $this->getBodyParam($request);
-        $order = new Order($id, $data['productName'], $data['quantity'], $data['total']);
-        var_dump($order);
-        $r = $this->orderMapper->update($order);
-        var_dump($r);
-    }
-
-    private function getID(ServerRequestInterface $request): ?int
-    {
-        return $request->getAttribute('id');
-    }
-
-    private function getBodyParam(ServerRequestInterface $request): ?array
-    {
-        $data = $request->getBody()->getContents();
-        if (!$this->isJSON($data)) {
-            // return null
-        }
-        $data = json_decode($data, true);
-        foreach (self::REQUIRED_PARAM as $item) {
-            if (empty($data[$item])) {
-//                return null
-            }
-        }
-        return $data;
-    }
 }

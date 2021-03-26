@@ -6,7 +6,6 @@ namespace Otushw;
 use Otushw\Exception\AppException;
 use Otushw\Queue\QueueFactory;
 use Otushw\Queue\RabbitMQ\RabbitMQFactory;
-use Otushw\Storage\OrderMapper;
 
 abstract class AppInstanceAbstract
 {
@@ -14,7 +13,7 @@ abstract class AppInstanceAbstract
 
     public function __construct()
     {
-//        $this->queueFactory = $this->getQueueFactory();
+        $this->queueFactory = $this->getQueueFactory();
     }
 
     private function getQueueFactory(): QueueFactory

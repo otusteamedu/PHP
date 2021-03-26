@@ -5,12 +5,11 @@ namespace Otushw\Queue\RabbitMQ;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Otushw\Queue\QueueConnectionInterface;
 
-class RabbitMQConnection implements QueueConnectionInterface
+class RabbitMQConnection
 {
-    private AMQPStreamConnection $connection;
-    private AMQPChannel $channel;
+    private static AMQPStreamConnection $connection;
+    private static AMQPChannel $channel;
     private static $instance = null;
 
     private function __construct() { }
@@ -19,7 +18,7 @@ class RabbitMQConnection implements QueueConnectionInterface
 
     private function __wakeup() { }
 
-    public static function getInstance(): RabbitMQConnection
+    public static function getInstanceChannel(): AMQPChannel
     {
         if (self::$instance != null) {
             return self::$instance;
@@ -28,43 +27,27 @@ class RabbitMQConnection implements QueueConnectionInterface
         return self::$instance;
     }
 
-//    public function __construct()
-//    {
-//        $this->connect();
-//    }
-
     public function __destruct()
     {
         self::$instance = null;
         $this->disconnect();
     }
 
-    public function connect(): RabbitMQConnection
+    public function connect(): AMQPChannel
     {
-        $this->connection = new AMQPStreamConnection(
+        self::$connection = new AMQPStreamConnection(
             $_ENV['queue']['host'],
             $_ENV['queue']['port'],
             $_ENV['queue']['user'],
             $_ENV['queue']['password']
         );
-        $this->channel = $this->connection->channel();
-        return $this;
+        return self::$connection->channel();
     }
 
     public function disconnect(): void
     {
-        $this->channel->close();
-        $this->connection->close();
-    }
-
-    public function getChannel(): AMQPChannel
-    {
-        return $this->channel;
-    }
-
-    public function getConnection(): AMQPStreamConnection
-    {
-        return $this->connection;
+        self::$channel->close();
+        self::$connection->close();
     }
 
 }
