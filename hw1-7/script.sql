@@ -33,7 +33,7 @@ CREATE TABLE if not exists filmsAttrValues
     value_date  date,
     value_bool  boolean,
     description varchar(127),
-    value_price numeric(5, 2),
+    value_price float4,
     CONSTRAINT fk_film_id FOREIGN KEY (film_id) REFERENCES films (id),
     CONSTRAINT fk_attr_id FOREIGN KEY (attr_id) REFERENCES filmsAttr (id)
 
