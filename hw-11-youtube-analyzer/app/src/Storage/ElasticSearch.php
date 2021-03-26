@@ -4,10 +4,11 @@ namespace App\Storage;
 
 use App\Config\Config;
 use App\Log\Log;
+use App\Models\DTO\DTO;
 use App\Structures\ElasticStructureReader;
 use Elasticsearch\ClientBuilder;
 use Exception;
-/*use Models\DTO;
+/*
 use Models\Video;*/
 
 class ElasticSearch extends NoSQLStorage
@@ -72,21 +73,25 @@ class ElasticSearch extends NoSQLStorage
         return !empty($result['acknowledged']);
     }
 
-    /*public function store (DTO $dto, string $indexName): bool
+    public function store (DTO $dto, string $indexName): bool
     {
         $params = [
             'index' => $indexName,
             'body'  => [],
         ];
 
-        $dataArray = $dto->asArray();
+        $structureReader = new ElasticStructureReader($indexName);
+        $properties      = $structureReader->getPropertiesList();
 
-        foreach ($dataArray as $key => $value) {
-            if ($key === 'id') {
-                $params[$key] = $value;
-            }
-            else {
-                $params['body'][$key] = $value;
+        foreach ($properties as $name => $property)
+        {
+            if (isset($dto->{$name})) {
+                if ($name === 'id') {
+                    $params[$name] = $dto->{$name};
+                }
+                else {
+                    $params['body'][$name] = $dto->{$name};
+                }
             }
         }
 
@@ -99,7 +104,7 @@ class ElasticSearch extends NoSQLStorage
         return false;
     }
 
-    public function delete (string $id, string $indexName): bool
+    /*public function delete (string $id, string $indexName): bool
     {
         $params = [
             'index' => $indexName,
