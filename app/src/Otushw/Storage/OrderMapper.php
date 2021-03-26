@@ -29,7 +29,7 @@ class OrderMapper implements MapperInterface
         );
 
         $this->insertStmt = $pdo->prepare(
-            "insert into orders (product_name, quantity, total) values (?, ?, ?, ?)"
+            "insert into orders (product_name, quantity, total) values (?, ?, ?)"
         );
 
         $this->updateStmt = $pdo->prepare(
@@ -99,6 +99,7 @@ class OrderMapper implements MapperInterface
         $id = $order->getId();
         try {
             $result = $this->updateStmt->execute([
+                $id,
                 $order->getProductName(),
                 $order->getQuantity(),
                 $order->getTotal(),
@@ -111,10 +112,10 @@ class OrderMapper implements MapperInterface
         return $result;
     }
 
-    public function delete(Order $order): bool
+    public function delete(int $orderID): bool
     {
         try {
-            $result = $this->deleteStmt->execute([$order->getId()]);
+            $result = $this->deleteStmt->execute([$orderID]);
         } catch (PDOException $e) {
             throw new AppException($e->getMessage(), $e->getCode());
         }

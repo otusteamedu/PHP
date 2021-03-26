@@ -26,13 +26,5 @@ abstract class AppInstanceAbstract
         throw new AppException('Unknown queue system');
     }
 
-    protected function isJSON(string $data): bool
-    {
-        json_decode($data);
-        return (json_last_error() == JSON_ERROR_NONE);
-    }
-
-
-
     abstract public function run();
 }

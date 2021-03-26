@@ -2,7 +2,7 @@
 
 namespace Otushw\ServerAPI\Router;
 
-use Otushw\ServerAPI\Controllers\AbstractController;
+use Otushw\ServerAPI\Controllers\BaseController;
 
 class ControllerFactory
 {
@@ -18,7 +18,7 @@ class ControllerFactory
         $this->id = $id;
     }
 
-    public function getController(): AbstractController
+    public function getController(): BaseController
     {
         $class = $_ENV['controllers'] . '\\' . $this->controller;
         if (class_exists($class)) {
