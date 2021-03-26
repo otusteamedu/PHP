@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Otushw\Storage;
+namespace Otushw\Storage\Order;
 
 use Otushw\DTOs\OrderDTO;
 use PDO;
@@ -10,7 +10,7 @@ use PDOException;
 use Otushw\Models\Order;
 use Otushw\Exception\AppException;
 
-class OrderMapper implements MapperInterface
+class OrderMapper
 {
 
     private PDO $pdo;

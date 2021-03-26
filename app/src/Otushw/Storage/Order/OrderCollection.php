@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Otushw\Storage;
+namespace Otushw\Storage\Order;
 
 use Iterator;
 use Otushw\Models\Order;
@@ -79,5 +79,10 @@ class OrderCollection implements Iterator
     public function rewind()
     {
         $this->pointer = 0;
+    }
+
+    public function toArray(): array
+    {
+        return $this->raw;
     }
 }
