@@ -1,0 +1,5 @@
+host: localhost
+port: 5432
+name: hw9
+user_name: postgres
+password: 123456
