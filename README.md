@@ -1,4 +1,4 @@
-# Elastic
+# Redis
 
 
 ### Usage
