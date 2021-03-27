@@ -27,10 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/channels">YouTube</a>
+                        <a class="nav-link" href="/channels">Channels</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/channels/top">Top</a>
+                        <a class="nav-link" href="/channels/top">Top channels</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/event">Events</a>

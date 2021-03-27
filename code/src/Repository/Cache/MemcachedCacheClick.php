@@ -5,47 +5,55 @@ namespace App\Repository\Cache;
 
 
 use App\Repository\Interfaces\CacheChannelClickInterface;
+use Memcached;
 use Psr\Container\ContainerInterface;
-use Redis;
 
-class RedisCacheClick implements CacheChannelClickInterface
+class MemcachedCacheClick implements CacheChannelClickInterface
 {
     const CHANNEL_CACHE_KEY = 'channel:';
 
-    private Redis $redis;
+    private Memcached $client;
 
     /**
-     * RedisCacheClick constructor.
+     * MemcachedCacheClick constructor.
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->redis = $container->get('redis');
+        $this->client = $container->get('memcached');
     }
 
 
     public function set(string $channelId): int
     {
         $key = $this->generateKey($channelId);
-        return $this->redis->incr($key);
+        if (!$cachedKey = $this->client->get($key)) {
+            $this->client->set($key, 0);
+        }
+
+        return $this->client->increment($key);
     }
 
     public function get(string $channelId): int
     {
         $key = $this->generateKey($channelId);
-        return $this->redis->get($key);
+        $this->client->get($key);
     }
 
     public function delete(string $channelId): void
     {
         $key = $this->generateKey($channelId);
-        $this->redis->del($key);
+        $this->client->delete($key);
     }
 
     public function deleteAll(): void
     {
-        $keys = $this->redis->keys(self::CHANNEL_CACHE_KEY . '*');
-        $this->redis->del($keys);
+        $keys = $this->client->getAllKeys();
+        foreach ($keys as $key) {
+            if (false !== strpos($key, self::CHANNEL_CACHE_KEY)) {
+                $this->client->delete($key);
+            }
+        }
     }
 
     private function generateKey(string $id): string

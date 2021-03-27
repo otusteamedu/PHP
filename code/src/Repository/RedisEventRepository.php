@@ -5,9 +5,7 @@ namespace App\Repository;
 
 
 use App\Model\Builders\EventBuilder;
-use App\Model\EventModel;
 use App\Model\Interfaces\EventInterface;
-use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use Redis;
 

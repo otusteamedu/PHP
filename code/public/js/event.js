@@ -38,7 +38,7 @@ const handleNewEventSubmit = async (evt) => {
 
     const data = await response.json();
     if (response.status === 201) {
-        eventsList.insertAdjacentHTML(`beforeend`, createEventListItem(data));
+        eventsList.insertAdjacentHTML(`afterbegin`, createEventListItem(data));
         btnDropEvent.classList.remove(`visually-hidden`);
         generateEventElement.classList.remove(`visually-hidden`);
         eventForm.reset();
@@ -85,7 +85,7 @@ const handleDropClick = async (evt) => {
     const data = await response.json();
     if (data[`status`] === 'OK') {
         eventsList.innerHTML = ``;
-        flushElement.innerHTML = `<p>Events removed</p>`;
+        showSuccess(`Events deleted`);
     }
 }
 
@@ -113,8 +113,15 @@ const showError = (error) => {
     flushElement.classList.add(`alert-danger`);
     flushElement.innerHTML = `<p class="card-text">${error}</p>`;
 }
+const showSuccess = (message) => {
+    flushElement.classList.add(`alert-success`);
+    flushElement.classList.remove(`alert-danger`);
+    flushElement.innerHTML = `<p class="card-text">${message}</p>`;
+}
 const clearFlush = () => {
     flushElement.innerHTML = ``;
+    flushElement.classList.remove(`alert-danger`);
+    flushElement.classList.remove(`alert-success`);
 }
 const createEventListItem = (item) => {
     let cond = item[`param1`] ? `param1=${item[`param1`]} ` : ``;

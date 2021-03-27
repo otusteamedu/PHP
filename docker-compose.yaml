@@ -54,6 +54,12 @@ services:
     volumes:
       - ./redis-data:/data
 
+  memcached:
+    image: memcached
+    container_name: ${MEMCACHED_HOST}
+    ports:
+    - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+
 volumes:
   sock:
 

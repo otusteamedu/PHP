@@ -11,19 +11,17 @@ use App\Model\YoutubeChannel;
 <h1 class="h3 visually-hidden">Channel</h1>
 
 <div class="row">
-    <?if ($error) print_r($error) ?>
+    <? if ($error) print_r($error) ?>
 </div>
 
 <ul class="list-group list-group-flush">
-    <?php foreach ($channels as $ch) :?>
+    <?php foreach ($channels as $ch) : ?>
 
-        <li class="list-group-item">
-            <h3><a href="/channels/<?=$ch->getId()?>">
-                    <?= $ch->getTitle() ?>
-                </a>
-            </h3>
-            <p><?= $ch->getDescription() ?></p>
-        </li>
+        <h3><a class="list-group-item list-group-item-action" href="/channels/<?= $ch->getId() ?>">
+                <?= $ch->getTitle() ?>
+            </a>
+        </h3>
+
     <?php endforeach; ?>
 </ul>
 

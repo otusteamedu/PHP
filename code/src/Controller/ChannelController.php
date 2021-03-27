@@ -4,9 +4,9 @@
 namespace App\Controller;
 
 use App\Model\YoutubeChannel;
-use App\Repository\Cache\RedisCacheClick;
 use App\Repository\ElasticsearchRepository;
 use App\Repository\Exceptions\ElasticsearchNotFoundException;
+use App\Repository\Interfaces\CacheChannelClickInterface;
 use App\Repository\Interfaces\ElasticsearchInterface;
 use App\Repository\ElasticsearchSearchRepository;
 use App\Services\ChannelStatisticsService;
@@ -19,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class ChannelController extends AbstractController
 {
     private ElasticsearchInterface $searchClient;
-    private RedisCacheClick $clickCache;
+    private CacheChannelClickInterface $clickCache;
 
     /**
      * ChannelController constructor.
@@ -29,7 +29,7 @@ class ChannelController extends AbstractController
     {
         parent::__construct($container);
         $this->searchClient = new ElasticsearchSearchRepository($container);
-        $this->clickCache = new RedisCacheClick($container);
+        $this->clickCache = $container->get('cache_click_client');
     }
 
 
@@ -65,18 +65,16 @@ class ChannelController extends AbstractController
         $video = null;
         $clickCount = null;
 
-
         $id = $request->getAttribute('id');
         $model = new YoutubeChannel();
         $repository = new ElasticsearchRepository($this->container);
-
 
         try {
             $channel = $repository->findOne($id, $model);
             $stats = $repository->getStatistics($id);
             $clickCount = $this->clickCache->set($channel->getId());
             $video = $repository->findVideoByChannelId($id);
-        }catch (ElasticsearchNotFoundException | Exception $e) {
+        }catch (ElasticsearchNotFoundException $e) {
             $error = $e->getMessage();
         }
 
@@ -99,7 +97,5 @@ class ChannelController extends AbstractController
             'error' => null,
             'channels' => $channels,
         ]);
-
     }
-
 }

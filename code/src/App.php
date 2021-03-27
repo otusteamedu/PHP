@@ -4,6 +4,8 @@
 namespace App;
 
 
+use App\Repository\Cache\MemcachedCacheClick;
+use App\Repository\Cache\RedisCacheClick;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\App as SlimApp;
@@ -11,6 +13,7 @@ use Slim\App as SlimApp;
 
 final class App
 {
+    const CONFIG_DIR = __DIR__ . '/../config';
     private SlimApp $app;
 
     /**
@@ -18,7 +21,7 @@ final class App
      */
     public function __construct()
     {
-        $appConfig = parse_ini_file(__DIR__ . '/../config/app.ini', );
+        $appConfig = parse_ini_file(self::CONFIG_DIR . '/app.ini', );
 
         $this->init($appConfig);
     }
@@ -32,10 +35,13 @@ final class App
     {
         $builder = new ContainerBuilder();
         $builder->addDefinitions($configs);
-        $builder->addDefinitions(__DIR__ . '/../config/services.php');
+        $builder->addDefinitions(self::CONFIG_DIR . '/services.php');
 
         $container = $builder->build();
 
+        // set cache client (memcached | redis)
+        $cacheClient = $container->get('cache_click_client');
+        $container->set('cache_click_client', $container->get($cacheClient));
 
         $app = AppFactory::createFromContainer($container);
 
@@ -43,20 +49,7 @@ final class App
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware($container->get('development'), false, false);
 
-        $app->get('/', 'App\Controller\HomeController:index');
-
-        $app->get('/channels', 'App\Controller\ChannelController:index');
-        $app->get('/channels/top', 'App\Controller\ChannelController:top');
-        $app->get('/channels/{id}', 'App\Controller\ChannelController:show');
-
-        $app->get('/event', 'App\Controller\EventController:index');
-        $app->post('/api/event', 'App\Controller\EventController:event');
-        $app->get('/api/events', 'App\Controller\EventController:events');
-        $app->post('/api/events', 'App\Controller\EventController:createEvent');
-        $app->delete('/api/events', 'App\Controller\EventController:drop');
-
-
-//        $app->map(['GET', 'POST'], '/validation', 'App\Controller\ValidationController:index' );
+        (require self::CONFIG_DIR . '/routes.php')($app);
 
         $this->app = $app;
     }
