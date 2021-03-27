@@ -43,10 +43,19 @@ final class App
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware($container->get('development'), false, false);
 
-//        $app->get('/', 'App\Controller\HomeController:index');
-        $app->get('/', 'App\Controller\ChannelController:index');
+        $app->get('/', 'App\Controller\HomeController:index');
+
+        $app->get('/channels', 'App\Controller\ChannelController:index');
         $app->get('/channels/top', 'App\Controller\ChannelController:top');
-        $app->get('/{id}', 'App\Controller\ChannelController:show');
+        $app->get('/channels/{id}', 'App\Controller\ChannelController:show');
+
+        $app->get('/event', 'App\Controller\EventController:index');
+        $app->post('/api/event', 'App\Controller\EventController:event');
+        $app->get('/api/events', 'App\Controller\EventController:events');
+        $app->post('/api/events', 'App\Controller\EventController:createEvent');
+        $app->delete('/api/events', 'App\Controller\EventController:drop');
+
+
 //        $app->map(['GET', 'POST'], '/validation', 'App\Controller\ValidationController:index' );
 
         $this->app = $app;

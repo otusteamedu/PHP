@@ -47,6 +47,13 @@ services:
     depends_on:
       - app
 
+  redis:
+    image: redis
+    container_name: ${REDIS_HOST}
+    working_dir: /data
+    volumes:
+      - ./redis-data:/data
+
 volumes:
   sock:
 

@@ -33,6 +33,7 @@ abstract class AbstractController
             [
                 'title' => $container->get('name'),
                 'style' => '/css/bootstrap.min.css',
+                'scripts' => [],
             ],
             'layout.php'
         );
@@ -43,5 +44,4 @@ abstract class AbstractController
     {
         return $this->view->render($response, $template, $params);
     }
-
 }

@@ -7,7 +7,11 @@ namespace App;
 use App\Model\Builders\YoutubeChannelBuilder;
 
 use App\Model\Builders\YoutubeVideoBuilder;
+use App\Model\EventModel;
+use App\Model\EventParam;
+use App\Repository\RedisEventRepository;
 use App\Services\ElasticsearchService;
+use App\Services\RedisEventService;
 use App\Services\YouTubeService;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -39,28 +43,104 @@ class AppConsole
         $this->videoBuilder = new YoutubeVideoBuilder();
     }
 
-    public function run()
+    private function testRedis()
     {
+        $repo = new RedisEventRepository($this->container);
+
+        $repo->drop();
+
+        for($i = 1; $i <= 5; $i++) {
+            $model = new EventModel();
+            $model->setEvent('event ' . $i);
+            $model->setPriority(rand(1, 3) * 1000);
+
+            $params1 = ['param1' => rand(1, 2)];
+            $params2 = (rand(0, 1)) ? ['param2' => rand(1, 2)] : [];
+
+            $model->setCondition(array_merge($params1, $params2));
+
+            $repo->create($model);
+        }
+
         $cancel = false;
 
         while(!$cancel) {
-            echo 'Загрузить каналы (l), выход (q): ';
+            echo 'get events(e), get by id(g), ' .
+                'delete events(d), findByParams(f), выход (q): ';
             $answer = $this->readLine();
 
-            switch($answer) {
-                case 'l':
-                    echo 'Введите ключевые слова для поиска каналов: ';
-                    $query = $this->readLine();
-                    echo 'Loading...', PHP_EOL;
-                    $this->loadData($query);
-                    echo 'Загрузка завершена', PHP_EOL;
+            switch ($answer) {
+                case 'g':
+                    echo 'Type id: ';
+                    $id = $this->readLine();
+                    echo PHP_EOL;
+                    $m = $repo->findOne($id);
+                    print_r($m->toArray());
+                    break;
+
+                case 'e':
+                    $models = $repo->findAll();
+                    foreach ($models as $model ) {
+                        print_r($model->toArray());
+                    }
+                    break;
+
+
+                case 'f':
+                    echo 'Type param1: ';
+                    $p1 = $this->readLine();
+                    echo 'Type param2: ';
+                    $p2 = $this->readLine();
+
+                    $param1 = $p1 ? ['param1' => $p1] : [];
+                    $param2 =  $p2 ? ['param2' => $p2] : [];
+                    $params = array_merge($param1, $param2);
+
+                    if (!$params) {
+                        break;
+                    }
+
+                    $data = $repo->findByParams($params);
+                    print_r($data);
+
+                    break;
+
+
+                case 'd':
+                    $repo->drop();
                     break;
 
                 default:
                     $cancel = true;
-                    break;
             }
         }
+
+    }
+
+    public function run()
+    {
+        $this->testRedis();
+//
+//        $cancel = false;
+//
+//        while(!$cancel) {
+//            echo 'Загрузить каналы (l), выход (q): ';
+//            $answer = $this->readLine();
+//
+//            switch($answer) {
+//                case 'l':
+//                    echo 'Введите ключевые слова для поиска каналов: ';
+//                    $query = $this->readLine();
+//                    echo 'Loading...', PHP_EOL;
+//                    $this->loadData($query);
+//                    echo 'Загрузка завершена', PHP_EOL;
+//                    break;
+//
+//                default:
+//                    $cancel = true;
+//                    break;
+//            }
+//        }
     }
 
     private function loadData($query): void

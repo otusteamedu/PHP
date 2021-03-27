@@ -27,10 +27,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">YouTube</a>
+                        <a class="nav-link" href="/channels">YouTube</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/channels/top">Top</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/event">Events</a>
                     </li>
                 </ul>
             </div>
@@ -44,6 +47,10 @@
     </div>
 </main>
 
-
+<?php if (isset($scripts)) : ?>
+    <?php foreach ($scripts as $script) : ?>
+        <script src="js/<?= $script ?>.js"></script>
+    <?php endforeach; ?>
+<?php endif; ?>
 </body>
 </html>

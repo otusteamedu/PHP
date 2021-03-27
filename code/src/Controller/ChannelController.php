@@ -8,7 +8,6 @@ use App\Repository\ElasticsearchRepository;
 use App\Repository\Exceptions\ElasticsearchNotFoundException;
 use App\Repository\Interfaces\ElasticsearchInterface;
 use App\Repository\ElasticsearchSearch;
-use App\Repository\ElasticsearchChannelStatistics;
 use App\Services\ChannelStatisticsService;
 use Exception;
 use Psr\Container\ContainerInterface;

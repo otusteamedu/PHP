@@ -7,8 +7,12 @@ use Elasticsearch\ClientBuilder;
 
 
 return [
-    YouTubeService::class => function () {
-        return new YouTubeService();
+    'redis' => function () {
+        $redis = new Redis();
+        $redis->connect(
+            getenv('REDIS_HOST'), getenv('REDIS_PORT')
+        );
+        return $redis;
     },
     'elastic' => function () {
         return ClientBuilder::create()
@@ -17,5 +21,8 @@ return [
     },
     TerminalLogger::class => function () {
         return new TerminalLogger();
-    }
+    },
+    YouTubeService::class => function () {
+        return new YouTubeService();
+    },
 ];
