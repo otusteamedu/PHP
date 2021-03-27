@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Channel;
+use App\Services\Channels\Repositories\ChannelRepositoryInterface;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/channels/spider', function (\App\Services\Channels\YoutubeChannelService $youtubeChannelService) {
+    $youtubeChannelService->parseNew();
+    return redirect('/channels');
+});
+Route::view('/channels', 'channels', ['channels' => Channel::all()->reverse()]);
+Route::get('/channels/search', function (ChannelRepositoryInterface $repository) {
+    return view('channels', ['channels' => $repository->search((string)request('q'))]);
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
