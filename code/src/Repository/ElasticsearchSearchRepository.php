@@ -10,7 +10,7 @@ use App\Repository\Interfaces\ElasticsearchInterface;
 use Elasticsearch\Client;
 use Psr\Container\ContainerInterface;
 
-class ElasticsearchSearch implements ElasticsearchInterface
+class ElasticsearchSearchRepository implements ElasticsearchInterface
 {
     private int $totalCount = 0;
     private Client $client;

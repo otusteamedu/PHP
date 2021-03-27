@@ -5,6 +5,7 @@
  * @var ChannelStatistic $stats
  * @var mixed $error
  * @var YoutubeVideo[] $video
+ * @var int $clickCount
  */
 
 use App\Model\ChannelStatistic;
@@ -18,7 +19,7 @@ use App\Model\YoutubeVideo;
 </div>
 
 
-<h1><?= $channel->getTitle() ?></h1>
+<h1><?= $channel->getTitle() ?><span class="ms-5 small"><?= $clickCount ?></span></h1>
 <p><?= $channel->getDescription() ?></p>
 <p><?= $channel->getPublishedAt()->format('d.m.Y H:m') ?></p>
 <p>Likes: <?= $stats->getLikesCount() ?></p>

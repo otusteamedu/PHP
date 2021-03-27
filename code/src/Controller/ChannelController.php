@@ -4,10 +4,11 @@
 namespace App\Controller;
 
 use App\Model\YoutubeChannel;
+use App\Repository\Cache\RedisCacheClick;
 use App\Repository\ElasticsearchRepository;
 use App\Repository\Exceptions\ElasticsearchNotFoundException;
 use App\Repository\Interfaces\ElasticsearchInterface;
-use App\Repository\ElasticsearchSearch;
+use App\Repository\ElasticsearchSearchRepository;
 use App\Services\ChannelStatisticsService;
 use Exception;
 use Psr\Container\ContainerInterface;
@@ -18,6 +19,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class ChannelController extends AbstractController
 {
     private ElasticsearchInterface $searchClient;
+    private RedisCacheClick $clickCache;
 
     /**
      * ChannelController constructor.
@@ -26,7 +28,8 @@ class ChannelController extends AbstractController
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->searchClient = new ElasticsearchSearch($container);
+        $this->searchClient = new ElasticsearchSearchRepository($container);
+        $this->clickCache = new RedisCacheClick($container);
     }
 
 
@@ -60,14 +63,18 @@ class ChannelController extends AbstractController
         $channel = null;
         $stats = null;
         $video = null;
+        $clickCount = null;
+
 
         $id = $request->getAttribute('id');
         $model = new YoutubeChannel();
         $repository = new ElasticsearchRepository($this->container);
 
+
         try {
             $channel = $repository->findOne($id, $model);
             $stats = $repository->getStatistics($id);
+            $clickCount = $this->clickCache->set($channel->getId());
             $video = $repository->findVideoByChannelId($id);
         }catch (ElasticsearchNotFoundException | Exception $e) {
             $error = $e->getMessage();
@@ -78,6 +85,7 @@ class ChannelController extends AbstractController
             'channel' => $channel,
             'stats' => $stats,
             'video' => $video,
+            'clickCount' => $clickCount,
         ]);
     }
 

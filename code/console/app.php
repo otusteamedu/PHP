@@ -1,11 +1,11 @@
 <?php
 
-use App\AppConsole;
+use App\Console\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $app = new AppConsole();
+    $app = new App();
     $app->run();
 }
 catch(Exception $e){

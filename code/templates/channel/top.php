@@ -18,7 +18,10 @@ use App\Model\YoutubeChannel;
     <?php foreach ($channels as $ch) :?>
 
         <li class="list-group-item">
-            <h3><a href="/<?=$ch->getId()?>"<?= $ch->getTitle() ?></a></h3>
+            <h3><a href="/channels/<?=$ch->getId()?>">
+                    <?= $ch->getTitle() ?>
+                </a>
+            </h3>
             <p><?= $ch->getDescription() ?></p>
         </li>
     <?php endforeach; ?>

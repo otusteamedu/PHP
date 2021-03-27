@@ -29,7 +29,7 @@ use App\Model\YoutubeChannel;
 <ul class="list-group list-group-flush">
 <?php foreach ($channels as $ch) :?>
     <h2 class="h4">
-        <a class="list-group-item list-group-item-action" href="/<?= $ch->getId() ?>">
+        <a class="list-group-item list-group-item-action" href="/channels/<?= $ch->getId() ?>">
             <?= $ch->getTitle() ?>
         </a>
     </h2>
