@@ -7,9 +7,12 @@
 .env
 .env.backup
 .db
+/.idea
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/.db
+_ide_helper.php
