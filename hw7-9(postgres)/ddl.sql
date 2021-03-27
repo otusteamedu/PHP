@@ -1,7 +1,9 @@
 CREATE
 EXTENSION IF NOT EXISTS "uuid-ossp";
-DROP TYPE IF EXISTS STATUSES;
-CREATE type STATUSES AS ENUM ('reserved', 'available', 'sold', 'refund');
+DROP TYPE IF EXISTS TICKET_STATUSES;
+CREATE type TICKET_STATUSES AS ENUM ('reserved', 'available', 'sold', 'refund');
+DROP TYPE IF EXISTS EAV_TYPES;
+CREATE type EAV_TYPES AS ENUM ('bool', 'date', 'float', 'text');
 
 CREATE TABLE cinemas
 (
@@ -65,10 +67,10 @@ CREATE TABLE tickets
     id                INT GENERATED ALWAYS AS IDENTITY,
     session_id        INT NOT NULL,
     hall_seat_id      INT NOT NULL,
-    ticket_identifier uuid        default uuid_generate_v4(),
-    status            STATUSES    default 'available',
-    created_at        timestamptz default now(),
-    updated_at        timestamptz default now(),
+    ticket_identifier uuid            default uuid_generate_v4(),
+    status            TICKET_STATUSES default 'available',
+    created_at        timestamptz     default now(),
+    updated_at        timestamptz     default now(),
     PRIMARY KEY (id),
     CONSTRAINT ticket_to_session
         FOREIGN KEY (session_id)
@@ -105,7 +107,7 @@ CREATE TABLE orders
 );
 
 create VIEW prices as
-select tickets.id                                                        as ticket_id,
+select tickets.id  as ticket_id,
        session_id,
        hall_seat_id,
        base_price,
@@ -128,6 +130,7 @@ create table movie_attribute_types
 (
     id   INT GENERATED ALWAYS AS IDENTITY,
     PRIMARY KEY (id),
+    type EAV_TYPES,
     name varchar(255)
 );
 
@@ -138,7 +141,10 @@ create table movie_attribute_values
     movie_id          INT NOT NULL,
     attribute_id      INT NOT NULL,
     attribute_type_id INT NOT NULL,
-    value             varchar(255),
+    value_boolean     bool default false,
+    value_float       numeric(10, 2),
+    value_date        date,
+    value_text        text,
     CONSTRAINT attribute_value_to_movie
         FOREIGN KEY (movie_id)
             REFERENCES movies (id),
@@ -159,25 +165,55 @@ INDEX movie_attribute_values_attribute_type_id_idx ON otus.movie_attribute_value
 CREATE
 INDEX movie_attribute_types_name_idx ON otus.movie_attribute_types ("name");
 
-create view service_dates as
-select t.name as type, a.name as name, v.value as value from movie_attribute_values v
+-- View сборки служебных данных в форме (три колонки):
+
+create view service_data as
+select t.name as task_type,
+       a.name as name,
+       (case
+            when v.value_boolean and v.value_float is null and v.value_date is null and v.value_text is null
+                then 'Присутствует'
+            when v.value_date is not null and v.value_float is null and v.value_text is null
+                then cast(value_date as text)
+            when v.value_date is null and v.value_float is not null and v.value_text is null
+                then cast(value_float as text)
+            when v.value_date is null and v.value_float is null and v.value_text is not null then value_text
+            else null
+           end) as value
+  from movie_attribute_values v
 left join movie_attributes a on a.id = v.attribute_id
 left join movie_attribute_types t on t.id = v.attribute_type_id;
 
-create view movies_data as
-select m.id, m.title, m.slogan, m.base_price, t.name as type, a.name as name, v.value as value from movie_attribute_values v
+-- фильм, тип атрибута, атрибут, значение (значение выводим как текст)
+
+create view movie_data as
+select m.title,
+       t.name as task_type,
+       a.name as name,
+       (case
+            when v.value_boolean and v.value_float is null and v.value_date is null and v.value_text is null
+                then 'Присутствует'
+            when v.value_date is not null and v.value_float is null and v.value_text is null
+                then cast(value_date as text)
+            when v.value_date is null and v.value_float is not null and v.value_text is null
+                then cast(value_float as text)
+            when v.value_date is null and v.value_float is null and v.value_text is not null then value_text
+            else null
+           end) as value
+  from movie_attribute_values v
 left join movie_attributes a on a.id = v.attribute_id
 left join movie_attribute_types t on t.id = v.attribute_type_id
 left join movies m on m.id = v.movie_id;
 
+-- фильм, задачи актуальные на сегодня, задачи актуальные через 20 дней View сборки данных для маркетинга в форме (три колонки):
 create view task_data as
 with tasks as (
     select (case
-                when v.value = cast(CURRENT_DATE as varchar) then v.value
+                when v.value_date = cast(CURRENT_DATE as varchar) then v.value_date
                 else null
         END)        as actual_tasks,
            (case
-                when v.value = cast(date (CURRENT_DATE + interval '20' day) as varchar) then v.value
+                when v.value_date = cast(date (CURRENT_DATE + interval '20' day) as varchar) then v.value_date
                 else null
                END) as actual_in_20_days,
            movie_id
