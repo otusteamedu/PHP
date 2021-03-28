@@ -18,10 +18,12 @@ class ConsumerB extends RabbitMQ implements RabbitMQConsumer
     public function start()
     {
         $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
             sleep(2);
-            echo " [x] Done\n";
             $msg->ack();
+
+            if ($_ENV['RABBITMQ_DEBUG_CONSUMERS']) {
+                AppLogger::addLog(Logger::DEBUG, 'Processed in ' . self::class . ', data: ' . $msg->body);
+            }
         };
 
         $this->channel->basic_qos(null, 1, null);
