@@ -32,7 +32,7 @@ class YoutubeChannelService
      */
     public function searchNew($query = null): array
     {
-        $maxItems = 1;
+        $maxItems = 5;
         $found = [];
         $pageToken = '';
         while (count($found) < $maxItems) {

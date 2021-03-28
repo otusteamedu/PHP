@@ -35,9 +35,12 @@ class YoutubeChannelVideoService
     public function searchIdsByChannel(Channel $channel): array
     {
         $this->checkChannel($channel);
-        $maxItems = 1;
+        $maxItems = 10;
         $videoIds = collect();
         $pageToken = '';
+        $collection = ChannelVideo::query()
+            ->where('channel_id', '=', $channel->getKey())
+            ->get(['id', 'youtube_id']);
         while ($videoIds->count() < $maxItems) {
             $response = $this->youtube->search->listSearch('id', [
                 'maxResults' => $maxItems,
@@ -47,9 +50,6 @@ class YoutubeChannelVideoService
             ]);
             $pageToken = $response->getNextPageToken();
             $items = collect($response->getItems())->pluck('id')->pluck('videoId');
-            $collection = ChannelVideo::query()
-                ->whereIn('youtube_id', $items->toArray())
-                ->get(['id', 'youtube_id']);
             $videoIds->push(...$items->diff($collection->pluck('youtube_id')));
         }
         return $videoIds->toArray();
