@@ -20,6 +20,8 @@ ADD ./php.ini /usr/local/etc/php/php.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+RUN docker-php-ext-install sockets
+
 WORKDIR /var/www/hw-otus/
 EXPOSE 9000
 CMD ["php-fpm"]

@@ -3,11 +3,11 @@
 require_once '../bootstrap/bootstrap.php';
 
 use Otus\App;
-use Otus\View\View;
+use Otus\Response\JsonResponse;
 
 try {
     $app = new App();
     $app->run();
 } catch (\Exception $e) {
-    View::showMessage($e->getMessage());
+    JsonResponse::showResult($e->getMessage(), $e->getCode());
 }

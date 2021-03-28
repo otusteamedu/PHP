@@ -12,11 +12,13 @@
     "require": {
         "monolog/monolog": "2.x-dev",
         "vlucas/phpdotenv": "^5.3@dev",
-        "php-amqplib/php-amqplib": "^3.0@dev"
+        "php-amqplib/php-amqplib": "^3.0@dev",
+        "hanneskod/classtools": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Otus\\": "src"
+            "Otus\\": "src",
+            "Commands\\": "commands"
         }
     }
 }

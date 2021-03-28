@@ -8,6 +8,6 @@ class View
 {
     public static function showMessage($message = '')
     {
-
+        echo $message;
     }
 }

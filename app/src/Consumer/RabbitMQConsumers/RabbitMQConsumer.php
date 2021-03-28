@@ -4,7 +4,7 @@
 namespace Otus\Consumer\RabbitMQConsumers;
 
 
-interface RabbitConsumer
+interface RabbitMQConsumer
 {
-
+    public function start();
 }
