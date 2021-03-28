@@ -3,9 +3,8 @@
 namespace Commands;
 
 use hanneskod\classtools\Iterator\ClassIterator;
-//use Otus\Consumer\RabbitMQConsumers\BasicConsumers\ConsumerA;
 use Otus\Consumer\RabbitMQConsumers\RabbitMQConsumer;
-//use Otus\View\View;
+use Otus\Exceptions\AppException;
 use Symfony\Component\Finder\Finder;
 
 class ConsoleCommand
@@ -25,10 +24,14 @@ class ConsoleCommand
             switch ($this->argv[1]) {
                 case self::START_BASIC_CONSUMERS:
                     $this->startConsumers();
+                    break;
+                default:
+                    throw new AppException('undefined command');
             }
         }
     }
 
+    //запускает всех Consumer-ов в фоновом режиме
     private function startConsumers()
     {
         $finder = new Finder;
