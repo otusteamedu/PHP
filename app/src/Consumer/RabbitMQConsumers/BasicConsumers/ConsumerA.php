@@ -17,9 +17,7 @@ class ConsumerA extends RabbitMQ implements RabbitMQConsumer
 
     public function start()
     {
-        //норм что у consumers код одинаковый? или как то надо выделить ?
         $callback = function ($msg) {
-            AppLogger::addLog(Logger::DEBUG, 'consumerA');
             echo ' [x] Received ', $msg->body, "\n";
             sleep(5);
             echo " [x] Done\n";

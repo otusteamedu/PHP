@@ -18,7 +18,6 @@ class ConsumerB extends RabbitMQ implements RabbitMQConsumer
     public function start()
     {
         $callback = function ($msg) {
-            AppLogger::addLog(Logger::DEBUG, 'consumerB');
             echo ' [x] Received ', $msg->body, "\n";
             sleep(2);
             echo " [x] Done\n";

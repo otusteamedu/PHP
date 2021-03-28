@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Otus\View;
-
 
 class View
 {

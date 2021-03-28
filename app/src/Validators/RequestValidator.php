@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Otus\Validators;
-
 
 use Otus\Exceptions\AppException;
 

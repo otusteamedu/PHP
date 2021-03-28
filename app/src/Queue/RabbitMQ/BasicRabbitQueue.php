@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Otus\Queue\RabbitMQ;
-
 
 use PhpAmqpLib\Message\AMQPMessage;
 
