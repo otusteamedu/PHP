@@ -18,7 +18,8 @@ class BracketsController extends Exception
     public function index($str) {
         $request["str"] = strip_tags($str);
         try {
-            $request["mess"] = BracketsModel::isValid($request["str"]);
+            $index = new BracketsModel();
+            $request["mess"] = $index->check($request["str"]);
         } catch (Exception $e) {
             $request["mess"] = $e->getMessage() . "\n";
         }
@@ -26,7 +27,4 @@ class BracketsController extends Exception
         View::render('BracketsView', $request);
     }
 
-    public function isValid(string $brackets) {
-        
-    }
 }

@@ -289,3 +289,342 @@ Stack trace:
 2021/03/23 20:10:01 [error] 31#31: *181 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530201106 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
 2021/03/23 20:10:06 [error] 31#31: *178 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 46PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
 2021/03/23 20:10:07 [error] 31#31: *181 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616530207068 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:43:14 [error] 27#27: *3 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928194697 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:43:16 [error] 27#27: *2 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 10:43:17 [error] 27#27: *2 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 50" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 10:43:17 [error] 27#27: *3 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928197476 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:45:08 [error] 27#27: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Notice:  Uninitialized string offset: 10 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 50" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 10:45:08 [error] 27#27: *11 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928308079 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:45:12 [error] 27#27: *11 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928312986 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:45:20 [error] 27#27: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 48PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 50" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 10:45:20 [error] 27#27: *11 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928320600 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 10:45:37 [error] 27#27: *11 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616928337149 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 11:00:59 [error] 27#27: *22 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected ',', expecting variable (T_VARIABLE) in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 15" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:00:59 [error] 27#27: *24 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /robots.txt?1616929259591 HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm"
+2021/03/28 11:04:19 [error] 27#27: *26 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:04:55 [error] 27#27: *30 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:05:07 [error] 27#27: *30 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:05:53 [error] 27#27: *34 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:06:29 [error] 27#27: *37 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:07:38 [error] 27#27: *40 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:08:20 [error] 27#27: *43 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:08:22 [error] 27#27: *43 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:09:07 [error] 27#27: *47 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Call to private method ValidBrackets\Model\BracketsModel::isValid() from context 'ValidBrackets\Controller\BracketsController' in /var/www/brackets.ikm/src/Controller/BracketsController.php:21
+Stack trace:
+#0 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#1 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#2 {main}
+  thrown in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:09:47 [error] 27#27: *50 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ValidBrackets\Model\BracketsModel::isValid(), 1 passed in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21 and exactly 2 expected in /var/www/brackets.ikm/src/Model/BracketsModel.php:51
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 51" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:11:52 [error] 27#27: *53 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ValidBrackets\Model\BracketsModel::isValid(), 1 passed in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21 and exactly 2 expected in /var/www/brackets.ikm/src/Model/BracketsModel.php:51
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 51" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:12:12 [error] 27#27: *53 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ValidBrackets\Model\BracketsModel::isValid(), 1 passed in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21 and exactly 2 expected in /var/www/brackets.ikm/src/Model/BracketsModel.php:51
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 51" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:14:13 [error] 27#27: *58 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function ValidBrackets\Model\BracketsModel::isValid(), 1 passed in /var/www/brackets.ikm/src/Controller/BracketsController.php on line 21 and exactly 2 expected in /var/www/brackets.ikm/src/Model/BracketsModel.php:51
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 51" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:15:45 [error] 27#27: *61 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:16:11 [error] 27#27: *61 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:16:17 [error] 27#27: *61 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:16:40 [error] 27#27: *61 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:17:13 [error] 27#27: *69 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:17:25 [error] 27#27: *69 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:17:27 [error] 27#27: *69 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: brackets in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 73" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:18:12 [error] 27#27: *75 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:64
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 64" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:19:01 [error] 27#27: *78 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:64
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 64" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:19:46 [error] 27#27: *81 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:20:34 [error] 27#27: *85 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:22:23 [error] 27#27: *87 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 61PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 63PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:23
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(69): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(82): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 23" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:24:20 [error] 27#27: *90 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 61PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 63PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:69
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(82): ValidBrackets\Model\BracketsModel::isValid()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 69" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:26:37 [error] 27#27: *93 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:27:20 [error] 27#27: *96 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:27:46 [error] 27#27: *96 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:28:47 [error] 28#28: *101 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:78
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 78" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:30:00 [error] 27#27: *104 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:24
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(78): ValidBrackets\Model\BracketsModel::getCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:31:39 [error] 27#27: *107 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:33:15 [error] 27#27: *110 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:34:11 [error] 27#27: *113 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '=' in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:34:35 [error] 27#27: *113 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(64): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel::isValid()
+#2 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#3 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#4 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#5 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:35:18 [error] 27#27: *118 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(74): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:35:49 [error] 27#27: *121 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(74): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:36:02 [error] 27#27: *121 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(74): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:36:21 [error] 27#27: *121 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:74
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 74" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:37:30 [error] 27#27: *128 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:79
+Stack trace:
+#0 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#1 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#2 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#3 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 79" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:37:51 [error] 27#27: *128 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:40:00 [error] 27#27: *134 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:42:25 [error] 27#27: *136 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 61PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 63PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:24
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(85): ValidBrackets\Model\BracketsModel::getCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:42:41 [error] 27#27: *136 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:24
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::getCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:42:59 [error] 27#27: *136 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Undefined class constant 'count' in /var/www/brackets.ikm/src/Model/BracketsModel.php:24
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::getCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:43:37 [error] 27#27: *143 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:43:39 [error] 27#27: *143 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:43:58 [error] 28#28: *2 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Using $this when not in object context in /var/www/brackets.ikm/src/Model/BracketsModel.php:18
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(79): ValidBrackets\Model\BracketsModel::setCount()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(21): ValidBrackets\Model\BracketsModel::check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 18" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:43:59 [error] 28#28: *2 FastCGI sent in stderr: "Primary script unknown" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:46:39 [error] 28#28: *5 FastCGI sent in stderr: "PHP message: PHP Notice:  Undefined variable: i in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 32PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 61PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 63" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:47:18 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:47:28 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:47:39 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 11 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:48:02 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught TypeError: Return value of ValidBrackets\Model\BracketsModel::isValid() must be an instance of ValidBrackets\Model\boolval, bool returned in /var/www/brackets.ikm/src/Model/BracketsModel.php:66
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(77): ValidBrackets\Model\BracketsModel->isValid()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(22): ValidBrackets\Model\BracketsModel->check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 66" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:48:41 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58PHP message: PHP Fatal error:  Uncaught TypeError: Return value of ValidBrackets\Model\BracketsModel::isValid() must be of the type bool, none returned in /var/www/brackets.ikm/src/Model/BracketsModel.php:68
+Stack trace:
+#0 /var/www/brackets.ikm/src/Model/BracketsModel.php(76): ValidBrackets\Model\BracketsModel->isValid()
+#1 /var/www/brackets.ikm/src/Controller/BracketsController.php(22): ValidBrackets\Model\BracketsModel->check()
+#2 /var/www/brackets.ikm/src/Core/App.php(13): ValidBrackets\Controller\BracketsController->index()
+#3 /var/www/brackets.ikm/public/index.php(8): ValidBrackets\Core\App->run()
+#4 {main}
+  thrown in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 68" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
+2021/03/28 11:48:47 [error] 28#28: *8 FastCGI sent in stderr: "PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 56PHP message: PHP Notice:  Uninitialized string offset: 12 in /var/www/brackets.ikm/src/Model/BracketsModel.php on line 58" while reading response header from upstream, client: 172.20.0.1, server: brackets.ikm, request: "POST / HTTP/1.1", upstream: "fastcgi://unix:/sock/docker.sock:", host: "brackets.ikm", referrer: "http://brackets.ikm/"
