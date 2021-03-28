@@ -20,7 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/channels/spider', function (\App\Services\Channels\YoutubeChannelService $youtubeChannelService) {
-    $youtubeChannelService->parseNew();
+    $result = $youtubeChannelService->searchNew();
+    //Can change something
+    $youtubeChannelService->saveNew($result);
     return redirect('/channels');
 });
 Route::view('/channels', 'channels', ['channels' => Channel::all()->reverse()]);
