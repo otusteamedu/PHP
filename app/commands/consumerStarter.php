@@ -32,7 +32,7 @@ try {
  */
 function getConsumer(string $className): RabbitMQConsumer
 {
-    if (!$className or class_exists(!$className)) {
+    if (!$className or !class_exists($className)) {
         throw new AppException('cannot create Consumer. Class does not exists');
     }
 
