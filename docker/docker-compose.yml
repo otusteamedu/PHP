@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: app/php
+    container_name: app
+    volumes:
+       - ../app:/app/app.loc
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ../app:/app/app.loc
+       - ./nginx/hosts:/etc/nginx/conf.d
+    networks:
+      - app-network
+  es01:
+    image: elasticsearch:7.11.2
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elastic:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
