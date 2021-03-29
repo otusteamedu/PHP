@@ -34,12 +34,6 @@ class ConsoleCommand
         }
     }
 
-    //запускает всех Consumer-ов в фоновом режиме
-    private function startConsumers()
-    {
-
-    }
-
     private function basicStart()
     {
         $basicConsumer = new ConsumerA();
