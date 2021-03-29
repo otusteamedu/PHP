@@ -1,0 +1,61 @@
+version: '3.7'
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
+
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+        CLIENT_HOST: "${NETWORK_ID}.1"
+    image: hw-8-queue/app
+    volumes:
+      - ./app:/data/site.default
+      - ./../logs/hw-8-queue/sock:/sock
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.4"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-8-queue/nginx
+    volumes:
+      - ./app:/data/site.default
+      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./../logs/hw-8-queue/sock:/sock
+      - ./../logs/hw-8-queue/nginx:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  composer:
+    build:
+      context: ./docker/composer
+    volumes:
+      - ./app:/var/www/html
+
+  rabbitmq:
+    build:
+      context: ./docker/rabbit-mq
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+#    ports:
+#      - 15672:15672
+#      - 5672:5672
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"
+
+
+
