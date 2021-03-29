@@ -8,8 +8,8 @@ allowed_commands:
 database:
   storage_mode: 'elasticsearch'
   db_host: 'elasticsearch:9200'
-  #storage_mode = 'mongo';
-  #db_host = 'mongodb://root:example@mongo:27017'
+  #storage_mode: 'mongo'
+  #db_host: 'mongodb://root:example@mongo:27017'
 channels_for_grabbing_list:
   - UCMCgOm8GZkHp8zJ6l7_hIuA
   - UCeObZv89Stb2xLtjLJ0De3Q

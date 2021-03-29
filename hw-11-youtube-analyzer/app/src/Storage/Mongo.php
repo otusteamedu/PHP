@@ -21,7 +21,7 @@ class Mongo extends NoSQLStorage
 
     public function __construct()
     {
-        $dbHost = Config::getInstance()->getItem(Storage::DB_HOST_CONFIG_KEY);
+        $dbHost = Config::getInstance()->getItem(Storage::DATABASE_CONFIG_KEY)[Storage::DB_HOST_CONFIG_KEY];
         $client = new Client($dbHost);
 
         $this->client = $client;
@@ -95,7 +95,17 @@ class Mongo extends NoSQLStorage
     {
         $this->collection = $this->database->selectCollection($indexName);
 
-        $row = $dto->asArray();
+        $row = [];
+
+        $structureReader = new MongoStructureReader($indexName);
+        $properties      = $structureReader->getPropertiesList();
+
+        foreach ($properties as $property)
+        {
+            if (isset($dto->{$property})) {
+                $row[$property] = $dto->{$property};
+            }
+        }
 
         $row['_id'] = $row['id'];
 
