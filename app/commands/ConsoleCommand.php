@@ -43,7 +43,9 @@ class ConsoleCommand
     }
 
     /**
-     * найдет всех Consumer-ов и запустит в фоновом режиме
+     * найдет всех Consumer-ов
+     * из RABBITMQ_BASIC_CONSUMERS_PATH
+     * и запустит в фоновом режиме
      */
     private function backgroundStart()
     {
@@ -51,7 +53,6 @@ class ConsoleCommand
         $iter = new ClassIterator($finder->in($_ENV['RABBITMQ_BASIC_CONSUMERS_PATH']));
 
         foreach ($iter->getClassMap() as $classname => $splFileInfo) {
-            /** @var RabbitMQConsumer $consumer */
             $consumerClass = '\\' . $classname;
             $encoded = json_encode($consumerClass);
 
