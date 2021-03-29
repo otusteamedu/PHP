@@ -6,6 +6,7 @@ use Monolog\Logger;
 use Otus\Consumer\RabbitMQConsumers\RabbitMQConsumer;
 use Otus\Logger\AppLogger;
 use Otus\Queue\RabbitMQ\RabbitMQ;
+use Otus\View\View;
 
 class ConsumerA extends RabbitMQ implements RabbitMQConsumer
 {
@@ -18,6 +19,7 @@ class ConsumerA extends RabbitMQ implements RabbitMQConsumer
     public function start()
     {
         $callback = function ($msg) {
+            View::showMessage('message from queue: ' . $msg->body);
             sleep(5);
             $msg->ack();
 
