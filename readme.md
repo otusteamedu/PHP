@@ -6,7 +6,8 @@
    и добавит отправленные данные в очередь. Название очереди в .env файле `RABBITMQ_BASIC_QUEUE`
 4) Зайти в докер контейнер `php-fpm` через команду `docker-compose exec php-fpm bash`
 5) Перейти в директорию `commands` и запустить скрипт `console.php` с аргументом **basic_start**: 
-   `php console.php start_basic`, чтобы видеть сообщения. Для того чтобы запустить в фоновом режиме, использовать параметр
+   `php console.php start_basic`, чтобы можно было видеть сообщения. Для того чтобы запустить в фоновом режиме, использовать параметр
    **background_start**
 6) С этого момента все Consumer-ы слушают очередь. Для того чтобы посмотреть сообщения, которые были обработаны в фоновом
-   consumer-e(background_start), можно поставить true в `RABBITMQ_DEBUG_CONSUMERS` в .env файле
+   consumer-e(background_start), можно поставить true в `RABBITMQ_DEBUG_CONSUMERS` в .env файле. В этом случае сообщения будут
+   прописаны в app.log
