@@ -1,0 +1,8 @@
+SELECT m.id, m."name", SUM(t.price)
+FROM movie m
+LEFT JOIN "session" s ON s.movie_id = m.id
+LEFT JOIN ticket t ON t.session_id = s.id
+WHERE t.sold = true
+GROUP BY m.id
+ORDER BY SUM(t.price) DESC
+LIMIT 1
