@@ -2,9 +2,11 @@
 
 namespace Commands;
 
+use hanneskod\classtools\Iterator\ClassIterator;
 use Otus\Consumer\RabbitMQConsumers\BasicConsumers\ConsumerA;
 use Otus\Consumer\RabbitMQConsumers\RabbitMQConsumer;
 use Otus\Exceptions\AppException;
+use Symfony\Component\Finder\Finder;
 
 class ConsoleCommand
 {
@@ -40,11 +42,20 @@ class ConsoleCommand
         $basicConsumer->start();
     }
 
+    /**
+     * найдет всех Consumer-ов и запустит в фоновом режиме
+     */
     private function backgroundStart()
     {
-        $className = ConsumerA::class;
-        $encoded = json_encode('\\' . $className);
-        exec('php consumerStarter.php ' . $encoded . '>/dev/null 2>&1 &');
-    }
+        $finder = new Finder;
+        $iter = new ClassIterator($finder->in($_ENV['RABBITMQ_BASIC_CONSUMERS_PATH']));
 
+        foreach ($iter->getClassMap() as $classname => $splFileInfo) {
+            /** @var RabbitMQConsumer $consumer */
+            $consumerClass = '\\' . $classname;
+            $encoded = json_encode($consumerClass);
+
+            exec('php consumerStarter.php ' . $encoded . '>/dev/null 2>&1 &');
+        }
+    }
 }

@@ -2,11 +2,14 @@
 
 namespace Otus\Consumer\RabbitMQConsumers\BasicConsumers;
 
+use ErrorException;
+use InvalidArgumentException;
 use Monolog\Logger;
 use Otus\Consumer\RabbitMQConsumers\RabbitMQConsumer;
 use Otus\Logger\AppLogger;
 use Otus\Queue\RabbitMQ\RabbitMQ;
-use Otus\View\View;
+use Otus\Message\Message;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 
 class ConsumerA extends RabbitMQ implements RabbitMQConsumer
 {
@@ -16,11 +19,15 @@ class ConsumerA extends RabbitMQ implements RabbitMQConsumer
         $this->channel->queue_declare($_ENV["RABBITMQ_BASIC_QUEUE"], false, true, false, false);
     }
 
+    /**
+     * @throws AMQPTimeoutException
+     * @throws InvalidArgumentException
+     * @throws ErrorException
+     */
     public function start()
     {
         $callback = function ($msg) {
-            View::showMessage('message from queue: ' . $msg->body);
-            sleep(5);
+            Message::showMessage('message from queue: ' . $msg->body);
             $msg->ack();
 
             if ($_ENV['RABBITMQ_DEBUG_CONSUMERS']) {

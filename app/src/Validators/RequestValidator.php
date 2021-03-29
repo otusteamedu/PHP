@@ -13,12 +13,14 @@ class RequestValidator
         $this->requestData = $requestData;
     }
 
-    public function validate()
+    /**
+     * @return void
+     * @throws AppException
+     */
+    public function validate(): void
     {
         if (!is_array($this->requestData)) {
-            throw new AppException('error message');
+            throw new AppException('validation error');
         }
-
-        return false;
     }
 }

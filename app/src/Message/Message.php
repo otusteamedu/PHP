@@ -1,11 +1,11 @@
 <?php
 
-namespace Otus\View;
+namespace Otus\Message;
 
-class View
+class Message
 {
     public static function showMessage($message = '')
     {
-        echo $message;
+        echo $message . PHP_EOL;
     }
 }

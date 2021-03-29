@@ -13,7 +13,8 @@
         "monolog/monolog": "2.x-dev",
         "vlucas/phpdotenv": "^5.3@dev",
         "php-amqplib/php-amqplib": "^3.0@dev",
-        "hanneskod/classtools": "dev-master"
+        "hanneskod/classtools": "dev-master",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

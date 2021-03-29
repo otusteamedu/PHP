@@ -9,5 +9,5 @@ try {
     $app = new App();
     $app->run();
 } catch (\Exception $e) {
-    JsonResponse::showResult($e->getMessage(), $e->getCode());
+    JsonResponse::respond($e->getMessage(), $e->getCode());
 }
