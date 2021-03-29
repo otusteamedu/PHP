@@ -26,15 +26,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/channels">Channels</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Elastic
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/channels">Channels</a></li>
+                            <li><a class="dropdown-item" href="/channels/top">Top</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/channels/top">Top channels</a>
+                        <a class="nav-link" href="/event">Redis</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/event">Events</a>
-                    </li>
+
                 </ul>
             </div>
         </div>
@@ -46,10 +50,10 @@
         <?= $content ?>
     </div>
 </main>
-
+<script src="/js/bootstrap.bundle.min.js"></script>
 <?php if (isset($scripts)) : ?>
     <?php foreach ($scripts as $script) : ?>
-        <script src="js/<?= $script ?>.js"></script>
+        <script src="/js/<?= $script ?>.js"></script>
     <?php endforeach; ?>
 <?php endif; ?>
 </body>

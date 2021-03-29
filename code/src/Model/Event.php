@@ -4,9 +4,9 @@
 namespace App\Model;
 
 
-use App\Model\Interfaces\EventInterface;
+use App\Model\Interfaces\ModelEventInterface;
 
-class EventModel implements EventInterface
+class Event implements ModelEventInterface
 {
     private int $id;
     private int $priority;

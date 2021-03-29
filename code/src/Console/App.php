@@ -4,24 +4,20 @@
 namespace App\Console;
 
 
-use DI\Container;
-use DI\ContainerBuilder;
+use App\Util\Config;
+use Psr\Container\ContainerInterface;
 
 
 class App extends Console
 {
-    const CONFIG_DIR = __DIR__ . '/../../config';
-
-    private Container $container;
+    private ContainerInterface $container;
 
     /**
      * App constructor.
      */
     public function __construct()
     {
-        $builder = new ContainerBuilder();
-        $builder->addDefinitions(self::CONFIG_DIR . '/services.php');
-        $this->container = $builder->build();
+        $this->container = Config::buildContainerForConsole();
     }
 
     public function run()

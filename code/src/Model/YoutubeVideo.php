@@ -4,11 +4,11 @@
 namespace App\Model;
 
 
-use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\Interfaces\BuilderElasticsearchInterface;
 use App\Model\Builders\YoutubeVideoBuilder;
 use App\Model\Interfaces\ModelElasticsearchInterface;
 
-class YoutubeVideo extends AbstractModel implements ModelElasticsearchInterface
+class YoutubeVideo extends YoutubeAbstractModel implements ModelElasticsearchInterface
 {
     private string $channelId;
     private array $tags;
@@ -150,7 +150,7 @@ class YoutubeVideo extends AbstractModel implements ModelElasticsearchInterface
         ];
     }
 
-    public function getBuilder(): BuilderModelElasticsearchInterface
+    public function getBuilder(): BuilderElasticsearchInterface
     {
         return new YoutubeVideoBuilder();
     }

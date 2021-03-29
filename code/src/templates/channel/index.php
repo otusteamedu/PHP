@@ -8,7 +8,7 @@
 use App\Model\YoutubeChannel;
 ?>
 
-<h1 class="h3 visually-hidden">Поиск канала</h1>
+<h1 class="h3">Поиск канала</h1>
 
 <form method="get">
     <div class="row mb-3">

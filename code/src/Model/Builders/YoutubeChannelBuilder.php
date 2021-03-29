@@ -7,9 +7,9 @@ namespace App\Model\Builders;
 use DateTime;
 use Google_Service_YouTube_SearchResultSnippet;
 use App\Model\YoutubeChannel;
-use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\Interfaces\BuilderElasticsearchInterface;
 
-class YoutubeChannelBuilder implements BuilderModelElasticsearchInterface
+class YoutubeChannelBuilder implements BuilderElasticsearchInterface
 {
     public function buildFromGoogle(Google_Service_YouTube_SearchResultSnippet $snippet): YoutubeChannel
     {

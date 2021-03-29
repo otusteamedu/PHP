@@ -4,7 +4,7 @@
 namespace App\Controller;
 
 use App\Model\YoutubeChannel;
-use App\Repository\ElasticsearchRepository;
+use App\Repository\ElasticsearchElasticRepository;
 use App\Repository\Exceptions\ElasticsearchNotFoundException;
 use App\Repository\Interfaces\CacheChannelClickInterface;
 use App\Repository\Interfaces\ElasticsearchInterface;
@@ -67,7 +67,7 @@ class ChannelController extends AbstractController
 
         $id = $request->getAttribute('id');
         $model = new YoutubeChannel();
-        $repository = new ElasticsearchRepository($this->container);
+        $repository = new ElasticsearchElasticRepository($this->container);
 
         try {
             $channel = $repository->findOne($id, $model);

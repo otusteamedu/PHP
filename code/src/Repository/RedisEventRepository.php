@@ -5,7 +5,7 @@ namespace App\Repository;
 
 
 use App\Model\Builders\EventBuilder;
-use App\Model\Interfaces\EventInterface;
+use App\Model\Interfaces\ModelEventInterface;
 use Psr\Container\ContainerInterface;
 use Redis;
 
@@ -34,7 +34,7 @@ class RedisEventRepository implements Interfaces\EventRepositoryInterface
         $this->builder = new EventBuilder();
     }
 
-    public function create(EventInterface $model): EventInterface
+    public function create(ModelEventInterface $model): ModelEventInterface
     {
         $id = $this->redis->incr(self::EVENT_LAST_ID);
 
@@ -51,7 +51,7 @@ class RedisEventRepository implements Interfaces\EventRepositoryInterface
         return $model;
     }
 
-    public function findOne(int $id): EventInterface
+    public function findOne(int $id): ModelEventInterface
     {
         $event = $this->redis->hGetAll($this->getEventKey($id));
         return $this->builder->build($event);
@@ -89,7 +89,7 @@ class RedisEventRepository implements Interfaces\EventRepositoryInterface
         return $models;
     }
 
-    public function findMaxPriorityByParams(array $params): ?EventInterface
+    public function findMaxPriorityByParams(array $params): ?ModelEventInterface
     {
         $id = 0;
         $priority = 0;

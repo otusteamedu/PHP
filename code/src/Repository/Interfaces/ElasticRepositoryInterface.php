@@ -5,7 +5,7 @@ namespace App\Repository\Interfaces;
 
 use App\Model\Interfaces\ModelElasticsearchInterface;
 
-interface RepositoryInterface
+interface ElasticRepositoryInterface
 {
     /**
      * @param string $id

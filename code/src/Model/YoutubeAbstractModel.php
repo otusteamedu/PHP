@@ -4,10 +4,10 @@
 namespace App\Model;
 
 
-use App\Model\Interfaces\ModelInterface;
+use App\Model\Interfaces\ModelYoutubeInterface;
 use DateTime;
 
-class AbstractModel implements ModelInterface
+abstract class YoutubeAbstractModel implements ModelYoutubeInterface
 {
     protected string $id;
     protected string $title;

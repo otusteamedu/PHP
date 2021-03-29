@@ -5,11 +5,11 @@ namespace App\Model;
 
 
 use App\Model\Builders\YoutubeChannelBuilder;
-use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\Interfaces\BuilderElasticsearchInterface;
 use App\Model\Interfaces\ModelElasticsearchInterface;
 
 
-class YoutubeChannel extends AbstractModel implements ModelElasticsearchInterface
+class YoutubeChannel extends YoutubeAbstractModel implements ModelElasticsearchInterface
 {
 
     private int $ratio;
@@ -49,7 +49,7 @@ class YoutubeChannel extends AbstractModel implements ModelElasticsearchInterfac
         ];
     }
 
-    public function getBuilder(): BuilderModelElasticsearchInterface
+    public function getBuilder(): BuilderElasticsearchInterface
     {
         return new YoutubeChannelBuilder();
     }

@@ -6,7 +6,7 @@ namespace App\Model\Interfaces;
 
 use DateTime;
 
-interface ModelInterface
+interface ModelYoutubeInterface
 {
     public function getId(): string;
     public function getTitle(): string;

@@ -4,16 +4,16 @@
 namespace App\Model\Builders;
 
 
-use App\Model\EventModel;
+use App\Model\Event;
 use App\Model\Exceptions\EventBuilderInvalidArgumentException;
 use \Exception;
 
 class EventBuilder
 {
 
-    public function build(array $event): EventModel
+    public function build(array $event): Event
     {
-        $model = new EventModel();
+        $model = new Event();
 
         try {
             $model->setId($event['id']);

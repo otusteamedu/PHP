@@ -4,7 +4,7 @@
 namespace App\Model\Interfaces;
 
 
-interface BuilderModelElasticsearchInterface
+interface BuilderElasticsearchInterface
 {
     public function buildFromElasticResult(array $data): ModelElasticsearchInterface;
 }

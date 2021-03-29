@@ -4,12 +4,12 @@
 namespace App\Model\Builders;
 
 
-use App\Model\Interfaces\BuilderModelElasticsearchInterface;
+use App\Model\Interfaces\BuilderElasticsearchInterface;
 use App\Model\YoutubeVideo;
 use DateTime;
 use Google_Service_YouTube_Video;
 
-class YoutubeVideoBuilder implements BuilderModelElasticsearchInterface
+class YoutubeVideoBuilder implements BuilderElasticsearchInterface
 {
     public function buildFromGoogle(Google_Service_YouTube_Video $video): YoutubeVideo
     {

@@ -4,8 +4,8 @@
 namespace App\Console;
 
 
-use App\Model\EventModel;
-use App\Model\Interfaces\EventInterface;
+use App\Model\Event;
+use App\Model\Interfaces\ModelEventInterface;
 use App\Repository\RedisEventRepository;
 use Psr\Container\ContainerInterface;
 use Redis;
@@ -96,7 +96,7 @@ class RedisManage extends Console
     private function generateEvents(): void
     {
         for ($i = 1; $i <= 5; $i++) {
-            $model = new EventModel();
+            $model = new Event();
             $model->setEvent('event ' . $i);
             $model->setPriority(rand(1, 3) * 1000);
 

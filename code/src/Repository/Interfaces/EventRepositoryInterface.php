@@ -4,19 +4,19 @@
 namespace App\Repository\Interfaces;
 
 
-use App\Model\Interfaces\EventInterface;
+use App\Model\Interfaces\ModelEventInterface;
 
 interface EventRepositoryInterface
 {
-    public function create(EventInterface $model): EventInterface;
-    public function findOne(int $id): EventInterface;
+    public function create(ModelEventInterface $model): ModelEventInterface;
+    public function findOne(int $id): ModelEventInterface;
     /**
-     * @return EventInterface[]
+     * @return ModelEventInterface[]
      */
     public function findAll(): array;
     /**
      * @param array $params
-     * @return EventInterface[]
+     * @return ModelEventInterface[]
      */
     public function findByParams(array $params): array;
     public function drop(): bool;

@@ -4,8 +4,8 @@
 namespace App\Services;
 
 
-use App\Model\EventModel;
-use App\Model\Interfaces\EventInterface;
+use App\Model\Event;
+use App\Model\Interfaces\ModelEventInterface;
 use App\Repository\RedisEventRepository;
 use App\Services\Exceptions\EventServiceEventNotFoundException;
 use App\Services\Exceptions\EventServiceParamsException;
@@ -24,14 +24,19 @@ class RedisEventService implements Interfaces\EventServiceInterface
         $this->repository = new RedisEventRepository($container);
     }
 
-
-    public function addEvent(int $priority, array $params, string $event): EventInterface
+    /**
+     * @param int $priority
+     * @param array $params
+     * @param string $event
+     * @return ModelEventInterface
+     */
+    public function addEvent(int $priority, array $params, string $event): ModelEventInterface
     {
         if (!$priority || empty($params) || 0 === strlen($event)) {
             throw new EventServiceParamsException('Priority, Params, Event required!');
         }
 
-        $model = new EventModel();
+        $model = new Event();
         $model->setPriority($priority);
         $model->setCondition($params);
         $model->setEvent($event);
@@ -39,7 +44,12 @@ class RedisEventService implements Interfaces\EventServiceInterface
         return $this->repository->create($model);
     }
 
-    public function getEvent(array $params): EventInterface
+    /**
+     * @param array $params
+     * @return ModelEventInterface
+     * @throws EventServiceEventNotFoundException
+     */
+    public function getEvent(array $params): ModelEventInterface
     {
         $params = $params['params'];
 
@@ -54,11 +64,17 @@ class RedisEventService implements Interfaces\EventServiceInterface
         return $event;
     }
 
+    /**
+     * @return ModelEventInterface[]
+     */
     public function getAll(): array
     {
         return $this->repository->findAll();
     }
 
+    /**
+     * @return bool
+     */
     public function deleteEvents(): bool
     {
         return $this->repository->drop();

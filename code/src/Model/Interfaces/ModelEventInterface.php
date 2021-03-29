@@ -4,7 +4,7 @@
 namespace App\Model\Interfaces;
 
 
-interface EventInterface
+interface ModelEventInterface
 {
     public function getId(): int;
     public function setId(int $id): void;

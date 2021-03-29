@@ -9,5 +9,5 @@ interface ModelElasticsearchInterface
     public function getSearchIndex(): string;
     public function getSearchArray(): array;
     public function getSearchFields(): array;
-    public function getBuilder(): BuilderModelElasticsearchInterface;
+    public function getBuilder(): BuilderElasticsearchInterface;
 }

@@ -7,14 +7,14 @@ namespace App\Repository;
 use App\Model\Builders\StatisticBuilder;
 use App\Model\ChannelStatistic;
 use App\Model\Interfaces\ModelElasticsearchInterface;
-use App\Model\Interfaces\ModelInterface;
+use App\Model\Interfaces\ModelYoutubeInterface;
 use App\Model\YoutubeVideo;
 use App\Repository\Exceptions\ElasticsearchNotFoundException;
-use App\Repository\Interfaces\RepositoryInterface;
+use App\Repository\Interfaces\ElasticRepositoryInterface;
 use Elasticsearch\Client;
 use Psr\Container\ContainerInterface;
 
-class ElasticsearchRepository implements RepositoryInterface
+class ElasticsearchElasticRepository implements ElasticRepositoryInterface
 {
     protected Client $client;
 
@@ -44,7 +44,7 @@ class ElasticsearchRepository implements RepositoryInterface
 
     /**
      * @param ModelElasticsearchInterface $model
-     * @return ModelInterface[]
+     * @return ModelYoutubeInterface[]
      */
     public function findAll(ModelElasticsearchInterface $model): array
     {

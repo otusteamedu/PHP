@@ -29,7 +29,7 @@ abstract class AbstractController
         $this->container = $container;
 
         $this->view = new PhpRenderer(
-            __DIR__ . '/../../templates',
+            __DIR__ . '/../templates',
             [
                 'title' => $container->get('name'),
                 'style' => '/css/bootstrap.min.css',

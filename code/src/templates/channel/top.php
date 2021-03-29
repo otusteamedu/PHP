@@ -8,7 +8,7 @@
 use App\Model\YoutubeChannel;
 
 ?>
-<h1 class="h3 visually-hidden">Channel</h1>
+<h1 class="h3">Top channels</h1>
 
 <div class="row">
     <? if ($error) print_r($error) ?>

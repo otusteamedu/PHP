@@ -3,6 +3,7 @@
 
 use App\Repository\Cache\MemcachedCacheClick;
 use App\Repository\Cache\RedisCacheClick;
+use App\Services\RedisEventService;
 use App\Services\YouTubeService;
 use App\Util\TerminalLogger;
 use Elasticsearch\ClientBuilder;
@@ -36,6 +37,9 @@ return [
     },
     'redis_click_cache' => function (ContainerInterface $container) {
         return new RedisCacheClick($container);
+    },
+    'redis_event_service' => function (ContainerInterface $container) {
+        return new RedisEventService($container);
     },
     TerminalLogger::class => function () {
         return new TerminalLogger();

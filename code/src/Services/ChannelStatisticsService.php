@@ -5,12 +5,12 @@ namespace App\Services;
 
 
 use App\Model\YoutubeChannel;
-use App\Repository\ElasticsearchRepository;
+use App\Repository\ElasticsearchElasticRepository;
 use Psr\Container\ContainerInterface;
 
 class ChannelStatisticsService
 {
-    private ElasticsearchRepository $repository;
+    private ElasticsearchElasticRepository $repository;
 
     /**
      * ElasticsearchSearchSnippets constructor.
@@ -18,9 +18,14 @@ class ChannelStatisticsService
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->repository = new ElasticsearchRepository($container);
+        $this->repository = new ElasticsearchElasticRepository($container);
     }
 
+    /**
+     * Топ каналов (likesCount / dislikesCount)
+     * @param int $count
+     * @return YoutubeChannel[]
+     */
     public function topChannels(int $count = 3): array
     {
         $model = new YoutubeChannel();
