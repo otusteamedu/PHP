@@ -141,7 +141,8 @@ create table movie_attribute_values
     attribute_id      INT NOT NULL,
     attribute_type_id INT NOT NULL,
     value_boolean     bool default false,
-    value_float       numeric(10, 2),
+    value_int         INT,
+    value_float       float8,
     value_date        date,
     value_text        text,
     CONSTRAINT attribute_value_to_movie
@@ -166,13 +167,16 @@ create view service_data as
 select t.name   as task_type,
        a.name   as name,
        (case
-            when v.value_boolean and v.value_float is null and v.value_date is null and v.value_text is null
-                then 'Присутствует'
-            when v.value_date is not null and v.value_float is null and v.value_text is null
+            when v.value_boolean and v.value_int is null and v.value_float is null and v.value_date is null and
+                 v.value_text is null then 'Присутствует'
+            when v.value_date is not null and v.value_int is null and v.value_float is null and v.value_text is null
                 then cast(value_date as text)
-            when v.value_date is null and v.value_float is not null and v.value_text is null
+            when v.value_date is null and v.value_int is not null and v.value_float is null and v.value_text is null
+                then cast(value_int as text)
+            when v.value_date is null and v.value_int is null and v.value_float is not null and v.value_text is null
                 then cast(value_float as text)
-            when v.value_date is null and v.value_float is null and v.value_text is not null then value_text
+            when v.value_date is null and v.value_int is null and v.value_float is null and v.value_text is not null
+                then value_text
             else null
            end) as value
 from movie_attribute_values v
@@ -186,13 +190,16 @@ select m.title,
        t.name   as task_type,
        a.name   as name,
        (case
-            when v.value_boolean and v.value_float is null and v.value_date is null and v.value_text is null
-                then 'Присутствует'
-            when v.value_date is not null and v.value_float is null and v.value_text is null
+            when v.value_boolean and v.value_int is null and v.value_float is null and v.value_date is null and
+                 v.value_text is null then 'Присутствует'
+            when v.value_date is not null and v.value_int is null and v.value_float is null and v.value_text is null
                 then cast(value_date as text)
-            when v.value_date is null and v.value_float is not null and v.value_text is null
+            when v.value_date is null and v.value_int is not null and v.value_float is null and v.value_text is null
+                then cast(value_int as text)
+            when v.value_date is null and v.value_int is null and v.value_float is not null and v.value_text is null
                 then cast(value_float as text)
-            when v.value_date is null and v.value_float is null and v.value_text is not null then value_text
+            when v.value_date is null and v.value_int is null and v.value_float is null and v.value_text is not null
+                then value_text
             else null
            end) as value
 from movie_attribute_values v
