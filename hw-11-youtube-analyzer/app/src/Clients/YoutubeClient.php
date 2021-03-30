@@ -7,7 +7,8 @@ use App\Models\DTO\ChannelDTO;
 use App\Models\DTO\VideoDTO;
 use App\Parsers\YoutubeVideoDataParser;
 use App\Parsers\YoutubeChannelDataParser;
-use Exception;
+use App\Request\CurlRequest;
+use App\Request\Request;
 
 class YoutubeClient
 {
@@ -17,9 +18,13 @@ class YoutubeClient
 
     private string $apiKey;
 
+    private Request $request;
+
     public function __construct ()
     {
         $config = Config::getInstance();
+
+        $this->request = new CurlRequest();
 
         $this->apiKey = $config->getItem(self::YOUTUBE_API_KEY_CONFIG_KEY);
     }
@@ -34,7 +39,7 @@ class YoutubeClient
         ];
 
         $url      = $this->generateURL('channels', $params);
-        $response = $this->sendRequest($url);
+        $response = $this->request->getResponse($url);
 
         $parser = new YoutubeChannelDataParser();
 
@@ -44,21 +49,6 @@ class YoutubeClient
     private function generateURL (string $cmd, array $params): string
     {
         return self::YOUTUBE_API_URL . "/{$cmd}?" . http_build_query($params);
-    }
-
-    private function sendRequest (string $url): string
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $response = curl_exec($ch);
-        if (empty($response)) {
-            throw new Exception('Empty response');
-        }
-        curl_close($ch);
-
-        return $response;
     }
 
     public function getChannelVideos (string $channelId): array
@@ -76,7 +66,7 @@ class YoutubeClient
             ];
 
             $url      = $this->generateURL('videos', $params);
-            $response = $this->sendRequest($url);
+            $response = $this->request->getResponse($url);
 
             $parser   = new YoutubeVideoDataParser();
             $videoDTO = $parser->parseVideoData($response);
@@ -100,7 +90,7 @@ class YoutubeClient
         ];
 
         $url      = $this->generateURL('search', $params);
-        $response = $this->sendRequest($url);
+        $response = $this->request->getResponse($url);
 
         $parser = new YoutubeVideoDataParser();
 
