@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    build:
+      context: ./docker/elasticsearch
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/var/www/hw
+
+  composer:
+    build:
+      context: ./docker/composer
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/hw
