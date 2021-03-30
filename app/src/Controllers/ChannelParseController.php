@@ -10,12 +10,12 @@ use App\Services\YouTube\Exceptions\YouTubeApiBadResponseException;
 
 class ChannelParseController extends BaseController
 {
-    public function index()
+    public function index(): void
     {
         $this->title = 'Index videos from youtube';
         $this->content = $this->renderView('/pages/channels/parse/index');
 
-        return $this->viewResponse();
+        $this->viewResponse();
     }
 
     /**

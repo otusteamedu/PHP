@@ -19,7 +19,7 @@ class ChannelController extends BaseController
         $this->channelRepository = AppServiceContainer::getInstance()->resolve(ChannelRepository::class);
     }
 
-    public function index()
+    public function index(): void
     {
         $this->title = 'Channels';
 
@@ -27,10 +27,10 @@ class ChannelController extends BaseController
             'channels' => (new ChannelStatistic())->getTopByLikesByDislikesQuotientSortDesc(10),
         ]);
 
-        return $this->viewResponse();
+        $this->viewResponse();
     }
 
-    public function search()
+    public function search(): void
     {
         $request = Request::getInstance();
         $query = $request->get('query', '');
@@ -44,6 +44,6 @@ class ChannelController extends BaseController
             'query' => $query,
         ]);
 
-        return $this->viewResponse();
+        $this->viewResponse();
     }
 }

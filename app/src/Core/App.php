@@ -7,6 +7,9 @@ use App\Services\ServiceContainer\AppServiceContainer;
 
 class App
 {
+    /**
+     * @return mixed
+     */
     public function run()
     {
         $serviceContainer = AppServiceContainer::getInstance();
