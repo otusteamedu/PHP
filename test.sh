@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker-compose run app1 composer test
+docker-compose run app composer test
 

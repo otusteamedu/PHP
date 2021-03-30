@@ -4,6 +4,10 @@
 namespace App\Console;
 
 
+use App\Model\Airline;
+use App\Orm\Mapping\AirlineMapper;
+use App\Services\Orm\Mappers\AirplaneMapper;
+use App\Services\Orm\Repository;
 use App\Util\Config;
 use Psr\Container\ContainerInterface;
 
@@ -22,6 +26,16 @@ class App extends Console
 
     public function run()
     {
+        $m = new Airline();
+
+        echo (new \ReflectionClass($m))->getShortName(), PHP_EOL;
+
+
+        exit;
+
+
+
+
         $cancel = false;
 
         while(!$cancel) {

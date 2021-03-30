@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\Validator;
+namespace Validator;
 
 
 use App\Validator\EmailValidator;

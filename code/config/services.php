@@ -41,6 +41,22 @@ return [
     'redis_event_service' => function (ContainerInterface $container) {
         return new RedisEventService($container);
     },
+    PDO::class => function () {
+        $dsn = sprintf(
+            'pgsql:host=%s;port=%d;dbname=%s',
+            getenv('DB_HOST'),
+            getenv('DB_PORT'),
+            getenv('POSTGRES_DB')
+        );
+
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ];
+
+        return new PDO($dsn, getenv('POSTGRES_USER'), getenv('POSTGRES_PASSWORD'), $options);
+    },
     TerminalLogger::class => function () {
         return new TerminalLogger();
     },
