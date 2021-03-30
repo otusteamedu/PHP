@@ -3,6 +3,7 @@
 
 use App\Repository\Cache\MemcachedCacheClick;
 use App\Repository\Cache\RedisCacheClick;
+use App\Services\Orm\ModelManager;
 use App\Services\RedisEventService;
 use App\Services\YouTubeService;
 use App\Util\TerminalLogger;
@@ -56,6 +57,9 @@ return [
         ];
 
         return new PDO($dsn, getenv('POSTGRES_USER'), getenv('POSTGRES_PASSWORD'), $options);
+    },
+    ModelManager::class => function (ContainerInterface $container) {
+        return new ModelManager($container);
     },
     TerminalLogger::class => function () {
         return new TerminalLogger();

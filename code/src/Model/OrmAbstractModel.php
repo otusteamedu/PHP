@@ -6,9 +6,11 @@ namespace App\Model;
 
 use App\Services\Orm\Interfaces\OrmModelInterface;
 
+
 abstract class OrmAbstractModel implements OrmModelInterface
 {
     protected ?int $id = null;
+
 
     /**
      * @return int

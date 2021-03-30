@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Orm\Mappers;
+namespace App\Services\Orm\Mapping;
 
 
 use App\Model\Airline;

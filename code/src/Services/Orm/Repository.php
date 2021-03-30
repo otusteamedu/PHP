@@ -5,8 +5,8 @@ namespace App\Services\Orm;
 
 
 use App\Services\Orm\Exceptions\OrmModelNotFoundException;
-use App\Services\Orm\Mappers\AirlineMapper;
-use App\Services\Orm\Mappers\AirplaneMapper;
+use App\Services\Orm\Mapping\AirlineMapper;
+use App\Services\Orm\Mapping\AirplaneMapper;
 use App\Services\Orm\Interfaces\MapperInterface;
 use PDO;
 
@@ -61,24 +61,37 @@ class Repository
         return $model;
     }
 
-    public function findAll(): array
+    public function find(array $condition = null): array
     {
         $builder = $this->mapper->getBuilder();
 
-        $query = 'SELECT * FROM ' . $this->mapper::TABLE_NAME;
+        $where = null;
+        if ($condition) {
+            $where = ' WHERE ';
+            foreach ($condition as $key => $val) {
+                $where .= "${key} = '${val}' AND ";
+            }
+            $where = substr($where, 0, strrpos($where, ' AND '));
+        }
+
+        $query = 'SELECT * FROM ' . $this->mapper::TABLE_NAME . $where;
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $data = $stmt->fetchAll();
-
+        $rows = $stmt->fetchAll();
         $models = [];
 
-        foreach ($data as $raw) {
+        foreach ($rows as $raw) {
             $model = $builder->build($raw);
             $this->identityMap->set($model);
             array_push($models, $model);
         }
 
         return $models;
+    }
+
+    public function findAll(): array
+    {
+        return $this->find();
     }
 
     private function getShortName(string $className): string

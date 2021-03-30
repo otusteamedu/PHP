@@ -3,9 +3,9 @@
 
 namespace App\Util;
 
-
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
+
 
 class Config
 {
@@ -38,16 +38,17 @@ class Config
         return $builder->build();
     }
 
-    public static function getDatabaseConfiguration(): array
-    {
-        $dsn = sprintf(
-            'pgsql:host=%s;port=%d;dbname=%s',
-            getenv('DB_HOST'),
-            getenv('DB_PORT'),
-            getenv('POSTGRES_DB')
-        );
-
-        return [$dsn, getenv('POSTGRES_USER'), getenv('POSTGRES_PASSWORD')];
-    }
+//    public static function getDatabaseConnection(): array
+//    {
+//        $dsn = sprintf(
+//            '%s:host=%s;port=%d;dbname=%s',
+//            'pgsql',
+//            getenv('DB_HOST'),
+//            getenv('DB_PORT'),
+//            getenv('POSTGRES_DB')
+//        );
+//
+//        return [$dsn, getenv('POSTGRES_USER'), getenv('POSTGRES_PASSWORD')];
+//    }
 
 }

@@ -20,7 +20,6 @@ final class IdentityMap
         return self::$instance;
     }
 
-    private function __construct(){}
 
     public function set(OrmModelInterface $model): void
     {
@@ -43,4 +42,7 @@ final class IdentityMap
     {
         return get_class($model) . ':' . $model->getId();
     }
+
+    private function __construct(){}
+    private function __clone(){}
 }

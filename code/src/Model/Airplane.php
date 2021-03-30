@@ -4,7 +4,7 @@
 namespace App\Model;
 
 
-use App\Services\Orm\Mappers\AirlineMapper;
+use App\Services\Orm\Mapping\AirlineMapper;
 use DateTime;
 
 class Airplane extends OrmAbstractModel
@@ -13,7 +13,7 @@ class Airplane extends OrmAbstractModel
     private ?int $number;
     private ?int $seatsCount;
     private ?DateTime $buildDate;
-    private ?int $airlineId;
+    private ?int $airlineId = null;
 
     /**
      * @return int|null
@@ -115,6 +115,12 @@ class Airplane extends OrmAbstractModel
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        return [
+            'name' => $this->name,
+            'number' => $this->number,
+            'seats_count' => $this->seatsCount,
+            'build_date' => $this->buildDate->format('Y-m-d'),
+            'airline_id' => $this->getAirlineId() ?? null,
+        ];
     }
 }

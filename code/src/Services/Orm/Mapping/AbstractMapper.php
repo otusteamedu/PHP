@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Orm\Mappers;
+namespace App\Services\Orm\Mapping;
 
 use App\Services\Orm\Interfaces\ModelBuilderInterface;
 use App\Services\Orm\Interfaces\OrmModelInterface;

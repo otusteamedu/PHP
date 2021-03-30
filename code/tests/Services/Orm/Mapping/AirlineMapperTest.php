@@ -5,11 +5,11 @@ namespace Services\Mappers\Orm;
 
 
 use App\Model\Airline;
-use App\Services\Orm\Mappers\AirlineMapper;
+use App\Services\Orm\Mapping\AirlineMapper;
 use App\Util\Config;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
+
 
 class AirlineMapperTest extends TestCase
 {
@@ -57,5 +57,4 @@ class AirlineMapperTest extends TestCase
 
         $this->assertNull($mapper->findById($model->getId()));
     }
-
 }

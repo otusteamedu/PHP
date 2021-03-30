@@ -5,7 +5,7 @@ namespace Services\Mappers\Orm;
 
 
 use App\Model\Airplane;
-use App\Services\Orm\Mappers\AirplaneMapper;
+use App\Services\Orm\Mapping\AirplaneMapper;
 use App\Util\Config;
 use DateTime;
 use PDO;
