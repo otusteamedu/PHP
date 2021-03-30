@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+    openvas:
+        image: mikesplain/openvas
+        ports:
+        - 443:443
