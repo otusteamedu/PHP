@@ -59,7 +59,14 @@ class QueueService
         );
 
         $msg = new AMQPMessage($inputMessage);
-        $this->channel->basic_publish($msg, '', 'hello');
+        $this->channel->basic_publish(
+            $msg,
+            '',
+
+            // TODO: small fix-question: routing-key
+//            'hello',
+            $_ENV['RABBITMQ_QUEUE']
+        );
 
         echo " [x] Sent $inputMessage\n";
 
