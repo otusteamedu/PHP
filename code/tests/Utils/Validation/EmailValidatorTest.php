@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Tests\Validator;
+namespace App\Tests\Utils\Validation;
 
 
-use App\Validator\EmailValidator;
+use App\Utils\Validation\EmailValidator;
 use PHPUnit\Framework\TestCase;
 
 class EmailValidatorTest extends TestCase

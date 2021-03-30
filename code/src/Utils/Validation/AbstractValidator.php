@@ -1,7 +1,10 @@
 <?php
 
 
-namespace App\Validator;
+namespace App\Utils\Validation;
+
+
+use App\Utils\Validation\Exceptions\MethodNotImplementException;
 
 
 abstract class AbstractValidator implements ValidatorInterface

@@ -1,14 +1,11 @@
 <?php
 
 /**
- * @var string $name
- * @var string $addr
  * @var string $result
  */
 
 ?>
-<h1 class="h2">Server name: <?= $name ?></h1>
-<h2 class="h3">Server address: <?= $addr ?></h2>
+<h1 class="h3">Validation email</h1>
 
 <div class="row mt-4 ">
     <div class="col-md-6">

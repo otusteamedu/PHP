@@ -16,5 +16,5 @@ return function (App $app) {
     $app->post('/api/events', 'App\Controller\EventController:createEvent');
     $app->delete('/api/events', 'App\Controller\EventController:drop');
 
-//        $app->map(['GET', 'POST'], '/validation', 'App\Controller\ValidationController:index' );
+    $app->map(['GET', 'POST'], '/validation', 'App\Controller\ValidationController:index');
 };

@@ -5,7 +5,7 @@ use App\Repository\Cache\MemcachedCacheClick;
 use App\Repository\Cache\RedisCacheClick;
 use App\Services\RedisEventService;
 use App\Services\YouTubeService;
-use App\Util\TerminalLogger;
+use App\Utils\TerminalLogger;
 use Elasticsearch\ClientBuilder;
 use Psr\Container\ContainerInterface;
 

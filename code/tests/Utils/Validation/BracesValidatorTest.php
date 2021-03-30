@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Tests\Validator;
+namespace App\Tests\Utils\Validation;
 
 
-use App\Validator\BracesValidator;
+use App\Utils\Validation\BracesValidator;
+use PHPUnit\Framework\TestCase;
 
-class BracesValidatorTest extends \PHPUnit\Framework\TestCase
+class BracesValidatorTest extends TestCase
 {
     public function testValidateEmptyString()
     {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Validator;
+namespace App\Utils\Validation;
 
 
 class BracesValidator extends AbstractValidator
