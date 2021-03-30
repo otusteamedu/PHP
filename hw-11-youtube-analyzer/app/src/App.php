@@ -16,7 +16,7 @@ class App
     /**
      * run the app
      */
-    public function run (): void
+    public function run (): string
     {
         $config = Config::getInstance();
 
@@ -32,15 +32,23 @@ class App
             $channelsList = $config->getItem('channels_for_grabbing_list');
 
             (new YoutubeGrabber())->grab($channelsList);
+
+            $result = json_encode(['finished' => true]);
         }
         else if ($cmd === self::STATS_CMD) {
             Log::getInstance()->addRecord('CALCULATING STATS');
 
             $channels = ChannelMapper::getAll();
 
+            $result = [];
+
             foreach ($channels as $channel) {
-                echo json_encode(ChannelMapper::getStats($channel->id)) . PHP_EOL;
+                $result[] = ChannelMapper::getStats($channel->id);
             }
+
+            $result = json_encode($result);
         }
+
+        return $result;
     }
 }
