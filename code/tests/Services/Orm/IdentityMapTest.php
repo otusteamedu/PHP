@@ -25,6 +25,7 @@ class IdentityMapTest extends TestCase
     {
         self::$mm = null;
     }
+
     public function testGetInstance()
     {
         $inst1 = IdentityMap::getInstance();
@@ -46,6 +47,22 @@ class IdentityMapTest extends TestCase
         $im->set($model);
         $model2 = $im->get(Airline::class, 1);
         $this->assertSame($model, $model2);
+    }
+
+    public function testDelete()
+    {
+        $im = IdentityMap::getInstance();
+
+        $model = new Airline(self::$mm);
+        $model->setId(22);
+        $model->setName('AirCompany');
+
+        $im->set($model);
+        $m = $im->get(Airline::class, 22);
+        $this->assertInstanceOf(Airline::class, $m);
+
+        $im->delete($model);
+        $this->assertNull($im->get(Airline::class, 22));
     }
 
 }

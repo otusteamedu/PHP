@@ -53,7 +53,12 @@ class ModelManager
     public function delete(OrmModelInterface $model): bool
     {
         $repo = $this->getRepository(get_class($model));
-        return $repo->getMapper()->delete($model);
+        $isDeleted = $repo->getMapper()->delete($model);
+        if ($isDeleted) {
+            $this->identityMap->delete($model);
+        }
+
+        return $isDeleted;
     }
 
 

@@ -38,6 +38,12 @@ final class IdentityMap
         return null;
     }
 
+    public function delete(OrmModelInterface $model): void
+    {
+        $key = $this->getKey($model);
+        unset($this->items[$key]);
+    }
+
     private function getKey(OrmModelInterface $model): string
     {
         return get_class($model) . ':' . $model->getId();
