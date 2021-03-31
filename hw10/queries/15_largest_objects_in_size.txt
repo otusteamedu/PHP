@@ -17,3 +17,25 @@ select
     tables_and_indexes.name,
     pg_size_pretty(tables_and_indexes.size) as size
 from tables_and_indexes;
+
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+ kind  |                   name                    |  size
+-------+-------------------------------------------+---------
+ table | films_attrs_values                        | 1610 MB
+ table | films_attrs                               | 1253 MB
+ table | films                                     | 992 MB
+ index | films_attrs_un                            | 387 MB
+ index | films_attrs_values_film_id_attr_id_key    | 387 MB
+ index | films_attrs_values_attr_id_idx            | 300 MB
+ index | films_name_idx                            | 214 MB
+ index | films_pk                                  | 214 MB
+ index | films_attrs_values_pk                     | 214 MB
+ index | films_attrs_pk                            | 214 MB
+ index | films_attrs_values_value_date_attr_id_idx | 67 MB
+ index | films_production_year_idx                 | 66 MB
+ index | films_attrs_values_length_text_fidx       | 66 MB
+ table | pg_depend                                 | 1120 kB
+ table | pg_proc                                   | 1024 kB
+(15 rows)

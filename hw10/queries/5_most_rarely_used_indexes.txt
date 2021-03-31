@@ -3,4 +3,16 @@ select
     idx_scan
 from pg_stat_user_indexes
 order by idx_scan
-limit 5
+limit 5;
+
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+            indexrelname             | idx_scan
+-------------------------------------+----------
+ films_attrs_values_pk               |        0
+ attr_types_name_key                 |        0
+ films_name_idx                      |        1
+ films_production_year_idx           |        1
+ films_attrs_values_length_text_fidx |        1
+(5 rows)
