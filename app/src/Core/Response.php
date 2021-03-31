@@ -17,10 +17,7 @@ class Response
         $this->arguments = $arguments;
     }
 
-    /**
-     * @return false|mixed
-     */
-    public function __invoke()
+    public function __invoke() : string
     {
         if(false === class_exists($this->controller)){
             throw new \RuntimeException('Controller ' . $this->controller . ' not exist');

@@ -4,20 +4,20 @@ namespace App\Controllers;
 
 class HomeController extends BaseController
 {
-    public function index()  : void
+    public function index()  : string
     {
         $this->content = $this->renderView('/pages/home');
         $this->title = 'Home page';
 
-         $this->viewResponse();
+         return $this->viewResponse();
     }
 
-    public function pageNotFound() : void
+    public function pageNotFound() : string
     {
         $this->content = $this->renderView('/pages/404');
         $this->title = 'Page Not Found';
 
-         $this->viewResponse();
+        return $this->viewResponse();
     }
 
 }

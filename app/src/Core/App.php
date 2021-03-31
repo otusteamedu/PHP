@@ -8,9 +8,9 @@ use App\Services\ServiceContainer\AppServiceContainer;
 class App
 {
     /**
-     * @return mixed
+     * @return string
      */
-    public function run()
+    public function run() : string
     {
         $serviceContainer = AppServiceContainer::getInstance();
         $serviceContainer->boot();

@@ -12,22 +12,22 @@ class BaseController
     protected string $content;
     protected string $title = 'Test project';
 
-    protected function viewResponse() : void
+    protected function viewResponse() : string
     {
-        echo $this->renderView('layout', [
+        return $this->renderView('layout', [
             'content' => $this->content,
             'title' => $this->title,
             'currentUrl' => Request::getInstance()->getRequestUri(),
         ]);
     }
 
-    protected function redirect($route, $code = 301)
+    protected function redirect($route, $code = 301): void
     {
-        header('Location: ' . $_ENV['APP_URL'] . $route, true, $code);
+        header('Location: ' . $_ENV['APP_URL'] . '/' . $route, true, $code);
         exit();
     }
 
-    protected function renderView(string $viewPath, array $arguments = [])
+    protected function renderView(string $viewPath, array $arguments = []) : string
     {
         return (new View($viewPath, $arguments))->render();
     }

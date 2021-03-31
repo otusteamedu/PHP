@@ -17,7 +17,7 @@ class VideoController extends BaseController
         $this->videoRepository = AppServiceContainer::getInstance()->resolve(VideoRepository::class);
     }
 
-    public function index()
+    public function index() : string
     {
         $request = Request::getInstance();
         $query = $request->get('query', '');

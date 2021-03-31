@@ -7,7 +7,7 @@ require_once('bootstrap.php');
 
 try {
     $app = new App();
-    $app->run();
+    echo $app->run();
 } catch(Exception $e){
     echo 'Error: ' . $e->getMessage();
 }
