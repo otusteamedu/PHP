@@ -4,11 +4,25 @@
 namespace App\Model;
 
 
+use App\Services\Orm\ModelManager;
+use Psr\Container\ContainerInterface;
+
 class Airline extends OrmAbstractModel
 {
+    private ModelManager $modelManager;
     private ?string $name;
     private ?string $abbreviation;
     private ?string $description;
+
+    /**
+     * Airline constructor.
+     * @param ModelManager $modelManager
+     */
+    public function __construct(ModelManager $modelManager)
+    {
+        $this->modelManager = $modelManager;
+    }
+
 
     /**
      * @return string
@@ -59,6 +73,13 @@ class Airline extends OrmAbstractModel
     {
         $this->description = $description;
         return $this;
+    }
+
+    public function getAirplanes(): array
+    {
+        return $this->modelManager
+            ->getRepository('Airplane')
+            ->find(['airline_id' => $this->getId()]);
     }
 
     public function toArray(): array

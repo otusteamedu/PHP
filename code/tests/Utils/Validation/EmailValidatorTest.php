@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Validator;
+namespace App\Tests\Utils\Validation;
 
 
-use App\Validator\EmailValidator;
+use App\Utils\Validation\EmailValidator;
 use PHPUnit\Framework\TestCase;
 
 class EmailValidatorTest extends TestCase
@@ -70,6 +70,4 @@ class EmailValidatorTest extends TestCase
         $this->assertContains('Invalid email address', $errors['user_mail.ru']);
         $this->assertContains('Domain is not valid', $errors['user@xyz.ru']);
     }
-
-
 }

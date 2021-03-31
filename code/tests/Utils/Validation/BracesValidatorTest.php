@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Validator;
+namespace App\Tests\Utils\Validation;
 
 
-use App\Validator\BracesValidator;
+use App\Utils\Validation\BracesValidator;
 
 class BracesValidatorTest extends \PHPUnit\Framework\TestCase
 {

@@ -8,7 +8,7 @@ use App\Model\Airline;
 use App\Orm\Mapping\AirlineMapper;
 use App\Services\Orm\Mapping\AirplaneMapper;
 use App\Services\Orm\Repository;
-use App\Util\Config;
+use App\Utils\Config;
 use Psr\Container\ContainerInterface;
 
 

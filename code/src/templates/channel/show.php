@@ -14,9 +14,13 @@ use App\Model\YoutubeVideo;
 
 ?>
 
-<div class="row">
-    <?if ($error) print_r($error) ?>
-</div>
+<?php if ($error): ?>
+    <div class="row mt-3">
+        <div class="col">
+            <p><?= $error ?></p>
+        </div>
+    </div>
+<?php endif; ?>
 
 
 <h1 class="h3"><?= $channel->getTitle() ?><span class="ms-5 small"><?= $clickCount ?></span></h1>
@@ -27,7 +31,7 @@ use App\Model\YoutubeVideo;
 
 <h2 class="h3">Видео канала</h2>
 <ul class="list-group list-group-flush">
-    <?php foreach ($video as $v) :?>
+    <?php foreach ($video as $v) : ?>
         <li class="list-group-item">
             <h3 class="h4"><?= $v->getTitle() ?></h3>
             <p><?= $v->getDescription() ?></p>

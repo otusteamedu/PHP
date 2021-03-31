@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Services\Orm\ModelManager;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\PhpRenderer;
@@ -19,6 +20,7 @@ abstract class AbstractController
      * @var ContainerInterface
      */
     protected ContainerInterface $container;
+    protected ModelManager $modelManager;
 
     /**
      * BaseController constructor.
@@ -27,6 +29,7 @@ abstract class AbstractController
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->modelManager = $container->get(ModelManager::class);
 
         $this->view = new PhpRenderer(
             __DIR__ . '/../templates',

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Util;
+namespace App\Utils;
 
 
 class ErrorDump

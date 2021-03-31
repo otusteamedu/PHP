@@ -9,36 +9,40 @@ use App\Model\Airplane;
 use App\Services\Orm\Exceptions\OrmModelNotFoundException;
 use App\Services\Orm\Mapping\AirlineMapper;
 use App\Services\Orm\Mapping\AirplaneMapper;
+use App\Services\Orm\ModelManager;
 use App\Services\Orm\Repository;
-use App\Util\Config;
+use App\Utils\Config;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
 class RepositoryTest extends TestCase
 {
     protected static ?PDO $pdo;
+    protected static ?ModelManager $mm;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $container = Config::buildContainerForConsole();
         self::$pdo = $container->get(PDO::class);
+        self::$mm = $container->get(ModelManager::class);
     }
 
     public static function tearDownAfterClass(): void
     {
         self::$pdo = null;
+        self::$mm = null;
     }
 
     public function testNotFoundRepository()
     {
         $this->expectException(OrmModelNotFoundException::class);
-        new Repository('Model', self::$pdo);
+        new Repository('Model', self::$pdo, self::$mm);
     }
 
     public function testAirlineRepository()
     {
-        $repo = new Repository(Airline::class, self::$pdo);
+        $repo = new Repository(Airline::class, self::$pdo, self::$mm);
 
         $this->assertInstanceOf(Repository::class, $repo);
         $this->assertInstanceOf(AirlineMapper::class, $repo->getMapper());
@@ -62,7 +66,7 @@ class RepositoryTest extends TestCase
 
     public function testAirplanesRepository()
     {
-        $repo = new Repository(Airplane::class, self::$pdo);
+        $repo = new Repository(Airplane::class, self::$pdo, self::$mm);
 
         $this->assertInstanceOf(Repository::class, $repo);
         $this->assertInstanceOf(AirplaneMapper::class, $repo->getMapper());

@@ -8,6 +8,7 @@ use App\Model\Airline;
 use App\Model\Builders\AirlineBuilder;
 use App\Services\Orm\Interfaces\OrmModelInterface;
 use App\Services\Orm\Exceptions\OrmMappingInsertException;
+use App\Services\Orm\ModelManager;
 use PDO;
 
 
@@ -18,11 +19,12 @@ class AirlineMapper extends AbstractMapper
     /**
      * AirlineMapper constructor.
      * @param PDO $pdo
+     * @param ModelManager $mm
      */
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, ModelManager $mm)
     {
         parent::__construct($pdo);
-        $this->builder = new AirlineBuilder();
+        $this->builder = new AirlineBuilder($mm);
     }
 
 

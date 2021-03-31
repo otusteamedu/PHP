@@ -4,7 +4,7 @@
 namespace App\Controller;
 
 
-use App\Validator\EmailValidator;
+use App\Utils\Validation\EmailValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

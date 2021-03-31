@@ -8,7 +8,7 @@ use App\Model\Airline;
 use App\Model\Airplane;
 use App\Services\Orm\ModelManager;
 use App\Services\Orm\Repository;
-use App\Util\Config;
+use App\Utils\Config;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +44,7 @@ class ModelManagerTest extends TestCase
 
     public function testSaveDeleteAirline()
     {
-        $airline = new Airline();
+        $airline = new Airline(self::$mm);
         $airline->setName('Company');
         $airline->setAbbreviation('CMP');
         $airline->setDescription('Company description');
@@ -92,7 +92,7 @@ class ModelManagerTest extends TestCase
 
     public function testUpdateAirline()
     {
-        $airline = new Airline();
+        $airline = new Airline(self::$mm);
         $airline->setName('Company');
         $airline->setAbbreviation('CMP');
         $airline->setDescription('Company description');
@@ -144,7 +144,7 @@ class ModelManagerTest extends TestCase
 
     public function testIdentityMap()
     {
-        $airline = new Airline();
+        $airline = new Airline(self::$mm);
         $airline->setName('Company');
         $airline->setAbbreviation('CMP');
         $airline->setDescription('Company description');

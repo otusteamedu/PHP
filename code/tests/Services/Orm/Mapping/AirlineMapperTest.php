@@ -6,7 +6,8 @@ namespace Services\Mappers\Orm;
 
 use App\Model\Airline;
 use App\Services\Orm\Mapping\AirlineMapper;
-use App\Util\Config;
+use App\Services\Orm\ModelManager;
+use App\Utils\Config;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -14,23 +15,26 @@ use PHPUnit\Framework\TestCase;
 class AirlineMapperTest extends TestCase
 {
     protected static ?PDO $pdo;
+    protected static ?ModelManager $mm;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $container = Config::buildContainerForConsole();
         self::$pdo = $container->get(PDO::class);
+        self::$mm = $container->get(ModelManager::class);
     }
 
     public static function tearDownAfterClass(): void
     {
         self::$pdo = null;
+        self::$mm = null;
     }
 
 
     public function testCRUD()
     {
-        $mapper = new AirlineMapper(self::$pdo);
+        $mapper = new AirlineMapper(self::$pdo, self::$mm);
 
         $raw = [
             'name' => 'Company',

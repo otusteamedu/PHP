@@ -5,7 +5,7 @@ namespace App\Services\Orm;
 
 
 use App\Services\Orm\Interfaces\OrmModelInterface;
-use App\Util\Config;
+use App\Utils\Config;
 use PDO;
 use Psr\Container\ContainerInterface;
 
@@ -30,7 +30,7 @@ class ModelManager
     {
         $key = $this->getRepositoryKey($className);
         if (!isset($this->repositories[$key])) {
-            $this->repositories[$key] = new Repository($className, $this->pdo);
+            $this->repositories[$key] = new Repository($className, $this->pdo, $this);
         }
 
         return $this->repositories[$key];

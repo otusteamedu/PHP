@@ -4,7 +4,7 @@
 namespace App;
 
 
-use App\Util\Config;
+use App\Utils\Config;
 use Psr\Container\ContainerInterface;
 use Slim\Factory\AppFactory;
 use Slim\App as SlimApp;

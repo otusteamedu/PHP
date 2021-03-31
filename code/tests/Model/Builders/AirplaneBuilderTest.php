@@ -7,6 +7,8 @@ namespace Model\Builders;
 use App\Model\Airline;
 use App\Model\Airplane;
 use App\Model\Builders\AirplaneBuilder;
+use App\Services\Orm\ModelManager;
+use App\Utils\Config;
 use PHPUnit\Framework\TestCase;
 
 class AirplaneBuilderTest extends TestCase

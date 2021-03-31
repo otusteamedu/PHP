@@ -26,6 +26,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/validation">Validation</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Elastic
@@ -37,6 +40,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/event">Redis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/airlines">Orm</a>
                     </li>
 
                 </ul>

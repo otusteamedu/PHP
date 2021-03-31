@@ -22,8 +22,9 @@ class Repository
      * Repository constructor.
      * @param string $modelClassName
      * @param PDO $pdo
+     * @param ModelManager $mm
      */
-    public function __construct(string $modelClassName, PDO $pdo)
+    public function __construct(string $modelClassName, PDO $pdo, ModelManager $mm)
     {
         $this->modelClassName = $modelClassName;
         $this->pdo = $pdo;
@@ -33,7 +34,7 @@ class Repository
 
         switch ($name) {
             case 'Airline':
-                $this->mapper = new AirlineMapper($pdo);
+                $this->mapper = new AirlineMapper($pdo, $mm);
                 break;
 
             case 'Airplane':
