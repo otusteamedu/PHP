@@ -4,7 +4,6 @@
 namespace App\Model;
 
 
-use App\Services\Orm\Mapping\AirlineMapper;
 use DateTime;
 
 class Airplane extends OrmAbstractModel
@@ -83,20 +82,6 @@ class Airplane extends OrmAbstractModel
         return $this;
     }
 
-    /**
-     * @return Airline
-     */
-    public function getAirline(): ?Airline
-    {
-        $airline = null;
-
-//        if ($this->airlineId) {
-//            $airline = (new AirlineMapper())
-//                ->findById($this->airlineId);
-//        }
-        return $airline;
-    }
-
 
     /**
      * @param int|null $airlineId
@@ -120,7 +105,7 @@ class Airplane extends OrmAbstractModel
             'number' => $this->number,
             'seats_count' => $this->seatsCount,
             'build_date' => $this->buildDate->format('Y-m-d'),
-            'airline_id' => $this->getAirlineId() ?? null,
+            'airline_id' => $this->getAirlineId(),
         ];
     }
 }
