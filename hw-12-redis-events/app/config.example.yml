@@ -1,1 +1,3 @@
 log_path: '../log/app.log'
+storage:
+  storage_mode: 'redis'
