@@ -1,0 +1,60 @@
+select max(value_date)
+from films_attrs_values
+where value_date between '2020-01-01' and '2020-12-31';
+
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+            max
+----------------------------
+ 2020-12-30 09:38:50.753555
+(1 row)
+
+
+                         ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Result  (cost=2.79..2.80 rows=1 width=8)
+   InitPlan 1 (returns $0)
+     ->  Limit  (cost=0.28..2.79 rows=1 width=8)
+           ->  Index Only Scan Backward using films_attrs_values__index1 on films_attrs_values  (cost=0.28..246.44 rows=98 width=8)
+                 Index Cond: ((value_date IS NOT NULL) AND (value_date >= '2020-01-01 00:00:00'::timestamp without time zone) AND (value_date <= '2020-12-31 00:00:00'::timestamp without time zone))
+(5 rows)
+
+
+                        ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=137429.47..137429.48 rows=1 width=8)
+   ->  Gather  (cost=137429.25..137429.46 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=136429.25..136429.26 rows=1 width=8)
+               ->  Parallel Seq Scan on films_attrs_values  (cost=0.00..136030.00 rows=159700 width=8)
+                     Filter: ((value_date >= '2020-01-01 00:00:00'::timestamp without time zone) AND (value_date <= '2020-12-31 00:00:00'::timestamp
+ without time zone))
+ JIT:
+   Functions: 7
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(9 rows)
+
+
+                         ПЕРЕЧЕНЬ ОПТИМИЗАЦИЙ С ПОЯСНЕНИЯМИ
+--------------------------------------------------------------------------------------
+Необходимо создать индекс по столбцу value_date
+
+create index films_attrs_values_value_date_attr_id_idx on films_attrs_values using btree (value_date);
+
+
+                  ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ ПОСЛЕ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+ Result  (cost=0.46..0.47 rows=1 width=8)
+   InitPlan 1 (returns $0)
+     ->  Limit  (cost=0.43..0.46 rows=1 width=8)
+           ->  Index Only Scan Backward using films_attrs_values_value_date_attr_id_idx on films_attrs_values  (cost=0.43..3334.27 rows=128437 width=8)
+                 Index Cond: ((value_date IS NOT NULL) AND (value_date >= '2020-01-01 00:00:00'::timestamp without time zone) AND (value_date <= '2020-12-31 00:00:00'::timestamp without time zone))
+(5 rows)
+
+
+                                      РЕЗУЛЬТАТ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+      | до оптимизации | после оптимизации | улучшение | улучшение %
+------+----------------+-------------------+-----------+-------------
+ cost |      137429.48 |              0.47 | 137429.01 |       99.9%

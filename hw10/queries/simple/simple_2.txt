@@ -1,0 +1,66 @@
+select films_attrs.*, lower(substring(name from 1 for 1) || substring(name from char_length(name) for 1)) as name2
+from films_attrs
+where ((lower(substring(name from 1 for 1) || substring(name from char_length(name) for 1))) in ('ff', 'aa'))
+order by name2 limit 5;
+
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+  id  |  name   | type_id | name2
+------+---------+---------+-------
+ 4488 | A8SxrYa |       5 | aa
+  424 | AKRp3jA |       2 | aa
+  681 | a94ekeA |       4 | aa
+  427 | a9p5dja |       5 | aa
+ 4589 | ajTxVBa |       2 | aa
+(5 rows)
+
+
+                         ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=316.91..316.92 rows=5 width=56)
+   ->  Sort  (cost=316.91..317.16 rows=100 width=56)
+         Sort Key: (lower(("substring"((name)::text, 1, 1) || "substring"((name)::text, char_length((name)::text), 1))))
+         ->  Seq Scan on films_attrs  (cost=0.00..315.25 rows=100 width=56)
+               Filter: (lower(("substring"((name)::text, 1, 1) || "substring"((name)::text, char_length((name)::text), 1))) = ANY ('{ff,aa}'
+::text[]))
+(5 rows)
+
+
+                       ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=189713.60..189714.19 rows=5 width=69)
+   ->  Gather Merge  (cost=189713.60..199436.58 rows=83334 width=69)
+         Workers Planned: 2
+         ->  Sort  (cost=188713.58..188817.75 rows=41667 width=69)
+               Sort Key: (lower(("substring"((name)::text, 1, 1) || "substring"((name)::text, char_length((name)::text), 1))))
+               ->  Parallel Seq Scan on films_attrs  (cost=0.00..188021.50 rows=41667 width=69)
+                     Filter: (lower(("substring"((name)::text, 1, 1) || "substring"((name)::text, char_length((name)::text), 1))) = ANY ('{f
+f,aa}'::text[]))
+ JIT:
+   Functions: 5
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(10 rows)
+
+
+                         ПЕРЕЧЕНЬ ОПТИМИЗАЦИЙ С ПОЯСНЕНИЯМИ
+--------------------------------------------------------------------------------------
+Необходимо создать функиональный индекс по столбцу name
+
+create index films_attrs_name_fidx on films_attrs (lower(substring(name from 1 for 1) || substring(name from char_length(name) for 1)));
+
+
+                   ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ ПОСЛЕ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=0.43..13.10 rows=5 width=69)
+   ->  Index Scan using films_attrs_name_fidx on films_attrs  (cost=0.43..253348.87 rows=100000 width=69)
+         Index Cond: (lower(("substring"((name)::text, 1, 1) || "substring"((name)::text, char_length((name)::text), 1))) = ANY ('{ff,aa}'::
+text[]))
+(3 rows)
+
+
+                                      РЕЗУЛЬТАТ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+      | до оптимизации | после оптимизации | улучшение | улучшение %
+------+----------------+-------------------+-----------+-------------
+ cost |      189714.19 |             13.10 | 189701.09 |       99.9%

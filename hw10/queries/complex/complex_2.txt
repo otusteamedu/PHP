@@ -1,0 +1,113 @@
+select films.name, count(films_attrs_values.id) as number_of_awards
+from films_attrs_values
+inner join films_attrs on films_attrs_values.attr_id = films_attrs.id
+inner join films on films_attrs_values.film_id = films.id
+where films.production_year = 2020 and films_attrs.type_id = 2
+group by films.name
+order by number_of_awards desc
+limit 5;
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+  name   | number_of_awards
+---------+------------------
+ EDvw42L |                2
+ 7jxNCya |                1
+ 8UV7dbW |                1
+ 9xVjUFO |                1
+ 1xnMORj |                1
+(5 rows)
+
+
+                         ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=420.37..420.39 rows=5 width=16)
+   ->  Sort  (cost=420.37..420.41 rows=14 width=16)
+         Sort Key: (count(films_attrs_values.id)) DESC
+         ->  GroupAggregate  (cost=419.90..420.14 rows=14 width=16)
+               Group Key: films.name
+               ->  Sort  (cost=419.90..419.93 rows=14 width=16)
+                     Sort Key: films.name
+                     ->  Nested Loop  (cost=190.32..419.63 rows=14 width=16)
+                           ->  Hash Join  (cost=190.04..390.30 rows=83 width=24)
+                                 Hash Cond: (films_attrs_values.film_id = films.id)
+                                 ->  Seq Scan on films_attrs_values  (cost=0.00..174.00 rows=10000 width=24)
+                                 ->  Hash  (cost=189.00..189.00 rows=83 width=16)
+                                       ->  Seq Scan on films  (cost=0.00..189.00 rows=83 width=16)
+                                             Filter: (production_year = 2020)
+                           ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.29..0.35 rows=1 width=8)
+                                 Index Cond: (id = films_attrs_values.attr_id)
+                                 Filter: (type_id = 2)
+(17 rows)
+
+                       ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=261734.51..261734.52 rows=5 width=16)
+   ->  Sort  (cost=261734.51..261767.18 rows=13070 width=16)
+         Sort Key: (count(films_attrs_values.id)) DESC
+         ->  Finalize GroupAggregate  (cost=259979.75..261517.42 rows=13070 width=16)
+               Group Key: films.name
+               ->  Gather Merge  (cost=259979.75..261332.26 rows=10892 width=16)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=258979.72..259075.03 rows=5446 width=16)
+                           Group Key: films.name
+                           ->  Sort  (cost=258979.72..258993.34 rows=5446 width=16)
+                                 Sort Key: films.name
+                                 ->  Nested Loop  (cost=116187.36..258641.77 rows=5446 width=16)
+                                       ->  Parallel Hash Join  (cost=116186.92..242321.09 rows=32687 width=24)
+                                             Hash Cond: (films_attrs_values.film_id = films.id)
+                                             ->  Parallel Seq Scan on films_attrs_values  (cost=0.00..115196.67 rows=4166667 width=24)
+                                             ->  Parallel Hash  (cost=115778.33..115778.33 rows=32687 width=16)
+                                                   ->  Parallel Seq Scan on films  (cost=0.00..115778.33 rows=32687 width=16)
+                                                         Filter: (production_year = 2020)
+                                       ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.43..0.50 rows=1 width=8)
+                                             Index Cond: (id = films_attrs_values.attr_id)
+                                             Filter: (type_id = 2)
+ JIT:
+   Functions: 27
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(24 rows)
+
+
+                         ПЕРЕЧЕНЬ ОПТИМИЗАЦИЙ С ПОЯСНЕНИЯМИ
+--------------------------------------------------------------------------------------
+Необходимо создать индекс по столбцу production_year.
+
+CREATE INDEX films_production_year_idx ON public.films USING btree (production_year);
+
+                   ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ ПОСЛЕ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=214280.69..214280.70 rows=5 width=16)
+   ->  Sort  (cost=214280.69..214313.36 rows=13070 width=16)
+         Sort Key: (count(films_attrs_values.id)) DESC
+         ->  Finalize GroupAggregate  (cost=212525.93..214063.60 rows=13070 width=16)
+               Group Key: films.name
+               ->  Gather Merge  (cost=212525.93..213878.44 rows=10892 width=16)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=211525.90..211621.21 rows=5446 width=16)
+                           Group Key: films.name
+                           ->  Sort  (cost=211525.90..211539.52 rows=5446 width=16)
+                                 Sort Key: films.name
+                                 ->  Nested Loop  (cost=68733.54..211187.95 rows=5446 width=16)
+                                       ->  Parallel Hash Join  (cost=68733.10..194867.27 rows=32687 width=24)
+                                             Hash Cond: (films_attrs_values.film_id = films.id)
+                                             ->  Parallel Seq Scan on films_attrs_values  (cost=0.00..115196.67 rows=4166667 width=24)
+                                             ->  Parallel Hash  (cost=68324.51..68324.51 rows=32687 width=16)
+                                                   ->  Parallel Bitmap Heap Scan on films  (cost=876.41..68324.51 rows=32687 width=16)
+                                                         Recheck Cond: (production_year = 2020)
+                                                         ->  Bitmap Index Scan on films_production_year_idx  (cost=0.00..856.80 rows=78449 width=0)
+                                                               Index Cond: (production_year = 2020)
+                                       ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.43..0.50 rows=1 width=8)
+                                             Index Cond: (id = films_attrs_values.attr_id)
+                                             Filter: (type_id = 2)
+ JIT:
+   Functions: 27
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(26 rows)
+
+
+                                      РЕЗУЛЬТАТ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+      | до оптимизации | после оптимизации | улучшение | улучшение %
+------+----------------+-------------------+-----------+-------------
+ cost |      261734.52 |         214280.70 |  47453.82 |        +18%

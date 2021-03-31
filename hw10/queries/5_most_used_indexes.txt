@@ -1,0 +1,6 @@
+select
+    indexrelname,
+    idx_scan
+from pg_stat_user_indexes
+order by idx_scan desc
+limit 5

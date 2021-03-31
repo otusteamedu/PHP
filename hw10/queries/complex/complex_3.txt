@@ -1,0 +1,86 @@
+select films.name, films_attrs.name, films_attrs_values.value_float
+from films
+inner join films_attrs_values on films.id = films_attrs_values.film_id
+inner join films_attrs on films_attrs_values.attr_id = films_attrs.id
+where films_attrs.type_id = 5 and films_attrs_values.value_float between 10000 and 100000
+order by films_attrs_values.value_float desc
+limit 5;
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+  name   |  name   |    value_float
+---------+---------+-------------------
+ ckFaIvn | nEfYZyc | 94827.56844487264
+ NOmluu9 | Vxplsfr | 91539.87431615923
+ 9THC3Dv | tfyYjOQ | 81025.03015532844
+ LMBMBGb | EEKmr5Z | 73827.62835744418
+ 6pxna6n | 8VhywYN | 72749.82055510714
+(5 rows)
+
+
+                         ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=331.37..331.38 rows=2 width=24)
+   ->  Sort  (cost=331.37..331.38 rows=2 width=24)
+         Sort Key: films_attrs_values.value_float DESC
+         ->  Nested Loop  (cost=0.57..331.36 rows=2 width=24)
+               ->  Nested Loop  (cost=0.29..298.75 rows=2 width=24)
+                     ->  Seq Scan on films_attrs_values  (cost=0.00..224.00 rows=9 width=24)
+                           Filter: ((value_float >= '10000'::double precision) AND (value_float <= '100000'::double precision))
+                     ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.29..8.30 rows=1 width=16)
+                           Index Cond: (id = films_attrs_values.attr_id)
+                           Filter: (type_id = 5)
+               ->  Index Scan using films_pk on films  (cost=0.29..16.30 rows=1 width=16)
+                     Index Cond: (id = films_attrs_values.film_id)
+(12 rows)
+
+
+                       ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=137520.21..137768.53 rows=5 width=37)
+   ->  Nested Loop  (cost=137520.21..289642.03 rows=3063 width=37)
+         ->  Nested Loop  (cost=137519.77..268339.46 rows=3063 width=37)
+               ->  Gather Merge  (cost=137519.34..139641.36 rows=18220 width=24)
+                     Workers Planned: 2
+                     ->  Sort  (cost=136519.31..136538.29 rows=7592 width=24)
+                           Sort Key: films_attrs_values.value_float DESC
+                           ->  Parallel Seq Scan on films_attrs_values  (cost=0.00..136030.00 rows=7592 width=24)
+                                 Filter: ((value_float >= '10000'::double precision) AND (value_float <= '100000'::double precision))
+               ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.43..7.06 rows=1 width=29)
+                     Index Cond: (id = films_attrs_values.attr_id)
+                     Filter: (type_id = 5)
+         ->  Index Scan using films_pk on films  (cost=0.43..6.95 rows=1 width=16)
+               Index Cond: (id = films_attrs_values.film_id)
+ JIT:
+   Functions: 15
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(17 rows)
+
+
+                         ПЕРЕЧЕНЬ ОПТИМИЗАЦИЙ С ПОЯСНЕНИЯМИ
+--------------------------------------------------------------------------------------
+Можно создать частичный индекс по полю value_float, если часто требуется выбирать фильмы сборы которых меньше 1млн.
+
+create index films_attrs_values_float_pidx on films_attrs_values (value_float) where value_float < 1000000;
+
+
+                   ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ ПОСЛЕ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=1.29..353.06 rows=5 width=37)
+   ->  Nested Loop  (cost=1.29..215496.99 rows=3063 width=37)
+         ->  Nested Loop  (cost=0.85..194194.43 rows=3063 width=37)
+               ->  Index Scan Backward using films_attrs_values_float_pidx on films_attrs_values  (cost=0.42..65496.33 rows=18220 width=24)
+                     Index Cond: ((value_float >= '10000'::double precision) AND (value_float <= '100000'::double precision))
+               ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.43..7.06 rows=1 width=29)
+                     Index Cond: (id = films_attrs_values.attr_id)
+                     Filter: (type_id = 5)
+         ->  Index Scan using films_pk on films  (cost=0.43..6.95 rows=1 width=16)
+               Index Cond: (id = films_attrs_values.film_id)
+(10 rows)
+
+
+                                      РЕЗУЛЬТАТ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+      | до оптимизации | после оптимизации | улучшение | улучшение %
+------+----------------+-------------------+-----------+-------------
+ cost |      137768.53 |            353.06 | 137415.47 |       99.7%
