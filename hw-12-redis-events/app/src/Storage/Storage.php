@@ -21,8 +21,8 @@ class Storage extends Singleton
 
     private function setStorage(string $storageMode)
     {
-        if ($storageMode === Redis::STORAGE_NAME) {
-            $this->storage = new Redis();
+        if ($storageMode === RedisStorage::STORAGE_NAME) {
+            $this->storage = new RedisStorage();
         }
     }
 
