@@ -5,6 +5,12 @@ namespace App\Providers;
 use App\Services\Channels\Repositories\ChannelRepositoryInterface;
 use App\Services\Channels\Repositories\ElasticChannelRepository;
 use App\Services\Channels\Repositories\EloquentChannelRepository;
+use App\Services\Events\Repositories\Elastic\ElasticEventRepository;
+use App\Services\Events\Repositories\Elastic\ElasticEventSearchRepository;
+use App\Services\Events\Repositories\iEventRepository;
+use App\Services\Events\Repositories\iEventSearchRepository;
+use App\Services\Events\Repositories\Redis\RedisEventRepository;
+use App\Services\Events\Repositories\Redis\RedisEventSearchRepository;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
             return new \Google_Service_YouTube($this->app->make(\Google_Client::class));
         });
 
+        $this->bindEventRepositories();
         $this->bindSearchClient();
     }
 
@@ -52,6 +59,21 @@ class AppServiceProvider extends ServiceProvider
                 ->setHosts($app['config']->get('services.search.hosts'))
                 ->build();
         });
+    }
+
+    private function bindEventRepositories()
+    {
+        switch (config('services.events.storage')) {
+            case 'elastic':
+                $this->app->bind(iEventRepository::class, ElasticEventRepository::class);
+                $this->app->bind(iEventSearchRepository::class, ElasticEventSearchRepository::class);
+                break;
+            case 'redis':
+            default:
+                $this->app->bind(iEventRepository::class, RedisEventRepository::class);
+                $this->app->bind(iEventSearchRepository::class, RedisEventSearchRepository::class);
+                break;
+        }
     }
 
     /**

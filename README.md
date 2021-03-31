@@ -1,90 +1,35 @@
-## Важное
+### Хранилища
 
-* В связи с ограничением квоты api много тестов сделать не получилось, поэтому пришлось делать простую логику парсинга
-* В данной реализации получилось обойтись 1 индексом, который хранит в себе total_* значения, что при выборке из elastic
-  позволяет не производить выборку соседних сущностей и сложения данных
-* Для работы api надо вставить api ключ в `GOOGLE_API_KEY` в файле `.env`
-## Роуты
+> Для установки хранилища событий нужно задать `EVENTS_STORAGE`
 
-* `/channels` - список каналов
-* `/channels/search?q=*` - поиск
-* `/channels/spider` - запуск паука и редирект на страницу каналов
+* `redis` or `elastic`
 
-## Elastic channel index mapping
+### Консольные команды
 
-```json
-{
-    "channels": {
-        "mappings": {
-            "properties": {
-                "created_at": {
-                    "type": "date"
-                },
-                "description": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "id": {
-                    "type": "long"
-                },
-                "name": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "ratio": {
-                    "type": "float"
-                },
-                "tags": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "total_dislikes": {
-                    "type": "long"
-                },
-                "total_likes": {
-                    "type": "long"
-                },
-                "total_views": {
-                    "type": "long"
-                },
-                "updated_at": {
-                    "type": "date"
-                },
-                "url": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "youtube_id": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+* `event:add {name} {priority} {conditions*}` - создаёт событие.
+* `event:delete {--name=} {--all}` - удаляет определённое событие или все
+* `event:search {conditions*}` - ищет событие по параметрам
+
+### Примеры
+
+```shell
+#Создаём команды
+sail artisan event:add test1 1000 param1:1
+sail artisan event:add test2 2000 param1:2 param2:2
+sail artisan event:add test3 3000 param1:1 param2:2
+
+#Ищем событие (должны получить test3)
+sail artisan event:search param1:1 param2:2
+
+#Удаляем событие
+sail artisan event:delete --name=test3
+
+#Ищем событие (должны получить test1)
+sail artisan event:search param1:1 param2:2
+
+#Удаляем все события
+sail artisan event:delete --all
+
+#Ищем событие (ничего не должны получить)
+sail artisan event:search param1:1 param2:2
 ```

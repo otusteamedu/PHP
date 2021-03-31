@@ -35,6 +35,9 @@ return [
     ],
     'google' => [
         'key' => env('GOOGLE_API_KEY')
+    ],
+    'events' => [
+        'storage' => env('EVENTS_STORAGE', 'redis')
     ]
 
 ];
