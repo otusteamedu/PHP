@@ -1,0 +1,21 @@
+{
+    "name": "nick/pattern",
+    "description": "",
+    "authors": [
+        {
+            "name": "KleymenovN",
+            "email": "kleymenov68@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "symfony/yaml": "^5.0",
+        "vlucas/phpdotenv": "^5.1",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\" : "src"
+        }
+    }
+}
