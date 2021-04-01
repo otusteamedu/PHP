@@ -1,0 +1,41 @@
+with tables_and_indexes as (
+    select
+        case when pg_class.relkind = 'r' then 'table'
+             when pg_class.relkind = 'i' then 'index'
+        end as kind,
+        pg_class.relname as name,
+        case when pg_class.relkind = 'r' then pg_total_relation_size(pg_class.oid)
+             when pg_class.relkind = 'i' then pg_relation_size(pg_class.oid)
+        end as size
+    from pg_class
+    where pg_class.relkind in ('r', 'i')
+    order by size desc
+    limit 15
+)
+select
+    tables_and_indexes.kind,
+    tables_and_indexes.name,
+    pg_size_pretty(tables_and_indexes.size) as size
+from tables_and_indexes;
+
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+ kind  |                   name                    |  size
+-------+-------------------------------------------+---------
+ table | films_attrs_values                        | 1610 MB
+ table | films_attrs                               | 1253 MB
+ table | films                                     | 992 MB
+ index | films_attrs_un                            | 387 MB
+ index | films_attrs_values_film_id_attr_id_key    | 387 MB
+ index | films_attrs_values_attr_id_idx            | 300 MB
+ index | films_name_idx                            | 214 MB
+ index | films_pk                                  | 214 MB
+ index | films_attrs_values_pk                     | 214 MB
+ index | films_attrs_pk                            | 214 MB
+ index | films_attrs_values_value_date_attr_id_idx | 67 MB
+ index | films_production_year_idx                 | 66 MB
+ index | films_attrs_values_length_text_fidx       | 66 MB
+ table | pg_depend                                 | 1120 kB
+ table | pg_proc                                   | 1024 kB
+(15 rows)

@@ -1,0 +1,97 @@
+select length(films_attrs_values.value_text) as number_of_characters_in_review, films.name
+from films
+inner join films_attrs_values on films.id = films_attrs_values.film_id
+inner join films_attrs on films_attrs_values.attr_id = films_attrs.id
+where films_attrs.type_id = 1 and length(films_attrs_values.value_text) > 3
+order by number_of_characters_in_review desc, films.name
+limit 5;
+
+                             ТАБЛИЦА С РЕЗУЛЬТАТАМИ
+--------------------------------------------------------------------------------------
+ number_of_characters_in_review |  name
+--------------------------------+---------
+                              7 | 03d6ER7
+                              7 | 08LM4O4
+                              7 | 08LM4O4
+                              7 | 0aJy37n
+                              7 | 0ffFEIe
+(5 rows)
+
+
+                         ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=610.30..610.31 rows=5 width=12)
+   ->  Sort  (cost=610.30..611.72 rows=567 width=12)
+         Sort Key: (length(films_attrs_values.value_text)) DESC, films.name
+         ->  Hash Join  (cost=379.80..600.88 rows=567 width=12)
+               Hash Cond: (films.id = films_attrs_values.film_id)
+               ->  Seq Scan on films  (cost=0.00..164.00 rows=10000 width=16)
+               ->  Hash  (cost=372.71..372.71 rows=567 width=16)
+                     ->  Hash Join  (cost=139.96..372.71 rows=567 width=16)
+                           Hash Cond: (films_attrs_values.attr_id = films_attrs.id)
+                           ->  Seq Scan on films_attrs_values  (cost=0.00..224.00 rows=3333 width=24)
+                                 Filter: (length(value_text) > 3)
+                           ->  Hash  (cost=118.71..118.71 rows=1700 width=8)
+                                 ->  Bitmap Heap Scan on films_attrs  (cost=33.46..118.71 rows=1700 width=8)
+                                       Recheck Cond: (type_id = 1)
+                                       ->  Bitmap Index Scan on films_attrs__index1  (cost=0.00..33.03 rows=1700 width=0)
+                                             Index Cond: (type_id = 1)
+(16 rows)
+
+
+                       ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=331095.31..331098.94 rows=5 width=12)
+   ->  Incremental Sort  (cost=331095.31..734642.15 rows=556000 width=12)
+         Sort Key: (length(films_attrs_values.value_text)) DESC, films.name
+         Presorted Key: (length(films_attrs_values.value_text))
+         ->  Nested Loop  (cost=331094.62..709622.15 rows=556000 width=12)
+               ->  Gather Merge  (cost=331094.18..395849.54 rows=556000 width=16)
+                     Workers Planned: 2
+                     ->  Sort  (cost=330094.16..330673.33 rows=231667 width=16)
+                           Sort Key: (length(films_attrs_values.value_text)) DESC
+                           ->  Parallel Hash Join  (cost=146819.83..305488.67 rows=231667 width=16)
+                                 Hash Cond: (films_attrs_values.attr_id = films_attrs.id)
+                                 ->  Parallel Seq Scan on films_attrs_values  (cost=0.00..136030.00 rows=1388889 width=24)
+                                       Filter: (length(value_text) > 3)
+                                 ->  Parallel Hash  (cost=135417.33..135417.33 rows=695000 width=8)
+                                       ->  Parallel Seq Scan on films_attrs  (cost=0.00..135417.33 rows=695000 width=8)
+                                             Filter: (type_id = 1)
+               ->  Index Scan using films_pk on films  (cost=0.43..0.56 rows=1 width=16)
+                     Index Cond: (id = films_attrs_values.film_id)
+ JIT:
+   Functions: 19
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(21 rows)
+
+
+                         ПЕРЕЧЕНЬ ОПТИМИЗАЦИЙ С ПОЯСНЕНИЯМИ
+--------------------------------------------------------------------------------------
+Необходимо создать функциональный индекс по столбцу value_text
+
+create index films_attrs_values_length_text_fidx on films_attrs_values (length(value_text));
+
+
+                   ПЛАН ВЫПОЛНЕНИЯ ДЛЯ 10 000 000 ЗАПИСЕЙ ПОСЛЕ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+ Limit  (cost=6.06..30.00 rows=5 width=12)
+   ->  Incremental Sort  (cost=6.06..2662216.88 rows=556000 width=12)
+         Sort Key: (length(films_attrs_values.value_text)) DESC, films.name
+         Presorted Key: (length(films_attrs_values.value_text))
+         ->  Nested Loop  (cost=1.30..2637196.88 rows=556000 width=12)
+               ->  Nested Loop  (cost=0.87..2323424.28 rows=556000 width=16)
+                     ->  Index Scan Backward using films_attrs_values_length_text_fidx on films_attrs_values  (cost=0.43..363737.76 rows=3333333 width=24)
+                           Index Cond: (length(value_text) > 3)
+                     ->  Index Scan using films_attrs_pk on films_attrs  (cost=0.43..0.59 rows=1 width=8)
+                           Index Cond: (id = films_attrs_values.attr_id)
+                           Filter: (type_id = 1)
+               ->  Index Scan using films_pk on films  (cost=0.43..0.56 rows=1 width=16)
+                     Index Cond: (id = films_attrs_values.film_id)
+(13 rows)
+
+
+                                      РЕЗУЛЬТАТ ОПТИМИЗАЦИЙ
+--------------------------------------------------------------------------------------
+      | до оптимизации | после оптимизации | улучшение | улучшение %
+------+----------------+-------------------+-----------+-------------
+ cost |      331098.94 |             30.00 | 331068.94 |       99.9%

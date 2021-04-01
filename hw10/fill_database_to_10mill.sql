@@ -1,0 +1,1 @@
+CALL insert_records(10001, 10000000);
