@@ -6,6 +6,7 @@ namespace App\Utils;
 
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
+use Slim\App;
 
 class Config
 {
@@ -29,6 +30,12 @@ class Config
         );
 
         return $container;
+    }
+
+    public static function setRoutes(App $app)
+    {
+        (require self::CONFIG_DIR . '/routes.php')($app);
+
     }
 
     public static function buildContainerForConsole(): ContainerInterface

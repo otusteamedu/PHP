@@ -22,6 +22,8 @@ final class App
         $container = Config::buildContainer();
 
         $this->init($container);
+
+        Config::setRoutes($this->app);
     }
 
     public function run()
@@ -36,8 +38,6 @@ final class App
         $app->addRoutingMiddleware();
         $app->addBodyParsingMiddleware();
         $app->addErrorMiddleware($container->get('development'), false, false);
-
-        (require __DIR__ . '/routes/web.php')($app);
 
         $this->app = $app;
     }
