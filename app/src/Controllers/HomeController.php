@@ -9,6 +9,10 @@ class HomeController extends BaseController
         $this->content = $this->renderView('/pages/home');
         $this->title = 'Home page';
 
+        $redis = new \Redis();
+
+        $redis->connect('redis', 6379);
+
         return $this->viewResponse();
     }
 

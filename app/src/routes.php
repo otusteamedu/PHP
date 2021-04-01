@@ -4,7 +4,6 @@
 use App\Controllers\HomeController;
 use App\Controllers\ChannelParseController;
 use App\Controllers\ChannelController;
-use App\Controllers\StatisticController;
 use App\Controllers\VideoController;
 use App\Core\Request;
 
