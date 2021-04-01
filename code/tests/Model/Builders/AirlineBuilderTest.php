@@ -17,7 +17,7 @@ class AirlineBuilderTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        $container = Config::buildContainerForConsole();
+        $container = Config::buildContainer();
         self::$mm = $container->get(ModelManager::class);
     }
 

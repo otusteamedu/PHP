@@ -6,8 +6,8 @@ namespace App\Services\Orm\Interfaces;
 
 interface MapperInterface
 {
-    public function insert(array $raw): OrmModelInterface;
-    public function update(OrmModelInterface $model): bool;
-    public function delete(OrmModelInterface $model): bool;
-    public function findById(int $id): ?OrmModelInterface;
+    public function insert(array $raw): ModelInterface;
+    public function update(ModelInterface $model): bool;
+    public function delete(ModelInterface $model): bool;
+    public function findById(int $id): ?ModelInterface;
 }

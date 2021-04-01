@@ -48,30 +48,5 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
-  elasticsearch:
-    image: library/elasticsearch:7.11.1
-    container_name: ${ELASTIC_HOST}
-    volumes:
-      - ./elastic-data:/usr/share/elasticsearch/data
-    environment:
-      - discovery.type=single-node
-    ports:
-      - ${ELASTIC_PORT}:${ELASTIC_PORT}
-    depends_on:
-      - app
-
-  redis:
-    image: redis
-    container_name: ${REDIS_HOST}
-    working_dir: /data
-    volumes:
-      - ./redis-data:/data
-
-  memcached:
-    image: memcached
-    container_name: ${MEMCACHED_HOST}
-    ports:
-    - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
-
 volumes:
   sock:

@@ -4,8 +4,9 @@
 namespace App\Services\Orm;
 
 
-use App\Services\Orm\Interfaces\OrmModelInterface;
+use App\Services\Orm\Interfaces\ModelInterface;
 use App\Utils\Config;
+use App\Utils\DatabaseConnectionInterface;
 use PDO;
 use Psr\Container\ContainerInterface;
 
@@ -18,11 +19,11 @@ class ModelManager
 
     /**
      * ModelManager constructor.
-     * @param ContainerInterface $container
+     * @param DatabaseConnectionInterface $connection
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(DatabaseConnectionInterface $connection)
     {
-        $this->pdo = $container->get(PDO::class);
+        $this->pdo = $this->createPDO($connection->getDsn());
         $this->identityMap = IdentityMap::getInstance();
     }
 
@@ -30,13 +31,13 @@ class ModelManager
     {
         $key = $this->getRepositoryKey($className);
         if (!isset($this->repositories[$key])) {
-            $this->repositories[$key] = new Repository($className, $this->pdo, $this);
+            $this->repositories[$key] = new Repository($className, $this);
         }
 
         return $this->repositories[$key];
     }
 
-    public function save(OrmModelInterface &$model): void
+    public function save(ModelInterface &$model): void
     {
         $repo = $this->getRepository(get_class($model));
         $id = $model->getId();
@@ -50,7 +51,7 @@ class ModelManager
         $this->identityMap->set($model);
     }
 
-    public function delete(OrmModelInterface $model): bool
+    public function delete(ModelInterface $model): bool
     {
         $repo = $this->getRepository(get_class($model));
         $isDeleted = $repo->getMapper()->delete($model);
@@ -61,9 +62,24 @@ class ModelManager
         return $isDeleted;
     }
 
+    public function getPDO(): PDO
+    {
+        return $this->pdo;
+    }
 
     private function getRepositoryKey(string $modelClassName): string
     {
         return $modelClassName . ':repository';
+    }
+
+    private function createPDO(string $dsn): PDO
+    {
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ];
+
+        return new PDO($dsn, null, null, $options);
     }
 }

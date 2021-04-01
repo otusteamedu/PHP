@@ -7,7 +7,7 @@ namespace App\Model;
 use App\Services\Orm\ModelManager;
 use Psr\Container\ContainerInterface;
 
-class Airline extends OrmAbstractModel
+class Airline extends AbstractModel
 {
     private ModelManager $modelManager;
     private ?string $name;

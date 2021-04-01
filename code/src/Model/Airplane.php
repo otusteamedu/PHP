@@ -6,7 +6,7 @@ namespace App\Model;
 
 use DateTime;
 
-class Airplane extends OrmAbstractModel
+class Airplane extends AbstractModel
 {
     private ?string $name;
     private ?int $number;

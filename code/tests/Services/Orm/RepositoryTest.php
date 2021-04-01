@@ -17,32 +17,29 @@ use PHPUnit\Framework\TestCase;
 
 class RepositoryTest extends TestCase
 {
-    protected static ?PDO $pdo;
     protected static ?ModelManager $mm;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        $container = Config::buildContainerForConsole();
-        self::$pdo = $container->get(PDO::class);
+        $container = Config::buildContainer();
         self::$mm = $container->get(ModelManager::class);
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::$pdo = null;
         self::$mm = null;
     }
 
     public function testNotFoundRepository()
     {
         $this->expectException(OrmModelNotFoundException::class);
-        new Repository('Model', self::$pdo, self::$mm);
+        new Repository('Model', self::$mm);
     }
 
     public function testAirlineRepository()
     {
-        $repo = new Repository(Airline::class, self::$pdo, self::$mm);
+        $repo = new Repository(Airline::class, self::$mm);
 
         $this->assertInstanceOf(Repository::class, $repo);
         $this->assertInstanceOf(AirlineMapper::class, $repo->getMapper());
@@ -66,7 +63,7 @@ class RepositoryTest extends TestCase
 
     public function testAirplanesRepository()
     {
-        $repo = new Repository(Airplane::class, self::$pdo, self::$mm);
+        $repo = new Repository(Airplane::class, self::$mm);
 
         $this->assertInstanceOf(Repository::class, $repo);
         $this->assertInstanceOf(AirplaneMapper::class, $repo->getMapper());

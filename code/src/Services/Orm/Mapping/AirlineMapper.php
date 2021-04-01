@@ -6,7 +6,7 @@ namespace App\Services\Orm\Mapping;
 
 use App\Model\Airline;
 use App\Model\Builders\AirlineBuilder;
-use App\Services\Orm\Interfaces\OrmModelInterface;
+use App\Services\Orm\Interfaces\ModelInterface;
 use App\Services\Orm\Exceptions\OrmMappingInsertException;
 use App\Services\Orm\ModelManager;
 use PDO;
@@ -18,12 +18,11 @@ class AirlineMapper extends AbstractMapper
 
     /**
      * AirlineMapper constructor.
-     * @param PDO $pdo
      * @param ModelManager $mm
      */
-    public function __construct(PDO $pdo, ModelManager $mm)
+    public function __construct(ModelManager $mm)
     {
-        parent::__construct($pdo);
+        parent::__construct($mm->getPDO());
         $this->builder = new AirlineBuilder($mm);
     }
 
@@ -47,7 +46,7 @@ class AirlineMapper extends AbstractMapper
         return $this->builder->build(array_merge($raw, $result));
     }
 
-    public function update(OrmModelInterface $model): bool
+    public function update(ModelInterface $model): bool
     {
         return $this->updateStmt->execute([
             $model->getName(),
@@ -57,7 +56,7 @@ class AirlineMapper extends AbstractMapper
         ]);
     }
 
-    public function delete(OrmModelInterface $model): bool
+    public function delete(ModelInterface $model): bool
     {
         $id = $model->getId();
         return (bool)$this->deleteStmt->execute([$id]);

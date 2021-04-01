@@ -6,6 +6,7 @@ namespace Services\Mappers\Orm;
 
 use App\Model\Airplane;
 use App\Services\Orm\Mapping\AirplaneMapper;
+use App\Services\Orm\ModelManager;
 use App\Utils\Config;
 use DateTime;
 use PDO;
@@ -13,29 +14,23 @@ use PHPUnit\Framework\TestCase;
 
 class AirplaneMapperTest extends TestCase
 {
-    protected static ?PDO $pdo;
+    protected static ?ModelManager $mm;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        $container = Config::buildContainerForConsole();
-        self::$pdo = $container->get(PDO::class);
+        $container = Config::buildContainer();
+        self::$mm = $container->get(ModelManager::class);
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::$pdo = null;
-    }
-
-    public function testController()
-    {
-        $mapper =  new AirplaneMapper(self::$pdo);
-        $this->assertInstanceOf(AirplaneMapper::class, $mapper);
+        self::$mm = null;
     }
 
     public function testCRUD()
     {
-        $mapper =  new AirplaneMapper(self::$pdo);
+        $mapper =  new AirplaneMapper(self::$mm);
 
         $name = 'broiler-747';
         $number = '12345';

@@ -6,5 +6,5 @@ namespace App\Services\Orm\Interfaces;
 
 interface ModelBuilderInterface
 {
-    public function build(array $raw): OrmModelInterface;
+    public function build(array $raw): ModelInterface;
 }

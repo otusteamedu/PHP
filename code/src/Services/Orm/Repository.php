@@ -21,24 +21,23 @@ class Repository
     /**
      * Repository constructor.
      * @param string $modelClassName
-     * @param PDO $pdo
      * @param ModelManager $mm
      */
-    public function __construct(string $modelClassName, PDO $pdo, ModelManager $mm)
+    public function __construct(string $modelClassName, ModelManager $mm)
     {
         $this->modelClassName = $modelClassName;
-        $this->pdo = $pdo;
+        $this->pdo = $mm->getPDO();
 
         $this->identityMap = IdentityMap::getInstance();
         $name = $this->getShortName($modelClassName);
 
         switch ($name) {
             case 'Airline':
-                $this->mapper = new AirlineMapper($pdo, $mm);
+                $this->mapper = new AirlineMapper($mm);
                 break;
 
             case 'Airplane':
-                $this->mapper = new AirplaneMapper($pdo);
+                $this->mapper = new AirplaneMapper($mm);
                 break;
 
             default:

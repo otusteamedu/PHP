@@ -4,7 +4,7 @@
 namespace App\Services\Orm;
 
 
-use App\Services\Orm\Interfaces\OrmModelInterface;
+use App\Services\Orm\Interfaces\ModelInterface;
 
 final class IdentityMap
 {
@@ -21,13 +21,13 @@ final class IdentityMap
     }
 
 
-    public function set(OrmModelInterface $model): void
+    public function set(ModelInterface $model): void
     {
         $key = $this->getKey($model);
         self::$instance->items[$key] = $model;
     }
 
-    public function get(string $className, int $id): ?OrmModelInterface
+    public function get(string $className, int $id): ?ModelInterface
     {
         $key = $className . ':' . $id;
 
@@ -38,13 +38,13 @@ final class IdentityMap
         return null;
     }
 
-    public function delete(OrmModelInterface $model): void
+    public function delete(ModelInterface $model): void
     {
         $key = $this->getKey($model);
         unset($this->items[$key]);
     }
 
-    private function getKey(OrmModelInterface $model): string
+    private function getKey(ModelInterface $model): string
     {
         return get_class($model) . ':' . $model->getId();
     }

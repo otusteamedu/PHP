@@ -4,7 +4,7 @@
 namespace App\Services\Orm\Interfaces;
 
 
-interface OrmModelInterface
+interface ModelInterface
 {
     public function getId(): ?int;
     public function setId(int $id): self;

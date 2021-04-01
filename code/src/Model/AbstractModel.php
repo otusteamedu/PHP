@@ -4,10 +4,10 @@
 namespace App\Model;
 
 
-use App\Services\Orm\Interfaces\OrmModelInterface;
+use App\Services\Orm\Interfaces\ModelInterface;
 
 
-abstract class OrmAbstractModel implements OrmModelInterface
+abstract class AbstractModel implements ModelInterface
 {
     protected ?int $id = null;
 

@@ -8,33 +8,31 @@ use App\Model\Airline;
 use App\Services\Orm\Mapping\AirlineMapper;
 use App\Services\Orm\ModelManager;
 use App\Utils\Config;
+use App\Utils\DatabaseConnection;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
 
 class AirlineMapperTest extends TestCase
 {
-    protected static ?PDO $pdo;
     protected static ?ModelManager $mm;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        $container = Config::buildContainerForConsole();
-        self::$pdo = $container->get(PDO::class);
+        $container = Config::buildContainer();
         self::$mm = $container->get(ModelManager::class);
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::$pdo = null;
         self::$mm = null;
     }
 
 
     public function testCRUD()
     {
-        $mapper = new AirlineMapper(self::$pdo, self::$mm);
+        $mapper = new AirlineMapper(self::$mm);
 
         $raw = [
             'name' => 'Company',

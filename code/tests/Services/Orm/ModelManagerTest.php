@@ -9,6 +9,7 @@ use App\Model\Airplane;
 use App\Services\Orm\ModelManager;
 use App\Services\Orm\Repository;
 use App\Utils\Config;
+use App\Utils\DatabaseConnection;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -18,8 +19,8 @@ class ModelManagerTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $container = Config::buildContainerForConsole();
-        self::$mm = new ModelManager($container);
+        $container = Config::buildContainer();
+        self::$mm = new ModelManager($container->get(DatabaseConnection::class));
     }
 
     public static function tearDownAfterClass(): void

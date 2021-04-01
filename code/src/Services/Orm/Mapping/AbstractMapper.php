@@ -4,7 +4,7 @@
 namespace App\Services\Orm\Mapping;
 
 use App\Services\Orm\Interfaces\ModelBuilderInterface;
-use App\Services\Orm\Interfaces\OrmModelInterface;
+use App\Services\Orm\Interfaces\ModelInterface;
 use App\Services\Orm\Interfaces\MapperInterface;
 use PDO;
 use PDOStatement;
@@ -32,22 +32,22 @@ abstract class AbstractMapper implements MapperInterface
     }
 
 
-    public function insert(array $raw): OrmModelInterface
+    public function insert(array $raw): ModelInterface
     {
         // TODO: Implement insert() method.
     }
 
-    public function update(OrmModelInterface $model): bool
+    public function update(ModelInterface $model): bool
     {
         // TODO: Implement update() method.
     }
 
-    public function delete(OrmModelInterface $model): bool
+    public function delete(ModelInterface $model): bool
     {
         // TODO: Implement delete() method.
     }
 
-    public function findById(int $id): ?OrmModelInterface
+    public function findById(int $id): ?ModelInterface
     {
         // TODO: Implement findById() method.
     }
