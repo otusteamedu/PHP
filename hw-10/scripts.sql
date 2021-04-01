@@ -51,7 +51,6 @@ CREATE TABLE session
     movie_id      INTEGER REFERENCES movies,
     hall_movie_id INTEGER REFERENCES hall_movie,
     begin_movie   TIMESTAMP,
-    final_movie   TIMESTAMP,
     price         NUMERIC(6, 2) NOT NULL
 );
 
@@ -59,7 +58,7 @@ CREATE TABLE orders
 (
     id            BIGSERIAL PRIMARY KEY,
     order_time    TIMESTAMP,
-    total_price   NUMERIC(7)
+    total_price   NUMERIC(6)
 );
 
 CREATE TABLE ticket
