@@ -20,8 +20,7 @@ class App
 
         $request = Request::getInstance();
         $router = new Router($request);
-        $response = $router->getResponse();
 
-        return $response();
+        return $router->getResponse();
     }
 }

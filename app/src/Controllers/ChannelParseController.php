@@ -21,7 +21,7 @@ class ChannelParseController extends BaseController
     /**
      * @throws YouTubeApiBadResponseException
      */
-    public function store(): void
+    public function store(): string
     {
         $request = Request::getInstance();
         $keyword = $request->get('keyword');
@@ -29,6 +29,6 @@ class ChannelParseController extends BaseController
         $parseChannelService = new ParseChannelService();
         $parseChannelService->execute($keyword);
 
-        $this->redirect('channels');
+        return $this->redirect('channels');
     }
 }

@@ -9,7 +9,7 @@ class HomeController extends BaseController
         $this->content = $this->renderView('/pages/home');
         $this->title = 'Home page';
 
-         return $this->viewResponse();
+        return $this->viewResponse();
     }
 
     public function pageNotFound() : string

@@ -18,7 +18,7 @@ class Router
         $this->routes = include('routes.php');
     }
 
-    public function getResponse() : Response
+    public function getResponse() : string
     {
         $route = null;
         $controller = null;
@@ -37,7 +37,22 @@ class Router
             $action = self::DEFAULT_ACTION;
         }
 
-        return new Response($controller, $action);
+        return $this->callAction($controller, $action);
+    }
+
+    private function callAction(string $controller, string $action, array $params = []) : string
+    {
+        if(false === class_exists($controller)){
+            throw new \RuntimeException('Controller ' . $controller . ' not exist');
+        }
+
+        $controllerObj = new $controller;
+
+        if(false === method_exists($controllerObj, $action)){
+            throw new \RuntimeException('Method ' . $action . ' not exist in ' . $controller);
+        }
+
+        return call_user_func_array([$controllerObj, $action], $params);
     }
 
     private function getGetRoute(string $uri) : ? array

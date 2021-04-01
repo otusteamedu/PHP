@@ -6,29 +6,44 @@ namespace App\Core;
 
 class Response
 {
-    private string $controller;
-    private string $action;
-    private array $arguments;
+    protected string $content;
+    protected int $code;
+    protected array $headers;
 
-    public function __construct(string $controller, string $action, array $arguments = [])
+    public function __construct(string $content, int $code = 200, array $headers = [])
     {
-        $this->action = $action;
-        $this->controller = $controller;
-        $this->arguments = $arguments;
+        $this->content = $content;
+        $this->code = $code;
+        $this->headers = $headers;
+    }
+
+    public function __toString() : string
+    {
+       return $this->__invoke();
     }
 
     public function __invoke() : string
     {
-        if(false === class_exists($this->controller)){
-            throw new \RuntimeException('Controller ' . $this->controller . ' not exist');
+        $this->setHeaders();
+        $this->setCode();
+
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
+
+    protected function setHeaders() : void
+    {
+        foreach ($this->headers as $header){
+            header($header);
         }
+    }
 
-        $controllerObj = new $this->controller;
-
-        if(false === method_exists($controllerObj, $this->action)){
-            throw new \RuntimeException('Method ' . $this->action . ' not exist in ' . $this->controller);
-        }
-
-        return call_user_func_array([$controllerObj, $this->action], $this->arguments);
+    protected function setCode() : void
+    {
+        http_response_code($this->code);
     }
 }
