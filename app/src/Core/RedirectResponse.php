@@ -10,7 +10,7 @@ class RedirectResponse extends Response
     protected int $code;
     protected array $headers;
 
-    public function __construct(string $url, int $code = 301, array $headers = [])
+    public function __construct(string $url, int $code = 302, array $headers = [])
     {
         $this->content = 'Redirecting to ' . $url;
         $this->code = $code;

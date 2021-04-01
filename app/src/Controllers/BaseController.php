@@ -19,7 +19,7 @@ class BaseController
         return new Response($content, $code, $headers);
     }
 
-    protected function redirect(string $route, int $code = 301, array $headers = []): string
+    protected function redirect(string $route, int $code = 302, array $headers = []): string
     {
         $url = $_ENV['APP_URL'] . '/' . $route;
 
