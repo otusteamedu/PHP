@@ -15,6 +15,24 @@ class Channel extends BaseEntity
     private int $videoDislikeCont = 0;
     private float $videoLikesByDislikesQuotient = 0;
 
+    protected ?string $id = null;
+
+    /**
+     * @return string|null
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
     /**
      * @var Collection | Video[]
      */

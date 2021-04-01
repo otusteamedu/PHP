@@ -4,6 +4,8 @@ namespace App\Services\ServiceContainer;
 
 use App\Repositories\Channel\ChannelRepository;
 use App\Repositories\Channel\ElasticSearchChannelRepository;
+use App\Repositories\Event\EventRepository;
+use App\Repositories\Event\RedisEventRepository;
 use App\Repositories\Video\ElasticSearchVideoRepository;
 use App\Repositories\Video\VideoRepository;
 use App\Services\ServiceContainer\Exceptions\ServiceNotFoundException;
@@ -29,6 +31,7 @@ class AppServiceContainer
     {
         $this->push(ChannelRepository::class, new ElasticSearchChannelRepository());
         $this->push(VideoRepository::class, new ElasticSearchVideoRepository());
+        $this->push(EventRepository::class, new RedisEventRepository());
     }
 
     /**
