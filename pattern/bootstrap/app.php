@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-try {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-    $dotenv->load();
-} catch (\Dotenv\Exception\InvalidPathException $exception) {
-    echo $exception->getMessage();
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+if (!$dotenv->load()) {
+    throw new \Dotenv\Exception\InvalidPathException();
 }
+$dotenv->load();

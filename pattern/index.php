@@ -9,4 +9,6 @@ try {
     $result = Post::getAll($connection->getPdoSettings());
 } catch (PDOException $e) {
     echo $e->getMessage() . PHP_EOL;
+}  catch (\Dotenv\Exception\InvalidPathException $exception) {
+    echo $exception->getMessage();
 }
