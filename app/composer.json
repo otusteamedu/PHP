@@ -11,9 +11,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "src/Application",
-            "Server\\": "src/Server",
-            "Client\\": "src/Client"
+            "Application\\": "src/Application"
         }
     }
 }

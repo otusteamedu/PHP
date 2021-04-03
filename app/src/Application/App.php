@@ -15,13 +15,13 @@ class App
 
     public function run()
     {
-        $app_name = '\\'.$this->side.'\\Start';
+        $app_name = '\\Application\\'.$this->side;
         
         if(class_exists($app_name)){
             $app = new $app_name();
             $app->run();
         }else{
-            echo 'error!'."\n";
+            echo "Ошибка! Аргумент \"".$_SERVER['argv'][1]."\" не поддерживается! \n";
         }
     }
 

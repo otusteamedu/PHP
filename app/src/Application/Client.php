@@ -1,8 +1,8 @@
 <?php 
 
-namespace Client;
+namespace Application;
 
-class Start
+class Client
 {
 
     private $socket;
