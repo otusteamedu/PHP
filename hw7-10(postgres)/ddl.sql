@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TYPE IF EXISTS TICKET_STATUSES;
 CREATE type TICKET_STATUSES AS ENUM ('reserved', 'available', 'sold', 'refund');
 DROP TYPE IF EXISTS EAV_TYPES;
-CREATE type EAV_TYPES AS ENUM ('bool', 'date', 'float', 'text');
+CREATE type EAV_TYPES AS ENUM ('bool', 'int', 'float', 'date', 'text');
 
 CREATE TABLE cinemas
 (
@@ -106,7 +106,7 @@ CREATE TABLE orders
 );
 
 create VIEW prices as
-select tickets.id                                                        as ticket_id,
+select tickets.id  as ticket_id,
        session_id,
        hall_seat_id,
        base_price,
@@ -138,8 +138,8 @@ create table movie_attribute_values
     id                INT GENERATED ALWAYS AS IDENTITY,
     PRIMARY KEY (id),
     movie_id          INT NOT NULL,
-    attribute_id      INT NOT NULL,
     attribute_type_id INT NOT NULL,
+    attribute_id      INT NOT NULL,
     value_boolean     bool default false,
     value_int         INT,
     value_float       float8,
@@ -148,18 +148,23 @@ create table movie_attribute_values
     CONSTRAINT attribute_value_to_movie
         FOREIGN KEY (movie_id)
             REFERENCES movies (id),
-    CONSTRAINT attribute_value_to_attribute
-        FOREIGN KEY (attribute_id)
-            REFERENCES movie_attributes (id),
     CONSTRAINT attribute_value_to_attribute_type
         FOREIGN KEY (attribute_type_id)
-            REFERENCES movie_attribute_types (id)
+            REFERENCES movie_attribute_types (id),
+    CONSTRAINT attribute_value_to_attribute
+        FOREIGN KEY (attribute_id)
+            REFERENCES movie_attributes (id)
 );
 
-CREATE INDEX movie_attribute_values_movie_id_idx ON otus.movie_attribute_values (movie_id);
-CREATE INDEX movie_attribute_values_attribute_id_idx ON otus.movie_attribute_values (attribute_id);
-CREATE INDEX movie_attribute_values_attribute_type_id_idx ON otus.movie_attribute_values (attribute_type_id);
-CREATE INDEX movie_attribute_types_name_idx ON otus.movie_attribute_types ("name");
+CREATE INDEX movie_attribute_types_name_idx ON otus.movie_attribute_types USING btree (name);
+CREATE INDEX movie_attribute_values_attribute_id_idx ON otus.movie_attribute_values USING btree (attribute_id);
+CREATE INDEX movie_attribute_values_attribute_type_id_idx ON otus.movie_attribute_values USING btree (attribute_type_id);
+CREATE INDEX movie_attribute_values_movie_id_idx ON otus.movie_attribute_values USING btree (movie_id);
+CREATE INDEX movie_attribute_values_value_date_idx ON otus.movie_attribute_values USING btree (value_date);
+CREATE INDEX sessions_movie_id_idx ON otus.sessions USING btree (movie_id);
+CREATE INDEX tickets_hall_seat_id_idx ON otus.tickets USING btree (hall_seat_id DESC);
+CREATE INDEX tickets_session_id_idx ON otus.tickets USING btree (session_id);
+CREATE INDEX tickets_status_idx ON otus.tickets USING btree (status);
 
 -- View сборки служебных данных в форме (три колонки):
 
@@ -213,7 +218,7 @@ with tasks as (
     select (case
                 when v.value_date = CURRENT_DATE then v.value_date
                 else null
-        END)        as actual_tasks,
+        END)        as actual_task,
            (case
                 when v.value_date = date(CURRENT_DATE + interval '20' day) then v.value_date
                 else null
@@ -223,6 +228,6 @@ with tasks as (
              left join movie_attribute_types t on t.id = v.attribute_type_id
     where t.name = 'Служебные задачи'
 )
-select m.title, tasks.actual_tasks, actual_in_20_days
+select m.title, tasks.actual_task, actual_in_20_days
 from movies m
          left join tasks on m.id = tasks.movie_id;
