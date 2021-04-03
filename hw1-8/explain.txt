@@ -1,0 +1,179 @@
+1) select customer_id, film_schedule_id, place_id, date from ticket where date > '2021-04-02';
+
+***small data***
+Seq Scan on ticket  (cost=0.00..149.00 rows=8000 width=16)
+  Filter: (date > '2021-04-02'::date)
+
+***big data***
+Seq Scan on ticket  (cost=0.00..37145.00 rows=2001822 width=16)
+  Filter: (date > '2021-04-02'::date)
+
+
+2) select row, col from place where hall_id = 1;
+
+***small data***
+Seq Scan on place  (cost=0.00..38.00 rows=1000 width=8)
+     Filter: (hall_id = 1)
+
+***big data***
+Seq Scan on place  (cost=0.00..38.00 rows=1000 width=8)
+     Filter: (hall_id = 1)
+
+3) select * from employee where start_work_date > '2018-07-08';
+
+***small data***
+Seq Scan on employee  (cost=0.00..5.12 rows=200 width=24)
+  Filter: (start_work_date > '2018-07-08'::date)
+
+***big data***
+Seq Scan on employee  (cost=0.00..1059.54 rows=43362 width=24)
+  Filter: (start_work_date > '2018-07-08'::date)
+
+***after optimization***
+Seq Scan on employee  (cost=0.00..1072.62 rows=44272 width=24)
+  Filter: (start_work_date > '2018-07-08'::date)
+
+
+4) select o.id as order_id, hall.name, min(date), max(date), o.ticket_id
+   from ticket
+            left join place on place.id = ticket.place_id
+            left join hall on hall.id = place.hall_id
+            left join "order" o on ticket.id = o.ticket_id
+   group by order_id, hall.name, o.ticket_id
+   order by order_id desc;
+
+***small data***
+GroupAggregate  (cost=3101.74..3701.74 rows=24000 width=60)
+"  Group Key: o.id, hall.name, o.ticket_id"
+  ->  Sort  (cost=3101.74..3161.74 rows=24000 width=60)
+"        Sort Key: o.id, hall.name, o.ticket_id"
+        ->  Hash Left Join  (cost=786.65..1355.65 rows=24000 width=60)
+              Hash Cond: (ticket.id = o.ticket_id)
+              ->  Hash Left Join  (cost=116.65..365.65 rows=8000 width=56)
+                    Hash Cond: (ticket.place_id = place.id)
+                    ->  Seq Scan on ticket  (cost=0.00..129.00 rows=8000 width=12)
+                    ->  Hash  (cost=91.65..91.65 rows=2000 width=52)
+                          ->  Hash Left Join  (cost=31.15..91.65 rows=2000 width=52)
+                                Hash Cond: (place.hall_id = hall.id)
+                                ->  Seq Scan on place  (cost=0.00..33.00 rows=2000 width=8)
+                                ->  Hash  (cost=19.40..19.40 rows=940 width=52)
+                                      ->  Seq Scan on hall  (cost=0.00..19.40 rows=940 width=52)
+              ->  Hash  (cost=370.00..370.00 rows=24000 width=8)
+"                    ->  Seq Scan on ""order"" o  (cost=0.00..370.00 rows=24000 width=8)"
+
+***big data***
+GroupAggregate  (cost=1433207.77..1576294.57 rows=5723472 width=60)
+"  Group Key: o.id, hall.name, o.ticket_id"
+  ->  Sort  (cost=1433207.77..1447516.45 rows=5723472 width=60)
+"        Sort Key: o.id, hall.name, o.ticket_id"
+        ->  Hash Right Join  (cost=106490.65..360411.13 rows=5723472 width=60)
+              Hash Cond: (o.ticket_id = ticket.id)
+"              ->  Seq Scan on ""order"" o  (cost=0.00..89570.72 rows=5723472 width=8)"
+              ->  Hash  (cost=62092.65..62092.65 rows=1994000 width=56)
+                    ->  Hash Left Join  (cost=116.65..62092.65 rows=1994000 width=56)
+                          Hash Cond: (ticket.place_id = place.id)
+                          ->  Seq Scan on ticket  (cost=0.00..32066.00 rows=1994000 width=12)
+                          ->  Hash  (cost=91.65..91.65 rows=2000 width=52)
+                                ->  Hash Left Join  (cost=31.15..91.65 rows=2000 width=52)
+                                      Hash Cond: (place.hall_id = hall.id)
+                                      ->  Seq Scan on place  (cost=0.00..33.00 rows=2000 width=8)
+                                      ->  Hash  (cost=19.40..19.40 rows=940 width=52)
+                                            ->  Seq Scan on hall  (cost=0.00..19.40 rows=940 width=52)
+
+
+5)select o.id as order_id, c.id as cus_id, fs.start_at, fs.finished_at
+  from "order" o
+           left join ticket t on t.id = o.ticket_id
+           left join film_schedule fs on fs.id = t.film_schedule_id
+           left join film f2 on f2.id = fs.film_id
+           left join customer c on t.customer_id = c.id;
+
+***small data***
+Hash Left Join  (cost=500.38..1378.21 rows=23010 width=24)
+  Hash Cond: (o.ticket_id = t.id)
+"  ->  Seq Scan on ""order"" o  (cost=0.00..360.10 rows=23010 width=8)"
+  ->  Hash  (cost=400.55..400.55 rows=7987 width=24)
+        ->  Hash Left Join  (cost=60.03..400.55 rows=7987 width=24)
+              Hash Cond: (t.customer_id = c.id)
+              ->  Hash Left Join  (cost=43.98..282.67 rows=7987 width=24)
+                    Hash Cond: (t.film_schedule_id = fs.id)
+                    ->  Seq Scan on ticket t  (cost=0.00..128.87 rows=7987 width=12)
+                    ->  Hash  (cost=25.10..25.10 rows=1510 width=24)
+                          ->  Seq Scan on film_schedule fs  (cost=0.00..25.10 rows=1510 width=24)
+              ->  Hash  (cost=13.80..13.80 rows=180 width=4)
+                    ->  Seq Scan on customer c  (cost=0.00..13.80 rows=180 width=4)
+
+
+***big data***
+Hash Left Join  (cost=117482.18..363613.67 rows=5723472 width=24)
+  Hash Cond: (o.ticket_id = t.id)
+"  ->  Seq Scan on ""order"" o  (cost=0.00..89570.72 rows=5723472 width=8)"
+  ->  Hash  (cost=80873.18..80873.18 rows=1994000 width=24)
+        ->  Hash Left Join  (cost=78.47..80873.18 rows=1994000 width=24)
+              Hash Cond: (t.customer_id = c.id)
+              ->  Hash Left Join  (cost=43.98..53421.18 rows=1994000 width=24)
+                    Hash Cond: (t.film_schedule_id = fs.id)
+                    ->  Seq Scan on ticket t  (cost=0.00..32066.00 rows=1994000 width=12)
+                    ->  Hash  (cost=25.10..25.10 rows=1510 width=24)
+                          ->  Seq Scan on film_schedule fs  (cost=0.00..25.10 rows=1510 width=24)
+              ->  Hash  (cost=22.00..22.00 rows=1000 width=4)
+                    ->  Seq Scan on customer c  (cost=0.00..22.00 rows=1000 width=4)
+
+
+
+6)SELECT film.name, earnings.money
+  FROM film
+           LEFT JOIN (SELECT film_schedule.film_id, SUM(fspp.price) as money
+                      FROM ticket
+                               LEFT JOIN film_schedule ON film_schedule.id = ticket.film_schedule_id
+                               LEFT JOIN place p ON ticket.place_id = p.id
+                               LEFT JOIN film_schedule_place_price AS fspp ON film_schedule.id = fspp.film_schedule_id
+                      WHERE fspp.price IS NOT NULL
+                      GROUP BY film_schedule.film_id) AS earnings
+                     ON film.id = earnings.film_id;
+
+
+***small data***
+Hash Left Join  (cost=352.50..366.30 rows=80 width=304)
+  Hash Cond: (film.id = earnings.film_id)
+  ->  Seq Scan on film  (cost=0.00..10.80 rows=80 width=276)
+  ->  Hash  (cost=350.00..350.00 rows=200 width=36)
+        ->  Subquery Scan on earnings  (cost=345.50..350.00 rows=200 width=36)
+              ->  HashAggregate  (cost=345.50..348.00 rows=200 width=16)
+                    Group Key: film_schedule.film_id
+                    ->  Hash Join  (cost=108.50..319.50 rows=5200 width=16)
+                          Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+                          ->  Seq Scan on ticket  (cost=0.00..129.00 rows=8000 width=8)
+                          ->  Hash  (cost=89.73..89.73 rows=1502 width=24)
+                                ->  Hash Join  (cost=43.98..89.73 rows=1502 width=24)
+                                      Hash Cond: (fspp.film_schedule_id = film_schedule.id)
+                                      ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..25.10 rows=1502 width=16)
+                                            Filter: (price IS NOT NULL)
+                                      ->  Hash  (cost=25.10..25.10 rows=1510 width=8)
+                                            ->  Seq Scan on film_schedule  (cost=0.00..25.10 rows=1510 width=8)
+
+***big data***
+Hash Right Join  (cost=59129.61..59135.66 rows=80 width=304)
+  Hash Cond: (film_schedule.film_id = film.id)
+  ->  HashAggregate  (cost=59117.81..59120.31 rows=200 width=16)
+        Group Key: film_schedule.film_id
+        ->  Hash Join  (cost=108.50..52604.21 rows=1302720 width=16)
+              Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+              ->  Seq Scan on ticket  (cost=0.00..31991.00 rows=1994000 width=8)
+              ->  Hash  (cost=89.73..89.73 rows=1502 width=24)
+                    ->  Hash Join  (cost=43.98..89.73 rows=1502 width=24)
+                          Hash Cond: (fspp.film_schedule_id = film_schedule.id)
+                          ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..25.10 rows=1502 width=16)
+                                Filter: (price IS NOT NULL)
+                          ->  Hash  (cost=25.10..25.10 rows=1510 width=8)
+                                ->  Seq Scan on film_schedule  (cost=0.00..25.10 rows=1510 width=8)
+  ->  Hash  (cost=10.80..10.80 rows=80 width=276)
+        ->  Seq Scan on film  (cost=0.00..10.80 rows=80 width=276)
+
+
+
+
+
+
+
+
