@@ -13,10 +13,12 @@ interface EventRepository
     public function getAll() : Collection;
 
     /**
-     * @param string $id
+     * @param int $id
      * @return Event
      */
-    public function getById(string $id) : Event;
+    public function getById(int $id) : Event;
+
+    public function delete(int $id) : int;
 
     /**
      * @param string $string
@@ -25,6 +27,22 @@ interface EventRepository
      * @return Collection|Event[]
      */
     public function search(string $string, int $offset = 0, int $limit = 100) : Collection;
+
+    /**
+     * @param array $params
+     * @param int $offset
+     * @param int $limit
+     * @return Collection|Event[]
+     */
+    public function searchByParams(array $params, int $offset = 0, int $limit = 100) : Collection;
+
+    /**
+     * @param array $params
+     * @param int $offset
+     * @param int $limit
+     * @return Collection|Event[]
+     */
+    public function getAppropriateEventsByParams(array $params, int $offset = 0, int $limit = 1) : Collection;
 
     /**
      * @param Event $event

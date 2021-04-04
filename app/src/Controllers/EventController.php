@@ -63,7 +63,25 @@ class EventController extends BaseController
 
     public function search() : string
     {
-        $this->content = $this->renderView('pages.events.search');
+        $request = $this->getRequest();
+        $name = $request->get('name', '');
+        $isAppropriate = $request->get('appropriate');
+        $params = $request->get('params');
+
+        $events = collect();
+
+        if($isAppropriate && $params){
+            $events = $this->eventRepository->getAppropriateEventsByParams(explode(',', $params));
+        } elseif ($params) {
+            $events = $this->eventRepository->searchByParams(explode(',', $params));
+        } elseif ($name) {
+            $events = $this->eventRepository->search($name);
+        }
+
+        $this->content = $this->renderView('pages.events.search', [
+            'events' => $events,
+        ]);
+
         $this->title = 'Search Event';
 
         return $this->viewResponse();
