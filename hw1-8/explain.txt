@@ -1,0 +1,335 @@
+=======================Простые запросы=============================
+
+1) explain select customer_id, film_schedule_id, place_id, date from ticket where date = '2021-04-02';
+
+***small data***
+Seq Scan on ticket  (cost=0.00..151.45 rows=8000 width=16)
+  Filter: (date = '2021-04-02'::date)
+
+CREATE INDEX idx_date ON ticket (date);
+
+После применения индекса cost такой же.
+
+***big data***
+Gather  (cost=1000.00..93936.09 rows=1972 width=16)
+  Workers Planned: 2
+  ->  Parallel Seq Scan on ticket  (cost=0.00..92738.89 rows=822 width=16)
+        Filter: (date = '2021-04-02'::date)
+
+После применения индекса
+Index Scan using idx_date on ticket  (cost=0.43..49.79 rows=1972 width=16)
+  Index Cond: (date = '2021-04-02'::date)
+
+
+
+2) explain select * from place where place.place_category_id >= 1;
+
+***small data***
+Seq Scan on place  (cost=0.00..38.65 rows=2000 width=20)
+  Filter: (place_category_id >= 1)
+
+CREATE INDEX idx_place_category_id ON place USING btree(place_category_id);
+
+***big data***
+Seq Scan on place  (cost=0.00..423.05 rows=22000 width=20)
+  Filter: (place_category_id >= 1)
+
+После применения индекса cost не изменился
+
+
+3) explain select count(*) from employee where start_work_date <= '2018-07-09';
+
+***small data***
+Aggregate  (cost=1012.25..1012.26 rows=1 width=8)
+  ->  Seq Scan on employee  (cost=0.00..987.25 rows=10000 width=0)
+        Filter: (start_work_date = '2018-07-09'::date)
+
+CREATE INDEX idx_start_work_date ON employee USING btree(start_work_date);
+
+После применения индекса
+Aggregate  (cost=210.19..210.20 rows=1 width=8)
+  ->  Index Only Scan using idx_start_work_date on employee  (cost=0.29..185.19 rows=10000 width=0)
+        Index Cond: (start_work_date <= '2018-07-09'::date)
+
+***big data***
+Finalize Aggregate  (cost=6696.95..6696.96 rows=1 width=8)
+  ->  Gather  (cost=6696.73..6696.94 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=5696.73..5696.74 rows=1 width=8)
+              ->  Parallel Seq Scan on employee  (cost=0.00..5602.95 rows=37512 width=0)
+                    Filter: (start_work_date <= '2018-07-09'::date)
+
+
+После применения индекса
+Aggregate  (cost=1885.72..1885.73 rows=1 width=8)
+  ->  Index Only Scan using idx_start_work_date on employee  (cost=0.42..1660.65 rows=90030 width=0)
+        Index Cond: (start_work_date <= '2018-07-09'::date)
+
+=======================Сложные запросы==============================
+
+4) select o.id as order_id, hall.name, min(date), max(date), o.ticket_id
+   from ticket
+            left join place on place.id = ticket.place_id
+            left join hall on hall.id = place.hall_id
+            left join "order" o on ticket.id = o.ticket_id
+   group by order_id, hall.name, o.ticket_id
+   order by order_id desc;
+
+***small data***
+GroupAggregate  (cost=321.57..375.68 rows=2405 width=64)
+"  Group Key: o.id, hall.name"
+  ->  Sort  (cost=321.57..327.58 rows=2405 width=60)
+"        Sort Key: o.id DESC, hall.name"
+        ->  Hash Left Join  (cost=129.82..186.51 rows=2405 width=60)
+              Hash Cond: (place.hall_id = hall.id)
+              ->  Hash Left Join  (cost=97.50..147.85 rows=2405 width=16)
+                    Hash Cond: (ticket.place_id = place.id)
+                    ->  Hash Right Join  (cost=48.75..92.77 rows=2405 width=16)
+                          Hash Cond: (o.ticket_id = ticket.id)
+"                          ->  Seq Scan on ""order"" o  (cost=0.00..37.70 rows=2405 width=8)"
+                          ->  Hash  (cost=27.50..27.50 rows=1700 width=12)
+                                ->  Seq Scan on ticket  (cost=0.00..27.50 rows=1700 width=12)
+                    ->  Hash  (cost=27.50..27.50 rows=1700 width=8)
+                          ->  Seq Scan on place  (cost=0.00..27.50 rows=1700 width=8)
+              ->  Hash  (cost=20.20..20.20 rows=970 width=52)
+                    ->  Seq Scan on hall  (cost=0.00..20.20 rows=970 width=52)
+
+CREATE INDEX idx_date ON ticket USING btree(date);
+CREATE INDEX idx_ticket_id ON "order" USING btree(ticket_id);
+CREATE INDEX idx_place_id ON "ticket" USING btree(place_id);
+CREATE INDEX idx_hall_id ON place USING btree(hall_id);
+CREATE INDEX idx_name ON hall USING btree(name);
+
+После применения индексов
+GroupAggregate  (cost=235.76..289.76 rows=2400 width=64)
+"  Group Key: o.id, hall.name"
+  ->  Sort  (cost=235.76..241.76 rows=2400 width=60)
+"        Sort Key: o.id DESC, hall.name"
+        ->  Hash Left Join  (cost=30.95..101.01 rows=2400 width=60)
+              Hash Cond: (place.hall_id = hall.id)
+              ->  Hash Left Join  (cost=29.85..80.27 rows=2400 width=16)
+                    Hash Cond: (ticket.place_id = place.id)
+                    ->  Hash Right Join  (cost=23.25..67.23 rows=2400 width=16)
+                          Hash Cond: (o.ticket_id = ticket.id)
+"                          ->  Seq Scan on ""order"" o  (cost=0.00..37.65 rows=2400 width=8)"
+                          ->  Hash  (cost=13.25..13.25 rows=800 width=12)
+                                ->  Seq Scan on ticket  (cost=0.00..13.25 rows=800 width=12)
+                    ->  Hash  (cost=4.10..4.10 rows=200 width=8)
+                          ->  Seq Scan on place  (cost=0.00..4.10 rows=200 width=8)
+              ->  Hash  (cost=1.07..1.07 rows=2 width=52)
+                    ->  Seq Scan on hall  (cost=0.00..1.07 rows=2 width=52)
+
+
+***big data***
+Finalize GroupAggregate  (cost=88609.87..89873.95 rows=4800 width=64)
+"  Group Key: o.id, hall.name"
+  ->  Gather Merge  (cost=88609.87..89729.95 rows=9600 width=64)
+        Workers Planned: 2
+        ->  Sort  (cost=87609.85..87621.85 rows=4800 width=64)
+"              Sort Key: o.id DESC, hall.name"
+              ->  Partial HashAggregate  (cost=87268.36..87316.36 rows=4800 width=64)
+"                    Group Key: o.id, hall.name"
+                    ->  Hash Left Join  (cost=75.34..70598.36 rows=1667000 width=60)
+                          Hash Cond: (ticket.id = o.ticket_id)
+                          ->  Hash Left Join  (cost=7.70..60101.96 rows=1667000 width=56)
+                                Hash Cond: (place.hall_id = hall.id)
+                                ->  Hash Left Join  (cost=6.60..46452.30 rows=1667000 width=12)
+                                      Hash Cond: (ticket.place_id = place.id)
+                                      ->  Parallel Seq Scan on ticket  (cost=0.00..41977.10 rows=1667000 width=12)
+                                      ->  Hash  (cost=4.10..4.10 rows=200 width=8)
+                                            ->  Seq Scan on place  (cost=0.00..4.10 rows=200 width=8)
+                                ->  Hash  (cost=1.07..1.07 rows=2 width=52)
+                                      ->  Seq Scan on hall  (cost=0.00..1.07 rows=2 width=52)
+                          ->  Hash  (cost=37.65..37.65 rows=2400 width=8)
+"                                ->  Seq Scan on ""order"" o  (cost=0.00..37.65 rows=2400 width=8)"
+
+
+
+5)select o.id as order_id, c.id as cus_id, fs.start_at, fs.finished_at
+  from "order" o
+           left join ticket t on t.id = o.ticket_id
+           left join film_schedule fs on fs.id = t.film_schedule_id
+           left join film f2 on f2.id = fs.film_id
+           left join customer c on t.customer_id = c.id;
+
+***small data***
+Hash Left Join  (cost=124.12..194.77 rows=2400 width=24)
+  Hash Cond: (o.ticket_id = t.id)
+"  ->  Seq Scan on ""order"" o  (cost=0.00..37.65 rows=2400 width=8)"
+  ->  Hash  (cost=114.12..114.12 rows=800 width=24)
+        ->  Hash Left Join  (cost=97.94..114.12 rows=800 width=24)
+              Hash Cond: (t.film_schedule_id = fs.id)
+              ->  Merge Left Join  (cost=52.11..66.19 rows=800 width=12)
+                    Merge Cond: (t.customer_id = c.id)
+                    ->  Sort  (cost=51.83..53.83 rows=800 width=12)
+                          Sort Key: t.customer_id
+                          ->  Seq Scan on ticket t  (cost=0.00..13.25 rows=800 width=12)
+                    ->  Index Only Scan using customer_pkey on customer c  (cost=0.29..183.28 rows=10000 width=4)
+              ->  Hash  (cost=26.20..26.20 rows=1570 width=24)
+                    ->  Seq Scan on film_schedule fs  (cost=0.00..26.20 rows=1570 width=24)
+
+CREATE INDEX idx_ticket_id ON "order" USING btree(ticket_id);
+CREATE INDEX idx_film_schedule_id ON ticket USING btree(film_schedule_id);
+CREATE INDEX idx_film_id ON film_schedule USING btree(film_id);
+CREATE INDEX idx_start_at ON film_schedule USING btree(start_at);
+CREATE INDEX idx_finished_at ON film_schedule USING btree(finished_at);
+CREATE INDEX idx_customer_id ON ticket USING btree(customer_id);
+
+После применения индексов
+Hash Left Join  (cost=46.14..116.79 rows=2400 width=24)
+  Hash Cond: (o.ticket_id = t.id)
+"  ->  Seq Scan on ""order"" o  (cost=0.00..37.65 rows=2400 width=8)"
+  ->  Hash  (cost=36.14..36.14 rows=800 width=24)
+        ->  Hash Left Join  (cost=1.71..36.14 rows=800 width=24)
+              Hash Cond: (t.film_schedule_id = fs.id)
+              ->  Merge Left Join  (cost=0.44..32.21 rows=800 width=12)
+                    Merge Cond: (t.customer_id = c.id)
+                    ->  Index Scan using idx_customer_id on ticket t  (cost=0.15..19.85 rows=800 width=12)
+                    ->  Index Only Scan using customer_pkey on customer c  (cost=0.29..183.28 rows=10000 width=4)
+              ->  Hash  (cost=1.15..1.15 rows=10 width=24)
+                    ->  Seq Scan on film_schedule fs  (cost=0.00..1.15 rows=10 width=24)
+
+
+
+***big data***
+Hash Left Join  (cost=272322.86..1075574.79 rows=24000050 width=24)
+  Hash Cond: (t.customer_id = c.id)
+  ->  Hash Left Join  (cost=272014.58..1012239.68 rows=24000050 width=24)
+        Hash Cond: (t.film_schedule_id = fs.id)
+        ->  Hash Left Join  (cost=271968.75..949079.16 rows=24000050 width=12)
+              Hash Cond: (o.ticket_id = t.id)
+"              ->  Seq Scan on ""order"" o  (cost=0.00..376217.00 rows=24000050 width=8)"
+              ->  Hash  (cost=130951.85..130951.85 rows=8000060 width=12)
+                    ->  Seq Scan on ticket t  (cost=0.00..130951.85 rows=8000060 width=12)
+        ->  Hash  (cost=26.20..26.20 rows=1570 width=24)
+              ->  Seq Scan on film_schedule fs  (cost=0.00..26.20 rows=1570 width=24)
+  ->  Hash  (cost=183.28..183.28 rows=10000 width=4)
+        ->  Index Only Scan using customer_pkey on customer c  (cost=0.29..183.28 rows=10000 width=4)
+JIT:
+  Functions: 24
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"
+
+
+После применения индексов cost не изменился
+**********************************************************
+
+
+6)SELECT film.name, earnings.money
+  FROM film
+           LEFT JOIN (SELECT film_schedule.film_id, SUM(fspp.price) as money
+                      FROM ticket
+                               LEFT JOIN film_schedule ON film_schedule.id = ticket.film_schedule_id
+                               LEFT JOIN place p ON ticket.place_id = p.id
+                               LEFT JOIN film_schedule_place_price AS fspp ON film_schedule.id = fspp.film_schedule_id
+                      WHERE fspp.price IS NOT NULL
+                      GROUP BY film_schedule.film_id) AS earnings
+                     ON film.id = earnings.film_id;
+
+
+***small data***
+Hash Left Join  (cost=161.90..173.54 rows=90 width=304)
+  Hash Cond: (film.id = earnings.film_id)
+  ->  Seq Scan on film  (cost=0.00..11.40 rows=90 width=276)
+  ->  Hash  (cost=159.40..159.40 rows=200 width=36)
+        ->  Subquery Scan on earnings  (cost=154.90..159.40 rows=200 width=36)
+              ->  HashAggregate  (cost=154.90..157.40 rows=200 width=36)
+                    Group Key: film_schedule.film_id
+                    ->  Hash Join  (cost=95.66..146.45 rows=1691 width=16)
+                          Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+                          ->  Seq Scan on ticket  (cost=0.00..27.50 rows=1700 width=8)
+                          ->  Hash  (cost=76.14..76.14 rows=1562 width=24)
+                                ->  Hash Join  (cost=45.83..76.14 rows=1562 width=24)
+                                      Hash Cond: (fspp.film_schedule_id = film_schedule.id)
+                                      ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..26.20 rows=1562 width=16)
+                                            Filter: (price IS NOT NULL)
+                                      ->  Hash  (cost=26.20..26.20 rows=1570 width=8)
+                                            ->  Seq Scan on film_schedule  (cost=0.00..26.20 rows=1570 width=8)
+
+После применения индексов
+CREATE INDEX idx_film_id ON film_schedule USING btree(film_id);
+CREATE INDEX idx_film_schedule_id ON ticket USING btree(film_schedule_id);
+CREATE INDEX idx_place_id ON ticket USING btree(place_id);
+
+Hash Left Join  (cost=835.98..847.63 rows=90 width=304)
+  Hash Cond: (film.id = earnings.film_id)
+  ->  Seq Scan on film  (cost=0.00..11.40 rows=90 width=276)
+  ->  Hash  (cost=835.86..835.86 rows=10 width=36)
+        ->  Subquery Scan on earnings  (cost=835.63..835.86 rows=10 width=36)
+              ->  HashAggregate  (cost=835.63..835.76 rows=10 width=36)
+                    Group Key: film_schedule.film_id
+                    ->  Hash Join  (cost=110.48..210.83 rows=124960 width=16)
+                          Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+                          ->  Merge Join  (cost=109.21..195.06 rows=4280 width=20)
+                                Merge Cond: (ticket.film_schedule_id = fspp.film_schedule_id)
+                                ->  Index Scan using idx_film_schedule_id on ticket  (cost=0.15..19.80 rows=800 width=8)
+                                ->  Sort  (cost=109.06..112.96 rows=1562 width=16)
+                                      Sort Key: fspp.film_schedule_id
+                                      ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..26.20 rows=1562 width=16)
+                                            Filter: (price IS NOT NULL)
+                          ->  Hash  (cost=1.15..1.15 rows=10 width=8)
+                                ->  Seq Scan on film_schedule  (cost=0.00..1.15 rows=10 width=8)
+
+
+***big data***
+Hash Right Join  (cost=34940.21..34994.92 rows=90 width=304)
+  Hash Cond: (film_schedule.film_id = film.id)
+  ->  Finalize GroupAggregate  (cost=34927.69..34979.86 rows=200 width=36)
+        Group Key: film_schedule.film_id
+        ->  Gather Merge  (cost=34927.69..34974.36 rows=400 width=36)
+              Workers Planned: 2
+              ->  Sort  (cost=33927.66..33928.16 rows=200 width=36)
+                    Sort Key: film_schedule.film_id
+                    ->  Partial HashAggregate  (cost=33917.52..33920.02 rows=200 width=36)
+                          Group Key: film_schedule.film_id
+                          ->  Hash Join  (cost=95.66..29772.08 rows=829087 width=16)
+                                Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+                                ->  Parallel Seq Scan on ticket  (cost=0.00..21044.63 rows=833333 width=8)
+                                ->  Hash  (cost=76.14..76.14 rows=1562 width=24)
+                                      ->  Hash Join  (cost=45.83..76.14 rows=1562 width=24)
+                                            Hash Cond: (fspp.film_schedule_id = film_schedule.id)
+                                            ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..26.20 rows=1562 width=16)
+                                                  Filter: (price IS NOT NULL)
+                                            ->  Hash  (cost=26.20..26.20 rows=1570 width=8)
+                                                  ->  Seq Scan on film_schedule  (cost=0.00..26.20 rows=1570 width=8)
+  ->  Hash  (cost=11.40..11.40 rows=90 width=276)
+        ->  Seq Scan on film  (cost=0.00..11.40 rows=90 width=276)
+
+
+После применения индексов
+Hash Left Join  (cost=766775.59..766787.23 rows=90 width=304)
+  Hash Cond: (film.id = earnings.film_id)
+  ->  Seq Scan on film  (cost=0.00..11.40 rows=90 width=276)
+  ->  Hash  (cost=766775.46..766775.46 rows=10 width=36)
+        ->  Subquery Scan on earnings  (cost=766772.75..766775.46 rows=10 width=36)
+              ->  Finalize GroupAggregate  (cost=766772.75..766775.36 rows=10 width=36)
+                    Group Key: film_schedule.film_id
+                    ->  Gather Merge  (cost=766772.75..766775.09 rows=20 width=36)
+                          Workers Planned: 2
+                          ->  Sort  (cost=765772.73..765772.75 rows=10 width=36)
+                                Sort Key: film_schedule.film_id
+                                ->  Partial HashAggregate  (cost=765772.44..765772.56 rows=10 width=36)
+                                      Group Key: film_schedule.film_id
+                                      ->  Hash Join  (cost=110.76..114939.10 rows=130166667 width=16)
+                                            Hash Cond: (ticket.film_schedule_id = film_schedule.id)
+                                            ->  Merge Join  (cost=109.49..100396.14 rows=4322835 width=20)
+                                                  Merge Cond: (ticket.film_schedule_id = fspp.film_schedule_id)
+                                                  ->  Parallel Index Scan using idx_film_schedule_id on ticket  (cost=0.43..33361.26 rows=833333 width=8)
+                                                  ->  Sort  (cost=109.06..112.96 rows=1562 width=16)
+                                                        Sort Key: fspp.film_schedule_id
+                                                        ->  Seq Scan on film_schedule_place_price fspp  (cost=0.00..26.20 rows=1562 width=16)
+                                                              Filter: (price IS NOT NULL)
+                                            ->  Hash  (cost=1.15..1.15 rows=10 width=8)
+                                                  ->  Seq Scan on film_schedule  (cost=0.00..1.15 rows=10 width=8)
+JIT:
+  Functions: 34
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"
+
+
+
+
+
+
+
+
+
+
