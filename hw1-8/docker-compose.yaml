@@ -5,7 +5,11 @@ volumes:
 
 services:
   pg_db:
-    image: postgres:9.4
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    image: myapp/db
+    container_name: pg_db
     restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

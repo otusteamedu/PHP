@@ -6,7 +6,7 @@ SELECT arrays.name[gs.id % ARRAY_LENGTH(arrays.name, 1) + 1],
        arrays.login[gs.id % ARRAY_LENGTH(arrays.login, 1) + 1],
        date(now()) + 30  AS created_at,
        date(now()) + 130 AS updated_at
-FROM generate_series(1, 1000) AS gs(id)
+FROM generate_series(1, 10000) AS gs(id)
          CROSS JOIN(
     SELECT ARRAY [
                'Adam','Bill','Bob','Calvin','Donald','Dwight','Frank','Fred','George','Howard',
@@ -72,11 +72,11 @@ VALUES (1, 2, 200),
 ---place---
 ---- Места для зала №1
 INSERT INTO place (row, col, hall_id, place_category_id)
-select gs.id, 1, 1, floor(random() * 3 + 1)::int from generate_series(1,1000) as gs(id);
+select gs.id, 1, 1, floor(random() * 3 + 1)::int from generate_series(1,100) as gs(id);
 
 ---- Места для зала №2
 INSERT INTO place (row, col, hall_id, place_category_id)
-select gs.id, 1, 2, floor(random() * 3 + 1)::int from generate_series(1,1000) as gs(id);
+select gs.id, 1, 2, floor(random() * 3 + 1)::int from generate_series(1,100) as gs(id);
 
 ---ticket---
 -- INSERT INTO ticket (place_id, film_schedule_id, customer_id, date)
@@ -95,7 +95,7 @@ select gs.id, 1, 2, floor(random() * 3 + 1)::int from generate_series(1,1000) as
 
 INSERT INTO ticket (place_id, film_schedule_id, customer_id, date)
 SELECT t2.place_id, t2.film_schedule_id, t2.customer_id, date(now()) + day_offset AS "date"
-FROM generate_series(4, 1000) as day_offset
+FROM generate_series(1, 10000) as day_offset
          CROSS JOIN (
     SELECT p.id AS place_id, fspp.film_schedule_id AS film_schedule_id, c.id AS customer_id
     from place p

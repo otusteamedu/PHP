@@ -3,13 +3,13 @@ select customer_id, film_schedule_id, place_id, date
 from ticket
 where date >= '2021-04-02';
 
-select row, col
-from place
-where hall_id = 1;
-
 select *
+from place
+where place.place_category_id >= 1;
+
+select count(*)
 from employee
-where start_work_date > '2018-07-08';
+where start_work_date <= '2018-07-09';
 
 --- 3 сложных запроса
 select o.id as order_id, hall.name, min(date), max(date), o.ticket_id
@@ -40,5 +40,23 @@ FROM film
 
 
 --- optimization ----
-CREATE INDEX idx_ticket_date ON ticket (date);
-CREATE INDEX idx_employee_start_work_date ON employee (start_work_date);
+CREATE INDEX idx_date ON ticket (date);
+CREATE INDEX idx_place_category_id ON place USING btree(place_category_id);
+CREATE INDEX idx_start_work_date ON employee USING btree(start_work_date);
+
+CREATE INDEX idx_date ON ticket USING btree(date);
+CREATE INDEX idx_ticket_id ON "order" USING btree(ticket_id);
+CREATE INDEX idx_place_id ON ticket USING btree(place_id);
+CREATE INDEX idx_hall_id ON place USING btree(hall_id);
+CREATE INDEX idx_name ON hall USING btree(name);
+
+CREATE INDEX idx_ticket_id ON "order" USING btree(ticket_id);
+CREATE INDEX idx_film_schedule_id ON ticket USING btree(film_schedule_id);
+CREATE INDEX idx_film_id ON film_schedule USING btree(film_id);
+CREATE INDEX idx_start_at ON film_schedule USING btree(start_at);
+CREATE INDEX idx_finished_at ON film_schedule USING btree(finished_at);
+CREATE INDEX idx_customer_id ON ticket USING btree(customer_id);
+
+CREATE INDEX idx_film_id ON film_schedule USING btree(film_id);
+CREATE INDEX idx_film_schedule_id ON ticket USING btree(film_schedule_id);
+CREATE INDEX idx_place_id ON ticket USING btree(place_id);
