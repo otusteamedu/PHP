@@ -40,14 +40,11 @@ class EventController extends BaseController
     public function store() : string
     {
         $request = $this->getRequest();
-        $name = $request->get('name');
-        $priority = $request->get('priority');
-        $params = $request->get('params');
 
         $event = new Event();
-        $event->setName($name);
-        $event->setPriority($priority);
-        $event->setParams(explode(',', $params));
+        $event->setName($request->get('name'));
+        $event->setPriority($request->get('priority'));
+        $event->setParams(explode(',', $request->get('params')));
 
         $this->eventRepository->save($event);
 
