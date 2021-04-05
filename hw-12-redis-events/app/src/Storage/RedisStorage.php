@@ -12,10 +12,9 @@ class RedisStorage extends NoSQLStorage
 
     protected Redis $redis;
 
-    private const KEY_SEPARATOR       = ':';
-    private const KEY                 = 'events';
-    private const CONDITION_SEPARATOR = '=';
-    private const CONDITION_KEY       = 'condition';
+    private const KEY_SEPARATOR = ':';
+    private const KEY           = 'events';
+    private const PRIORITY_KEY  = 'priority';
 
     public function __construct()
     {
@@ -30,28 +29,9 @@ class RedisStorage extends NoSQLStorage
 
     public function store (EventDTO $eventDTO): bool
     {
-        foreach ($eventDTO->conditions as $param => $value) {
-            $this->addToConditionList($param, $value, $eventDTO->id);
-        }
-
         $this->storeEvent($eventDTO);
-    }
 
-    private function addToConditionList($param, $value, int $id)
-    {
-        $key = $this->getKeyForConditionList($param, $value);
-
-        return intval($this->redis->sAdd($key, $id));
-    }
-
-    private function getKeyForConditionList ($param, $value): string
-    {
-        return self::KEY . self::KEY_SEPARATOR . self::CONDITION_KEY . self::KEY_SEPARATOR . $this->getConditionString($param, $value);
-    }
-
-    private function getConditionString($param, $value): string
-    {
-        return $param . self::CONDITION_SEPARATOR . $value;
+        $this->storePriority($eventDTO->priority, $eventDTO->id);
     }
 
     private function storeEvent(EventDTO $eventDTO)
@@ -63,9 +43,21 @@ class RedisStorage extends NoSQLStorage
         $this->redis->set($key, $event);
     }
 
+    private function storePriority(int $priority, int $id)
+    {
+        $key = $this->getKeyForPriority();
+
+        $this->redis->zAdd($key, [], $priority, $id);
+    }
+
     private function getKeyForEvent (int $id): string
     {
         return self::KEY . self::KEY_SEPARATOR . $id;
+    }
+
+    private function getKeyForPriority (): string
+    {
+        return self::KEY . self::KEY_SEPARATOR . self::PRIORITY_KEY;
     }
 
     public function getList ()
