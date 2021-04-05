@@ -11,13 +11,21 @@ class RedisStorage extends NoSQLStorage
 
     protected Redis $redis;
 
+    private const KEY_SEPARATOR           = ':';
     private const CONDITIONS_SEPARATOR    = '--';
     private const CONDITIONS_KV_SEPARATOR = '=';
+    private const STORAGE_KEY             = 'events';
+    private const CONDITIONS_KEY          = 'conditions';
 
     public function __construct()
     {
         $this->redis = new Redis();
         $this->redis->connect('redis');
+    }
+
+    public function deleteAll (): int
+    {
+        return intval($this->redis->del($this->redis->keys(self::STORAGE_KEY . '*')));
     }
 
     public function store (EventDTO $eventDTO): bool
@@ -45,7 +53,7 @@ class RedisStorage extends NoSQLStorage
     {
         $conditions = $this->getConditionsSting($eventDTO->conditions);
 
-        return 'events:conditions:' . $conditions;
+        return self::STORAGE_KEY . self::KEY_SEPARATOR . self::CONDITIONS_KEY . self::KEY_SEPARATOR . $conditions;
     }
 
     private function getConditionsSting(array $conditions): string
@@ -70,6 +78,6 @@ class RedisStorage extends NoSQLStorage
 
     private function getEventKey(EventDTO $eventDTO)
     {
-        return 'events:' . $eventDTO->id;
+        return self::STORAGE_KEY . self::KEY_SEPARATOR . $eventDTO->id;
     }
 }
