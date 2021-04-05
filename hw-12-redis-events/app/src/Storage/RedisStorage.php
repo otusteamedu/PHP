@@ -2,6 +2,7 @@
 
 namespace App\Storage;
 
+use App\Models\DTO\EventDTO;
 use Redis;
 
 class RedisStorage extends NoSQLStorage
@@ -14,6 +15,10 @@ class RedisStorage extends NoSQLStorage
     {
         $this->redis = new Redis();
         $this->redis->connect('redis');
-        var_dump($this->redis->keys('events*'));
+    }
+
+    public function store(EventDTO $eventDTO)
+    {
+
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Models\DTO\EventDTO;
+use App\Storage\Storage;
 use App\Validators\EventDTOValidator;
 
 class AddCommand implements CommandInterface
@@ -14,9 +15,9 @@ class AddCommand implements CommandInterface
         $conditions = $params['conditions'] ?? [];
         $event      = strval($params['event'] ?? '');
 
-        $event = new EventDTO($id, $priority, $conditions, $event);
+        $eventDTO = new EventDTO($id, $priority, $conditions, $event);
 
-        if (EventDTOValidator::validate($event) === false) {
+        if (EventDTOValidator::validate($eventDTO) === false) {
             return json_encode(
                 [
                     'result' => 'error',
@@ -25,6 +26,6 @@ class AddCommand implements CommandInterface
             );
         }
 
-
+        Storage::getInstance()->getStorage()->store($eventDTO);
     }
 }
