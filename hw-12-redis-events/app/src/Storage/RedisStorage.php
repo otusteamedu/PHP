@@ -3,6 +3,7 @@
 namespace App\Storage;
 
 use App\Models\DTO\EventDTO;
+use App\Models\Event;
 use Redis;
 
 class RedisStorage extends NoSQLStorage
@@ -11,12 +12,10 @@ class RedisStorage extends NoSQLStorage
 
     protected Redis $redis;
 
-    private const KEY_SEPARATOR           = ':';
-    private const CONDITIONS_SEPARATOR    = '--';
-    private const CONDITIONS_KV_SEPARATOR = '=';
-    private const EVENTS_KEY             = 'events';
-    private const CONDITION_KEY          = 'condition';
-    private const FULL_CONDITIONS_KEY    = 'full_conditions';
+    private const KEY_SEPARATOR       = ':';
+    private const KEY                 = 'events';
+    private const CONDITION_SEPARATOR = '=';
+    private const CONDITION_KEY       = 'condition';
 
     public function __construct()
     {
@@ -26,117 +25,51 @@ class RedisStorage extends NoSQLStorage
 
     public function deleteAll (): int
     {
-        return intval($this->redis->del($this->redis->keys(self::EVENTS_KEY . '*')));
+        return intval($this->redis->del($this->redis->keys(self::KEY . '*')));
     }
 
     public function store (EventDTO $eventDTO): bool
     {
-        $fullConditions = [];
-
-        foreach ($eventDTO->conditions as $key => $value) {
-            $this->addEventToCondition($key, $value, $eventDTO);
-
-            $fullConditions[] = $key . self::CONDITIONS_KV_SEPARATOR . $value;
+        foreach ($eventDTO->conditions as $param => $value) {
+            $this->addToConditionList($param, $value, $eventDTO->id);
         }
 
-        //$fullConditions = implode(self::CONDITIONS_SEPARATOR, $fullConditions);
-
-        $this->storeFullContidions($fullConditions, $eventDTO);
-
-        return true;
+        $this->storeEvent($eventDTO);
     }
 
-    private function storeFullContidions(array $fullConditions, EventDTO $eventDTO)
+    private function addToConditionList($param, $value, int $id)
     {
-        $key = $this->getFullConditionsKey($eventDTO->id);
+        $key = $this->getKeyForConditionList($param, $value);
 
-        $this->redis->sAddArray($key, $fullConditions);
+        return intval($this->redis->sAdd($key, $id));
     }
 
-    private function addEventToCondition (string $key, string $value, EventDTO $eventDTO): int
+    private function getKeyForConditionList ($param, $value): string
     {
-        $key = $this->getConditionKey($key, $value);
-
-        $result = $this->redis->sAdd($key, 'ddd');
-
-        return intval($result);
+        return self::KEY . self::KEY_SEPARATOR . self::CONDITION_KEY . self::KEY_SEPARATOR . $this->getConditionString($param, $value);
     }
 
-    private function getConditionKey(string $key, string $value)
+    private function getConditionString($param, $value): string
     {
-        return self::EVENTS_KEY . self::KEY_SEPARATOR . self::CONDITION_KEY . self::KEY_SEPARATOR . $key . self::CONDITIONS_KV_SEPARATOR . $value;
+        return $param . self::CONDITION_SEPARATOR . $value;
     }
 
-    private function getFullConditionsKey(int $id): string
+    private function storeEvent(EventDTO $eventDTO)
     {
-        return self::EVENTS_KEY . self::KEY_SEPARATOR . self::FULL_CONDITIONS_KEY . self::KEY_SEPARATOR . $id;
+        $key = $this->getKeyForEvent($eventDTO->id);
+
+        $event = Event::toJson($eventDTO);
+
+        $this->redis->set($key, $event);
+    }
+
+    private function getKeyForEvent (int $id): string
+    {
+        return self::KEY . self::KEY_SEPARATOR . $id;
     }
 
     public function getList ()
     {
-        var_dump($this->redis->set('events:ping', 'pong'));
-
-        $keys = $this->redis->keys(self::EVENTS_KEY . '*');
-
-        $result = [];
-
-        foreach ($keys as $key) {
-            $result[$key] = $this->redis->get($key);
-        }
-
-        return $result;
+        return $this->redis->keys('*');
     }
-
-    /*public function store (EventDTO $eventDTO): bool
-    {
-        $key = $this->getConditionsKey($eventDTO);
-
-        $result = $this->redis->zAdd($key, [], $eventDTO->priority, $eventDTO->id);
-
-        if ($result !== 1) {
-            return false;
-        }
-
-        $key = $this->getEventKey($eventDTO);
-
-        $result = $this->redis->set($key, $eventDTO->event);
-
-        if ($result !== true) {
-            return false;
-        }
-
-        return true;
-    }*/
-
-    /*private function getConditionsKey(EventDTO $eventDTO)
-    {
-        $conditions = $this->getConditionsSting($eventDTO->conditions);
-
-        return self::STORAGE_KEY . self::KEY_SEPARATOR . self::CONDITIONS_KEY . self::KEY_SEPARATOR . $conditions;
-    }
-
-    private function getConditionsSting(array $conditions): string
-    {
-        $conditions = $this->getSortedConditions($conditions);
-
-        $result = [];
-
-        foreach ($conditions as $param => $value) {
-            $result[] = $param . self::CONDITIONS_KV_SEPARATOR . $value;
-        }
-
-        return implode(self::CONDITIONS_SEPARATOR, $result);
-    }
-
-    private function getSortedConditions(array $conditions): array
-    {
-        ksort($conditions);
-
-        return $conditions;
-    }
-
-    private function getEventKey(EventDTO $eventDTO)
-    {
-        return self::STORAGE_KEY . self::KEY_SEPARATOR . $eventDTO->id;
-    }*/
 }
