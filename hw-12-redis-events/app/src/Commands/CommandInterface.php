@@ -4,5 +4,5 @@ namespace App\Commands;
 
 interface CommandInterface
 {
-    public function execute (): string;
+    public function execute (array $params): string;
 }

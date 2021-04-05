@@ -7,12 +7,13 @@ use Monolog\Logger;
 
 class Router
 {
-    public static function dispatch(string $payload)
+    public static function dispatch (string $payload): string
     {
         Log::getInstance()->addRecord('query payload: ' . $payload, Logger::INFO);
 
         $request = json_decode($payload, true);
         $command = $request['cmd'] ?? '';
+        $params  = $request['params'] ?? [];
 
         $fullCommandName = self::getFullCommandName($command);
 
@@ -21,10 +22,15 @@ class Router
 
             Log::getInstance()->addRecord($resultMsg, Logger::ERROR);
 
-            return json_encode(['error' => $resultMsg]);
+            return json_encode(
+                [
+                    'result' => 'error',
+                    'msg'    => $resultMsg,
+                ]
+            );
         }
         else {
-            return (new $fullCommandName())->execute();
+            return json_encode((new $fullCommandName())->execute($params));
         }
     }
 
