@@ -19,6 +19,24 @@ class Video extends BaseEntity
     private ?Carbon $publishedAt = null;
     private Channel $channel;
 
+    protected ?string $id = null;
+
+    /**
+     * @return string|null
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
     /**
      * @return string
      */

@@ -21,7 +21,7 @@ class BaseController
 
     protected function redirect(string $route, int $code = 302, array $headers = []): string
     {
-        $url = $_ENV['APP_URL'] . '/' . $route;
+        $url = env('APP_URL') . '/' . $route;
 
         return new RedirectResponse($url, $code, $headers);
     }
@@ -42,6 +42,14 @@ class BaseController
 
     protected function renderView(string $viewPath, array $arguments = []) : string
     {
+        $viewPath = str_replace('.', '/', $viewPath);
+        $viewPath = '/' . trim(str_replace('.', '/', $viewPath), '/');
+
         return (new View($viewPath, $arguments))->render();
+    }
+
+    protected function getRequest() : Request
+    {
+        return Request::getInstance();
     }
 }

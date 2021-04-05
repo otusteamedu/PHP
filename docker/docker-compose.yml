@@ -16,7 +16,7 @@ services:
     image: nginx:latest
     container_name: webserver
     ports:
-      - "80:80"
+      - 80:80
     volumes:
        - ../app:/app/app.loc
        - ./nginx/hosts:/etc/nginx/conf.d
@@ -39,6 +39,13 @@ services:
       - ./elastic:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    networks:
+      - app-network
+  redis:
+    image: redis:alpine
+    container_name:  redis
+    ports:
+      - 6380:6379
     networks:
       - app-network
 networks:
