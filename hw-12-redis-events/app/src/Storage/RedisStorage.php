@@ -57,7 +57,7 @@ class RedisStorage extends NoSQLStorage
     {
         $key = $this->getConditionKey($key, $value);
 
-        $result = $this->redis->sAdd($key, $eventDTO->id);
+        $result = $this->redis->sAdd($key, 'ddd');
 
         return intval($result);
     }
@@ -67,13 +67,15 @@ class RedisStorage extends NoSQLStorage
         return self::EVENTS_KEY . self::KEY_SEPARATOR . self::CONDITION_KEY . self::KEY_SEPARATOR . $key . self::CONDITIONS_KV_SEPARATOR . $value;
     }
 
-    private function getFullConditionsKey(int $id)
+    private function getFullConditionsKey(int $id): string
     {
         return self::EVENTS_KEY . self::KEY_SEPARATOR . self::FULL_CONDITIONS_KEY . self::KEY_SEPARATOR . $id;
     }
 
     public function getList ()
     {
+        var_dump($this->redis->set('events:ping', 'pong'));
+
         $keys = $this->redis->keys(self::EVENTS_KEY . '*');
 
         $result = [];
