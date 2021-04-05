@@ -14,8 +14,9 @@ class RedisStorage extends NoSQLStorage
     private const KEY_SEPARATOR           = ':';
     private const CONDITIONS_SEPARATOR    = '--';
     private const CONDITIONS_KV_SEPARATOR = '=';
-    private const STORAGE_KEY             = 'events';
-    private const CONDITIONS_KEY          = 'conditions';
+    private const EVENTS_KEY             = 'events';
+    private const CONDITION_KEY          = 'condition';
+    private const FULL_CONDITIONS_KEY    = 'full_conditions';
 
     public function __construct()
     {
@@ -25,10 +26,66 @@ class RedisStorage extends NoSQLStorage
 
     public function deleteAll (): int
     {
-        return intval($this->redis->del($this->redis->keys(self::STORAGE_KEY . '*')));
+        return intval($this->redis->del($this->redis->keys(self::EVENTS_KEY . '*')));
     }
 
     public function store (EventDTO $eventDTO): bool
+    {
+        $fullConditions = [];
+
+        foreach ($eventDTO->conditions as $key => $value) {
+            $this->addEventToCondition($key, $value, $eventDTO);
+
+            $fullConditions[] = $key . self::CONDITIONS_KV_SEPARATOR . $value;
+        }
+
+        //$fullConditions = implode(self::CONDITIONS_SEPARATOR, $fullConditions);
+
+        $this->storeFullContidions($fullConditions, $eventDTO);
+
+        return true;
+    }
+
+    private function storeFullContidions(array $fullConditions, EventDTO $eventDTO)
+    {
+        $key = $this->getFullConditionsKey($eventDTO->id);
+
+        $this->redis->sAddArray($key, $fullConditions);
+    }
+
+    private function addEventToCondition (string $key, string $value, EventDTO $eventDTO): int
+    {
+        $key = $this->getConditionKey($key, $value);
+
+        $result = $this->redis->sAdd($key, $eventDTO->id);
+
+        return intval($result);
+    }
+
+    private function getConditionKey(string $key, string $value)
+    {
+        return self::EVENTS_KEY . self::KEY_SEPARATOR . self::CONDITION_KEY . self::KEY_SEPARATOR . $key . self::CONDITIONS_KV_SEPARATOR . $value;
+    }
+
+    private function getFullConditionsKey(int $id)
+    {
+        return self::EVENTS_KEY . self::KEY_SEPARATOR . self::FULL_CONDITIONS_KEY . self::KEY_SEPARATOR . $id;
+    }
+
+    public function getList ()
+    {
+        $keys = $this->redis->keys(self::EVENTS_KEY . '*');
+
+        $result = [];
+
+        foreach ($keys as $key) {
+            $result[$key] = $this->redis->get($key);
+        }
+
+        return $result;
+    }
+
+    /*public function store (EventDTO $eventDTO): bool
     {
         $key = $this->getConditionsKey($eventDTO);
 
@@ -47,9 +104,9 @@ class RedisStorage extends NoSQLStorage
         }
 
         return true;
-    }
+    }*/
 
-    private function getConditionsKey(EventDTO $eventDTO)
+    /*private function getConditionsKey(EventDTO $eventDTO)
     {
         $conditions = $this->getConditionsSting($eventDTO->conditions);
 
@@ -79,5 +136,5 @@ class RedisStorage extends NoSQLStorage
     private function getEventKey(EventDTO $eventDTO)
     {
         return self::STORAGE_KEY . self::KEY_SEPARATOR . $eventDTO->id;
-    }
+    }*/
 }
