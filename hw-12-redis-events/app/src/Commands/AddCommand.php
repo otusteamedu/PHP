@@ -26,6 +26,23 @@ class AddCommand implements CommandInterface
             );
         }
 
-        Storage::getInstance()->getStorage()->store($eventDTO);
+        $insertResult = Storage::getInstance()->getStorage()->store($eventDTO);
+
+        if ($insertResult === false)
+        {
+            return json_encode(
+                [
+                    'result' => 'error',
+                    'msg'    => 'database store error',
+                ]
+            );
+        }
+
+        return json_encode(
+            [
+                'result' => 'success',
+                'msg'    => 'OK',
+            ]
+        );
     }
 }
