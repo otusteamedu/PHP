@@ -18,5 +18,22 @@ class SearchCommand implements CommandInterface
         }
 
         $result = Storage::getInstance()->getStorage()->search($params);
+
+        if (!$result) {
+            return json_encode(
+                [
+                    'result' => 'error',
+                    'msg'    => 'events not found',
+                ]
+            );
+        }
+
+        return json_encode(
+            [
+                'result' => 'success',
+                'msg'    => 'OK',
+                'event'  => json_decode($result),
+            ]
+        );
     }
 }

@@ -30,7 +30,7 @@ class Router
             );
         }
         else {
-            return json_encode((new $fullCommandName())->execute($params));
+            return (new $fullCommandName())->execute($params);
         }
     }
 

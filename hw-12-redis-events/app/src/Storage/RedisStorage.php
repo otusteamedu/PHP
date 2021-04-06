@@ -2,6 +2,8 @@
 
 namespace App\Storage;
 
+use App\Log\Log;
+use App\Models\Condition;
 use App\Models\DTO\EventDTO;
 use App\Models\Event;
 use Exception;
@@ -24,9 +26,89 @@ class RedisStorage extends NoSQLStorage
         $this->redis->connect('redis');
     }
 
-    public function search (array $params): ?EventDTO
+    public function search (array $params): ?string
     {
-        return null;
+        $matchedEvents = $this->getMatchedEvents($params);
+
+        if (!isset($matchedEvents[0])) {
+            return null;
+        }
+
+        $event = $this->getEventById($matchedEvents[0]);
+
+        return $event;
+    }
+
+    private function getEventById (int $id)
+    {
+        $key = $this->getEventKey($id);
+
+        return $this->redis->get($key);
+    }
+
+    private function getMatchedEvents (array $params): array
+    {
+        $conditions = $this->prepareConditions($params);
+
+        $matchedEvents = [];
+        $events        = [];
+
+        foreach ($conditions as $condition) {
+            $containingEvents = $this->getEventsByCondition($condition);
+
+            $events = array_merge($events, $containingEvents);
+        }
+
+        $events = array_unique($events);
+
+        foreach ($events as $id) {
+            $eventConditions = $this->getEventConditions($id);
+
+            if (count(array_intersect($eventConditions, $conditions)) === count($eventConditions)) {
+                $matchedEvents[] = $id;
+            }
+        }
+
+        $eventsPriority = $this->getEventsPriority();
+
+        return array_values(array_intersect($eventsPriority, $matchedEvents));
+    }
+
+    private function getEventsPriority()
+    {
+        $key = $this->getPriorityKey();
+
+        return $this->redis->zRevRangeByScore(
+            $key,
+            '+inf',
+            '-inf',
+            ['limit' => [0, 1000]]
+        );
+    }
+
+    private function getEventConditions (int $id): array
+    {
+        $key = $this->getEventConditionsKey($id);
+
+        return (array)$this->redis->sMembers($key);
+    }
+
+    private function getEventsByCondition ($condition): array
+    {
+        $key = $this->getConditionsKey($condition);
+
+        return (array)$this->redis->sMembers($key);
+    }
+
+    private function prepareConditions (array $params): array
+    {
+        $conditions = [];
+
+        foreach ($params as $k => $v) {
+            $conditions[] = Condition::getConditionString($k, $v);
+        }
+
+        return $conditions;
     }
 
     public function store (EventDTO $eventDTO): bool

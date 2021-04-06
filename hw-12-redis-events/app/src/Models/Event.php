@@ -8,8 +8,6 @@ class Event
 {
     private EventDTO $eventDTO;
 
-    private const CONDTITIONS_STRING_SEPARATOR = '=';
-
     public function __construct(EventDTO $eventDTO)
     {
         $this->eventDTO = $eventDTO;
@@ -32,7 +30,7 @@ class Event
         $result = [];
 
         foreach ($this->eventDTO->getConditions() as $k => $v) {
-            $result[] = strval($k) . self::CONDTITIONS_STRING_SEPARATOR . strval($v);
+            $result[] = Condition::getConditionString($k, $v);
         }
 
         return $result;
