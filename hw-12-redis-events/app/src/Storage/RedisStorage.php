@@ -177,14 +177,14 @@ class RedisStorage extends NoSQLStorage
 
         $added = $this->redis->sAdd($key, $eventDTO->getId());
 
-        if ($added !== true) {
+        if ($added !== 1) {
             throw new Exception('events list store error');
         }
 
         return $added;
     }
 
-    private function storeEventConditions (EventDTO $eventDTO): bool
+    private function storeEventConditions (EventDTO $eventDTO): int
     {
         $key        = $this->getEventConditionsKey($eventDTO->getId());
         $event      = new Event($eventDTO);
@@ -192,11 +192,11 @@ class RedisStorage extends NoSQLStorage
 
         $added = $this->redis->sAddArray($key, $conditions);
 
-        if ($added !== true) {
+        if (!$added) {
             throw new Exception('event store error');
         }
 
-        return $added;
+        return (int)$added;
     }
 
     private function getPriorityKey (): string
