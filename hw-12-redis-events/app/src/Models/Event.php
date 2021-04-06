@@ -6,15 +6,27 @@ use App\Models\DTO\EventDTO;
 
 class Event
 {
-    public static function toJson(EventDTO $eventDTO)
+    private EventDTO $eventDTO;
+
+    public function __construct(EventDTO $eventDTO)
+    {
+        $this->eventDTO = $eventDTO;
+    }
+
+    public function toJson()
     {
         return json_encode(
             [
-                'id'         => $eventDTO->id,
-                'priority'   => $eventDTO->priority,
-                'conditions' => $eventDTO->conditions,
-                'event'      => $eventDTO->event,
+                'id'         => $this->eventDTO->getId(),
+                'priority'   => $this->eventDTO->getPriority(),
+                'conditions' => $this->eventDTO->getConditions(),
+                'event'      => $this->eventDTO->getEvent(),
             ]
         );
+    }
+
+    public function getConditionsJson (): string
+    {
+        return json_encode($this->eventDTO->getConditions());
     }
 }

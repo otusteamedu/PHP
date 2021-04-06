@@ -21,4 +21,24 @@ class EventDTO extends DTO
         $this->conditions = $conditions;
         $this->event      = $event;
     }
+
+    public function getId (): int
+    {
+        return $this->id;
+    }
+
+    public function getPriority (): int
+    {
+        return $this->priority;
+    }
+
+    public function getConditions (): array
+    {
+        return $this->conditions;
+    }
+
+    public function getEvent (): string
+    {
+        return $this->event;
+    }
 }
