@@ -4,12 +4,12 @@ namespace App\Storage;
 
 use App\Config\Config;
 use App\Log\Log;
+use App\Models\Condition;
 use App\Models\DTO\EventDTO;
 use App\Models\Event;
 use App\Structures\MongoStructureReader;
 use Exception;
 use MongoDB\Client;
-use Symfony\Component\Yaml\Exception\ParseException;
 
 class MongoStorage extends NoSQLStorage
 {
@@ -72,8 +72,112 @@ class MongoStorage extends NoSQLStorage
 
     public function search (array $params): ?string
     {
-        return '';
-        // TODO: Implement search() method.
+        $matchedEvents = $this->getMatchedEvents($params);
+
+        $primeEvent = $this->getPrimeEvent($matchedEvents);
+
+        if (!is_null($primeEvent)) {
+            return json_encode($primeEvent);
+        }
+
+        return null;
+    }
+
+    private function getMatchedEvents (array $params): array
+    {
+        $conditions = $this->prepareConditions($params);
+
+        $matchedEvents = [];
+        $events        = [];
+
+        foreach ($conditions as $condition) {
+            $containingEvents = $this->getEventsByCondition($condition);
+
+            $events = array_merge($events, $containingEvents);
+        }
+
+        $events = array_unique($events);
+
+        foreach ($events as $id) {
+            $eventConditions = $this->getEventConditions($id);
+
+            if (count(array_intersect($eventConditions, $conditions)) === count($eventConditions)) {
+                $matchedEvents[] = $id;
+            }
+        }
+
+        return $matchedEvents;
+    }
+
+    private function getPrimeEvent($matchedEvents): ?array
+    {
+        $this->collection = $this->database->selectCollection(self::EVENTS_INDEX_NAME);
+
+        $filter  = ['id' => ['$in' => $matchedEvents]];
+        $options = ['sort' => ['priority' => -1]];
+
+        $result = $this->collection->findOne($filter, $options);
+
+        if ($result) {
+            $result = (array)$result;
+            unset($result['_id']);
+            return $result;
+        }
+
+        return null;
+    }
+
+    private function getEventConditions (int $id): array
+    {
+        $this->collection = $this->database->selectCollection(self::CONDITIONS_INDEX_NAME);
+
+        $params = [
+            'event_id' => $id,
+        ];
+
+        $cursor = $this->collection->find($params);
+
+        $result = [];
+
+        foreach ($cursor as $item) {
+            if (isset($item->condition)) {
+                $result[] = $item->condition;
+            }
+        }
+
+        return $result;
+    }
+
+    private function getEventsByCondition ($condition): array
+    {
+        $this->collection = $this->database->selectCollection(self::CONDITIONS_INDEX_NAME);
+
+        $params = [
+            'condition' => $condition,
+        ];
+
+        $cursor = $this->collection->find($params);
+
+        $result = [];
+
+        foreach ($cursor as $item) {
+            if (isset($item->event_id)) {
+                $result[] = $item->event_id;
+            }
+        }
+
+        return $result;
+    }
+
+    private function prepareConditions (array $params): array
+    {
+        $conditions = [];
+
+        foreach ($params as $k => $v) {
+            $conditions[] = Condition::getConditionString($k, $v);
+        }
+
+        return $conditions;
     }
 
     public function store (EventDTO $eventDTO): bool
