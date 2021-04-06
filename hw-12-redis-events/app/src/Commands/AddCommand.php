@@ -28,8 +28,7 @@ class AddCommand implements CommandInterface
 
         $insertResult = Storage::getInstance()->getStorage()->store($eventDTO);
 
-        if ($insertResult !== true)
-        {
+        if ($insertResult !== true) {
             return json_encode(
                 [
                     'result' => 'error',

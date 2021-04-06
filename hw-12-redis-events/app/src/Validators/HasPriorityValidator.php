@@ -10,9 +10,9 @@ class HasPriorityValidator extends Validator
     {
         Log::getInstance()->addRecord('has priority validation');
 
-        if (!isset($event->priority) || !is_int($event->priority) || $event->priority <= 0)
-        {
+        if (!isset($event->priority) || !is_int($event->priority) || $event->priority <= 0) {
             Log::getInstance()->addRecord('error');
+
             return false;
         }
 

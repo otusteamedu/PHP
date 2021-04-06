@@ -10,9 +10,9 @@ class HasEventValidator extends Validator
     {
         Log::getInstance()->addRecord('has event validation');
 
-        if (!isset($event->event) || !is_string($event->event) || $event->event === '')
-        {
+        if (!isset($event->event) || !is_string($event->event) || $event->event === '') {
             Log::getInstance()->addRecord('error');
+
             return false;
         }
 

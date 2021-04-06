@@ -34,7 +34,7 @@ class Router
         }
     }
 
-    private static function getFullCommandName(string $command): string
+    private static function getFullCommandName (string $command): string
     {
         $className = ucfirst($command) . 'Command';
 

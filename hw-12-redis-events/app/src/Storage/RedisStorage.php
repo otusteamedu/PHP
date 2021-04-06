@@ -2,7 +2,6 @@
 
 namespace App\Storage;
 
-use App\Log\Log;
 use App\Models\Condition;
 use App\Models\DTO\EventDTO;
 use App\Models\Event;
@@ -21,7 +20,7 @@ class RedisStorage extends NoSQLStorage
     private const PRIORITY_KEY   = 'priority';
     private const CONDITIONS_KEY = 'conditions';
 
-    public function __construct()
+    public function __construct ()
     {
         $this->redis = new Redis();
         $this->redis->connect('redis');
@@ -75,7 +74,7 @@ class RedisStorage extends NoSQLStorage
         return array_values(array_intersect($eventsPriority, $matchedEvents));
     }
 
-    private function getEventsPriority()
+    private function getEventsPriority ()
     {
         $key = $this->getPriorityKey();
 

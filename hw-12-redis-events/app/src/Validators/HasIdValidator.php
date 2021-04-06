@@ -10,9 +10,9 @@ class HasIdValidator extends Validator
     {
         Log::getInstance()->addRecord('has id validation');
 
-        if (!isset($event->id) || !is_int($event->id) || $event->id <= 0)
-        {
+        if (!isset($event->id) || !is_int($event->id) || $event->id <= 0) {
             Log::getInstance()->addRecord('error');
+
             return false;
         }
 

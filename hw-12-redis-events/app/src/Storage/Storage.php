@@ -12,21 +12,21 @@ class Storage extends Singleton
     public const STORAGE_CONFIG_KEY      = 'storage';
     public const STORAGE_MODE_CONFIG_KEY = 'storage_mode';
 
-    public function init()
+    public function init ()
     {
         $storageMode = Config::getInstance()->getItem(self::STORAGE_CONFIG_KEY)[self::STORAGE_MODE_CONFIG_KEY];
 
         $this->setStorage($storageMode);
     }
 
-    private function setStorage(string $storageMode)
+    private function setStorage (string $storageMode)
     {
         if ($storageMode === RedisStorage::STORAGE_NAME) {
             $this->storage = new RedisStorage();
         }
     }
 
-    public function getStorage()
+    public function getStorage ()
     {
         return $this->storage;
     }

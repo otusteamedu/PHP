@@ -10,9 +10,9 @@ class HasConditionsValidator extends Validator
     {
         Log::getInstance()->addRecord('has conditions validation');
 
-        if (!isset($event->conditions) || !is_array($event->conditions) || empty($event->conditions))
-        {
+        if (!isset($event->conditions) || !is_array($event->conditions) || empty($event->conditions)) {
             Log::getInstance()->addRecord('error');
+
             return false;
         }
 

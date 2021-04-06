@@ -8,12 +8,12 @@ class Event
 {
     private EventDTO $eventDTO;
 
-    public function __construct(EventDTO $eventDTO)
+    public function __construct (EventDTO $eventDTO)
     {
         $this->eventDTO = $eventDTO;
     }
 
-    public function toJson()
+    public function toJson (): string
     {
         return json_encode(
             [

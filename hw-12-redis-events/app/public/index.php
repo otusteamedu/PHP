@@ -10,7 +10,7 @@ try {
     $app    = new App();
     $result = $app->run();
 
-    Log::getInstance()->addRecord($result, Logger::INFO);
+    Log::getInstance()->addRecord($result);
 } catch (Exception $e) {
     Log::getInstance()->addRecord($e->getMessage(), Logger::ERROR);
 }
