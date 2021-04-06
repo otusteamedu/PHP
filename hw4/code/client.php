@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>otus.ru</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <link rel="stylesheet" href="public/css/styles.css" type="text/css">
     <script src=""></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
     <h1>Homework 4</h1>
     <p></p>
     <p>POST / HTTP/1.1</p>
-    <form method="post" action="index.php">
+    <form method="post" action="public/index.php">
         <p>
             Строка для отправки ( Должна быть не пустой и иметь длину от 2 до 256 символов.
             <br />
