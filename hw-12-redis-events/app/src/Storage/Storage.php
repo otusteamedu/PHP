@@ -10,6 +10,7 @@ class Storage extends Singleton
     private NoSQLStorage $storage;
 
     public const STORAGE_CONFIG_KEY      = 'storage';
+    public const DB_HOST_CONFIG_KEY      = 'db_host';
     public const STORAGE_MODE_CONFIG_KEY = 'storage_mode';
 
     public function init ()
@@ -23,6 +24,9 @@ class Storage extends Singleton
     {
         if ($storageMode === RedisStorage::STORAGE_NAME) {
             $this->storage = new RedisStorage();
+        }
+        if ($storageMode === MongoStorage::STORAGE_NAME) {
+            $this->storage = new MongoStorage();
         }
     }
 

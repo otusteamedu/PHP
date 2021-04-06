@@ -2,7 +2,12 @@
 
 namespace App\Storage;
 
-class NoSQLStorage
+use App\Models\DTO\EventDTO;
+
+abstract class NoSQLStorage
 {
-    protected $client;
+    abstract public function search (array $params): ?string;
+    abstract public function store (EventDTO $eventDTO): bool;
+    abstract public function deleteAll (): int;
+    abstract public function getList (): array;
 }

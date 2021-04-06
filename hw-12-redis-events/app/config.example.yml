@@ -1,3 +1,7 @@
 log_path: '../log/app.log'
 storage:
-  storage_mode: 'redis'
+  #storage_mode: 'redis'
+  storage_mode: 'mongo'
+  db_host: 'mongodb://root:example@mongo:27017'
+structures_extension: 'json'
+structures_path: '../files/structures'

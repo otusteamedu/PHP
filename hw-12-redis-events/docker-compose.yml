@@ -6,6 +6,13 @@ services:
     build:
       context: ./docker/redis
 
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
   php:
     build:
       context: ./docker/php-fpm
