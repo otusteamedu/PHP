@@ -5,17 +5,26 @@ namespace App\Storage;
 use App\Config\Config;
 use App\Log\Log;
 use App\Models\DTO\EventDTO;
+use App\Models\Event;
 use App\Structures\MongoStructureReader;
 use Exception;
 use MongoDB\Client;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class MongoStorage extends NoSQLStorage
 {
-    public const  STORAGE_NAME = 'mongo';
-    private const INDEX_NAME   = 'events';
+    public const  STORAGE_NAME          = 'mongo';
+    private const EVENTS_INDEX_NAME     = 'events';
+    private const CONDITIONS_INDEX_NAME = 'events_conditions';
 
-    private Client $client;
-    private $database;
+    private const INDEXES = [
+        self::EVENTS_INDEX_NAME,
+        self::CONDITIONS_INDEX_NAME,
+    ];
+
+    private Client              $client;
+    private                     $database;
+    private \MongoDB\Collection $collection;
 
     public function __construct()
     {
@@ -31,9 +40,11 @@ class MongoStorage extends NoSQLStorage
 
     private function prepareIndexes()
     {
-        if ($this->isIndexCreated(self::INDEX_NAME) === false) {
-            Log::getInstance()->addRecord('creating index ' . self::INDEX_NAME);
-            $this->createIndex(self::INDEX_NAME);
+        foreach (self::INDEXES as $indexName) {
+            if ($this->isIndexCreated($indexName) === false) {
+                Log::getInstance()->addRecord('creating index ' . $indexName);
+                $this->createIndex($indexName);
+            }
         }
     }
 
@@ -61,12 +72,13 @@ class MongoStorage extends NoSQLStorage
 
     public function search (array $params): ?string
     {
+        return '';
         // TODO: Implement search() method.
     }
 
     public function store (EventDTO $eventDTO): bool
     {
-        $this->collection = $this->database->selectCollection(self::INDEX_NAME);
+        $this->collection = $this->database->selectCollection(self::EVENTS_INDEX_NAME);
 
         $row = [
             '_id'        => $eventDTO->getId(),
@@ -77,21 +89,47 @@ class MongoStorage extends NoSQLStorage
         ];
 
         try {
-            $insertResult = $this->collection->insertOne($row);
-
-            if ($insertResult->getInsertedCount() === 1) {
-                return true;
-            }
+            $eventInsertResult = $this->collection->insertOne($row);
         } catch (Exception $e) {
             return false;
         }
 
-        return false;
+        $this->collection = $this->database->selectCollection(self::CONDITIONS_INDEX_NAME);
+
+        $insertData = [];
+        $event      = new Event($eventDTO);
+        $conditions = $event->getConditionsStrings();
+
+        foreach ($conditions as $condition) {
+            $insertData[] = [
+                'event_id' => $eventDTO->getId(),
+                'condition' => $condition,
+            ];
+        }
+
+        try {
+            $conditionsInsertResult = $this->collection->insertMany($insertData);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     public function deleteAll (): int
     {
-        $this->collection = $this->database->selectCollection(self::INDEX_NAME);
+        $affected = 0;
+
+        foreach (self::INDEXES as $collectionName) {
+            $affected += $this->deleteCollection($collectionName);
+        }
+
+        return $affected;
+    }
+
+    private function deleteCollection(string $collectionName): int
+    {
+        $this->collection = $this->database->selectCollection($collectionName);
 
         $was = $this->collection->countDocuments();
 
@@ -108,7 +146,7 @@ class MongoStorage extends NoSQLStorage
 
     public function getList (): array
     {
-        $this->collection = $this->database->selectCollection(self::INDEX_NAME);
+        $this->collection = $this->database->selectCollection(self::EVENTS_INDEX_NAME);
 
         $cursor = $this->collection->find();
 
