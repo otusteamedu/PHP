@@ -1,0 +1,173 @@
+explain (analyse, buffers)
+select movie.name,
+       sum(ticket.cost) as total_sum from movie
+                                              left join schedule on schedule.movie_id = movie.id
+                                              left join ticket on ticket.schedule_id = schedule.id
+where ticket.id is not null group by movie.id order by total_sum desc limit 1;
+
+# минимальные настройки первый запуск
+Limit  (cost=247825.03..247825.03 rows=1 width=50) (actual time=11775.050..11777.630 rows=1 loops=1)
+  Buffers: shared hit=498 read=94926
+  ->  Sort  (cost=247825.03..247850.04 rows=10004 width=50) (actual time=11760.820..11763.399 rows=1 loops=1)
+        Sort Key: (sum(ticket.cost)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=498 read=94926
+        ->  Finalize GroupAggregate  (cost=245165.47..247775.01 rows=10004 width=50) (actual time=11738.397..11761.391 rows=8288 loops=1)
+              Group Key: movie.id
+              Buffers: shared hit=495 read=94926
+              ->  Gather Merge  (cost=245165.47..247499.90 rows=20008 width=50) (actual time=11738.373..11747.573 rows=24840 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=495 read=94926
+                    ->  Sort  (cost=244165.45..244190.46 rows=10004 width=50) (actual time=11659.993..11660.946 rows=8280 loops=3)
+                          Sort Key: movie.id
+                          Sort Method: quicksort  Memory: 1517kB
+                          Buffers: shared hit=495 read=94926
+                          Worker 0:  Sort Method: quicksort  Memory: 1515kB
+                          Worker 1:  Sort Method: quicksort  Memory: 1515kB
+                          ->  Partial HashAggregate  (cost=243375.71..243500.76 rows=10004 width=50) (actual time=11653.008..11657.323 rows=8280 loops=3)
+                                Group Key: movie.id
+                                Batches: 1  Memory Usage: 2961kB
+                                Buffers: shared hit=481 read=94926
+                                Worker 0:  Batches: 1  Memory Usage: 2961kB
+                                Worker 1:  Batches: 1  Memory Usage: 2961kB
+                                ->  Hash Join  (cost=847.29..206877.52 rows=7299638 width=23) (actual time=33.764..10411.557 rows=5839667 loops=3)
+                                      Hash Cond: (schedule.movie_id = movie.id)
+                                      Buffers: shared hit=481 read=94926
+                                      ->  Hash Join  (cost=540.20..187400.76 rows=7299638 width=9) (actual time=15.340..9188.365 rows=5839667 loops=3)
+                                            Hash Cond: (ticket.schedule_id = schedule.id)
+                                            Buffers: shared hit=317 read=94844
+                                            ->  Parallel Seq Scan on ticket  (cost=0.00..167694.38 rows=7299638 width=7) (actual time=0.549..7617.584 rows=5839667 loops=3)
+                                                  Filter: (id IS NOT NULL)
+                                                  Buffers: shared read=94698
+                                            ->  Hash  (cost=321.20..321.20 rows=17520 width=8) (actual time=14.633..14.633 rows=17520 loops=3)
+                                                  Buckets: 32768  Batches: 1  Memory Usage: 941kB
+                                                  Buffers: shared hit=292 read=146
+                                                  ->  Seq Scan on schedule  (cost=0.00..321.20 rows=17520 width=8) (actual time=0.388..11.718 rows=17520 loops=3)
+                                                        Buffers: shared hit=292 read=146
+                                      ->  Hash  (cost=182.04..182.04 rows=10004 width=18) (actual time=18.364..18.365 rows=10004 loops=3)
+                                            Buckets: 16384  Batches: 1  Memory Usage: 632kB
+                                            Buffers: shared hit=164 read=82
+                                            ->  Seq Scan on movie  (cost=0.00..182.04 rows=10004 width=18) (actual time=9.358..16.365 rows=10004 loops=3)
+                                                  Buffers: shared hit=164 read=82
+Planning:
+  Buffers: shared hit=269 read=40
+Planning Time: 23.298 ms
+JIT:
+  Functions: 82
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 6.186 ms, Inlining 0.000 ms, Optimization 1.746 ms, Emission 38.504 ms, Total 46.437 ms
+Execution Time: 11809.542 ms
+
+# Измененно:
+# shared_buffers = 4192MB (Было 1024MB)
+# work_mem = 32MB (Было 16MB)
+# maintenance_work_mem = 128MB (Было 64MB)
+# первый запуск
+Limit  (cost=247825.03..247825.03 rows=1 width=50) (actual time=11876.172..11890.250 rows=1 loops=1)
+  Buffers: shared hit=498 read=94926
+  ->  Sort  (cost=247825.03..247850.04 rows=10004 width=50) (actual time=11861.639..11875.716 rows=1 loops=1)
+        Sort Key: (sum(ticket.cost)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=498 read=94926
+        ->  Finalize GroupAggregate  (cost=245165.47..247775.01 rows=10004 width=50) (actual time=11839.083..11873.551 rows=8288 loops=1)
+              Group Key: movie.id
+              Buffers: shared hit=495 read=94926
+              ->  Gather Merge  (cost=245165.47..247499.90 rows=20008 width=50) (actual time=11839.058..11859.646 rows=24839 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=495 read=94926
+                    ->  Sort  (cost=244165.45..244190.46 rows=10004 width=50) (actual time=11758.822..11759.754 rows=8280 loops=3)
+                          Sort Key: movie.id
+                          Sort Method: quicksort  Memory: 1517kB
+                          Buffers: shared hit=495 read=94926
+                          Worker 0:  Sort Method: quicksort  Memory: 1515kB
+                          Worker 1:  Sort Method: quicksort  Memory: 1515kB
+                          ->  Partial HashAggregate  (cost=243375.71..243500.76 rows=10004 width=50) (actual time=11751.601..11756.006 rows=8280 loops=3)
+                                Group Key: movie.id
+                                Batches: 1  Memory Usage: 4497kB
+                                Buffers: shared hit=481 read=94926
+                                Worker 0:  Batches: 1  Memory Usage: 4497kB
+                                Worker 1:  Batches: 1  Memory Usage: 4497kB
+                                ->  Hash Join  (cost=847.29..206877.52 rows=7299638 width=23) (actual time=34.147..10511.530 rows=5839667 loops=3)
+                                      Hash Cond: (schedule.movie_id = movie.id)
+                                      Buffers: shared hit=481 read=94926
+                                      ->  Hash Join  (cost=540.20..187400.76 rows=7299638 width=9) (actual time=15.606..9289.544 rows=5839667 loops=3)
+                                            Hash Cond: (ticket.schedule_id = schedule.id)
+                                            Buffers: shared hit=317 read=94844
+                                            ->  Parallel Seq Scan on ticket  (cost=0.00..167694.38 rows=7299638 width=7) (actual time=0.548..7769.955 rows=5839667 loops=3)
+                                                  Filter: (id IS NOT NULL)
+                                                  Buffers: shared read=94698
+                                            ->  Hash  (cost=321.20..321.20 rows=17520 width=8) (actual time=14.897..14.898 rows=17520 loops=3)
+                                                  Buckets: 32768  Batches: 1  Memory Usage: 941kB
+                                                  Buffers: shared hit=292 read=146
+                                                  ->  Seq Scan on schedule  (cost=0.00..321.20 rows=17520 width=8) (actual time=0.391..11.936 rows=17520 loops=3)
+                                                        Buffers: shared hit=292 read=146
+                                      ->  Hash  (cost=182.04..182.04 rows=10004 width=18) (actual time=18.476..18.476 rows=10004 loops=3)
+                                            Buckets: 16384  Batches: 1  Memory Usage: 632kB
+                                            Buffers: shared hit=164 read=82
+                                            ->  Seq Scan on movie  (cost=0.00..182.04 rows=10004 width=18) (actual time=9.312..16.504 rows=10004 loops=3)
+                                                  Buffers: shared hit=164 read=82
+Planning:
+  Buffers: shared hit=269 read=40
+Planning Time: 24.204 ms
+JIT:
+  Functions: 82
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 6.922 ms, Inlining 0.000 ms, Optimization 1.803 ms, Emission 38.220 ms, Total 46.946 ms
+Execution Time: 11924.568 ms
+
+# Повторный запуск
+Limit  (cost=247825.03..247825.03 rows=1 width=50) (actual time=4575.369..4607.579 rows=1 loops=1)
+  Buffers: shared hit=95418
+  ->  Sort  (cost=247825.03..247850.04 rows=10004 width=50) (actual time=4561.678..4593.887 rows=1 loops=1)
+        Sort Key: (sum(ticket.cost)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=95418
+        ->  Finalize GroupAggregate  (cost=245165.47..247775.01 rows=10004 width=50) (actual time=4538.811..4591.734 rows=8288 loops=1)
+              Group Key: movie.id
+              Buffers: shared hit=95418
+              ->  Gather Merge  (cost=245165.47..247499.90 rows=20008 width=50) (actual time=4538.787..4577.822 rows=24793 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=95418
+                    ->  Sort  (cost=244165.45..244190.46 rows=10004 width=50) (actual time=4467.508..4468.422 rows=8264 loops=3)
+                          Sort Key: movie.id
+                          Sort Method: quicksort  Memory: 1516kB
+                          Buffers: shared hit=95418
+                          Worker 0:  Sort Method: quicksort  Memory: 1512kB
+                          Worker 1:  Sort Method: quicksort  Memory: 1512kB
+                          ->  Partial HashAggregate  (cost=243375.71..243500.76 rows=10004 width=50) (actual time=4460.483..4464.763 rows=8264 loops=3)
+                                Group Key: movie.id
+                                Batches: 1  Memory Usage: 4497kB
+                                Buffers: shared hit=95404
+                                Worker 0:  Batches: 1  Memory Usage: 4497kB
+                                Worker 1:  Batches: 1  Memory Usage: 4497kB
+                                ->  Hash Join  (cost=847.29..206877.52 rows=7299638 width=23) (actual time=17.715..3302.047 rows=5839667 loops=3)
+                                      Hash Cond: (schedule.movie_id = movie.id)
+                                      Buffers: shared hit=95404
+                                      ->  Hash Join  (cost=540.20..187400.76 rows=7299638 width=9) (actual time=5.630..2131.074 rows=5839667 loops=3)
+                                            Hash Cond: (ticket.schedule_id = schedule.id)
+                                            Buffers: shared hit=95158
+                                            ->  Parallel Seq Scan on ticket  (cost=0.00..167694.38 rows=7299638 width=7) (actual time=0.014..695.186 rows=5839667 loops=3)
+                                                  Filter: (id IS NOT NULL)
+                                                  Buffers: shared hit=94698
+                                            ->  Hash  (cost=321.20..321.20 rows=17520 width=8) (actual time=5.501..5.501 rows=17520 loops=3)
+                                                  Buckets: 32768  Batches: 1  Memory Usage: 941kB
+                                                  Buffers: shared hit=438
+                                                  ->  Seq Scan on schedule  (cost=0.00..321.20 rows=17520 width=8) (actual time=0.507..2.921 rows=17520 loops=3)
+                                                        Buffers: shared hit=438
+                                      ->  Hash  (cost=182.04..182.04 rows=10004 width=18) (actual time=12.041..12.041 rows=10004 loops=3)
+                                            Buckets: 16384  Batches: 1  Memory Usage: 632kB
+                                            Buffers: shared hit=246
+                                            ->  Seq Scan on movie  (cost=0.00..182.04 rows=10004 width=18) (actual time=9.036..10.341 rows=10004 loops=3)
+                                                  Buffers: shared hit=246
+Planning:
+  Buffers: shared hit=18
+Planning Time: 0.323 ms
+JIT:
+  Functions: 82
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 6.263 ms, Inlining 0.000 ms, Optimization 1.659 ms, Emission 37.094 ms, Total 45.016 ms
+Execution Time: 4609.955 ms
+

@@ -1,0 +1,53 @@
+explain (analyse, buffers) select * from ticket where schedule_id between 1000 AND 2000;
+
+Gather  (cost=1000.00..304775.56 rows=995830 width=13) (actual time=72.712..589.835 rows=1001000 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=94698
+  ->  Parallel Seq Scan on ticket  (cost=0.00..204192.56 rows=414929 width=13) (actual time=25.783..415.299 rows=333667 loops=3)
+        Filter: ((schedule_id >= 1000) AND (schedule_id <= 2000))
+        Rows Removed by Filter: 5506000
+        Buffers: shared hit=94698
+Planning Time: 0.055 ms
+JIT:
+  Functions: 6
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.843 ms, Inlining 0.000 ms, Optimization 0.499 ms, Emission 5.737 ms, Total 7.080 ms
+Execution Time: 630.141 ms
+
+# после изменения random_page_cost = 1.01 (было 4 для ssd)
+Gather  (cost=1000.00..304775.56 rows=995830 width=13) (actual time=64.914..594.309 rows=1001000 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=94698
+  ->  Parallel Seq Scan on ticket  (cost=0.00..204192.56 rows=414929 width=13) (actual time=23.259..416.308 rows=333667 loops=3)
+        Filter: ((schedule_id >= 1000) AND (schedule_id <= 2000))
+        Rows Removed by Filter: 5506000
+        Buffers: shared hit=94698
+Planning:
+  Buffers: shared hit=6 read=5
+Planning Time: 3.908 ms
+JIT:
+  Functions: 6
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.790 ms, Inlining 0.000 ms, Optimization 0.437 ms, Emission 6.009 ms, Total 7.236 ms
+Execution Time: 633.922 ms
+
+# после изменения max_parallel_maintenance_workers = 4 (было 2)
+# и max_parallel_workers_per_gather = 4 (было 2)
+Gather  (cost=1000.00..260977.74 rows=995830 width=13) (actual time=72.825..512.009 rows=1001000 loops=1)
+  Workers Planned: 4
+  Workers Launched: 4
+  Buffers: shared hit=94698
+  ->  Parallel Seq Scan on ticket  (cost=0.00..160394.74 rows=248958 width=13) (actual time=16.537..267.467 rows=200200 loops=5)
+        Filter: ((schedule_id >= 1000) AND (schedule_id <= 2000))
+        Rows Removed by Filter: 3303600
+        Buffers: shared hit=94698
+Planning:
+  Buffers: shared hit=6 read=5
+Planning Time: 3.183 ms
+JIT:
+  Functions: 10
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 1.391 ms, Inlining 0.000 ms, Optimization 0.786 ms, Emission 10.560 ms, Total 12.737 ms
+Execution Time: 553.199 ms

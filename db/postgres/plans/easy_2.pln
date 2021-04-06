@@ -1,0 +1,37 @@
+explain (analyse, buffers) select * from ticket where cost > 1000;
+
+Seq Scan on ticket  (cost=0.00..313687.12 rows=3573903 width=13) (actual time=2.112..2131.614 rows=3546323 loops=1)
+  Filter: (cost > '1000'::numeric)
+  Rows Removed by Filter: 13972678
+  Buffers: shared hit=94698
+Planning Time: 0.057 ms
+JIT:
+  Functions: 2
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.398 ms, Inlining 0.000 ms, Optimization 0.183 ms, Emission 1.798 ms, Total 2.378 ms
+Execution Time: 2269.470 ms
+
+# после изменения random_page_cost = 1.01 (было 4 для ssd)
+Seq Scan on ticket  (cost=0.00..313687.12 rows=3573903 width=13) (actual time=1.780..2172.996 rows=3546323 loops=1)
+  Filter: (cost > '1000'::numeric)
+  Rows Removed by Filter: 13972678
+  Buffers: shared hit=94698
+Planning Time: 0.050 ms
+JIT:
+  Functions: 2
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.289 ms, Inlining 0.000 ms, Optimization 0.132 ms, Emission 1.543 ms, Total 1.964 ms
+Execution Time: 2308.365 ms
+
+# после изменения max_parallel_maintenance_workers = 4 (было 2)
+# и max_parallel_workers_per_gather = 4 (было 2)
+Seq Scan on ticket  (cost=0.00..313687.12 rows=3573903 width=13) (actual time=2.976..2118.465 rows=3546323 loops=1)
+  Filter: (cost > '1000'::numeric)
+  Rows Removed by Filter: 13972678
+  Buffers: shared hit=94698
+Planning Time: 0.072 ms
+JIT:
+  Functions: 2
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.282 ms, Inlining 0.000 ms, Optimization 0.236 ms, Emission 2.607 ms, Total 3.125 ms
+Execution Time: 2288.318 ms
