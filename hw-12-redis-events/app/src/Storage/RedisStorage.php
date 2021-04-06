@@ -17,6 +17,7 @@ class RedisStorage extends NoSQLStorage
 
     private const KEY_SEPARATOR  = '::';
     private const KEY            = 'events';
+    private const LIST_KEY       = 'list';
     private const PRIORITY_KEY   = 'priority';
     private const CONDITIONS_KEY = 'conditions';
 
@@ -116,6 +117,7 @@ class RedisStorage extends NoSQLStorage
         $this->storePriority($eventDTO);
         $this->storeConditions($eventDTO);
         $this->storeEvent($eventDTO);
+        $this->storeEventList($eventDTO);
         $this->storeEventConditions($eventDTO);
 
         return true;
@@ -170,6 +172,19 @@ class RedisStorage extends NoSQLStorage
         return $added;
     }
 
+    private function storeEventList (EventDTO $eventDTO): bool
+    {
+        $key = $this->getEventsListKey();
+
+        $added = $this->redis->sAdd($key, $eventDTO->getId());
+
+        if ($added !== true) {
+            throw new Exception('events list store error');
+        }
+
+        return $added;
+    }
+
     private function storeEventConditions (EventDTO $eventDTO): bool
     {
         $key        = $this->getEventConditionsKey($eventDTO->getId());
@@ -210,8 +225,23 @@ class RedisStorage extends NoSQLStorage
         return intval($this->redis->del($this->redis->keys(self::KEY . '*')));
     }
 
-    public function getList ()
+    public function getList (): array
     {
-        return $this->redis->keys(self::KEY . '*');
+        $key = $this->getEventsListKey();
+
+        $list = $this->redis->sMembers($key);
+
+        $result = [];
+
+        foreach ($list as $id) {
+            $result[] = json_decode($this->getEventById($id), true);
+        }
+
+        return $result;
+    }
+
+    private function getEventsListKey (): string
+    {
+        return self::KEY . self::KEY_SEPARATOR . self::LIST_KEY;
     }
 }
