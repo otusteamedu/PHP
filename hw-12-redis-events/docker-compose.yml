@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+
+  redis:
+    build:
+      context: ./docker/redis
+
+  mongo:
+    build:
+      context: ./docker/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  php:
+    build:
+      context: ./docker/php-fpm
+      args:
+        UID: "3000"
+    volumes:
+      - ./app:/var/www/hw
+      - ./docker/sock:/sock
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+    ports:
+      - 80:80
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/hw
+      - ./docker/sock:/sock
+    links:
+      - php
+
+  composer:
+    build:
+      context: ./docker/composer
+    depends_on:
+      - php
+    volumes:
+      - ./app:/var/www/hw

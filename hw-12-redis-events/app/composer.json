@@ -1,0 +1,21 @@
+{
+  "name": "sergeyzelenskiy/app",
+  "description": "Events",
+  "authors": [
+    {
+      "name": "Sergey Zelenskiy",
+      "email": "szelenskiy@me.com"
+    }
+  ],
+  "require": {
+    "symfony/yaml": "^5.2",
+    "monolog/monolog": "^2.2",
+    "ext-redis": "*",
+    "mongodb/mongodb": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\":"src"
+    }
+  }
+}
