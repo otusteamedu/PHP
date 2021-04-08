@@ -27,7 +27,7 @@ CREATE INDEX attribute_id_idx ON public.attribute USING btree (id);
 CREATE TABLE public.movie_attribute_value (
     id int2 NOT NULL GENERATED ALWAYS AS IDENTITY,
     movie_id int4 NOT NULL,
-    date_value date NULL,
+    date_value timestamp NULL,
     text_value text NULL,
     bool_value bool NULL,
     int_value int4 NULL,
