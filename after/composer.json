@@ -1,0 +1,24 @@
+{
+    "name": "nick/weather",
+    "authors": [
+        {
+            "name": "KleymenovN",
+            "email": "kleymenov68@yandex.ru"
+        }
+    ],
+    "description": "Simple weather notification service",
+    "require": {
+        "php": ">=7.4",
+        "symfony/yaml": "^5.0",
+        "vlucas/phpdotenv": "^5.1",
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "telegram-bot/api": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\" : "src"
+        }
+    }
+
+}
