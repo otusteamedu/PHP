@@ -1,0 +1,107 @@
+version: '3'
+services:
+    nginx1:
+        build:
+            context: nginx1
+            dockerfile: Dockerfile
+        image: hw5-2/nginx1
+        container_name: hw-nginx1
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        depends_on:
+            - fpm1
+            - fpm2
+            - fpm3
+        networks:
+            - app-network
+
+    nginx2:
+        build:
+            context: nginx2
+            dockerfile: Dockerfile
+        image: hw5-2/nginx2
+        container_name: hw-nginx2
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        depends_on:
+            - fpm1
+            - fpm2
+            - fpm3
+        networks:
+            - app-network
+
+    nginx3:
+        build:
+            context: nginx3
+            dockerfile: Dockerfile
+        image: hw5-2/nginx3
+        container_name: hw-nginx3
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        depends_on:
+            - fpm1
+            - fpm2
+            - fpm3
+        networks:
+            - app-network
+
+    fpm1:
+        build:
+            context: fpm1
+            dockerfile: Dockerfile
+        image: hw5-2/fpm1
+        container_name: hw-fpm1
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        networks:
+            - app-network
+
+    fpm2:
+        build:
+            context: fpm2
+            dockerfile: Dockerfile
+        image: hw5-2/fpm2
+        container_name: hw-fpm2
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        networks:
+            - app-network
+
+    fpm3:
+        build:
+            context: fpm3
+            dockerfile: Dockerfile
+        image: hw5-2/fpm3
+        container_name: hw-fpm3
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        networks:
+            - app-network
+            
+    balancer:
+        build:
+            context: balancer
+            dockerfile: Dockerfile
+        image: hw5-2/balancer
+        container_name: hw-balancer
+        volumes:
+            - /app:/app
+            - /socket:/socket
+        depends_on:
+            - nginx1
+            - nginx2
+            - nginx3
+        ports:
+            - "80:80"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

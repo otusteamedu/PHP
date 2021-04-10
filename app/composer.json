@@ -1,0 +1,15 @@
+{
+    "name": "gex/app",
+    "authors": [
+        {
+            "name": "Vladimir Nikitin",
+            "email": "v.nikitin@squesito.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Application\\": "src/Application"            
+        }
+    }
+}
