@@ -2,6 +2,7 @@
 
 namespace Application;
 use Validation\EmailValidator;
+use Exception;
 
 class App 
 {
@@ -14,7 +15,8 @@ class App
     
     private function checkArgument()
     {
-        if(empty($_SERVER['argv'][1])) exit("Аргумент для проверки не найден! \n");
+        if(empty($_SERVER['argv'][1])) 
+            throw new Exception("Аргумент для проверки не найден!");
     }
 
     public function run()
