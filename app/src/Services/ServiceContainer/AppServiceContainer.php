@@ -37,7 +37,7 @@ class AppServiceContainer
         $this->push(VideoRepository::class, new ElasticSearchVideoRepository());
         $this->push(EventRepository::class, new RedisEventRepository());
         $this->push(DB::class, new PostgresSqlDB());
-//        $this->push(FilmRepository::class, new FilmPDORepository());
+        $this->push(FilmRepository::class, new FilmPDORepository());
     }
 
     /**
