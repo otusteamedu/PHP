@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4
 
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
@@ -25,4 +25,4 @@ WORKDIR /app/src
 
 VOLUME /app
 
-CMD ["php-fpm"]
+CMD ["php", "-a"]
