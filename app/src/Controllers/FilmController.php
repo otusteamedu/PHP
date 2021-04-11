@@ -32,7 +32,6 @@ class FilmController extends BaseController
         $request = $this->getRequest();
         $film = $this->filmRepository->getById($request->get('id'));
 
-
         $this->title = 'Film: ' . $film->getName();
 
         $this->content = $this->renderView('pages.films.show', [

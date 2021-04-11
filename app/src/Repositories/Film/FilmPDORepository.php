@@ -24,7 +24,7 @@ class FilmPDORepository extends BasePdoRepository implements FilmRepository
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @param array $columns
      * @return Film
      */
