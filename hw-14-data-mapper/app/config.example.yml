@@ -1,0 +1,2 @@
+log_path: '../log/app.log'
+db: 'mysql'
