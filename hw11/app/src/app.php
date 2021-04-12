@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App;
 
 use App\Command\CommandInterface;
-use App\Command\Commands;
 use App\Config\Configuration;
 use App\Console\Console;
 use App\DIContainer\Container;
 use App\DIContainer\ContainerInterface;
 use Exception;
+use UnexpectedValueException;
 
 class App
 {
@@ -64,9 +64,13 @@ class App
 
     private function getCommand(string $commandName): CommandInterface
     {
-        $commandClassName = Commands::getClassName($commandName);
+        $commands = $this->config->getParam('commands');
 
-        return $this->container->get($commandClassName);
+        if (empty($commands[$commandName])) {
+            throw new UnexpectedValueException("Неизвестная команда $commandName");
+        }
+
+        return $this->container->get($commands[$commandName]);
     }
 
 }
