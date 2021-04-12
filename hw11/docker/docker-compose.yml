@@ -1,0 +1,22 @@
+version: '3'
+services:
+    php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/php-cli
+        container_name: otus-php-cli
+        volumes:
+            - ../app:/app:delegated
+        depends_on:
+            - elasticsearch
+
+    elasticsearch:
+        image: elasticsearch:7.12.0
+        container_name: otus-elasticsearch
+        environment:
+            - discovery.type=single-node
+        volumes:
+            - ../storages/elasticsearch:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
