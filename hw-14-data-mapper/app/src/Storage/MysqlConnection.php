@@ -46,7 +46,7 @@ class MysqlConnection
     {
         Log::getInstance()->addRecord('detecting db...');
         $sql  = "CREATE DATABASE IF NOT EXISTS cinema CHARACTER SET utf8 COLLATE utf8_general_ci;";
-        $pdo->exec($sql);
+        $pdo->query($sql);
     }
 
     private static function setDatabase (PDO $pdo, string $dbname): void
