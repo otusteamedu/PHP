@@ -1,2 +1,8 @@
 log_path: '../log/app.log'
-db: 'mysql'
+db:
+  storage: 'mysql'
+  dbname: 'cinema'
+  host: 'db'
+  port: '3306'
+  user: 'root'
+  password: 'example'

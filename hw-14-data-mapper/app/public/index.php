@@ -13,4 +13,6 @@ try {
     Log::getInstance()->addRecord($result);
 } catch (Exception $e) {
     Log::getInstance()->addRecord($e->getMessage(), Logger::ERROR);
-} 
+}
+
+phpinfo();

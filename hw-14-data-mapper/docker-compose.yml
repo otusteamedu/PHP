@@ -8,6 +8,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
+    security_opt:
+      - seccomp:unconfined
 
   adminer:
     image: adminer

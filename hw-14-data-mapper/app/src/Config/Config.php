@@ -49,7 +49,7 @@ class Config extends Singleton
     public function getItem (string $key)
     {
         if (!isset($this->config[$key])) {
-            throw new Exception("Config record '{$this->config[$key]}' is not found");
+            throw new Exception("Config record '$key' is not found");
         }
 
         return $this->config[$key];
