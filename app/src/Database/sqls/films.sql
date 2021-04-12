@@ -1,4 +1,4 @@
-DROP table IF EXISTS public.films;
+DROP table IF EXISTS public.films CASCADE ;
 
 CREATE TABLE public.films (
       id serial PRIMARY KEY,

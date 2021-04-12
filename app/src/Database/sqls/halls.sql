@@ -1,4 +1,4 @@
-DROP table IF EXISTS public.halls;
+DROP table IF EXISTS public.halls CASCADE;
 
 CREATE TABLE public.halls (
       id serial PRIMARY KEY,

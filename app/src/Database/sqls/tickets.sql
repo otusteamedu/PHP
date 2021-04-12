@@ -1,4 +1,4 @@
-DROP table IF EXISTS public.tickets;
+DROP table IF EXISTS public.tickets CASCADE;
 
 CREATE TABLE public.tickets (
     id serial PRIMARY KEY,
