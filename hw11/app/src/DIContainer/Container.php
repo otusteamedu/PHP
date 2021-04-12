@@ -18,12 +18,9 @@ class Container implements ContainerInterface
     private array $reflectionClasses = [];
 
     /**
-     * @param string $abstract
-     *
-     * @return object
      * @throws ReflectionException
      */
-    public function get(string $abstract)
+    public function get(string $abstract): object
     {
         if (!$this->has($abstract)) {
             $this->throwExceptionIfClassNotFound($abstract);
@@ -75,23 +72,15 @@ class Container implements ContainerInterface
         return $this->bindings[$abstract];
     }
 
-    /**
-     * @param Closure $closure
-     *
-     * @return object
-     */
-    private function createInstanceFromClosure(Closure $closure)
+    private function createInstanceFromClosure(Closure $closure): object
     {
         return call_user_func($closure);
     }
 
     /**
-     * @param string $className
-     *
-     * @return object
      * @throws ReflectionException
      */
-    private function createInstanceFromClassName(string $className)
+    private function createInstanceFromClassName(string $className): object
     {
         $reflectionClass = $this->getReflectionClass($className);
 
@@ -105,9 +94,6 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param ReflectionMethod $constructor
-     *
-     * @return array
      * @throws ReflectionException
      */
     private function getArgsFromConstructor(ReflectionMethod $constructor): array
@@ -130,9 +116,6 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param string $className
-     *
-     * @return ReflectionClass
      * @throws ReflectionException
      */
     private function getReflectionClass(string $className): ReflectionClass
