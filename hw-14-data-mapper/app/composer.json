@@ -1,0 +1,10 @@
+{
+    "name": "sergeyzelenskiy/app",
+    "authors": [
+        {
+            "name": "Sergey Zelenskiy",
+            "email": "szelenskiy@me.com"
+        }
+    ],
+    "require": {}
+}
