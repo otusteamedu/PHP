@@ -13,6 +13,9 @@ use PhpOffice\PhpWord\IOFactory;
 
 class DocToHtmlService
 {
+    const TITLE_POSTFIX = ' в Москве - Автосервис "Ровер"';
+    const DESCRIPTION_POSTFIX = ' в Москве. Бесплатная диагностика. Гарантия качества. Записаться - 8(XXX)XXX-XX-XX.';
+
     private RepositoryInterface $docRepository;
     private StorageInterface $storage;
     private DocParser $docParser;
@@ -42,16 +45,34 @@ class DocToHtmlService
         foreach ($files as $file) {
             list($title, $body) = $this->docParser->parseFile($file);
             $html = $this->htmlCreator->createHtml(
-                $title . ' в Москве - Автосервис "Ровер"',
+                $this->getTitle($title),
                 $body,
-                $title . ' в Москве. Бесплатная диагностика. Гарантия качества. Записаться - 8(495)150-70-69.'
+                $this->getDescription($title)
             );
 
-            $this->storage->save($title . '.html', $html);
+            $this->storage->save(
+                $this->getFilename($title),
+                $html
+            );
             $counter++;
         }
 
         return $counter;
+    }
+
+    private function getTitle(string $title): string
+    {
+        return $title . self::TITLE_POSTFIX;
+    }
+
+    private function getDescription(string $title): string
+    {
+        return $title . self::DESCRIPTION_POSTFIX;
+    }
+
+    private function getFilename(string $title): string
+    {
+        return $title . '.html';
     }
 
 
