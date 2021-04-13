@@ -18,11 +18,10 @@ class Migrate implements Command
 
     public function run(array $argv): string
     {
-        $sqlsDirectory = __DIR__ .'/../../Database/sqls';
         $result = '';
-        foreach(scandir( $sqlsDirectory ) as $path){
+        foreach(scandir( SQL_SCRIPTS_PATH ) as $path){
             if(!is_dir($path)){
-                $content = file_get_contents($sqlsDirectory . DIRECTORY_SEPARATOR . $path);
+                $content = file_get_contents(SQL_SCRIPTS_PATH . DIRECTORY_SEPARATOR . $path);
                 $this->db->getPdo()->exec($content);
                 $result .= 'Migrate ' . $path . ' success' . PHP_EOL;
             }

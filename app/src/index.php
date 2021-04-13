@@ -2,7 +2,8 @@
 
 use App\Core\App;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once('config.php');
+require_once(VENDOR_PATH . DIRECTORY_SEPARATOR. 'autoload.php');
 require_once('bootstrap.php');
 
 try {
