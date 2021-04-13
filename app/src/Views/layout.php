@@ -27,6 +27,9 @@
             <li class="nav-item">
                 <a class="nav-link <?= $currentUrl === '/events' ? 'active' : '' ?>" href="/events">Events</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?= $currentUrl === '/films' ? 'active' : '' ?>" href="/films">Films</a>
+            </li>
         </ul>
     </header>
 

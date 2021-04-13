@@ -6,8 +6,13 @@ use App\Repositories\Channel\ChannelRepository;
 use App\Repositories\Channel\ElasticSearchChannelRepository;
 use App\Repositories\Event\EventRepository;
 use App\Repositories\Event\RedisEventRepository;
+use App\Repositories\Film\FilmPDORepository;
+use App\Repositories\Film\FilmPDOWithIdentityMapRepository;
+use App\Repositories\Film\FilmRepository;
 use App\Repositories\Video\ElasticSearchVideoRepository;
 use App\Repositories\Video\VideoRepository;
+use App\Services\Database\DB;
+use App\Services\Database\PostgreSQL\PostgresSqlDB;
 use App\Services\ServiceContainer\Exceptions\ServiceNotFoundException;
 
 class AppServiceContainer
@@ -32,6 +37,8 @@ class AppServiceContainer
         $this->push(ChannelRepository::class, new ElasticSearchChannelRepository());
         $this->push(VideoRepository::class, new ElasticSearchVideoRepository());
         $this->push(EventRepository::class, new RedisEventRepository());
+        $this->push(DB::class, new PostgresSqlDB());
+        $this->push(FilmRepository::class, new FilmPDOWithIdentityMapRepository());
     }
 
     /**

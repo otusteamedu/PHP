@@ -18,7 +18,8 @@
         "larapack/dd": "^1.1",
         "carbondate/carbon": "^1.33",
         "ext-json": "*",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "ext-pdo": "*"
     }
     ,
     "require-dev": {

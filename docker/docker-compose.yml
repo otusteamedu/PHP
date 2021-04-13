@@ -11,7 +11,16 @@ services:
        - ../app:/app/app.loc
     networks:
       - app-network
-
+  app-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: app/php-cli
+    container_name: app-cli
+    volumes:
+      - ../app:/app/app.loc
+    networks:
+      - app-network
   webserver:
     image: nginx:latest
     container_name: webserver
@@ -46,6 +55,17 @@ services:
     container_name:  redis
     ports:
       - 6380:6379
+    networks:
+      - app-network
+  database:
+    image: postgres
+    env_file:
+      - ./database/.env
+    container_name:  database
+    ports:
+      - 5433:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data/
     networks:
       - app-network
 networks:
