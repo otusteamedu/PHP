@@ -6,24 +6,16 @@ namespace App\Console\Commands;
 
 use App\Console\CommandContract;
 use App\Sockets\Server;
+use App\Sockets\Socket;
+use App\Sockets\SocketConfig;
+use App\Sockets\UnixSocket;
 
-class ServerCommand implements CommandContract
+class ServerCommand extends SocketCommand
 {
-    private $port, $path;
-
 
     public function __construct(array $arguments = [])
     {
-        $this->path = (string)current($arguments);
-        $this->port = (int)next($arguments);
+        array_unshift($arguments, SocketCommand::TYPE_SERVER);
+        parent::__construct($arguments);
     }
-
-    public function handle()
-    {
-        (new Server(
-            !empty($this->path) ? $this->path : getenv('SOCKET_PATH'),
-            $this->port > 0 ? $this->port : getenv('SOCKET_PORT')
-        ))->listen();
-    }
-
 }

@@ -19,7 +19,7 @@ class Command
         if ($parser->getCommand() !== '') {
             $className = $parser->getCommandClassName();
             if (class_exists($className) && is_subclass_of($className, CommandContract::class)) {
-                (new $className)->handle();
+                (new $className($parser->getArguments()))->handle();
             } else {
                 throw new CommandNotFound($parser->getCommand());
             }

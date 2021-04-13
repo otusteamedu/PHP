@@ -2,38 +2,40 @@
 
 namespace App\Sockets;
 
+use App\Sockets\Interfaces\iSocketServer;
+
 class Server
 {
 
-    private Socket $socket;
+    private iSocketServer $socket;
 
     public const EXIT_COMMAND = 'exit';
 
-    public function __construct(string $path, int $port)
+    public function __construct(iSocketServer $socket)
     {
-        $this->initSocket($path, $port);
+        $this->socket = $socket;
+        $this->initSocket();
     }
 
     public function listen()
     {
         echo "Waiting for client...\n";
+        $this->socket->accept();
         while (true) {
-            $message = $this->socket->accept()->readFromAccepted();
+            $message = $this->socket->accepted()->read(1024, PHP_BINARY_READ);
             if ($message === self::EXIT_COMMAND) {
                 break;
             }
             echo "Client: $message\n";
             echo "Reply:";
-            $this->socket->writeToAccepted(rtrim(fgets(STDIN)));
+            $this->socket->accepted()->write(rtrim(fgets(STDIN)));
         }
         $this->socket->close();
     }
 
-    private function initSocket(string $path, int $port): void
+    private function initSocket(): void
     {
-        $this->socket = new Socket($path, $port);
         $this->socket
-            ->clearOldSocket()
             ->create()
             ->bind()
             ->listen();

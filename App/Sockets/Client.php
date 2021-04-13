@@ -4,14 +4,15 @@
 namespace App\Sockets;
 
 
+use App\Sockets\Interfaces\iSocketBase;
+
 class Client
 {
-    private Socket $socket;
+    private iSocketBase $socket;
 
-    public function __construct(string $path, int $port)
+    public function __construct(iSocketBase $socket)
     {
-
-        $this->initSocket($path, $port);
+        $this->socket = $socket;
     }
 
     public function connect()
@@ -27,10 +28,5 @@ class Client
             }
             echo 'Server: ' . $this->socket->read() . "\n";
         }
-    }
-
-    private function initSocket(string $path, int $port)
-    {
-        $this->socket = (new Socket($path, $port));
     }
 }

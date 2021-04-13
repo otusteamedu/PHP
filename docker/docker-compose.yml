@@ -1,14 +1,16 @@
 version: '3.7'
 
 services:
-  #  php.client:
-  #    build: ./images/php
-  #    volumes:
-  #      - ./../:/var/www
-  #    working_dir: /var/www
-  #    environment:
-  #      SOCKET_PATH: ${SOCKET_PATH}
-  #      SOCKET_PORT: ${SOCKET_PORT}
+  php.client:
+    build: ./images/php
+    volumes:
+      - ./../:/var/www
+    working_dir: /var/www
+    networks:
+      - app-network
+    environment:
+      SOCKET_PATH: ${SOCKET_PATH}
+      SOCKET_PORT: ${SOCKET_PORT}
 
   php:
     build: ./images/php

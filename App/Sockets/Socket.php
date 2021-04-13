@@ -2,131 +2,103 @@
 
 namespace App\Sockets;
 
-use Exception;
-use InvalidArgumentException;
 
-class Socket
+use App\Sockets\Exceptions\SocketNotBound;
+use App\Sockets\Exceptions\SocketNotConnected;
+use App\Sockets\Exceptions\SocketNotCreated;
+use App\Sockets\Exceptions\SocketNotListening;
+use App\Sockets\Interfaces\iSocketServer;
+
+class Socket extends AbstractSocket implements iSocketServer
 {
-    private string $path;
-    private int $port;
-    private int $maxConnections = 5;
+    protected $config;
+    private $maxConnections = 5;
 
     private $sockets = [
         'base'     => false,
-        'accepted' => false
+        'accepted' => null
     ];
 
-    public function __construct(string $path, int $port)
-    {
-        if (!$path) {
-            throw new InvalidArgumentException('Path [$path] is required');
-        }
+    private $states = [
+        'created'   => false,
+        'bound'     => false,
+        'connected' => false,
+        'listening' => false
+    ];
 
-        if (!$port) {
-            throw new InvalidArgumentException('Port [$port] is required');
-        }
-        $this->path = $path;
-        $this->port = $port;
-        if (!file_exists($path)) {
-            mkdir(dirname($path));
-        }
+    public function __construct(SocketConfig $config)
+    {
+        $this->config = $config;
     }
 
-    public function clearOldSocket()
+    protected function getSocket()
     {
-        if (file_exists($this->path)) {
-            unlink($this->path);
-        }
-        return $this;
+        return $this->sockets['base'];
     }
 
-    //TODO: create special exception
-    public function create()
+    public function create(): Socket
     {
-        $this->sockets['base'] = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if ($this->sockets['base'] === false) {
-            throw new Exception('Socket is not created');
+        if (!$this->isCreated()) {
+            $this->sockets['base'] = socket_create($this->config->getDomain(), $this->config->getType(), $this->config->getProtocol());
+            if ($this->sockets['base'] === false) {
+                throw new SocketNotCreated();
+            }
+            $this->states['created'] = true;
         }
         return $this;
     }
 
-    public function accept()
+    /**
+     * @return $this
+     * @throws Exceptions\SocketNotAccepted
+     */
+    public function accept(): Socket
     {
-        $this->sockets['accepted'] = socket_accept($this->sockets['base']);
-        if ($this->sockets['accepted'] === false) {
-            throw new Exception('Socket is not created');
+        $this->sockets['accepted'] = new SocketAccepted($this->sockets['base']);
+        return $this;
+    }
+
+
+    /**
+     * @return SocketAccepted
+     * @throws Exceptions\SocketNotAccepted
+     */
+    public function accepted(): SocketAccepted
+    {
+        return $this->sockets['accepted'] ?? $this->accept()->sockets['accepted'];
+    }
+
+    public function bind(): Socket
+    {
+        if (!$this->isBound()) {
+            if (socket_bind($this->sockets['base'], $this->config->getAddress(), $this->config->getPort()) === false) {
+                throw new SocketNotBound();
+            }
+            $this->states['bound'] = true;
         }
         return $this;
     }
 
-    public function bind()
+    public function listen(): Socket
     {
-        if (socket_bind($this->sockets['base'], $this->path, $this->port) === false) {
-            throw new Exception('Socket is not created');
+        if (!$this->isListening()) {
+            if (socket_listen($this->sockets['base'], $this->getMaxConnections()) === false) {
+                throw new SocketNotListening();
+            }
+            $this->states['listening'] = true;
         }
         return $this;
     }
 
-    public function listen()
+    public function connect(): Socket
     {
-        if (socket_listen($this->sockets['base'], $this->getMaxConnections()) === false) {
-            throw new Exception('Socket is not created');
+        if (!$this->isConnected()) {
+            if (socket_connect($this->sockets['base'], $this->config->getAddress(), $this->config->getPort()) === false) {
+                throw new SocketNotConnected();
+            }
+            $this->states['connected'] = true;
         }
         return $this;
-    }
-
-    public function connect()
-    {
-        if (socket_connect($this->sockets['base'], $this->path, $this->port) === false) {
-            throw new \Exception('Can`t connect to server`s socket');
-        }
-        return $this;
-    }
-
-    public function close()
-    {
-        if ($this->sockets['base']) {
-            socket_close($this->sockets['base']);
-        }
-    }
-
-    public function readFromAccepted(): ?string
-    {
-        return $this->readFromSocket($this->sockets['accepted']);
-    }
-
-    public function read(): ?string
-    {
-        return $this->readFromSocket($this->sockets['base']);
-    }
-
-    private function readFromSocket($socket): ?string
-    {
-        $buffer = socket_read($socket, 1024);
-        if ($buffer === false) {
-            throw new Exception('Cannot red from socket');
-        }
-        $buffer = trim($buffer);
-        return $buffer === '' ? null : $buffer;
-    }
-
-    public function writeToAccepted(string $message): void
-    {
-        $this->writeToSocket($this->sockets['accepted'], $message);
-    }
-
-    public function write(string $message): void
-    {
-        $this->writeToSocket($this->sockets['base'], $message);
-    }
-
-    private function writeToSocket($socket, string $message): void
-    {
-        socket_write(
-            $socket,
-            $message,
-            strlen($message)
-        );
     }
 
     /**
@@ -145,5 +117,42 @@ class Socket
     {
         $this->maxConnections = $maxConnections;
         return $this;
+    }
+
+    public function isCreated(): bool
+    {
+        return $this->states['created'];
+    }
+
+    public function isConnected(): bool
+    {
+        return $this->states['connected'];
+    }
+
+    public function isBound(): bool
+    {
+        return $this->states['bound'];
+    }
+
+    public function isListening(): bool
+    {
+        return $this->states['listening'];
+    }
+
+    public function shutdown(int $mode = 2)
+    {
+        $this->resetStates();
+        return parent::shutdown($mode);
+    }
+
+    public function close()
+    {
+        parent::close();
+        $this->resetStates();
+    }
+
+    private function resetStates()
+    {
+        $this->states = array_fill_keys(array_keys($this->states), false);
     }
 }
