@@ -14,29 +14,16 @@ class FilmPDORepository extends BasePdoRepository implements FilmRepository
 {
     protected string $table = 'films';
 
-    /**
-     * @param array|string[] $columns
-     * @return Collection|Film[]
-     */
     public function getAll(array $columns = ['*']): Collection
     {
         return parent::getAll($columns);
     }
 
-    /**
-     * @param int $id
-     * @param array $columns
-     * @return Film
-     */
     public function getById(int $id, array $columns = ['*']): Film
     {
         return parent::getById($id);
     }
 
-    /**
-     * @param Film $film
-     * @return bool
-     */
     public function update(Entity $film): bool
     {
         $film->setUpdatedAt(Carbon::now());
@@ -44,10 +31,6 @@ class FilmPDORepository extends BasePdoRepository implements FilmRepository
         return parent::update($film);
     }
 
-    /**
-     * @param array $entityData
-     * @return Film
-     */
     public function insert(array $entityData): Film
     {
         $entityData['created_at'] = Carbon::now();
@@ -56,15 +39,10 @@ class FilmPDORepository extends BasePdoRepository implements FilmRepository
         return parent::insert($entityData);
     }
 
-    /**
-     * @param Entity $film
-     * @return bool
-     */
     public function delete(Entity $film): bool
     {
         return parent::delete($film);
     }
-
 
     protected function mapEntity(array $entityData): Film
     {

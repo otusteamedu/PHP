@@ -20,10 +20,6 @@ class FilmPDOWithIdentityMapRepository extends FilmPDORepository
         parent::__construct();
     }
 
-    /**
-     * @param array|string[] $columns
-     * @return Collection|Film[]
-     */
     public function getAll(array $columns = ['*']): Collection
     {
         $collection = parent::getAll($columns);
@@ -35,11 +31,6 @@ class FilmPDOWithIdentityMapRepository extends FilmPDORepository
         return $collection;
     }
 
-    /**
-     * @param int $id
-     * @param array $columns
-     * @return Film
-     */
     public function getById(int $id, array $columns = ['*']): Film
     {
         $film = $this->entityStorage->get(Film::class, $id);
@@ -55,10 +46,6 @@ class FilmPDOWithIdentityMapRepository extends FilmPDORepository
         return $film;
     }
 
-    /**
-     * @param Film $film
-     * @return bool
-     */
     public function update(Entity $film): bool
     {
         $film->setUpdatedAt(Carbon::now());
@@ -70,10 +57,6 @@ class FilmPDOWithIdentityMapRepository extends FilmPDORepository
         return parent::update($film);
     }
 
-    /**
-     * @param array $entityData
-     * @return Film
-     */
     public function insert(array $entityData): Film
     {
         $film = parent::insert($entityData);
@@ -83,10 +66,6 @@ class FilmPDOWithIdentityMapRepository extends FilmPDORepository
         return $film;
     }
 
-    /**
-     * @param Entity $film
-     * @return bool
-     */
     public function delete(Entity $film): bool
     {
         $this->entityStorage->remove($film);
