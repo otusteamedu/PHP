@@ -1,0 +1,30 @@
+{
+  "index": "videos",
+  "body": {
+    "settings": {
+      "index": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      }
+    },
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text"
+        },
+        "channelId": {
+          "type": "keyword"
+        },
+        "likeCount": {
+          "type": "integer"
+        },
+        "dislikeCount": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

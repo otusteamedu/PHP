@@ -1,0 +1,21 @@
+{
+    "name": "kai/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vladimir Kaimonov",
+            "email": "kaivladimirv@gmail.com"
+        }
+    ],
+  "require": {
+    "php": ">=7.4",
+        "elasticsearch/elasticsearch": "^7.12",
+        "google/apiclient": "^2.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "description": ""
+}
