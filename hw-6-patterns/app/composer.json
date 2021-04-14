@@ -1,0 +1,23 @@
+{
+  "name": "repetitor202/hw-6-patterns",
+  "description": "hw-6-patterns",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Viktar Akulenka",
+      "email": "repetitor202@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "monolog/monolog": "^2.2",
+    "illuminate/database": "^8.36",
+    "vlucas/phpdotenv": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src",
+      "Repetitor202\\": "src/Repetitor202"
+    }
+  }
+}

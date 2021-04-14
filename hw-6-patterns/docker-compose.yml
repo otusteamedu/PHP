@@ -1,0 +1,54 @@
+version: '3.7'
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
+
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+        CLIENT_HOST: "${NETWORK_ID}.1"
+    image: hw-6-patterns/app
+    volumes:
+      - ./app:/data/site.default
+      - ./../logs/hw-6-patterns/sock:/sock
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: hw-6-patterns/nginx
+    volumes:
+      - ./app:/data/site.default
+      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./../logs/hw-6-patterns/sock:/sock
+      - ./../logs/hw-6-patterns/nginx:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"
+
+  postgres:
+    build:
+      context: ./docker/postgres
+    image: hw-6-patterns/postgres
+    #    ports:
+    #      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+    volumes:
+      - ./../logs/hw-6-patterns/data/postgres:/var/lib/postgresql
+      - ./../logs/hw-6-patterns/postgres:/var/log/postgresql
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.4"
