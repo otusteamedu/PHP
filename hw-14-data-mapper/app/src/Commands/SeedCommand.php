@@ -9,12 +9,19 @@ class SeedCommand implements CommandInterface
 {
     public function execute (array $params): string
     {
-        DbSeeder::seed();
+        if (DbSeeder::seed()) {
+            return json_encode(
+                [
+                    'result' => 'success',
+                    'msg'    => 'seeded',
+                ]
+            );
+        }
 
         return json_encode(
             [
-                'result' => 'success',
-                'msg'    => 'seed test',
+                'result' => 'error',
+                'msg'    => 'error seeding db',
             ]
         );
     }

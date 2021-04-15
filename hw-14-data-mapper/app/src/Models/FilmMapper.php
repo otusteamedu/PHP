@@ -34,6 +34,11 @@ class FilmMapper
     private PDOStatement $deleteStmt;
 
     /**
+     * @var PDOStatement
+     */
+    private PDOStatement $getRecordsStmt;
+
+    /**
      * FilmMapper constructor.
      *
      * @param PDO $pdo
@@ -55,6 +60,10 @@ class FilmMapper
         );
 
         $this->deleteStmt = $pdo->prepare("DELETE FROM films WHERE id = ?");
+
+        $this->getRecordsStmt = $pdo->prepare(
+            'SELECT id, title, show_start_date, length FROM films ORDER BY id LIMIT :limit OFFSET :offset'
+        );
     }
 
     /**
@@ -121,7 +130,7 @@ class FilmMapper
      */
     public function update (Film $film): bool
     {
-        $result = $this->updateStmt->execute(
+        return $this->updateStmt->execute(
             [
                 $film->getTitle(),
                 $film->getShowStartDate(),
@@ -129,8 +138,6 @@ class FilmMapper
                 $film->getId(),
             ]
         );
-
-        return $result;
     }
 
     /**
@@ -141,5 +148,27 @@ class FilmMapper
     public function delete (Film $film): bool
     {
         return $this->deleteStmt->execute([$film->getId()]);
+    }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return null|FilmsCollection
+     */
+    public function getRecords (int $limit = 20, int $offset = 0): ?FilmsCollection
+    {
+        $this->getRecordsStmt->setFetchMode(PDO::FETCH_ASSOC);
+        $this->getRecordsStmt->bindParam('limit', $limit, PDO::PARAM_INT);
+        $this->getRecordsStmt->bindParam('offset', $offset, PDO::PARAM_INT);
+        $this->getRecordsStmt->execute();
+
+        $result = $this->getRecordsStmt->fetchAll();
+
+        if (empty($result)) {
+            return null;
+        }
+
+        return new FilmsCollection($result);
     }
 }
