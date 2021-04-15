@@ -22,7 +22,7 @@ class GetCommand implements CommandInterface
             $records = [];
         }
         else {
-            $records = $collection->getRecords();
+            $records = $collection->asArray();
         }
 
         return json_encode(

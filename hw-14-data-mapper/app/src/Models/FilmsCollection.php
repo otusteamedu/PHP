@@ -22,11 +22,6 @@ class FilmsCollection implements Iterator
     private array $objects = [];
 
     /**
-     * @var array
-     */
-    private array $records = [];
-
-    /**
      * FilmsCollection constructor.
      *
      * @param array $records
@@ -34,8 +29,13 @@ class FilmsCollection implements Iterator
     public function __construct (array $records = [])
     {
         if (!empty($records)) {
-            $this->records = $records;
-            $this->total   = count($records);
+            $this->total = count($records);
+        }
+
+        foreach ($records as $record) {
+            $film = $this->createFilmObject($record);
+
+            $this->add($film);
         }
     }
 
@@ -55,17 +55,7 @@ class FilmsCollection implements Iterator
      */
     private function getRow (int $num): ?Film
     {
-        if ($num >= $this->total || $num < 0) {
-            return null;
-        }
-
         if (isset($this->objects[$num])) {
-            return $this->objects[$num];
-        }
-
-        if (isset($this->records[$num])) {
-            $this->objects[$num] = $this->createFilmObject($this->records[$num]);
-
             return $this->objects[$num];
         }
 
@@ -79,12 +69,14 @@ class FilmsCollection implements Iterator
      */
     private function createFilmObject (array $record): Film
     {
-        return new Film(
+        $film = new Film(
             $record['id'],
             $record['title'],
             $record['show_start_date'],
-            $record['lenght'],
+            $record['length'],
         );
+
+        return $film;
     }
 
     /**
@@ -126,8 +118,19 @@ class FilmsCollection implements Iterator
         $this->pointer = 0;
     }
 
-    public function getRecords (): array
+    public function asArray (): array
     {
-        return $this->records;
+        $result = [];
+
+        foreach ($this->objects as $film) {
+            $result[] = [
+                'id'              => $film->getId(),
+                'title'           => $film->getTitle(),
+                'show_start_date' => $film->getShowStartDate(),
+                'length'          => $film->getLength(),
+            ];
+        }
+
+        return $result;
     }
 }

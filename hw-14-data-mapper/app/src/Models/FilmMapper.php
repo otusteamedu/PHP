@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\IdentityMap\IdentityMap;
 use Exception;
 use PDO;
 use PDOStatement;
@@ -69,10 +70,15 @@ class FilmMapper
     /**
      * @param int $id
      *
-     * @return null|Film
+     * @return null|Model
      */
     public function findById (int $id): ?Film
     {
+        $mapped = IdentityMap::getInstance()->get(Film::TABLE_NAME, $id);
+        if (!is_null($mapped)) {
+            return $mapped;
+        }
+
         $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch();
@@ -120,6 +126,8 @@ class FilmMapper
             $filmDTO->lenght
         );
 
+        IdentityMap::getInstance()->store(Film::TABLE_NAME, $film);
+
         return $film;
     }
 
@@ -130,7 +138,7 @@ class FilmMapper
      */
     public function update (Film $film): bool
     {
-        return $this->updateStmt->execute(
+        $result = $this->updateStmt->execute(
             [
                 $film->getTitle(),
                 $film->getShowStartDate(),
@@ -138,6 +146,12 @@ class FilmMapper
                 $film->getId(),
             ]
         );
+
+        if ($result) {
+            IdentityMap::getInstance()->update(Film::TABLE_NAME, $film);
+        }
+
+        return $result;
     }
 
     /**
@@ -147,7 +161,13 @@ class FilmMapper
      */
     public function delete (Film $film): bool
     {
-        return $this->deleteStmt->execute([$film->getId()]);
+        $result = $this->deleteStmt->execute([$film->getId()]);
+
+        if ($result) {
+            IdentityMap::getInstance()->remove(Film::TABLE_NAME, $film->getId());
+        }
+
+        return $result;
     }
 
     /**
