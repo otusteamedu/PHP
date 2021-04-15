@@ -19,13 +19,3 @@ class MysqlConfigValidator
         }
     }
 }
-
-/*CREATE TABLE films
-(
-    id              serial       NOT NULL,
-    title           varchar(100) NOT NULL,
-    show_start_date timestamp    NOT NULL,
-    length          int4         NOT NULL,
-    CONSTRAINT films_pk PRIMARY KEY (id),
-    CONSTRAINT films_title_and_date_un UNIQUE (title, show_start_date)
-);*/

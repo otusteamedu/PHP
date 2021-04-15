@@ -35,7 +35,7 @@ class MysqlConnection
         $port     = $dbConfig['port'] ?? '';
         $user     = $dbConfig['user'] ?? '';
         $password = $dbConfig['password'] ?? '';
-        $dbname   = $dbConfig['password'] ?? '';
+        $dbname   = $dbConfig['dbname'] ?? '';
 
         return "mysql:host={$host};port={$port};user={$user};password={$password};dbname={$dbname}";
     }
