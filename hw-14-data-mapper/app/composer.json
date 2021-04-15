@@ -9,7 +9,9 @@
     ],
     "require": {
         "symfony/yaml": "^5.2",
-        "monolog/monolog": "^2.2"
+        "monolog/monolog": "^2.2",
+        "fzaninotto/faker": "^1.9"
+
     },
     "autoload": {
         "psr-4": {

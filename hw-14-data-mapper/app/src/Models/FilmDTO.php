@@ -32,7 +32,7 @@ class FilmDTO
         int $lenght
     )
     {
-        $this->name          = $title;
+        $this->title         = $title;
         $this->showStartDate = $showStartDate;
         $this->lenght        = $lenght;
     }

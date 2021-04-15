@@ -3,8 +3,11 @@
 namespace App\DbSeeder\Seeders;
 
 use App\Log\Log;
+use App\Models\FilmDTO;
+use App\Models\FilmMapper;
 use App\Storage\Storage;
 use Exception;
+use Faker\Factory;
 
 class FilmsTableSeeder implements SeederInterface
 {
@@ -39,15 +42,27 @@ class FilmsTableSeeder implements SeederInterface
         for ($i = 1; $i <= self::FAKE_RECORDS_COUNT; $i++) {
             self::insertFakeRecord();
         }
+
+        return true;
     }
 
-    private static function insertFakeRecord()
+    private static function insertFakeRecord (): void
     {
+        $pdo = Storage::getInstance();
 
+        $filmMapper = (new FilmMapper($pdo));
+
+        $filmMapper->insert(self::getFakeRecord());
     }
 
-    private static function getFakeRecord()
+    private static function getFakeRecord (): FilmDTO
     {
+        $faker = Factory::create();
 
+        return new FilmDTO(
+            $faker->name,
+            $faker->date('Y-m-d h:i:00'),
+            $faker->numberBetween(80, 240)
+        );
     }
 }

@@ -92,7 +92,7 @@ class FilmMapper
     {
         $result = $this->insertStmt->execute(
             [
-                $filmDTO->name,
+                $filmDTO->title,
                 $filmDTO->showStartDate,
                 $filmDTO->lenght,
             ]
