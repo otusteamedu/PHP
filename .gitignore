@@ -1,3 +1,4 @@
 /.idea
-hw1-9/.env
+hw1-9/app/.env
 hw1-9/logs
+hw1-9/app/vendor

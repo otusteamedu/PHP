@@ -9,7 +9,7 @@ services:
     image: app
     container_name: app
     volumes:
-      - ./src:/var/www/html/src
+      - ./app:/var/www/html/app
       - ./logs:/var/log/nginx
     ports:
       - "8080:80"
@@ -24,7 +24,7 @@ services:
     image: server
     container_name: server
     volumes:
-      - ./src:/var/www/html/src
+      - ./app:/var/www/html/app
       - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
     ports:
       - "9000:9000"
@@ -36,7 +36,7 @@ services:
     container_name: elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-      - ./src:/var/www/html/src
+      - ./app:/var/www/html/app
     ports:
       - "9200:9200"
     environment:
