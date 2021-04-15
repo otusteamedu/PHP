@@ -15,6 +15,7 @@ class MysqlConnection
         'port',
         'user',
         'password',
+        'dbname',
     ];
 
     public static function get()
@@ -22,10 +23,6 @@ class MysqlConnection
         MysqlConfigValidator::validate(self::CONFIG_KEYS);
 
         $pdo = new PDO(self::getDsn());
-
-        $dbname = Config::getInstance()->getItem(Storage::DB_CONFIG_KEY)['dbname'];
-        self::createDatabaseIfNotExists($pdo, $dbname);
-        self::setDatabase($pdo, $dbname);
 
         return $pdo;
     }
@@ -38,21 +35,8 @@ class MysqlConnection
         $port     = $dbConfig['port'] ?? '';
         $user     = $dbConfig['user'] ?? '';
         $password = $dbConfig['password'] ?? '';
+        $dbname   = $dbConfig['password'] ?? '';
 
-        return "mysql:host={$host};port={$port};user={$user};password={$password}";
-    }
-
-    private static function createDatabaseIfNotExists (PDO $pdo, string $dbname): void
-    {
-        Log::getInstance()->addRecord('detecting db...');
-        $sql  = "CREATE DATABASE IF NOT EXISTS cinema CHARACTER SET utf8 COLLATE utf8_general_ci;";
-        $pdo->query($sql);
-    }
-
-    private static function setDatabase (PDO $pdo, string $dbname): void
-    {
-        Log::getInstance()->addRecord('selecting db...');
-        $sql  = "USE cinema";
-
+        return "mysql:host={$host};port={$port};user={$user};password={$password};dbname={$dbname}";
     }
 }
