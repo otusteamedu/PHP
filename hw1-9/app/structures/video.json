@@ -12,16 +12,16 @@
                 "channelId": {
                     "type": "text"
                 },
-                "viewsCount": {
+                "viewCount": {
                     "type": "integer"
                 },
-                "likesCount": {
+                "likeCount": {
                     "type": "integer"
                 },
-                "dislikesCount": {
+                "dislikeCount": {
                     "type": "integer"
                 },
-                "commentsCount": {
+                "commentCount": {
                     "type": "integer"
                 }
             },

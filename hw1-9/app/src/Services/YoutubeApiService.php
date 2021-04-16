@@ -13,7 +13,7 @@ use Src\Parsers\Youtube\VideoDataParser;
  */
 class YoutubeApiService
 {
-    private const MAX_RESULTS = 10;
+    private const MAX_RESULTS = 5;
     /**
      * @var Client $client
      */

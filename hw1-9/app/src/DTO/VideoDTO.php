@@ -15,29 +15,29 @@ class VideoDTO
 
     public string $channelId;
 
-    public int $viewsCount;
+    public int $viewCount;
 
-    public int $likesCount;
+    public int $likeCount;
 
-    public int $dislikesCount;
+    public int $dislikeCount;
 
-    public int $commentsCount;
+    public int $commentCount;
 
     public function __construct(
         string $id,
         string $title,
         string $channelId,
-        int $viewsCount,
-        int $likesCount,
-        int $dislikesCount,
-        int $commentsCount
+        int $viewCount,
+        int $likeCount,
+        int $dislikeCount,
+        int $commentCount
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->channelId = $channelId;
-        $this->viewsCount = $viewsCount;
-        $this->likesCount = $likesCount;
-        $this->dislikesCount = $dislikesCount;
-        $this->commentsCount = $commentsCount;
+        $this->viewCount = $viewCount;
+        $this->likeCount = $likeCount;
+        $this->dislikeCount = $dislikeCount;
+        $this->commentCount = $commentCount;
     }
 }

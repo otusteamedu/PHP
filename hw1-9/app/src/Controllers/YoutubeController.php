@@ -5,8 +5,9 @@ namespace Src\Controllers;
 use Src\Messages\Responser;
 use Src\Models\Channel;
 use Src\Models\Video;
+use Src\Services\StatisticsService;
 use Src\Services\YoutubeApiService;
-use Src\Storage\ElasticSearchStorage;
+use Src\Repositories\ElasticSearchRepository;
 
 /**
  * Class YoutubeController
@@ -21,8 +22,8 @@ class YoutubeController
         $youtubeApiService = new YoutubeApiService();
         foreach ($this->getChannelsList() as $channelId) {
             $channelDto = $youtubeApiService->getChannelsInfo($channelId);
-            $storage = new ElasticSearchStorage();
-            if ($storage->store($channelDto, Channel::TABLE_NAME)) {
+            $elasticSearchRepository = new ElasticSearchRepository();
+            if ($elasticSearchRepository->save($channelDto, Channel::TABLE_NAME)) {
                 $this->grabVideos($channelId);
             } else {
                 Responser::responseFail('Channel info is not saved');
@@ -49,11 +50,35 @@ class YoutubeController
         $youtubeApiService = new YoutubeApiService();
         $videos = $youtubeApiService->getChannelVideos($channelId);
 
-        $storage = new ElasticSearchStorage();
+        $elasticSearchRepository = new ElasticSearchRepository();
         foreach ($videos as $videoDTO) {
-            $storage->store($videoDTO, Video::TABLE_NAME);
+            $elasticSearchRepository->save($videoDTO, Video::TABLE_NAME);
         }
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function getStatisticsChannelVideos(): string
+    {
+        $statisticsService = new StatisticsService();
+        $allChannels = (new ElasticSearchRepository())->getAllChannels();
 
+        $statistics = [];
+
+        foreach ($allChannels as $channel) {
+            $statistics[] = $statisticsService->getStats($channel->id);
+        }
+
+        return json_encode($statistics, JSON_FORCE_OBJECT);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function delete(): void
+    {
+        (new ElasticSearchRepository())->dropIndex();
+    }
 }

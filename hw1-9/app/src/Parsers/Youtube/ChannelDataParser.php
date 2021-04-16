@@ -1,5 +1,4 @@
 <?php
-
 namespace Src\Parsers\Youtube;
 
 use Src\DTO\ChannelDTO;

@@ -17,30 +17,30 @@ class Video
 
     public string $channelId;
 
-    public int $viewsCount;
+    public int $viewCount;
 
-    public int $likesCount;
+    public int $likeCount;
 
-    public int $dislikesCount;
+    public int $dislikeCount;
 
-    public int $commentsCount;
+    public int $commentCount;
 
     public function __construct(
         string $id,
         string $title,
         string $channelId,
-        int $viewsCount,
-        int $likesCount,
-        int $dislikesCount,
-        int $commentsCount
+        int $viewCount,
+        int $likeCount,
+        int $dislikeCount,
+        int $commentCount
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->channelId = $channelId;
-        $this->viewsCount = $viewsCount;
-        $this->likesCount = $likesCount;
-        $this->dislikesCount = $dislikesCount;
-        $this->commentsCount = $commentsCount;
+        $this->viewCount = $viewCount;
+        $this->likeCount = $likeCount;
+        $this->dislikeCount = $dislikeCount;
+        $this->commentCount = $commentCount;
     }
 
     public function getId(): string
@@ -71,47 +71,47 @@ class Video
         return $this;
     }
 
-    public function getViewsCount(): int
+    public function getViewCount(): int
     {
-        return $this->viewsCount;
+        return $this->viewCount;
     }
 
-    public function setViewsCount(int $viewsCount): self
+    public function setViewCount(int $viewCount): self
     {
-        $this->viewsCount = $viewsCount;
+        $this->viewCount = $viewCount;
         return $this;
     }
 
-    public function getLikesCount(): int
+    public function getLikeCount(): int
     {
-        return $this->likesCount;
+        return $this->likeCount;
     }
 
-    public function setLikesCount(int $likesCount): self
+    public function setLikesCount(int $likeCount): self
     {
-        $this->likesCount = $likesCount;
+        $this->likeCount = $likeCount;
         return $this;
     }
 
-    public function getDislikesCount(): int
+    public function getDislikeCount(): int
     {
-        return $this->dislikesCount;
+        return $this->dislikeCount;
     }
 
-    public function setDislikesCount(int $dislikesCount): self
+    public function setDislikeCount(int $dislikeCount): self
     {
-        $this->dislikesCount = $dislikesCount;
+        $this->dislikeCount = $dislikeCount;
         return $this;
     }
 
-    public function getCommentsCount(): int
+    public function getCommentCount(): int
     {
-        return $this->commentsCount;
+        return $this->commentCount;
     }
 
-    public function setCommentsCount(int $commentsCount): self
+    public function setCommentCount(int $commentCount): self
     {
-        $this->commentsCount = $commentsCount;
+        $this->commentCount = $commentCount;
         return $this;
     }
 }

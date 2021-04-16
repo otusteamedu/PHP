@@ -28,7 +28,20 @@ class Route
     public function init(): void
     {
 
-        $this->router->respond('GET', '/grub', static fn() => (new YoutubeController())->grub());
+        $this->router->respond(
+            'GET',
+            '/grub',
+            static fn() => (new YoutubeController())->grub());
+
+        $this->router->respond(
+            'GET',
+            '/statistics-channel-videos',
+            static fn() => (new YoutubeController)->getStatisticsChannelVideos());
+
+        $this->router->respond(
+            'DELETE',
+            '/deleting-indexes',
+            static fn() => (new YoutubeController)->delete());
 
         $this->router->dispatch();
     }

@@ -18,7 +18,6 @@
         "vlucas/phpdotenv": "^5.1",
         "elasticsearch/elasticsearch": "~7.0",
         "guzzlehttp/guzzle": "^6.5",
-        "symfony/yaml": "^5.2.5",
         "klein/klein": "^2.1"
     },
     "require-dev": {
