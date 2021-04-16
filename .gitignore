@@ -4,3 +4,11 @@
 code
 docker
 vendor
+/code/vendor
+*.cache
+*.bak
+/var
+dbdata
+elastic-data
+redis-data
+postgres-data
