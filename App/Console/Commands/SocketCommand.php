@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 
 
 use App\Console\CommandContract;
+use App\Container;
 use App\Sockets\Client;
 use App\Sockets\Server;
 use App\Sockets\Socket;
@@ -31,7 +32,7 @@ class SocketCommand implements CommandContract
 
     public function handle()
     {
-        $config = (new SocketConfig())
+        $config = Container::make(SocketConfig::class)
             ->setAddress($this->path ?? getenv('SOCKET_PATH'))
             ->setPort($this->port ?? getenv('SOCKET_PORT'));
         $socket = $this->domain === self::DOMAIN_TCP ? new Socket($config) : new UnixSocket($config);
