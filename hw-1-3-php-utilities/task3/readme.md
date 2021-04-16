@@ -1,5 +1,5 @@
 ```
-# cd cd hw-1-3/task3/
+# cd cd hw-1-3-php-utilities/task3/
 
 docker build -t hw-1-3-task-3 .
 

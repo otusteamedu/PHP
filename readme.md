@@ -59,7 +59,7 @@ id user city phone
 
 ----
 
-###hw-1-3
+###hw-1-3-php-utilities
 К уроку 3
 
 ####task1
