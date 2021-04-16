@@ -1,6 +1,6 @@
 ```
 
-# cd hw-3-1-lesson7
+# cd hw-3-1-lesson7-cinema-schema
 
 docker-compose build
 

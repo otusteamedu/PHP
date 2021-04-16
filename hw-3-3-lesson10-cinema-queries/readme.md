@@ -1,4 +1,4 @@
-deploy postgres - see hw-3-1-lesson7/readme.md
+deploy postgres - see hw-3-1-lesson7-cinema-queries/readme.md
 
 
 - оыты с 10 тысячами (10k) и миллионом (1M) записей в таблице
