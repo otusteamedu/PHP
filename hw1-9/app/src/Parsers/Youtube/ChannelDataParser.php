@@ -33,25 +33,25 @@ class ChannelDataParser
         $id = $rawData['items'][0]['id'] ?? '';
 
         if (empty($id)) {
-            Responser::responseFail('Channel id is not exists');
+            Responser::responseParseDataFail('Channel id is not exists');
         }
 
         $title = $rawData['items'][0]['snippet']['title'] ?? '';
 
         if (empty($title)) {
-            Responser::responseFail('Channel title is not exists');
+            Responser::responseParseDataFail('Channel title is not exists');
         }
 
         $description = $rawData['items'][0]['snippet']['description'] ?? '';
 
         if (empty($description)) {
-            Responser::responseFail('Channel description is not exists');
+            Responser::responseParseDataFail('Channel description is not exists');
         }
 
         $thumbnail = $rawData['items'][0]['snippet']['thumbnails']['default']['url'] ?? '';
 
         if (empty($thumbnail)) {
-            Responser::responseFail('Channel thumbnail is not exists');
+            Responser::responseParseDataFail('Channel thumbnail is not exists');
         }
 
         return new ChannelDTO(

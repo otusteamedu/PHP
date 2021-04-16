@@ -22,7 +22,7 @@ class VideoDataParser
         $result = [];
 
         if (empty($videoIdsInfo['items'])) {
-            Responser::responseFail('Video list is not exists');
+            Responser::responseParseDataFail('Video list is not exists');
         }
         foreach ($videoIdsInfo['items'] as $video) {
                 $result[] = $video['id']['videoId'];
@@ -53,19 +53,19 @@ class VideoDataParser
         $id = $rawData['items'][0]['id'] ?? '';
 
         if (empty($id)) {
-            Responser::responseFail('Video id is not exists');
+            Responser::responseParseDataFail('Video id is not exists');
         }
 
         $title = $rawData['items'][0]['snippet']['title'] ?? '';
 
         if (empty($title)) {
-            Responser::responseFail('Video title is not exists');
+            Responser::responseParseDataFail('Video title is not exists');
         }
 
         $channelId = $rawData['items'][0]['snippet']['channelId'] ?? '';
 
         if (empty($channelId)) {
-            Responser::responseFail('Video channelId is not exists');
+            Responser::responseParseDataFail('Video channelId is not exists');
         }
 
         $viewsCount = $rawData['items'][0]['statistics']['viewCount'] ?? 0;

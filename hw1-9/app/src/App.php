@@ -1,5 +1,4 @@
 <?php
-
 namespace Src;
 
 use Src\Routes\Route;

@@ -2,6 +2,7 @@
 
 namespace Src\Controllers;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Src\Messages\Responser;
 use Src\Models\Channel;
 use Src\Models\Video;

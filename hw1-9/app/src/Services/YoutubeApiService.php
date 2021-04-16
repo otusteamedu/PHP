@@ -1,10 +1,14 @@
 <?php
-
 namespace Src\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
 use Src\DTO\ChannelDTO;
 use Src\DTO\VideoDTO;
+use Src\Exceptions\InvalidResponseException;
+use Src\Exceptions\YoutubeApiException;
+use Src\Exceptions\YoutubeApiServerException;
 use Src\Parsers\Youtube\ChannelDataParser;
 use Src\Parsers\Youtube\VideoDataParser;
 
@@ -14,6 +18,8 @@ use Src\Parsers\Youtube\VideoDataParser;
 class YoutubeApiService
 {
     private const MAX_RESULTS = 5;
+    private const HTTP_CODE_OK = 200;
+
     /**
      * @var Client $client
      */
@@ -34,11 +40,12 @@ class YoutubeApiService
      * @param $channelId
      *
      * @return ChannelDTO
-     * @throws \Exception
+     * @throws InvalidResponseException
+     * @throws YoutubeApiException
+     * @throws YoutubeApiServerException
      */
     public function getChannelsInfo($channelId): ChannelDTO
     {
-
         $options = [
             'query' => [
                 'key' => $this->apiKey,
@@ -47,13 +54,28 @@ class YoutubeApiService
                 'order' => 'date',
             ]
         ];
+        try {
+            $response = $this->client->request(
+                'GET',
+                'https://youtube.googleapis.com/youtube/v3/channels',
+                $options);
 
-        $response = $this->client
-            ->get('https://youtube.googleapis.com/youtube/v3/channels', $options)
-            ->getBody()
-            ->getContents();
+            if ($response->getStatusCode() !== self::HTTP_CODE_OK) {
+                throw new InvalidResponseException('Invalid StatusCode: ' . $response->getStatusCode());
+            }
+        } catch (GuzzleException $exception) {
+            if (($exception->getCode() >= 500) && ($exception->getCode() < 600)) {
+                $message = 'Server Error.';
+                if ($exception instanceof ServerException) {
+                    $message .= 'Response: ' . $exception->getResponse()->getBody()->getContents();
+                }
+                throw new YoutubeApiServerException($message);
+            }
+            throw new YoutubeApiException($exception->getMessage(), $exception->getCode(), $exception);
+        }
 
-        $channelInfo = json_decode($response, true);
+        $content = $response->getBody()->getContents();
+        $channelInfo = json_decode($content, true);
         $channelDataParser = new ChannelDataParser();
         return $channelDataParser->parse($channelInfo);
     }
@@ -62,9 +84,11 @@ class YoutubeApiService
      * @param string $channelId
      *
      * @return array
-     * @throws \Exception
+     * @throws InvalidResponseException
+     * @throws YoutubeApiException
+     * @throws YoutubeApiServerException
      */
-    public function getChannelVideos (string $channelId): array
+    public function getChannelVideos(string $channelId): array
     {
         $result = [];
 
@@ -80,17 +104,33 @@ class YoutubeApiService
                 ]
             ];
 
-            $response = $this->client
-                ->get('https://youtube.googleapis.com/youtube/v3/videos', $options)
-                ->getBody()
-                ->getContents();
+            try {
+                $response = $this->client->request(
+                    'GET',
+                    'https://youtube.googleapis.com/youtube/v3/videos',
+                    $options);
 
-            $videoInfo = json_decode($response, true);
-            $videoDataParser = new VideoDataParser();
-            $videoDTO = $videoDataParser->parseVideoData($videoInfo);
+                if ($response->getStatusCode() !== self::HTTP_CODE_OK) {
+                    throw new InvalidResponseException('Invalid StatusCode: ' . $response->getStatusCode());
+                }
 
-            if ($videoDTO instanceof VideoDTO) {
-                $result[] = $videoDTO;
+                $content = $response->getBody()->getContents();
+                $videoInfo = json_decode($content, true);
+                $videoDataParser = new VideoDataParser();
+                $videoDTO = $videoDataParser->parseVideoData($videoInfo);
+
+                if ($videoDTO instanceof VideoDTO) {
+                    $result[] = $videoDTO;
+                }
+            } catch (GuzzleException $exception) {
+                if (($exception->getCode() >= 500) && ($exception->getCode() < 600)) {
+                    $message = 'Server Error.';
+                    if ($exception instanceof ServerException) {
+                        $message .= 'Response: ' . $exception->getResponse()->getBody()->getContents();
+                    }
+                    throw new YoutubeApiServerException($message);
+                }
+                throw new YoutubeApiException($exception->getMessage(), $exception->getCode(), $exception);
             }
         }
 
@@ -101,26 +141,45 @@ class YoutubeApiService
      * @param string $channelId
      *
      * @return array
-     * @throws \Exception
+     * @throws InvalidResponseException
+     * @throws YoutubeApiException
+     * @throws YoutubeApiServerException
      */
-    private function getVideosIdList (string $channelId): array
+    private function getVideosIdList(string $channelId): array
     {
         $options = [
             'query' => [
-                'part'       => 'snippet',
-                'order'      => 'date',
-                'channelId'  => $channelId,
-                'key'        => $this->apiKey,
+                'part' => 'snippet',
+                'order' => 'date',
+                'channelId' => $channelId,
+                'key' => $this->apiKey,
                 'maxResults' => self::MAX_RESULTS,
             ]
         ];
 
-        $response = $this->client
-            ->get('https://youtube.googleapis.com/youtube/v3/search', $options)
-            ->getBody()
-            ->getContents();
+        try {
+            $response = $this->client->request(
+                'GET',
+                'https://youtube.googleapis.com/youtube/v3/search',
+                $options);
 
-        $videoIdsInfo = json_decode($response, true);
+            if ($response->getStatusCode() !== self::HTTP_CODE_OK) {
+                throw new InvalidResponseException('Invalid StatusCode: ' . $response->getStatusCode());
+            }
+
+            $content = $response->getBody()->getContents();
+            $videoIdsInfo = json_decode($content, true);
+        } catch (GuzzleException $exception) {
+            if (($exception->getCode() >= 500) && ($exception->getCode() < 600)) {
+                $message = 'Server Error.';
+                if ($exception instanceof ServerException) {
+                    $message .= 'Response: ' . $exception->getResponse()->getBody()->getContents();
+                }
+                throw new YoutubeApiServerException($message);
+            }
+            throw new YoutubeApiException($exception->getMessage(), $exception->getCode(), $exception);
+        }
+
         $parser = new VideoDataParser();
 
         return $parser->parseVideosIdList($videoIdsInfo);

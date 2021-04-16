@@ -1,6 +1,8 @@
 <?php
 namespace Src\Messages;
 
+use Src\Exceptions\DataParserException;
+
 /**
  * Class Responser
  *
@@ -23,5 +25,16 @@ class Responser
     {
         http_response_code(400);
         throw new \Exception($message . PHP_EOL . 'Query is not successful');
+    }
+
+    /**
+     * @param string $message
+     *
+     * @throws DataParserException
+     */
+    public static function responseParseDataFail(string $message = 'Something went wrong'): void
+    {
+        http_response_code(400);
+        throw new DataParserException($message);
     }
 }
