@@ -1,5 +1,5 @@
 ```
-# cd hw-2-2/task2
+# cd hw-2-2-verification-balancer/task2
 
 cp .env.example .env
 

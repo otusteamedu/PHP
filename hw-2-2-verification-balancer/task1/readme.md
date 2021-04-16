@@ -1,6 +1,6 @@
 ```
 
-# cd hw-2-2/task1/
+# cd hw-2-2-verification-balancer/task1/
 docker-compose up -d
 docker-compose exec app bash
 
