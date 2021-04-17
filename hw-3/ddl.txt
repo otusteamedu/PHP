@@ -1,0 +1,47 @@
+CREATE TABLE Halls (
+	id_hall 	tinyint NOT NULL,
+	name 		varchar(255) NOT NULL,
+	PRIMARY KEY (id_hall)
+);
+
+CREATE TABLE Rows (
+	id_row 			smallint NOT NULL,
+	hall_id 		tinyint NOT NULL,
+	number 			tinyint NOT NULL,
+	seats_in_row 	tinyint NOT NULL,
+	PRIMARY KEY (id_rows),
+    FOREIGN KEY (hall_id) REFERENCES Halls(id_hall)
+);
+
+CREATE TABLE Seats (
+	id_seat 	smallint NOT NULL,
+	row_id 		smallint NOT NULL,
+	number 		tinyint NOT NULL,
+	PRIMARY KEY (id_seat),
+    FOREIGN KEY (row_id) REFERENCES Rows(id_row)
+);
+
+CREATE TABLE Movies (
+	id_movie 	int NOT NULL,
+	name 		varchar(255) NOT NULL,
+	PRIMARY KEY (id_movie)
+);
+
+CREATE TABLE Sessions (
+	id_session 	int NOT NULL,
+	hall_id 	tinyint NOT NULL,
+	movie_id 	int NOT NULL,
+	price 		int NOT NULL,
+	PRIMARY KEY (id_session),
+    FOREIGN KEY (hall_id) REFERENCES Halls(id_hall),
+    FOREIGN KEY (movie_id) REFERENCES Movies(id_movie)
+);
+
+CREATE TABLE Tickets (
+	id_ticket 	int NOT NULL,
+	session_id 	int NOT NULL,
+	seat_id 	smallint NOT NULL,
+	price 		int NOT NULL,
+	PRIMARY KEY (id_ticket),
+    FOREIGN KEY (session_id) REFERENCES Sessions(id_session)
+);
