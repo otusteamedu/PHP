@@ -23,7 +23,7 @@ class Responser
      */
     public static function responseFail(string $message = 'Something went wrong'): void
     {
-        http_response_code(400);
+        http_response_code(500);
         throw new \Exception($message . PHP_EOL . 'Query is not successful');
     }
 
@@ -34,7 +34,7 @@ class Responser
      */
     public static function responseParseDataFail(string $message = 'Something went wrong'): void
     {
-        http_response_code(400);
+        http_response_code(500);
         throw new DataParserException($message);
     }
 }
