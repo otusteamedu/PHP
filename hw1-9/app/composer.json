@@ -1,0 +1,28 @@
+{
+    "name": "denis/spider-youtube",
+    "description": "hw1-9/spider-youtube",
+    "keywords": [
+        "otus",
+        "hw1-9/spider-youtube"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.1",
+        "elasticsearch/elasticsearch": "~7.0",
+        "guzzlehttp/guzzle": "^6.5",
+        "klein/klein": "^2.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
