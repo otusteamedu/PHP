@@ -9,5 +9,5 @@ try {
     $app->run();
 }
 catch(Exception $e){
-
+    echo 'An unknown error occurred: ' . $e->getMessage();
 }
