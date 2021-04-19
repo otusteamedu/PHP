@@ -4,6 +4,7 @@
 namespace Otushw\Queue\RabbitMQ;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Exchange\AMQPExchangeType;
 
 class RabbitMQ
 {
@@ -16,16 +17,16 @@ class RabbitMQ
     public function __construct()
     {
         $this->channel = RabbitMQConnection::getInstanceChannel();
-        $this->queueDeclare();
+        $this->exchangeDeclare();
     }
 
-    private function queueDeclare(): void
+    private function exchangeDeclare(): void
     {
-        $this->channel->queue_declare(
-            self::QUEUE_NAME,
+        $this->channel->exchange_declare(
+            self::EXCHANGE,
+            AMQPExchangeType::DIRECT,
             false,
             true,
-            false,
             false
         );
     }

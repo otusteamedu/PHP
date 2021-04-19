@@ -14,6 +14,20 @@ class RabbitMQConsumer extends RabbitMQ implements QueueConsumerInterface
     {
         AppLogger::addInfo('RabbitMQ:Consumer was ran');
 
+        $this->channel->queue_declare(
+            self::QUEUE_NAME,
+            false,
+            true,
+            false,
+            false
+        );
+
+        $this->channel->queue_bind(
+            self::QUEUE_NAME,
+            self::EXCHANGE,
+            self::ROUTING_KEY
+        );
+
         $this->channel->basic_qos(null, 1, null);
         $this->channel->basic_consume(
             self::QUEUE_NAME,
@@ -33,12 +47,17 @@ class RabbitMQConsumer extends RabbitMQ implements QueueConsumerInterface
     public function processMessage($msg): void
     {
         AppLogger::addInfo('RabbitMQ:Consumer received message', [$msg->body]);
+        var_dump($msg->getRoutingKey());
+
         $worker = new Worker($msg->body);
         $job = $worker->create();
         $job->do();
         if ($job->isCompleted()) {
             $worker->finish();
-            $this->channel->basic_ack($msg->delivery_info['delivery_tag']);
+            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+//            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+
+//            $this->channel->basic_ack($msg->delivery_info['delivery_tag']);
         }
     }
 
