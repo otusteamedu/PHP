@@ -1,0 +1,24 @@
+- path: /api/v1/orders
+  method: GET
+  controller: OrderController
+  action: index
+
+- path: /api/v1/orders/[\d]+
+  method: GET
+  controller: OrderController
+  action: show
+
+- path: /api/v1/orders
+  method: POST
+  controller: QueryController
+  action: create
+
+- path: /api/v1/orders/[\d]+
+  method: DELETE
+  controller: QueryController
+  action: delete
+
+- path: /api/v1/orders/[\d]+
+  method: PUT
+  controller: QueryController
+  action: update
