@@ -1,0 +1,82 @@
+[
+  {
+    "index": "channels",
+    "body" : {
+      "settings" : {
+        "number_of_shards" :  1,
+        "number_of_replicas" : 1
+      },
+      "mappings": {
+        "_source": {
+          "enabled": true
+        },
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "title": {
+            "type": "text"
+          },
+          "description": {
+            "type": "text"
+          },
+          "subscribersCount": {
+            "type": "integer"
+          },
+          "videosCount": {
+            "type": "integer"
+          },
+          "viewsCount": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+  {
+    "index": "videos",
+    "body" : {
+      "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      },
+      "mappings": {
+        "_source": {
+          "enabled": true
+        },
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "channelId": {
+            "type": "keyword"
+          },
+          "title": {
+            "type": "text"
+          },
+          "description": {
+            "type": "text"
+          },
+          "commentCount": {
+            "type": "integer"
+          },
+          "favoriteCount": {
+            "type": "integer"
+          },
+          "viewCount": {
+            "type": "integer"
+          },
+          "dislikeCount": {
+            "type": "integer"
+          },
+          "likeCount": {
+            "type": "integer"
+          },
+          "publishedAt": {
+            "type": "date"
+          }
+        }
+      }
+    }
+  }
+]
