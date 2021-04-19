@@ -16,7 +16,7 @@ class HttpKernel
     protected array $routes;
 
     /**
-     * HttpKernel constructor.
+     * Kernel constructor.
      */
     public function __construct()
     {
@@ -31,9 +31,9 @@ class HttpKernel
     {
         $route = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = strtolower($_SERVER['REQUEST_METHOD']);
-        $validatingRule = rules("{$method}@{$route}");
 
         $route = $this->evaluateRoute($route, $method);
+        $validatingRule = rules("{$method}@{$route}");
         $response = $this->instantiateController($route, $_REQUEST, $validatingRule);
         $this->dispatchResponse($response);
     }

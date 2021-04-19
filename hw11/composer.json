@@ -1,0 +1,46 @@
+{
+    "name": "aivanov-dev/hw",
+    "description": "This project is made for studying purpose, it is a homework for OTUS php course",
+    "keywords": [
+        "otus", "study", "hw"
+    ],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aivanov-dev",
+            "email": "ivanov-a3@protonmail.com"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*",
+        "google/apiclient": "^2.7",
+        "symfony/config": "^5.2",
+        "symfony/http-kernel": "^5.2",
+        "symfony/http-foundation": "^5.2",
+        "symfony/routing": "^5.2",
+        "symfony/dependency-injection": "^5.2",
+        "symfony/framework-bundle": "^5.2",
+        "symfony/yaml": "^5.2",
+        "symfony/console": "^5.2",
+        "guzzlehttp/guzzle": "^7.3",
+        "elasticsearch/elasticsearch": "^7.11"
+    },
+    "scripts": {
+        "post-update-cmd": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "YouTube"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "GuzzleHttp\\": "vendor/guzzlehttp/guzzle/src/"
+        }
+    },
+    "require-dev": {
+        "symfony/dotenv": "^5.2"
+    }
+}

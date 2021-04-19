@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+    php-fpm:
+        # Если нет секции build, то система будет искать образ в репозиториях
+        build:
+            context: ./docker
+            dockerfile: php-fpm/Dockerfile
+        image: myapp/php
+        ports:
+            - "9001:9000"
+        container_name: php-fpm
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+    nginx:
+        build:
+            context: ./docker
+            dockerfile: nginx/Dockerfile
+        image: myapp/nginx
+        container_name: nginx
+        # проброс портов
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - php-fpm
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+    elastic:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+        container_name: elastic
+        environment:
+            - node.name=es01
+            - cluster.name=es-docker-cluster
+            - discovery.type=single-node
+            - bootstrap.memory_lock=true
+            - network.host=_site_
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "ELASTIC_PASSWORD=elastic"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ./docker/elastic/data:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+        networks:
+            - app-network
+    kibana:
+        build:
+            context: ./docker/kibana
+            dockerfile: Dockerfile
+        container_name: kibana
+        environment:
+            ELASTICSEARCH_URL: http://elastic:9200
+            ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
+        networks:
+            - app-network
+        ports:
+            - 5601:5601
+networks:
+    app-network:
+        driver: bridge

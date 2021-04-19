@@ -1,0 +1,13 @@
+youtube.channels.parse:
+    path: /youtube/channels/fetch/{id}
+    controller: App\Controllers\ChannelVideosController::fetchChannelAndVideos
+    methods: GET
+youtube.channels.statistics:
+    path: /youtube/channels/{id}/statistics/
+    controller: App\Controllers\ChannelVideosController::channelStatistics
+    methods: GET
+youtube.channels.all-statistics:
+    path: /youtube/channels/statistics/{quantity}
+    controller: App\Controllers\ChannelVideosController::bestChannelStatistics
+    methods: GET
+    defaults:   { quantity: 10 }

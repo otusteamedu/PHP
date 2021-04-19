@@ -1,0 +1,8 @@
+.idea
+docker-compose.yml
+.env
+/vendor/
+/var/cache/dev/*
+!/var/cache/.gitkeep
+/docker/elastic/data/*
+!/docker/elastic/data/.gitkeep

@@ -14,7 +14,18 @@
     ],
     "require": {
         "vlucas/phpdotenv": "^5.3",
-        "ext-sockets": "*"
+        "ext-sockets": "*",
+        "google/apiclient": "^2.7",
+        "symfony/console": "^5.2",
+        "symfony/dependency-injection": "^5.2"
+    },
+    "scripts": {
+        "post-update-cmd": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "YouTube"
+        ]
     },
     "autoload": {
         "psr-4": {
