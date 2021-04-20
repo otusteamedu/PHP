@@ -21,21 +21,25 @@ class AddCommand implements CommandInterface
 
     public function execute(): void
     {
-        $json = Console::getArgument(2);
+        $argument = Console::getArgument(2);
 
-        $command = $this->convertJsonToCommand($json);
+        $data = $this->convertArgumentToArray($argument);
+        $command = $this->convertDataToCommand($data);
 
         $this->deleteEventHandler->handle($command);
 
         Console::success('Событие успешно добавлено');
     }
 
-    private function convertJsonToCommand(string $json): AddEventCommand
+    private function convertArgumentToArray(string $argument): array
     {
-        $data = json_decode($json, true);
-        $data = (is_array($data) ? $data : []);
+        $data = json_decode($argument, true);
 
+        return (is_array($data) ? $data : []);
+    }
 
+    private function convertDataToCommand(array $data): AddEventCommand
+    {
         $command = new AddEventCommand();
 
         $command->name = $data['name'] ?? '';
