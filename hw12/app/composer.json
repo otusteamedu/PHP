@@ -1,0 +1,21 @@
+{
+    "name": "kai/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vladimir Kaimonov",
+            "email": "kaivladimirv@gmail.com"
+        }
+    ],
+  "require": {
+    "php": ">=7.4",
+        "ramsey/uuid": "^4.1",
+        "averias/phpredis-json": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "description": ""
+}
