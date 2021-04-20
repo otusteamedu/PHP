@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS seances;
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS places;
 DROP TABLE IF EXISTS rooms;
-
+DROP TABLE IF EXISTS discounts;
 
 CREATE TABLE rooms
 (
@@ -40,14 +40,24 @@ CREATE TABLE seances
     CONSTRAINT seances_movies_fk FOREIGN KEY (movie_id) REFERENCES movies (id)
 );
 
+CREATE TABLE discounts
+(
+    id serial NOT NULL,
+    value integer NOT NULL,
+    CONSTRAINT discounts_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE tickets
 (
     id serial  NOT NULL,
     seance_id integer NOT NULL,
     place_id integer NOT NULL,
+	price integer NOT NULL,
+	discount_id integer NOT NULL,
     CONSTRAINT tickets_pk PRIMARY KEY (id),
     CONSTRAINT tickets_seances_fk FOREIGN KEY (seance_id) REFERENCES seances (id),
-    CONSTRAINT tickets_places_fk FOREIGN KEY (place_id) REFERENCES places (id)
+    CONSTRAINT tickets_places_fk FOREIGN KEY (place_id) REFERENCES places (id),
+	CONSTRAINT tickets_discounts_fk FOREIGN KEY (discount_id) REFERENCES discounts (id)
 );
 
 CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
@@ -58,6 +68,24 @@ BEGIN
 END;
 $$ language 'plpgsql' STRICT;
 
+CREATE OR REPLACE FUNCTION price_with_discount(price INT, percent INT) 
+   RETURNS INT AS
+$$
+BEGIN
+   RETURN floor(price*(100 - percent)/100);
+END;
+$$ language 'plpgsql' STRICT;
+
+
+DO $discounts_insert$
+BEGIN
+
+	FOR discount_amount in 0..2 loop
+		INSERT INTO discounts(value) 
+		SELECT (discount_amount*10) AS value;
+	END loop;
+END;
+$discounts_insert$;
 	   
 DO $room_insert$
 BEGIN
@@ -123,10 +151,14 @@ DECLARE
     tickets_count integer = random_between(100, 1000);
     seance record;
     place record;
+	discount record;
 BEGIN
-    FOR seance IN (SELECT id, room_id FROM seances) LOOP
+
+    FOR seance IN (SELECT id, room_id, price FROM seances) LOOP
         FOR place IN (SELECT id FROM places WHERE room_id = seance.room_id LIMIT tickets_count) LOOP
-            INSERT INTO tickets (seance_id, place_id) VALUES (seance.id, place.id);
+			FOR discount IN (SELECT id, value FROM discounts WHERE id = random_between(1,3)) LOOP
+				INSERT INTO tickets (seance_id, place_id, price, discount_id) VALUES (seance.id, place.id, price_with_discount(seance.price, discount.value), discount.id);
+			END LOOP;
         END LOOP;
     END LOOP;
 END
