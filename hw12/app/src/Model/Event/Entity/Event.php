@@ -71,7 +71,9 @@ class Event
 
     private function isConditionExist(Condition $condition): bool
     {
-        return !!array_filter($this->conditions, fn($existingCondition) => $existingCondition->isEqual($condition));
+        $matched = array_filter($this->conditions, fn($existingCondition) => $existingCondition->isEqual($condition));
+
+        return (count($matched) > 0);
     }
 
     /**
