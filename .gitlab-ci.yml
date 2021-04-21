@@ -1,0 +1,22 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server1
+    url: $SERVER_NAME
+  script:
+    - ssh $SSH_USER@$SERVER_NAME "rm -rf /home/alex/deploy &&
+      cd /home/alex &&
+      git clone https://aws_deploy:Xv9YtggErhsbx5paUvVo@gitlab.com/mar4ehk0/deploy.git deploy &&
+      cd deploy &&
+      sh ./deploy.sh $SERVER_NAME"
+  only:
+    - master
