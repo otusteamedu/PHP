@@ -5,7 +5,7 @@ namespace App\Service\Product\Order;
 
 
 
-interface ProductOrderInterface
+interface ProductOrderInterface extends OrderSubjectInterface
 {
     public function getNumber(): int;
     public function getState(): string;

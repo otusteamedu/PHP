@@ -5,7 +5,9 @@ namespace App\Observer;
 
 use App\Service\Mailer\EmailSenderInterface;
 use App\Service\Mailer\EmailService;
+use App\Service\Product\Order\OrderSubjectInterface;
 use App\Service\Product\Order\ProductOrder;
+use App\Service\Product\Order\ProductOrderInterface;
 use Psr\Container\ContainerInterface;
 
 class OrderObserver implements OrderObserverInterface
@@ -21,7 +23,7 @@ class OrderObserver implements OrderObserverInterface
     }
 
 
-    public function update(ProductOrder $order): void
+    public function update(ProductOrderInterface $order): void
     {
         $this->mailer->sendEmail(
             $order->getCustomerEmail(),
@@ -30,7 +32,7 @@ class OrderObserver implements OrderObserverInterface
         );
     }
 
-    private function getSubject(ProductOrder $order): string
+    private function getSubject(ProductOrderInterface $order): string
     {
         return 'Ваш заказ ' . $order->getNumber();
     }

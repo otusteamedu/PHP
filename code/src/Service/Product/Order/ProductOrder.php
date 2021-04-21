@@ -6,7 +6,7 @@ namespace App\Service\Product\Order;
 
 use App\Observer\OrderObserverInterface;
 
-class ProductOrder implements ProductOrderInterface, OrderSubjectInterface
+class ProductOrder implements ProductOrderInterface
 {
     private int $number;
     private string $customerEmail;
