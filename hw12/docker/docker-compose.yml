@@ -1,0 +1,20 @@
+version: '3'
+services:
+    php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/php-cli
+        container_name: otus-php-cli
+        volumes:
+            - ../app:/app:delegated
+        depends_on:
+            - redis
+
+    redis:
+        image: redislabs/rejson:latest
+        container_name: otus-redis
+        volumes:
+            - ../storages/redis:/data
+        expose:
+            - 6379
