@@ -5,8 +5,6 @@ namespace App\Observer;
 
 use App\Service\Mailer\EmailSenderInterface;
 use App\Service\Mailer\EmailService;
-use App\Service\Product\Order\OrderSubjectInterface;
-use App\Service\Product\Order\ProductOrder;
 use App\Service\Product\Order\ProductOrderInterface;
 use Psr\Container\ContainerInterface;
 
