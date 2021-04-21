@@ -1,0 +1,19 @@
+{
+  "type": "project",
+  "name": "mar4ehk0/hw-10",
+  "description": "Deploy",
+  "authors": [
+    {
+      "name": "Alex Marchenko",
+      "email": "mar4ehk0@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Otushw\\" : "src/Otushw"
+    }
+  }
+}
