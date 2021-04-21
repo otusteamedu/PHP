@@ -35,6 +35,12 @@ services:
       - ./code:${WORKDIR}
       - sock:${SOCKET_DIR}
 
+  mailercatcher:
+    image: jeanberu/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
+
 #  postgres:
 #    container_name: ${DB_HOST}
 #    image: postgres:13.2-alpine

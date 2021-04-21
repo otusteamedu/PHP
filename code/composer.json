@@ -8,7 +8,9 @@
         }
     ],
     "require": {
-    	"php": "^7.4"
+    	"php": "^7.4",
+        "psr/container": "^2.0",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "autoload": {
 	    "psr-4": {
@@ -24,6 +26,7 @@
         "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "test": "php ./vendor/bin/phpunit"
+        "test": "php ./vendor/bin/phpunit",
+        "test-coverage": "XDEBUG_MODE=coverage php ./vendor/bin/phpunit --coverage-text"
     }
 }
