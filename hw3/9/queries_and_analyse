@@ -1,0 +1,172 @@
+// Простые запросы
+SELECT * FROM orders WHERE seat_id = 1;
+SELECT * FROM orders WHERE session_id = 24 ORDER BY id;
+SELECT * FROM session WHERE movie_id = 12 AND hall_id = 2 ORDER BY start_time;
+
+--------------------------------------
+
+// Более сложные запросы
+SELECT count (o.id) AS count_vip_orders FROM orders o
+JOIN hall_seats hs ON hs.id = o.seat_id
+JOIN seat_type st ON st.id = hs.type_id
+WHERE hs.type_id = 3;
+
+SELECT m.name AS movie_with_oskar FROM movies m
+JOIN movie_attribute_value mav ON m.id = mav.movie_id
+JOIN movie_fields mf ON mf.id = mav.field_id
+JOIN movie_attribute ma ON mf.attribute_id = ma.id
+JOIN movie_attribute_type mat ON ma.type_id = mat.id
+WHERE mav.value_boolean = 't';
+
+SELECT mav.value_date AS movie_premiere_date FROM movies m
+JOIN movie_attribute_value mav ON m.id = mav.movie_id
+JOIN movie_fields mf ON mf.id = mav.field_id
+WHERE mf.attribute_id = 3 AND m.id = 1;
+
+--------------------------------------
+
+// Заполнение таблиц данными
+10К
+INSERT INTO session (movie_id, hall_id, price)
+SELECT DISTINCT ON (h.id, gs.n)
+    m.id,
+    h.id,
+    (trunc(random() * 1500))
+FROM movies m,
+    halls h,
+    generate_series(448472, 453472) as gs(n);
+
+100К
+INSERT INTO session (movie_id, hall_id, price)
+SELECT DISTINCT ON (h.id, gs.n)
+    m.id,
+    h.id,
+    (trunc(random() * 1500))
+FROM movies m,
+    halls h,
+    generate_series(403472, 453472) as gs(n);
+
+110К
+INSERT INTO orders (session_id, seat_id, cost)
+SELECT DISTINCT ON (s.id)
+    s.id,
+    hs.id,
+    (trunc(random() * 1500))
+FROM session s,
+    hall_seats hs;
+
+--------------------------------------
+
+//EXPLAIN запросов (1 простой и 1 более сложный)
+
+cinema=# EXPLAIN SELECT * FROM session WHERE movie_id = 12 AND hall_id = 2 ORDER BY start_time;
+                    QUERY PLAN
+-----------------------------------------------------------------
+ Sort  (cost=2245.07..2245.08 rows=1 width=32)
+   Sort Key: start_time
+   ->  Seq Scan on session  (cost=0.00..2245.06 rows=1 width=32)
+         Filter: ((movie_id = 12) AND (hall_id = 2))
+
+
+cinema=# EXPLAIN SELECT m.name AS movie_with_oskar FROM movies m
+cinema-# JOIN movie_attribute_value mav ON m.id = mav.movie_id
+cinema-# JOIN movie_fields mf ON mf.id = mav.field_id
+cinema-# JOIN movie_attribute ma ON mf.attribute_id = ma.id
+cinema-# JOIN movie_attribute_type mat ON ma.type_id = mat.id
+cinema-# WHERE mav.value_boolean = 't';
+                        QUERY PLAN
+----------------------------------------------------------------------------------------------------
+ Hash Join  (cost=51.70..74.62 rows=420 width=218)
+   Hash Cond: (ma.type_id = mat.id)
+   ->  Hash Join  (cost=38.55..60.34 rows=420 width=222)
+         Hash Cond: (mf.attribute_id = ma.id)
+         ->  Hash Join  (cost=25.40..46.05 rows=420 width=222)
+               Hash Cond: (mav.field_id = mf.id)
+               ->  Hash Join  (cost=12.25..31.77 rows=420 width=222)
+                     Hash Cond: (mav.movie_id = m.id)
+                     ->  Seq Scan on movie_attribute_value mav  (cost=0.00..18.40 rows=420 width=8)
+                           Filter: value_boolean
+                     ->  Hash  (cost=11.00..11.00 rows=100 width=222)
+                           ->  Seq Scan on movies m  (cost=0.00..11.00 rows=100 width=222)
+               ->  Hash  (cost=11.40..11.40 rows=140 width=8)
+                     ->  Seq Scan on movie_fields mf  (cost=0.00..11.40 rows=140 width=8)
+         ->  Hash  (cost=11.40..11.40 rows=140 width=8)
+               ->  Seq Scan on movie_attribute ma  (cost=0.00..11.40 rows=140 width=8)
+   ->  Hash  (cost=11.40..11.40 rows=140 width=4)
+         ->  Seq Scan on movie_attribute_type mat  (cost=0.00..11.40 rows=140 width=4)
+
+
+
+АНАЛИЗ ЗАПРОСА С ИНДЕКСАМИ И БЕЗ
+1. Есть только внешние ключи и primary key
+
+cinema=# EXPLAIN SELECT * FROM session WHERE movie_id = 12 AND hall_id = 2 ORDER BY start_time;
+                           QUERY PLAN
+-----------------------------------------------------------------
+ Sort  (cost=2245.07..2245.08 rows=1 width=32)
+   Sort Key: start_time
+   ->  Seq Scan on session  (cost=0.00..2245.06 rows=1 width=32)
+         Filter: ((movie_id = 12) AND (hall_id = 2))
+
+
+2. Добавил ещё индекс session_movie_id_idx для колонки movie_id
+
+cinema=# EXPLAIN SELECT * FROM session WHERE movie_id = 12 AND hall_id = 2 ORDER BY start_time;
+                                        QUERY PLAN
+-------------------------------------------------------------------------------------------
+ Sort  (cost=7.12..7.13 rows=1 width=32)
+   Sort Key: start_time
+   ->  Index Scan using session_movie_id_idx on session  (cost=0.29..7.11 rows=1 width=32)
+         Index Cond: (movie_id = 12)
+         Filter: (hall_id = 2)
+
+
+Изменения:
+1. Sort (cost=2245.07..2245.08 rows=1 width=32)
+2. Sort (cost=7.12..7.13 rows=1 width=32)
+
+
+- отсортированный список (15 значений) самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
+
+      table_name       |          index_name           | table_size | index_size
+-----------------------+-------------------------------+------------+------------
+ orders                | orders_pkey                   | 4760 kB    | 2424 kB
+ session               | session_pkey                  | 4760 kB    | 2424 kB
+ orders                | orders_session_id_idx         | 4760 kB    | 2440 kB
+ session               | session_movie_id_idx          | 4760 kB    | 760 kB
+ orders                | orders_seat_id_idx            | 4760 kB    | 760 kB
+ hall_seats            | hall_seats_pkey               | 8192 bytes | 16 kB
+ movie_attribute_type  | movie_attribute_type_pkey     | 8192 bytes | 16 kB
+ movie_attribute       | movie_attribute_pkey          | 8192 bytes | 16 kB
+ movie_fields          | movie_fields_pkey             | 8192 bytes | 16 kB
+ movie_fields          | movie_fields_attribute_id_idx | 8192 bytes | 16 kB
+ movie_attribute_value | movieattributevalue_pkey      | 8192 bytes | 16 kB
+ halls                 | halls_pkey                    | 8192 bytes | 16 kB
+ seat_type             | seat_type_pkey                | 8192 bytes | 16 kB
+ genres                | genres_pkey                   | 8192 bytes | 16 kB
+ movies                | movies_pkey                   | 8192 bytes | 16 kB
+
+
+- отсортированные списки (по 5 значений) самых часто и редко используемых индексов
+
+      table_name      |        index_name         | number_of_scans
+----------------------+---------------------------+-----------------
+ movie_attribute_type | movie_attribute_type_pkey |               4
+ session              | session_movie_id_idx      |               3
+ movies               | movies_pkey               |               1
+ seat_type            | seat_type_pkey            |               1
+ orders               | orders_session_id_idx     |               0
+
+
+
+  table_name  |          index_name           | number_of_scans
+--------------+-------------------------------+-----------------
+ movie_fields | movie_fields_attribute_id_idx |               0
+ orders       | orders_session_id_idx         |               0
+ orders       | orders_seat_id_idx            |               0
+ session      | session_pkey                  |               0
+ orders       | orders_pkey                   |               0
+
+
+В итоге: Большинство таблиц связанные внешними ключами между собой. Добавил индексы для колонок, которые были использованы в запросах
+

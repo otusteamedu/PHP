@@ -12,7 +12,7 @@ WORKDIR /var/www/
 
 COPY nginx/dev.mysite.conf /etc/nginx/sites-available/dev.mysite.conf
 
-COPY /1/hw-1-1/files/index.html /var/www/html/index.html
+COPY /hw1/1/hw-1-1/files/index.html /var/www/html/index.html
 
 EXPOSE 80
 
