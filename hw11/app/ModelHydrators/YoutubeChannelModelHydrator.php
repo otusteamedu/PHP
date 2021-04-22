@@ -2,6 +2,8 @@
 
 namespace App\ModelHydrators;
 
+use App\Models\Channel;
+
 class YoutubeChannelModelHydrator extends AbstractYoutubeHydrator
 {
     protected const MAPPING = [
@@ -15,4 +17,19 @@ class YoutubeChannelModelHydrator extends AbstractYoutubeHydrator
     ];
 
     protected const MODEL = 'App\\Models\\Channel';
+
+    /**
+     * @var Channel
+     */
+    public Channel $model;
+
+    /**
+     * YoutubeChannelModelHydrator constructor.
+     *
+     * @param Channel $model
+     */
+    public function __construct(Channel $model)
+    {
+        $this->model = $model;
+    }
 }

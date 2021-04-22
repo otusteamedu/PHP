@@ -2,6 +2,8 @@
 
 namespace App\ModelHydrators;
 
+use App\Models\Video;
+
 class YoutubeVideoModelHydrator extends AbstractYoutubeHydrator
 {
     protected const MAPPING = [
@@ -15,4 +17,19 @@ class YoutubeVideoModelHydrator extends AbstractYoutubeHydrator
     ];
 
     protected const MODEL = 'App\\Models\\Video';
+
+    /**
+     * @var Video
+     */
+    public Video $model;
+
+    /**
+     * YoutubeVideoModelHydrator constructor.
+     *
+     * @param Video $model
+     */
+    public function __construct(Video $model)
+    {
+        $this->model = $model;
+    }
 }

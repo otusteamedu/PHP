@@ -22,15 +22,12 @@ abstract class AbstractYoutubeHydrator implements YoutubeHydratorInterface
         $models = [];
 
         foreach ($modelRawData->items as $modelRawEntry) {
-            $modelName = static::MODEL;
-            $model = new $modelName();
-
             foreach (static::MAPPING as $key => $currentMappedProperty) {
                 //call corresponding setter of the model and set a value to a given property
-                call_user_func([$model, $key], $this->getNestedProperty($currentMappedProperty, $modelRawEntry));
+                call_user_func([$this->model, $key], $this->getNestedProperty($currentMappedProperty, $modelRawEntry));
             }
 
-            $models[] = $model;
+            $models[] = $this->model;
         }
 
         return ['nextPageToken' => $nextPageToken, 'models' => $models];

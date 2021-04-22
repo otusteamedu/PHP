@@ -2,6 +2,8 @@
 
 namespace App\ModelHydrators;
 
+use App\Models\Channel;
+
 class ElasticChannelModelHydrator extends AbstractElasticHydrator
 {
     protected const MAPPING = [
@@ -19,4 +21,19 @@ class ElasticChannelModelHydrator extends AbstractElasticHydrator
     ];
 
     protected const MODEL = 'App\\Models\\Channel';
+
+    /**
+     * @var Channel
+     */
+    public Channel $model;
+
+    /**
+     * ElasticChannelModelHydrator constructor.
+     *
+     * @param Channel $model
+     */
+    public function __construct(Channel $model)
+    {
+        $this->model = $model;
+    }
 }

@@ -29,8 +29,9 @@ class ElasticClient
     private function __construct()
     {
         $this->client = ClientBuilder::create()
-            ->setHosts(['http://elastic:9200'])
-            ->build();
+            ->setHosts([$_ENV['ELASTIC_HOST']])
+            ->build()
+        ;
 
         $config = json_decode(file_get_contents(dirname(__DIR__, 2) . '/config/elasticSchema.json'), true);
 

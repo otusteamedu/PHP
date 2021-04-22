@@ -14,14 +14,12 @@ abstract class AbstractElasticHydrator implements ElasticHydratorInterface
     public function hydrate(array $modelRawData): array
     {
         $models = [];
-        $modelName = static::MODEL;
-        $model = new $modelName();
 
         foreach (static::MAPPING as $key => $currentMappedProperty) {
-            call_user_func([$model, $key], $modelRawData['_source'][$currentMappedProperty] ?? null);
+            call_user_func([$this->model, $key], $modelRawData['_source'][$currentMappedProperty] ?? null);
         }
 
-        $models[] = $model;
+        $models[] = $this->model;
 
         return $models;
     }
