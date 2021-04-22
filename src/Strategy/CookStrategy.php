@@ -16,7 +16,6 @@ class CookStrategy implements Strategy
     {
             $className = 'Src\AbstractFactory\\' . ucfirst($order) . 'Factory';
             if (class_exists($className) && new $className instanceof FoodFactory) {
-                //return new $className;
                 return new ProxyFactory(new $className);
             } else {
                 throw new \Exception('We do not have such meal in menu' . PHP_EOL);

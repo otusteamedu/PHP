@@ -19,7 +19,7 @@ class Burger extends BaseMeal
         return 'Burger';
     }
 
-    public function addIngredient()
+    public function addIngredient(string $ingredient)
     {
 
     }

@@ -27,7 +27,6 @@ class RestaurantFacade
             $meal->attach($kitchen);
             $kitchen->askForExtra($meal);
             $meal->notify();
-            //var_dump($meal);
         } catch (\Exception $e) {
             echo $e->getMessage() . PHP_EOL;
         }

@@ -8,11 +8,11 @@ class BaseMeal implements AbstractFood, \SplSubject
 {
     public string $mealName;
 
-    public bool $extraCheese;
+    public bool $cheese;
 
-    public bool $extraOnion;
+    public bool $onion;
 
-    public bool $extraPickles;
+    public bool $pickles;
 
     public array $ingredients = [];
 
@@ -20,9 +20,9 @@ class BaseMeal implements AbstractFood, \SplSubject
 
     public function __construct()
     {
-        $this->extraCheese = false;
-        $this->extraOnion = false;
-        $this->extraPickles = false;
+        $this->cheese = false;
+        $this->onion = false;
+        $this->pickles = false;
         $this->observers = new \SplObjectStorage();
     }
 
@@ -31,7 +31,7 @@ class BaseMeal implements AbstractFood, \SplSubject
         // TODO: Implement getFoodName() method.
     }
 
-    public function addIngredient()
+    public function addIngredient(string $ingredient)
     {
         $this->notify();
         // TODO: Implement addIngredient() method.

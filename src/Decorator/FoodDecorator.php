@@ -12,7 +12,7 @@ class FoodDecorator implements SpecialRecipe
         $this->meal = $meal;
     }
 
-    public function addIngredient(): SpecialRecipe
+    public function addIngredient(string $ingredient): SpecialRecipe
     {
         return $this->meal;
     }
