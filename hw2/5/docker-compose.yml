@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     build:
-      context: ./
+      context: ""
       dockerfile: docker/nginx/Dockerfile
     ports:
       - 8282:80
@@ -18,7 +18,7 @@ services:
   php-1:
     container_name: php-fpm-1
     build:
-      context: ./
+      context: ""
       dockerfile: docker/php-1/Dockerfile
     volumes:
       - ./:/var/www/html
@@ -26,7 +26,7 @@ services:
   php-2:
     container_name: php-fpm-2
     build:
-      context: ./
+      context: ""
       dockerfile: docker/php-2/Dockerfile
     volumes:
       - ./:/var/www/html
@@ -34,7 +34,7 @@ services:
   php-3:
     container_name: php-fpm-3
     build:
-      context: ./
+      context: ""
       dockerfile: docker/php-3/Dockerfile
     volumes:
       - ./:/var/www/html

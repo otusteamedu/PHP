@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     build:
-      context: ./
+      context: ""
       dockerfile: docker/nginx/Dockerfile
     ports:
       - 8181:80
@@ -16,7 +16,7 @@ services:
   php:
     container_name: php-container
     build:
-      context: ./
+      context: ""
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./:/var/www/html

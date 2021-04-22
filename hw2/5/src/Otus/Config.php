@@ -11,7 +11,7 @@ class Config
 
 	public function get(){
 		if (is_null($this->config)) {
-			$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+			$dotenv = Dotenv::createImmutable(__DIR__ . '/../5/');
 			$this->config = $dotenv->load();
 		}
 		return $this->config;
