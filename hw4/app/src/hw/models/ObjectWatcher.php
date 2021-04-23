@@ -19,10 +19,11 @@ class ObjectWatcher
     private $objects = array();
 
     /**
-     * Geting instance of ObjectWatcher.
+     * Getting instance of ObjectWatcher.
      * @return ObjectWatcher
      */
-    public static function getInstance(){
+    public static function getInstance(): ObjectWatcher
+    {
         if(!isset(self::$_instance)){
             self::$_instance = new ObjectWatcher;
         }
@@ -35,7 +36,8 @@ class ObjectWatcher
      * @param int $id
      * @return mixed null or object of the class $className with an id = $id if it exists.
      */
-    public static function getRecord($className, $id) {
+    public static function getRecord(string $className, int $id): mixed
+    {
         $inst = self::getInstance();
         $key = "$className.$id";
         if(isset($inst->objects[$key])){
@@ -47,14 +49,16 @@ class ObjectWatcher
     /**
      * Adding object to ObjectWatcher registry.
      * @param $obj
-     *	@param int $id
+     * @param int $id
      */
-    public static function addRecord($obj, $id) {
+    public static function addRecord($obj, int $id): void
+    {
         $inst = self::getInstance();
         $inst->objects[$inst->getKey($obj, $id)] = $obj;
     }
 
-    function getKey($obj, $id){
+    function getKey($obj, $id): string
+    {
         return get_class($obj).'.'.$id;
     }
 }
