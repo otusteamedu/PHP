@@ -1,0 +1,4 @@
+.idea
+app/.env
+app/vendor
+app/logs
