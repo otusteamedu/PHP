@@ -4,11 +4,11 @@
 namespace App\Shop\Decorators;
 
 
-class KitchenFood extends Food
+class ChickenFood extends Food
 {
     public function cook(): string
     {
-        $this->ingredients()->add('kitchen');
+        $this->ingredients()->add('chicken');
         return parent::cook();
     }
 }

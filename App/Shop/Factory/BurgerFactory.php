@@ -7,14 +7,14 @@ namespace App\Shop\Factory;
 use App\Shop\Burger;
 use App\Shop\Decorators\BeefFood;
 use App\Shop\Decorators\FishFood;
-use App\Shop\Decorators\KitchenFood;
+use App\Shop\Decorators\ChickenFood;
 
 class BurgerFactory implements Interfaces\FastFoodFactory
 {
 
-    public function createKitchenFood(): KitchenFood
+    public function createChickenFood(): ChickenFood
     {
-        return new KitchenFood(new Burger());
+        return new ChickenFood(new Burger());
     }
 
     public function createFishFood(): FishFood
