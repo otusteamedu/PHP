@@ -5,11 +5,12 @@ namespace App;
 
 
 use App\Console\Command;
-use App\Shop\AbstractFastFood;
 use App\Shop\Adapters\IceCreamAdapter;
 use App\Shop\Factory\Interfaces\FastFoodFactory;
+use App\Shop\Observers\OrderObserver;
 use App\Shop\Order;
 use App\Shop\OrderController;
+use App\Shop\OrderStatusNotify;
 use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
@@ -32,9 +33,10 @@ class App
         Command::exec();
 
         //For tests
+        OrderObserver::getInstance()->attach(new OrderStatusNotify(), Order::EVENTS['STATUS_UPDATE']);
         $controller = new OrderController();
         $id = $controller->post(['food' => 'burger', 'type' => 'beef', 'ingredients' => ['cheese', 'bacon']]);
-        $this->response = Order::get($id)->cook() . "\n";
+        $this->response = "\n" . Order::get($id)->cook() . "\n";
         $id = $controller->post(['food' => 'ice-cream', 'ingredients' => ['chocolate', 'syrup']]);
         $this->response .= Order::get($id)->cook() . "\n";
 

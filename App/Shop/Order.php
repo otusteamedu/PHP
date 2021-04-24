@@ -5,6 +5,7 @@ namespace App\Shop;
 
 
 use App\Shop\Factory\Interfaces\FastFoodItem;
+use App\Shop\Observers\OrderObserver;
 
 class Order
 {
@@ -13,6 +14,11 @@ class Order
         'PREPARING' => 'preparing',
         'COOKED'    => 'cooked'
     ];
+
+    public const EVENTS = [
+        'STATUS_UPDATE' => 'order:status.update'
+    ];
+
     private static array $orders = [];
 
     private FastFoodItem $item;
@@ -25,6 +31,7 @@ class Order
         $this->id = $this->getNextId();
         $this->status = self::STATUSES['NEW'];
         self::$orders[$this->id] = $this;
+        $this->notifyOnStatus();
     }
 
     private function getNextId()
@@ -32,10 +39,30 @@ class Order
         return count(self::$orders) + 1;
     }
 
+    public function prepare(): void
+    {
+        if ($this->status === self::STATUSES['NEW']) {
+            $this->status = self::STATUSES['PREPARING'];
+            $this->notifyOnStatus();
+        }
+    }
+
     public function cook(): string
     {
-        $this->status = self::STATUSES['COOKED'];
+        if ($this->status !== self::STATUSES['COOKED']) {
+            $this->prepare();
+            $this->status = self::STATUSES['COOKED'];
+            $this->notifyOnStatus();
+        }
         return $this->item->cook();
+    }
+
+    private function notifyOnStatus()
+    {
+        OrderObserver::getInstance()->notify(self::EVENTS['STATUS_UPDATE'], [
+            'id'     => $this->getId(),
+            'status' => $this->status
+        ]);
     }
 
 
