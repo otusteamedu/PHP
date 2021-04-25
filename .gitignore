@@ -1,0 +1,6 @@
+.idea
+/docker/.env
+vendor
+.db
+.composer
+.bash_history
