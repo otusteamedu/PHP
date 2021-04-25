@@ -32,14 +32,6 @@ class App
         $this->bind();
         Command::exec();
 
-        //For tests
-        OrderObserver::getInstance()->attach(new OrderStatusNotify(), Order::EVENTS['STATUS_UPDATE']);
-        $controller = new OrderController();
-        $id = $controller->post(['food' => 'burger', 'type' => 'beef', 'ingredients' => ['cheese', 'bacon']]);
-        $this->response = "\n" . Order::get($id)->cook() . "\n";
-        $id = $controller->post(['food' => 'ice-cream', 'ingredients' => ['chocolate', 'syrup']]);
-        $this->response .= Order::get($id)->cook() . "\n";
-
         return $this->response;
     }
 

@@ -9,12 +9,10 @@ use App\Shop\IceCream;
 class IceCreamAdapter implements FastFoodItem
 {
     private Ingredients $ingredients;
-    private IceCream $item;
 
     public function __construct(IceCream $iceCream)
     {
         $this->ingredients = new IceCreateIngredientsAdapter($iceCream);
-        $this->item = $iceCream;
     }
 
     public function cook(): string
