@@ -1,0 +1,21 @@
+{
+    "name": "sergeyzelenskiy/app",
+    "description": "",
+    "authors": [
+        {
+            "name": "Sergey Zelenskiy",
+            "email": "szelenskiy@me.com"
+        }
+    ],
+    "require": {
+        "symfony/yaml": "^5.2",
+        "monolog/monolog": "^2.2",
+        "fzaninotto/faker": "^1.9",
+        "robmorgan/phinx": "^0.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\":"src"
+        }
+    }
+}
