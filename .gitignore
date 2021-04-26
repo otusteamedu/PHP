@@ -1,3 +1,5 @@
 /.idea
-/hw1-10/docker/.env
-/hw1-10/logs
+hw1-10/docker/.env
+hw1-10/logs
+hw1-10/app/vendor
+hw1-10/app/.env
