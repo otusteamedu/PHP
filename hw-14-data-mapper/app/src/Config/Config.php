@@ -9,11 +9,6 @@ use Symfony\Component\Yaml\Yaml;
 class Config extends Singleton
 {
     /**
-     * Путь к файлу конфига
-     */
-    private const CONFIG_FILE_PATH = '../config.yml';
-
-    /**
      * @var array
      */
     private array $config;
@@ -35,7 +30,7 @@ class Config extends Singleton
      */
     private function setConfig (): void
     {
-        $this->config = Yaml::parseFile(self::CONFIG_FILE_PATH);
+        $this->config = Yaml::parseFile('../config.yml');
     }
 
     /**
