@@ -14,23 +14,13 @@ class Config extends Singleton
     private array $config;
 
     /**
-     * Config constructor.
-     *
-     * @throws Exception
-     */
-    protected function __construct ()
-    {
-        $this->setConfig();
-    }
-
-    /**
      * Установить конфиг
      *
      * @throws Exception
      */
-    private function setConfig (): void
+    public function setConfig (string $path): void
     {
-        $this->config = Yaml::parseFile('../config.yml');
+        $this->config = Yaml::parseFile($path);
     }
 
     /**
