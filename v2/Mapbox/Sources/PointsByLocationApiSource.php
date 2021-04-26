@@ -4,6 +4,7 @@
 namespace v2\Mapbox\Sources;
 
 use v2\Helpers\CoordinatesCalculator;
+use v2\Helpers\DataTransferObjects\GeoPoint;
 use v2\Location\Facades\UserLocation;
 use v2\Mapbox\Managers\MapBoxApi;
 use v2\Mapbox\MapBoxConfig;
@@ -28,7 +29,7 @@ class PointsByLocationApiSource implements PointsSource
         $proximity = "{$position->longitude},{$position->latitude}";
 
         $poligonCoordinates = CoordinatesCalculator::getSearchCoordinatesByPointAndRadius(
-            $proximity,
+            new GeoPoint($position->longitude, $position->latitude),
             MapBoxConfig::getLocationSearchRadius()
         );
 

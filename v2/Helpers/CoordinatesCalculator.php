@@ -3,71 +3,43 @@
 
 namespace v2\Helpers;
 
+use v2\Helpers\DataTransferObjects\GeoPoint;
+use v2\Helpers\DataTransferObjects\GeoRectangle;
 
 class CoordinatesCalculator
 {
-    public static function getSearchCoordinatesByPointAndRadius($coordinates, $distanceInMeters)
+    private const KM_IN_ONE_DEGREE_OF_LATITUDE = 110.574235;
+    private const KM_IN_ONE_DEGREE_OF_LONGITUDE_BY_EKVATOR = 110.572833;
+    private const METERS_IN_KM = 1000;
+    private const ROUND_PRECISION = 6;
+    private const MINUTES_IN_DEGREE = 60;
+    private const STATUTE_MILES_IN_NAUTICAL_MILES = 1.1515;
+
+    public static function getSearchCoordinatesByPointAndRadius(GeoPoint $geoPoint, int $distanceInMeters) : GeoRectangle
     {
-        if(!$coordinates){
-            return [];
-        }
+        $latRadian = deg2rad($geoPoint->getLatitude());
 
-        $parsedCoordinates = self::parseCoordinates($coordinates);
-        $longitude = $parsedCoordinates['longitude'];
-        $latitude = $parsedCoordinates['latitude'];
+        $degLatKm = self::KM_IN_ONE_DEGREE_OF_LATITUDE;
+        $degLongKm = self::KM_IN_ONE_DEGREE_OF_LONGITUDE_BY_EKVATOR * cos($latRadian);
+        $deltaLat = $distanceInMeters / self::METERS_IN_KM / $degLatKm;
+        $deltaLong = $distanceInMeters / self::METERS_IN_KM / $degLongKm;
 
-        $latRadian = deg2rad($latitude);
-
-        $degLatKm = 110.574235;
-        $degLongKm = 110.572833 * cos($latRadian);
-        $deltaLat = $distanceInMeters / 1000.0 / $degLatKm;
-        $deltaLong = $distanceInMeters / 1000.0 / $degLongKm;
-
-        $searchCoordinates = [];
-        $searchCoordinates['minLat'] = round($latitude - $deltaLat, 6);
-        $searchCoordinates['minLong'] = round($longitude - $deltaLong, 6);
-        $searchCoordinates['maxLat'] = round($latitude + $deltaLat, 6);
-        $searchCoordinates['maxLong'] = round($longitude + $deltaLong, 6);
-
-        return $searchCoordinates;
+        return new GeoRectangle(
+            round($geoPoint->getLongitude() - $deltaLong, self::ROUND_PRECISION),
+            round($geoPoint->getLatitude() - $deltaLat, self::ROUND_PRECISION),
+            round($geoPoint->getLongitude() + $deltaLong, self::ROUND_PRECISION),
+            round($geoPoint->getLatitude() + $deltaLong, self::ROUND_PRECISION)
+        );
     }
 
-    public static function getDistanceByCoordinates($coordinatesFrom, $coordinatesTo, $unit = 'K') {
-
-        if(!$coordinatesFrom){
-            return 0;
-        }
-
-        $parsedCoordinatesFrom = self::parseCoordinates($coordinatesFrom);
-        $parsedCoordinatesTo = self::parseCoordinates($coordinatesTo);
-
-        $lon1 = $parsedCoordinatesFrom['longitude'];
-        $lon2 = $parsedCoordinatesTo['longitude'];
-        $lat1 = $parsedCoordinatesFrom['latitude'];
-        $lat2 = $parsedCoordinatesTo['latitude'];
-
-        $theta = $lon1 - $lon2;
-        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
-        $unit = strtoupper($unit);
-
-        if ($unit == "K") {
-            return ($miles * 1.609344);
-        } else if ($unit == "N") {
-            return ($miles * 0.8684);
-        } else {
-            return $miles;
-        }
-    }
-
-    public static function parseCoordinates($coordinates)
+    public static function getDistanceByCoordinates(GeoPoint $geoPointFrom, GeoPoint $geoPointTo, string $unit = DistanceUnits::KM) : float
     {
-        $arrayCoordinates = explode(',', $coordinates);
-        return [
-            'longitude' => $arrayCoordinates[0],
-            'latitude' => $arrayCoordinates[1],
-        ];
+        $theta = $geoPointFrom->getLongitude() - $geoPointTo->getLongitude();
+        $dist = sin(deg2rad($geoPointFrom->getLatitude())) * sin(deg2rad($geoPointTo->getLatitude())) +
+            cos(deg2rad($geoPointFrom->getLatitude())) * cos(deg2rad($geoPointTo->getLatitude())) * cos(deg2rad($theta));
+
+        $miles = rad2deg(acos($dist)) * self::MINUTES_IN_DEGREE * self::STATUTE_MILES_IN_NAUTICAL_MILES;
+
+        return DistanceUnits::convert($miles, $unit);
     }
 }
