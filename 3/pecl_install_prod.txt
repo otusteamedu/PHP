@@ -1,0 +1,417 @@
+WARNING: "pecl/PDO" is deprecated in favor of "channel://http://svn.php.net/viewvc/php/php-src/trunk/ext/pdo//ext/PDO"
+downloading PDO-1.0.3.tgz ...
+Starting to download PDO-1.0.3.tgz (52,613 bytes)
+........done: 52,613 bytes
+12 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20190902
+Zend Module Api No:      20190902
+Zend Extension Api No:   320190902
+building in /tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3
+running: /tmp/pear/temp/PDO/configure --with-php-config=/usr/local/bin/php-config
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for PHP prefix... /usr/local
+checking for PHP includes... -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib
+checking for PHP extension directory... /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+checking for PHP installed headers prefix... /usr/local/include/php
+checking if debug is enabled... no
+checking if zts is enabled... no
+checking for gawk... no
+checking for nawk... nawk
+checking if nawk is broken... no
+checking whether to enable PDO support... yes, shared
+checking for a sed that does not truncate output... /bin/sed
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognize dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking the maximum length of command line arguments... 1572864
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC
+checking if cc PIC flag -fPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: patching config.h.in
+configure: creating ./config.status
+config.status: creating config.h
+running: make
+/bin/bash /tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3/libtool --mode=compile cc  -I. -I/tmp/pear/temp/PDO -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3/include -I/tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3/main -I/tmp/pear/temp/PDO -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib  -DHAVE_CONFIG_H  -g -O2   -c /tmp/pear/temp/PDO/pdo.c -o pdo.lo
+mkdir .libs
+ cc -I. -I/tmp/pear/temp/PDO -DPHP_ATOM_INC -I/tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3/include -I/tmp/pear/temp/pear-build-defaultuser7m5bdd/PDO-1.0.3/main -I/tmp/pear/temp/PDO -I/usr/local/include/php -I/usr/local/include/php/main -I/usr/local/include/php/TSRM -I/usr/local/include/php/Zend -I/usr/local/include/php/ext -I/usr/local/include/php/ext/date/lib -DHAVE_CONFIG_H -g -O2 -c /tmp/pear/temp/PDO/pdo.c  -fPIC -DPIC -o .libs/pdo.o
+In file included from /tmp/pear/temp/PDO/pdo.c:32:
+/tmp/pear/temp/PDO/php_pdo_driver.h: In function 'pdo_attr_lval':
+/tmp/pear/temp/PDO/php_pdo_driver.h:191:28: error: too many arguments to function 'zend_hash_index_find'
+  if (options && SUCCESS == zend_hash_index_find(Z_ARRVAL_P(options), option_name, (void**)&v)) {
+                            ^~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:177:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_index_find(const HashTable *ht, zend_ulong h);
+                              ^~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:27,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_types.h:450:39: warning: passing argument 1 of 'zval_get_type' from incompatible pointer type [-Wincompatible-pointer-types]
+ #define Z_TYPE(zval)    zval_get_type(&(zval))
+                                       ^~~~~~~
+/usr/local/include/php/Zend/zend_types.h:451:28: note: in expansion of macro 'Z_TYPE'
+ #define Z_TYPE_P(zval_p)   Z_TYPE(*(zval_p))
+                            ^~~~~~
+/usr/local/include/php/Zend/zend_operators.h:430:6: note: in expansion of macro 'Z_TYPE_P'
+  if (Z_TYPE_P(pzv)!=upper_type) {     \
+      ^~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:476:34: note: in expansion of macro 'convert_to_ex_master'
+ #define convert_to_long_ex(pzv)  convert_to_ex_master(pzv, long, IS_LONG)
+                                  ^~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:192:3: note: in expansion of macro 'convert_to_long_ex'
+   convert_to_long_ex(v);
+   ^~~~~~~~~~~~~~~~~~
+/usr/local/include/php/Zend/zend_types.h:440:64: note: expected 'const zval *' {aka 'const struct _zval_struct *'} but argument is of type 'zval **' {aka 'struct _zval_struct **'}
+ static zend_always_inline zend_uchar zval_get_type(const zval* pz) {
+                                                    ~~~~~~~~~~~~^~
+In file included from /usr/local/include/php/Zend/zend.h:356,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/tmp/pear/temp/PDO/php_pdo_driver.h:192:22: warning: passing argument 1 of 'convert_to_long' from incompatible pointer type [-Wincompatible-pointer-types]
+   convert_to_long_ex(v);
+                      ^
+/usr/local/include/php/Zend/zend_operators.h:431:27: note: in definition of macro 'convert_to_ex_master'
+   convert_to_##lower_type(pzv);      \
+                           ^~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:192:3: note: in expansion of macro 'convert_to_long_ex'
+   convert_to_long_ex(v);
+   ^~~~~~~~~~~~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:249:51: note: expected 'zval *' {aka 'struct _zval_struct *'} but argument is of type 'zval **' {aka 'struct _zval_struct **'}
+ ZEND_API void ZEND_FASTCALL convert_to_long(zval *op);
+                                             ~~~~~~^~
+In file included from /tmp/pear/temp/PDO/pdo.c:32:
+/tmp/pear/temp/PDO/php_pdo_driver.h:193:10: warning: implicit declaration of function 'Z_LVAL_PP'; did you mean 'Z_LVAL_P'? [-Wimplicit-function-declaration]
+   return Z_LVAL_PP(v);
+          ^~~~~~~~~
+          Z_LVAL_P
+/tmp/pear/temp/PDO/php_pdo_driver.h: In function 'pdo_attr_strval':
+/tmp/pear/temp/PDO/php_pdo_driver.h:201:28: error: too many arguments to function 'zend_hash_index_find'
+  if (options && SUCCESS == zend_hash_index_find(Z_ARRVAL_P(options), option_name, (void**)&v)) {
+                            ^~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:177:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_index_find(const HashTable *ht, zend_ulong h);
+                              ^~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:27,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_types.h:450:39: warning: passing argument 1 of 'zval_get_type' from incompatible pointer type [-Wincompatible-pointer-types]
+ #define Z_TYPE(zval)    zval_get_type(&(zval))
+                                       ^~~~~~~
+/usr/local/include/php/Zend/zend_types.h:451:28: note: in expansion of macro 'Z_TYPE'
+ #define Z_TYPE_P(zval_p)   Z_TYPE(*(zval_p))
+                            ^~~~~~
+/usr/local/include/php/Zend/zend_operators.h:430:6: note: in expansion of macro 'Z_TYPE_P'
+  if (Z_TYPE_P(pzv)!=upper_type) {     \
+      ^~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:478:35: note: in expansion of macro 'convert_to_ex_master'
+ #define convert_to_string_ex(pzv) convert_to_ex_master(pzv, string, IS_STRING)
+                                   ^~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:202:3: note: in expansion of macro 'convert_to_string_ex'
+   convert_to_string_ex(v);
+   ^~~~~~~~~~~~~~~~~~~~
+/usr/local/include/php/Zend/zend_types.h:440:64: note: expected 'const zval *' {aka 'const struct _zval_struct *'} but argument is of type 'zval **' {aka 'struct _zval_struct **'}
+ static zend_always_inline zend_uchar zval_get_type(const zval* pz) {
+                                                    ~~~~~~~~~~~~^~
+/usr/local/include/php/Zend/zend_types.h:450:39: warning: passing argument 1 of 'zval_get_type' from incompatible pointer type [-Wincompatible-pointer-types]
+ #define Z_TYPE(zval)    zval_get_type(&(zval))
+                                       ^~~~~~~
+/usr/local/include/php/Zend/zend_types.h:451:28: note: in expansion of macro 'Z_TYPE'
+ #define Z_TYPE_P(zval_p)   Z_TYPE(*(zval_p))
+                            ^~~~~~
+/usr/local/include/php/Zend/zend_operators.h:331:35: note: in expansion of macro 'Z_TYPE_P'
+ #define convert_to_string(op) if (Z_TYPE_P(op) != IS_STRING) { _convert_to_string((op)); }
+                                   ^~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:431:3: note: in expansion of macro 'convert_to_string'
+   convert_to_##lower_type(pzv);      \
+   ^~~~~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:478:35: note: in expansion of macro 'convert_to_ex_master'
+ #define convert_to_string_ex(pzv) convert_to_ex_master(pzv, string, IS_STRING)
+                                   ^~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:202:3: note: in expansion of macro 'convert_to_string_ex'
+   convert_to_string_ex(v);
+   ^~~~~~~~~~~~~~~~~~~~
+/usr/local/include/php/Zend/zend_types.h:440:64: note: expected 'const zval *' {aka 'const struct _zval_struct *'} but argument is of type 'zval **' {aka 'struct _zval_struct **'}
+ static zend_always_inline zend_uchar zval_get_type(const zval* pz) {
+                                                    ~~~~~~~~~~~~^~
+In file included from /usr/local/include/php/Zend/zend.h:356,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_operators.h:331:83: warning: passing argument 1 of '_convert_to_string' from incompatible pointer type [-Wincompatible-pointer-types]
+ #define convert_to_string(op) if (Z_TYPE_P(op) != IS_STRING) { _convert_to_string((op)); }
+                                                                                   ^~~~
+/usr/local/include/php/Zend/zend_operators.h:431:3: note: in expansion of macro 'convert_to_string'
+   convert_to_##lower_type(pzv);      \
+   ^~~~~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:478:35: note: in expansion of macro 'convert_to_ex_master'
+ #define convert_to_string_ex(pzv) convert_to_ex_master(pzv, string, IS_STRING)
+                                   ^~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:202:3: note: in expansion of macro 'convert_to_string_ex'
+   convert_to_string_ex(v);
+   ^~~~~~~~~~~~~~~~~~~~
+/usr/local/include/php/Zend/zend_operators.h:248:54: note: expected 'zval *' {aka 'struct _zval_struct *'} but argument is of type 'zval **' {aka 'struct _zval_struct **'}
+ ZEND_API void ZEND_FASTCALL _convert_to_string(zval *op);
+                                                ~~~~~~^~
+In file included from /usr/local/include/php/Zend/zend.h:30,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/tmp/pear/temp/PDO/php_pdo_driver.h:203:19: warning: implicit declaration of function 'Z_STRVAL_PP'; did you mean 'Z_STRVAL_P'? [-Wimplicit-function-declaration]
+   return estrndup(Z_STRVAL_PP(v), Z_STRLEN_PP(v));
+                   ^~~~~~~~~~~
+/usr/local/include/php/Zend/zend_alloc.h:171:44: note: in definition of macro 'estrndup'
+ #define estrndup(s, length)     _estrndup((s), (length) ZEND_FILE_LINE_CC ZEND_FILE_LINE_EMPTY_CC)
+                                            ^
+/tmp/pear/temp/PDO/php_pdo_driver.h:203:35: warning: implicit declaration of function 'Z_STRLEN_PP'; did you mean 'Z_STRLEN_P'? [-Wimplicit-function-declaration]
+   return estrndup(Z_STRVAL_PP(v), Z_STRLEN_PP(v));
+                                   ^~~~~~~~~~~
+/usr/local/include/php/Zend/zend_alloc.h:171:49: note: in definition of macro 'estrndup'
+ #define estrndup(s, length)     _estrndup((s), (length) ZEND_FILE_LINE_CC ZEND_FILE_LINE_EMPTY_CC)
+                                                 ^~~~~~
+/tmp/pear/temp/PDO/php_pdo_driver.h:203:19: warning: passing argument 1 of '_estrndup' makes pointer from integer without a cast [-Wint-conversion]
+   return estrndup(Z_STRVAL_PP(v), Z_STRLEN_PP(v));
+/usr/local/include/php/Zend/zend_alloc.h:171:44: note: in definition of macro 'estrndup'
+ #define estrndup(s, length)     _estrndup((s), (length) ZEND_FILE_LINE_CC ZEND_FILE_LINE_EMPTY_CC)
+                                            ^
+In file included from /usr/local/include/php/Zend/zend.h:30,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_alloc.h:83:31: note: expected 'const char *' but argument is of type 'int'
+ ZEND_API char*  ZEND_FASTCALL _estrndup(const char *s, size_t length ZEND_FILE_LINE_DC ZEND_FILE_LINE_ORIG_DC) ZEND_ATTRIBUTE_MALLOC;
+                               ^~~~~~~~~
+In file included from /tmp/pear/temp/PDO/pdo.c:33:
+/tmp/pear/temp/PDO/php_pdo_int.h: At top level:
+/tmp/pear/temp/PDO/php_pdo_int.h:34:8: error: unknown type name 'zend_object_value'
+ extern zend_object_value pdo_dbh_new(zend_class_entry *ce TSRMLS_DC);
+        ^~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_int.h:39:8: error: unknown type name 'zend_object_value'
+ extern zend_object_value pdo_dbstmt_new(zend_class_entry *ce TSRMLS_DC);
+        ^~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/php_pdo_int.h:48:8: error: unknown type name 'zend_object_value'
+ extern zend_object_value pdo_row_new(zend_class_entry *ce TSRMLS_DC);
+        ^~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'zif_pdo_drivers':
+/tmp/pear/temp/PDO/pdo.c:96:68: warning: passing argument 2 of 'zend_hash_get_current_data_ex' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (SUCCESS == zend_hash_get_current_data_ex(&pdo_driver_hash, (void**)&pdriver, &pos)) {
+                                                                    ^~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:237:30: note: expected 'HashPosition *' {aka 'unsigned int *'} but argument is of type 'void **'
+ ZEND_API zval* ZEND_FASTCALL zend_hash_get_current_data_ex(HashTable *ht, HashPosition *pos);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:96:20: error: too many arguments to function 'zend_hash_get_current_data_ex'
+  while (SUCCESS == zend_hash_get_current_data_ex(&pdo_driver_hash, (void**)&pdriver, &pos)) {
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:237:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_get_current_data_ex(HashTable *ht, HashPosition *pos);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:97:3: error: too many arguments to function 'add_next_index_stringl'
+   add_next_index_stringl(return_value, (char*)(*pdriver)->driver_name, (*pdriver)->driver_name_len, 1);
+   ^~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/main/php.h:37,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_API.h:433:14: note: declared here
+ ZEND_API int add_next_index_stringl(zval *arg, const char *str, size_t length);
+              ^~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'php_pdo_register_driver':
+/tmp/pear/temp/PDO/pdo.c:165:42: warning: passing argument 2 of 'zend_hash_exists' from incompatible pointer type [-Wincompatible-pointer-types]
+  if (!zend_hash_exists(&module_registry, "pdo", sizeof("pdo"))) {
+                                          ^~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:212:88: note: expected 'zend_string *' {aka 'struct _zend_string *'} but argument is of type 'char *'
+ static zend_always_inline zend_bool zend_hash_exists(const HashTable *ht, zend_string *key)
+                                                                           ~~~~~~~~~~~~~^~~
+/tmp/pear/temp/PDO/pdo.c:165:7: error: too many arguments to function 'zend_hash_exists'
+  if (!zend_hash_exists(&module_registry, "pdo", sizeof("pdo"))) {
+       ^~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:212:37: note: declared here
+ static zend_always_inline zend_bool zend_hash_exists(const HashTable *ht, zend_string *key)
+                                     ^~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:170:41: warning: passing argument 2 of 'zend_hash_add' from incompatible pointer type [-Wincompatible-pointer-types]
+  return zend_hash_add(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len,
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:121:30: note: expected 'zend_string *' {aka 'struct _zend_string *'} but argument is of type 'char *'
+ ZEND_API zval* ZEND_FASTCALL zend_hash_add(HashTable *ht, zend_string *key,zval *pData);
+                              ^~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:170:75: warning: passing argument 3 of 'zend_hash_add' makes pointer from integer without a cast [-Wint-conversion]
+  return zend_hash_add(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len,
+                                                                     ~~~~~~^~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:121:30: note: expected 'zval *' {aka 'struct _zval_struct *'} but argument is of type 'long unsigned int'
+ ZEND_API zval* ZEND_FASTCALL zend_hash_add(HashTable *ht, zend_string *key,zval *pData);
+                              ^~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:170:9: error: too many arguments to function 'zend_hash_add'
+  return zend_hash_add(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len,
+         ^~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:121:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_add(HashTable *ht, zend_string *key,zval *pData);
+                              ^~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:170:9: warning: returning 'zval *' {aka 'struct _zval_struct *'} from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+  return zend_hash_add(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len,
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    (void**)&driver, sizeof(driver), NULL);
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'php_pdo_unregister_driver':
+/tmp/pear/temp/PDO/pdo.c:176:42: warning: passing argument 2 of 'zend_hash_exists' from incompatible pointer type [-Wincompatible-pointer-types]
+  if (!zend_hash_exists(&module_registry, "pdo", sizeof("pdo"))) {
+                                          ^~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:212:88: note: expected 'zend_string *' {aka 'struct _zend_string *'} but argument is of type 'char *'
+ static zend_always_inline zend_bool zend_hash_exists(const HashTable *ht, zend_string *key)
+                                                                           ~~~~~~~~~~~~~^~~
+/tmp/pear/temp/PDO/pdo.c:176:7: error: too many arguments to function 'zend_hash_exists'
+  if (!zend_hash_exists(&module_registry, "pdo", sizeof("pdo"))) {
+       ^~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:212:37: note: declared here
+ static zend_always_inline zend_bool zend_hash_exists(const HashTable *ht, zend_string *key)
+                                     ^~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:180:34: warning: passing argument 2 of 'zend_hash_del' from incompatible pointer type [-Wincompatible-pointer-types]
+  zend_hash_del(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:167:70: note: expected 'zend_string *' {aka 'struct _zend_string *'} but argument is of type 'char *'
+ ZEND_API int ZEND_FASTCALL zend_hash_del(HashTable *ht, zend_string *key);
+                                                         ~~~~~~~~~~~~~^~~
+/tmp/pear/temp/PDO/pdo.c:180:2: error: too many arguments to function 'zend_hash_del'
+  zend_hash_del(&pdo_driver_hash, (char*)driver->driver_name, driver->driver_name_len);
+  ^~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:167:28: note: declared here
+ ZEND_API int ZEND_FASTCALL zend_hash_del(HashTable *ht, zend_string *key);
+                            ^~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'pdo_find_driver':
+/tmp/pear/temp/PDO/pdo.c:187:35: warning: passing argument 2 of 'zend_hash_find' from incompatible pointer type [-Wincompatible-pointer-types]
+  zend_hash_find(&pdo_driver_hash, (char*)name, namelen, (void**)&driver);
+                                   ^~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:175:30: note: expected 'zend_string *' {aka 'struct _zend_string *'} but argument is of type 'char *'
+ ZEND_API zval* ZEND_FASTCALL zend_hash_find(const HashTable *ht, zend_string *key);
+                              ^~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:187:2: error: too many arguments to function 'zend_hash_find'
+  zend_hash_find(&pdo_driver_hash, (char*)name, namelen, (void**)&driver);
+  ^~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:175:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_find(const HashTable *ht, zend_string *key);
+                              ^~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'zm_startup_pdo':
+/tmp/pear/temp/PDO/pdo.c:323:22: error: too many arguments to function 'zend_register_internal_class_ex'
+   pdo_exception_ce = zend_register_internal_class_ex(&ce, php_pdo_get_exception_base(0 TSRMLS_CC), NULL TSRMLS_CC);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/main/php.h:37,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_API.h:283:28: note: declared here
+ ZEND_API zend_class_entry *zend_register_internal_class_ex(zend_class_entry *class_entry, zend_class_entry *parent_ce);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c: In function 'zm_info_pdo':
+/tmp/pear/temp/PDO/pdo.c:371:68: warning: passing argument 2 of 'zend_hash_get_current_data_ex' from incompatible pointer type [-Wincompatible-pointer-types]
+  while (SUCCESS == zend_hash_get_current_data_ex(&pdo_driver_hash, (void**)&pdriver, &pos)) {
+                                                                    ^~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:237:30: note: expected 'HashPosition *' {aka 'unsigned int *'} but argument is of type 'void **'
+ ZEND_API zval* ZEND_FASTCALL zend_hash_get_current_data_ex(HashTable *ht, HashPosition *pos);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/pear/temp/PDO/pdo.c:371:20: error: too many arguments to function 'zend_hash_get_current_data_ex'
+  while (SUCCESS == zend_hash_get_current_data_ex(&pdo_driver_hash, (void**)&pdriver, &pos)) {
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/local/include/php/Zend/zend.h:33,
+                 from /usr/local/include/php/main/php.h:33,
+                 from /tmp/pear/temp/PDO/pdo.c:28:
+/usr/local/include/php/Zend/zend_hash.h:237:30: note: declared here
+ ZEND_API zval* ZEND_FASTCALL zend_hash_get_current_data_ex(HashTable *ht, HashPosition *pos);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:217: pdo.lo] Error 1
+ERROR: `make' failed
