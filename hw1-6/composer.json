@@ -1,0 +1,40 @@
+{
+    "name": "aivanov-dev/hw",
+    "description": "This project is made for studying purpose, it is a homework for OTUS php course",
+    "keywords": [
+        "otus", "study", "hw"
+    ],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aivanov-dev",
+            "email": "ivanov-a3@protonmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "ext-sockets": "*",
+        "google/apiclient": "^2.7",
+        "symfony/console": "^5.2",
+        "symfony/dependency-injection": "^5.2"
+    },
+    "scripts": {
+        "post-update-cmd": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "YouTube"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "helpers\/http_routes.php",
+            "helpers\/console_routes.php",
+            "helpers\/rules.php"
+        ]
+    }
+}

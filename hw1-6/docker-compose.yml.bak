@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+    php-fpm-1:
+        # Если нет секции build, то система будет искать образ в репозиториях
+        build:
+            context: ./docker
+            dockerfile: php-fpm-1/Dockerfile
+        image: myapp/php
+        ports:
+            - "9001:9000"
+        container_name: php-fpm-1
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+    php-fpm-2:
+        # Если нет секции build, то система будет искать образ в репозиториях
+        build:
+            context: ./docker
+            dockerfile: php-fpm-2/Dockerfile
+        image: myapp/php
+        ports:
+            - "9002:9000"
+        container_name: php-fpm-2
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+
+    nginx:
+        build:
+            context: ./docker
+            dockerfile: nginx/Dockerfile
+        image: myapp/nginx
+        container_name: nginx
+        # проброс портов
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - php-fpm-1
+            - php-fpm-2
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+
+    socket_server:
+        build:
+            context: ./docker/socket_server
+            dockerfile: Dockerfile
+        image: myapp/socket_server
+        container_name: socket_server
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+
+    socket_client:
+        build:
+            context: ./docker/socket_client
+            dockerfile: Dockerfile
+        image: myapp/socket_client
+        container_name: socket_client
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+networks:
+    app-network:
+        driver: bridge
