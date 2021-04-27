@@ -6,7 +6,7 @@ namespace Src\Exceptions;
  *
  * @package Src\Exceptions
  */
-class DataBaseException extends \Exception
+class DataBaseApiException extends \Exception
 {
 
 }

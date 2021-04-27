@@ -6,7 +6,7 @@ use Src\DTO\EventDto;
 use Src\Messages\Responser;
 use Src\Models\Condition;
 use Src\Models\Event;
-use \Src\Exceptions\DataBaseException;
+use \Src\Exceptions\DataBaseApiException;
 
 /**
  * Class RedisRepository
@@ -35,7 +35,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return bool
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     public function save(EventDto $eventDTO): bool
     {
@@ -52,7 +52,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return bool
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     private function saveEvent(EventDTO $eventDTO): bool
     {
@@ -72,7 +72,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return int
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     private function savePriority(EventDto $eventDTO): int
     {
@@ -91,7 +91,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return bool
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     private function saveConditions(EventDto $eventDTO): bool
     {
@@ -116,7 +116,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return bool
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     private function saveEventList(EventDTO $eventDTO): bool
     {
@@ -135,7 +135,7 @@ class RedisRepository
      * @param EventDto $eventDTO
      *
      * @return int
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     private function saveEventConditions(EventDTO $eventDTO): int
     {
@@ -154,7 +154,7 @@ class RedisRepository
 
     /**
      * @return int
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     public function deleteAll(): int
     {
@@ -183,6 +183,11 @@ class RedisRepository
         return \GuzzleHttp\json_encode($result, true);
     }
 
+    /**
+     * @param array $params
+     *
+     * @return string|null
+     */
     public function search(array $params): ?string
     {
         $matchedEvents = $this->getMatchedEvents($params);

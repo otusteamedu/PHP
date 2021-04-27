@@ -5,7 +5,7 @@ namespace Src\Services;
 use Klein\Request;
 use Ramsey\Uuid\Uuid;
 use Src\DTO\EventDto;
-use Src\Exceptions\DataBaseException;
+use Src\Exceptions\DataBaseApiException;
 use Src\Messages\Responser;
 use Src\Repositories\RedisRepository;
 use Src\Repositories\Repository;
@@ -19,10 +19,10 @@ use Src\Validators\EventDtoValidator;
 class EventService
 {
     /**
-     * @param Request $request
+     * @param \Klein\Request $request
      *
      * @return string
-     * @throws \Exception
+     * @throws DataBaseApiException
      */
     public function insertData(Request $request): string
     {
@@ -40,8 +40,8 @@ class EventService
                 /** @var RedisRepository $repository */
                 $repository = (new Repository())->getRepository();
                 $repository->save($eventDto);
-            } catch (\Exception $exception) {
-                echo $exception->getMessage();
+            } catch (DataBaseApiException $exception) {
+                throw new DataBaseApiException($exception->getMessage(), $exception->getCode(), $exception);
             }
             return Responser::responseOk();
         }
@@ -49,7 +49,7 @@ class EventService
 
     /**
      * @return string
-     * @throws \Src\Exceptions\DataBaseException
+     * @throws \Src\Exceptions\DataBaseApiException
      */
     public function deleteData(): string
     {
@@ -74,7 +74,7 @@ class EventService
      * @param \Klein\Request $request
      *
      * @return string
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      * @throws \Exception
      */
     public function searchData(Request $request): string

@@ -2,7 +2,7 @@
 namespace Src\Controllers;
 
 use Klein\Request;
-use Src\Exceptions\DataBaseException;
+use Src\Exceptions\DataBaseApiException;
 use Src\Services\EventService;
 
 /**
@@ -25,7 +25,7 @@ class EventController
 
     /**
      * @return string
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     public function delete(): string
     {
@@ -44,7 +44,7 @@ class EventController
      * @param \Klein\Request $request
      *
      * @return string
-     * @throws DataBaseException
+     * @throws DataBaseApiException
      */
     public function search(Request $request): string
     {

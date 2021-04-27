@@ -2,7 +2,7 @@
 
 namespace Src\Messages;
 
-use Src\Exceptions\DataBaseException;
+use Src\Exceptions\DataBaseApiException;
 
 /**
  * Class Responser
@@ -25,12 +25,12 @@ class Responser
     /**
      * @param string $message
      *
-     * @throws \Src\Exceptions\DataBaseException
+     * @throws \Src\Exceptions\DataBaseApiException
      */
     public static function responseDataBaseFailed(string $message = 'Something went wrong'): void
     {
         http_response_code(500);
-        throw new DataBaseException($message);
+        throw new DataBaseApiException($message);
     }
 
     /**
