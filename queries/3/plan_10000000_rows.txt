@@ -1,0 +1,8 @@
+                                 QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Limit  (cost=45017.49..45017.51 rows=10 width=32)
+   ->  Sort  (cost=45017.49..46791.00 rows=709405 width=32)
+         Sort Key: price DESC
+         ->  Seq Scan on tickets  (cost=0.00..29687.50 rows=709405 width=32)
+               Filter: (price > 10000)
+(5 rows)

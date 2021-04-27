@@ -1,0 +1,30 @@
+cinema_theater=# EXPLAIN SELECT f.name AS film_name, fat."name" AS attr_type, fa."name" AS attr_name,
+       (CASE
+            WHEN fav.date_value IS NOT NULL THEN fav.date_value ::text
+            WHEN fav.text_value IS NOT NULL THEN fav.text_value ::text
+            WHEN fav.boolean_value IS NOT NULL THEN fav.boolean_value ::text
+            WHEN fav.integer_value IS NOT NULL THEN fav.integer_value ::text
+            WHEN fav.float_value IS NOT NULL THEN fav.float_value ::text
+           END) AS attr_value
+FROM films AS f
+JOIN film_attribute_values fav ON f.id = fav.film_id
+JOIN film_attributes fa ON fa.id = fav.film_attribute_id
+JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
+ORDER BY f.name
+LIMIT 20;
+                                                                      QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1.11..243.24 rows=20 width=52)
+   ->  Nested Loop  (cost=1.11..17555.76 rows=1450 width=52)
+         ->  Nested Loop  (cost=0.83..16994.72 rows=1450 width=89)
+               ->  Nested Loop  (cost=0.56..16455.07 rows=1450 width=83)
+                     ->  Index Scan using films_name_asc on films f  (cost=0.28..137.94 rows=1450 width=11)
+                     ->  Index Scan using film_attribute_values_film_attribute_id_idx on film_attribute_values fav  (cost=0.28..11.23 rows=2 width=80)
+                           Index Cond: (film_id = f.id)
+               ->  Index Scan using film_attributes_pkey on film_attributes fa  (cost=0.28..0.37 rows=1 width=14)
+                     Index Cond: (id = fav.film_attribute_id)
+         ->  Index Scan using film_attribute_types_pkey on film_attribute_types fat  (cost=0.28..0.37 rows=1 width=11)
+               Index Cond: (id = fa.film_attribute_type_id)
+(11 rows)
+
+

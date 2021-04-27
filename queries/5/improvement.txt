@@ -1,0 +1,26 @@
+В принципе за счет foreign key запрос уже оптимизирован, но можно еще улучшить.
+Т.к. фильтрация происходит по film_attribute_values.date_value,
+создадим составной индекс
+CREATE INDEX "film_attribute_date_value" on "film_attribute_values" using btree (id,date_value) WHERE date_value IS NOT NULL;
+
+Получим план запроса:
+
+                                                           QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1.70..1054.18 rows=20 width=20)
+   ->  Nested Loop  (cost=1.70..49783.88 rows=946 width=20)
+         ->  Nested Loop  (cost=1.27..49291.54 rows=946 width=24)
+               ->  Nested Loop  (cost=0.85..41794.57 rows=946 width=18)
+                     ->  Index Scan using film_attribute_date_value on film_attribute_values fav  (cost=0.42..34293.60 rows=946 width=16)
+                           Filter: (date(date_value) = date((now() + '20 days'::interval)))
+                     ->  Index Scan using films_pkey on films f  (cost=0.43..7.93 rows=1 width=10)
+                           Index Cond: (id = fav.film_id)
+               ->  Index Scan using film_attributes_pkey on film_attributes fa  (cost=0.43..7.92 rows=1 width=14)
+                     Index Cond: (id = fav.film_attribute_id)
+         ->  Index Only Scan using film_attribute_types_pkey on film_attribute_types fat  (cost=0.43..0.52 rows=1 width=4)
+               Index Cond: (id = fa.film_attribute_type_id)
+(12 rows)
+
+
+
+

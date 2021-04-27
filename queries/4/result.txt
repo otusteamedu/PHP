@@ -1,0 +1,41 @@
+cinema_theater=# SELECT f.name AS film_name, fat."name" AS attr_type, fa."name" AS attr_name,
+       (CASE
+            WHEN fav.date_value IS NOT NULL THEN fav.date_value ::text
+            WHEN fav.text_value IS NOT NULL THEN fav.text_value ::text
+            WHEN fav.boolean_value IS NOT NULL THEN fav.boolean_value ::text
+            WHEN fav.integer_value IS NOT NULL THEN fav.integer_value ::text
+            WHEN fav.float_value IS NOT NULL THEN fav.float_value ::text
+           END) AS attr_value
+FROM films AS f
+JOIN film_attribute_values fav ON f.id = fav.film_id
+JOIN film_attributes fa ON fa.id = fav.film_attribute_id
+JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
+ORDER BY f.name ASC
+LIMIT 20;
+ film_name |     attr_type      |  attr_name  |                                    attr_value
+-----------+--------------------+-------------+-----------------------------------------------------------------------------------
+ 0         | i3dD               | KjCE1TS1p8t | as7vORp1bVBMMzUER9ij94jVtQOKYOs9Hz5fRug3QrPmrt1J3j3Cnnhh
+ 0         | XFwjeP4Xn          | ZFJuajQo4   | 63882.9225132465
+ 0         | f9uEkb63h          | kLAoBxfg    | true
+ 0         | 2c647674OGg7Vd     | bg          | 52331
+ 0         | ENrc0KLz2          | ZO9zU       | 47203
+ 0         | S1eglyLG52         | VKKrUhZ     | 81400
+ 0         | dddOSycpfn         | WKeLE       | true
+ 0         | 2tAm09             | jcToB8DMX   | true
+ 0         | ZBl                | t           | 17648
+ 0         | R3lt3dA            | vQRmFtWT    | lXLyxjk9dUesrVPWJRVGBXy
+ 0         | taduAqRPJ          | hk1         | 65678
+ 0         | D182190P30gB87ryVb | ktL1cSUA44h | 61249
+ 0         | TUQExhjl9F4        | gB8KpA      | 62408.2647187859
+ 0         | LDD558360JoJvZFK   | SUpWuwex9   | 33829
+ 0         | tEP                | 1qQ8CWnsV   | v4r69CVaP80WUjer07XLY9fv2pl1mmhiqanzmJaCSaiwKNoLUMg4VMzXClXyYGhPqVPcpzo
+ 0         | ApFv               | B5ZexilM    | 2021-05-24 00:00:00
+ 0         | T7eFp              | i3          | true
+ 0         | TXA2AcpIa          | UOkeR5X9O   | bVdxrqVAdL6CptVeKFLRBTNQsKqgOrN0N0xGrTQVoVheQDJjTeBe7Y51svhIo4IC5GSwk
+ 0         | jL04r              | tGju7Pqud   | 29107
+ 0         | B8EoTL3Kpf         | E5VcMdZxCS  | hD5jQQALLYsQeBjoywJjV7EJqcPMiQAQdFA4gLP1tIRYTBNS8hCdnQvf3L2kmCBQRMU8ht9bCa9fkX9sE
+(20 rows)
+
+
+
+

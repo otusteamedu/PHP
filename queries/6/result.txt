@@ -1,0 +1,13 @@
+cinema_theater=# SELECT f.name, COUNT (t.id) as tickets_count_purchase, SUM(t.price) as yield FROM public.films AS f
+cinema_theater-# JOIN public.seances AS s ON f.id = s.film_id
+cinema_theater-# JOIN public.tickets AS t ON s.id = t.seance_id
+cinema_theater-# GROUP BY f.id
+cinema_theater-# ORDER BY yield DESC
+cinema_theater-# LIMIT 1;
+ name | tickets_count_purchase | yield
+------+------------------------+--------
+ NiWH |                     14 | 178479
+
+
+
+

@@ -1,0 +1,13 @@
+Создадим частичный индекс для дорогих билетов.
+cinema_theater=# CREATE INDEX "expensive_tickets" on "tickets" using btree (price) WHERE price > 10000;
+CREATE INDEX
+
+
+Получим план запроса:
+cinema_theater=# EXPLAIN SELECT * FROM tickets WHERE price > 10000 ORDER BY price DESC LIMIT 10;
+                                                QUERY PLAN
+----------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.42..1.35 rows=10 width=32)
+   ->  Index Scan Backward using expensive_tickets on tickets  (cost=0.42..65933.17 rows=709405 width=32)
+(2 rows)
+

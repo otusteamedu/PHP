@@ -1,0 +1,12 @@
+cinema_theater=# EXPLAIN SELECT * FROM films WHERE age_restrict > 6 AND EXTRACT(hour FROM duration) < 2 ORDER BY age_restrict LIMIT 10;
+                                                 QUERY PLAN
+------------------------------------------------------------------------------------------------------------
+ Limit  (cost=54.23..54.25 rows=10 width=87)
+   ->  Sort  (cost=54.23..55.02 rows=317 width=87)
+         Sort Key: age_restrict
+         ->  Seq Scan on films  (cost=0.00..47.38 rows=317 width=87)
+               Filter: ((age_restrict > 6) AND (date_part('hour'::text, duration) < '2'::double precision))
+(5 rows)
+
+
+

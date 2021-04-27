@@ -1,0 +1,7 @@
+cinema_theater=# EXPLAIN SELECT * FROM seances WHERE EXTRACT(MONTH FROM show_at) = 5 AND EXTRACT(YEAR FROM show_at) = EXTRACT(YEAR FROM NOW()) LIMIT 10;
+                                                                      QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.00..13595.28 rows=10 width=40)
+   ->  Seq Scan on seances  (cost=0.00..48943.00 rows=36 width=40)
+         Filter: ((date_part('month'::text, show_at) = '5'::double precision) AND (date_part('year'::text, show_at) = date_part('year'::text, now())))
+(3 rows)

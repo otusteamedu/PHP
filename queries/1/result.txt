@@ -1,0 +1,14 @@
+cinema_theater=# SELECT * FROM films WHERE age_restrict > 6 AND EXTRACT(hour FROM duration) < 2 ORDER BY age_restrict LIMIT 10;
+  id   |    name    |                                      description                                       | age_restrict |         created_at         |         updated_at         |    duration
+-------+------------+----------------------------------------------------------------------------------------+--------------+----------------------------+----------------------------+-----------------
+    28 | DqbD       | xEkRKTx9Ct4nOLGNnj8QNRwmMDzEoDwmShFlCDuN7yBVKRs9B0ZYRWLnjL2YYyL0gamsmhGtgR             |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:03:08.759112
+    62 | zoBsHjV3BR | RWbSrGKpvAi1PppC9rF3r3EjKwG                                                            |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:16:21.081817
+   110 | Rk         | e2ssIRbCdnAqnBpA1g7ZVdnIbjujBfaphTizuKCZ8MPvWF5XvC7RqujReeBpKlf1GO1BiDjpYAl6OrdK4jlueV |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:39:01.538134
+   378 | Dc         | Lerp8                                                                                  |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:55:28.948935
+   795 | nvd1i      | k0                                                                                     |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:58:11.546374
+  1573 | Fzuyno     | bWsCVqngRa09efHbjaoPDnWi4Vd3KRbuyU7TLuBmVBvAqDlanay2OVkS2                              |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:59:42.818973
+  3171 | Z9lkaT7    | f5Smea68IwgXDzErAmIXDvBm5wWgQdD6ifsNGyVYwC6ACK2M8KuKH67                                |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:05:36.467044
+  6820 | eew        | Q9IiC5tlY0hvpHt3OmdQfwLMZmZERWgsfybr4VdcVLZLcT                                         |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:02:35.051268
+ 27571 | jLigjY3Uwv | exT2ktQ91                                                                              |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:25:04.974553
+ 73003 | aw         | pwTS                                                                                   |            7 | 2021-03-15 20:42:11.652102 | 2021-03-15 20:42:11.652102 | 01:48:51.922218
+(10 rows)
