@@ -31,7 +31,7 @@ class PointsByLocationStorageCollectionSource implements PointsSource
             $country = $position->countryName;
         }
 
-        $poligonCoordinates = CoordinatesCalculator::getSearchCoordinatesByPointAndRadius(
+        $poligonCoordinates = app('CoordinatesCalculator')->getSearchCoordinatesByPointAndRadius(
             new GeoPoint($position->longitude,$position->latitude),
             MapBoxConfig::getLocationSearchRadius()
         );

@@ -10,7 +10,7 @@ class DistanceUnits
     public const M = 'mi';
     public const NM = 'nm';
 
-    public static function convert(float $value, string $unit) : float
+    public function convert(float $value, string $unit) : float
     {
         switch (strtoupper($unit)){
             case self::KM : return ($value * 1.609344);

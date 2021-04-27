@@ -28,7 +28,9 @@ class PointsByLocationApiSource implements PointsSource
 
         $proximity = "{$position->longitude},{$position->latitude}";
 
-        $poligonCoordinates = CoordinatesCalculator::getSearchCoordinatesByPointAndRadius(
+
+
+        $poligonCoordinates = app('CoordinatesCalculator')->getSearchCoordinatesByPointAndRadius(
             new GeoPoint($position->longitude, $position->latitude),
             MapBoxConfig::getLocationSearchRadius()
         );

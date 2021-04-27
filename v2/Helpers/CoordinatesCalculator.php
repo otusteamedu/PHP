@@ -15,7 +15,7 @@ class CoordinatesCalculator
     private const MINUTES_IN_DEGREE = 60;
     private const STATUTE_MILES_IN_NAUTICAL_MILES = 1.1515;
 
-    public static function getSearchCoordinatesByPointAndRadius(GeoPoint $geoPoint, int $distanceInMeters) : GeoRectangle
+    public function getSearchCoordinatesByPointAndRadius(GeoPoint $geoPoint, int $distanceInMeters) : GeoRectangle
     {
         $latRadian = deg2rad($geoPoint->getLatitude());
 
@@ -32,7 +32,7 @@ class CoordinatesCalculator
         );
     }
 
-    public static function getDistanceByCoordinates(GeoPoint $geoPointFrom, GeoPoint $geoPointTo, string $unit = DistanceUnits::KM) : float
+    public function getDistanceByCoordinates(GeoPoint $geoPointFrom, GeoPoint $geoPointTo, string $unit = DistanceUnits::KM) : float
     {
         $theta = $geoPointFrom->getLongitude() - $geoPointTo->getLongitude();
         $dist = sin(deg2rad($geoPointFrom->getLatitude())) * sin(deg2rad($geoPointTo->getLatitude())) +
@@ -40,6 +40,6 @@ class CoordinatesCalculator
 
         $miles = rad2deg(acos($dist)) * self::MINUTES_IN_DEGREE * self::STATUTE_MILES_IN_NAUTICAL_MILES;
 
-        return DistanceUnits::convert($miles, $unit);
+        return app('DistanceUnits')->convert($miles, $unit);
     }
 }
