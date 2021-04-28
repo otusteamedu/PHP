@@ -5,8 +5,6 @@ use Src\DTO\EventDto;
 
 /**
  * Class Event
- *
- * @package Src\Models
  */
 class Event
 {
@@ -17,6 +15,9 @@ class Event
         $this->eventDTO = $eventDTO;
     }
 
+    /**
+     * Encoding DTO to JSON
+     */
     public function toJson(): string
     {
         return \GuzzleHttp\json_encode(

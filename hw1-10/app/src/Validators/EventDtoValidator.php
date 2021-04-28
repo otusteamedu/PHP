@@ -6,9 +6,7 @@ use Src\DTO\EventDto;
 use Src\Messages\Responser;
 
 /**
- * Class EventDtoValidator
- *
- * @package Src\Validators
+ * Class EventDtoValidator validates input params for correctness
  */
 class EventDtoValidator
 {

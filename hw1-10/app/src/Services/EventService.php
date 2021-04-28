@@ -12,17 +12,17 @@ use Src\Repositories\Repository;
 use Src\Validators\EventDtoValidator;
 
 /**
- * Class EventService
- *
- * @package Src\Services
+ * Class EventService manage requests for repository
  */
 class EventService
 {
     /**
-     * @param \Klein\Request $request
+     * Insert data into DB by request
      *
+     * @param \Klein\Request $request
      * @return string
      * @throws DataBaseApiException
+     * @throws \Exception
      */
     public function insertData(Request $request): string
     {
@@ -71,8 +71,8 @@ class EventService
     }
 
     /**
+     * Search data by user request params
      * @param \Klein\Request $request
-     *
      * @return string
      * @throws DataBaseApiException
      * @throws \Exception

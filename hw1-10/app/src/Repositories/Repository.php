@@ -2,9 +2,7 @@
 namespace Src\Repositories;
 
 /**
- * Class Repository
- *
- * @package Src\Repositories
+ * Class Repository initializes needed database
  */
 class Repository
 {

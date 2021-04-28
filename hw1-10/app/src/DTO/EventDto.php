@@ -2,9 +2,13 @@
 namespace Src\DTO;
 
 /**
- * Class EventDto
+ * DTO structure for event
  *
- * @package Src\DTO
+ *
+ * @property string $uid
+ * @property int $priority
+ * @property array $conditions
+ * @property string $event
  */
 class EventDto
 {

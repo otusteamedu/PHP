@@ -9,7 +9,7 @@ use Src\Controllers\EventController;
 /**
  * Class Route
  *
- * @package App\Routes
+ * @package Src\Routes
  */
 class Route
 {

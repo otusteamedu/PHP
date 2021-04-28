@@ -4,9 +4,9 @@ namespace Src;
 use Src\Routes\Route;
 
 /**
- * Class App
+ * Initializes routes for api requests and run API
  *
- * @package Src\App
+ * @author <Denis Morozov>
  */
 class App
 {

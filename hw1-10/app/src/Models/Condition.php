@@ -4,8 +4,6 @@ namespace Src\Models;
 
 /**
  * Class Condition
- *
- * @package Src\Models
  */
 class Condition
 {

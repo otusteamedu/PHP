@@ -5,15 +5,13 @@ namespace Src\Messages;
 use Src\Exceptions\DataBaseApiException;
 
 /**
- * Class Responser
- *
- * @package Src\Messages
+ * Generate answers for API requests
  */
 class Responser
 {
     /**
+     * Response for failed user data
      * @param $message
-     *
      * @throws \Exception
      */
     public static function responseFailData(string $message = 'Something went wrong'): void
@@ -23,8 +21,8 @@ class Responser
     }
 
     /**
+     * Response for database API
      * @param string $message
-     *
      * @throws \Src\Exceptions\DataBaseApiException
      */
     public static function responseDataBaseFailed(string $message = 'Something went wrong'): void
@@ -34,6 +32,7 @@ class Responser
     }
 
     /**
+     * Response when all correct
      * @return string
      */
     public static function responseOk(): string

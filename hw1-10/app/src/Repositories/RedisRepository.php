@@ -9,9 +9,7 @@ use Src\Models\Event;
 use \Src\Exceptions\DataBaseApiException;
 
 /**
- * Class RedisRepository
- *
- * @package Src\Repositories
+ * Class RedisRepository work with redis DB
  */
 class RedisRepository
 {
@@ -49,8 +47,8 @@ class RedisRepository
     }
 
     /**
+     * Save current event
      * @param EventDto $eventDTO
-     *
      * @return bool
      * @throws DataBaseApiException
      */
@@ -69,8 +67,8 @@ class RedisRepository
     }
 
     /**
+     * Save current priority
      * @param EventDto $eventDTO
-     *
      * @return int
      * @throws DataBaseApiException
      */
@@ -88,8 +86,8 @@ class RedisRepository
     }
 
     /**
+     * Save current conditions
      * @param EventDto $eventDTO
-     *
      * @return bool
      * @throws DataBaseApiException
      */
@@ -113,8 +111,8 @@ class RedisRepository
     }
 
     /**
+     * Save current eventList
      * @param EventDto $eventDTO
-     *
      * @return bool
      * @throws DataBaseApiException
      */
@@ -153,6 +151,7 @@ class RedisRepository
     }
 
     /**
+     * Delete all records from DB
      * @return int
      * @throws DataBaseApiException
      */
@@ -184,8 +183,8 @@ class RedisRepository
     }
 
     /**
+     * Search matched events by user params
      * @param array $params
-     *
      * @return string|null
      */
     public function search(array $params): ?string
