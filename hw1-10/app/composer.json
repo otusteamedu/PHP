@@ -1,0 +1,30 @@
+{
+    "name": "denis/redis-hw",
+    "description": "hw1-10/redis",
+    "keywords": [
+        "otus",
+        "redis"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.1",
+        "guzzlehttp/guzzle": "^6.5",
+        "ext-redis": "*",
+        "klein/klein": "^2.1",
+        "ramsey/uuid": "^4.1",
+        "mongodb/mongodb": "^1.5"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

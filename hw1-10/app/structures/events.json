@@ -1,0 +1,22 @@
+{
+    "index": "events",
+    "body": {
+        "mappings": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "conditions": {
+                    "type": "text"
+                },
+                "event": {
+                    "type": "text"
+                }
+            },
+            "dynamic": "strict"
+        }
+    }
+}

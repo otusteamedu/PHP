@@ -1,0 +1,16 @@
+{
+    "index": "events_conditions",
+    "body": {
+        "mappings": {
+            "properties": {
+                "event_id": {
+                    "type": "integer"
+                },
+                "condition": {
+                    "type": "text"
+                }
+            },
+            "dynamic": "strict"
+        }
+    }
+}
