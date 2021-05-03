@@ -41,6 +41,17 @@ services:
     networks:
       - app-network
 
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    command: --serviceExecutor adaptive
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./app:/var/www/html/app
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

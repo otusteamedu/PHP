@@ -11,25 +11,29 @@ class Repository
      */
     private $repository;
 
-    public function __construct ()
+    public function __construct()
     {
-       $this->setRepository($_ENV['DB_NAME']);
+        $this->setRepository($_ENV['DB_NAME']);
     }
 
     /**
      * @param string $repositoryName
      */
-    public function setRepository (string $repositoryName): void
+    public function setRepository(string $repositoryName): void
     {
-        if ($repositoryName === RedisRepository::RedisDbName) {
+        if ($repositoryName === RedisRepository::DB_NAME) {
             $this->repository = new RedisRepository();
+        }
+
+        if ($repositoryName === MongoRepository::DB_NAME) {
+            $this->repository = new MongoRepository();
         }
     }
 
     /**
      * @return mixed
      */
-    public function getRepository ()
+    public function getRepository()
     {
         return $this->repository;
     }

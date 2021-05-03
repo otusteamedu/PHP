@@ -19,7 +19,8 @@
         "guzzlehttp/guzzle": "^6.5",
         "ext-redis": "*",
         "klein/klein": "^2.1",
-        "ramsey/uuid": "^4.1"
+        "ramsey/uuid": "^4.1",
+        "mongodb/mongodb": "^1.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master"

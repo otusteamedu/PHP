@@ -13,7 +13,7 @@ use \Src\Exceptions\DataBaseApiException;
  */
 class RedisRepository
 {
-    public const RedisDbName = 'redis';
+    public const DB_NAME = 'redis';
 
     private Redis $redis;
 

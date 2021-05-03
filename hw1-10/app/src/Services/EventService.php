@@ -7,7 +7,6 @@ use Ramsey\Uuid\Uuid;
 use Src\DTO\EventDto;
 use Src\Exceptions\DataBaseApiException;
 use Src\Messages\Responser;
-use Src\Repositories\RedisRepository;
 use Src\Repositories\Repository;
 use Src\Validators\EventDtoValidator;
 
@@ -34,10 +33,8 @@ class EventService
         $conditions = $params['conditions'] ?? [];
 
         $eventDto = new EventDto($uid, $priority, $conditions, $event);
-
         if (EventDtoValidator::isValidate($eventDto)) {
             try {
-                /** @var RedisRepository $repository */
                 $repository = (new Repository())->getRepository();
                 $repository->save($eventDto);
             } catch (DataBaseApiException $exception) {
@@ -53,7 +50,6 @@ class EventService
      */
     public function deleteData(): string
     {
-        /** @var RedisRepository $repository */
         $repository = (new Repository())->getRepository();
         $repository->deleteAll();
 
@@ -65,7 +61,6 @@ class EventService
      */
     public function getListData(): string
     {
-        /** @var RedisRepository $repository */
         $repository = (new Repository())->getRepository();
         return $repository->getListEvents();
     }
@@ -86,7 +81,6 @@ class EventService
             Responser::responseFailData('wrong input params');
         }
 
-        /** @var RedisRepository $repository */
         $repository = (new Repository())->getRepository();
         $result = $repository->search($params);
 
