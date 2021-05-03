@@ -12,8 +12,10 @@ class MoveDownAction extends BasePlayAction
     {
         $element = $play->getCurrentElement();
 
-        //сдвигаем вниз на 1 клетку
-        $element->setPlacementRow($element->getPlacementRow() + 1);
+        if($element->getPlacementRow() > 0){
+            //сдвигаем вниз на 1 клетку
+            $element->setPlacementRow($element->getPlacementRow() - 1);
+        }
 
         $play->setCurrentElement($element);
 
