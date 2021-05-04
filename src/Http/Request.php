@@ -46,4 +46,15 @@ class Request
     {
         return $this->session;
     }
+
+    public function getRequestUri() : string
+    {
+        return $this->server['REQUEST_URI'];
+    }
+
+    public function getQueryString() : string
+    {
+        return $this->server['QUERY_STRING'];
+    }
+
 }

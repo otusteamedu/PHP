@@ -8,7 +8,7 @@ use Src\Entities\Play;
 
 class BasePlayAction implements Action
 {
-    public Action $action;
+    private Action $action;
 
     public function __construct(Action $action)
     {
