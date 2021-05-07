@@ -1,4 +1,4 @@
 /.idea
-/1) Environment/docker/dbdata
-/1) Environment/docker/docker-compose.yml.bak
-/1) Environment/docker/.env
+hw1-11/.env
+hw1-11/logs
+hw1-11/app/vendor
