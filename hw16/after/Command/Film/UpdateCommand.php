@@ -20,11 +20,11 @@ class UpdateCommand implements CommandInterface
     public function __construct(
         ConsoleInterface $console,
         HydratorInterface $hydrator,
-        UpdateFilmHandler $addFilmHandler
+        UpdateFilmHandler $updateFilmHandler
     ) {
         $this->console = $console;
         $this->hydrator = $hydrator;
-        $this->updateFilmHandler = $addFilmHandler;
+        $this->updateFilmHandler = $updateFilmHandler;
     }
 
     /**

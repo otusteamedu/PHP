@@ -14,9 +14,9 @@ class UpdateCommand implements CommandInterface
 {
     private UpdateFilmHandler $updateFilmHandler;
 
-    public function __construct(UpdateFilmHandler $addFilmHandler)
+    public function __construct(UpdateFilmHandler $updateFilmHandler)
     {
-        $this->updateFilmHandler = $addFilmHandler;
+        $this->updateFilmHandler = $updateFilmHandler;
     }
 
     /**
