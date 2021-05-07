@@ -3,6 +3,7 @@ version: '3.3'
 services:
   pg_db:
     image: postgres:9.4
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
