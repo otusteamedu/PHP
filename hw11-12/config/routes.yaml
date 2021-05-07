@@ -11,3 +11,19 @@ youtube.channels.all-statistics:
     controller: App\Controllers\ChannelVideosController::bestChannelStatistics
     methods: GET
     defaults:   { quantity: 10 }
+redis.events.index:
+    path: /redis/events/index
+    controller: App\Controllers\EventsController::index
+    methods: GET
+redis.events.add:
+    path: /redis/events/add
+    controller: App\Controllers\EventsController::addEvent
+    methods: POST
+redis.events.flush:
+    path: /redis/events/flush
+    controller: App\Controllers\EventsController::flushAllEvents
+    methods: GET
+redis.events.search:
+    path: /redis/events/search
+    controller: App\Controllers\EventsController::searchForEvents
+    methods: POST

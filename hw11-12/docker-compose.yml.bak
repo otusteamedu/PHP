@@ -63,6 +63,17 @@ services:
             - app-network
         ports:
             - 5601:5601
+    redis:
+        build:
+            context: ./docker/redis
+            dockerfile: Dockerfile
+        container_name: redis
+        volumes:
+            - ./docker/redis/redis.conf:/conf/redis.conf
+        networks:
+            - app-network
+        ports:
+            - 6379:6379
 networks:
     app-network:
         driver: bridge

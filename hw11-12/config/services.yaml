@@ -117,84 +117,33 @@ services:
         autowire: true
         tags: ['hydrators']
 
-#    GuzzleHttp\ClientInterface: '@App\Clients\YoutubeClient'
-#    App\Clients\YoutubeClient: '@App\Clients\YoutubeClient'
-    #    App\Repositories\ReadRepositoryInterface: '@App\Repositories\YoutubeChannelRepository'
-#    App\Repositories\FindByIdRepositoryInterface: '@App\Repositories\YoutubeChannelRepository'
-#    youtube.channel.repo: '@App\Repositories\YoutubeChannelRepository'
+    App\Services\RedisEventService\:
+        resource: '../app/Services/RedisEventService.php'
+        public: true
+        autowire: true
+        arguments:
+            CUDRepositoryInterface $eventRepository: '@redis.event.repo'
+            RequestHydratorInterface $requestModelHydrator: '@request.event.hydrator'
+            RedisHydratorInterface $redisModelHydrator: '@redis.event.hydrator'
+        tags: ['services']
 
-#    App\Repositories\FindByIdRepositoryInterface\:
-#        resource: '../app/Repositories/YoutubeChannelRepository.php'
-#        public: true
-#        autowire: true
-#        tags: ['repo']
+    App\Repositories\CUDRepositoryInterface $eventRepository: '@redis.event.repo'
+    redis.event.repo:
+        class: 'App\Repositories\RedisEventRepository'
+        public: true
+        autowire: true
+        tags: ['repositories']
 
-#    App\Repositories\FindByIdRepositoryInterface\:
-#        resource: '../app/Repositories/YoutubeChannelRepository.php'
-#        #        class: 'App/Repositories/YoutubeChannelRepository'
-#        #        synthetic: true
-#        public: true
-#        autowire: true
-#        tags: ['repo']
+    App\ModelHydrators\RequestHydratorInterface $requestModelHydrator: '@request.event.hydrator'
+    request.event.hydrator:
+        class: 'App\ModelHydrators\RequestEventModelHydrator'
+        public: true
+        autowire: true
+        tags: ['hydrators']
 
-#    App\Repositories\YoutubeChannelRepository\:
-#        resource: '../app/Repositories/YoutubeChannelRepository.php'
-##        class: 'App/Repositories/YoutubeChannelRepository'
-##        synthetic: true
-#        public: true
-#        autowire: true
-#    tags: ['repo']
-
-#    App\Repositories\FindByIdRepositoryInterface\:
-#        bind:
-#            App\Repositories\FindByIdRepositoryInterface $youtubeChannelRepository: '@App\Repositories\YoutubeChannelRepository'
-
-#    App\Repositories\YoutubeChannelRepository\:
-#        resource: '../app/Repositories/YoutubeChannelRepository.php'
-#        public: true
-#        autowire: true
-
-#    App\Repositories\ReadRepositoryInterface\: '@App/Repositories/YoutubeChannelRepository'
-#
-#    App/Repositories/YoutubeChannelRepository\: '@App\Repositories\ReadRepositoryInterface'
-
-#    GuzzleHttp\:
-#        resource: '../vendor/guzzlehttp/guzzle/src/*'
-#        public: true
-#        exclude:
-#            - '../vendor/guzzlehttp/guzzle/src/functions.php'
-#            - '../vendor/guzzlehttp/guzzle/src/functions_include.php'
-#            - '../vendor/guzzlehttp/guzzle/src/Cookie/*'
-#            - '../vendor/guzzlehttp/guzzle/src/Exception/*'
-#            - '../vendor/guzzlehttp/guzzle/src/Handler/*'
-#            - '../vendor/guzzlehttp/guzzle/src/Pool.php'
-#            - '../vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php'
-#            - '../vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php'
-#            - '../vendor/guzzlehttp/guzzle/src/RetryMiddleware.php'
-#            - '../vendor/guzzlehttp/guzzle/src/TransferStats.php'
-
-#    GuzzleHttp\ClientInterface\:
-##        alias: App\Repositories\YoutubeClient
-#        public: true
-#        autowire: true
-##        class: '\App\Repositories\YoutubeClient'
-##        class: 'GuzzleHttp\Client'
-#        resource: '../vendor/guzzlehttp/guzzle/src/Client.php'
-#        tags: ['controller.service_arguments']
-
-
-
-
-#    Google\:
-#        resource: '../vendor/google/apiclient/src/*'
-#        public: true
-#
-#    Google\Client\:
-#        autowire: true
-#        public: true
-#        resource: '../vendor/google/apiclient/src/Client.php'
-#        tags: ['youtube']
-
-#    Google_Service_YouTube\:
-#        resource: '../vendor/google/apiclient-services/src/Google/Service/YouTube.php'
-#        tags: ['youtube']
+    App\ModelHydrators\RedisHydratorInterface $redisModelHydrator: '@redis.event.hydrator'
+    redis.event.hydrator:
+        class: 'App\ModelHydrators\RedisEventModelHydrator'
+        public: true
+        autowire: true
+        tags: ['hydrators']
