@@ -1,5 +1,5 @@
 <?php
-namespace Src\Patterns;
+namespace Src\Patterns\IdentityMap;
 
 /**
  * Class ObjectWatcher

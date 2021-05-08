@@ -1,12 +1,12 @@
 <?php
-namespace Src\Patterns\DataMapper;
+namespace Src\Patterns;
 
 /**
- * Class FilmCollection
+ * Class Collection
  *
  * @package Src\Patterns\DataMapper
  */
-class FilmCollection implements \Countable, \Iterator, \ArrayAccess
+class Collection implements \Countable, \Iterator, \ArrayAccess
 {
     private $values = [];
 

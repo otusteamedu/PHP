@@ -35,6 +35,13 @@ class Route
                 return (new PatternController())->getRecordsDataMapper($request);
             });
 
+        $this->router->respond(
+            'GET',
+            '/get-list-active-record',
+            static function (Request $request) {
+                return (new PatternController())->getRecordsActiveRecord($request);
+            });
+
         $this->router->dispatch();
     }
 }

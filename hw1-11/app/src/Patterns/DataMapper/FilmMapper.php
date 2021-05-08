@@ -3,7 +3,8 @@
 namespace Src\Patterns\DataMapper;
 
 use PDO;
-use Src\Patterns\ObjectWatcher;
+use Src\Patterns\Collection;
+use Src\Patterns\IdentityMap\ObjectWatcher;
 
 /**
  * Class FilmMapper
@@ -110,7 +111,7 @@ class FilmMapper
             $raw['description']
         );
 
-       ObjectWatcher::addRecord($film, $film->getId());
+        ObjectWatcher::addRecord($film, $film->getId());
 
         return $film;
     }
@@ -141,7 +142,7 @@ class FilmMapper
         return $this->deleteStmt->execute([$film->getId()]);
     }
 
-    public function getRecords(int $limit, int $offset): ?FilmCollection
+    public function getRecords(int $limit, int $offset): ?Collection
     {
         $this->getRecordsStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->getRecordsStmt->bindParam('limit', $limit, PDO::PARAM_INT);
@@ -154,6 +155,6 @@ class FilmMapper
             return null;
         }
 
-        return new FilmCollection($result);
+        return new Collection($result);
     }
 }
