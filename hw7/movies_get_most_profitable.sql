@@ -1,5 +1,7 @@
-SELECT MIN(m.name) AS movie, SUM(s.cost) AS profit
-FROM movies m INNER JOIN sessions s ON s.movie_id = m.id  INNER JOIN tickets t ON t.session_id = s.id
-GROUP BY s.movie_id
-ORDER BY SUM(s.cost) DESC
+SELECT MIN(movies.name) AS movie, SUM(sessions.cost) AS profit
+FROM tickets
+INNER JOIN sessions ON tickets.session_id = sessions.id
+INNER JOIN movies ON sessions.movie_id = movies.id
+GROUP BY sessions.movie_id
+ORDER BY SUM(sessions.cost) DESC
 LIMIT 1;
