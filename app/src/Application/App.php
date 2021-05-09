@@ -15,6 +15,7 @@ class App
 
     public function run()
     {
-        echo "It works!";
+        echo "Текшая нода: ". $_SERVER['SERVER_ADDR']."\n";
+
     }
 }
