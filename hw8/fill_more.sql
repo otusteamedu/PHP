@@ -1,0 +1,1 @@
+insert into movie_attribute_value (movie_id, text_value, attribute_id) select floor(random() * 10 + 1)::int, random_string(20), floor(random() * 10 + 1)::int from generate_series(1, 10000000 - 10000);
