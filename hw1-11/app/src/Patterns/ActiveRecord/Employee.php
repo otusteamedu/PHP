@@ -56,15 +56,54 @@ class Employee
     {
         $this->pdo = $pdo;
 
-        $this->insertStmt = $pdo->prepare(
-            "insert into employee (name, position, start_work_date) values (?, ?, ?)"
-        );
-        $this->updateStmt = $pdo->prepare(
-            "update employee set name = ?, position = ?, start_work_date = ? where id = ?"
-        );
-        $this->deleteStmt = $pdo->prepare("delete from employee where id = ?");
+        $this->setStmtInsert();
+        $this->setStmtUpdate();
+        $this->setStmtDelete();
 
         $this->getRecordsStmt = $pdo->prepare('select name, position, start_work_date from employee order by id limit :limit offset :offset');
+    }
+
+    private static function getTableName()
+    {
+        return 'employee';
+    }
+
+
+    private static function getFieldsNames()
+    {
+        return ['name', 'position', 'start_work_date'];
+    }
+
+    private function setStmtInsert()
+    {
+        $table = static::getTableName();
+        $fields = static::getFieldsNames();
+        $values = array_fill(0, count($fields), '?');
+
+        $fields = implode(',', $fields);
+        $values = implode(',', $values);
+
+        $query = "insert into $table ($fields) values ($values)";
+        $this->insertStmt = $this->pdo->prepare($query);
+    }
+
+    private function setStmtUpdate()
+    {
+        $table = static::getTableName();
+
+        foreach (static::getFieldsNames() as $field) {
+            $set[] = "$field = ?";
+        }
+        $set = implode(', ', $set);
+
+        $query = "update $table set $set where id = ?";
+        $this->updateStmt = $this->pdo->prepare($query);
+    }
+
+    private function setStmtDelete()
+    {
+        $table = static::getTableName();
+        $this->deleteStmt = $this->pdo->prepare("delete from $table where id = ?");
     }
 
     /**
