@@ -11,12 +11,10 @@ try {
     $response = (new App())->run();
 
     $response->send();
-} catch (\Throwable $e) {
-    if ($e instanceof HttpException) {
-        (new Response($e->getMessage(), $e->getStatusCode()))
-            ->send();
-    } else {
-        (new Response(null, 500))
-            ->send();
-    }
+} catch (HttpException $e) {
+    (new Response($e->getMessage(), $e->getStatusCode()))
+        ->send();
+} catch (\Throwable) {
+    (new Response(null, 500))
+        ->send();
 }
