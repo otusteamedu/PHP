@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+    backend1_app:
+        image: php:8-fpm
+        working_dir: /var/www/html
+        volumes:
+            - ./fpm/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./fpm/socket/backend1:/var/run
+            - ./../code:/var/www/html
+    backend1_nginx:
+        image: nginx:alpine
+        volumes:
+            - ./fpm/socket/backend1:/var/run
+            - ./nginx/backend/conf.d:/etc/nginx/conf.d
+            - ./../code/public:/var/www/html/public:ro
+        networks:
+            - app-network
+    backend2_app:
+        image: php:8-fpm
+        working_dir: /var/www/html
+        volumes:
+            - ./fpm/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./fpm/socket/backend2:/var/run
+            - ./../code:/var/www/html
+    backend2_nginx:
+        image: nginx:alpine
+        volumes:
+            - ./fpm/socket/backend2:/var/run
+            - ./nginx/backend/conf.d:/etc/nginx/conf.d
+            - ./../code/public:/var/www/html/public:ro
+        networks:
+            - app-network
+    backend3_app:
+        image: php:8-fpm
+        working_dir: /var/www/html
+        volumes:
+            - ./fpm/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./fpm/socket/backend3:/var/run
+            - ./../code:/var/www/html
+    backend3_nginx:
+        image: nginx:alpine
+        volumes:
+            - ./fpm/socket/backend3:/var/run
+            - ./nginx/backend/conf.d:/etc/nginx/conf.d
+            - ./../code/public:/var/www/html/public:ro
+        networks:
+            - app-network
+    balancer:
+        image: nginx:alpine
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx/balancer/conf.d:/etc/nginx/conf.d
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
