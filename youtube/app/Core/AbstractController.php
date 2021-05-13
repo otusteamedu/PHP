@@ -37,4 +37,9 @@ abstract class AbstractController implements ControllerInterface
         return $reflection->invoke($this);
     }
 
+    public function log(string $message): void
+    {
+        $this->app->logger()->writeln($message);
+    }
+
 }

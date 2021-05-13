@@ -13,6 +13,15 @@
   },
   "require": {
     "php": "~7.4",
-    "elasticsearch/elasticsearch": "^7.0"
+    "elasticsearch/elasticsearch": "^7.0",
+    "google/apiclient": "^2.7"
+  },
+  "scripts": {
+    "post-update-cmd": "Google\\Task\\Composer::cleanup"
+  },
+  "extra": {
+    "google/apiclient-services": [
+      "YouTube"
+    ]
   }
 }
