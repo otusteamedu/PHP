@@ -2,6 +2,8 @@ FROM php:8-fpm
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
         curl \
+        net-tools \
+        iputils-ping \
         wget \
         git \
         grep \
@@ -22,6 +24,11 @@ RUN apt-get update && apt-get install -y \
     RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
+
+    # Install Postgre PDO
+    RUN apt-get install -y libpq-dev \
+        && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+        && docker-php-ext-install pdo pdo_pgsql pgsql
 
 # COPY --from=composer /usr/bin/composer /usr/bin/composer
 

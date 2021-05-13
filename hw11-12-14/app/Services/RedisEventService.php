@@ -11,7 +11,7 @@ use App\ModelHydrators\RequestHydratorInterface;
 
 class RedisEventService
 {
-    private const PIVOT_KEY_PREFIX = 'param';
+    private const PIVOT_KEY_PREFIX = 'params';
     /**
      * @var CUDRepositoryInterface
      */
@@ -104,7 +104,7 @@ class RedisEventService
     public function flushAllEvents(): bool
     {
         $this->eventRepository->flushDataByPattern(Event::getPrefixStatic() . '*');
-        $this->eventRepository->flushDataByPattern(self::PIVOT_KEY_PREFIX . '*');
+        $this->eventRepository->flushDataByPattern(self::PIVOT_KEY_PREFIX . ':*');
 
         return true;
     }

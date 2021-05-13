@@ -27,3 +27,21 @@ redis.events.search:
     path: /redis/events/search
     controller: App\Controllers\EventsController::searchForEvents
     methods: POST
+postgres.cimena.index:
+    path: /postgres/cinema/index/
+    controller: App\Controllers\CinemasController::cinemaIndex
+    methods: GET
+postgres.cimena.halls.index:
+    path: /postgres/cinema/halls/index/{id}
+    controller: App\Controllers\CinemasController::cinemaHallsIndex
+    methods: GET
+    defaults:   { id: 1 }
+postgres.halls.index:
+    path: /postgres/halls/index/
+    controller: App\Controllers\CinemasController::hallIndex
+    methods: GET
+postgres.hall.cinemas.index:
+    path: /postgres/hall/cinemas/index/{id}
+    controller: App\Controllers\CinemasController::hallCinemasIndex
+    methods: GET
+    defaults:   { id: 1 }

@@ -14,6 +14,8 @@ services:
             - ./:/var/www/hw.loc
         networks:
             - app-network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
     nginx:
         build:
             context: ./docker
