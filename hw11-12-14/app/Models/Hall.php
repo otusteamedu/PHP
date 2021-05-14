@@ -317,17 +317,28 @@ class Hall extends RelationalModel
      */
     public static function cursor(PDO $pdo): Generator
     {
-        $selectStatement = $pdo->prepare('SELECT id, cinema_id, number, title from halls;');
-        $selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
-        $selectStatement->execute();
+        $offset = 0;
+        $mediator = [];
+        $limit = static::OFFSET;
 
-        while ($result = $selectStatement->fetch()) {
-            yield (new self($pdo))
-                ->setId($result['id'])
-                ->setCinemaId($result['cinema_id'])
-                ->setNumber($result['number'])
-                ->setTitle($result['title'])
-            ;
-        }
+        do {
+            $selectStatement = $pdo->prepare("SELECT id, cinema_id, number, title from halls LIMIT {$limit} OFFSET {$offset};");
+            $selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
+            $selectStatement->execute();
+
+            $result = $selectStatement->fetchAll();
+            foreach ($result as $value) {
+                $mediator[] = [
+                    'id' => $value['id'],
+                    'cinema_id' => $value['cinema_id'],
+                    'number' => $value['number'],
+                    'title' => $value['title'],
+                ];
+            }
+
+            $offset += static::OFFSET;
+        } while ($result);
+
+        yield $mediator;
     }
 }

@@ -10,6 +10,10 @@ use SplObjectStorage;
 abstract class RelationalModel extends BaseModel
 {
     /**
+     * How many records to load in cursor method.
+     */
+    protected const OFFSET = 5000;
+    /**
      * @var PDO
      */
     protected PDO $pdo;

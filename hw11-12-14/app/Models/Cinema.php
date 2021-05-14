@@ -229,14 +229,26 @@ class Cinema extends RelationalModel
      */
     public static function cursor(PDO $pdo): Generator
     {
-        $selectStatement = $pdo->prepare('SELECT id, title from cinemas;');
-        $selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
-        $selectStatement->execute();
+        $offset = 0;
+        $mediator = [];
+        $limit = static::OFFSET;
 
-        while ($result = $selectStatement->fetch()) {
-            yield (new self($pdo))
-                ->setId($result['id'])
-                ->setTitle($result['title']);
-        }
+        do {
+            $selectStatement = $pdo->prepare("SELECT id, title from cinemas LIMIT {$limit} OFFSET {$offset};");
+            $selectStatement->setFetchMode(\PDO::FETCH_ASSOC);
+            $selectStatement->execute();
+
+            $result = $selectStatement->fetchAll();
+            foreach ($result as $value) {
+                $mediator[] = [
+                    'id' => $value['id'],
+                    'title' => $value['title'],
+                ];
+            }
+
+            $offset += static::OFFSET;
+        } while ($result);
+
+        yield $mediator;
     }
 }

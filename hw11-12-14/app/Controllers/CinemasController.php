@@ -27,7 +27,7 @@ class CinemasController
     {
         $cinemas = [];
         foreach (Cinema::cursor($this->pdo) as $cinema) {
-            $cinemas[] = $cinema->toArray();
+            $cinemas = array_merge($cinemas, $cinema);
         }
 
         return new JsonResponse(['cinemas' => $cinemas]);
@@ -57,7 +57,7 @@ class CinemasController
     {
         $halls = [];
         foreach (Hall::cursor($this->pdo) as $hall) {
-            $halls[] = $hall->toArray();
+            $halls = array_merge($halls, $hall);
         }
 
         return new JsonResponse(['halls' => $halls]);
