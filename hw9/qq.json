@@ -1,0 +1,59 @@
+{
+    "channels_index": {
+        "aliases": {},
+        "mappings": {
+            "channels_index": {
+                "properties": {
+                    "channel_id": {
+                        "type": "text",
+                        "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                        }
+                    },
+                    "created_at": {
+                        "type": "date"
+                    },
+                    "dislikes": {
+                        "type": "long"
+                    },
+                    "id": {
+                        "type": "long"
+                    },
+                    "likes": {
+                        "type": "long"
+                    },
+                    "name": {
+                        "type": "text",
+                        "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                        }
+                    },
+                    "updated_at": {
+                        "type": "date"
+                    },
+                    "views": {
+                        "type": "long"
+                    }
+                }
+            }
+        },
+        "settings": {
+            "index": {
+                "creation_date": "1621176710921",
+                "number_of_shards": "5",
+                "number_of_replicas": "1",
+                "uuid": "cjNLkbleT4mLFrjewbTDtw",
+                "version": {
+                    "created": "6080199"
+                },
+                "provided_name": "channels_index"
+            }
+        }
+    }
+}
