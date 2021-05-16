@@ -8,20 +8,11 @@ services:
         exclude:
             - '../app/Kernel.php'
             - '../app/Exceptions/*'
-            - '../app/HttpKernel_old.php'
 
     App\Controllers\:
         resource: '../app/Controllers/'
         tags: ['controller.service_arguments']
 
-#    App\Controllers\ChannelVideosController\:
-#        resource: '../app/Controllers/ChannelVideosController.php'
-#        public: true
-#        autowire: true
-#        arguments:
-#            $service: '@App\Services\YoutubeChannelService'
-##            $client: '@GuzzleHttp\ClientInterface'
-#        tags: ['controller.service_arguments']
     App\Services\:
         resource: '../app/Services/'
         tags: ['services']
@@ -147,3 +138,11 @@ services:
         public: true
         autowire: true
         tags: ['hydrators']
+
+    PDO:
+        class: '\PDO'
+        public: true
+        autowire: true
+        arguments:
+            $dsn: "pgsql:host='%env(string:POSTGRESQL_HOST)%';port=5432;dbname='%env(string:POSTGRESQL_DATABASE)%';user='%env(string:POSTGRESQL_USERNAME)%';password='%env(string:POSTGRESQL_PASSWORD)%'"
+        tags: ['pdo']
