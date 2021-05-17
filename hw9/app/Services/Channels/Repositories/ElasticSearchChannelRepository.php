@@ -63,9 +63,10 @@ class ElasticSearchChannelRepository implements Interfaces\SearchChannelReposito
             $channels = $channels["hits"]["hits"];
             $rated_array = [];
             foreach ($channels as $channel) {
+                $channel = $channel['_source'];
                 $rating = $this->getChannelRating($channel);
                 $rated_array[$rating] = [
-                    'name' => $channel["_source"]["name"],
+                    'name' => $channel["name"],
                     'rating' => $rating
                 ];
             }
@@ -77,9 +78,9 @@ class ElasticSearchChannelRepository implements Interfaces\SearchChannelReposito
 
     private function getChannelRating(array $channel): float
     {
-        $likes = $channel["_source"]["likes"];
-        $dislikes = $channel["_source"]["dislikes"];
-        $views = $channel["_source"]["views"];
+        $likes = $channel["likes"];
+        $dislikes = $channel["dislikes"];
+        $views = $channel["views"];
         return round(($likes / $views) / ($dislikes / $views), 1);
     }
 
