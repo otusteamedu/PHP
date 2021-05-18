@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "attribute" (
   showname VARCHAR(125) null,
   attribute_type_id int2 references attribute_type(id) 
   );
-comment on column "attribute".name is '������������ ��������';
+comment on column "attribute".name is 'наименование атрибута';
 CREATE UNIQUE INDEX attribute_id_UNIQUE ON "attribute"(id);
 CREATE INDEX attribute_attribute_type_id_idx ON "attribute"(attribute_type_id);
 

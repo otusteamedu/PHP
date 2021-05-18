@@ -2,7 +2,7 @@ CREATE TABLE IF NOT exists movie_genre (
   id smallserial not null primary key,
   name VARCHAR(25)
  );
-comment on column movie_genre.name is 'Наименование жанра';
+comment on column movie_genre.name is 'РЅР°РёРјРµРЅРѕРІР°РЅРёРµ Р¶Р°РЅСЂР°';
 CREATE UNIQUE INDEX movie_genre_id_UNIQUE ON movie_genre(id);
 
 CREATE TABLE IF NOT EXISTS movie (
@@ -11,15 +11,15 @@ CREATE TABLE IF NOT EXISTS movie (
   age_limit VARCHAR(45) NULL,
   movie_genre_id smallint NOT null references movie_genre(id)
   );
-comment on column movie.name is 'Наименование фильма'; 
-comment on column movie.age_limit is 'возрастное ограничение';
+comment on column movie.name is 'РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С„РёР»СЊРјР°';
+comment on column movie.age_limit is 'РІРѕР·СЂР°СЃС‚РЅРѕРµ РѕРіСЂР°РЅРёС‡РµРЅРёРµ';
 CREATE UNIQUE INDEX movie_id_UNIQUE ON movie(id);
 
 CREATE TABLE IF NOT EXISTS room (
   id smallserial not null primary key,
   name VARCHAR(25) NULL
   );
-comment on column room.name is 'Наименование Зала';
+comment on column room.name is 'РќР°РёРјРµРЅРѕРІР°РЅРёРµ Р·Р°Р»Р°';
 CREATE UNIQUE INDEX room_id_UNIQUE ON room(id);
 
 CREATE TABLE IF NOT EXISTS seat (
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS seat (
   seat_type VARCHAR(45) NULL,
   cost_factor DECIMAL(2,1) NULL
   );
-comment on column seat.seat_type is 'название типа места (кресло простое, кресло кожанное элитное, диван и т.д.)';
-comment on column seat.cost_factor is 'коэффициент на стоимсоть';
+comment on column seat.seat_type is 'РЅР°Р·РІР°РЅРёРµ С‚РёРїР° РјРµСЃС‚Р° (РєСЂРµСЃР»Рѕ РїСЂРѕСЃС‚РѕРµ, РєСЂРµСЃР»Рѕ РєРѕР¶Р°РЅРЅРѕРµ СЌР»РёС‚РЅРѕРµ, РґРёРІР°РЅ Рё С‚.Рґ.)';
+comment on column seat.cost_factor is 'РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР° СЃС‚РѕРёРјРѕСЃС‚СЊ Р±РёР»РµС‚Р°';
 CREATE UNIQUE INDEX seat_id_UNIQUE ON seat(id);
 
 CREATE TABLE IF NOT EXISTS room_schema (
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS room_schema (
   room_id smallint references room(id),
   seat_id smallint references seat(id)
   );
-comment on column room_schema.row is 'Ряд';
-comment on column room_schema.number is 'Место';
+comment on column room_schema.row is 'СЂСЏРґ';
+comment on column room_schema.number is 'РјРµСЃС‚Рѕ';
 CREATE UNIQUE INDEX room_schema_id_UNIQUE ON room_schema(id);
 
 CREATE TABLE IF NOT EXISTS schedule (
@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS schedule (
   movie_id INT4 NOT null references movie(id),
   room_id INT2 NOT null references room(id)
   );
-comment on column schedule.session_start is 'начало сеанса';
-comment on column schedule.session_end is 'конец сеанса';
-comment on column schedule.cost_base is 'базовая стоимость билета';
+comment on column schedule.session_start is 'РќР°С‡Р°Р»Рѕ СЃРµР°РЅСЃР°';
+comment on column schedule.session_end is 'РљРѕРЅРµС† СЃРµР°РЅСЃР°';
+comment on column schedule.cost_base is 'Р‘Р°Р·РѕРІР°СЏ СЃС‚РѕРёРјРѕСЃС‚СЊ Р±РёР»РµС‚Р°';
 CREATE UNIQUE INDEX schedule_id_UNIQUE ON schedule(id);
 
 CREATE TABLE IF NOT EXISTS ticket (
@@ -61,5 +61,5 @@ CREATE TABLE IF NOT EXISTS ticket (
   room_schema_id INT2 not null references room_schema(id),
   cost DECIMAL(6,2) null
 );
-comment on column ticket.cost is 'стоимость билета';
+comment on column ticket.cost is 'РЎС‚РѕРёРјРѕСЃС‚СЊ РїСЂРѕРґР°РЅРЅРѕРіРѕ Р±РёР»РµС‚Р°';
 CREATE UNIQUE INDEX ticket_id_UNIQUE ON ticket(id);

@@ -27,8 +27,8 @@ insert into "movie_genre"("name")
  select
   random_string((1 + random()*24)::integer),
   (ARRAY['дети до 6 лет','дети до 12 лет','дети до 16 лет', 'дети до 18 лет'])[(random()*3)+1],
-  (1 + random()*30)::integer  
- from generate_series(1,10000) as gs;
+  (1 + random()*29)::integer
+ from generate_series(1,100) as gs;
 
 -- room_schema 
 insert into room_schema ("row", "number", "room_id", "seat_id")
