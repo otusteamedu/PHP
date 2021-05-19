@@ -107,6 +107,8 @@ class ElasticSearchRepository implements RepositoryInterface
     /**
      * @param $channelId
      *
+     * This method calculate stats for likes, dislikes, views, comments
+     *
      * @return array
      */
     public function getCalculatedStatistics($channelId): array

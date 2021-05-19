@@ -21,23 +21,16 @@ class Route
         $youtubeApiYoutubeApiService = new YoutubeApiService();
         $statisticsYoutubeApiService = new StatisticsYoutubeApiService($repository);
 
-        $this->router->respond(
-            'GET',
-            '/grub',
-            static fn() =>
-            (new YoutubeController($repository, $youtubeApiYoutubeApiService, $statisticsYoutubeApiService))->grub());
-
-        $this->router->respond(
-            'GET',
-            '/statistics-channel-videos',
-            static fn() =>
-            (new YoutubeController($repository, $youtubeApiYoutubeApiService, $statisticsYoutubeApiService))->getStatisticsChannelVideos());
-
-        $this->router->respond(
-            'DELETE',
-            '/deleting-indexes',
-            static fn() =>
-            (new YoutubeController($repository, $youtubeApiYoutubeApiService, $statisticsYoutubeApiService))->delete());
+        foreach (Config::ROUTES as $route) {
+            $this->router->respond(
+                $route['method'],
+                $route['path'],
+                static fn() => (new YoutubeController(
+                    $repository,
+                    $youtubeApiYoutubeApiService,
+                    $statisticsYoutubeApiService)
+                )->$route['function']);
+        }
 
         $this->router->dispatch();
     }
