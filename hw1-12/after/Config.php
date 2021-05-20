@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Config declare routes settings for app
+ */
 class Config
 {
     public const ROUTES = [

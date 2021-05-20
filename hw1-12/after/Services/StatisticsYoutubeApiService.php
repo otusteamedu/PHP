@@ -9,6 +9,7 @@ class StatisticsYoutubeApiService implements StatisticsYoutubeApiServiceInterfac
     }
 
     /**
+     * This method get statistics sum of likes and dislikes
      * @param $channelId
      *
      * @return array

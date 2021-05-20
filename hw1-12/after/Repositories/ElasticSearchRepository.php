@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class ElasticSearchRepository working with elasticsearch storage
+ */
 class ElasticSearchRepository implements RepositoryInterface
 {
     protected Client $client;
@@ -60,6 +63,8 @@ class ElasticSearchRepository implements RepositoryInterface
     }
 
     /**
+     * This method get most viewed channels from index
+     *
      * @param string $indexName
      *
      * @return array
