@@ -7,12 +7,15 @@ use Carbon\Carbon;
 
 class OrderBriefFormatter implements FormatterInterface
 {
+    const VIEWS_PATH = '/views';
+
     /**
      * @param array $orders
+     * @param string $viewsPath
      *
      * @return string
      */
-    public function format(array $orders): string
+    public function format(array $orders, string $viewsPath): string
     {
         $output = '<table><tr><th>Order number</th><th>Order state</th><th>Payment state</th><th>Shipping state</th><th>Date</th></tr>';
 
@@ -28,6 +31,9 @@ class OrderBriefFormatter implements FormatterInterface
         }
 
         $output .= '</table>';
+
+        $basePath = self::VIEWS_PATH;
+        require_once "{$basePath}/{$viewsPath}";
 
         return $output;
     }

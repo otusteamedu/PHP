@@ -7,8 +7,9 @@ interface FormatterInterface
 {
     /**
      * @param array $orders
+     * @param string $viewsPath
      *
      * @return mixed
      */
-    public function format(array $orders): mixed;
+    public function format(array $orders, string $viewsPath): mixed;
 }
