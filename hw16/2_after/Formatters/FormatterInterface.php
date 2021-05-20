@@ -9,7 +9,7 @@ interface FormatterInterface
      * @param array $orders
      * @param string $viewsPath
      *
-     * @return mixed
+     * @return void
      */
-    public function format(array $orders, string $viewsPath): mixed;
+    public function format(array $orders, string $viewsPath): void;
 }

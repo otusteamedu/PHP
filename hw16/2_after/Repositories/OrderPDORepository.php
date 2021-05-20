@@ -34,7 +34,14 @@ class OrderPDORepository implements RepositoryInterface
     public function getOrdersBrief(string $orderNumber, string $dateFrom, string $dateBetween, int $limit = 100): mixed
     {
         $query = (new SelectQueryBuilder())
-            ->select('id', 'orderNumber', 'orderState', 'paymentState', 'shippingState', 'created_at')
+            ->select(
+                'id',
+                'orderNumber',
+                'orderState',
+                'paymentState',
+                'shippingState',
+                'DATE_FORMAT(\'created_at\', \'%d.%m.%Y %H:%i:%s\') AS \'created\''
+            )
             ->from('order_history')
             ->where('orderNumber = :orderNumber')
             ->between('created_at BETWEEN :dateFrom AND :dateBetween')

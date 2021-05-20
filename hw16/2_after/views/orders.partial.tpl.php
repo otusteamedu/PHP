@@ -12,12 +12,8 @@ echo '<table>
 foreach ($orders as $order) {
 
     echo '<tr>';
-    foreach ($order as $key => $value) {
-        if ($key === 'created_at') {
-            echo \Carbon\Carbon::parse($value)->format('d.m.Y H:i:s');
-        } else {
-            echo $value;
-        }
+    foreach ($order as $value) {
+        echo $value;
     }
     echo '</tr>';
 }
