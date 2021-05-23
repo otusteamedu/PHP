@@ -12,16 +12,23 @@ use App\Model\Product\Service\ProductObserversRegistrar;
 
 class CookProductHandler
 {
-    private ProductObserversRegistrar $observersRegistrar;
+    private ProductStrategyFactory     $productStrategyFactory;
+    private IngredientDecoratorFactory $ingredientDecoratorFactory;
+    private ProductObserversRegistrar  $observersRegistrar;
 
-    public function __construct(ProductObserversRegistrar $observersRegistrar)
-    {
+    public function __construct(
+        ProductStrategyFactory $productStrategyFactory,
+        IngredientDecoratorFactory $ingredientDecoratorFactory,
+        ProductObserversRegistrar $observersRegistrar
+    ) {
+        $this->productStrategyFactory = $productStrategyFactory;
+        $this->ingredientDecoratorFactory = $ingredientDecoratorFactory;
         $this->observersRegistrar = $observersRegistrar;
     }
 
     public function handle(CookProductCommand $command): void
     {
-        $productStrategy = ProductStrategyFactory::create($command->productName);
+        $productStrategy = $this->productStrategyFactory->create($command->productName);
 
         $productFactory = $productStrategy->getProductFactory();
 
@@ -33,7 +40,7 @@ class CookProductHandler
             $product->markIsCustomRecipeUsed();
 
             foreach ($command->ingredients as $ingredientName) {
-                $product = IngredientDecoratorFactory::create($product, $ingredientName);
+                $product = $this->ingredientDecoratorFactory->create($product, $ingredientName);
             }
         } else {
             $product = new RecipeDecorator($product);

@@ -11,6 +11,13 @@ use DomainException;
 
 class ProductPreCookObserver implements ObserverInterface
 {
+    private RecipeFactory $recipeFactory;
+
+    public function __construct(RecipeFactory $recipeFactory)
+    {
+        $this->recipeFactory = $recipeFactory;
+    }
+
     public function getEventName(): string
     {
         return Events::EVENT__PRE_COOK;
@@ -27,7 +34,7 @@ class ProductPreCookObserver implements ObserverInterface
 
     private function assertProductContainsRequiredIngredients(ProductInterface $product): void
     {
-        $standardRecipe = RecipeFactory::create($product->getName());
+        $standardRecipe = $this->recipeFactory->create($product->getName());
 
         if (!$product->areIngredientsExist($standardRecipe->getRequiredIngredients())) {
             throw new DomainException($product->getName() . ' не содержит обязательные ингредиенты');

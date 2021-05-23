@@ -11,6 +11,13 @@ use DomainException;
 
 class ProductPostCookObserver implements ObserverInterface
 {
+    private RecipeFactory $recipeFactory;
+
+    public function __construct(RecipeFactory $recipeFactory)
+    {
+        $this->recipeFactory = $recipeFactory;
+    }
+
     public function getEventName(): string
     {
         return Events::EVENT__POST_COOK;
@@ -29,7 +36,7 @@ class ProductPostCookObserver implements ObserverInterface
 
     private function assertProductMatchesToStandardRecipe(ProductInterface $product): void
     {
-        $standardRecipe = RecipeFactory::create($product->getName());
+        $standardRecipe = $this->recipeFactory->create($product->getName());
 
         if (!$product->areIngredientsExist($standardRecipe->getIngredients())) {
             $product->disposeOf();
