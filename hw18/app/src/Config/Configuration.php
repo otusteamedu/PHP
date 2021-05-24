@@ -9,23 +9,38 @@ use UnexpectedValueException;
 
 class Configuration
 {
-    private array $params = [];
+    private array $params;
 
     public function __construct(string $pathToConfigIniFile)
     {
         $this->assertFileIsExist($pathToConfigIniFile);
 
-        if (is_array($data = parse_ini_file($pathToConfigIniFile, true))) {
-            $this->params = $data;
-        } else {
-            throw new DomainException('Ошибка при чтение файла конфигурации');
-        }
+        $data = parse_ini_file($pathToConfigIniFile, true);
+
+        $this->assertConfigDataIsValid($data);
+        $this->assertConfigDataIsNotEmpty($data);
+
+        $this->params = $data;
     }
 
     private function assertFileIsExist(string $pathToFile): void
     {
         if (!file_exists($pathToFile)) {
             throw new DomainException("Файл конфигурации $pathToFile не найден");
+        }
+    }
+
+    private function assertConfigDataIsValid($data): void
+    {
+        if ($data === false) {
+            throw new DomainException('Некорректно заполнен файл конфигурации');
+        }
+    }
+
+    private function assertConfigDataIsNotEmpty(array $data): void
+    {
+        if (!$data) {
+            throw new DomainException('Файл конфигурации не заполнен');
         }
     }
 
