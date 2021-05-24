@@ -1,0 +1,10 @@
+version: '3'
+services:
+    php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/php-cli
+        container_name: otus-php-cli
+        volumes:
+            - ../app:/app:delegated
