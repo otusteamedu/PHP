@@ -7,7 +7,7 @@ use JetBrains\PhpStorm\Pure;
 use DesignPatterns\Meals\Burger;
 use DesignPatterns\Meals\MealInterface;
 
-class BurgerFactoryInterface implements FactoryInterface
+class BurgerFactory implements FactoryInterface
 {
 
     /**

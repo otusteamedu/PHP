@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace DesignPatterns\Factories;
 
 use JetBrains\PhpStorm\Pure;
-use DesignPatterns\Meals\HotDog;
+use DesignPatterns\Meals\Sandwich;
 use DesignPatterns\Meals\MealInterface;
 
-class HotDogFactoryInterface implements FactoryInterface
+class SandwichFactory implements FactoryInterface
 {
     /**
      * @return MealInterface
@@ -15,6 +15,6 @@ class HotDogFactoryInterface implements FactoryInterface
     #[Pure]
     public function createMeal(): MealInterface
     {
-        return new HotDog();
+        return new Sandwich();
     }
 }
