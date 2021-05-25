@@ -1,0 +1,11 @@
+DROP VIEW IF EXISTS marketing_data;
+DROP VIEW IF EXISTS service_data;
+DROP TABLE IF EXISTS movie_attribute_values;
+DROP TABLE IF EXISTS movie_attributes;
+DROP TABLE IF EXISTS movies_attribute_types;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS seances;
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS places;
+DROP TABLE IF EXISTS rooms;
+DROP TABLE IF EXISTS discounts;
