@@ -1,10 +1,7 @@
-.idea
-.env
-vendor
-*.cache
-*.bak
-data
-sql
-dbdata
-pgadmin
-*data
+/.idea
+/.env
+/code/vendor/
+/postgres-data/
+/elastic-data/
+/redis-data/
+/rabbit/
