@@ -1,0 +1,23 @@
+{
+    "name": "denis/patterns",
+    "description": "hw1-13patterns",
+    "keywords": [
+        "patterns"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
