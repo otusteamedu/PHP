@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
+use App\Service\Security\SecurityInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\PhpRenderer;
@@ -14,6 +16,8 @@ abstract class AbstractController
      * @var PhpRenderer $view
      */
     protected PhpRenderer $view;
+    protected ?User $user;
+    protected SecurityInterface $security;
 
     protected ?string $error = null;
 
@@ -27,9 +31,11 @@ abstract class AbstractController
      * BaseController constructor.
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, SecurityInterface $security)
     {
         $this->container = $container;
+        $this->security = $security;
+        $this->user = $security->getIdentity();
 
         $appName = $container->get('app_name');
 
@@ -38,6 +44,7 @@ abstract class AbstractController
             [
                 'title' => $appName,
                 'app_name' => $appName,
+                'user' => $this->user,
                 'styles' => ['bootstrap.min.css'],
                 'scripts' => ['/js/common.js'],
             ],

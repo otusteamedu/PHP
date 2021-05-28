@@ -5,13 +5,11 @@ namespace App\Console;
 
 
 use App\Command\FakerUsersCommand;
-use App\Command\RabbitSendExchangeCommand;
 use App\Command\RabbitWorkerCommand;
 use App\Command\RabbitSendCommand;
-use App\Command\RabbitWorkerExchangeCommand;
+use App\Service\Security\SecurityInterface;
 use App\Utils\Config;
 use Doctrine\ORM\EntityManager;
-use Faker\Factory;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 
@@ -27,17 +25,15 @@ class App extends Application
         parent::__construct();
 
         $config = new Config;
-        $this->container = $config->buildContainer();
+        $this->container = $config->buildContainer(true);
 
-        $faker = Factory::create('ru_RU');
         $em = $this->container->get(EntityManager::class);
+        $security = $this->container->get(SecurityInterface::class);
 
         $this->addCommands([
-            new FakerUsersCommand($em, $faker),
+            new FakerUsersCommand($em, $security),
             new RabbitSendCommand($this->container),
             new RabbitWorkerCommand($this->container),
-            new RabbitWorkerExchangeCommand($this->container),
-            new RabbitSendExchangeCommand($this->container),
         ]);
     }
 

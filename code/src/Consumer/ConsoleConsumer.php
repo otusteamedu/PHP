@@ -1,10 +1,10 @@
 <?php
 
-namespace App\MessageHandler;
+namespace App\Consumer;
 
 use PhpAmqpLib\Message\AMQPMessage;
 
-class ConsoleMessageHandler implements MessageHandlerInterface
+class ConsoleConsumer implements ConsumerInterface
 {
 
     public function __invoke(AMQPMessage $message): void

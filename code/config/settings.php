@@ -25,5 +25,12 @@ return [
         'password' => getenv('RABBITMQ_DEFAULT_PASS'),
     ],
     'queue_name' => 'app-queue',
-    'queue_exchange_name' => 'app-queue-exchange'
+    'session' => [
+        'lifetime' => 3600,
+        'path' => '/',
+        'domain' => '',
+        'security' => false,
+        'http_only' => true,
+        'name' => 'app-session',
+    ],
 ];

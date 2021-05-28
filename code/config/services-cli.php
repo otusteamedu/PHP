@@ -52,12 +52,11 @@ return [
     },
 
     SessionStorageInterface::class => function (SessionInterface $session): SessionStorageInterface {
-        $session->start();
         return new SessionStorage($session);
     },
 
     SecurityInterface::class => function (SessionStorageInterface $sessionStorage, EntityManagerInterface $entityManager): SecurityInterface {
         return new SecurityService($sessionStorage, $entityManager);
-    },
+    }
 
 ];

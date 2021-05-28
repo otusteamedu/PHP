@@ -4,7 +4,7 @@
 namespace App\Command;
 
 
-use App\MessageHandler\ConsoleMessageHandler;
+use App\Consumer\ConsoleConsumer;
 use App\Service\Messenger\ChannelBuilderInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -73,7 +73,7 @@ class RabbitWorkerCommand extends Command
             false,
             false,
             false,
-            new ConsoleMessageHandler
+            new ConsoleConsumer
         );
     }
 }

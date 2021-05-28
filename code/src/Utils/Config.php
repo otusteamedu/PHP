@@ -16,29 +16,30 @@ class Config
     /**
      * Config constructor.
      */
-    public function __construct(bool $test = false)
+    public function __construct()
     {
         $this->configDir =
             dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . self::CONFIG_DIR;
-        $this->test = $test;
     }
 
 
     /**
      * @throws \Exception
      */
-    public function buildContainer(): ContainerInterface
+    public function buildContainer($cli = false): ContainerInterface
     {
         $builder = new ContainerBuilder();
 
-        $settings = $this->test ? 'settings-test.php' : 'settings.php';
+        $services = $cli ? 'services-cli.php' : 'services.php';
 
         $builder->addDefinitions(
-            $this->getRealPath('services.php'),
-            $this->getRealPath($settings),
+            $this->getRealPath($services),
+            $this->getRealPath('settings.php'),
         );
         return $builder->build();
     }
+
+
 
     private function getRealPath(string $filename): string
     {

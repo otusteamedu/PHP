@@ -5,7 +5,11 @@
  * @var string $content
  * @var array $scripts
  * @var array $styles
+ * @var User $user
  */
+
+use App\Entity\User;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,18 +33,31 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="/task-one">Задание 1</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/task-two">Задание 2</a>
-                    </li>
-	                <li class="nav-item">
-		                <a class="nav-link" href="/stats">Статистика</a>
-	                </li>
 
                 </ul>
+
+	            <?php if ($user): ?>
+	            <div class="ml-lg-5 dropdown">
+		            <a class="dropdown-toggle removecarret" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+			            <img src="/img/user.png" width="40" height="40" class="rounded-circle">
+
+		            </a>
+
+		            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+			            <li><a class="dropdown-item" href="/profile">Профиль</a></li>
+			            <li><a class="dropdown-item" href="#">Another action</a></li>
+			            <li><hr class="dropdown-divider"></li>
+			            <li><a class="dropdown-item" href="/logout">Выход</a></li>
+		            </ul>
+	            </div>
+	            <?php else: ?>
+	            <a class="btn" href="/login">Вход</a>
+	            <?php endif; ?>
+
             </div>
         </div>
 

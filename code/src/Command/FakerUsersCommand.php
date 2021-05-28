@@ -5,13 +5,33 @@ namespace App\Command;
 
 
 use App\Entity\User;
+use App\Service\Security\SecurityInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FakerUsersCommand extends AbstractFakeCommand
+class FakerUsersCommand extends Command
 {
+
     protected static string $defaultName = 'fake:users';
+
+    private EntityManagerInterface $entityManager;
+    private SecurityInterface $security;
+
+    /**
+     * FakerUsersCommand constructor.
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\Service\Security\SecurityInterface $security
+     */
+    public function __construct(EntityManagerInterface $entityManager, SecurityInterface $security)
+    {
+        parent::__construct();
+
+        $this->entityManager = $entityManager;
+        $this->security = $security;
+    }
+
 
     protected function configure(): void
     {
@@ -22,26 +42,21 @@ class FakerUsersCommand extends AbstractFakeCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        try {
-            foreach (range(1, 10) as $_) {
 
-                $user = new User();
-                $user->setEmail($this->faker->email);
-                $user->setPassword($this->faker->password);
-                $user->setDiscount(rand(0, 50));
-                $user->setFirstname($this->faker->firstName());
-                $user->setLastname($this->faker->lastName);
+        foreach (range(1 , 2) as $i) {
+            $user = new User();
+            $user->setEmail('user' . $i . '@mail.com');
+            $user->setFirstname('User ' . $i);
+            $user->setPassword(
+                $this->security->cryptPassword('user' . $i)
+            );
 
-
-                $this->em->persist($user);
-            }
-
-            $this->em->flush();
-        } catch (\Exception $e) {
-            echo $e->getMessage(), PHP_EOL;
-            echo $e->getFile() . ':' . $e->getLine();
-            return Command::FAILURE;
+            $this->entityManager->persist($user);
         }
+
+        $this->entityManager->flush();
+
+        echo 'Users created!', PHP_EOL;
 
         return Command::SUCCESS;
     }
