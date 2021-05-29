@@ -40,6 +40,7 @@ abstract class SubjectMeal implements \SplSubject, AbstractFoodInterface
     {
         echo "Subject: Notifying observers...\n";
         foreach ($this->observers as $observer) {
+            /**@var Observer $observer**/
             $observer->update($this);
         }
     }
