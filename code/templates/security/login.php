@@ -5,14 +5,13 @@
  */
 ?>
 
-
+<?php if ($error): ?>
 <div class="row">
 	<div class="col">
-        <?php if ($error): ?>
-			<div class="alert alert-danger"><?= $error ?></div>
-        <?php endif; ?>
+		<div class="alert alert-danger"><?= $error ?></div>
 	</div>
 </div>
+<?php endif; ?>
 <div class="row">
 	<div class="col-lg-4 mx-auto">
 		<form method="post">
@@ -25,7 +24,6 @@
 				       required
 				       autofocus>
 			</div>
-
 
 			<div class="mb-3">
 				<label for="inputPassword">Пароль</label>

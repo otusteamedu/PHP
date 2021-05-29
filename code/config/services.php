@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Service\BankOperation\BankService;
+use App\Service\BankOperation\BankOperationInterface;
 use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
@@ -96,5 +98,14 @@ return [
     PhpRenderer::class => function (ContainerInterface $container): PhpRenderer{
         return new PhpRenderer($container->get('templates_path'));
     },
+
+    BankOperationInterface::class => function (
+        MessageServiceInterface $messageService,
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
+    )
+    : BankOperationInterface {
+        return new BankService($messageService, $entityManager, $logger);
+    }
 
 ];

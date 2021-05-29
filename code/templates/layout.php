@@ -44,11 +44,10 @@ use App\Entity\User;
 	            <div class="ml-lg-5 dropdown">
 		            <a class="dropdown-toggle removecarret" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
 			            <img src="/img/user.png" width="40" height="40" class="rounded-circle">
-
 		            </a>
 
 		            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-			            <li><a class="dropdown-item" href="/bank-account">Bank</a></li>
+			            <li><a class="dropdown-item" href="/profile">Профиль</a></li>
 			            <li><hr class="dropdown-divider"></li>
 			            <li><a class="dropdown-item" href="/logout">Выход</a></li>
 		            </ul>

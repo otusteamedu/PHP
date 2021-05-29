@@ -16,6 +16,7 @@
         h1 {font-size: large}
         h2 {font-size: medium}
         span {margin-left: 2em;}
+        p {margin: 0; padding: .5em 1em 0}
     </style>
 	<title>Банковские операции</title>
 </head>

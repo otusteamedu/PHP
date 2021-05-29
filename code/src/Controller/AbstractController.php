@@ -4,7 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Service\Message\MessageServiceInterface;
+use App\Service\BankOperation\BankOperationInterface;
 use App\Service\Security\SecurityInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -12,39 +12,33 @@ use Slim\Views\PhpRenderer;
 
 abstract class AbstractController
 {
-
     protected PhpRenderer $view;
     protected ?User $user;
     protected SecurityInterface $security;
-    protected MessageServiceInterface $messageService;
-
-    protected ?string $error = null;
-
-
-    /**
-     * @var ContainerInterface
-     */
     protected ContainerInterface $container;
+    protected BankOperationInterface $bankOperation;
 
     /**
-     * BaseController constructor.
-     * @param ContainerInterface $container
+     * AbstractController constructor.
+     * @param \Psr\Container\ContainerInterface $container
+     * @param \App\Service\Security\SecurityInterface $security
+     * @param \App\Service\BankOperation\BankOperationInterface $bankOperation
      */
     public function __construct(
         ContainerInterface $container,
         SecurityInterface $security,
-        MessageServiceInterface $messageService
+        BankOperationInterface $bankOperation
     )
     {
         $this->container = $container;
         $this->security = $security;
+        $this->bankOperation = $bankOperation;
+
+
         $this->user = $security->getIdentity();
-        $this->messageService = $messageService;
 
         $appName = $container->get('app_name');
-
         $this->view = $container->get(PhpRenderer::class);
-
         $this->view->setAttributes([
             'title' => $appName,
             'app_name' => $appName,
@@ -56,7 +50,10 @@ abstract class AbstractController
 
     }
 
-    protected function addScripts(array $scripts)
+    /**
+     * @param array $scripts
+     */
+    protected function addScripts(array $scripts): void
     {
         $this->view->addAttribute(
             'scripts',
@@ -64,7 +61,10 @@ abstract class AbstractController
         );
     }
 
-    protected function addStyles(array $styles)
+    /**
+     * @param array $styles
+     */
+    protected function addStyles(array $styles):void
     {
         $this->view->addAttribute(
             'styles',
@@ -73,6 +73,10 @@ abstract class AbstractController
     }
 
     /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param string $template
+     * @param array $params
+     * @return \Psr\Http\Message\ResponseInterface
      * @throws \Throwable
      */
     protected function render(Response $response, string $template, array $params = []): Response

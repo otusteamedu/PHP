@@ -10,8 +10,10 @@ class Session implements SessionInterface
 {
     private ContainerInterface $container;
 
+
     /**
      * Session constructor.
+     * @param \Psr\Container\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {

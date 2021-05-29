@@ -3,19 +3,19 @@
 namespace App\Controller;
 
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class HomeController extends AbstractController
 {
-
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Throwable
+     */
     public function index(Request $request, Response $response): Response
     {
-        $result = 'ДЗ';
-
-        return $this->render($response, 'home/index.php', [
-            'result' => $result,
-            ]);
+        return $this->render($response, 'home/index.php');
     }
 }

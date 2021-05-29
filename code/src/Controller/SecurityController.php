@@ -9,6 +9,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Throwable
+     */
     public function login(Request $request, Response $response): Response
     {
         if ($request->getMethod() === 'POST') {
@@ -16,7 +22,7 @@ class SecurityController extends AbstractController
 
             if ($this->security->login($email, $password)) {
                 return $response
-                    ->withHeader('Location', '/')
+                    ->withHeader('Location', '/profile')
                     ->withStatus(302);
             } else {
                 $error = 'Неверный логин или пароль';
@@ -29,6 +35,11 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function logout(Request $request, Response $response): Response
     {
         $this->security->logout();

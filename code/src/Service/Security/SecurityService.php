@@ -28,6 +28,11 @@ class SecurityService implements SecurityInterface
     }
 
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
     public function login(string $email, string $password): bool
     {
         $user = $this->getUser($email);
@@ -44,6 +49,9 @@ class SecurityService implements SecurityInterface
         return false;
     }
 
+    /**
+     * @return \App\Entity\User|null
+     */
     public function getIdentity(): ?User
     {
         $email = $this->sessionStorage->get(self::IDENTITY_KEY);
@@ -54,6 +62,10 @@ class SecurityService implements SecurityInterface
         return $this->getUser($email);
     }
 
+    /**
+     * @param string $email
+     * @return \App\Entity\User|null
+     */
     private function getUser(string $email): ?User
     {
         /** @var User $user */
@@ -73,11 +85,20 @@ class SecurityService implements SecurityInterface
         $this->sessionStorage->clear(self::IDENTITY_KEY);
     }
 
+    /**
+     * @param string $password
+     * @return string
+     */
     public function cryptPassword(string $password): string
     {
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
+    /**
+     * @param \App\Entity\User $user
+     * @param string $password
+     * @return bool
+     */
     private function checkPassword(User $user, string $password): bool
     {
         return password_verify($password, $user->getPassword());
