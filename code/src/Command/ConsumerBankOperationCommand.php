@@ -15,7 +15,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsumerBankOperationCommand extends Command
 {
-    protected static string $defaultName = 'consumer:bank-operation';
+    const MESSAGE_EXPECT = ' [*] Ожидаю сообщения. Для выхода CTRL+C';
+    const MESSAGE_DELIVERY = ' [x] Получено сообщение: ';
+    const MESSAGE_PROCESSED = ' [x] Обработано';
+    const MESSAGE_ERROR = ' [!] Ошибка обработки: ';
+
+
+    protected static $defaultName = 'consumer:bank-operation';
 
     private AMQPChannel $channel;
     private string $queue;
@@ -32,10 +38,11 @@ class ConsumerBankOperationCommand extends Command
         parent::__construct();
 
         $this->container = $container;
+        $this->logger = $container->get(LoggerInterface::class);
         $channelBuilder = $container->get(AMQPChannelBuilderInterface::class);
+
         $this->channel = $channelBuilder->build();
         $this->queue = $channelBuilder->getQueueName();
-        $this->logger = $container->get(LoggerInterface::class);
     }
 
     /**
@@ -46,7 +53,7 @@ class ConsumerBankOperationCommand extends Command
     {
         $this->init();
 
-        echo ' [*] Ожидаю сообщения. Для выхода CTRL+C', PHP_EOL;
+        echo self::MESSAGE_EXPECT, PHP_EOL;
 
         while ($this->channel->is_open()) {
             $this->channel->wait();
@@ -74,31 +81,29 @@ class ConsumerBankOperationCommand extends Command
 
     private function callback($msg)
     {
-        echo ' [x] Получено сообщение: ', $msg->body, PHP_EOL;
+        echo self::MESSAGE_DELIVERY, $msg->body, PHP_EOL;
 
         try {
             /** @var \App\Message\MessageInterface $message */
             $message = unserialize(json_decode($msg->body, true));
 
             $handlerClass = $message->getHandler();
-            $handler = new $handlerClass($this->container);
+            $handler = $this->container->get($handlerClass);
             $handler->process($message);
 
-            echo ' [x] Обработано', PHP_EOL;
+            echo self::MESSAGE_PROCESSED, PHP_EOL;
 
         } catch (\Exception $e) {
             $exception = sprintf(
-                '%s (%s: %s)', $e->getMessage(), $e->getFile(), $e->getLine()
+                '%s (%s: %s)',
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
             );
             $errorMessage = $msg->body . "\t" . $exception;
             $this->logger->error($errorMessage);
 
-            echo sprintf(
-                ' [x] Ошибка обработки:%s%s%s',
-                PHP_EOL,
-                $exception,
-                PHP_EOL
-            );
+            echo self::MESSAGE_ERROR, PHP_EOL, $exception, PHP_EOL;
         }
 
         $msg->ack();

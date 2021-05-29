@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUsersCommand extends Command
 {
-    protected static string $defaultName = 'fake:users';
+    protected static $defaultName = 'fake:users';
 
     private EntityManagerInterface $entityManager;
     private SecurityInterface $security;

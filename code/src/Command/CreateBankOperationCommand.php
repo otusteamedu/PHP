@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateBankOperationCommand extends \Symfony\Component\Console\Command\Command
 {
 
-    protected static string $defaultName = 'fake:bank-operations';
+    protected static $defaultName = 'fake:bank-operations';
 
     private EntityManagerInterface $entityManager;
 

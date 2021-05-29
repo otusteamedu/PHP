@@ -29,7 +29,7 @@ class App extends Application
         parent::__construct();
 
         $config = new Config;
-        $this->container = $config->buildContainer(true);
+        $this->container = $config->buildContainer();
 
         $em = $this->container->get(EntityManager::class);
         $security = $this->container->get(SecurityInterface::class);

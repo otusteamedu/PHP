@@ -34,7 +34,6 @@ abstract class AbstractController
         $this->security = $security;
         $this->bankOperation = $bankOperation;
 
-
         $this->user = $security->getIdentity();
 
         $appName = $container->get('app_name');

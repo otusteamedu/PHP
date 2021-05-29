@@ -26,14 +26,12 @@ class Config
     /**
      * @throws \Exception
      */
-    public function buildContainer($cli = false): ContainerInterface
+    public function buildContainer(): ContainerInterface
     {
         $builder = new ContainerBuilder();
 
-        $services = $cli ? 'services-cli.php' : 'services.php';
-
         $builder->addDefinitions(
-            $this->getRealPath($services),
+            $this->getRealPath('services.php'),
             $this->getRealPath('settings.php'),
         );
         return $builder->build();

@@ -9,24 +9,30 @@ use App\Message\MessageInterface;
 use App\Service\Mailer\MailerInterface;
 use App\Message\BankOperationMessage;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Container\ContainerInterface;
 use Slim\Views\PhpRenderer;
 
 class BankOperationMessageHandler implements MessageHandlerInterface
 {
+    const MAIL_SUBJECT = 'Банковская выписка';
+    const MAIL_TYPE = 'text/html';
+
+
     private EntityManagerInterface $entityManager;
     private MailerInterface $mailer;
     private PhpRenderer $renderer;
 
+
     /**
      * BankOperationMessageHandler constructor.
-     * @param \Psr\Container\ContainerInterface $container
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\Service\Mailer\MailerInterface $mailer
+     * @param \Slim\Views\PhpRenderer $renderer
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer, PhpRenderer $renderer)
     {
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->mailer = $container->get(MailerInterface::class);
-        $this->renderer = $container->get(PhpRenderer::class);
+        $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
+        $this->renderer = $renderer;
     }
 
 
@@ -48,7 +54,12 @@ class BankOperationMessageHandler implements MessageHandlerInterface
             'operations' => $user->getBankOperations($dateStart, $dateEnd),
         ]);
 
-        $this->mailer->sendEmail($message->getEmail(), 'Банковская выписка', $body, 'text/html');
+        $this->mailer->sendEmail(
+            $message->getEmail(),
+            self::MAIL_SUBJECT,
+            $body,
+            self::MAIL_TYPE
+        );
 
     }
 }

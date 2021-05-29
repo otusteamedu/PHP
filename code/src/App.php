@@ -4,6 +4,7 @@
 namespace App;
 
 
+use App\Service\Session\SessionInterface;
 use App\Utils\Config;
 use Psr\Container\ContainerInterface;
 use Slim\Factory\AppFactory;
@@ -22,6 +23,9 @@ final class App
     {
         $container = (new Config)->buildContainer();
         $this->init($container);
+
+        $session = $container->get(SessionInterface::class);
+        $session->start();
     }
 
     public function run()

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\MessageHandler\BankOperationMessageHandler;
 use App\Service\BankOperation\BankService;
 use App\Service\BankOperation\BankOperationInterface;
 use App\Service\Mailer\MailerInterface;
@@ -61,7 +62,6 @@ return [
     },
 
     SessionStorageInterface::class => function (SessionInterface $session): SessionStorageInterface {
-        $session->start();
         return new SessionStorage($session);
     },
 
@@ -84,7 +84,7 @@ return [
     },
 
     MailerInterface::class => function (ContainerInterface $container): MailerInterface {
-        list ($host, $port, $username, $password) = $container->get('smtp');
+        list ($host, $port, $username, $password) = array_values($container->get('smtp'));
 
         $transport = (new Swift_SmtpTransport($host, $port))
             ->setUsername($username)
@@ -100,12 +100,15 @@ return [
     },
 
     BankOperationInterface::class => function (
-        MessageServiceInterface $messageService,
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger
-    )
-    : BankOperationInterface {
+        MessageServiceInterface $messageService, EntityManagerInterface $entityManager, LoggerInterface $logger
+    ): BankOperationInterface {
         return new BankService($messageService, $entityManager, $logger);
-    }
+    },
+
+    BankOperationMessageHandler::class => function (
+        EntityManagerInterface $entityManager, MailerInterface $mailer, ContainerInterface $container
+    ): BankOperationMessageHandler {
+        return new BankOperationMessageHandler($entityManager, $mailer, $container->get(PhpRenderer::class));
+    },
 
 ];
