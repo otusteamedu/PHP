@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Service\Messenger;
+namespace App\Utils\Builder;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 
-class RabbitChannelBuilder implements ChannelBuilderInterface
+class AMQPChannelBuilder implements AMQPChannelBuilderInterface
 {
 
     private AMQPStreamConnection $connection;
@@ -16,7 +16,7 @@ class RabbitChannelBuilder implements ChannelBuilderInterface
 
 
     /**
-     * RabbitChannelBuilder constructor.
+     * AMQPChannelBuilder constructor.
      * @param \PhpAmqpLib\Connection\AMQPStreamConnection $connection
      * @param string $queueName
      */
@@ -36,13 +36,7 @@ class RabbitChannelBuilder implements ChannelBuilderInterface
         return $channel;
     }
 
-
-    public function getConnection(): AMQPStreamConnection
-    {
-        return $this->connection;
-    }
-
-    public function setQueueName(string $queueName): ChannelBuilderInterface
+    public function setQueueName(string $queueName): AMQPChannelBuilderInterface
     {
         $this->queueName = $queueName;
         return $this;

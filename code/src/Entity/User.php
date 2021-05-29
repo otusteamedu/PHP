@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 
 /**
@@ -13,6 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->bankOperations = new PersistentCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -32,18 +42,30 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     protected string $password;
-
-
-
     /**
      * @ORM\Column(type="datetime")
      */
     protected DateTime $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * One User has Many BankOperation.
+     * @ORM\OneToMany(targetEntity="BankOperation", mappedBy="user")
      */
-    protected DateTime $lastVisit;
+    protected PersistentCollection $bankOperations;
+
+
+    public function getBankOperations(): PersistentCollection
+    {
+        return $this->bankOperations;
+    }
+
+    /**
+     * @param \App\Entity\BankOperation $bankOperation
+     */
+    public function setBankOperation(BankOperation $bankOperation): void
+    {
+        $this->bankOperations[] = $bankOperation;
+    }
 
 
     /**
@@ -116,23 +138,6 @@ class User
         $this->createdAt = new DateTime();
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getLastVisit(): DateTime
-    {
-        return $this->lastVisit;
-    }
-
-    /**
-     * @param DateTime $lastVisit
-     */
-    public function setLastVisit(DateTime $lastVisit): self
-    {
-        $this->lastVisit = $lastVisit;
-        return $this;
-
-    }
 
     public function getUsername(): string
     {

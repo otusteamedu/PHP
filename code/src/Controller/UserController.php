@@ -4,15 +4,24 @@
 namespace App\Controller;
 
 
+use App\Message\BankOperationMessage;
+use DateTime;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class UserController extends AbstractController
 {
-    public function profile(Request $request, Response $response): Response
+
+    public function bankAccount(Request $request, Response $response): Response
     {
-        return $this->render($response, 'user/index.php', [
-            'data' => $data ?? null
+        $email = $this->user->getEmail();
+
+        $bankStatement = new BankOperationMessage($email, new DateTime('2020-05-03'), new DateTime());
+        $this->messageService->push($bankStatement);
+
+
+        return $this->render($response, 'user/bank.php', [
+            'data' => null,
         ]);
     }
 

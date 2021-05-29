@@ -34,9 +34,9 @@ use App\Entity\User;
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/task-one">Задание 1</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/task-one">Задание 1</a>-->
+<!--                    </li>-->
 
                 </ul>
 
@@ -48,8 +48,7 @@ use App\Entity\User;
 		            </a>
 
 		            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-			            <li><a class="dropdown-item" href="/profile">Профиль</a></li>
-			            <li><a class="dropdown-item" href="#">Another action</a></li>
+			            <li><a class="dropdown-item" href="/bank-account">Bank</a></li>
 			            <li><hr class="dropdown-divider"></li>
 			            <li><a class="dropdown-item" href="/logout">Выход</a></li>
 		            </ul>

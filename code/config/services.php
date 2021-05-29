@@ -1,25 +1,29 @@
 <?php
 
 
-use App\Service\Messenger\ChannelBuilderInterface;
-use App\Service\Messenger\RabbitChannelBuilder;
+use App\Service\Message\MessageService;
+use App\Service\Message\MessageServiceInterface;
 use App\Service\Security\SecurityInterface;
 use App\Service\Security\SecurityService;
 use App\Service\Session\Session;
 use App\Service\Session\SessionInterface;
 use App\Service\Storage\SessionStorage;
 use App\Service\Storage\SessionStorageInterface;
+use App\Utils\Builder\AMQPChannelBuilderInterface;
+use App\Utils\Builder\AMQPChannelBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 
 return [
-
     EntityManager::class => function (ContainerInterface $container): EntityManager {
 
         $config = Setup::createAnnotationMetadataConfiguration(
@@ -43,8 +47,8 @@ return [
         return new AMQPStreamConnection($host, $port, $user, $password);
     },
 
-    ChannelBuilderInterface::class => function (ContainerInterface $container): ChannelBuilderInterface {
-        return new RabbitChannelBuilder($container->get(AMQPStreamConnection::class));
+    AMQPChannelBuilderInterface::class => function (ContainerInterface $container): AMQPChannelBuilderInterface {
+        return new AMQPChannelBuilder($container->get(AMQPStreamConnection::class));
     },
 
     SessionInterface::class => function (ContainerInterface $container): SessionInterface {
@@ -59,5 +63,19 @@ return [
     SecurityInterface::class => function (SessionStorageInterface $sessionStorage, EntityManagerInterface $entityManager): SecurityInterface {
         return new SecurityService($sessionStorage, $entityManager);
     },
+
+    MessageServiceInterface::class => function (AMQPChannelBuilderInterface $channelBuilder): MessageServiceInterface {
+        return new MessageService($channelBuilder);
+    },
+
+    LoggerInterface::class => function (ContainerInterface $container): LoggerInterface {
+        list ($name, $path) = array_values($container->get('logger'));
+        $level = $container->get('development') ? Logger::DEBUG : Logger::WARNING;
+
+        $logger = new Logger($name);
+        $logger->pushHandler(new StreamHandler($path, $level));
+
+        return $logger;
+    }
 
 ];

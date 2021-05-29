@@ -4,9 +4,13 @@
 namespace App\Console;
 
 
-use App\Command\FakerUsersCommand;
+use App\Command\CreateBankOperationCommand;
+use App\Command\ConsumerBankOperationCommand;
+use App\Command\CreateUsersCommand;
 use App\Command\RabbitWorkerCommand;
 use App\Command\RabbitSendCommand;
+use App\Message\BankOperationMessage;
+use App\Service\Message\AMQPChannelBuilderInterface;
 use App\Service\Security\SecurityInterface;
 use App\Utils\Config;
 use Doctrine\ORM\EntityManager;
@@ -30,10 +34,11 @@ class App extends Application
         $em = $this->container->get(EntityManager::class);
         $security = $this->container->get(SecurityInterface::class);
 
+
         $this->addCommands([
-            new FakerUsersCommand($em, $security),
-            new RabbitSendCommand($this->container),
-            new RabbitWorkerCommand($this->container),
+            new ConsumerBankOperationCommand($this->container),
+            new CreateUsersCommand($em, $security),
+            new CreateBankOperationCommand($em),
         ]);
     }
 

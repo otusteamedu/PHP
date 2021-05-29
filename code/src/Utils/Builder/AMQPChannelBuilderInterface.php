@@ -1,16 +1,14 @@
 <?php
 
 
-namespace App\Service\Messenger;
+namespace App\Utils\Builder;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-interface ChannelBuilderInterface
+interface AMQPChannelBuilderInterface
 {
     public function build(): AMQPChannel;
     public function setQueueName(string $queueName): self;
     public function getQueueName(): string;
-    public function getConnection(): AMQPStreamConnection;
 }

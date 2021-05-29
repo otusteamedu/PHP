@@ -4,6 +4,10 @@ $basePath = dirname(__DIR__);
 return [
     'app_name' => 'PHP RabbitMQ',
     'development' => getenv('DEV_MODE'),
+    'logger' => [
+        'name' => 'app-log',
+        'path' => $basePath . '/var/log/app.log',
+    ],
     'doctrine' => [
         'isDevMode' => getenv('DEV_MODE'),
         'metadata_dirs' => [

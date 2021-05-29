@@ -12,7 +12,7 @@ class HomeController extends AbstractController
 
     public function index(Request $request, Response $response): Response
     {
-        $result = 'Тестовое задание';
+        $result = 'ДЗ';
 
         return $this->render($response, 'home/index.php', [
             'result' => $result,

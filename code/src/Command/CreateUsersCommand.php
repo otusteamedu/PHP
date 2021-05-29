@@ -11,16 +11,15 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FakerUsersCommand extends Command
+class CreateUsersCommand extends Command
 {
-
     protected static string $defaultName = 'fake:users';
 
     private EntityManagerInterface $entityManager;
     private SecurityInterface $security;
 
     /**
-     * FakerUsersCommand constructor.
+     * CreateUsersCommand constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \App\Service\Security\SecurityInterface $security
      */
