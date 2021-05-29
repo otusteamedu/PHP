@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Service\Mailer\MailerService;
+use App\Service\Mailer\MailerInterface;
 use App\Utils\Builder\AMQPChannelBuilderInterface;
 use App\Utils\Builder\AMQPChannelBuilder;
 use App\Service\Security\SecurityInterface;
@@ -19,6 +21,8 @@ use Monolog\Logger;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Slim\Views\PhpRenderer;
+
 
 
 return [
@@ -70,6 +74,22 @@ return [
         $logger->pushHandler(new StreamHandler($path, $level));
 
         return $logger;
+    },
+
+    MailerInterface::class => function (ContainerInterface $container): MailerInterface {
+        list ($host, $port, $username, $password) = array_values($container->get('smtp'));
+
+        $transport = (new Swift_SmtpTransport($host, $port))
+            ->setUsername($username)
+            ->setPassword($password);
+
+        $mailer = new Swift_Mailer($transport);
+
+        return new MailerService($mailer);
+    },
+
+    PhpRenderer::class => function (ContainerInterface $container): PhpRenderer{
+        return new PhpRenderer($container->get('templates_path'));
     },
 
 ];

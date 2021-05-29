@@ -25,15 +25,15 @@ class SecurityMiddleware
 
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        $response = $handler->handle($request);
+        if (null === $this->security->getIdentity()) {
+            $response = new Response();
 
-        if (! $this->security->getIdentity()) {
             return $response
                 ->withHeader('Location', '/login')
                 ->withStatus(302);
         }
 
-        return $response;
+        return $handler->handle($request);
     }
 
 }

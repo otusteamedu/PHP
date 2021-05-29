@@ -13,9 +13,6 @@ use Slim\Views\PhpRenderer;
 abstract class AbstractController
 {
 
-    /**
-     * @var PhpRenderer $view
-     */
     protected PhpRenderer $view;
     protected ?User $user;
     protected SecurityInterface $security;
@@ -33,7 +30,11 @@ abstract class AbstractController
      * BaseController constructor.
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container, SecurityInterface $security, MessageServiceInterface $messageService)
+    public function __construct(
+        ContainerInterface $container,
+        SecurityInterface $security,
+        MessageServiceInterface $messageService
+    )
     {
         $this->container = $container;
         $this->security = $security;
@@ -42,17 +43,16 @@ abstract class AbstractController
 
         $appName = $container->get('app_name');
 
-        $this->view = new PhpRenderer(
-            dirname(__DIR__, 1) . '/../templates',
-            [
-                'title' => $appName,
-                'app_name' => $appName,
-                'user' => $this->user,
-                'styles' => ['bootstrap.min.css', 'style.css'],
-                'scripts' => [],
-            ],
-            'layout.php'
-        );
+        $this->view = $container->get(PhpRenderer::class);
+
+        $this->view->setAttributes([
+            'title' => $appName,
+            'app_name' => $appName,
+            'user' => $this->user,
+            'styles' => ['bootstrap.min.css', 'style.css'],
+            'scripts' => [],
+        ]);
+        $this->view->setLayout('layout.php');
 
     }
 
@@ -72,6 +72,9 @@ abstract class AbstractController
         );
     }
 
+    /**
+     * @throws \Throwable
+     */
     protected function render(Response $response, string $template, array $params = []): Response
     {
         return $this->view->render($response, $template, $params);

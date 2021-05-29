@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -20,7 +22,7 @@ class User
      */
     public function __construct()
     {
-        $this->bankOperations = new PersistentCollection();
+        $this->bankOperations = new ArrayCollection();
     }
 
     /**
@@ -51,12 +53,24 @@ class User
      * One User has Many BankOperation.
      * @ORM\OneToMany(targetEntity="BankOperation", mappedBy="user")
      */
-    protected PersistentCollection $bankOperations;
+    protected $bankOperations;
 
 
-    public function getBankOperations(): PersistentCollection
+    public function getBankOperations(DateTime $dateStart = null, DateTime $dateEnd = null): Collection
     {
+        if ($dateStart) {
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->gte('createdAt', $dateStart));
+            if ($dateEnd) {
+                $criteria->andWhere(Criteria::expr()->lte('createdAt', $dateEnd));
+            }
+
+
+            return $this->bankOperations->matching($criteria);
+        }
+
         return $this->bankOperations;
+
     }
 
     /**

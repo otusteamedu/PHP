@@ -87,10 +87,18 @@ class ConsumerBankOperationCommand extends Command
             echo ' [x] Обработано', PHP_EOL;
 
         } catch (\Exception $e) {
-            $errorMessage = $msg->body . "\t" . $e->getMessage();
+            $exception = sprintf(
+                '%s (%s: %s)', $e->getMessage(), $e->getFile(), $e->getLine()
+            );
+            $errorMessage = $msg->body . "\t" . $exception;
             $this->logger->error($errorMessage);
 
-            echo ' [x] Ошибка обработки', PHP_EOL;
+            echo sprintf(
+                ' [x] Ошибка обработки:%s%s%s',
+                PHP_EOL,
+                $exception,
+                PHP_EOL
+            );
         }
 
         $msg->ack();

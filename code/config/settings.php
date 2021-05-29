@@ -4,6 +4,8 @@ $basePath = dirname(__DIR__);
 return [
     'app_name' => 'PHP RabbitMQ',
     'development' => getenv('DEV_MODE'),
+    'queue_name' => 'app-queue',
+    'templates_path' => $basePath . '/templates',
     'logger' => [
         'name' => 'app-log',
         'path' => $basePath . '/var/log/app.log',
@@ -28,7 +30,6 @@ return [
         'user' => getenv('RABBITMQ_DEFAULT_USER'),
         'password' => getenv('RABBITMQ_DEFAULT_PASS'),
     ],
-    'queue_name' => 'app-queue',
     'session' => [
         'lifetime' => 3600,
         'path' => '/',
@@ -37,4 +38,10 @@ return [
         'http_only' => true,
         'name' => 'app-session',
     ],
+    'smtp' => [
+        'host' => getenv('SMTP_HOST'),
+        'port' => getenv('SMTP_PORT'),
+        'username' => getenv('SMTP_USERNAME'),
+        'password' => getenv('SMTP_PASSWORD'),
+    ]
 ];

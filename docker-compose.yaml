@@ -10,6 +10,7 @@ services:
     #        GROUP: ${SERVER_GROUP}
     #      context: docker/nginx
     image: altimofeev/webserver-localhost
+    container_name: webserver
     working_dir: ${WORKDIR}
     ports:
       - 80:80
@@ -28,6 +29,7 @@ services:
     #        GROUP: ${SERVER_GROUP}
     #      context: docker/fpm
     image: altimofeev/php-fpm
+    container_name: app
     env_file:
       - .env
     working_dir: ${WORKDIR}
@@ -50,11 +52,11 @@ services:
 
   mailercatcher:
     image: jeanberu/mailcatcher
+    container_name: ${SMTP_HOST}
+    hostname: ${SMTP_HOST}
     ports:
-      - 1025:1025
+      - ${SMTP_PORT}:${SMTP_PORT}
       - 1080:1080
-    labels:
-      NAME: mailcatcher
 
 
   rabbitmq:

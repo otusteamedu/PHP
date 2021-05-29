@@ -11,12 +11,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class UserController extends AbstractController
 {
-
     public function bankAccount(Request $request, Response $response): Response
     {
         $email = $this->user->getEmail();
 
-        $bankStatement = new BankOperationMessage($email, new DateTime('2020-05-03'), new DateTime());
+        $bankStatement = new BankOperationMessage($email, new DateTime('2021-05-25'), new DateTime());
         $this->messageService->push($bankStatement);
 
 
