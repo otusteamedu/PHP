@@ -1,7 +1,8 @@
 <?php
 namespace Src\AbstractFactory;
+use Src\Observer\SubjectMeal;
 
-class Hotdog implements AbstractFoodInterface
+class Hotdog extends SubjectMeal
 {
     public function getFoodName(): string
     {
