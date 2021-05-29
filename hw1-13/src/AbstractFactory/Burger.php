@@ -7,4 +7,9 @@ class Burger implements AbstractFoodInterface
     {
         return 'Burger';
     }
+
+    public function addIngredient(string $ingredient)
+    {
+        // TODO: Implement addIngredient() method.
+    }
 }

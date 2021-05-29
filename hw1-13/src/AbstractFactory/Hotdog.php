@@ -7,4 +7,9 @@ class Hotdog implements AbstractFoodInterface
     {
         return 'Hotdog';
     }
+
+    public function addIngredient(string $ingredient)
+    {
+        // TODO: Implement addIngredient() method.
+    }
 }

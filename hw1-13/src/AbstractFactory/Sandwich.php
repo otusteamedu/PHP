@@ -7,4 +7,9 @@ class Sandwich implements AbstractFoodInterface
     {
         return 'Sandwich';
     }
+
+    public function addIngredient(string $ingredient)
+    {
+        // TODO: Implement addIngredient() method.
+    }
 }

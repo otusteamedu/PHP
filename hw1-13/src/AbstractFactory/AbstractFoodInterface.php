@@ -1,7 +1,9 @@
 <?php
 namespace Src\AbstractFactory;
 
-interface AbstractFoodInterface
+use Src\Decorator\Recipe;
+
+interface AbstractFoodInterface extends Recipe
 {
     public function getFoodName(): string;
 }
