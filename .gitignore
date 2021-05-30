@@ -4,3 +4,4 @@ vendor
 .db
 .composer
 .bash_history
+storage
