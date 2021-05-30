@@ -4,7 +4,8 @@ namespace App\Console;
 
 class Parser
 {
-    private $command, $arguments;
+    private string $command = '';
+    private array $arguments = [];
 
     private const PREFIX = __NAMESPACE__ . '\\Commands\\';
     private const SUFFIX = 'Command';
@@ -16,8 +17,10 @@ class Parser
 
     private function parse()
     {
-        $this->command = (string)$GLOBALS['argv'][1];
-        $this->arguments = array_slice($GLOBALS['argv'], 2);
+        if (is_array($GLOBALS['argv'])) {
+            $this->command = (string)$GLOBALS['argv'][1];
+            $this->arguments = array_slice($GLOBALS['argv'], 2);
+        }
     }
 
     /**

@@ -4,23 +4,21 @@
 namespace App;
 
 
+use App\Amqp\Connection;
 use App\Console\Command;
+use App\Controllers\FormController;
 use App\Shop\Adapters\IceCreamAdapter;
 use App\Shop\Factory\Interfaces\FastFoodFactory;
-use App\Shop\Observers\OrderObserver;
-use App\Shop\Order;
-use App\Shop\OrderController;
-use App\Shop\OrderStatusNotify;
 use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class App
 {
 
     private $responseCode = 200;
-    private $response = null;
 
     /**
      * @return string
@@ -31,8 +29,9 @@ class App
         $this->loadEnv();
         $this->bind();
         Command::exec();
+        $this->routes();
 
-        return $this->response;
+        return (new Router())->route();
     }
 
     private function bind()
@@ -53,6 +52,16 @@ class App
             }
             return null;
         });
+
+        Container::bind(AMQPStreamConnection::class, fn() => Connection::create());
+    }
+
+
+    public function routes()
+    {
+        Router::get('^/$', fn() => 'Hello!');
+        Router::get('^/form/$', fn() => (new FormController())->get());
+        Router::post('^/form/$', fn() => (new FormController())->post());
     }
 
     private function loadEnv()
@@ -67,6 +76,10 @@ class App
                 'DB_USER',
                 'DB_PORT',
                 'DB_PASSWORD',
+                'RABBIT_HOST',
+                'RABBIT_PORT',
+                'RABBIT_USER',
+                'RABBIT_PASSWORD',
             ])->immutable()->make();
         Dotenv::create($repository, __DIR__ . '/../docker')->load();
     }

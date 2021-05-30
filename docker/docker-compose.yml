@@ -23,6 +23,8 @@ services:
       - app-network
     links:
       - db
+      - rabbit
+      - mailhog
     environment:
       SOCKET_PATH: ${SOCKET_PATH}
       SOCKET_PORT: ${SOCKET_PORT}
@@ -70,6 +72,25 @@ services:
     ports:
       - "127.0.0.1:${DB_PORT}:5432"
 
+  mailhog:
+    container_name: ${COMPOSE_PROJECT_NAME}_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "127.0.0.1:3025:1025" # smtp server
+      - "127.0.0.1:8025:8025" # web ui
+    networks:
+      - app-network
+
+  rabbit:
+    image: rabbitmq:3-management
+    networks:
+      - app-network
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+    ports:
+      - "127.0.0.1:${RABBIT_UI_PORT}:15672"
+#      - "${RABBIT_PORT}:${RABBIT_PORT}"
 volumes:
   socket:
     driver: local

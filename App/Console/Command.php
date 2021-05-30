@@ -19,7 +19,6 @@ class Command
         $parser = new Parser();
         if ($parser->getCommand() !== '') {
             $className = $parser->getCommandClassName();
-            d($className);
             if (class_exists($className) && is_subclass_of($className, CommandContract::class)) {
                 Container::make($className, ['arguments' => $parser->getArguments()])->handle();
             } else {
