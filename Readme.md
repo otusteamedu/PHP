@@ -9,6 +9,10 @@
 #### 3. Запустить приложение
 `bash start.sh`
 
+Запущен 1 обработчик очереди. Для добавления обработчика/ов, в новом окне консоли набрать
+
+docker-compose exec app php bin/console messenger:start
+
 #### 4. Открыть в браузере
 http://localhost
 

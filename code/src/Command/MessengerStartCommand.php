@@ -4,7 +4,6 @@
 namespace App\Command;
 
 
-
 use App\Utils\Builder\AMQPChannelBuilderInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Psr\Container\ContainerInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsumerBankOperationCommand extends Command
+class MessengerStartCommand extends Command
 {
     const MESSAGE_EXPECT = ' [*] Ожидаю сообщения. Для выхода CTRL+C';
     const MESSAGE_DELIVERY = ' [x] Получено сообщение: ';
@@ -21,7 +20,7 @@ class ConsumerBankOperationCommand extends Command
     const MESSAGE_ERROR = ' [!] Ошибка обработки: ';
 
 
-    protected static $defaultName = 'consumer:bank-operation';
+    protected static $defaultName = 'messenger:start';
 
     private AMQPChannel $channel;
     private string $queue;
@@ -30,7 +29,7 @@ class ConsumerBankOperationCommand extends Command
 
 
     /**
-     * ConsumerBankOperationCommand constructor.
+     * MessengerStartCommand constructor.
      * @param \Psr\Container\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)

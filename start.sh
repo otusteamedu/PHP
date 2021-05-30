@@ -1,5 +1,6 @@
 #!/bin/bash
 
 docker-compose up -d
-
-docker-compose exec app php bin/console consumer:bank-operation
+sleep 5
+clear
+docker-compose exec app php bin/console messenger:start
