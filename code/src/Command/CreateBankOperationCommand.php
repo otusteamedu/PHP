@@ -33,7 +33,7 @@ class CreateBankOperationCommand extends \Symfony\Component\Console\Command\Comm
     protected function configure(): void
     {
         $this
-            ->setDescription('Creates a fake bank operations.');
+            ->setDescription('Создает фейковые банковские операции.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -23,6 +23,14 @@ class SecurityMiddleware
     }
 
 
+    /**
+     * Защита приватных маршрутов. Проверяет вошел ли пользователь.
+     * В случае отрицательного результата, перенаправляет пользователя на страницу входа.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     * @return \Slim\Psr7\Response
+     */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
         if (null === $this->security->getIdentity()) {

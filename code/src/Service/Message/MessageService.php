@@ -24,9 +24,13 @@ class MessageService implements MessageServiceInterface
         $this->queue = $channelBuilder->getQueueName();
     }
 
+    /**
+     * Добавление сообщения в очередь.
+     *
+     * @param \App\Message\MessageInterface $message
+     */
     public function push(MessageInterface $message)
     {
-
         $body = json_encode(serialize($message));
 
         $msg = new AMQPMessage($body, [

@@ -20,6 +20,9 @@ class Session implements SessionInterface
         $this->container = $container;
     }
 
+    /**
+     * Старт сессии
+     */
     public function start()
     {
         list($lifetime, $path, $domain, $security, $httpOnly, $name)
@@ -30,22 +33,40 @@ class Session implements SessionInterface
         session_start();
     }
 
+    /**
+     * Закрывает сессию.
+     */
     public function close()
     {
         session_write_close();
     }
 
-    /** @return array|mixed|null */
+    /**
+     * Получить данные по ключу.
+     *
+     * @return array|mixed|null
+     */
     public function read(string $key)
     {
         return $_SESSION[$key];
     }
 
+    /**
+     * Записать данные
+     *
+     * @param string $key
+     * @param $data
+     */
     public function write(string $key, $data)
     {
         $_SESSION[$key] = $data;
     }
 
+    /**
+     * Удалить данные.
+     *
+     * @param string $key
+     */
     public function delete(string $key)
     {
         unset($_SESSION[$key]);

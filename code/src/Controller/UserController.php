@@ -16,6 +16,8 @@ class UserController extends AbstractController
 
 
     /**
+     * Профиль пользователя. Ссылка на страницу получения банковской выписки.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
@@ -29,6 +31,10 @@ class UserController extends AbstractController
     }
 
     /**
+     * Форма получения банковской выписки.
+     * В случае успешной проверки выводит информацию об успешной отправке.
+     * В случае ошибки заполнения, выводит соответствующую информацию.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
@@ -58,6 +64,13 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * Проверка заполнения формы.
+     *
+     * @param \DateTime $dateStart
+     * @param \DateTime $dateEnd
+     * @return bool
+     */
     private function validate(DateTime $dateStart, DateTime $dateEnd): bool
     {
         if ($dateStart > $dateEnd) {
@@ -68,6 +81,9 @@ class UserController extends AbstractController
     }
 
     /**
+     * Обрабатывает запрос с данными из формы дат банковской выписки.
+     *
+     * @return array[DateTime, DateTime]
      * @throws \Exception
      */
     private function getRequestData($request): array

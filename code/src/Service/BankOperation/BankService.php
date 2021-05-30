@@ -22,6 +22,7 @@ class BankService implements BankOperationInterface
      * BankService constructor.
      * @param \App\Service\Message\MessageServiceInterface $messageService
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(MessageServiceInterface $messageService, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
@@ -31,6 +32,12 @@ class BankService implements BankOperationInterface
     }
 
 
+    /**
+     * Возвращает первую банковскую операцию совершенную пользователем.
+     *
+     * @param \App\Entity\User $user
+     * @return \App\Entity\BankOperation|null
+     */
     public function getUserFirstOperation(User $user): ?BankOperation
     {
         /** @var BankOperation $firstEntry */
@@ -40,6 +47,14 @@ class BankService implements BankOperationInterface
         return $firstEntry;
     }
 
+    /**
+     * Создание сообщения и помещение его в очередь для последующей обработки.
+     *
+     * @param \App\Entity\User $user
+     * @param \DateTime $dateStart
+     * @param \DateTime $dateEnd
+     * @return bool
+     */
     public function getUserOperations(User $user, DateTime $dateStart, DateTime $dateEnd): bool
     {
         try {

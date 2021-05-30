@@ -29,6 +29,8 @@ class SecurityService implements SecurityInterface
 
 
     /**
+     * Вход пользователя.
+     *
      * @param string $email
      * @param string $password
      * @return bool
@@ -50,6 +52,8 @@ class SecurityService implements SecurityInterface
     }
 
     /**
+     * Возвращает вошедшего пользователя
+     *
      * @return \App\Entity\User|null
      */
     public function getIdentity(): ?User
@@ -80,12 +84,17 @@ class SecurityService implements SecurityInterface
         return $user;
     }
 
+    /**
+     * Выход пользователя из системы.
+     */
     public function logout(): void
     {
         $this->sessionStorage->clear(self::IDENTITY_KEY);
     }
 
     /**
+     * Шифрование пароля.
+     *
      * @param string $password
      * @return string
      */
@@ -95,6 +104,8 @@ class SecurityService implements SecurityInterface
     }
 
     /**
+     * Проверка пароля.
+     *
      * @param \App\Entity\User $user
      * @param string $password
      * @return bool

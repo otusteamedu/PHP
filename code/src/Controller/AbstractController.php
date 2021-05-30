@@ -50,6 +50,7 @@ abstract class AbstractController
     }
 
     /**
+     * Добавить таблицы стилей.
      * @param array $scripts
      */
     protected function addScripts(array $scripts): void
@@ -61,6 +62,7 @@ abstract class AbstractController
     }
 
     /**
+     * Добавить javascript сценарии
      * @param array $styles
      */
     protected function addStyles(array $styles):void

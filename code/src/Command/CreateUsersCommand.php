@@ -35,8 +35,7 @@ class CreateUsersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Creates a fake users.')
-            ->setHelp('This command allows you to create users...');
+            ->setDescription('Создает фейковых пользователей');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

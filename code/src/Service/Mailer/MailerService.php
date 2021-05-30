@@ -23,6 +23,15 @@ class MailerService implements MailerInterface
     }
 
 
+    /**
+     * Отправка письма.
+     *
+     * @param string $to
+     * @param string $subject
+     * @param string $message
+     * @param string|null $contentType
+     * @return bool
+     */
     public function sendEmail(string $to, string $subject, string $message, string $contentType = null): bool
     {
         $message = (new \Swift_Message($subject))

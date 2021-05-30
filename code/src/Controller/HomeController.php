@@ -9,6 +9,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class HomeController extends AbstractController
 {
     /**
+     * Страница приветствия. Данные тестовых пользователей.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface

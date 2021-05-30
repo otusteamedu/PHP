@@ -44,6 +44,12 @@ class MessengerStartCommand extends Command
         $this->queue = $channelBuilder->getQueueName();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->setDescription('Запуск воркера(consumer) для обработки очереди');
+    }
+
     /**
      * @throws \ErrorException
      * @throws \Exception

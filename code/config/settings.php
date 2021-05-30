@@ -5,7 +5,7 @@ return [
     'app_name' => 'PHP RabbitMQ',
     'development' => getenv('DEV_MODE'),
     'queue_name' => 'app-queue',
-    'templates_path' => $basePath . '/templates',
+    'templates_path' => $basePath . '/src/templates',
     'logger' => [
         'name' => 'app-log',
         'path' => $basePath . '/var/log/app.log',

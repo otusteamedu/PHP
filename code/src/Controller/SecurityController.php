@@ -10,6 +10,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class SecurityController extends AbstractController
 {
     /**
+     * Форма входа пользователей. После успешного входа, перенаправление на страницу профиля.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
@@ -36,6 +38,8 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Выход пользователя. Перенаправление на главную страницу.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
