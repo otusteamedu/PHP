@@ -1,7 +1,7 @@
 # Запуск проекта
 
 #### 1. Клонировать репозиторий и перейти в каталог
-`git clone <path> && cd <path>`
+`git clone https://github.com/otusteamedu/PHP/tree/ATimofeev/hw12-rabbit <path> && cd <path>`
 
 #### 2. Создать docker контейнеры, установить зависимости
 `bash init.sh`
