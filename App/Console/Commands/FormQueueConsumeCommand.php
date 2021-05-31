@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Amqp\Connection;
 use App\Console\CommandContract;
+use App\Services\Form\FormEmailNotify;
 
 class FormQueueConsumeCommand implements CommandContract
 {
@@ -23,11 +24,7 @@ class FormQueueConsumeCommand implements CommandContract
             echo ' [x] Received ', $msg->body, "\n";
             echo ' [x] At ', (new \DateTime())->format('H:i:s'), "\n";
             sleep(substr_count($msg->body, '.'));
-            $body = json_decode($msg->body, true);
-            $time= (new \DateTime())->setTimestamp($body['time']);
-            $message = "Hi {$body['name']}. We've got your request to make date from {$body['date_from']} to {$body['date_to']} at "
-                . $time->format('Y.d.m H:i:s');
-            mail($body['email'], 'Data request', $message, "From: Server");
+            FormEmailNotify::send($msg);
             echo " [x] Done\n";
             $msg->ack();
         };
