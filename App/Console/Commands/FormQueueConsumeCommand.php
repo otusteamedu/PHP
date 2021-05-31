@@ -6,7 +6,9 @@ namespace App\Console\Commands;
 
 use App\Amqp\Connection;
 use App\Console\CommandContract;
+use App\Container;
 use App\Services\Form\FormEmailNotify;
+use App\Services\Form\FormService;
 
 class FormQueueConsumeCommand implements CommandContract
 {
@@ -24,7 +26,7 @@ class FormQueueConsumeCommand implements CommandContract
             echo ' [x] Received ', $msg->body, "\n";
             echo ' [x] At ', (new \DateTime())->format('H:i:s'), "\n";
             sleep(substr_count($msg->body, '.'));
-            FormEmailNotify::send($msg);
+            Container::make(FormEmailNotify::class, ['message' => $msg])->send();
             echo " [x] Done\n";
             $msg->ack();
         };
