@@ -45,3 +45,12 @@ postgres.hall.cinemas.index:
     controller: App\Controllers\CinemasController::hallCinemasIndex
     methods: GET
     defaults:   { id: 1 }
+############----hw26----###############
+reports.bank-statement.index:
+    path: /reports/bank-statement/index
+    controller: App\Controllers\Reports\BankStatementController::index
+    methods: GET
+reports.bank-statement.generate:
+    path: /reports/bank-statement/generate
+    controller: App\Controllers\Reports\BankStatementController::generate
+    methods: POST

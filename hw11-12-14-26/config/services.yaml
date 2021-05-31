@@ -11,7 +11,7 @@ services:
 
     App\Controllers\:
         resource: '../app/Controllers/'
-        tags: ['controller.service_arguments']
+        tags: ['controller.service_arguments', 'twig']
 
     App\Services\:
         resource: '../app/Services/'
@@ -146,3 +146,16 @@ services:
         arguments:
             $dsn: "pgsql:host='%env(string:POSTGRESQL_HOST)%';port=5432;dbname='%env(string:POSTGRESQL_DATABASE)%';user='%env(string:POSTGRESQL_USERNAME)%';password='%env(string:POSTGRESQL_PASSWORD)%'"
         tags: ['pdo']
+
+    Twig\Environment:
+        class: Twig\Environment
+        public: true
+        autowire: true
+
+    Twig\Loader\LoaderInterface:
+        class: Twig\Loader\FilesystemLoader
+        arguments:
+            $paths: "%kernel.project_dir%/templates"
+
+    PhpAmqpLib\Message\AMQPMessage:
+        class: PhpAmqpLib\Message\AMQPMessage
