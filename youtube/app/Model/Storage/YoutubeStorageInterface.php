@@ -13,5 +13,9 @@ interface YoutubeStorageInterface
 
     public function addChannel(Channel $channel): array;
 
-    public function addVideo(Video $video): array;
+    public function getChannel(string $channelId): ?array;
+
+    public function removeChannel(string $channelId): array;
+
+    public function removeVideo(string $videoId): array;
 }

@@ -79,7 +79,7 @@ class YoutubeElasticSearch implements NoSqlStorageInterface, YoutubeStorageInter
 
     public function topChannels(int $number): array
     {
-        return $this->client->search([
+        $result = $this->client->search([
             'index' => 'video',
             'body'  => [
                 'size' => 0,
@@ -87,37 +87,92 @@ class YoutubeElasticSearch implements NoSqlStorageInterface, YoutubeStorageInter
                     'by_channel' => [
                         'terms' => [
                             'field' => 'channelId',
-                            'order' => ['likes_total' => 'desc'],
-                            'size' => 3,
                         ],
                         'aggs' => [
                             'likes_total' => [
                                 'sum' => ['field' => 'likeCount']
+                            ],
+                            'dislikes_total' => [
+                                'sum' => ['field' => 'dislikeCount']
+                            ],
+                            'ratio' => [
+                                'bucket_script' => [
+                                    'buckets_path' => [
+                                        'likes' => 'likes_total',
+                                        'dislikes' => 'dislikes_total',
+                                    ],
+                                    'script' => 'params.likes / params.dislikes',
+                                ],
+                            ],
+                            'ratio_sort' => [
+                                'bucket_sort' => [
+                                    'sort' => [
+                                        ['ratio' => ['order' => 'desc']],
+                                    ]
+                                ]
                             ],
                         ],
                     ],
                 ]
             ]
         ]);
+        $data = [];
+        $buckets = array_slice($result['aggregations']['by_channel']['buckets'] ?? [], 0, $number);
+        foreach ($buckets as $bucket) {
+            $channelId = $bucket['key'];
+            $title = $this->getChannel($channelId)['title'] ?? null;
+            $data[] = ['channelId' => $channelId, 'title' => $title, 'ratio' => $bucket['ratio']['value'] ?? null];
+        }
+        return $data;
     }
 
     public function addChannel(Channel $channel): array
     {
-        $response = $this->client->index([
+        return $this->client->index([
             'index' => 'channel',
             'id'    => $channel->getId(),
             'body'  => $channel->getData(),
         ]);
-        return $response;
     }
 
     public function addVideo(Video $video): array
     {
-        $response = $this->client->index([
+        return $this->client->index([
             'index' => 'video',
             'id'    => $video->getId(),
             'body'  => $video->getData(),
         ]);
-        return $response;
+    }
+
+
+    public function removeChannel(string $channelId): array
+    {
+        return $this->client->delete([
+            'index' => 'channel',
+            'id'    => $channelId,
+        ]);
+    }
+
+    public function removeVideo(string $videoId): array
+    {
+        return $this->client->delete([
+            'index' => 'video',
+            'id'    => $videoId,
+        ]);
+    }
+
+    public function getChannel(string $channelId): ?array
+    {
+        $data = $this->client->search([
+            'index' => 'channel',
+            'body'  => [
+                'query' => [
+                    'match' => [
+                        'id' => $channelId
+                    ],
+                ],
+            ],
+        ]);
+        return $data['hits']['hits'][0]['_source'] ?? null;
     }
 }

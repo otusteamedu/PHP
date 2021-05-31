@@ -57,8 +57,26 @@ class YoutubeController extends AbstractController
         }, $data, array_keys($data)), true));
     }
 
-    public function spiderAction()
+    public function deleteChannelAction()
     {
-        throw new \Exception('Not implemented');
+        $channelId = $_SERVER['argv'][2];
+        if (!$channelId) {
+            throw new \Exception('Channel is not set');
+        }
+        $storage = $this->youtubeBuilder->storage();
+        $result = $storage->removeChannel($channelId);
+        $this->log(print_r(['result' => $result], true));
     }
+
+    public function deleteVideoAction()
+    {
+        $videoId = $_SERVER['argv'][2];
+        if (!$videoId) {
+            throw new \Exception('Video is not set');
+        }
+        $storage = $this->youtubeBuilder->storage();
+        $result = $storage->removeVideo($videoId);
+        $this->log(print_r(['result' => $result], true));
+    }
+
 }
