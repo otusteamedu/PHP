@@ -52,6 +52,8 @@ class BankStatementController
     }
 
     /**
+     * Dispatch this data to queue.
+     *
      * @param BankStatementInputDTO $dates
      *
      * @return Response
@@ -66,8 +68,6 @@ class BankStatementController
     {
         $dates->validate();
         $this->reportService->createBankStatementReportAsync($dates);
-
-        //dispatch this data to queue, to make real reporting, just simulate it ;)
 
         return new Response(
             $this->twig->render('reports/pushed-to-the-queue.html.twig')

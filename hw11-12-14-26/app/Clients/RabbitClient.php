@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Clients;
 
-use Closure;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -34,9 +33,7 @@ final class RabbitClient
         $this->connection = new AMQPStreamConnection($_ENV['RABBITMQ_HOST'], $_ENV['RABBITMQ_PORT'], $_ENV['RABBITMQ_USER'], $_ENV['RABBITMQ_PASSWORD']);
         $this->channel = $this->connection->channel();
 
-//        $this->channel->queue_declare(self::QUEUE, false, true, false, false);
         $this->channel->queue_declare(self::QUEUE, false, true, false, false);
-//        $this->channel->exchange_declare(self::EXCHANGE, AMQPExchangeType::DIRECT, false, true, false);
         $this->channel->exchange_declare(self::EXCHANGE, AMQPExchangeType::DIRECT);
 
         $this->channel->queue_bind(self::QUEUE, self::EXCHANGE);
@@ -52,12 +49,12 @@ final class RabbitClient
     public function dispatch(string $message): void
     {
         $message = new AMQPMessage($message, array('content_type' => 'text/plain', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT));
-//        $this->channel->basic_publish($message, self::EXCHANGE,self::QUEUE);
         $this->channel->basic_publish($message, '',self::QUEUE);
-
-//        $this->close();
     }
 
+    /**
+     * @return string
+     */
     public function consume(): string
     {
         $callback = function ($message)
