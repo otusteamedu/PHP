@@ -32,6 +32,14 @@ class Consumer
     {
         $msg = new AMQPMessage($email);
         $this->channel->basic_publish($msg, '', 'hello');
+        $this->closeConnection();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function closeConnection()
+    {
         $this->channel->close();
         $this->connection->close();
     }

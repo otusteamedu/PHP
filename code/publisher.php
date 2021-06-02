@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 require __DIR__ . '/bootstrap/bootstrap.php';
 
-use Src\App;
+use Src\Publisher;
 
 try {
-    $app = new App($_POST);
-    $app->run();
+    $publisher = new Publisher();
+    $publisher->listen();
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
