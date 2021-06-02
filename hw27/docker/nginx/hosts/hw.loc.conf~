@@ -1,0 +1,32 @@
+upstream backend  {
+  server php-fpm:9000;
+}
+
+server {
+    listen 80;
+    server_name hw.loc www.hw.loc;
+
+    root /var/www/hw.loc/public;
+
+    index index.php index.html;
+
+    location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        access_log off;
+        expires max;
+    }
+
+location ~* .php$ {
+       try_files $uri = 404;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass backend;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        include fastcgi_params;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        fastcgi_pass backend;
+    }
+}

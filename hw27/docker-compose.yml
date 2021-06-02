@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+    php-fpm:
+        build:
+            context: ./docker
+            dockerfile: php-fpm/Dockerfile
+        image: myapp/php
+        ports:
+            - "9027:9000"
+        container_name: php-fpm
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    nginx:
+        build:
+            context: ./docker
+            dockerfile: nginx/Dockerfile
+        image: myapp/nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - php-fpm
+        volumes:
+            - ./:/var/www/hw.loc
+        networks:
+            - app-network
+    rabbit:
+        build:
+            context: ./docker/rabbit
+            dockerfile: Dockerfile
+        hostname: rabbit
+        container_name: rabbit
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        networks:
+            - app-network
+networks:
+    app-network:
+        driver: bridge
