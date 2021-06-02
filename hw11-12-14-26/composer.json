@@ -24,10 +24,20 @@
         "symfony/yaml": "^5.2",
         "symfony/console": "^5.2",
         "guzzlehttp/guzzle": "^7.3",
-        "elasticsearch/elasticsearch": "^7.11"
+        "elasticsearch/elasticsearch": "^7.11",
+        "symfony/validator": "^5.2",
+        "symfony/flex": "^1.13",
+        "symfony/twig-bundle": "^5.2",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0",
+        "php-amqplib/php-amqplib": "^3.0"
     },
     "scripts": {
-        "post-update-cmd": "Google\\Task\\Composer::cleanup"
+        "post-update-cmd": "Google\\Task\\Composer::cleanup",
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
     },
     "extra": {
         "google/apiclient-services": [

@@ -76,6 +76,21 @@ services:
             - app-network
         ports:
             - 6379:6379
+    rabbit:
+        build:
+            context: ./docker/rabbit
+            dockerfile: Dockerfile
+        hostname: rabbit
+        container_name: 'rabbit'
+#        command: bash -c "rabbitmqctl change_password rabbit 12345"
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: rabbit
+            RABBITMQ_DEFAULT_PASS: rabbit
+        networks:
+            - app-network
 networks:
     app-network:
         driver: bridge

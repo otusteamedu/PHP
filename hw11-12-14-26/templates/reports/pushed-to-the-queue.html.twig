@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Hello {{ name }}</h1>
+    <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header">Notification</div>
+        <div class="card-body text-success">
+            <h5 class="card-title">Pushed To Queue</h5>
+            <p class="card-text">Your request has been successfully pushed to the queue.</p>
+        </div>
+    </div>
+{% endblock %}
