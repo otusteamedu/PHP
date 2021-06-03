@@ -5,17 +5,13 @@ namespace App\Console\Commands;
 
 
 use App\Amqp\Connection;
-use App\Console\CommandContract;
-use App\Container;
 use App\Services\Form\FormEmailNotify;
-use App\Services\Form\FormService;
+use Illuminate\Console\Command;
+use Illuminate\Container\Container;
 
-class FormQueueConsumeCommand implements CommandContract
+class FormQueueConsumeCommand extends Command
 {
-
-    public function __construct(array $arguments = [])
-    {
-    }
+    protected $signature = 'form:queue:consume';
 
     public function handle()
     {
@@ -26,7 +22,7 @@ class FormQueueConsumeCommand implements CommandContract
             echo ' [x] Received ', $msg->body, "\n";
             echo ' [x] At ', (new \DateTime())->format('H:i:s'), "\n";
             sleep(substr_count($msg->body, '.'));
-            Container::make(FormEmailNotify::class, ['message' => $msg])->send();
+            Container::getInstance()->make(FormEmailNotify::class, ['message' => $msg])->send();
             echo " [x] Done\n";
             $msg->ack();
         };

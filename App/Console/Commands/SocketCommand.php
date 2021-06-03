@@ -4,39 +4,32 @@
 namespace App\Console\Commands;
 
 
-use App\Console\CommandContract;
-use App\Container;
 use App\Sockets\Client;
 use App\Sockets\Server;
 use App\Sockets\Socket;
 use App\Sockets\SocketConfig;
 use App\Sockets\UnixSocket;
+use Illuminate\Console\Command;
+use Illuminate\Container\Container;
 
-class SocketCommand implements CommandContract
+abstract class SocketCommand extends Command
 {
 
 
-    private $type, $port, $path, $domain;
-    const DOMAIN_TCP = 'TCP';
-    const TYPE_CLIENT = 'client';
-    const TYPE_SERVER = 'server';
+    public const DOMAIN_TCP = 'TCP';
+    public const TYPE_CLIENT = 'client';
+    public const TYPE_SERVER = 'server';
+
+    protected $signature = 'socket:create  {type} {path?} {port?} {domain?}';
 
 
-    public function __construct(array $arguments = [])
+    public function handle(): void
     {
-        $this->type = (string)current($arguments);
-        $this->path = next($arguments) ? current($arguments) : null;
-        $this->port = next($arguments) ? current($arguments) : null;
-        $this->domain = next($arguments) ? current($arguments) : null;
-    }
-
-    public function handle()
-    {
-        $config = Container::make(SocketConfig::class)
-            ->setAddress($this->path ?? getenv('SOCKET_PATH'))
-            ->setPort($this->port ?? getenv('SOCKET_PORT'));
-        $socket = $this->domain === self::DOMAIN_TCP ? new Socket($config) : new UnixSocket($config);
-        switch ($this->type) {
+        $config = Container::getInstance()->make(SocketConfig::class)
+            ->setAddress($this->argument('path') ?? getenv('SOCKET_PATH'))
+            ->setPort($this->argument('port') ?? getenv('SOCKET_PORT'));
+        $socket = $this->argument('domain') === self::DOMAIN_TCP ? new Socket($config) : new UnixSocket($config);
+        switch ($this->argument('type')) {
             case self::TYPE_CLIENT:
                 (new Client($socket))->connect();
                 break;

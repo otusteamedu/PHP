@@ -13,9 +13,11 @@ use App\Sockets\UnixSocket;
 class ClientCommand extends SocketCommand
 {
 
-    public function __construct(array $arguments = [])
+    protected $signature = 'socket:client {path} {port} {domain}';
+
+    public function handle(): void
     {
-        array_unshift($arguments, SocketCommand::TYPE_CLIENT);
-        parent::__construct($arguments);
+        $this->addArgument('type', null, '', self::TYPE_CLIENT);
+        parent::handle();
     }
 }

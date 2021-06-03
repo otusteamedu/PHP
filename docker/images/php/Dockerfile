@@ -12,6 +12,7 @@ RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhs
     && mv mhsendmail /usr/local/bin/mhsendmail \
     && echo 'sendmail_path = "/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025"' >> /usr/local/etc/php/php.ini
 
+RUN apt-get install -y libzip-dev zip && docker-php-ext-install zip
 RUN usermod -u 1000 www-data
 
 EXPOSE 9000
