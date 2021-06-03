@@ -1,0 +1,12 @@
+{
+    "name": "sunsetcode/dbpattern",
+    "require": {
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "authors": [
+        {
+            "name": "ghostlyit",
+            "email": "supermaximal23@gmail.com"
+        }
+    ]
+}
