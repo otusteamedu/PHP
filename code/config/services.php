@@ -1,6 +1,9 @@
 <?php
 
 
+use App\Service\AirlineService\AirlineService;
+use App\Service\AirlineService\AirlineServiceInterface;
+use App\Service\AirlineService\AirlineValidator;
 use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
@@ -83,8 +86,13 @@ return [
         return new MailerService($mailer);
     },
 
-    PhpRenderer::class => function (ContainerInterface $container): PhpRenderer{
+    PhpRenderer::class => function (ContainerInterface $container): PhpRenderer {
         return new PhpRenderer($container->get('templates_path'));
+    },
+
+    AirlineServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): AirlineServiceInterface {
+        $validator = new AirlineValidator();
+        return new AirlineService($entityManager, $logger, $validator);
     },
 
 ];

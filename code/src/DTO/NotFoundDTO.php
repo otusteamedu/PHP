@@ -16,7 +16,6 @@ use OpenApi\Annotations as OA;
  */
 final class NotFoundDTO extends AbstractDTO
 {
-
     /**
      * NotFoundDTO constructor.
      */

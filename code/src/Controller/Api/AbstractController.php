@@ -4,6 +4,7 @@
 namespace App\Controller\Api;
 
 use App\DTO\InterfaceDTO;
+use App\Service\AirlineService\AirlineServiceInterface;
 use App\Service\Security\SecurityInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,6 +15,7 @@ class AbstractController
     protected EntityManagerInterface $entityManager;
     protected SecurityInterface $security;
     protected LoggerInterface $logger;
+    protected AirlineServiceInterface $airlineService;
 
     /**
      * AbstractController constructor.
@@ -21,11 +23,17 @@ class AbstractController
      * @param \App\Service\Security\SecurityInterface $security
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(EntityManagerInterface $entityManager, SecurityInterface $security, LoggerInterface $logger)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        SecurityInterface $security,
+        LoggerInterface $logger,
+        AirlineServiceInterface $airlineService
+    )
     {
         $this->entityManager = $entityManager;
         $this->security = $security;
         $this->logger = $logger;
+        $this->airlineService = $airlineService;
     }
 
 

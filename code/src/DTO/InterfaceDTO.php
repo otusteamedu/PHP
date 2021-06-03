@@ -7,5 +7,9 @@ namespace App\DTO;
 interface InterfaceDTO
 {
     public function getStatusCode(): int;
-    public function getData(): array;
+
+    /**
+     * @return \JsonSerializable|array
+     */
+    public function getData();
 }

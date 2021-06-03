@@ -20,8 +20,6 @@ class MessengerStartCommand extends Command
     const MESSAGE_ERROR = ' [!] Ошибка обработки: ';
 
 
-    protected static $defaultName = 'messenger:start';
-
     private AMQPChannel $channel;
     private string $queue;
     private ContainerInterface $container;
@@ -47,6 +45,7 @@ class MessengerStartCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setName('messenger:start')
             ->setDescription('Запуск воркера(consumer) для обработки очереди');
     }
 
@@ -113,6 +112,4 @@ class MessengerStartCommand extends Command
 
         $msg->ack();
     }
-
-
 }

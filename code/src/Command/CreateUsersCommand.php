@@ -13,8 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUsersCommand extends Command
 {
-    protected static $defaultName = 'fake:users';
-
     private EntityManagerInterface $entityManager;
     private SecurityInterface $security;
 
@@ -35,6 +33,7 @@ class CreateUsersCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setName('users:create')
             ->setDescription('Создает фейковых пользователей');
     }
 

@@ -23,13 +23,7 @@ use OpenApi\Annotations as OA;
  */
 class User implements \JsonSerializable
 {
-    /**
-     * User constructor.
-     */
-    public function __construct()
-    {
-
-    }
+    use CreatedAtTrait;
 
     /**
      * @ORM\Id
@@ -57,11 +51,6 @@ class User implements \JsonSerializable
      */
     protected string $password;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @OA\Property(property="createdAt", type="datetime", description="Дата, время создания пользователя", example="2021-05-05Т20:31:45")
-     */
-    protected DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true, unique=true)
@@ -121,24 +110,6 @@ class User implements \JsonSerializable
         $this->password = $password;
     }
 
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setCreatedAt(): void
-    {
-        $this->createdAt = new DateTime();
-    }
-
-
     public function getUsername(): string
     {
         return $this->firstname;
@@ -168,7 +139,7 @@ class User implements \JsonSerializable
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
             'token' => $this->getToken(),
-            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
+            'created_at' => $this->getCreatedAtDateAtom(),
         ];
     }
 }
