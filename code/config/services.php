@@ -1,19 +1,12 @@
 <?php
 
 
-use App\MessageHandler\BankOperationMessageHandler;
-use App\Service\BankOperation\BankService;
-use App\Service\BankOperation\BankOperationInterface;
 use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
 use App\Service\Message\MessageServiceInterface;
 use App\Service\Security\SecurityInterface;
 use App\Service\Security\SecurityService;
-use App\Service\Session\Session;
-use App\Service\Session\SessionInterface;
-use App\Service\Storage\SessionStorage;
-use App\Service\Storage\SessionStorageInterface;
 use App\Utils\Builder\AMQPChannelBuilderInterface;
 use App\Utils\Builder\AMQPChannelBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -31,6 +24,9 @@ use Slim\Views\PhpRenderer;
 
 return [
     EntityManager::class => function (ContainerInterface $container): EntityManager {
+
+        $loader = require __DIR__ . '/../vendor/autoload.php';
+        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
         $config = Setup::createAnnotationMetadataConfiguration(
             $container->get('doctrine')['metadata_dirs'],
@@ -57,16 +53,8 @@ return [
         return new AMQPChannelBuilder($container->get(AMQPStreamConnection::class));
     },
 
-    SessionInterface::class => function (ContainerInterface $container): SessionInterface {
-        return new Session($container);
-    },
-
-    SessionStorageInterface::class => function (SessionInterface $session): SessionStorageInterface {
-        return new SessionStorage($session);
-    },
-
-    SecurityInterface::class => function (SessionStorageInterface $sessionStorage, EntityManagerInterface $entityManager): SecurityInterface {
-        return new SecurityService($sessionStorage, $entityManager);
+    SecurityInterface::class => function (EntityManagerInterface $entityManager): SecurityInterface {
+        return new SecurityService($entityManager);
     },
 
     MessageServiceInterface::class => function (AMQPChannelBuilderInterface $channelBuilder): MessageServiceInterface {
@@ -97,18 +85,6 @@ return [
 
     PhpRenderer::class => function (ContainerInterface $container): PhpRenderer{
         return new PhpRenderer($container->get('templates_path'));
-    },
-
-    BankOperationInterface::class => function (
-        MessageServiceInterface $messageService, EntityManagerInterface $entityManager, LoggerInterface $logger
-    ): BankOperationInterface {
-        return new BankService($messageService, $entityManager, $logger);
-    },
-
-    BankOperationMessageHandler::class => function (
-        EntityManagerInterface $entityManager, MailerInterface $mailer, ContainerInterface $container
-    ): BankOperationMessageHandler {
-        return new BankOperationMessageHandler($entityManager, $mailer, $container->get(PhpRenderer::class));
     },
 
 ];

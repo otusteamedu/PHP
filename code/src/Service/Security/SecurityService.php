@@ -5,25 +5,16 @@ namespace App\Service\Security;
 
 
 use App\Entity\User;
-use App\Service\Storage\SessionStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SecurityService implements SecurityInterface
 {
-    const IDENTITY_KEY = 'identity';
+    const TOKEN_LENGTH = 10;
 
-    private SessionStorageInterface $sessionStorage;
     private EntityManagerInterface $entityManager;
 
-    /**
-     * SecurityService constructor.
-     * @param \App\Service\Storage\SessionStorageInterface $sessionStorage
-     */
-    public function __construct(
-        SessionStorageInterface $sessionStorage, EntityManagerInterface $entityManager
-    )
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->sessionStorage = $sessionStorage;
         $this->entityManager = $entityManager;
     }
 
@@ -35,42 +26,7 @@ class SecurityService implements SecurityInterface
      * @param string $password
      * @return bool
      */
-    public function login(string $email, string $password): bool
-    {
-        $user = $this->getUser($email);
-
-        if (!$user) {
-            return false;
-        }
-
-        if ($this->checkPassword($user, $password)) {
-            $this->sessionStorage->set(self::IDENTITY_KEY, $user->getEmail());
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Возвращает вошедшего пользователя
-     *
-     * @return \App\Entity\User|null
-     */
-    public function getIdentity(): ?User
-    {
-        $email = $this->sessionStorage->get(self::IDENTITY_KEY);
-        if (!$email) {
-            return null;
-        }
-
-        return $this->getUser($email);
-    }
-
-    /**
-     * @param string $email
-     * @return \App\Entity\User|null
-     */
-    private function getUser(string $email): ?User
+    public function login(string $email, string $password): ?string
     {
         /** @var User $user */
         $user = $this->entityManager
@@ -81,16 +37,31 @@ class SecurityService implements SecurityInterface
             return null;
         }
 
-        return $user;
+        if ($this->checkPassword($user, $password)) {
+            $token = bin2hex(random_bytes(self::TOKEN_LENGTH));
+            $user->setToken($token);
+            $this->entityManager->flush();
+
+            return $token;
+        }
+
+        return null;
     }
 
     /**
-     * Выход пользователя из системы.
+     * Возвращает вошедшего пользователя
+     *
+     * @return \App\Entity\User|null
      */
-    public function logout(): void
+    public function getIdentity(string $token): ?User
     {
-        $this->sessionStorage->clear(self::IDENTITY_KEY);
+        /** @var User $user */
+        $user = $this->entityManager->getRepository(User::class)
+            ->findBy(['token' => $token]);
+
+        return $user;
     }
+
 
     /**
      * Шифрование пароля.

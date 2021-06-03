@@ -4,7 +4,6 @@
 namespace App;
 
 
-use App\Service\Session\SessionInterface;
 use App\Utils\Config;
 use Psr\Container\ContainerInterface;
 use Slim\Factory\AppFactory;
@@ -23,9 +22,6 @@ final class App
     {
         $container = (new Config)->buildContainer();
         $this->init($container);
-
-        $session = $container->get(SessionInterface::class);
-        $session->start();
     }
 
     public function run()
@@ -43,6 +39,7 @@ final class App
 
         // routes
         (require dirname(__DIR__) . '/config/routes/web.php')($app);
+        (require dirname(__DIR__) . '/config/routes/api.php')($app);
 
         $this->app = $app;
     }

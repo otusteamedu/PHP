@@ -13,7 +13,7 @@ return [
     'doctrine' => [
         'isDevMode' => getenv('DEV_MODE'),
         'metadata_dirs' => [
-            $basePath . '/src',
+            $basePath . '/src/Entity',
         ],
         'connection' => [
             'driver' => 'pdo_pgsql',

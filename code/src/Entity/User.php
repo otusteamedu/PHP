@@ -2,84 +2,71 @@
 
 namespace App\Entity;
 
+
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
+use OpenApi\Annotations as OA;
+
 
 
 /**
+ *
+ * @author Alexandr Timofeev <tim31al@gmail.com>
+ *
+ *
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @OA\Schema ()
+ *
  */
-class User
+class User implements \JsonSerializable
 {
     /**
      * User constructor.
      */
     public function __construct()
     {
-        $this->bankOperations = new ArrayCollection();
+
     }
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue()
+     *
+     * @OA\Property(property="id", type="integer", description="ID пользователя", example="123")
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @OA\Property(property="username", type="string", description="Имя пользователя", example="Иван")
      */
     protected string $firstname;
+
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     * @OA\Property(property="email", type="string", description="email пользователя", example="user@example.com")
      */
     protected string $email;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     protected string $password;
+
     /**
      * @ORM\Column(type="datetime")
+     * @OA\Property(property="createdAt", type="datetime", description="Дата, время создания пользователя", example="2021-05-05Т20:31:45")
      */
     protected DateTime $createdAt;
 
     /**
-     * One User has Many BankOperation.
-     * @ORM\OneToMany(targetEntity="BankOperation", mappedBy="user")
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      */
-    protected $bankOperations;
-
-
-    public function getBankOperations(DateTime $dateStart = null, DateTime $dateEnd = null): Collection
-    {
-        if ($dateStart) {
-            $criteria = Criteria::create()
-                ->where(Criteria::expr()->gte('createdAt', $dateStart));
-            if ($dateEnd) {
-                $criteria->andWhere(Criteria::expr()->lte('createdAt', $dateEnd));
-            }
-
-
-            return $this->bankOperations->matching($criteria);
-        }
-
-        return $this->bankOperations;
-
-    }
-
-    /**
-     * @param \App\Entity\BankOperation $bankOperation
-     */
-    public function setBankOperation(BankOperation $bankOperation): void
-    {
-        $this->bankOperations[] = $bankOperation;
-    }
+    protected ?string $token;
 
 
     /**
@@ -135,7 +122,6 @@ class User
     }
 
 
-
     /**
      * @return DateTime
      */
@@ -156,5 +142,33 @@ class User
     public function getUsername(): string
     {
         return $this->firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'token' => $this->getToken(),
+            'created_at' => $this->getCreatedAt()->format(DATE_ATOM),
+        ];
     }
 }
