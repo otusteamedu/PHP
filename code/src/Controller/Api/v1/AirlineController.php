@@ -5,12 +5,11 @@ namespace App\Controller\Api\v1;
 
 
 use App\Controller\Api\AbstractController;
-use App\DTO\AirlineDTO;
-use App\DTO\AirlinesDTO;
+use App\DTO\EntityDTO;
+use App\DTO\EntitiesDTO;
 use App\DTO\BadRequestDTO;
-use App\DTO\DeletedDTO;
 use App\DTO\NotFoundDTO;
-use App\DTO\UpdatedDTO;
+use App\DTO\SuccessDTO;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,7 +21,7 @@ class AirlineController extends AbstractController
         list ($limit, $offset) = array_values($request->getQueryParams());
 
         $airlines = $this->airlineService->getAll($limit, $offset);
-        $data = $airlines ? new AirlinesDTO($airlines): new NotFoundDTO();
+        $data = $airlines ? new EntitiesDTO($airlines): new NotFoundDTO();
 
         return $this->jsonResponse($response, $data);
     }
@@ -33,7 +32,7 @@ class AirlineController extends AbstractController
         $result = $this->airlineService->create($data);
 
         $data =  $result
-            ? new AirlineDTO($result, StatusCodeInterface::STATUS_CREATED)
+            ? new EntityDTO($result, StatusCodeInterface::STATUS_CREATED)
             : new BadRequestDTO();
 
         return $this->jsonResponse($response, $data);
@@ -44,7 +43,7 @@ class AirlineController extends AbstractController
         $id = (int) $request->getAttribute('id');
         $result = $this->airlineService->read($id);
 
-        $data = $result ? new AirlineDTO($result) : new NotFoundDTO();
+        $data = $result ? new EntityDTO($result) : new NotFoundDTO();
 
         return $this->jsonResponse($response, $data);
     }
@@ -54,7 +53,7 @@ class AirlineController extends AbstractController
         $data = $request->getParsedBody();
         $result = $this->airlineService->update($data);
 
-        $data =  $result ? new UpdatedDTO() : new BadRequestDTO();
+        $data =  $result ? new SuccessDTO() : new BadRequestDTO();
 
         return $this->jsonResponse($response, $data);
     }
@@ -64,7 +63,7 @@ class AirlineController extends AbstractController
         $id = (int) $request->getAttribute('id');
         $result = $this->airlineService->delete($id);
 
-        $data = $result ? new DeletedDTO() : new BadRequestDTO();
+        $data = $result ? new SuccessDTO() : new BadRequestDTO();
 
         return $this->jsonResponse($response, $data);
     }

@@ -6,11 +6,12 @@ namespace App\DTO;
 
 use Fig\Http\Message\StatusCodeInterface;
 
-class DeletedDTO extends AbstractDTO
+final class EntitiesDTO extends AbstractDTO
 {
-    public function __construct()
+    public function __construct(array $entities)
     {
         $this->statusCode = StatusCodeInterface::STATUS_OK;
-        $this->data = ['message' => 'deleted'];
+        $this->data = $entities;
     }
+
 }

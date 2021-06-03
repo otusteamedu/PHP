@@ -3,13 +3,14 @@
 
 namespace App\Middleware;
 
+
+use App\DTO\ForbiddenDTO;
 use App\Service\Security\SecurityInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-
-class SecurityMiddleware
+class AuthMiddleware
 {
     private SecurityInterface $security;
 
@@ -24,8 +25,7 @@ class SecurityMiddleware
 
 
     /**
-     * Защита приватных маршрутов. Проверяет вошел ли пользователь.
-     * В случае отрицательного результата, перенаправляет пользователя на страницу входа.
+     * Защита приватных маршрутов. Проверяет токен пользователя.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
@@ -33,13 +33,27 @@ class SecurityMiddleware
      */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        if (null === $this->security->getIdentity()) {
+        try {
+            $header = $request->getHeader('Authorization');
+            list (, $token) = explode(' ', $header[0]);
+
+            if (! $token) {
+                throw new \Exception();
+            }
+
+            if(! $this->security->getIdentity($token) ) {
+                throw new \Exception();
+            }
+
+        } catch (\Exception $e) {
+            $forbidden = new ForbiddenDTO();
             $response = new Response();
+            $response->getBody()->write(json_encode($forbidden->getData()));
 
             return $response
-                ->withHeader('Location', '/login')
-                ->withStatus(302);
+                ->withStatus($forbidden->getStatusCode());
         }
+
 
         return $handler->handle($request);
     }

@@ -57,7 +57,7 @@ class SecurityService implements SecurityInterface
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)
-            ->findBy(['token' => $token]);
+            ->findOneBy(['token' => $token]);
 
         return $user;
     }

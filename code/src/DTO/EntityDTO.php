@@ -6,13 +6,13 @@ namespace App\DTO;
 
 use Fig\Http\Message\StatusCodeInterface;
 
-class AirlineDTO implements InterfaceDTO
+class EntityDTO implements InterfaceDTO
 {
     private int $statusCode;
     private \JsonSerializable $data;
 
     /**
-     * AirlineDTO constructor.
+     * EntityDTO constructor.
      * @param int $statusCode
      * @param \JsonSerializable $data
      */

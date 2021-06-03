@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Middleware\AuthMiddleware;
 use App\Service\AirlineService\AirlineService;
 use App\Service\AirlineService\AirlineServiceInterface;
 use App\Service\AirlineService\AirlineValidator;
@@ -94,5 +95,9 @@ return [
         $validator = new AirlineValidator();
         return new AirlineService($entityManager, $logger, $validator);
     },
+
+    AuthMiddleware::class => function (SecurityInterface $security): AuthMiddleware {
+        return new AuthMiddleware($security);
+    }
 
 ];

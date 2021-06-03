@@ -35,6 +35,7 @@ services:
     working_dir: ${WORKDIR}
     volumes:
       - ./code:${WORKDIR}
+      - ./code/var/log:${WORKDIR}/var/log
       - sock:${SOCKET_DIR}
 
   postgres:
