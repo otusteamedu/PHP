@@ -11,10 +11,10 @@ class Connection
     public static function create(): AMQPStreamConnection
     {
         return new AMQPStreamConnection(
-            getenv('RABBIT_HOST'),
-            getenv('RABBIT_PORT'),
-            getenv('RABBIT_USER'),
-            getenv('RABBIT_PASSWORD')
+            config('queue.host'),
+            config('queue.port'),
+            config('queue.user'),
+            config('queue.password'),
         );
 
     }
