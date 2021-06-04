@@ -22,7 +22,7 @@ final class BadRequestDTO implements InterfaceDTO
 
     /**
      * @var string
-     * @OA\Property(property="message", type="string", example="{message: Wrong data}")
+     * @OA\Property(property="message", type="string", example="Wrong data")
      */
     private string $message;
     /**
@@ -39,7 +39,7 @@ final class BadRequestDTO implements InterfaceDTO
         return $this->statusCode;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return ['message' => $this->message];
     }

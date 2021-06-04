@@ -22,7 +22,7 @@ class SuccessDTO implements InterfaceDTO
 
     /**
      * @var bool
-     * @OA\Property(property="success", type="bool", example="{success: true}")
+     * @OA\Property(property="success", type="bool", example="true")
      */
     private bool $success;
 

@@ -33,6 +33,12 @@ final class AirlineService implements AirlineServiceInterface
     }
 
 
+    /**
+     * Create Airline
+     *
+     * @param array|null $raw
+     * @return \JsonSerializable|null
+     */
     public function create(?array $raw): ?JsonSerializable
     {
         if (! $this->validator->validate($raw)) {
@@ -43,11 +49,23 @@ final class AirlineService implements AirlineServiceInterface
         return $this->saveAirline($airline, $raw) ? $airline : null;
     }
 
+    /**
+     * Get one Airline
+     *
+     * @param int $id
+     * @return \JsonSerializable|null
+     */
     public function read(int $id): ?JsonSerializable
     {
         return $this->getAirline($id);
     }
 
+    /**
+     * Update Airline
+     *
+     * @param array $raw
+     * @return bool
+     */
     public function update(array $raw): bool
     {
         $airline = $this->getAirline((int) $raw['id']);
@@ -64,6 +82,12 @@ final class AirlineService implements AirlineServiceInterface
         return $this->saveAirline($airline, $data);
     }
 
+    /**
+     * Delete Airline
+     *
+     * @param int id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
         $airline = $this->getAirline($id);
@@ -78,8 +102,13 @@ final class AirlineService implements AirlineServiceInterface
         }
     }
 
+
     /**
-     * @inheritDoc
+     * Get All Airlines
+     *
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
      */
     public function getAll(int $limit = null, int $offset = null): array
     {

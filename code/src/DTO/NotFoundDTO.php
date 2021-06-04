@@ -22,7 +22,7 @@ final class NotFoundDTO implements InterfaceDTO
 
     /**
      * @var string
-     * @OA\Property(property="message", type="string", example="{message: Not found}")
+     * @OA\Property(property="message", type="string", example="Not found")
      */
     private string $message;
 

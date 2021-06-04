@@ -12,12 +12,12 @@ use Slim\Views\PhpRenderer;
 use OpenApi\Annotations as OA;
 
 
-class ApidocController
+class OpenApiController
 {
     private PhpRenderer $renderer;
 
     /**
-     * ApidocController constructor.
+     * OpenApiController constructor.
      * @param \Psr\Container\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -42,10 +42,10 @@ class ApidocController
     {
 
         $openapi = Generator::scan([
-            __DIR__ . '/../Controller', __DIR__ . '/../DTO', __DIR__ . '/../Entity'
+            __DIR__, __DIR__ . '/../DTO', __DIR__ . '/../Entity'
         ]);
 
-        return $this->renderer->render($response, 'apidoc/index.php',[
+        return $this->renderer->render($response, 'apidoc/index.php', [
             'data' => $openapi->toJson(),
         ]);
     }

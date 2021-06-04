@@ -22,12 +22,17 @@ class SecurityService implements SecurityInterface
     /**
      * Вход пользователя.
      *
-     * @param string $email
-     * @param string $password
-     * @return bool
+     * @param string|null $email
+     * @param string|null $password
+     * @return string|null
+     * @throws \Exception
      */
-    public function login(string $email, string $password): ?string
+    public function login(string $email = null, string $password = null): ?string
     {
+        if (! $email || ! $password) {
+            return null;
+        }
+
         /** @var User $user */
         $user = $this->entityManager
             ->getRepository(User::class)

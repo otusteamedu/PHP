@@ -4,6 +4,7 @@
 namespace App\DTO;
 
 
+
 use Fig\Http\Message\StatusCodeInterface;
 
 /**
@@ -38,7 +39,7 @@ final class TokenDTO implements InterfaceDTO
 
     public function getStatusCode(): int
     {
-        return $this->token;
+        return $this->statusCode;
     }
 
     public function jsonSerialize(): array

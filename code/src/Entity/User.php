@@ -18,8 +18,7 @@ use OpenApi\Annotations as OA;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
  *
- * @OA\Schema ()
- *
+ * @OA\Schema()
  */
 class User implements \JsonSerializable
 {

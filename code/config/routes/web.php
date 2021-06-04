@@ -1,9 +1,9 @@
 <?php
 
-use App\Controller\ApidocController;
+use App\Controller\OpenApiController;
 use Slim\App;
 
 
 return function (App $app) {
-    $app->get('/api/doc', ApidocController::class);
+    $app->get('/api/doc', OpenApiController::class);
 };

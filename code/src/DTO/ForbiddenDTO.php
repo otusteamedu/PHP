@@ -21,7 +21,7 @@ final class ForbiddenDTO implements InterfaceDTO
 
     /**
      * @var string
-     * @OA\Property(property="message", type="string", example="{message: Access denied}")
+     * @OA\Property(property="message", type="string", example="Access denied")
      */
     private string $message;
 
