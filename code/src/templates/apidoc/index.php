@@ -20,8 +20,8 @@
       spec: <?= $data ?>,
       dom_id: '#swagger-ui',
       deepLinking: true,
-      // supportedSubmitMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      // supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      supportedSubmitMethods: [],
       presets: [
         SwaggerUIBundle.presets.apis,
         // SwaggerUIStandalonePreset

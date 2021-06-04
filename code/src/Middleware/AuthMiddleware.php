@@ -48,7 +48,7 @@ class AuthMiddleware
         } catch (\Exception $e) {
             $forbidden = new ForbiddenDTO();
             $response = new Response();
-            $response->getBody()->write(json_encode($forbidden->getData()));
+            $response->getBody()->write(json_encode($forbidden));
 
             return $response
                 ->withStatus($forbidden->getStatusCode());

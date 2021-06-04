@@ -31,7 +31,7 @@ class ApidocController
      *
      * @OA\Info(title="My API", version="1.0")
      *
-     * @OA\Server(url="http://localhost")
+     * @OA\Server(url="http://localhost"),
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response

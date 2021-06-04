@@ -22,6 +22,7 @@ class AbstractController
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \App\Service\Security\SecurityInterface $security
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \App\Service\AirlineService\AirlineServiceInterface $airlineService
      */
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -39,7 +40,7 @@ class AbstractController
 
     protected function jsonResponse(ResponseInterface $response, InterfaceDTO $dto): ResponseInterface
     {
-        $response->getBody()->write(json_encode($dto->getData()));
+        $response->getBody()->write(json_encode($dto));
 
         return $response
             ->withHeader('Content-Type', 'application/json')

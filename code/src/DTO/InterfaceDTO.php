@@ -4,12 +4,9 @@
 namespace App\DTO;
 
 
-interface InterfaceDTO
+use JsonSerializable;
+
+interface InterfaceDTO extends JsonSerializable
 {
     public function getStatusCode(): int;
-
-    /**
-     * @return \JsonSerializable|array
-     */
-    public function getData();
 }

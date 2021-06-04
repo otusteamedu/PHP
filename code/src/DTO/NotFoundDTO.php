@@ -10,19 +10,39 @@ use OpenApi\Annotations as OA;
 
 /**
  * Class NotFoundDTO
- * @package App\DTO
  *
  * @OA\Schema ()
  */
-final class NotFoundDTO extends AbstractDTO
+final class NotFoundDTO implements InterfaceDTO
 {
+    /**
+     * @var int
+     */
+    private int $statusCode;
+
+    /**
+     * @var string
+     * @OA\Property(property="message", type="string", example="{message: Not found}")
+     */
+    private string $message;
+
     /**
      * NotFoundDTO constructor.
      */
     public function __construct()
     {
         $this->statusCode = StatusCodeInterface::STATUS_NOT_FOUND;
-        $this->data = ['message' => 'Not found'];
+        $this->message = 'Not found';
     }
 
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+
+    public function jsonSerialize(): array
+    {
+        return ['message' => $this->message];
+    }
 }

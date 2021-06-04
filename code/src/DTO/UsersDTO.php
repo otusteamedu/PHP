@@ -7,7 +7,11 @@ use App\Entity\User;
 use Fig\Http\Message\StatusCodeInterface;
 
 
-final class UsersDTO extends AbstractDTO
+/**
+ * Class UsersDTO
+ * @package App\DTO
+ */
+final class UsersDTO implements InterfaceDTO
 {
     /**
      * UsersDTO constructor.
@@ -18,5 +22,15 @@ final class UsersDTO extends AbstractDTO
     {
         $this->data = $users;
         $this->statusCode = StatusCodeInterface::STATUS_OK;
+    }
+
+    public function getStatusCode(): int
+    {
+        // TODO: Implement getStatusCode() method.
+    }
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
     }
 }
