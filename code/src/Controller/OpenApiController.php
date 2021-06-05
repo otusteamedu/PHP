@@ -40,12 +40,13 @@ class OpenApiController
      */
     public function __invoke(Request $request, Response $response): Response
     {
-
         $openapi = Generator::scan([
-            __DIR__, __DIR__ . '/../DTO', __DIR__ . '/../Entity'
+            __DIR__,
+            __DIR__ . '/../DTO',
+            __DIR__ . '/../Entity',
         ]);
 
-        return $this->renderer->render($response, 'apidoc/index.php', [
+        return $this->renderer->render($response, 'openapi/index.php', [
             'data' => $openapi->toJson(),
         ]);
     }

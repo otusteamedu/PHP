@@ -5,6 +5,8 @@ use App\Middleware\AuthMiddleware;
 use App\Service\AirlineService\AirlineService;
 use App\Service\AirlineService\AirlineServiceInterface;
 use App\Service\AirlineService\AirlineValidator;
+use App\Service\CityService\CityService;
+use App\Service\CityService\CityServiceInterface;
 use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
@@ -13,6 +15,7 @@ use App\Service\Security\SecurityInterface;
 use App\Service\Security\SecurityService;
 use App\Utils\Builder\AMQPChannelBuilderInterface;
 use App\Utils\Builder\AMQPChannelBuilder;
+use App\Utils\Validator\StringValidator;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -98,6 +101,11 @@ return [
 
     AuthMiddleware::class => function (SecurityInterface $security): AuthMiddleware {
         return new AuthMiddleware($security);
+    },
+
+    CityServiceInterface::class => function (EntityManagerInterface $entityManager): CityServiceInterface {
+        $stringValidator = new StringValidator();
+        return new CityService($entityManager, $stringValidator);
     }
 
 ];

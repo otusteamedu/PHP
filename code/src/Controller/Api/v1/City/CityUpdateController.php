@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\Api\v1\Airline;
+namespace App\Controller\Api\v1\City;
 
 
 use App\Controller\Api\AbstractController;
@@ -10,15 +10,14 @@ use App\DTO\SuccessDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AirlineUpdateController extends AbstractController
+class CityUpdateController extends AbstractController
 {
-
     /**
-     * Изменить авиакомпанию
+     * Изменить город
      *
      * @OA\Put(
-     *      path="/api/v1/airlines",
-     *      tags={"Авиакомпании"},
+     *      path="/api/v1/cities",
+     *      tags={"Города"},
      *      @OA\Parameter(
      *          name="Authorization",
      *          in="header",
@@ -27,15 +26,13 @@ class AirlineUpdateController extends AbstractController
      *          @OA\Schema(type="string"),
      *      ),
      *      @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(property="id", type="integer", description="ID авиакомпании", example="123"),
-     *                 @OA\Property(property="title", type="string", description="Название авиакомпании", example="Аэроком"),
-     *                 @OA\Property(property="description", type="string", description="Описание компании", example="Аэроком лучшая компания"),
-     *                 @OA\Property(property="abbreviation", type="string", description="Аббревиатура компании", example="AEK"),
-     *             ),
-     *         ),
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="id", type="integer", description="ID города", example="123"),
+     *                  @OA\Property(property="name", type="string", description="Название город", example="Тамбов"),
+     *              ),
+     *          ),
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -54,7 +51,7 @@ class AirlineUpdateController extends AbstractController
      *     ),
      *      @OA\Response(
      *          response=404,
-     *          description="Авиакомпания не найдена",
+     *          description="Город не найден",
      *          @OA\JsonContent(ref="#/components/schemas/NotFoundDTO"),
      *      ),
      *  )
@@ -62,7 +59,7 @@ class AirlineUpdateController extends AbstractController
     public function __invoke(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-        $result = $this->airlineService->update($data);
+        $result = $this->cityService->update($data);
 
         $data =  $result ? new SuccessDTO() : new BadRequestDTO();
 

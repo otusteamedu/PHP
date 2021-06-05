@@ -15,5 +15,5 @@ interface CrudInterface
     /**
      * @return \JsonSerializable[]
      */
-    public function getAll(int $limit = 0, int $offset = 0): array;
+    public function getAll(int $limit = null, int $offset = null): array;
 }

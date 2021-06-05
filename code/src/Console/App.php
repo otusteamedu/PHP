@@ -6,6 +6,7 @@ namespace App\Console;
 
 use App\Command\CreateAirlineCommand;
 use App\Command\CreateBankOperationCommand;
+use App\Command\CreateCitiesCommand;
 use App\Command\MessengerStartCommand;
 use App\Command\CreateUsersCommand;
 use App\Service\Security\SecurityInterface;
@@ -30,16 +31,17 @@ class App extends Application
         $config = new Config;
         $this->container = $config->buildContainer();
 
-        $em = $this->container->get(EntityManager::class);
+        $entityManager = $this->container->get(EntityManager::class);
         $security = $this->container->get(SecurityInterface::class);
         $faker = Factory::create('ru_RU');
         $transliterator = new Transliterator();
 
         $this->addCommands([
             new MessengerStartCommand($this->container),
-            new CreateUsersCommand($em, $security),
-            new CreateBankOperationCommand($em),
-            new CreateAirlineCommand($em, $faker, $transliterator),
+            new CreateUsersCommand($entityManager, $security),
+            new CreateBankOperationCommand($entityManager),
+            new CreateAirlineCommand($entityManager, $faker, $transliterator),
+            new CreateCitiesCommand($entityManager)
         ]);
     }
 

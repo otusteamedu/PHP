@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 
+use App\Entity\Traits\CreatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 use OpenApi\Annotations as OA;
 
