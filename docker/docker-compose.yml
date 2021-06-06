@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: app/php
+    container_name: app
+    volumes:
+       - ../app:/app/app.loc
+    networks:
+      - app-network
+  app-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: app/php-cli
+    container_name: app-cli
+    volumes:
+      - ../app:/app/app.loc
+    networks:
+      - app-network
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    ports:
+      - 80:80
+    volumes:
+       - ../app:/app/app.loc
+       - ./nginx/hosts:/etc/nginx/conf.d
+    networks:
+      - app-network
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    env_file:
+      - ./rabbit-mq/.env
+    ports:
+      - 5673:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - app-network
+  database:
+    image: postgres
+    env_file:
+      - ./database/.env
+    container_name:  database
+    ports:
+      - 5433:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data/
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

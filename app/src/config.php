@@ -1,0 +1,5 @@
+<?php
+
+const ROOT_PATH = __DIR__;
+const VENDOR_PATH = ROOT_PATH . DIRECTORY_SEPARATOR . '../vendor';
+const SQL_SCRIPTS_PATH = ROOT_PATH . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR . 'sqls';
