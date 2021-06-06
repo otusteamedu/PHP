@@ -5,8 +5,6 @@ namespace App\Service\FlightSchedule;
 
 
 use App\Entity\FlightSchedule;
-use DateTime;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonSerializable;
 use Psr\Log\LoggerInterface;
@@ -16,16 +14,14 @@ class FlightScheduleService implements FlightScheduleServiceInterface
     const MAX_LIMIT = 20;
 
     private EntityManagerInterface $entityManager;
-    private LoggerInterface $logger;
 
     /**
      * FlightScheduleService constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->logger = $logger;
     }
 
 
@@ -46,7 +42,15 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
     public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        $flight = $this->getFlight($id);
+
+        try {
+            $this->entityManager->remove($flight);
+            $this->entityManager->flush();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function getAll(int $limit = null, int $offset = null): array

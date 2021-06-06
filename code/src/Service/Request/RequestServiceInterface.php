@@ -9,5 +9,5 @@ use Psr\Http\Message\ServerRequestInterface;
 interface RequestServiceInterface
 {
     public function getRequestStatus(int $number): ?\JsonSerializable;
-    public function addRequest(ServerRequestInterface $request, string $entity): int;
+    public function addRequest(ServerRequestInterface $request, string $service): int;
 }

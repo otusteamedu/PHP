@@ -5,20 +5,24 @@ namespace App\Service\Request;
 
 
 use App\Entity\Request;
+use App\Message\RequestMessage;
+use App\Service\Message\MessageServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RequestService implements RequestServiceInterface
 {
     private EntityManagerInterface $entityManager;
+    private MessageServiceInterface $messageService;
 
     /**
      * RequestService constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, MessageServiceInterface $messageService)
     {
         $this->entityManager = $entityManager;
+        $this->messageService = $messageService;
     }
 
 
@@ -32,9 +36,24 @@ class RequestService implements RequestServiceInterface
         return $request;
     }
 
-    public function addRequest(ServerRequestInterface $request, string $entity): int
+    public function addRequest(ServerRequestInterface $request, string $service): int
     {
-        $data['entity'] = $entity;
+        $json = $this->getData($request, $service);
+
+        $requestRecord = new Request();
+        $requestRecord->setContext($json);
+        $this->entityManager->persist($requestRecord);
+        $this->entityManager->flush();
+
+        $message = new RequestMessage($requestRecord->getId());
+        $this->messageService->push($message);
+
+        return $requestRecord->getId();
+    }
+
+    private function getData(ServerRequestInterface $request, string $service): string
+    {
+        $data['service'] = $service;
 
         $method = $request->getMethod();
         $data['method'] = $method;
@@ -45,16 +64,6 @@ class RequestService implements RequestServiceInterface
             $data['data'] = $request->getParsedBody();
         }
 
-        $json = json_encode($data);
-
-        $requestRecord = new Request();
-        $requestRecord->setContext($json);
-        $this->entityManager->persist($requestRecord);
-        $this->entityManager->flush();
-
-        return $requestRecord->getId();
-
-//        dump(json_decode($json));
-//        return 1;
+        return json_encode($data);
     }
 }

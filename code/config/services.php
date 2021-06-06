@@ -1,6 +1,7 @@
 <?php
 
 
+use App\MessageHandler\RequestMessageHandler;
 use App\Middleware\AuthMiddleware;
 use App\Service\Airline\AirlineService;
 use App\Service\Airline\AirlineServiceInterface;
@@ -113,12 +114,16 @@ return [
         return new CityService($entityManager, $stringValidator);
     },
 
-    FlightScheduleServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): FlightScheduleServiceInterface {
-        return new FlightScheduleService($entityManager, $logger);
+    FlightScheduleServiceInterface::class => function (EntityManagerInterface $entityManager): FlightScheduleServiceInterface {
+        return new FlightScheduleService($entityManager);
     },
 
-    RequestServiceInterface::class => function (EntityManagerInterface $entityManager): RequestServiceInterface {
-        return new RequestService($entityManager);
+    RequestServiceInterface::class => function (EntityManagerInterface $entityManager, MessageServiceInterface $messageService): RequestServiceInterface {
+        return new RequestService($entityManager, $messageService);
+    },
+
+    RequestMessageHandler::class => function (ContainerInterface $container, EntityManagerInterface $entityManager): RequestMessageHandler {
+        return new RequestMessageHandler($container, $entityManager);
     },
 
 ];

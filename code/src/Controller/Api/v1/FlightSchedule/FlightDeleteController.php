@@ -5,7 +5,7 @@ namespace App\Controller\Api\v1\FlightSchedule;
 
 
 use App\DTO\RequestDTO;
-use App\Entity\FlightSchedule;
+use App\Service\FlightSchedule\FlightScheduleServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -45,7 +45,7 @@ class FlightDeleteController extends AbstractFlightController
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $number = $this->requestService->addRequest($request, FlightSchedule::class);
+        $number = $this->requestService->addRequest($request, FlightScheduleServiceInterface::class);
         $data = new RequestDTO($number);
 
         return $this->jsonResponse($response, $data);
