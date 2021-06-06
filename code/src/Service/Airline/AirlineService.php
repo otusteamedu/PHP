@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\AirlineService;
+namespace App\Service\Airline;
 
 
 use App\Entity\Airline;
@@ -18,7 +18,7 @@ final class AirlineService implements AirlineServiceInterface
     private AirlineValidator $validator;
 
     /**
-     * AirlineService constructor.
+     * Airline constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
     public function __construct(
@@ -110,7 +110,7 @@ final class AirlineService implements AirlineServiceInterface
      * @param int|null $offset
      * @return array
      */
-    public function getAll(int $limit = null, int $offset = null): array
+    public function getAll(int $limit = null, int $offset = null): ?array
     {
         $limit = $limit ?? self::MAX_LIMIT;
         $offset = $offset ?? 0;
@@ -125,7 +125,7 @@ final class AirlineService implements AirlineServiceInterface
         /** @var Airline $airline */
         $airline = $this->entityManager
             ->getRepository(Airline::class)
-            ->findOneBy(['id' => $id]);
+            ->find($id);
 
         return $airline;
     }

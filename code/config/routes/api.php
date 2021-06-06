@@ -11,6 +11,8 @@ use App\Controller\Api\v1\City\CityDeleteController;
 use App\Controller\Api\v1\City\CityIndexController;
 use App\Controller\Api\v1\City\CityReadController;
 use App\Controller\Api\v1\City\CityUpdateController;
+use App\Controller\Api\v1\FlightSchedule\FlightByDateController;
+use App\Controller\Api\v1\FlightSchedule\FlightIndexController;
 use App\Controller\Api\v1\SecurityController;
 use App\Middleware\AuthMiddleware;
 use Slim\App;
@@ -21,13 +23,15 @@ return function (App $app) {
 
     $app->group('/api/v1', function (RouteCollectorProxy $v1Group) use ($app) {
 
+        $authMiddleware = $app->getContainer()->get(AuthMiddleware::class);
+
         $v1Group->group('/airlines', function (RouteCollectorProxy $airlinesGroup) {
             $airlinesGroup->get('', AirlineIndexController::class);
             $airlinesGroup->post('', AirlineCreateController::class);
             $airlinesGroup->get('/{id}', AirlineReadController::class);
             $airlinesGroup->put('', AirlineUpdateController::class);
             $airlinesGroup->delete('/{id}', AirlineDeleteController::class);
-        })->add($app->getContainer()->get(AuthMiddleware::class));
+        })->add($authMiddleware);
 
         $v1Group->group('/cities', function (RouteCollectorProxy $citiesGroup) {
             $citiesGroup->get('', CityIndexController::class);
@@ -35,7 +39,12 @@ return function (App $app) {
             $citiesGroup->get('/{id}', CityReadController::class);
             $citiesGroup->put('', CityUpdateController::class);
             $citiesGroup->delete('/{id}', CityDeleteController::class);
-        })->add($app->getContainer()->get(AuthMiddleware::class));
+        })->add($authMiddleware);
+
+        $v1Group->group('/flights', function (RouteCollectorProxy $flightsGroup) {
+            $flightsGroup->get('', FlightIndexController::class);
+            $flightsGroup->get('/{date:[0-9]{4}-[0-9]{2}-[0-9]{2}}', FlightByDateController::class);
+        })->add($authMiddleware);
 
         $v1Group->post('/login', SecurityController::class .':login');
     });

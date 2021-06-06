@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\Api\v1\Airline;
+namespace App\Controller\Api\v1\FlightSchedule;
 
 
 use App\DTO\EntitiesDTO;
@@ -9,15 +9,14 @@ use App\DTO\NotFoundDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-
-class AirlineIndexController extends AbstractAirlineController
+final class FlightIndexController extends AbstractFlightController
 {
     /**
-     * Список авиакомпаний
+     * Расписание рейсов
      *
      * @OA\Get(
-     *      path="/api/v1/airlines",
-     *      tags={"Авиакомпании"},
+     *      path="/api/v1/flights",
+     *      tags={"Расписание рейсов"},
      *      @OA\Parameter(
      *          name="Authorization",
      *          in="header",
@@ -41,15 +40,15 @@ class AirlineIndexController extends AbstractAirlineController
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Список авиакомпаний",
+     *          description="Все записи",
      *          @OA\JsonContent(
      *              type="array",
-     *              @OA\Items(ref="#/components/schemas/Airline")
+     *              @OA\Items(ref="#/components/schemas/City")
      *          ),
      *      ),
      *      @OA\Response(
      *          response=404,
-     *          description="Авиакомпании не найдены",
+     *          description="Рассписаний нет",
      *          @OA\JsonContent(ref="#/components/schemas/NotFoundDTO")
      *      ),
      *      @OA\Response(
@@ -63,8 +62,8 @@ class AirlineIndexController extends AbstractAirlineController
     {
         list ($limit, $offset) = array_values($request->getQueryParams());
 
-        $airlines = $this->airlineService->getAll($limit, $offset);
-        $data = $airlines ? new EntitiesDTO($airlines): new NotFoundDTO();
+        $flights = $this->flightScheduleService->getAll($limit, $offset);
+        $data = $flights ? new EntitiesDTO($flights): new NotFoundDTO();
 
         return $this->jsonResponse($response, $data);
     }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\CityService;
+namespace App\Service\City;
 
 
 use App\Entity\City;
@@ -20,7 +20,7 @@ class CityService implements CityServiceInterface
     private StringValidator $stringValidator;
 
     /**
-     * CityService constructor.
+     * City constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      * @param \App\Utils\Validator\StringValidator $stringValidator
      */
@@ -79,7 +79,7 @@ class CityService implements CityServiceInterface
     /**
      * @inheritDoc
      */
-    public function getAll(int $limit = null, int $offset = null): array
+    public function getAll(int $limit = null, int $offset = null): ?array
     {
         $limit = $limit ?? self::MAX_LIMIT;
         $offset = $offset ?? 0;
@@ -95,7 +95,7 @@ class CityService implements CityServiceInterface
         /** @var City $city */
         $city = $this->entityManager
             ->getRepository(City::class)
-            ->findOneBy(['id' => $id]);
+            ->find($id);
 
         return $city;
     }

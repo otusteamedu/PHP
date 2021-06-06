@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\AirlineService;
+namespace App\Service\Airline;
 
 
 use App\Service\CrudInterface;

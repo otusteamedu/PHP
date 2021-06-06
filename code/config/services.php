@@ -2,11 +2,13 @@
 
 
 use App\Middleware\AuthMiddleware;
-use App\Service\AirlineService\AirlineService;
-use App\Service\AirlineService\AirlineServiceInterface;
-use App\Service\AirlineService\AirlineValidator;
-use App\Service\CityService\CityService;
-use App\Service\CityService\CityServiceInterface;
+use App\Service\Airline\AirlineService;
+use App\Service\Airline\AirlineServiceInterface;
+use App\Service\Airline\AirlineValidator;
+use App\Service\City\CityService;
+use App\Service\City\CityServiceInterface;
+use App\Service\FlightSchedule\FlightScheduleService;
+use App\Service\FlightSchedule\FlightScheduleServiceInterface;
 use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
@@ -95,7 +97,8 @@ return [
     },
 
     AirlineServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): AirlineServiceInterface {
-        $validator = new AirlineValidator();
+        $stringValidator = new StringValidator();
+        $validator = new AirlineValidator($stringValidator);
         return new AirlineService($entityManager, $logger, $validator);
     },
 
@@ -106,6 +109,10 @@ return [
     CityServiceInterface::class => function (EntityManagerInterface $entityManager): CityServiceInterface {
         $stringValidator = new StringValidator();
         return new CityService($entityManager, $stringValidator);
+    },
+
+    FlightScheduleServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): FlightScheduleServiceInterface {
+        return new FlightScheduleService($entityManager, $logger);
     }
 
 ];

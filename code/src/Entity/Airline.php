@@ -35,18 +35,21 @@ class Airline implements \JsonSerializable
 
     /**
      * @ORM\Column(type="string", unique=true)
+     *
      * @OA\Property(property="title", type="string", description="Название авиакомпании", example="Аэроком")
      */
     protected string $title;
 
     /**
      * @ORM\Column(type="text")
+     *
      * @OA\Property(property="description", type="string", description="Описание компании", example="Аэроком лучшая компания")
      */
     protected string $description;
 
     /**
      * @ORM\Column(type="string", length=3, unique=true)
+     *
      * @OA\Property(property="abbreviation", type="string", description="Аббревиатура компании", example="AEK")
      */
     protected string $abbreviation;

@@ -29,9 +29,16 @@ class OpenApiController
     /**
      * Документация по API
      *
-     * @OA\Info(title="My API", version="1.0")
+     * @OA\Info(
+     *     title="My API",
+     *     version="1.0",
+     *     description="Сервис авиарейсов. Создание, редактирование расписания рейсов. Создание авиакомпаний",
+     *     )
      *
-     * @OA\Server(url="http://localhost"),
+     * @OA\Server(
+     *     description="Dev server",
+     *     url="http://localhost",
+     * ),
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response

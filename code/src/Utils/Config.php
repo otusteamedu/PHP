@@ -37,6 +37,11 @@ class Config
         return $builder->build();
     }
 
+    public function addVarDumper(): void
+    {
+        require_once $this->getRealPath('var-dumper.php');
+    }
+
 
 
     private function getRealPath(string $filename): string

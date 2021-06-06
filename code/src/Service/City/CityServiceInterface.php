@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\CityService;
+namespace App\Service\City;
 
 
 interface CityServiceInterface extends \App\Service\CrudInterface

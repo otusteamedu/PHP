@@ -4,13 +4,13 @@
 namespace App\Controller\Api\v1\City;
 
 
-use App\Controller\Api\AbstractController;
+
 use App\DTO\BadRequestDTO;
 use App\DTO\SuccessDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class CityUpdateController extends AbstractController
+final class CityUpdateController extends AbstractCityController
 {
     /**
      * Изменить город

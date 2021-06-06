@@ -4,13 +4,13 @@
 namespace App\Controller\Api\v1\City;
 
 
-use App\Controller\Api\AbstractController;
+
 use App\DTO\EntitiesDTO;
 use App\DTO\NotFoundDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class CityIndexController extends AbstractController
+final class CityIndexController extends AbstractCityController
 {
     /**
      * Список городов

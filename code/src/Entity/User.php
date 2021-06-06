@@ -4,10 +4,8 @@ namespace App\Entity;
 
 
 use App\Entity\Traits\CreatedAtTrait;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OpenApi\Annotations as OA;
-
 
 
 /**
@@ -36,12 +34,14 @@ class User implements \JsonSerializable
 
     /**
      * @ORM\Column(type="string", length=100)
+     *
      * @OA\Property(property="username", type="string", description="Имя пользователя", example="Иван")
      */
     protected string $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     *
      * @OA\Property(property="email", type="string", description="email пользователя", example="user@example.com")
      */
     protected string $email;

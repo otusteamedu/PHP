@@ -11,9 +11,8 @@ use OpenApi\Annotations as OA;
 trait CreatedAtTrait
 {
     /**
-     * @var DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     *
      * @OA\Property(
      *     property="created_at",
      *     type="string",

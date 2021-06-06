@@ -20,7 +20,12 @@ final class App
      */
     public function __construct()
     {
-        $container = (new Config)->buildContainer();
+        $config = new Config;
+        $container = $config->buildContainer();
+
+        // Var dumper (php vendor/bin/var-dump-server) dump($value)
+        $config->addVarDumper();
+
         $this->init($container);
     }
 
@@ -40,6 +45,7 @@ final class App
         // routes
         (require dirname(__DIR__) . '/config/routes/web.php')($app);
         (require dirname(__DIR__) . '/config/routes/api.php')($app);
+
 
         $this->app = $app;
     }

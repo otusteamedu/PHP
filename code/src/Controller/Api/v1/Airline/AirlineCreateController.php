@@ -4,14 +4,13 @@
 namespace App\Controller\Api\v1\Airline;
 
 
-use App\Controller\Api\AbstractController;
 use App\DTO\BadRequestDTO;
 use App\DTO\EntityDTO;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AirlineCreateController extends AbstractController
+class AirlineCreateController extends AbstractAirlineController
 {
     /**
      * Добавить авиакомпанию

@@ -10,7 +10,7 @@ use App\DTO\NotFoundDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class CityReadController extends AbstractController
+final class CityReadController extends AbstractCityController
 {
     /**
      * Найти город

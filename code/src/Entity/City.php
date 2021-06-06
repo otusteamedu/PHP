@@ -33,6 +33,7 @@ class City implements \JsonSerializable
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     *
      * @OA\Property(property="name", type="string", description="Название города", example="Тамбов")
      */
     protected string $name;

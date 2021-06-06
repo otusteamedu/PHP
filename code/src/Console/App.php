@@ -7,6 +7,7 @@ namespace App\Console;
 use App\Command\CreateAirlineCommand;
 use App\Command\CreateBankOperationCommand;
 use App\Command\CreateCitiesCommand;
+use App\Command\CreateFlightScheduleCommand;
 use App\Command\MessengerStartCommand;
 use App\Command\CreateUsersCommand;
 use App\Service\Security\SecurityInterface;
@@ -41,7 +42,8 @@ class App extends Application
             new CreateUsersCommand($entityManager, $security),
             new CreateBankOperationCommand($entityManager),
             new CreateAirlineCommand($entityManager, $faker, $transliterator),
-            new CreateCitiesCommand($entityManager)
+            new CreateCitiesCommand($entityManager),
+            new CreateFlightScheduleCommand($entityManager),
         ]);
     }
 

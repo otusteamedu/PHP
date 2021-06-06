@@ -5,14 +5,30 @@ namespace App\Controller\Api\v1;
 
 
 use App\Controller\Api\AbstractController;
+use App\Controller\Api\Traits\JsonResponseTrait;
 use App\DTO\BadRequestDTO;
 use App\DTO\TokenDTO;
+use App\Service\Security\SecurityInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 
-class SecurityController extends AbstractController
+class SecurityController
 {
+    use JsonResponseTrait;
+
+    protected SecurityInterface $security;
+
+    /**
+     * SecurityController constructor.
+     * @param \App\Service\Security\SecurityInterface $security
+     */
+    public function __construct(SecurityInterface $security)
+    {
+        $this->security = $security;
+    }
+
+
     /**
      * Вход, получить токен
      *
