@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
-class DatabaseSeeder extends Seeder
+class OrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
-        $this->call(OrderSeeder::class);
+        Order::factory(10)->create();
     }
 }

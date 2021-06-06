@@ -11,5 +11,6 @@ return [
             'username' => env('DB_USER'),
             'password' => env('DB_PASSWORD')
         ]
-    ]
+    ],
+    'migrations' => 'migrations'
 ];
