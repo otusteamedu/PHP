@@ -24,9 +24,9 @@ $app = new \App\App(
     dirname(__DIR__)
 );
 (new LoadConfiguration())->bootstrap($app);
-// $app->withFacades();
+ $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
