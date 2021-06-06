@@ -13,6 +13,8 @@ use App\Service\Mailer\MailerInterface;
 use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
 use App\Service\Message\MessageServiceInterface;
+use App\Service\Request\RequestService;
+use App\Service\Request\RequestServiceInterface;
 use App\Service\Security\SecurityInterface;
 use App\Service\Security\SecurityService;
 use App\Utils\Builder\AMQPChannelBuilderInterface;
@@ -113,6 +115,10 @@ return [
 
     FlightScheduleServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): FlightScheduleServiceInterface {
         return new FlightScheduleService($entityManager, $logger);
-    }
+    },
+
+    RequestServiceInterface::class => function (EntityManagerInterface $entityManager): RequestServiceInterface {
+        return new RequestService($entityManager);
+    },
 
 ];

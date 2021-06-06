@@ -26,6 +26,13 @@ final class CityDeleteController extends AbstractCityController
      *          example="Bearer c16e40fa31e1c99849c0",
      *          @OA\Schema(type="string"),
      *      ),
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="ID города",
+     *         example="22",
+     *         @OA\Schema(type="integer")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",

@@ -1,22 +1,22 @@
 <?php
 
 
-namespace App\Controller\Api\v1\Airline;
+namespace App\Controller\Api\v1\FlightSchedule;
 
 
-use App\DTO\EntityDTO;
-use App\DTO\NotFoundDTO;
+use App\DTO\RequestDTO;
+use App\Entity\FlightSchedule;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AirlineReadController extends AbstractAirlineController
+class FlightDeleteController extends AbstractFlightController
 {
     /**
-     * Найти авиакомпанию
+     *  Удалить рейс из расписания
      *
-     * @OA\Get(
-     *      path="/api/v1/airlines/{id}",
-     *      tags={"Авиакомпании"},
+     * @OA\Delete (
+     *      path="/api/v1/flights/{id}",
+     *      tags={"Расписание рейсов"},
      *      @OA\Parameter(
      *          name="Authorization",
      *          in="header",
@@ -24,22 +24,17 @@ class AirlineReadController extends AbstractAirlineController
      *          example="Bearer c16e40fa31e1c99849c0",
      *          @OA\Schema(type="string"),
      *      ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         name="id",
      *         in="query",
-     *         description="ID авиакомпании",
+     *         description="ID записи",
      *         example="22",
      *         @OA\Schema(type="integer")
-     *      ),
+     *     ),
      *      @OA\Response(
      *          response=200,
-     *          description="Авиакомпания",
-     *          @OA\JsonContent(ref="#/components/schemas/Airline"),
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Авиакомпания не найдена",
-     *          @OA\JsonContent(ref="#/components/schemas/NotFoundDTO")
+     *          description="Request",
+     *          @OA\JsonContent(ref="#/components/schemas/RequestDTO"),
      *      ),
      *      @OA\Response(
      *          response=403,
@@ -50,10 +45,8 @@ class AirlineReadController extends AbstractAirlineController
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $id = (int) $request->getAttribute('id');
-        $result = $this->airlineService->read($id);
-
-        $data = $result ? new EntityDTO($result) : new NotFoundDTO();
+        $number = $this->requestService->addRequest($request, FlightSchedule::class);
+        $data = new RequestDTO($number);
 
         return $this->jsonResponse($response, $data);
     }

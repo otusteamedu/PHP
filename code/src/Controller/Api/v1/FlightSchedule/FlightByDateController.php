@@ -53,8 +53,6 @@ class FlightByDateController extends AbstractFlightController
      */
     public function __invoke(Request $request, Response $response, $args): Response
     {
-        dump($args);
-
         $date = $args['date'];
 
         $flights = $this->flightScheduleService->findByDate($date);

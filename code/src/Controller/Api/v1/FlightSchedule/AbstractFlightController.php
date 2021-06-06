@@ -6,22 +6,25 @@ namespace App\Controller\Api\v1\FlightSchedule;
 
 use App\Controller\Api\Traits\JsonResponseTrait;
 use App\Service\FlightSchedule\FlightScheduleServiceInterface;
-use Psr\Log\LoggerInterface;
+use App\Service\Request\RequestServiceInterface;
 
 class AbstractFlightController
 {
     use JsonResponseTrait;
 
     protected FlightScheduleServiceInterface $flightScheduleService;
-    protected LoggerInterface $logger;
+    protected RequestServiceInterface $requestService;
 
     /**
      * FlightIndexController constructor.
+     *
      * @param \App\Service\FlightSchedule\FlightScheduleServiceInterface $flightScheduleService
+     * @param \App\Service\Request\RequestServiceInterface $requestService
      */
-    public function __construct(FlightScheduleServiceInterface $flightScheduleService, LoggerInterface $logger)
+    public function __construct(FlightScheduleServiceInterface $flightScheduleService, RequestServiceInterface $requestService)
     {
         $this->flightScheduleService = $flightScheduleService;
-        $this->logger = $logger;
+        $this->requestService = $requestService;
+
     }
 }
