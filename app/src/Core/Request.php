@@ -15,12 +15,12 @@ class Request
     public const GET_METHOD = 'GET';
     public const POST_METHOD = 'POST';
 
-    private function __construct(array $get, array $post, array $request, array $server)
+    private function __construct()
     {
-        $this->get = $get;
-        $this->post = $post;
-        $this->request = $request;
-        $this->server = $server;
+        $this->get = $_GET;
+        $this->post = $_POST;
+        $this->request = $_REQUEST;
+        $this->server = $_SERVER;
     }
 
     public static function getInstance() : self
@@ -29,7 +29,7 @@ class Request
             return self::$instance;
         }
 
-        self::$instance = new self($_GET, $_POST, $_REQUEST, $_SERVER);
+        self::$instance = new self();
 
         return self::$instance;
     }
