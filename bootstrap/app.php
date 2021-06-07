@@ -24,9 +24,9 @@ $app = new \App\App(
     dirname(__DIR__)
 );
 (new LoadConfiguration())->bootstrap($app);
- $app->withFacades();
+$app->withFacades();
 
- $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -112,5 +112,10 @@ $app->router->group([
 ], function ($router) {
     require __DIR__ . '/../routes/web.php';
 });
+
+$app->router->group(['prefix' => 'api'],
+    static function ($router) {
+        require __DIR__ . '/../routes/api.php';
+    });
 
 return $app;
