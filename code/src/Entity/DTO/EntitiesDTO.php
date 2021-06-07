@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\DTO;
+namespace App\Entity\DTO;
 
 
 use Fig\Http\Message\StatusCodeInterface;
-use JsonSerializable;
+
 
 final class EntitiesDTO implements InterfaceDTO
 {

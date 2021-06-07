@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DTO;
+namespace App\Entity\DTO;
 
 
 use JsonSerializable;

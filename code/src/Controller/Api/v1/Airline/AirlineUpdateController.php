@@ -4,8 +4,8 @@
 namespace App\Controller\Api\v1\Airline;
 
 
-use App\DTO\BadRequestDTO;
-use App\DTO\SuccessDTO;
+use App\Entity\DTO\BadRequestDTO;
+use App\Entity\DTO\SuccessDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

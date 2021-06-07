@@ -1,19 +1,19 @@
 <?php
 
 
-namespace App\DTO;
+namespace App\Entity\DTO;
 
 
 use Fig\Http\Message\StatusCodeInterface;
 use OpenApi\Annotations as OA;
 
-
 /**
- * Class NotFoundDTO
+ * Class ForbiddenDTO
+ * @package App\DTO
  *
  * @OA\Schema ()
  */
-final class NotFoundDTO implements InterfaceDTO
+final class ForbiddenDTO implements InterfaceDTO
 {
     /**
      * @var int
@@ -22,17 +22,14 @@ final class NotFoundDTO implements InterfaceDTO
 
     /**
      * @var string
-     * @OA\Property(property="message", type="string", example="Not found")
+     * @OA\Property(property="message", type="string", example="Access denied")
      */
     private string $message;
 
-    /**
-     * NotFoundDTO constructor.
-     */
     public function __construct()
     {
-        $this->statusCode = StatusCodeInterface::STATUS_NOT_FOUND;
-        $this->message = 'Not found';
+        $this->message = 'Access denied';
+        $this->statusCode = StatusCodeInterface::STATUS_FORBIDDEN;
     }
 
     public function getStatusCode(): int
@@ -46,3 +43,4 @@ final class NotFoundDTO implements InterfaceDTO
         return ['message' => $this->message];
     }
 }
+

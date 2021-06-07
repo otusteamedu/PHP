@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Middleware;
+namespace App\Service\Middleware;
 
 
-use App\DTO\ForbiddenDTO;
+use App\Entity\DTO\ForbiddenDTO;
 use App\Service\Security\SecurityInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;

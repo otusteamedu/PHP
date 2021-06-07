@@ -5,7 +5,7 @@ namespace App\Service\Request;
 
 
 use App\Entity\Request;
-use App\Message\RequestMessage;
+use App\Service\Message\Messages\RequestMessage;
 use App\Service\Message\MessageServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ServerRequestInterface;

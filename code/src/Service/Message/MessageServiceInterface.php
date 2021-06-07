@@ -3,7 +3,8 @@
 namespace App\Service\Message;
 
 
-use App\Message\MessageInterface;
+
+use App\Service\Message\Messages\MessageInterface;
 
 interface MessageServiceInterface
 {

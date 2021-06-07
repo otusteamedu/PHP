@@ -1,8 +1,7 @@
 <?php
 
 
-namespace App\Message;
-
+namespace App\Service\Message\Messages;
 
 
 interface MessageInterface

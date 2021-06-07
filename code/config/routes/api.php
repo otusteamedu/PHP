@@ -18,7 +18,7 @@ use App\Controller\Api\v1\FlightSchedule\FlightIndexController;
 use App\Controller\Api\v1\FlightSchedule\FlightUpdateController;
 use App\Controller\Api\v1\Request\RequestController;
 use App\Controller\Api\v1\SecurityController;
-use App\Middleware\AuthMiddleware;
+use App\Service\Middleware\AuthMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 

@@ -1,8 +1,7 @@
 <?php
 
 
-use App\MessageHandler\RequestMessageHandler;
-use App\Middleware\AuthMiddleware;
+
 use App\Service\Airline\AirlineService;
 use App\Service\Airline\AirlineServiceInterface;
 use App\Service\Airline\AirlineValidator;
@@ -10,8 +9,10 @@ use App\Service\City\CityService;
 use App\Service\City\CityServiceInterface;
 use App\Service\FlightSchedule\FlightScheduleService;
 use App\Service\FlightSchedule\FlightScheduleServiceInterface;
+use App\Service\Message\MessageHandlers\RequestMessageHandler;
 use App\Service\Message\MessageService;
 use App\Service\Message\MessageServiceInterface;
+use App\Service\Middleware\AuthMiddleware;
 use App\Service\Request\RequestService;
 use App\Service\Request\RequestServiceInterface;
 use App\Service\Security\SecurityInterface;

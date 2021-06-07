@@ -8,7 +8,6 @@ use OpenApi\Generator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Log\LoggerInterface;
 use Slim\Views\PhpRenderer;
 use OpenApi\Annotations as OA;
 

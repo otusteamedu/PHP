@@ -16,6 +16,12 @@ docker-compose exec app php src/bin/console messenger:start
 #### 4. Документация
 http://localhost/api/doc
 
+Тестовые пользователи
+
+user1@mail.com:user1
+
+user2@mail.com:user2
+
 
 
 

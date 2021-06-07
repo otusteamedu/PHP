@@ -4,7 +4,7 @@
 namespace App\Service\Message;
 
 
-use App\Message\MessageInterface;
+use App\Service\Message\Messages\MessageInterface;
 use App\Utils\Builder\AMQPChannelBuilderInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -24,10 +24,11 @@ class MessageService implements MessageServiceInterface
         $this->queue = $channelBuilder->getQueueName();
     }
 
+
     /**
      * Добавление сообщения в очередь.
      *
-     * @param \App\Message\MessageInterface $message
+     * @param \App\Service\Message\Messages\MessageInterface $message
      */
     public function push(MessageInterface $message)
     {

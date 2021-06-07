@@ -1,10 +1,12 @@
 <?php
 
 
-namespace App\DTO;
+namespace App\Entity\DTO;
 
 
 use Fig\Http\Message\StatusCodeInterface;
+use OpenApi\Annotations as OA;
+
 
 /**
  * Class RequestDTO

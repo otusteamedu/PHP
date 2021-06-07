@@ -4,7 +4,7 @@
 namespace App\Controller\Api\v1\FlightSchedule;
 
 
-use App\DTO\RequestDTO;
+use App\Entity\DTO\RequestDTO;
 use App\Service\FlightSchedule\FlightScheduleServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

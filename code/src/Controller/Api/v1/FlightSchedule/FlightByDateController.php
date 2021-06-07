@@ -4,8 +4,8 @@
 namespace App\Controller\Api\v1\FlightSchedule;
 
 
-use App\DTO\EntitiesDTO;
-use App\DTO\NotFoundDTO;
+use App\Entity\DTO\EntitiesDTO;
+use App\Entity\DTO\NotFoundDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

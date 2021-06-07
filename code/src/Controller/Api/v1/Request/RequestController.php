@@ -5,8 +5,8 @@ namespace App\Controller\Api\v1\Request;
 
 
 use App\Controller\Api\Traits\JsonResponseTrait;
-use App\DTO\EntityDTO;
-use App\DTO\NotFoundDTO;
+use App\Entity\DTO\EntityDTO;
+use App\Entity\DTO\NotFoundDTO;
 use App\Service\Request\RequestServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

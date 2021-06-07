@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\MessageHandler;
+namespace App\Service\Message\MessageHandlers;
 
 
 use App\Entity\Request;
-use App\Message\MessageInterface;
-use App\Message\RequestMessage;
+use App\Service\Message\Messages\MessageInterface;
 use App\Service\CrudInterface;
+use App\Service\Message\Messages\RequestMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Container\ContainerInterface;
@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
  * @author Alexandr Timofeev <tim31al@gmail.com>
  *
  * Class RequestMessageHandler
- * @package App\MessageHandler
+ * @package App\MessageHandlers
  */
 class RequestMessageHandler implements MessageHandlerInterface
 {
@@ -41,7 +41,7 @@ class RequestMessageHandler implements MessageHandlerInterface
     }
 
 
-    /** @var \App\Message\RequestMessage $message */
+    /** @var \App\Service\Message\Messages\RequestMessage $message */
     public function process(MessageInterface $message)
     {
         try {
@@ -124,9 +124,11 @@ class RequestMessageHandler implements MessageHandlerInterface
         return $this->container->get($service);
     }
 
+
     /**
      * Получить запрос
-     * @param \App\Message\RequestMessage $message
+     *
+     * @param \App\Service\Message\Messages\RequestMessage $message
      */
     private function setRequest(RequestMessage $message): void
     {

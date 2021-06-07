@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\MessageHandler;
+namespace App\Service\Message\MessageHandlers;
 
 
-use App\Message\MessageInterface;
+use App\Service\Message\Messages\MessageInterface;
 
 interface MessageHandlerInterface
 {

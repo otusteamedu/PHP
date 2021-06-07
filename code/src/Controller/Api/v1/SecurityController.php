@@ -4,10 +4,9 @@
 namespace App\Controller\Api\v1;
 
 
-use App\Controller\Api\AbstractController;
 use App\Controller\Api\Traits\JsonResponseTrait;
-use App\DTO\BadRequestDTO;
-use App\DTO\TokenDTO;
+use App\Entity\DTO\BadRequestDTO;
+use App\Entity\DTO\TokenDTO;
 use App\Service\Security\SecurityInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

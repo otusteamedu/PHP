@@ -4,7 +4,8 @@
 namespace App\Controller\Api\Traits;
 
 
-use App\DTO\InterfaceDTO;
+
+use App\Entity\DTO\InterfaceDTO;
 use Psr\Http\Message\ResponseInterface;
 
 trait JsonResponseTrait

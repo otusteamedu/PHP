@@ -4,8 +4,8 @@
 namespace App\Controller\Api\v1\City;
 
 
-use App\DTO\BadRequestDTO;
-use App\DTO\EntityDTO;
+use App\Entity\DTO\BadRequestDTO;
+use App\Entity\DTO\EntityDTO;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

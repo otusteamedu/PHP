@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Message;
+namespace App\Service\Message\Messages;
 
 
-use App\MessageHandler\RequestMessageHandler;
+use App\Service\Message\MessageHandlers\RequestMessageHandler;
 
 /**
  * @author Alexandr Timofeev <tim31al@gmail.com>
