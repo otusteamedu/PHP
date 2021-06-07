@@ -24,8 +24,6 @@ class OpenApiController
     public function __construct(ContainerInterface $container)
     {
         $this->renderer = $container->get(PhpRenderer::class);
-        $logger = $container->get(LoggerInterface::class);
-        $logger->info('message');
     }
 
 

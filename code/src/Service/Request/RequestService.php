@@ -10,6 +10,13 @@ use App\Service\Message\MessageServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+
+/**
+ * @author Alexandr Timofeev <tim31al@gmail.com>
+ *
+ * Class RequestService
+ * @package App\Service\Request
+ */
 class RequestService implements RequestServiceInterface
 {
     private EntityManagerInterface $entityManager;
@@ -26,6 +33,12 @@ class RequestService implements RequestServiceInterface
     }
 
 
+    /**
+     * Статус запроса
+     *
+     * @param int $number
+     * @return \JsonSerializable|null
+     */
     public function getRequestStatus(int $number): ?\JsonSerializable
     {
         /** @var Request $request */
@@ -36,6 +49,13 @@ class RequestService implements RequestServiceInterface
         return $request;
     }
 
+    /**
+     * Добавить запрос в очередь для обработки
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param string $service
+     * @return int
+     */
     public function addRequest(ServerRequestInterface $request, string $service): int
     {
         $json = $this->getData($request, $service);
@@ -51,6 +71,13 @@ class RequestService implements RequestServiceInterface
         return $requestRecord->getId();
     }
 
+    /**
+     * Получить данные с запроса
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param string $service
+     * @return string
+     */
     private function getData(ServerRequestInterface $request, string $service): string
     {
         $data['service'] = $service;

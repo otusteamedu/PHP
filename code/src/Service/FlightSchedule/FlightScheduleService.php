@@ -10,7 +10,12 @@ use App\Entity\FlightSchedule;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonSerializable;
 
-
+/**
+ * @author Alexandr Timofeev <tim31al@gmail.com>
+ *
+ * Class FlightScheduleService
+ * @package App\Service\FlightSchedule
+ */
 class FlightScheduleService implements FlightScheduleServiceInterface
 {
     const MAX_LIMIT = 20;
@@ -28,6 +33,12 @@ class FlightScheduleService implements FlightScheduleServiceInterface
     }
 
 
+    /**
+     * Создать запись в расписании
+     *
+     * @param array $raw
+     * @return \JsonSerializable|null
+     */
     public function create(array $raw): ?JsonSerializable
     {
         if (!$this->validate($raw)) {
@@ -44,11 +55,19 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
     }
 
+    /**
+     * @param int $id
+     * @return \JsonSerializable|null
+     */
     public function read(int $id): ?JsonSerializable
     {
         return $this->getFlight($id);
     }
 
+    /**
+     * @param array $raw
+     * @return bool
+     */
     public function update(array $raw): bool
     {
         if (!$this->validate($raw)) {
@@ -65,6 +84,11 @@ class FlightScheduleService implements FlightScheduleServiceInterface
         return true;
     }
 
+    /**
+     * Удалить запись
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
         $flight = $this->getFlight($id);
@@ -78,6 +102,11 @@ class FlightScheduleService implements FlightScheduleServiceInterface
         }
     }
 
+    /**
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+     */
     public function getAll(int $limit = null, int $offset = null): array
     {
         $limit = $limit ?? self::MAX_LIMIT;
@@ -88,6 +117,12 @@ class FlightScheduleService implements FlightScheduleServiceInterface
             ->findBy([], null, $limit, $offset);
     }
 
+    /**
+     * Поиск записей по дате
+     *
+     * @param string $date
+     * @return array|null
+     */
     public function findByDate(string $date): ?array
     {
         try {
@@ -104,6 +139,11 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
     }
 
+    /**
+     * Получить запись
+     * @param int $id
+     * @return \App\Entity\FlightSchedule|null
+     */
     private function getFlight(int $id): ?FlightSchedule
     {
         /** @var FlightSchedule $flight */

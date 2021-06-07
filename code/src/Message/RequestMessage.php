@@ -6,6 +6,12 @@ namespace App\Message;
 
 use App\MessageHandler\RequestMessageHandler;
 
+/**
+ * @author Alexandr Timofeev <tim31al@gmail.com>
+ *
+ * Class RequestMessage
+ * @package App\Message
+ */
 class RequestMessage implements MessageInterface
 {
     private int $requestNumber;

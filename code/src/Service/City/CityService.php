@@ -31,6 +31,12 @@ class CityService implements CityServiceInterface
     }
 
 
+    /**
+     * Create city
+     *
+     * @param array|null $raw
+     * @return \JsonSerializable|null
+     */
     public function create(?array $raw): ?JsonSerializable
     {
         if (!$this->validate($raw)) {
@@ -42,6 +48,12 @@ class CityService implements CityServiceInterface
         return $this->saveCity($city, $raw) ? $city : null;
     }
 
+    /**
+     * Get city by id
+     *
+     * @param int $id
+     * @return \JsonSerializable|null
+     */
     public function read(int $id): ?JsonSerializable
     {
         return $this->getCity($id);

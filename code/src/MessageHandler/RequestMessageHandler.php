@@ -13,6 +13,12 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @author Alexandr Timofeev <tim31al@gmail.com>
+ *
+ * Class RequestMessageHandler
+ * @package App\MessageHandler
+ */
 class RequestMessageHandler implements MessageHandlerInterface
 {
     const PROCESSING = 1;
@@ -73,6 +79,10 @@ class RequestMessageHandler implements MessageHandlerInterface
         }
     }
 
+    /**
+     * Установить статус обработки
+     * @param int $state
+     */
     private function setState(int $state): void
     {
         if ($state === self::PROCESSING) {
@@ -85,16 +95,28 @@ class RequestMessageHandler implements MessageHandlerInterface
         $this->entityManager->flush();
     }
 
+    /**
+     * @return array
+     */
     private function getData(): array
     {
         return json_decode($this->request->getContext(), true);
     }
 
+    /**
+     * Установить результат обработки
+     * @param int $result
+     */
     private function setResult(int $result): void
     {
         $this->request->setResult($result);
     }
 
+    /**
+     * Получить сервис из контекста запроса
+     * @param array $data
+     * @return \App\Service\CrudInterface
+     */
     private function getService(array $data): CrudInterface
     {
         $service = $data['service'];
@@ -102,6 +124,10 @@ class RequestMessageHandler implements MessageHandlerInterface
         return $this->container->get($service);
     }
 
+    /**
+     * Получить запрос
+     * @param \App\Message\RequestMessage $message
+     */
     private function setRequest(RequestMessage $message): void
     {
         $number = $message->getRequestNumber();

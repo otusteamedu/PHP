@@ -7,7 +7,7 @@ namespace App\Service\Airline;
 use App\Entity\Airline;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonSerializable;
-use Psr\Log\LoggerInterface;
+
 
 final class AirlineService implements AirlineServiceInterface
 {
@@ -124,6 +124,13 @@ final class AirlineService implements AirlineServiceInterface
         return $airline;
     }
 
+    /**
+     * Сохранить авиакомпанию
+     *
+     * @param \App\Entity\Airline $airline
+     * @param array $data
+     * @return bool
+     */
     private function saveAirline(Airline $airline, array $data): bool
     {
         try {
