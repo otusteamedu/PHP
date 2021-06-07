@@ -1,7 +1,7 @@
 # Запуск проекта
 
 #### 1. Клонировать репозиторий и перейти в каталог
-`git clone https://github.com/otusteamedu/PHP/tree/ATimofeev/hw12-rabbit <path> && cd <path>`
+`git clone https://github.com/otusteamedu/PHP/tree/ATimofeev/hw13-api <path> && cd <path>`
 
 #### 2. Создать docker контейнеры, установить зависимости
 `bash init.sh`
@@ -13,10 +13,9 @@
 
 docker-compose exec app php src/bin/console messenger:start
 
-#### 4. Открыть в браузере
-http://localhost
+#### 4. Документация
+http://localhost/api/doc
 
-http://localhost:1080/
 
 
 

@@ -1,7 +1,7 @@
 /.idea
 /.env
 /code/vendor/
-/code/var/log/
+/code/var/
 /postgres-data/
 /elastic-data/
 /redis-data/
