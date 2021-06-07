@@ -35,7 +35,6 @@ services:
     working_dir: ${WORKDIR}
     volumes:
       - ./code:${WORKDIR}
-      - ./code/var/log:${WORKDIR}/var/log
       - sock:${SOCKET_DIR}
 
   postgres:
@@ -50,14 +49,6 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-
-  mailercatcher:
-    image: jeanberu/mailcatcher
-    container_name: ${SMTP_HOST}
-    hostname: ${SMTP_HOST}
-    ports:
-      - ${SMTP_PORT}:${SMTP_PORT}
-      - 1080:1080
 
 
   rabbitmq:

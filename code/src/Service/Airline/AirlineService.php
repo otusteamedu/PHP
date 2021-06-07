@@ -14,21 +14,15 @@ final class AirlineService implements AirlineServiceInterface
     const MAX_LIMIT = 20;
 
     private EntityManagerInterface $entityManager;
-    private LoggerInterface $logger;
     private AirlineValidator $validator;
 
     /**
      * Airline constructor.
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger,
-        AirlineValidator $validator
-    )
+    public function __construct(EntityManagerInterface $entityManager, AirlineValidator $validator)
     {
         $this->entityManager = $entityManager;
-        $this->logger = $logger;
         $this->validator = $validator;
     }
 

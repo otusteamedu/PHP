@@ -49,7 +49,7 @@ class Request implements \JsonSerializable
     /**
      * @ORM\Column(type="string", length=30)
      *
-     * @OA\Property(property="state", type="string", description="Статус запроса", example="В обработке")
+     * @OA\Property(property="state", type="string", description="Статус запроса", example="Обработан")
      */
     protected string $state;
 

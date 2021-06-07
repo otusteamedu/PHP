@@ -9,12 +9,12 @@ use App\Service\FlightSchedule\FlightScheduleServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class FlightCreateController extends AbstractFlightController
+class FlightUpdateController extends AbstractFlightController
 {
     /**
-     *  Добавить рейс в расписание
+     *  Изменить рейс в расписании
      *
-     * @OA\Post(
+     * @OA\Put(
      *      path="/api/v1/flights",
      *      tags={"Расписание рейсов"},
      *      @OA\Parameter(
@@ -28,6 +28,7 @@ class FlightCreateController extends AbstractFlightController
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="id", type="integer", description="ID рейса", example="10"),
      *                 @OA\Property(property="airline_id", type="integer", description="ID авиакомпании", example="1"),
      *                 @OA\Property(property="departure_id", type="integer", description="ID города вылета", example="2"),
      *                 @OA\Property(property="arrival_id", type="integer", description="ID города прилета", example="3"),

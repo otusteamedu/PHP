@@ -10,7 +10,8 @@ docker-compose exec app php vendor/bin/doctrine orm:generate-proxies -q
 
 docker-compose exec app php src/bin/console users:create
 docker-compose exec app php src/bin/console airlines:create
-docker-compose exece app php src/bin/console flight-schedule:create
-
+docker-compose exec app php src/bin/console flight-schedule:create
+docker-compose exec -u app app php src/bin/init
+#
 docker-compose down
 

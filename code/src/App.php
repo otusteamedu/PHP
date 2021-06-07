@@ -24,7 +24,7 @@ final class App
         $container = $config->buildContainer();
 
         // Var dumper (php vendor/bin/var-dump-server) dump($value)
-        $config->addVarDumper();
+//        $config->addVarDumper();
 
         $this->init($container);
     }

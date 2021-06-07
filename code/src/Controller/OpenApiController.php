@@ -8,6 +8,7 @@ use OpenApi\Generator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Log\LoggerInterface;
 use Slim\Views\PhpRenderer;
 use OpenApi\Annotations as OA;
 
@@ -23,6 +24,8 @@ class OpenApiController
     public function __construct(ContainerInterface $container)
     {
         $this->renderer = $container->get(PhpRenderer::class);
+        $logger = $container->get(LoggerInterface::class);
+        $logger->info('message');
     }
 
 

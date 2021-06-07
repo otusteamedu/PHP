@@ -11,6 +11,7 @@ use App\Service\CrudInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class RequestMessageHandler implements MessageHandlerInterface
 {
@@ -20,6 +21,7 @@ class RequestMessageHandler implements MessageHandlerInterface
     private EntityManagerInterface $entityManager;
     private ContainerInterface $container;
     private Request $request;
+    private LoggerInterface $logger;
 
     /**
      * RequestMessageHandler constructor.
@@ -29,6 +31,7 @@ class RequestMessageHandler implements MessageHandlerInterface
     {
         $this->container = $container;
         $this->entityManager = $entityManager;
+        $this->logger = $container->get(LoggerInterface::class);
     }
 
 
@@ -66,7 +69,7 @@ class RequestMessageHandler implements MessageHandlerInterface
             $this->setState(self::PROCESSED);
 
         } catch (\Exception $e) {
-            dump($e->getMessage() . '. ' . $e->getFile() . ':' . $e->getLine());
+            $this->logger->error($e->getMessage() . '. ' . $e->getFile() . ':' . $e->getLine());
         }
     }
 

@@ -4,7 +4,6 @@
 namespace App\Controller\Api\v1\City;
 
 
-use App\Controller\Api\AbstractController;
 use App\DTO\EntityDTO;
 use App\DTO\NotFoundDTO;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class CityReadController extends AbstractCityController
 {
     /**
-     * Найти город
+     * Информация о города по ID
      *
      * @OA\Get(
      *      path="/api/v1/cities/{id}",

@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+
+<?php
+
+if (!is_dir(__DIR__ . '/../../var/log')) {
+    mkdir(__DIR__ . '/../../var/log', 0777, true);
+}

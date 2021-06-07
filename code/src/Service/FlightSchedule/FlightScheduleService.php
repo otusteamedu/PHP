@@ -4,14 +4,17 @@
 namespace App\Service\FlightSchedule;
 
 
+use App\Entity\Airline;
+use App\Entity\City;
 use App\Entity\FlightSchedule;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonSerializable;
-use Psr\Log\LoggerInterface;
+
 
 class FlightScheduleService implements FlightScheduleServiceInterface
 {
     const MAX_LIMIT = 20;
+    const RAW_KEYS = ['airline_id', 'departure_id', 'arrival_id', 'departure_time'];
 
     private EntityManagerInterface $entityManager;
 
@@ -27,7 +30,18 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
     public function create(array $raw): ?JsonSerializable
     {
-        // TODO: Implement create() method.
+        if (!$this->validate($raw)) {
+            return null;
+        }
+
+        $flight = new FlightSchedule();
+
+        if ($this->saveFlight($flight, $raw)) {
+            return $flight;
+        }
+
+        return null;
+
     }
 
     public function read(int $id): ?JsonSerializable
@@ -37,7 +51,18 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
     public function update(array $raw): bool
     {
-        // TODO: Implement update() method.
+        if (!$this->validate($raw)) {
+            return false;
+        }
+
+        $id = (int)$raw['id'] ?? 0;
+        $flight = $this->getFlight($id);
+
+        if (!$flight || !$this->saveFlight($flight, $raw)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function delete(int $id): bool
@@ -74,7 +99,6 @@ class FlightScheduleService implements FlightScheduleServiceInterface
 
             return $qb->getQuery()->getResult();
         } catch (\Exception $e) {
-            $this->logger->info($e->getMessage());
             return null;
         }
 
@@ -90,9 +114,62 @@ class FlightScheduleService implements FlightScheduleServiceInterface
         return $flight;
     }
 
+    private function getAirline(int $id): ?Airline
+    {
+        /** @var Airline $airline */
+        $airline = $this->entityManager
+            ->getRepository(Airline::class)
+            ->find($id);
+
+        return $airline;
+    }
+
+    private function getCity(int $id): ?City
+    {
+        /** @var City $city */
+        $city = $this->entityManager
+            ->getRepository(City::class)
+            ->find($id);
+
+        return $city;
+    }
+
     private function validate(array $raw): bool
     {
+        foreach (self::RAW_KEYS as $key) {
+            if (!array_key_exists($key, $raw)) {
+                return false;
+            }
+        }
 
+        return true;
+    }
+
+    private function saveFlight(FlightSchedule $flight, array $raw): bool
+    {
+        try {
+            $airline = $this->getAirline((int)$raw['airline_id']);
+            $departure = $this->getCity((int)$raw['departure_id']);
+            $arrival = $this->getCity((int)$raw['arrival_id']);
+            $departureTime = new \DateTime($raw['departure_time']);
+
+            if (!$airline || !$departure || !$arrival || !$departureTime) {
+                return false;
+            }
+
+            $flight
+                ->setAirline($airline)
+                ->setDeparture($departure)
+                ->setArrival($arrival)
+                ->setDepartureTime($departureTime);
+
+            $this->entityManager->persist($flight);
+            $this->entityManager->flush();
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
 

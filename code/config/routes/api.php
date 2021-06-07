@@ -15,6 +15,7 @@ use App\Controller\Api\v1\FlightSchedule\FlightByDateController;
 use App\Controller\Api\v1\FlightSchedule\FlightCreateController;
 use App\Controller\Api\v1\FlightSchedule\FlightDeleteController;
 use App\Controller\Api\v1\FlightSchedule\FlightIndexController;
+use App\Controller\Api\v1\FlightSchedule\FlightUpdateController;
 use App\Controller\Api\v1\Request\RequestController;
 use App\Controller\Api\v1\SecurityController;
 use App\Middleware\AuthMiddleware;
@@ -48,6 +49,7 @@ return function (App $app) {
             $flightsGroup->get('', FlightIndexController::class);
             $flightsGroup->get('/{date:[0-9]{4}-[0-9]{2}-[0-9]{2}}', FlightByDateController::class);
             $flightsGroup->post('', FlightCreateController::class);
+            $flightsGroup->put('', FlightUpdateController::class);
             $flightsGroup->delete('/{id:[0-9]+}', FlightDeleteController::class);
         })->add($authMiddleware);
 

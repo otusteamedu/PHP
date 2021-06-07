@@ -10,8 +10,6 @@ use App\Service\City\CityService;
 use App\Service\City\CityServiceInterface;
 use App\Service\FlightSchedule\FlightScheduleService;
 use App\Service\FlightSchedule\FlightScheduleServiceInterface;
-use App\Service\Mailer\MailerInterface;
-use App\Service\Mailer\MailerService;
 use App\Service\Message\MessageService;
 use App\Service\Message\MessageServiceInterface;
 use App\Service\Request\RequestService;
@@ -22,6 +20,7 @@ use App\Utils\Builder\AMQPChannelBuilderInterface;
 use App\Utils\Builder\AMQPChannelBuilder;
 use App\Utils\Validator\StringValidator;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -38,7 +37,7 @@ return [
     EntityManager::class => function (ContainerInterface $container): EntityManager {
 
         $loader = require __DIR__ . '/../vendor/autoload.php';
-        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
         $config = Setup::createAnnotationMetadataConfiguration(
             $container->get('doctrine')['metadata_dirs'],
@@ -83,26 +82,14 @@ return [
         return $logger;
     },
 
-    MailerInterface::class => function (ContainerInterface $container): MailerInterface {
-        list ($host, $port, $username, $password) = array_values($container->get('smtp'));
-
-        $transport = (new Swift_SmtpTransport($host, $port))
-            ->setUsername($username)
-            ->setPassword($password);
-
-        $mailer = new Swift_Mailer($transport);
-
-        return new MailerService($mailer);
-    },
-
     PhpRenderer::class => function (ContainerInterface $container): PhpRenderer {
         return new PhpRenderer($container->get('templates_path'));
     },
 
-    AirlineServiceInterface::class => function (EntityManagerInterface $entityManager, LoggerInterface $logger): AirlineServiceInterface {
+    AirlineServiceInterface::class => function (EntityManagerInterface $entityManager): AirlineServiceInterface {
         $stringValidator = new StringValidator();
         $validator = new AirlineValidator($stringValidator);
-        return new AirlineService($entityManager, $logger, $validator);
+        return new AirlineService($entityManager, $validator);
     },
 
     AuthMiddleware::class => function (SecurityInterface $security): AuthMiddleware {
