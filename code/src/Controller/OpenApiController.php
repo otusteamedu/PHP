@@ -49,7 +49,6 @@ class OpenApiController
     {
         $openapi = Generator::scan([
             __DIR__,
-            __DIR__ . '/../DTO',
             __DIR__ . '/../Entity',
         ]);
 
