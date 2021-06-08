@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace Src;
 
-use Exception;
-
 class App
 {
     private array $params;
 
+    private ?array $argv;
+
     /**
      * @throws \Exception
      */
-    public function __construct(array $queryParams)
+    public function __construct(array $queryParams, ?array $argv)
     {
-        $this->validateRequest($queryParams);
+        $this->argv = $argv;
         $this->params = $queryParams;
     }
 
@@ -23,17 +23,13 @@ class App
      */
     public function run()
     {
-        $consumer = new Consumer();
-        $consumer->send($this->params['email']);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function validateRequest(array $data)
-    {
-        if (empty($data['email'])) {
-            throw new Exception('Email field if required', 400);
+        if (!empty($this->argv)) {
+            $service = new CommandService($this->argv);
+            $service->run();
+        } else {
+            RequestValidator::validate($this->params);
+            $consumer = new Consumer();
+            $consumer->send($this->params['email']);
         }
     }
 }
