@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Command;
+namespace App\Utils\Command;
 
 
 use App\Entity\User;
@@ -13,6 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateUsersCommand extends Command
 {
+    const TEST_USERS = ['user1@mail.com', 'user2@mail.com'];
+
     private EntityManagerInterface $entityManager;
     private SecurityInterface $security;
 
@@ -39,10 +41,21 @@ class CreateUsersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $users = $this->entityManager
+            ->getRepository(User::class)
+            ->findBy(['email' => self::TEST_USERS]);
 
-        foreach (range(1 , 2) as $i) {
+        if ($users) {
+            echo 'Test users (' . implode(', ', self::TEST_USERS) . ') already exists', PHP_EOL;
+            return Command::FAILURE;
+        }
+
+
+        foreach (self::TEST_USERS as $key => $email) {
+            $i = $key + 1;
+
             $user = new User();
-            $user->setEmail('user' . $i . '@mail.com');
+            $user->setEmail($email);
             $user->setFirstname('User ' . $i);
             $user->setPassword(
                 $this->security->cryptPassword('user' . $i)

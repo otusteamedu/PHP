@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Command;
+namespace App\Utils\Command;
 
 
 use App\Entity\Airline;

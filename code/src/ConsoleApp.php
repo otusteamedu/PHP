@@ -1,16 +1,14 @@
 <?php
 
 
-namespace App\Console;
+namespace App;
 
-
-use App\Command\CreateAirlineCommand;
-use App\Command\CreateBankOperationCommand;
-use App\Command\CreateCitiesCommand;
-use App\Command\CreateFlightScheduleCommand;
-use App\Command\MessengerStartCommand;
-use App\Command\CreateUsersCommand;
 use App\Service\Security\SecurityInterface;
+use App\Utils\Command\CreateAirlineCommand;
+use App\Utils\Command\CreateCitiesCommand;
+use App\Utils\Command\CreateFlightScheduleCommand;
+use App\Utils\Command\CreateUsersCommand;
+use App\Utils\Command\MessengerStartCommand;
 use App\Utils\Config;
 use App\Utils\Transliterator\Transliterator;
 use Doctrine\ORM\EntityManager;
@@ -18,7 +16,7 @@ use Faker\Factory;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 
-class App extends Application
+class ConsoleApp extends Application
 {
     private ContainerInterface $container;
 
@@ -40,7 +38,6 @@ class App extends Application
         $this->addCommands([
             new MessengerStartCommand($this->container),
             new CreateUsersCommand($entityManager, $security),
-            new CreateBankOperationCommand($entityManager),
             new CreateAirlineCommand($entityManager, $faker, $transliterator),
             new CreateCitiesCommand($entityManager),
             new CreateFlightScheduleCommand($entityManager),

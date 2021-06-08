@@ -2,12 +2,12 @@
 
 <?php
 
-use App\Console\App;
+use App\ConsoleApp;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 try {
-    $app = new App();
+    $app = new ConsoleApp();
     $app->run();
 }
 catch(Exception $e){
