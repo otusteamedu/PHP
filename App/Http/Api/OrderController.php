@@ -4,19 +4,21 @@
 namespace App\Http\Api;
 
 
+use App\Models\Order;
+use App\Services\Order\OrderService;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
 class OrderController extends Controller
 {
-    public function add(Request $request)
+    public function add(Request $request, OrderService $service)
     {
         $data  = $this->validate($request, [
-            'total' => 'numeric|required'
+            'price' => 'numeric|required'
         ]);
-        var_dump($data);
+        return $service->create(new Order($data))->toArray();
     }
-    public function get(){
-        return ['todo' => 'Method will return order'];
+    public function get($id){
+        return Order::find($id);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
+use Anik\Amqp\ServiceProviders\AmqpServiceProvider;
 use App\Bootstrap\LoadConfiguration;
+use VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -95,7 +97,7 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
+$app->register(LaravelQueueRabbitMQServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

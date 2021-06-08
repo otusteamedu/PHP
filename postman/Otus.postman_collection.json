@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "410b7b62-c985-4fd4-aa66-b6920628c88e",
+		"name": "Otus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create an order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"orderId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "price",
+							"value": "{{RandomPrice}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/orders/",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"orders",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				},
+				"description": "It will send post request and recieve a new order in response"
+			},
+			"response": []
+		},
+		{
+			"name": "Get order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(pm.environment.get('orderId'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/orders/{{orderId}}/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{orderId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"RandomPrice\", _.random(10000, 100000));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "RandomPrice",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		}
+	]
+}
