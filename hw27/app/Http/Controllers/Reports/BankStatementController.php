@@ -42,14 +42,25 @@ class BankStatementController extends Controller
      * summary="Generate report in queue",
      * description="Generate report in queue",
      * tags={"reports"},
-     * @OA\RequestBody(
-     *    required=true,
-     *    description="Pass date credentials",
-     *    @OA\JsonContent(
-     *       required={"from","to"},
-     *       @OA\Property(property="from", type="string", format="date-time", example="2021-06-03 09:04:57"),
-     *       @OA\Property(property="to", type="string", format="date-time", example="2021-06-03 09:04:57")
-     *    ),
+     * @OA\Parameter(
+     *     name="from",
+     *     in="query",
+     *     description="Start date for filter",
+     *     required=true,
+     *     @OA\Schema(
+     *         type="string",
+     *         format="date-time"
+     *     ),
+     * ),
+     * @OA\Parameter(
+     *     name="to",
+     *     in="query",
+     *     description="End date for filter",
+     *     required=true,
+     *     @OA\Schema(
+     *         type="string",
+     *         format="date-time"
+     *     ),
      * ),
      * @OA\Response(
      *    response=201,
@@ -60,7 +71,7 @@ class BankStatementController extends Controller
      *       @OA\Property(property="job_guid", type="string", example="9395afcc-34aa-49a5-84a8-3e610d9585e0")
      *        )
      *     )
-     * )
+     * ),
      * @OA\Response(
      *    response=400,
      *    description="Fail",
@@ -107,13 +118,15 @@ class BankStatementController extends Controller
      * summary="Check job status",
      * description="Check job status",
      * tags={"reports"},
-     * @OA\RequestBody(
-     *    required=true,
-     *    description="Pass date credentials",
-     *    @OA\JsonContent(
-     *       required={"from","to"},
-     *       @OA\Property(property="guid", type="string", example="9395afcc-34aa-49a5-84a8-3e610d9585e0"),
-     *    ),
+     * @OA\Parameter(
+     *     name="guid",
+     *     in="query",
+     *     description="Guid number to identify report",
+     *     required=true,
+     *     @OA\Schema(
+     *         type="string",
+     *         format="uuid"
+     *     ),
      * ),
      * @OA\Response(
      *    response=200,
@@ -121,15 +134,15 @@ class BankStatementController extends Controller
      *    @OA\JsonContent(
      *       @OA\Property(property="status", type="string", example="Success"),
      *       @OA\Property(property="message", type="string", example="Report generation process has been successfully added to queue!"),
-     *       @OA\Property(property="start_date", type="string")
-     *       @OA\Property(property="end_date", type="string")
-     *       @OA\Property(property="job_guid", type="string")
-     *       @OA\Property(property="report", type="string")
-     *       @OA\Property(property="created_at", type="string")
+     *       @OA\Property(property="start_date", type="string"),
+     *       @OA\Property(property="end_date", type="string"),
+     *       @OA\Property(property="job_guid", type="string"),
+     *       @OA\Property(property="report", type="string"),
+     *       @OA\Property(property="created_at", type="string"),
      *       @OA\Property(property="updated_at", type="string")
      *        )
-     *     )
-     * )
+     *     ),
+     *
      * @OA\Response(
      *    response=400,
      *    description="Fail",
