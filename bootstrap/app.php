@@ -2,6 +2,9 @@
 
 use Anik\Amqp\ServiceProviders\AmqpServiceProvider;
 use App\Bootstrap\LoadConfiguration;
+use App\Providers\SwaggerServiceProvider;
+use L5Swagger\L5SwaggerServiceProvider;
+use SwaggerLume\ServiceProvider;
 use VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -29,7 +32,7 @@ $app = new \App\App(
 $app->withFacades();
 
 $app->withEloquent();
-
+$app->configure('swagger-lume');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -98,6 +101,7 @@ $app->configure('app');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(LaravelQueueRabbitMQServiceProvider::class);
+$app->register(SwaggerServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

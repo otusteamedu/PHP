@@ -14,5 +14,10 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    if (!view()->exists('vendor.swagger-lume.index')) {
+        return view('vendor.swagger-lume.index', ['urlToDocs' => '/api-doc/']);
+    }
+    return app()->version();
 });
+
+$router->get('/api-doc/', fn() => json_decode(file_get_contents(storage_path() . '/api-docs/api-docs.json'), true));

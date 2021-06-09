@@ -22,7 +22,8 @@
     "php-amqplib/php-amqplib": "^v3.0.0",
     "laravel/lumen-framework": "^8.0",
     "fzaninotto/faker": "^1.9",
-    "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2"
+    "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2",
+    "darkaonline/swagger-lume": "8.*"
   },
   "require-dev": {
     "kint-php/kint": "^3.3"

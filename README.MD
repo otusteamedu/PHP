@@ -5,9 +5,17 @@
 * Запустить приёмник `php artisan rabbitmq:consume --queue=order`
 
 ## Ручной запуск
+
 * Отправить post запрос на `/api/orders/` с параметром `price`
 * Отправить get запрос на `/api/orders/#id#/`
 
-##  Postman
+## Postman
+
 * Импортировать коллекцию из `./postman/`
 * Выполнить запросы
+
+## Swagger
+
+* Запустить `php artisan swagger-lume:publish-views` для создания view
+* Запустить `php artisan swagger-lume:generate` для генерации документации
+* Открыть `/` (корень сайта).
