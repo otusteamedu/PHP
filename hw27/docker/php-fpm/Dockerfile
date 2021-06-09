@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install pdo pdo_pgsql pgsql
 
 # COPY --from=composer /usr/bin/composer /usr/bin/composer
+# Install Composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 

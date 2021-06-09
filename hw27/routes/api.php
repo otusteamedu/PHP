@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Reports\BankStatementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix('reports')->name('reports.')->group(function () {
+    Route::get('/bank-statement/generate', [BankStatementController:: class, 'generate'])->name('bank-statement.generate');
+    Route::get('/bank-statement/status', [BankStatementController::class, 'status'])->name('bank-statement.status');
+        // another routes
+    });
