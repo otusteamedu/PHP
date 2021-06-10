@@ -50,7 +50,6 @@ services:
   db:
     container_name: ${COMPOSE_PROJECT_NAME}_db
     image: postgres
-    restart: always
     command: [
         "postgres",
         "-c", "random_page_cost=1.1",
