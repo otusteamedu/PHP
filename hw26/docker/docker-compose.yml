@@ -1,0 +1,61 @@
+version: '3'
+services:
+    mysite-nginx:
+        build:
+            context: nginx
+            dockerfile: Dockerfile
+        image: otus/mysite-nginx
+        container_name: mysite-nginx
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        depends_on:
+            - mysite-php-fpm
+            - mysite-rabbitmq
+        ports:
+            - "80:80"
+        networks:
+            - mysite-network
+
+    mysite-php-fpm:
+        build:
+            context: php-fpm
+            dockerfile: Dockerfile
+        image: otus/mysite-php-fpm
+        container_name: mysite-php-fpm
+        volumes:
+            - ../app:/app:delegated
+            - ../sock:/sock
+        networks:
+            - mysite-network
+
+    mysite-php-cli:
+        build:
+            context: php-cli
+            dockerfile: Dockerfile
+        image: otus/php-cli
+        container_name: mysite-php-cli
+        volumes:
+            - ../app:/app:delegated
+        depends_on:
+            - mysite-rabbitmq
+        networks:
+            - mysite-network
+
+    mysite-rabbitmq:
+        image: rabbitmq:3.8.16-management
+        working_dir: /app
+        hostname: rabbit-mq
+        container_name: mysite-rabbitmq
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+        networks:
+            - mysite-network
+
+networks:
+    mysite-network:
+        driver: bridge
