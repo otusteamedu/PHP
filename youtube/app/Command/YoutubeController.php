@@ -23,8 +23,7 @@ class YoutubeController extends AbstractController
     {
         $storage = $this->youtubeBuilder->storage();
         $result = $storage->initIndexes();
-        $this->log(print_r($result, true));
-//        $this->log('Supported: statistics [channelId], top [number], analyze [channelId,[..]], spider');
+        $this->log('Supported: statistics [channelId], top [number], analyze [channelId,[..]], spider');
     }
 
     public function statisticsAction()
@@ -37,7 +36,7 @@ class YoutubeController extends AbstractController
 
     public function topAction()
     {
-        $number = 3;
+        $number = $_SERVER['argv'][2] ?? 3;
         $youtubeStatistics = $this->youtubeBuilder->statistics();
         $data = $youtubeStatistics->getTop($number);
         $this->log(print_r($data, true));

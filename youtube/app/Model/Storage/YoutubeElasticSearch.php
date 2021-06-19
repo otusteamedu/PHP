@@ -147,6 +147,16 @@ class YoutubeElasticSearch implements NoSqlStorageInterface, YoutubeStorageInter
 
     public function removeChannel(string $channelId): array
     {
+        $this->client->deleteByQuery([
+            'index' => 'video',
+            'body'  => [
+                'query' => [
+                    'match' => [
+                        'channelId' => $channelId
+                    ],
+                ],
+            ],
+        ]);
         return $this->client->delete([
             'index' => 'channel',
             'id'    => $channelId,
