@@ -23,4 +23,5 @@ VALUES
   (1, 1, null, null, 300, null),
   (1, 2, null, 9.7, null, null),
   (1, 3, 'Cool!', null, null, null),
-  (1, 4, null, null, null, '2002-02-07');
+  (1, 4, null, null, null, '2002-02-07'); 
+  
