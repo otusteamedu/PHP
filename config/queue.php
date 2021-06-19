@@ -1,6 +1,6 @@
 <?php
 return [
-    'default'     => env('QUEUE_CONNECTION', 'sync'),
+    'default'     => env('QUEUE_CONNECTION', 'rabbitmq'),
     'connections' => [
         'rabbitmq' => [
             'driver'     => 'rabbitmq',

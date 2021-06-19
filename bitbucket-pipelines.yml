@@ -1,0 +1,29 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: atlassian/default-image:2
+
+pipelines:
+  default:
+    # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
+    - step:
+        name: 'Deploy'
+        script:
+          - ssh $USER@$HOST "
+            DIR_DATE_NAME=$(date +%Y%m%d_%H%M%S) &&
+            echo 'DIR_DATE_NAME = ' \$DIR_DATE_NAME &&
+            cd /var/www/demo &&
+            git clone $BITBUCKET_GIT_HTTP_ORIGIN $BITBUCKET_PIPELINE_UUID &&
+            sudo chown www-data:www-data $BITBUCKET_PIPELINE_UUID -R &&
+            cd $BITBUCKET_PIPELINE_UUID &&
+            ./deploy/deploy.sh $SERVER_NAME $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD &&
+            cd .. &&
+            mv -Tf $BITBUCKET_PIPELINE_UUID \$DIR_DATE_NAME &&
+            unlink /var/www/demo/current &&
+            ln -s /var/www/demo/\$DIR_DATE_NAME /var/www/demo/current"
+    - step:
+        name: 'Rollback'
+        trigger: manual
+        script:
+          - ssh $USER@$HOST "cd /var/www/demo/current && ./deploy/rollback.sh $SERVER_NAME"

@@ -14,7 +14,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    if (!view()->exists('vendor.swagger-lume.index')) {
+    if (view()->exists('vendor.swagger-lume.index')) {
         return view('vendor.swagger-lume.index', ['urlToDocs' => '/api-doc/']);
     }
     return app()->version();
