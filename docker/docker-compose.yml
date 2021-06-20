@@ -1,0 +1,105 @@
+version: '3.7'
+
+services:
+  php.client:
+    container_name: ${COMPOSE_PROJECT_NAME}_php_client
+    build: ./images/php
+    volumes:
+      - ./../:/var/www
+    working_dir: /var/www
+    networks:
+      - app-network
+    environment:
+      SOCKET_PATH: ${SOCKET_PATH}
+      SOCKET_PORT: ${SOCKET_PORT}
+
+  php:
+    container_name: ${COMPOSE_PROJECT_NAME}_php
+    build: ./images/php
+    volumes:
+      - ./../:/var/www
+      - ./images/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - socket:/sock
+    working_dir: /var/www
+    networks:
+      - app-network
+    links:
+      - db
+      - rabbit
+      - mailhog
+    environment:
+      SOCKET_PATH: ${SOCKET_PATH}
+      SOCKET_PORT: ${SOCKET_PORT}
+
+  nginx:
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    image: nginx:latest
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+    links:
+      - php
+    volumes:
+      - ./../:/var/www
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./images/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./images/nginx/sites:/etc/nginx/sites-available
+      - socket:/sock
+    working_dir: /var/www
+    networks:
+      - app-network
+  db:
+    container_name: ${COMPOSE_PROJECT_NAME}_db
+    image: postgres
+    command: [
+        "postgres",
+        "-c", "random_page_cost=1.1",
+        "-c", "default_statistics_target=100",
+        "-c", "effective_io_concurrency=200",
+        "-c", "shared_buffers=500MB",
+        "-c", "work_mem=32MB",
+        "-c", "maintenance_work_mem=1GB",
+        "-c", "effective_cache_size=11GB",
+        "-c", "max_worker_processes=14",
+        "-c", "max_parallel_workers_per_gather=4",
+        "-c", "max_parallel_workers=14",
+        "-c", "max_parallel_maintenance_workers=4",
+    ]
+    networks:
+      - app-network
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ./../.db/postgres:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${DB_PORT}:5432"
+
+  mailhog:
+    container_name: ${COMPOSE_PROJECT_NAME}_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "127.0.0.1:3025:1025" # smtp server
+      - "127.0.0.1:8025:8025" # web ui
+    networks:
+      - app-network
+
+  rabbit:
+    image: rabbitmq:3-management
+    networks:
+      - app-network
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+    ports:
+      - "127.0.0.1:${RABBIT_UI_PORT}:15672"
+#      - "${RABBIT_PORT}:${RABBIT_PORT}"
+volumes:
+  socket:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
+
+
