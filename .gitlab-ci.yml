@@ -1,0 +1,19 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod 400 $ID_RSA
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
+      "cd /var/www/ci && git pull && docker-compose down
+      && docker-compose up -d"
+    - docker exec -t php bash && php artisan migrate
+    - echo 'all done'
+  environment:
+    name: production
+    url: https://$SERVER_IP
+  only:
+    - master
