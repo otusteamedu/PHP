@@ -20,8 +20,11 @@ CREATE TABLE movies_attributes_values (
     movie_id int NOT NULL REFERENCES movies(id),
     attribute_id smallint NOT NULL REFERENCES movies_attributes(id),
     date_value date,
+    datetime_value timestamp,
     text_value text,
-    numeric_value numeric(2)
+    int_value bigint,
+    float_value numeric(12, 2),
+    boolean_value boolean
 );
 CREATE INDEX ON movies_attributes_values(movie_id);
 CREATE INDEX ON movies_attributes_values(attribute_id);

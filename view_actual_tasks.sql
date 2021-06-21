@@ -1,10 +1,11 @@
 CREATE VIEW actual_tasks AS (
     WITH actual_tasks AS (
-        SELECT movies.id AS movie_id, movies_attributes.name AS task_name, movies_attributes_values.date_value AS date
+        SELECT movies.id AS movie_id, movies_attributes.name AS task_name,
+        COALESCE(movies_attributes_values.datetime_value, movies_attributes_values.date_value)::DATE AS date
         FROM movies_attributes_values
         INNER JOIN movies_attributes ON movies_attributes_values.attribute_id = movies_attributes.id
         INNER JOIN movies ON movies_attributes_values.movie_id = movies.id
-        WHERE movies_attributes.name IN ('Дата начала продажи билетов', 'Дата начала запуска рекламы')
+        WHERE movies_attributes.name IN ('Дата начала продажи билетов', 'Начало запуска рекламы')
     )
     SELECT movies.name,
            (
