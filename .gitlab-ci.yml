@@ -1,0 +1,31 @@
+stages:
+  - deploy
+  - rollback
+
+deploy:
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod 400 $ID_RSA
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
+      "cd /var/www/previous/ci && git checkout . && git pull && cp .env.example .env
+      && cd code/ && composer install && php artisan migrate
+      && mkdir /var/www/tmp
+      && cp -r /var/www/current/ci /var/www/tmp
+      && cp -rf /var/www/previous/ci /var/www/current/
+      && cp -rf /var/www/tmp/ci /var/www/previous/
+      && rm -rf /var/www/tmp"
+  environment:
+    name: production
+    url: https://$SERVER_IP
+  only:
+    - master
+
+rollback:
+  stage: rollback
+  script:
+    - chmod 400 $ID_RSA
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
+      "cp -rf /var/www/previous/ci /var/www/current/"
+  when: manual
