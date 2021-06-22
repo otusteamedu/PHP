@@ -9,4 +9,6 @@ RUN usermod -u 1000 www-data
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+copy ./run.sh /tmp
+RUN chmod +x /tmp/run.sh
+ENTRYPOINT ["/tmp/run.sh"]
