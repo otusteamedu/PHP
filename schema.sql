@@ -23,7 +23,7 @@ CREATE TABLE movies_attributes_values (
     datetime_value timestamp,
     text_value text,
     int_value bigint,
-    float_value numeric(12, 2),
+    numeric_value numeric(12, 2),
     boolean_value boolean
 );
 CREATE INDEX ON movies_attributes_values(movie_id);

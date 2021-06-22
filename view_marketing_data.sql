@@ -5,7 +5,7 @@ CREATE VIEW marketing_data AS (
          movies_attributes_values.datetime_value::TEXT,
          movies_attributes_values.text_value,
          movies_attributes_values.int_value::TEXT,
-         movies_attributes_values.float_value::TEXT,
+         movies_attributes_values.numeric_value::TEXT,
          movies_attributes_values.boolean_value::TEXT
      ) AS value
      FROM movies_attributes_values

@@ -10,7 +10,7 @@ INSERT INTO movies(name) VALUES ('Лука'), ('Ледяной драйв'), ('�
 INSERT INTO movies_attributes_values(movie_id, attribute_id, int_value) VALUES (1, 1, 2021);
 INSERT INTO movies_attributes_values(movie_id, attribute_id, text_value) VALUES (1, 2, 'комедия');
 INSERT INTO movies_attributes_values(movie_id, attribute_id, date_value) VALUES (1, 3, '2021-06-17');
-INSERT INTO movies_attributes_values(movie_id, attribute_id, float_value) VALUES (1, 4, 5000000.50);
+INSERT INTO movies_attributes_values(movie_id, attribute_id, numeric_value) VALUES (1, 4, 5000000.50);
 INSERT INTO movies_attributes_values(movie_id, attribute_id, boolean_value) VALUES (1, 5, false);
 INSERT INTO movies_attributes_values(movie_id, attribute_id, date_value) VALUES (1, 6, '2021-06-17');
 INSERT INTO movies_attributes_values(movie_id, attribute_id, datetime_value) VALUES (1, 7, '2021-06-12 10:00');
