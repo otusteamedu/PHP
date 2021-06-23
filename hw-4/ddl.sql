@@ -82,3 +82,4 @@ CREATE VIEW viewMoviesTasks(movie_name, today_tasks, 20_days_tasks) AS
     LEFT JOIN 20_days_tasks ON tMovies.id = 20_days_tasks.movie_id
   ORDER BY
     tMovies.name;
+    
