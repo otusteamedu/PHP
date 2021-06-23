@@ -21,7 +21,8 @@ CREATE TABLE tMovieAttrValues (
   val_text     text,
   val_float    float(24),
   val_int      int,
-  val_date     date
+  val_date     date,
+  val_bool     boolean
 );
 
 
@@ -34,6 +35,7 @@ CREATE VIEW viewMovies(id, name, attr_type, attr_name, attr_value) AS
     COALESCE(
       tMovieAttrValues.val_float::text,
       tMovieAttrValues.val_int::text,
+      tMovieAttrValues.val_data::text,
       tMovieAttrValues.val_data::text,
       tMovieAttrValues.val_text
     ) AS attr_value
