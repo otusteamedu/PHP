@@ -1,0 +1,14 @@
+SELECT 
+	s.movie_id,
+	sum(t.price) AS movie_profit
+FROM 
+	tickets AS t
+LEFT JOIN 
+	sessions AS s
+ON 
+	t.session_id = s.id
+GROUP BY
+	s.movie_id
+ORDER BY
+	movie_tickets DESC
+LIMIT 1;
