@@ -4,31 +4,33 @@ declare(strict_types=1);
 
 namespace App\Command\BankAccount;
 
-use App\Framework\Command\CommandInterface;
-use App\Framework\Console\ConsoleInterface;
+use App\Framework\Command\AbstractCommand;
 use App\Consumer\GenerateAccountStatementConsumer;
 use App\Framework\DIContainer\ContainerInterface;
 use App\Service\Queue\ConsumerInterface;
 use App\Service\Queue\QueueClientInterface;
 
-class RunGenerateStatementConsumerCommand implements CommandInterface
+class RunGenerateStatementConsumerCommand extends AbstractCommand
 {
     private ContainerInterface   $container;
-    private ConsoleInterface     $console;
     private QueueClientInterface $queueClient;
 
     public function __construct(
         ContainerInterface $container,
-        ConsoleInterface $console,
         QueueClientInterface $queueClient
     ) {
         $this->container = $container;
-        $this->console = $console;
         $this->queueClient = $queueClient;
     }
 
-    public function execute(): void
+    protected function fillExpectedArguments(): void
     {
+
+    }
+
+    protected function execute(): void
+    {
+
         /* @var ConsumerInterface $consumer */
         $consumer = $this->container->get(GenerateAccountStatementConsumer::class);
 

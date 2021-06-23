@@ -13,6 +13,6 @@ class RequiredRule implements RuleInterface
 
     public function getErrorMessage(): string
     {
-        return 'Поле %s обязательно для заполнения';
+        return '%s обязательно для заполнения';
     }
 }

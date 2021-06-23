@@ -22,6 +22,6 @@ class DateRule implements RuleInterface
 
     public function getErrorMessage(): string
     {
-        return 'Поле %s должно содержать дату в формате дд.мм.гггг';
+        return '%s должен быть датой в формате дд.мм.гггг';
     }
 }

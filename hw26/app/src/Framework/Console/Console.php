@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace App\Framework\Console;
 
+use App\Framework\Console\Argument\ArgumentInterface;
+use App\Framework\Console\Argument\Arguments;
+use App\Framework\Console\ExpectedArgument\ExpectedArgument;
+use Exception;
+
 class Console implements ConsoleInterface
 {
     private const COLOR__GREEN = '32m';
     private const COLOR__RED   = '31m';
+    private Arguments $arguments;
+
+    public function __construct(Arguments $arguments)
+    {
+        $this->arguments = $arguments;
+    }
 
     public function success($message): void
     {
@@ -59,15 +70,33 @@ class Console implements ConsoleInterface
         return $data;
     }
 
-    public function getFirstArgument(): Argument
+    public function addExpectedArgument(ExpectedArgument $expectedArgument): void
     {
-        return $this->getArgument(1);
+        $this->arguments->addExpectedArgument($expectedArgument);
     }
 
-    public function getArgument(int $argumentNumber): Argument
+    /**
+     * @throws Exception
+     */
+    public function getFirstArgument(): ArgumentInterface
     {
-        $value = !empty($_SERVER['argv'][$argumentNumber]) ? $_SERVER['argv'][$argumentNumber] : '';
-
-        return new Argument($value);
+        return $this->arguments->getFirst();
     }
+
+    /**
+     * @throws Exception
+     */
+    public function getArgumentByNumber(int $argumentNumber): ArgumentInterface
+    {
+        return $this->arguments->getByNumber($argumentNumber);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getArgumentByName(string $argumentName): ArgumentInterface
+    {
+        return $this->arguments->getByName($argumentName);
+    }
+
 }

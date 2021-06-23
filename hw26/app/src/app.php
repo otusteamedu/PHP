@@ -6,7 +6,9 @@ namespace App;
 
 use App\Framework\Config\Configuration;
 use App\Framework\Command\CommandInterface;
+use App\Framework\Console\Argument\ArgumentTypes;
 use App\Framework\Console\ConsoleInterface;
+use App\Framework\Console\ExpectedArgument\ExpectedArgument;
 use App\Framework\DIContainer\Container;
 use App\Framework\DIContainer\ContainerInterface;
 use App\Framework\Http\Request;
@@ -77,8 +79,10 @@ class App
     private function handleConsoleRequest(): void
     {
         try {
-            $commandName = $this->console->getFirstArgument()->getValue();
-            $this->getCommand($commandName)->execute();
+            $this->console->addExpectedArgument(new ExpectedArgument('commandName', ArgumentTypes::STRING));
+            $commandName = $this->console->getArgumentByName('commandName')->getValue();
+
+            $this->container->callMethod($this->getCommand($commandName), 'run');
         } catch (Exception $e) {
             $this->console->error('Error: ' . $e->getMessage());
         }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Framework\Console;
 
+use App\Framework\Console\Argument\ArgumentInterface;
+use App\Framework\Console\ExpectedArgument\ExpectedArgument;
+
 interface ConsoleInterface
 {
     public function success($message): void;
@@ -16,7 +19,11 @@ interface ConsoleInterface
 
     public function readLines(): array;
 
-    public function getFirstArgument(): Argument;
+    public function addExpectedArgument(ExpectedArgument $expectedArgument): void;
 
-    public function getArgument(int $argumentNumber): Argument;
+    public function getFirstArgument(): ArgumentInterface;
+
+    public function getArgumentByNumber(int $argumentNumber): ArgumentInterface;
+
+    public function getArgumentByName(string $argumentName): ArgumentInterface;
 }
