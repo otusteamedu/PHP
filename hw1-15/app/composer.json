@@ -1,0 +1,26 @@
+{
+    "name": "denis/rabbit-hw",
+    "description": "hw1-15/rabbit",
+    "keywords": [
+        "otus",
+        "rabbit"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "vlucas/phpdotenv": "^5.1",
+        "php-amqplib/php-amqplib": "^3.0",
+        "klein/klein": "^2.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
