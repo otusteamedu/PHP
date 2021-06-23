@@ -27,7 +27,6 @@ class Consumer
 
     public function listen()
     {
-        echo " [*] Waiting for messages. To exit press CTRL+C\n";
         $callback = $this->getCallback();
         $this->channel->basic_consume('email-queue', '',
             false, true, false, false, $callback);
