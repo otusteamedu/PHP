@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+
+  app:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: app
+    container_name: app
+    volumes:
+      - ./app:/var/www/html/app
+      - ./logs:/var/log/nginx
+    ports:
+      - "8080:80"
+      - "443:443"
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: server
+    container_name: server
+    volumes:
+      - ./app:/var/www/html/app
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+
+  pg_db:
+    build:
+      context: ./docker/db
+      dockerfile: Dockerfile
+    image: pg_db
+    container_name: pg_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_project:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    volumes:
+      - ./app:/var/www/html/app
+    hostname: rabbit-mq
+    container_name: 'rabbit-mq'
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - app-network
+
+volumes:
+  pg_project:
+
+networks:
+  app-network:
+    driver: bridge
