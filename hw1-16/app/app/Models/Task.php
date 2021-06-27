@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
-    const NOT_PROCCESSD = 1;
+    const NOT_PROCCESED = 1;
 
     protected $fillable = [
         'name',
@@ -15,7 +15,9 @@ class Task extends Model
         'status',
     ];
 
+    protected $table='tasks';
+
     protected $attributes = [
-        'status' => self::NOT_PROCCESSD,
+        'status' => self::NOT_PROCCESED,
     ];
 }

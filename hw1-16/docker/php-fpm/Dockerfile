@@ -35,4 +35,8 @@ VOLUME /var/www/html
 
 EXPOSE 9000
 
+COPY ./run.sh /tmp
+RUN chmod +x /tmp/run.sh
+ENTRYPOINT ["/tmp/run.sh"]
+
 CMD ["php-fpm"]
