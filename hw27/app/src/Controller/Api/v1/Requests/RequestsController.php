@@ -56,16 +56,9 @@ class RequestsController extends AbstractController
      *      ),
      *      @OA\Response(
      *          response="400",
-     *          description="Ошибка валидации",
+     *          description="Error",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="name обязательно для заполнения")
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response="500",
-     *          description="Internal Server Error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string")
      *          )
      *      )
      * )
@@ -128,8 +121,8 @@ class RequestsController extends AbstractController
      *          )
      *      ),
      *      @OA\Response(
-     *          response="500",
-     *          description="Internal Server Error",
+     *          response="400",
+     *          description="Error",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="")
      *          )
