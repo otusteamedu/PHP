@@ -1,0 +1,15 @@
+queue_host = mysite-rabbitmq
+queue_port = 5672
+queue_username = user
+queue_password = password
+
+db_driver = pgsql
+db_host = mysite-postgres
+db_port = 5432
+db_name = requests
+db_username = otus
+db_password = otus
+
+providers[] = App\Provider\AppServiceProvider
+
+commands['run-consumer'] = \App\Command\Request\RunHandleRequestConsumerCommand
