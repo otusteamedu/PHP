@@ -1,0 +1,5 @@
+POST['/api/v1/requests/add'] = \App\Controller\Api\v1\Requests\RequestsController::add
+GET['/api/v1/requests/{id}'] = \App\Controller\Api\v1\Requests\RequestsController::get
+PUT['/api/v1/requests/{id}'] = \App\Controller\Api\v1\Requests\RequestsController::update
+PATCH['/api/v1/requests/{id}/name'] = \App\Controller\Api\v1\Requests\RequestsController::changeName
+DELETE['/api/v1/requests/{id}/delete'] = \App\Controller\Api\v1\Requests\RequestsController::delete
