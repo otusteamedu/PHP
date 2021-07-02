@@ -4,7 +4,7 @@
 namespace App\Core;
 
 
-use App\Api\LoggerInterface;
+use App\Core\LoggerInterface;
 
 class ConsoleLogger implements LoggerInterface
 {

@@ -4,7 +4,7 @@
 namespace App\Core;
 
 
-use App\Api\RequestInterface;
+use App\Core\RequestInterface;
 
 class HttpRequest implements RequestInterface
 {

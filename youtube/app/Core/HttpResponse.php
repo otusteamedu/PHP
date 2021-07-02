@@ -3,7 +3,7 @@
 
 namespace App\Core;
 
-use App\Api\ResponseInterface;
+use App\Core\ResponseInterface;
 
 class HttpResponse implements ResponseInterface
 {

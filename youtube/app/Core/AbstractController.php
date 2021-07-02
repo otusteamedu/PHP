@@ -2,11 +2,11 @@
 
 namespace App\Core;
 
-use App\Api\ApplicationInterface;
-use App\Api\ControllerInterface;
-use App\Api\LoggerInterface;
-use App\Api\ResponseInterface;
-use App\Api\ViewInterface;
+use App\Core\ApplicationInterface;
+use App\Controller\ControllerInterface;
+use App\Core\LoggerInterface;
+use App\Core\ResponseInterface;
+use App\Core\ViewInterface;
 use App\Core\View;
 use App\Core\WebApplication;
 use http\Exception\BadUrlException;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Api;
+namespace App\Core;
 
 
 interface LoggerInterface

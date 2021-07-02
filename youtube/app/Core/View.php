@@ -4,7 +4,7 @@
 namespace App\Core;
 
 
-use App\Api\ViewInterface;
+use App\Core\ViewInterface;
 use Exception;
 
 class View implements ViewInterface

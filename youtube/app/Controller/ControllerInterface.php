@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Api;
+namespace App\Controller;
+
+use App\Core\ResponseInterface;
 
 interface ControllerInterface
 {

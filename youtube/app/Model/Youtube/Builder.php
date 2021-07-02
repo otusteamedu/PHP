@@ -4,7 +4,7 @@
 namespace App\Model\Youtube;
 
 
-use App\Api\ConfigInterface;
+use App\Core\ConfigInterface;
 use App\Model\Service\Youtube;
 use App\Model\Storage\YoutubeElasticSearch;
 

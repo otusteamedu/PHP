@@ -2,7 +2,7 @@
 
 namespace App\Model\Storage;
 
-use App\Api\ConfigInterface;
+use App\Core\ConfigInterface;
 use App\Model\Youtube\Channel;
 use App\Model\Youtube\Video;
 use Elasticsearch\Client;

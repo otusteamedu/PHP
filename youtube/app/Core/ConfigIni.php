@@ -4,7 +4,7 @@
 namespace App\Core;
 
 
-use App\Api\ConfigInterface;
+use App\Core\ConfigInterface;
 use Exception;
 
 class ConfigIni implements ConfigInterface

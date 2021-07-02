@@ -2,7 +2,7 @@
 
 namespace App\Model\Service;
 
-use App\Api\ConfigInterface;
+use App\Core\ConfigInterface;
 
 class Youtube implements VideoServiceInterface
 {

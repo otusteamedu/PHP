@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Api\LoggerInterface;
+use App\Core\LoggerInterface;
 use Exception;
 
 class WebApplication extends AbstractApplication
