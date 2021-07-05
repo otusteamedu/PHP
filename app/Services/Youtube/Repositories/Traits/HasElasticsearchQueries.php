@@ -258,4 +258,29 @@ trait HasElasticsearchQueries
         ];
     }
 
+    /**
+     *  Возвращает все данные по каналам из Индекса
+     * @param Channel $channel
+     * @return array
+     */
+    private function queryGetAllChannels(Channel $channel): array
+    {
+        return [
+            'index' => $channel->getSearchIndex(),
+            'type' => $channel->getSearchType(),
+            'body' => [
+                'query' => [
+                    'query_string' => [
+                        'fields' => [
+                            'channel_title',
+                        ],
+                        'query' => '*',
+                        "analyze_wildcard" => true,
+                        "allow_leading_wildcard" => true
+                    ],
+                ],
+            ],
+        ];
+    }
+
 }

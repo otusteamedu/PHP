@@ -26,4 +26,10 @@ interface SearchChannelRepository
      * @return Channel
      */
     public function getChannelById(int $id): Channel;
+
+    /**
+     * Возвращает весь объем данных по каналам из реозитория
+     * @return Collection
+     */
+    public function getAllChannelsData(): Collection;
 }

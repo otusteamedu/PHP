@@ -143,9 +143,18 @@ class ChannelService
      * @param int $id
      * @return int
      */
-    public function delete(int $id)    : int
+    public function delete(int $id): int
     {
         return $this->writeChannelRepository->delete($id);
+    }
+
+    /**
+     * Возвращает весь объем данных по каналам из репозитория
+     * @return Collection
+     */
+    public function getAllChannelsData(): Collection
+    {
+        return $this->searchChannelRepository->getAllChannelsData();
     }
 
 }

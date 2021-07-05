@@ -50,6 +50,14 @@ class ElasticsearchSearchChannelRepository implements SearchChannelRepository
         return $this->buildChannel($result);
     }
 
+    public function getAllChannelsData(): Collection
+    {
+        $model = new Channel();
+        $query = $this->queryGetAllChannels($model);
+        $result = $this->elasticSearch->search($query);
+        return $this->buildChannel($result);
+    }
+
     private function searchOnElasticsearch(string $query, int $limit, int $offset): array
     {
         $model = new Channel();

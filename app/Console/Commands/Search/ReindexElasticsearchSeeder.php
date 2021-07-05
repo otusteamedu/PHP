@@ -8,8 +8,9 @@ use Elasticsearch\Client;
 use App\Models\Channel;
 use App\Models\Video;
 use Illuminate\Support\Collection;
+use App\Services\Youtube\ChannelService;
 
-class ReindexYoutube extends Command
+class ReindexElasticsearchSeeder extends Command
 {
     const INDEX_NAME = 'Название индекса';
     /**
@@ -17,7 +18,7 @@ class ReindexYoutube extends Command
      *
      * @var string
      */
-    protected $signature = 'search:reindex:youtube';
+    protected $signature = 'search:reindex:elastic';
 
     /**
      * The console command description.
@@ -29,15 +30,18 @@ class ReindexYoutube extends Command
     /** @var \Elasticsearch\Client */
     private Client $elasticsearch;
 
+    private ChannelService $channelService;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Client $elasticsearch)
+    public function __construct(Client $elasticsearch, ChannelService $channelService)
     {
         parent::__construct();
         $this->elasticsearch = $elasticsearch;
+        $this->channelService = $channelService;
     }
 
     /**
@@ -69,7 +73,7 @@ class ReindexYoutube extends Command
             $this->indexingItem($channel);
             $this->output->write('.');
         }
-        $this->output->write(PHP_EOL);
+        $this->info(PHP_EOL . 'Indexing is done!');
         return 0;
     }
 
@@ -96,27 +100,7 @@ class ReindexYoutube extends Command
      */
     private function getChannelsData(): Collection
     {
-        $qb = Channel::query()
-            ->join('videos as videos', 'channels.id', '=', 'videos.channel_id', 'left outer')
-            ->select([
-                'channels.id',
-                'channels.youtube_channel_id',
-                'channels.title as channel_title',
-                'channels.description as channel_description',
-                'videos.id as video_id',
-                'videos.youtube_video_id',
-                'videos.published_at',
-                'videos.title',
-                'videos.description',
-                'videos.view_count',
-                'videos.like_count',
-                'videos.dislike_count',
-                'videos.favorite_count',
-                'videos.comment_count',
-                'videos.tags',
-
-            ]);
-        return $qb->get();
+        return $this->channelService->getAllChannelsData();
     }
 
     /**

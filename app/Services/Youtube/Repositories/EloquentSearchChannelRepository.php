@@ -28,4 +28,29 @@ class EloquentSearchChannelRepository implements SearchChannelRepository
     {
         return Channel::with('videos')->find($id);
     }
+
+    public function getAllChannelsData(): Collection
+    {
+        $qb = Channel::query()
+            ->join('videos as videos', 'channels.id', '=', 'videos.channel_id', 'left outer')
+            ->select([
+                'channels.id',
+                'channels.youtube_channel_id',
+                'channels.title as channel_title',
+                'channels.description as channel_description',
+                'videos.id as video_id',
+                'videos.youtube_video_id',
+                'videos.published_at',
+                'videos.title',
+                'videos.description',
+                'videos.view_count',
+                'videos.like_count',
+                'videos.dislike_count',
+                'videos.favorite_count',
+                'videos.comment_count',
+                'videos.tags',
+
+            ]);
+        return $qb->get();
+    }
 }
