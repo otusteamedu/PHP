@@ -1,3 +1,3 @@
-composer require ryessaliyev/homework-3;
+composer require ryessaliyev/homework-3:@dev
 
 packagist -> https://packagist.org/packages/ryessaliyev/homework-3
