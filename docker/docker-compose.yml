@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+    ports:
+      - "8787:80"
+
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+
+  postgres:
+    image: postgres:9.5.6
+    restart: always
+    container_name: postgres
+    volumes:
+       - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+    ports:
+       - "5432:5432"
+
+  redis:
+    build:
+      context: ./docker/redis
+
+  memcached:
+    build:
+      context: ./docker/memcached
+
+
+
