@@ -31,6 +31,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
       librabbitmq-dev \
       nano \
   && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+  && pecl install memcached \
+  && docker-php-ext-enable memcached \
   && docker-php-ext-install pdo pdo_pgsql pgsql \
   && pecl install xdebug-2.9.8 && docker-php-ext-enable xdebug \
   && pecl install -o redis && docker-php-ext-enable redis \

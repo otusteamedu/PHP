@@ -45,6 +45,8 @@ services:
   memcached:
     build:
       context: ./docker/memcached
+    ports:
+      - '11211:11211'
 
 
 

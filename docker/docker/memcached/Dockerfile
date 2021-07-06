@@ -1,1 +1,1 @@
-FROM rabbitmq:3.8.14-management
+FROM memcached:1.6.9
