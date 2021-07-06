@@ -1,0 +1,32 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Documents/OTUS_HW/virtual/app
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 8089
+      to: 80
