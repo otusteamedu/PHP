@@ -1,0 +1,12 @@
+{
+    "name": "vz/brackets-example",
+    "authors": [
+        {
+            "name": "Mazay98",
+            "email": "zavolod@yandex.ru"
+        }
+    ],
+    "require": {
+		"mazay98/brackets" : "dev-master"
+	}
+}
