@@ -1,0 +1,10 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+    ],
+    "config": {
+        "prepend-autoloader": false,
+        "bin-dir": "bin/"
+    }
+}
