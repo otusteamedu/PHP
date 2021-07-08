@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/event', [App\Http\Controllers\EventController::class, 'index'])->name('INDEX');
+Route::get('/event/delete/{item}', [App\Http\Controllers\EventController::class, 'delete'])->name('delete');
+Route::get('/event/clear', [App\Http\Controllers\EventController::class, 'clear'])->name('clear');
+Route::get('/event/create', [App\Http\Controllers\EventController::class, 'create'])->name('create');
