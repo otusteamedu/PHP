@@ -34,4 +34,9 @@ return [
         'repository' => env('EVENTS_REPOSITORY', 'eloquent')
     ],
 
+    'elasticsearch' => [
+        'enabled' => env('ELASTICSEARCH_ENABLED', true),
+        'hosts' => explode(',', env('ELASTICSEARCH_HOSTS')),
+    ],
+
 ];

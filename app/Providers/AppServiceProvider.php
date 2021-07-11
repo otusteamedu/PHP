@@ -2,12 +2,19 @@
 
 namespace App\Providers;
 
+use App\Services\Event\Repositories\Bla\Blabla;
+use App\Services\Event\Repositories\Elastic\ElasticSearchEventRepository;
+use App\Services\Event\Repositories\Elastic\ElasticWriteEventRepository;
+use app\Services\Event\Repositories\Elasticsearch\ElasticsearchSearchEventRepository;
+use app\Services\Event\Repositories\Elasticsearch\ElasticsearchWriteEventRepository;
 use App\Services\Event\Repositories\Eloquent\EloquentSearchEventRepository;
 use App\Services\Event\Repositories\Eloquent\EloquentWriteEventRepository;
 use App\Services\Event\Repositories\ISearchEventRepository;
 use App\Services\Event\Repositories\IWriteEventRepository;
 use App\Services\Event\Repositories\Redis\RedisSearchEventRepository;
 use App\Services\Event\Repositories\Redis\RedisWriteEventRepository;
+use Elasticsearch\Client as ElasticsearchClient;
+use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->bindSearchClient();
         $this->bindEventRepositories();
     }
 
@@ -39,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
     private function bindEventRepositories()
     {
         switch (config('services.event.repository')) {
+            case 'elasticsearch':
+                $this->app->bind(IWriteEventRepository::class, ElasticWriteEventRepository::class);
+                $this->app->bind(ISearchEventRepository::class, ElasticSearchEventRepository::class);
+                break;
             case 'redis':
                 $this->app->bind(IWriteEventRepository::class, RedisWriteEventRepository::class);
                 $this->app->bind(ISearchEventRepository::class, RedisSearchEventRepository::class);
@@ -49,6 +61,15 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->bind(ISearchEventRepository::class, EloquentSearchEventRepository::class);
                 break;
         }
+    }
+
+    private function bindSearchClient()
+    {
+        $this->app->bind(ElasticsearchClient::class, function () {
+            return ClientBuilder::create()
+                ->setHosts(config('services.elasticsearch.hosts'))
+                ->build();
+        });
     }
 
 }

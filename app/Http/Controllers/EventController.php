@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Services\Event\EventService;
-use Illuminate\Support\Collection;
 use View;
-use function PHPUnit\Framework\isNull;
 
 class EventController extends Controller
 {
@@ -86,10 +84,11 @@ class EventController extends Controller
         echo "Data cleared successfully!";
     }
 
-    public function seedredis()
+    /**
+     * заполняет данными установленное в конфигурационном файле хранилище
+     */
+    public function seedNosql()
     {
-        echo "<pre>";
-        echo "Starting seeder" . PHP_EOL;
         $events = Event::All();
         $this->eventService->deleteAll();
         foreach ($events as $event) {

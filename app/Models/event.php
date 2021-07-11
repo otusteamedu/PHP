@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasElastic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
+    use HasElastic;
 
     protected $casts = [
         'conditions' => 'array',
