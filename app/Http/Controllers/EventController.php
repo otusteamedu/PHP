@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Services\Event\EventService;
+use Illuminate\Support\Collection;
+use View;
+use function PHPUnit\Framework\isNull;
 
 class EventController extends Controller
 {
@@ -32,8 +35,22 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $event = $this->eventService->getEventByCondition($request->all());
-        dd($event);
+        $conditions = [];
+        $search = $request->get('q', '');
+        $parameters = preg_split("/[\s,]+/", $search);
+        foreach ($parameters as $parameter) {
+            $conditions += $this->getConditionFromString($parameter);
+        }
+        $event = $this->eventService->getEventByCondition($conditions);
+        $events = !is_null($event)
+            ? collect([0 => $event])
+            : collect();
+
+        view::share([
+            'events' => $events,
+            'search' => $search,
+        ]);
+        return view('events.index');
     }
 
     /**
@@ -43,8 +60,9 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
-        //dd($request->all());
-        $id = $this->eventService->create($request->all());
+        $parameters = $request->all();
+        $parameters['conditions'] = $this->getParametersForConditionFromAllParametrs($parameters);
+        $id = $this->eventService->create($parameters);
         echo "Событие с id="
             . $id
             . " успешно добавлено!";
@@ -65,16 +83,28 @@ class EventController extends Controller
     public function clear()
     {
         $this->eventService->deleteAll();
+        echo "Data cleared successfully!";
     }
 
     public function seedredis()
     {
+        echo "<pre>";
+        echo "Starting seeder" . PHP_EOL;
         $events = Event::All();
         $this->eventService->deleteAll();
         foreach ($events as $event) {
-            $this->eventService->create($event->getAttributes());
+            $this->eventService->create($event->toArray());
         }
+        echo "It's done" . PHP_EOL;
+    }
 
+    public function showall()
+    {
+        $events = $this->eventService->getEvents();
+        view::share([
+            'events' => $events,
+        ]);
+        return view('events.index');
     }
 
     /**
@@ -131,5 +161,34 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+    /**
+     * Возвращает массив параметров param(n) и значений.
+     * типа ['param1'=>1,'param2'=>5]
+     *
+     * @param $params
+     * @return array
+     */
+    private function getParametersForConditionFromAllParametrs(array $params): array
+    {
+        //Берем все ключи, которые начинаются на param
+        $result = array_filter($params, function($key) {
+            return str_starts_with($key, 'param');
+        }, ARRAY_FILTER_USE_KEY);
+        //Возвращается массив с преобразованными строковыми значениями в числовые
+        return array_map('intval', $result);
+    }
+
+    private function getConditionFromString(string $param): array
+    {
+        $result = explode('=', $param);
+        $condition = [];
+        if (isset($result[0]) && isset($result[1])) {
+            $condition = [
+                $result[0] => $result[1]
+            ];
+        }
+        return $condition;
     }
 }

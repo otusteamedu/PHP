@@ -5,9 +5,9 @@ namespace App\Services\Event;
 
 
 use App\Models\Event;
-use App\Services\Event\Repositories\IdentityMap;
 use App\Services\Event\Repositories\ISearchEventRepository;
 use App\Services\Event\Repositories\IWriteEventRepository;
+use Illuminate\Support\Collection;
 
 
 class EventService
@@ -70,10 +70,24 @@ class EventService
         return $this->writeEventRepository->create($correctData);
     }
 
-
-    public function getEventByCondition($params): Event
+    /**
+     * Возвращает набор всех событий из репозитория
+     *
+     * @return Collection
+     */
+    public function getEvents(): Collection
     {
-        $conditions = $this->getParametersForCondition($params);
+        return $this->searchEventRepository->getEvents();
+    }
+
+    /**
+     * Возвращает событие по условию из репозитория
+     *
+     * @param $params
+     * @return Event
+     */
+    public function getEventByCondition($conditions): ?Event
+    {
         return $this->searchEventRepository->getEventByCondition($conditions);
     }
 
@@ -86,27 +100,10 @@ class EventService
      */
     private function prepareParametersToSave(array $params): array
     {
-        $toSave['name'] = $params['name'] ?? "Событие добавленное";
+        $toSave['name'] = $params['name'] ?? "Event Added";
         $toSave['priority'] = (int)$params['priority'] ?? 100;
-        $toSave['conditions'] = $this->getParametersForCondition($params);
+        $toSave['conditions'] = $params['conditions'] ?? [];
         return $toSave;
-    }
-
-    /**
-     * Возвращает массив параметров param(n) и значений.
-     * типа ['param1'=>1,'param2'=>5]
-     *
-     * @param $params
-     * @return array
-     */
-    private function getParametersForCondition($params): array
-    {
-        //Берем все ключи, которые начинаются на param
-        $result = array_filter($params, function($key) {
-            return str_starts_with($key, 'param');
-        }, ARRAY_FILTER_USE_KEY);
-        //Возвращается массив с преобразованными строковыми значениями в числовые
-        return array_map('intval', $result);
     }
 
 }

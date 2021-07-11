@@ -24,3 +24,9 @@ Route::get('/event', [App\Http\Controllers\EventController::class, 'index'])->na
 Route::get('/event/delete/{item}', [App\Http\Controllers\EventController::class, 'delete'])->name('delete');
 Route::get('/event/clear', [App\Http\Controllers\EventController::class, 'clear'])->name('clear');
 Route::get('/event/create', [App\Http\Controllers\EventController::class, 'create'])->name('create');
+Route::get('/event/seedredis', [App\Http\Controllers\EventController::class, 'seedredis'])->name('seedredis');
+Route::get('/event/showAll', [App\Http\Controllers\EventController::class, 'showAll'])->name('showAll');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

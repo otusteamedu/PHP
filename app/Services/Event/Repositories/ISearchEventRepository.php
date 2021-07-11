@@ -5,7 +5,7 @@ namespace App\Services\Event\Repositories;
 
 
 use App\Models\Event;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Interface ISearchEventRepository
@@ -32,5 +32,5 @@ interface ISearchEventRepository
      * @param array $conditions
      * @return Event
      */
-    public function getEventByCondition(array $conditions): Event;
+    public function getEventByCondition(array $conditions): ?Event;
 }
