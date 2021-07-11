@@ -34,5 +34,4 @@ trait HasElastic
         return $this->toArray();
     }
 
-
 }

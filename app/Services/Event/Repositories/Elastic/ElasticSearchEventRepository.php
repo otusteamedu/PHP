@@ -78,6 +78,7 @@ class ElasticSearchEventRepository implements ISearchEventRepository
 
     /**
      * Возвращает коллекцию из событий на основе $items
+     *
      * @param array $items
      * @return Collection
      */

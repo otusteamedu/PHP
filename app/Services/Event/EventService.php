@@ -9,7 +9,10 @@ use App\Services\Event\Repositories\ISearchEventRepository;
 use App\Services\Event\Repositories\IWriteEventRepository;
 use Illuminate\Support\Collection;
 
-
+/**
+ * Class EventService
+ * @package App\Services\Event
+ */
 class EventService
 {
     /**

@@ -7,6 +7,10 @@ namespace App\Services\Event\Repositories\Eloquent;
 use App\Models\Event;
 use App\Services\Event\Repositories\IWriteEventRepository;
 
+/**
+ * Class EloquentWriteEventRepository
+ * @package App\Services\Event\Repositories\Eloquent
+ */
 class EloquentWriteEventRepository implements IWriteEventRepository
 {
     public function create(array $data): int

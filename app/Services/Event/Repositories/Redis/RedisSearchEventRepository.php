@@ -10,8 +10,10 @@ use App\Services\Event\Traits\HasEventSearch;
 use Illuminate\Contracts\Redis\Connection;
 use Illuminate\Support\Collection;
 
-
-
+/**
+ * Class RedisSearchEventRepository
+ * @package App\Services\Event\Repositories\Redis
+ */
 class RedisSearchEventRepository implements ISearchEventRepository
 {
     use HasEventSearch;
@@ -30,7 +32,7 @@ class RedisSearchEventRepository implements ISearchEventRepository
     {
         $eventsList = $this->redis->sMembers(RedisWriteEventRepository::EVENT_LIST_PREFIX);
         return  $this
-            ->arrayToCollection($eventsList)
+            ->buildCollection($eventsList)
             ->sortByDesc('priority');
     }
 
@@ -38,7 +40,7 @@ class RedisSearchEventRepository implements ISearchEventRepository
     {
         $selectedEvents = $this->selectEventsByConditions($conditions);
         return $this
-            ->arrayToCollection($selectedEvents)
+            ->buildCollection($selectedEvents)
             ->sortByDesc('priority');
     }
 
@@ -47,11 +49,23 @@ class RedisSearchEventRepository implements ISearchEventRepository
         return $this->searchEvents($conditions)->first();
     }
 
+    /**
+     * Возвращает из хранилища Redis приоритет для события с именем $eventName
+     *
+     * @param $eventName
+     * @return int
+     */
     private function getEventsPriority($eventName): int
     {
         return $this->redis->get(RedisWriteEventRepository::EVENT_PRIORITY_PREFIX.$eventName);
     }
 
+    /**
+     * Возвращает из хранилища Redis набор условий в виде массива для события с именем $eventName
+     *
+     * @param $eventName
+     * @return array
+     */
     private function getEventsConditions($eventName): array
     {
         $params =  $this->redis->hKeys(RedisWriteEventRepository::EVENT_PREFIX.$eventName);
@@ -60,10 +74,12 @@ class RedisSearchEventRepository implements ISearchEventRepository
     }
 
     /**
+     * Возвращает коллекцию событий на основе $eventsList
+     *
      * @param array $eventsList
      * @return Collection
      */
-    private function arrayToCollection(array $eventsList): Collection
+    private function buildCollection(array $eventsList): Collection
     {
         $events = new Collection();
         foreach ($eventsList as $event) {

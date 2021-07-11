@@ -63,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Создает связь ElasticsearchClient::class с ClientBuilder - созданным экземпляром базы данных
+     */
     private function bindSearchClient()
     {
         $this->app->bind(ElasticsearchClient::class, function () {

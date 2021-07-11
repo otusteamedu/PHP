@@ -19,9 +19,7 @@ class EventController extends Controller
      * EventController constructor.
      * @param EventService $eventService
      */
-    public function __construct(
-        EventService $eventService
-    )
+    public function __construct(EventService $eventService)
     {
         $this->eventService = $eventService;
     }
@@ -66,6 +64,10 @@ class EventController extends Controller
             . " успешно добавлено!";
     }
 
+    /**
+     * Удаляет выбранный элемент из хранилища
+     * @param $item
+     */
     public function delete($item)
     {
         try {
@@ -78,6 +80,9 @@ class EventController extends Controller
         }
     }
 
+    /**
+     * Полностью очищает хранилище
+     */
     public function clear()
     {
         $this->eventService->deleteAll();
@@ -97,7 +102,10 @@ class EventController extends Controller
         echo "It's done" . PHP_EOL;
     }
 
-    public function showall()
+    /**
+     * Выводит все события из репозитория
+     */
+    public function showAll()
     {
         $events = $this->eventService->getEvents();
         view::share([
@@ -179,6 +187,12 @@ class EventController extends Controller
         return array_map('intval', $result);
     }
 
+    /**
+     * Возвращает массив с условиями из строки
+     *
+     * @param string $param
+     * @return array
+     */
     private function getConditionFromString(string $param): array
     {
         $result = explode('=', $param);

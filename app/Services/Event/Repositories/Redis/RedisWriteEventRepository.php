@@ -7,7 +7,10 @@ namespace App\Services\Event\Repositories\Redis;
 use App\Services\Event\Repositories\IWriteEventRepository;
 use Illuminate\Contracts\Redis\Connection;
 
-
+/**
+ * Class RedisWriteEventRepository
+ * @package App\Services\Event\Repositories\Redis
+ */
 class RedisWriteEventRepository implements IWriteEventRepository
 {
     public const EVENT_PREFIX = 'events:';
