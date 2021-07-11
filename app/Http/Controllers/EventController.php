@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Database\Seeders\EventSeeder;
 use Illuminate\Http\Request;
 use App\Services\Event\EventService;
 use View;
@@ -99,6 +100,13 @@ class EventController extends Controller
         foreach ($events as $event) {
             $this->eventService->create($event->toArray());
         }
+        echo "It's done" . PHP_EOL;
+    }
+
+    public function seedMysql()
+    {
+        $seeder = new EventSeeder();
+        $seeder->run();
         echo "It's done" . PHP_EOL;
     }
 

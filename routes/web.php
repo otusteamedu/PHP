@@ -25,6 +25,7 @@ Route::get('/event/delete/{item}', [App\Http\Controllers\EventController::class,
 Route::get('/event/clear', [App\Http\Controllers\EventController::class, 'clear'])->name('clear');
 Route::get('/event/create', [App\Http\Controllers\EventController::class, 'create'])->name('create');
 Route::get('/event/seedNosql', [App\Http\Controllers\EventController::class, 'seedNosql'])->name('seedNosql');
+Route::get('/event/seedMysql', [App\Http\Controllers\EventController::class, 'seedMysql'])->name('seedMysql');
 Route::get('/event/showAll', [App\Http\Controllers\EventController::class, 'showAll'])->name('showAll');
 
 Auth::routes();
