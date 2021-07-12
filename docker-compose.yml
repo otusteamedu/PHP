@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+    ports:
+      - "8787:80"
+
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./docker/php-fpm
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock:/sock
+
+
+
