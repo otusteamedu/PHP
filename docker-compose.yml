@@ -1,0 +1,18 @@
+
+version: '3.8'
+services:
+  php-server:
+    container_name: php-server
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-otus
+      - ./sock:/sock
+
+  php-client:
+    container_name: php-client
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-otus
+      - ./sock:/sock
