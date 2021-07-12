@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\Event\Repositories\Bla\Blabla;
 use App\Services\Event\Repositories\Elastic\ElasticSearchEventRepository;
 use App\Services\Event\Repositories\Elastic\ElasticWriteEventRepository;
-use app\Services\Event\Repositories\Elasticsearch\ElasticsearchSearchEventRepository;
-use app\Services\Event\Repositories\Elasticsearch\ElasticsearchWriteEventRepository;
 use App\Services\Event\Repositories\Eloquent\EloquentSearchEventRepository;
 use App\Services\Event\Repositories\Eloquent\EloquentWriteEventRepository;
 use App\Services\Event\Repositories\ISearchEventRepository;
