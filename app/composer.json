@@ -1,0 +1,18 @@
+{
+    "name": "rsm/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    }
+}
