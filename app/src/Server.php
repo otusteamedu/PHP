@@ -4,45 +4,68 @@ namespace App;
 
 class Server
 {
-    public static function start()
+    private $socket;
+    private array $config;
+
+    public function __construct()
     {
-        $config = Config::getConfig();
+        $this->config = Config::getConfig();
 
-        if (file_exists($config['socket_path'])){
-            unlink($config['socket_path']);
+        if (file_exists($this->config['socket_path'])){
+            unlink($this->config['socket_path']);
         }
 
-        $socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
+        $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
+    }
 
-        if (!$socket) {
-            die('Unable to create AF_UNIX socket');
+    /**
+     * @throws AppException
+     */
+    public function start(): void
+    {
+        if ($this->socket === false) {
+            throw new AppException('Unable to create AF_UNIX socket');
         }
 
-        $serverSideSock = $config['socket_path'];
+        $serverSideSock = $this->config['socket_path'];
 
-        echo $serverSideSock."\n";
+        $this->print( $serverSideSock);
 
-        if (!socket_bind($socket, $serverSideSock)) {
-            die("Unable to bind to $serverSideSock");
+        if (!socket_bind($this->socket, $serverSideSock)) {
+            throw new AppException("Unable to bind to $serverSideSock");
         }
 
         while(true)
         {
-            if (!socket_set_block($socket)){
-                die('Unable to set blocking mode for socket');
-            }
-
-            $buf = '';
-
-            echo "Ready to receive...\n";
-
-            $bytesReceived = socket_recvfrom($socket, $buf, 65536, 0, $from);
-
-            if ($bytesReceived == -1){
-                die('An error occured while receiving from the socket');
-            }
-
-            echo "Received $buf client";
+            $this->listen();
         }
     }
+
+    /**
+     * @throws AppException
+     */
+    private function listen(): void
+    {
+        if (!socket_set_block($this->socket)){
+            throw new AppException('Unable to set blocking mode for socket');
+        }
+
+        $buf = '';
+        $this->print( "Ready to receive...");
+
+        $bytesReceived = socket_recvfrom($this->socket, $buf, 65536, 0, $from);
+
+        if ($bytesReceived === -1){
+            throw new AppException('An error occured while receiving from the socket');
+        }
+
+        $this->print("Received $buf client");
+    }
+
+
+    private function print(string $message): void
+    {
+        echo $message . PHP_EOL;
+    }
+
 }

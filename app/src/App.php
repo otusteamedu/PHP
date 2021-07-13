@@ -7,7 +7,7 @@ class App
     public function __construct()
     {
         if (php_sapi_name() !== 'cli') {
-            throw new \Exception('run it in cli');
+            throw new AppException('run it in cli');
         }
     }
 
@@ -15,17 +15,17 @@ class App
      * @param $argv
      * @throws \Exception
      */
-    public function run($argv)
+    public function run($argv): void
     {
         switch ($argv[1]) {
             case 'server':
-                Server::start();
+                (new Server())->start();
                 break;
             case 'client':
                 Client::start();
                 break;
             default:
-                throw new \Exception('incorrect type');
+                throw new AppException('incorrect type');
         }
     }
 }
