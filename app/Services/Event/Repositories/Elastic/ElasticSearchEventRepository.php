@@ -61,10 +61,11 @@ class ElasticSearchEventRepository implements ISearchEventRepository
                 'type'  => $this->event->getElasticIndexType(),
                 'body'  => ['query' => $this->queryGetEventsByConditions($conditions)]
             ]);
-            return collect(Arr::pluck($items['hits']['hits'], '_source'))
-                ->sortByDesc('priority')->filter(static function ($event) use ($conditions) {
-                    return collect($event['conditions'])->diffAssoc($conditions)->isEmpty();
-                });
+            $events = $this->buildCollection($items)
+                ->sortByDesc('priority');
+            return $events->filter(static function ($event) use ($conditions) {
+                return collect($event['conditions'])->diffAssoc($conditions)->isEmpty();
+            });
         } catch (Missing404Exception $ex) {
             return collect();
         }
@@ -72,8 +73,7 @@ class ElasticSearchEventRepository implements ISearchEventRepository
 
     public function getEventByCondition(array $conditions): ?Event
     {
-        $event = $this->searchEvents($conditions)->first();
-        return !is_null($event) ? new Event($event) : null ;
+        return $this->searchEvents($conditions)->first();
     }
 
     /**
