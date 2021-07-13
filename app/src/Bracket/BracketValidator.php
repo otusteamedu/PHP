@@ -7,11 +7,11 @@ use App\Response;
 
 class BracketValidator
 {
-    private string $brackets;
+    private array $brackets;
 
     public function __construct(string $brackets)
     {
-        $this->brackets = $brackets;
+        $this->brackets = str_split($brackets);
     }
 
     public function check()
@@ -25,27 +25,18 @@ class BracketValidator
 
     private function validate() : bool
     {
-
-        if (empty(trim($this->brackets))) {
+        if (empty($this->brackets)) {
             return false;
         }
 
-        if ( ($this->brackets[0] === ')') || (substr($this->brackets, -1, 1) === '(') ) {
-            return false;
-        }
-
-        foreach (str_split($this->brackets) as $value) {
-
-            if ($value === '(') {
-                $arr[] = $value;
-                continue;
-            }
-
-            if ($value === ')' && (empty($arr) || array_pop($arr) !== '(')) {
-                return false;
+        $counter = 0;
+        foreach ($this->brackets as $bracket) {
+            if ($bracket === '(') {
+                $counter++;
+            } else {
+                $counter--;
             }
         }
-
-        return empty($arr);
+        return $counter === 0 && end($this->brackets) !== '(';
     }
 }
