@@ -6,31 +6,11 @@ use App\AppException;
 use App\Request\Request;
 use App\Response\Response;
 
-class EmailValidator {
+class EmailValidator extends AbstractValidator {
 
-    private array $emails;
+    public const VALIDATOR_NAME = 'EMAIL_VALIDATOR';
 
-    public function __construct(array $emails)
-    {
-        $this->emails = $emails;
-    }
-
-    public function validate()
-    {
-        $result = [];
-
-        foreach($this->emails as $email) {
-            if (!$this->validEmail($email,true)){
-                $result[] = ["email" => $email, 'status' => 'invalid'];
-            } else {
-                $result[] = ["email" => $email, 'status' => 'valid'];
-            }
-        }
-
-        Response::send(Response::OK, "email-ы проверены", $result);
-    }
-
-    private function validEmail(string $email, $extended = false)
+    protected function isValidEmail(string $email, $extended = false)
     {
         if (empty($email)) {
             return false;
