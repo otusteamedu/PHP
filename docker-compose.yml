@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock-1:/sock-1
+      - ./docker/sock-2:/sock-2
+      - ./docker/sock-3:/sock-3
+    ports:
+      - "8787:80"
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+      - php-fpm-3
+
+  php-fpm-1:
+    container_name: php-fpm-1
+    build:
+      context: ./docker/php-fpm-1
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock-1:/sock-1
+
+  php-fpm-2:
+    container_name: php-fpm-2
+    build:
+      context: ./docker/php-fpm-2
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock-2:/sock-2
+
+  php-fpm-3:
+    container_name: php-fpm-3
+    build:
+      context: ./docker/php-fpm-3
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/sock-3:/sock-3
+
