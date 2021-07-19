@@ -1,0 +1,56 @@
+stages:
+    - deploy
+    - rollback
+
+before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - export NEW_RELEASE_DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy_server:
+    stage: deploy
+    environment:
+        name: server
+        url: $SERVER_NAME
+    script:
+        - ssh $SSH_USER@$SERVER_NAME "cd /var/www/mysite &&
+            sudo git clone $REPOSITORY_ADDRESS $NEW_RELEASE_DIR &&
+
+            sudo rm -rf tmp_conf &&
+            sudo git clone $CONF_REPOSITORY_ADDRESS tmp_conf &&
+            sudo cp tmp_conf/.env $NEW_RELEASE_DIR/app &&
+            sudo cp tmp_conf/supervisor.conf $NEW_RELEASE_DIR &&
+            sudo cp tmp_conf/nginx.conf $NEW_RELEASE_DIR &&
+            sudo cp -f $NEW_RELEASE_DIR/supervisor.conf /etc/supervisor/conf.d/mysite.conf &&
+            sudo cp -f $NEW_RELEASE_DIR/nginx.conf /etc/nginx/conf.d/mysite.conf &&
+            sudo sed -i -- \"s|%SERVER_NAME%|$SERVER_NAME|g\" /etc/nginx/conf.d/mysite.conf &&
+            sudo rm -rf tmp_conf &&
+
+            sudo chown www-data:www-data $NEW_RELEASE_DIR -R &&
+            cd $NEW_RELEASE_DIR &&
+
+            sudo -u www-data composer --working-dir=app install -q &&
+            sudo -u www-data php app/app.php run-migration &&
+
+            cd .. &&
+            ( [ ! -f /var/www/mysite/current/release-number.txt ] || sudo cp -f /var/www/mysite/current/release-number.txt /var/www/mysite/$NEW_RELEASE_DIR/previous-release-number.txt) &&
+            echo \"$NEW_RELEASE_DIR\" | sudo -u www-data tee /var/www/mysite/$NEW_RELEASE_DIR/release-number.txt &&
+            sudo ln -sfn /var/www/mysite/$NEW_RELEASE_DIR /var/www/mysite/current &&
+
+            sudo service nginx reload &&
+            sudo service php7.4-fpm reload &&
+            sudo supervisorctl update all"
+    only:
+        - master
+
+rollback:
+    stage: rollback
+    script:
+        - ssh $SSH_USER@$SERVER_NAME "cd /var/www/mysite/current &&
+            sh rollback.sh $SERVER_NAME"
+    when: manual

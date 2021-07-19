@@ -1,0 +1,3 @@
+providers[] = App\Provider\AppServiceProvider
+
+commands['run-consumer'] = \App\Command\Request\RunHandleRequestConsumerCommand
