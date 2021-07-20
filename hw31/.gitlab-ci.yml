@@ -25,10 +25,7 @@ deploy_server:
             sudo git clone $CONF_REPOSITORY_ADDRESS tmp_conf &&
             sudo cp tmp_conf/.env $NEW_RELEASE_DIR/app &&
             sudo cp tmp_conf/supervisor.conf $NEW_RELEASE_DIR &&
-            sudo cp tmp_conf/nginx.conf $NEW_RELEASE_DIR &&
             sudo cp -f $NEW_RELEASE_DIR/supervisor.conf /etc/supervisor/conf.d/mysite.conf &&
-            sudo cp -f $NEW_RELEASE_DIR/nginx.conf /etc/nginx/conf.d/mysite.conf &&
-            sudo sed -i -- \"s|%SERVER_NAME%|$SERVER_NAME|g\" /etc/nginx/conf.d/mysite.conf &&
             sudo rm -rf tmp_conf &&
 
             sudo chown www-data:www-data $NEW_RELEASE_DIR -R &&
@@ -42,7 +39,6 @@ deploy_server:
             echo \"$NEW_RELEASE_DIR\" | sudo -u www-data tee /var/www/mysite/$NEW_RELEASE_DIR/release-number.txt &&
             sudo ln -sfn /var/www/mysite/$NEW_RELEASE_DIR /var/www/mysite/current &&
 
-            sudo service nginx reload &&
             sudo service php7.4-fpm reload &&
             sudo supervisorctl update all"
     only:
