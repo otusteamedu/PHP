@@ -18,27 +18,33 @@ $$ language plpgsql;
 -- Скрипты для добавления тестовых данных
 -- movie_genre
 insert into "movie_genre"("name")
-  select 
+  select
   	random_string((1 + random()*24)::integer)
   from generate_series(1,30) as gs;
- 
+
 -- movie
  insert into "movie" ("name", age_limit, movie_genre_id)
  select
   random_string((1 + random()*24)::integer),
   (ARRAY['дети до 6 лет','дети до 12 лет','дети до 16 лет', 'дети до 18 лет'])[(random()*3)+1],
   (1 + random()*29)::integer
- from generate_series(1,100) as gs;
+ from generate_series(1,10000) as gs;
 
--- room_schema 
+-- Вставляем данные для кинозалов
+insert into room (name) values ('Зал №1'), ('Зал №2'), ('Зал №3'), ('Зал №4'), ('Зал №5');
+
+-- Вставляем данные для типов кресел
+insert into seat (seat_type, cost_factor) values('Кресло Стандартное', 1), ('Кресло комфорт', 1.1), ('Кресло VIP', 1.5), ('Диван', 2.0);
+
+-- room_schema
 insert into room_schema ("row", "number", "room_id", "seat_id")
   select
     ((gs.id % 1000) / 50)::int +1,
-    gs.id % 50 + 1,    
+    gs.id % 50 + 1,
     (gs.id / 1000  + 1),
   	(ARRAY[1,2,3,4])[(random()*3)+1]
   from generate_series(0,3999) as gs(id);
- 
+
  --schedule
 insert into schedule (session_start , session_end , cost_base , movie_id, room_id)
   select
@@ -73,15 +79,15 @@ explain (analyse, buffers) select * from ticket where schedule_id between 1000 A
 -- 3 сложных
 
 -- поиск суммы билетов стоимостью больше 1000, проданных на конкретный фильм
-select m2.name, sum(t2.cost) from ticket t2 
+select m2.name, sum(t2.cost) from ticket t2
 left join schedule s2 on s2.id = t2.schedule_id
 left join movie m2 on m2.id = s2.movie_id
 where m2.id = 2137 and t2.cost > 1000
 group by m2.id;
 -- поиск фильмов где сборы перевалили за 5 млн
-select m2."name", sum(t2.cost) as total_sum  from ticket t2 
-left join schedule s2 on s2.id = t2.schedule_id 
-left join movie m2 on s2.movie_id = m2.id 
+select m2."name", sum(t2.cost) as total_sum  from ticket t2
+left join schedule s2 on s2.id = t2.schedule_id
+left join movie m2 on s2.movie_id = m2.id
 group by m2.id
 having sum(t2.cost) > 5000000
 order by total_sum desc;
@@ -100,7 +106,7 @@ SELECT nspname || '.' || relname AS "relation",
   LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
   WHERE nspname NOT IN ('pg_catalog', 'information_schema')
   ORDER BY pg_relation_size(C.oid) desc limit 15;
- 
+
 -- выводит информацию  об индексах
  select * from pg_stat_all_indexes where schemaname <> 'pg_catalog';
 
