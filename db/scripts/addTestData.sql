@@ -26,7 +26,7 @@ insert into "movie_genre"("name")
  insert into "movie" ("name", age_limit, movie_genre_id)
  select
   random_string((1 + random()*24)::integer),
-  (ARRAY['дети до 6 лет','дети до 12 лет','дети до 16 лет', 'дети до 18 лет'])[(random()*3)+1],
+  (ARRAY[6, 12, 16, 18])[(random()*3)+1],
   (1 + random()*29)::integer
  from generate_series(1,10000) as gs;
 

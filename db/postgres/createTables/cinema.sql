@@ -8,7 +8,7 @@ CREATE UNIQUE INDEX movie_genre_id_UNIQUE ON movie_genre(id);
 CREATE TABLE IF NOT EXISTS movie (
   id serial not null primary key,
   name VARCHAR(100) NULL,
-  age_limit VARCHAR(45) NULL,
+  age_limit smallint NULL,
   movie_genre_id smallint NOT null references movie_genre(id)
   );
 comment on column movie.name is 'наименование фильма';
@@ -33,7 +33,7 @@ CREATE UNIQUE INDEX seat_id_UNIQUE ON seat(id);
 
 CREATE TABLE IF NOT EXISTS room_schema (
   id smallserial not null primary key,
-  "row" smallint null, 
+  "row" smallint null,
   "number" smallint NULL,
   room_id smallint references room(id),
   seat_id smallint references seat(id)
