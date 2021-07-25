@@ -13,7 +13,13 @@ class RoomController extends BaseController
     {
         echo "<pre>";
         $id = $_GET['id'];
-        $this->showRooms([$this->model->getById($id)->asArray()]);
+        $this->showRooms([$this->model->getById($id)]);
+    }
+
+    public function all()
+    {
+        echo "<pre>";
+        $this->showRooms($this->model->get());
     }
 
     public function insert()
@@ -40,7 +46,7 @@ class RoomController extends BaseController
         var_dump($this->model->delete($id));
     }
 
-    private function showRooms(array $movies): void
+    private function showRooms(array $rooms): void
     {
         echo "<Table border='1px'>";
         echo "<caption>Таблица Кинозалов</caption>";
@@ -51,11 +57,11 @@ class RoomController extends BaseController
             echo "</th>";
         }
         echo "</tr>";
-        foreach ($movies as $movie) {
+        foreach ($rooms as $room) {
             echo "<tr>";
             foreach (Room::attributeLabels() as $key => $label) {
                 echo "<td>";
-                echo $movie[$key];
+                echo $room->{'get'.$key}();;
                 echo "</td>";
             }
             echo "</tr>";

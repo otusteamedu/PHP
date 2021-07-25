@@ -18,6 +18,9 @@ class MovieModel extends BaseModel
         return $this->dataAccess->getMovie($id);
     }
 
+    /**
+     * @return array
+     */
     public function get(): array
     {
         return $this->dataAccess->getMovies();

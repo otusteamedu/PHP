@@ -19,6 +19,14 @@ class RoomModel extends BaseModel
     }
 
     /**
+     * @return array
+     */
+    public function get(): array
+    {
+        return $this->dataAccess->getRooms();
+    }
+
+    /**
      * @param RoomDto $data
      * @return Room
      */
