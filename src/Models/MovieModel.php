@@ -5,7 +5,6 @@ namespace src\Models;
 
 
 use Services\Dao\DataMapper\Movie\Movie;
-use Services\Dao\DataMapper\Movie\MovieMapper;
 use Services\Dto\MovieDto;
 
 class MovieModel extends BaseModel

@@ -8,6 +8,7 @@ use ReflectionClass;
 
 /**
  * Trait HasObjectTools
+ *
  * Набор тулзов для работы с объектам
  *
  * @package Services\Traits

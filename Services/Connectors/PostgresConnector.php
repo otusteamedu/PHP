@@ -8,6 +8,9 @@ use PDO;
 
 /**
  * Class PostgresConnector
+ *
+ * Подключение к базе данных Postgres
+ *
  * @package Services\Connectors
  */
 class PostgresConnector

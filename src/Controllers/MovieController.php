@@ -5,7 +5,6 @@ namespace src\Controllers;
 
 
 use Services\Dao\DataMapper\Movie\Movie;
-use Services\Dto\MovieDto;
 
 class MovieController extends BaseController
 {

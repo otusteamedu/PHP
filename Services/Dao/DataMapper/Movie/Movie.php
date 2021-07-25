@@ -10,6 +10,9 @@ use Services\Traits\HasObjectTools;
 
 /**
  * Class Movie
+ *
+ * Сущность для Фильмов
+ *
  * @package Services\Dao\DataMapper\Movie
  */
 class Movie

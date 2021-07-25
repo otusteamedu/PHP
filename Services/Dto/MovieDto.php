@@ -4,7 +4,10 @@
 namespace Services\Dto;
 
 /**
- * Class MovieDto содержит поля из таблицы 'movie'
+ * Class MovieDto
+ *
+ * содержит поля из таблицы 'movie'
+ *
  * @package Services\Dto
  */
 class MovieDto extends AbstractDto

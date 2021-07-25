@@ -10,7 +10,9 @@ use PDO;
 
 /**
  * Class AppServiceProvider
+ *
  * Определяет подключение к выбранной в конфигурации базе данных
+ *
  * @package app\Providers
  */
 class AppServiceProvider
@@ -25,9 +27,9 @@ class AppServiceProvider
     }
 
     /**
-     * @return PDO|null
+     * @return PDO
      */
-    public function getConnection(): ?PDO
+    public function getConnection(): PDO
     {
         switch ($this->connector) {
             case 'mysql':

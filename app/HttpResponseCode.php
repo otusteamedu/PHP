@@ -5,7 +5,9 @@ namespace app;
 
 /**
  * Class HttpResponseCode
+ *
  * Позволяет обработать код, которого нет в наборе HTTP кодов.
+ *
  * @package app
  */
 class HttpResponseCode

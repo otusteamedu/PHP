@@ -10,7 +10,10 @@ use Services\Dto\MovieDto;
 
 /**
  * Class MovieMapper
- * @package Services\Dao\DataMapper\Movie
+ *
+ * Обеспечивает связь между таблицей 'movie' и объектом Movie
+ *
+ * * @package Services\Dao\DataMapper\Movie
  */
 class MovieMapper
 {
@@ -129,13 +132,12 @@ class MovieMapper
     public function update(Movie $movie): bool
     {
         echo "Updating\n";
-        $this->updateStmt->execute([
+        return $this->updateStmt->execute([
             'id'                => $movie->getId(),
             'name'              => $movie->getName(),
             'age_limit'         => $movie->getAgeLimit(),
             'movie_genre_id'    => $movie->getMovieGenreId(),
         ]);
-        return true;
     }
 
     /**

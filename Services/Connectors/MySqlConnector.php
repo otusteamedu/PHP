@@ -8,6 +8,9 @@ use PDO;
 
 /**
  * Class MySqlConnector
+ *
+ * Подключение к базе данных MySql
+ *
  * @package Services\Connectors
  */
 class MySqlConnector
