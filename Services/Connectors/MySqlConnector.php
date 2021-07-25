@@ -7,10 +7,10 @@ namespace Services\Connectors;
 use PDO;
 
 /**
- * Class PostgresConnector
+ * Class MySqlConnector
  * @package Services\Connectors
  */
-class PostgresConnector
+class MySqlConnector
 {
     private string $host;
     private string $port;
@@ -19,7 +19,7 @@ class PostgresConnector
     private string $password;
 
     /**
-     * PostgresConnector constructor.
+     * MySqlConnector constructor.
      */
     public function __construct()
     {
@@ -31,13 +31,13 @@ class PostgresConnector
     }
 
     /**
-     * Возвращает PDO соединения с базой данных Postgres
+     * Возвращает PDO соединения с базой данных MySql
      *
      * @return PDO
      */
     public function connect(): PDO
     {
-        return new PDO("pgsql:host=$this->host; port=$this->port; dbname=$this->dbname;", $this->username, $this->password);
+        return new PDO("mysql:host=$this->host; dbname=$this->dbname; port=$this->port", $this->username, $this->password);
     }
 
 }

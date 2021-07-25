@@ -4,6 +4,7 @@
 namespace app\Providers;
 
 
+use Services\Connectors\MySqlConnector;
 use Services\Connectors\PostgresConnector;
 use PDO;
 
@@ -29,6 +30,8 @@ class AppServiceProvider
     public function getConnection(): ?PDO
     {
         switch ($this->connector) {
+            case 'mysql':
+                return (new MySqlConnector())->connect();
             case 'postgres':
             default :
                 return (new PostgresConnector())->connect();

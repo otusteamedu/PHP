@@ -1,4 +1,5 @@
 <?php
+use app\HttpResponseCode;
 require_once __DIR__ . '/../bootstrap/init.php';
 echo "<pre>";
 $controller = "src\Controllers\\"
@@ -18,8 +19,8 @@ if (class_exists($controller)) {
             $app->{$method}();
         }
     } catch (Exception $exception) {
-        echo "Code:" . $exception->getCode() . ". " . $exception->getMessage() . PHP_EOL;
-        http_response_code((int)$exception->getCode());
+        echo "ErrorCode:" . $exception->getCode() . ". " . $exception->getMessage() . PHP_EOL;
+        HttpResponseCode::setResponseCode($exception->getCode());
     }
 }
 echo "Good Bye" . PHP_EOL;

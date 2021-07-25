@@ -84,13 +84,13 @@ class MovieMapper
     {
         echo "Finding\n";
         $this->selectStmt->setFetchMode(\PDO::FETCH_CLASS, MovieDto::class);
-        $this->selectStmt->execute([$id]);
+        $this->selectStmt->execute(['id' => $id]);
         $movie = $this->selectStmt->fetch();
         if ($movie == false) {
             return new Movie();
         }
         $this->selectGenreStmt->setFetchMode(\PDO::FETCH_ASSOC);
-        $this->selectGenreStmt->execute([$movie->movie_genre_id]);
+        $this->selectGenreStmt->execute(['id' => $movie->movie_genre_id]);
         $movie->genre = $this->selectGenreStmt->fetch()['name'];
         return new Movie($movie);
     }
@@ -105,12 +105,13 @@ class MovieMapper
     {
         echo "Inserting\n";
         $this->selectGenreIdStmtByName->setFetchMode(\PDO::FETCH_ASSOC);
-        $this->selectGenreIdStmtByName->execute([$data->genre]);
+        $this->selectGenreIdStmtByName->execute(['name' => $data->genre]);
+        $data->movie_genre_id = $data->movie_genre_id ?? $this->selectGenreIdStmtByName->fetch()['id'];
         try {
             $this->insertStmt->execute([
                 $data->name,
                 $data->age_limit,
-                $this->selectGenreIdStmtByName->fetch()['id']
+                $data->movie_genre_id,
             ]);
         } catch (\PDOException $pex) {
             print_r($pex);
@@ -146,7 +147,7 @@ class MovieMapper
     public function delete(int $id): bool
     {
         echo "Deleting\n";
-        return $this->deleteStmt->execute([$id]);
+        return $this->deleteStmt->execute(['id' => $id]);
     }
 
 }
