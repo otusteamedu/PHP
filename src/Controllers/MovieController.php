@@ -12,7 +12,14 @@ class MovieController extends BaseController
     {
         echo "<pre>";
         $id = $_GET['id'];
-        $this->showMovies([$this->model->getById($id)->asArray()]);
+        $this->showMovies([$this->model->getById($id)]);
+    }
+
+    public function all()
+    {
+        echo "<pre>";
+        $this->showMovies($this->model->get());
+
     }
 
     public function insert()
@@ -57,7 +64,7 @@ class MovieController extends BaseController
             echo "<tr>";
             foreach (Movie::attributeLabels() as $key => $label) {
                 echo "<td>";
-                echo $movie[$key];
+                echo $movie->{'get'.$key}();
                 echo "</td>";
             }
             echo "</tr>";

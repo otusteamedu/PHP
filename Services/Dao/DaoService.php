@@ -9,6 +9,7 @@ use Services\Dao\DataMapper\Movie\Movie;
 use Services\Dao\DataMapper\Movie\MovieMapper;
 use Services\Dao\DataMapper\Room\Room;
 use Services\Dao\DataMapper\Room\RoomMapper;
+use Services\Dao\TableGateway\MovieTG;
 use Services\Dto\MovieDto;
 use PDO;
 use Services\Dto\RoomDto;
@@ -59,6 +60,16 @@ class DaoService
     public function insertMovie(MovieDto $data): Movie
     {
         return (new MovieMapper($this->connection))->insert($data);
+    }
+
+    /**
+     * Возвращает из DAO массив объектов Movie (Фильмов)
+     *
+     * @return array
+     */
+    public function getMovies(): array
+    {
+        return (new MovieTG($this->connection))->getMovies();
     }
 
     /**
