@@ -9,6 +9,7 @@ use Services\Dao\DataMapper\Movie\Movie;
 use Services\Dao\DataMapper\Movie\MovieMapper;
 use Services\Dao\DataMapper\Room\Room;
 use Services\Dao\DataMapper\Room\RoomMapper;
+use Services\Dao\IdentityMap\ObjectsHolder;
 use Services\Dao\TableGateway\MovieTG;
 use Services\Dao\TableGateway\RoomTG;
 use Services\Dto\MovieDto;
@@ -37,6 +38,29 @@ class DaoService
         $this->connection = (new AppServiceProvider())->getConnection();
     }
 
+    /**
+     * @param string $className
+     * @param int $id
+     * @return mixed
+     */
+    private function getFromIdentityMap(string $className, int $id): mixed
+    {
+        return ($record = ObjectsHolder::getRecord($className, $id)) != null // Есть ли  объект, если он уже был запрошен ранее
+            ? $record
+            : null;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isUseIdentityMap(): bool
+    {
+        return !isset($_ENV['USE_IDENTITY_MAP'])
+            or mb_strtolower($_ENV['USE_IDENTITY_MAP']) == 'false'
+            or $_ENV['USE_IDENTITY_MAP'] == false;
+    }
+
+
     /*****************************************
      * Блок методов взаимодействия с фильмами.
      *****************************************/
@@ -49,7 +73,18 @@ class DaoService
      */
     public function getMovie(int $id = null): Movie
     {
-        return (new MovieMapper($this->connection))->findById($id);
+        if ($this->isUseIdentityMap()) {
+            echo "Без IdentityMap".PHP_EOL;
+            return (new MovieMapper($this->connection))->findById($id);
+        }
+        echo "С IdentityMap".PHP_EOL;
+        if (($record = $this->getFromIdentityMap(Movie::class, $id)) != null) {
+            $movie = $record;
+        } else {
+            $movie = (new MovieMapper($this->connection))->findById($id);
+            ObjectsHolder::addRecord($movie, $id);
+        }
+        return $movie;
     }
 
     /**

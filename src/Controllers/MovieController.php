@@ -35,11 +35,16 @@ class MovieController extends BaseController
     {
         echo "<pre>";
         $id = $_GET['id'];
-        $movie = $this->model->getById($id);
-        $movie->setName($movie->getName() . "-Updated");
-        $movie->setMovieGenreId($movie->getMovieGenreId() + 1);
-        var_dump($this->model->update($movie));
-        $this->showMovies([$this->model->getById($id)->asArray()]);
+        // $movie = $this->model->getById($id);
+        $movie1 = $this->model->getById($id);
+        $movie2 = $this->model->getById($id);
+        $movie3 = $this->model->getById($id);
+
+        $movie1->setName($movie1->getName() . "-Updated");
+        $movie2->setMovieGenreId($movie2->getMovieGenreId() + 1);
+        $movie3->setAgeLimit($movie2->getAgeLimit() + 1);
+        var_dump($this->model->update($movie1));
+        $this->showMovies([$this->model->getById($id)]);
     }
 
     public function delete()
