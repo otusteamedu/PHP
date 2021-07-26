@@ -1,0 +1,13 @@
+version: '3.8'
+
+services: 
+  postgres:
+    image: postgres:13.1
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: otus
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5454:5432"
+
