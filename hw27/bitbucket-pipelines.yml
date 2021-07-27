@@ -1,0 +1,11 @@
+image: atlassian/default-image:latest
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: deploy
+          script:
+            - echo "Deploy process started"
+            - cat ./deploy.sh | ssh $USER@$SERVER -p$PORT
+            - echo "Deploy process finished"
