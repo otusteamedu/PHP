@@ -16,7 +16,6 @@ ENV MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     # ставим необходимые для нормальной работы модули
     && apt update && apt install -y \
-    mc \
     curl \
     wget \
     libfreetype6-dev \
