@@ -8,7 +8,7 @@ ARG TIMEZONE
 
 # Мета данные
 LABEL version="1.0"
-LABEL description="Nginx container"
+LABEL description="PHP-${PHP_VERSION} container"
 LABEL maintainer = "Vladimir Valyakin"
 ENV TZ=${TIMEZONE}
 ENV ADMIN="Vladimir"
@@ -17,7 +17,6 @@ ENV MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     # ставим необходимые для нормальной работы модули
     && apt update && apt install -y \
-    mc \
     curl \
     wget \
     libfreetype6-dev \

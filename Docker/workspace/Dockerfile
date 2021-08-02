@@ -7,7 +7,7 @@ ARG MEMPROF_LOG_PATH
 
 # Мета данные
 LABEL version="1.0"
-LABEL description="Nginx container"
+LABEL description="PHP-${PHP_VERSION} container"
 LABEL maintainer = "Vladimir Valyakin"
 ENV TZ=${TIMEZONE}
 ENV ADMIN="Vladimir"

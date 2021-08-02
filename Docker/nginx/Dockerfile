@@ -10,7 +10,6 @@ ENV ADMIN="Vladimir"
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt update && apt install -y \
-    mc \
     nginx
 
 # копирование файлов конфигурации для доступных сайтов внутрь контейнера
