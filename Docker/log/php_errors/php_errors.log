@@ -1,0 +1,13 @@
+[01-Aug-2021 02:04:49 Europe/Moscow] PHP Warning:  Calling memprof_enable() manually may not work as expected because of PHP optimizations. Prefer using MEMPROF_PROFILE=1 as environment variable, GET, or POST in /var/www/html/application.loc/checker.php on line 185
+[01-Aug-2021 19:47:16 Europe/Moscow] PHP Fatal error:  Uncaught Error: Class "ClientBuilder" not found in /var/www/html/application.loc/checker.php:261
+Stack trace:
+#0 /var/www/html/application.loc/checker.php(202): getElasticsearchClient()
+#1 /var/www/html/application.loc/index.php(39): checkElasticsearch()
+#2 {main}
+  thrown in /var/www/html/application.loc/checker.php on line 261
+[01-Aug-2021 19:48:10 Europe/Moscow] PHP Fatal error:  Uncaught Error: Class "ClientBuilder" not found in /var/www/html/application.loc/checker.php:261
+Stack trace:
+#0 /var/www/html/application.loc/checker.php(202): getElasticsearchClient()
+#1 /var/www/html/application.loc/index.php(39): checkElasticsearch()
+#2 {main}
+  thrown in /var/www/html/application.loc/checker.php on line 261

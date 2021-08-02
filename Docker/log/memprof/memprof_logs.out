@@ -1,0 +1,1122 @@
+version: 1
+cmd: unknown
+positions: line
+events: MemorySize BlocksCount
+
+fl=/todo.php
+fn=set_error_handler
+1 320 2
+
+fl=/todo.php
+fn=require_once /var/www/html/application.loc/checker.php
+1 0 0
+cfl=/todo.php
+cfn=set_error_handler
+calls=1 1
+1 320 2
+
+fl=/todo.php
+fn=require_once /var/www/html/application.loc/checker.html
+1 103 3
+
+fl=/todo.php
+fn=require_once /var/www/html/application.loc/vendor/composer/autoload_real.php
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/composer/platform_check.php
+1 0 0
+
+fl=/todo.php
+fn=spl_autoload_register
+1 376 2
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/composer/ClassLoader.php
+1 0 0
+
+fl=/todo.php
+fn=ComposerAutoloaderInit9bc2de5e117912a6a621249b036cf55a::loadClassLoader
+1 51496 449
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/composer/ClassLoader.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=dirname
+1 72 1
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::__construct
+1 0 0
+
+fl=/todo.php
+fn=spl_autoload_unregister
+1 0 0
+
+fl=/todo.php
+fn=function_exists
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/composer/autoload_static.php
+1 0 0
+
+fl=/todo.php
+fn=Closure::bind
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ComposerStaticInit9bc2de5e117912a6a621249b036cf55a::getInitializer
+1 0 0
+cfl=/todo.php
+cfn=Closure::bind
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::Composer\Autoload\{closure}
+1 0 0
+
+fl=/todo.php
+fn=spl_autoload_register
+1 32 1
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::register
+1 376 2
+cfl=/todo.php
+cfn=spl_autoload_register
+calls=1 1
+1 32 1
+
+fl=/todo.php
+fn=function_exists
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/react/promise/src/functions.php
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/react/promise/src/functions_include.php
+1 55692 454
+cfl=/todo.php
+cfn=function_exists
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/react/promise/src/functions.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/symfony/polyfill-php80/bootstrap.php
+1 0 0
+
+fl=/todo.php
+fn=function_exists
+1 0 0
+
+fl=/todo.php
+fn=extension_loaded
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/symfony/polyfill-mbstring/bootstrap80.php
+1 0 0
+cfl=/todo.php
+cfn=function_exists
+calls=38 1
+1 0 0
+cfl=/todo.php
+cfn=extension_loaded
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/symfony/polyfill-mbstring/bootstrap.php
+1 48940 474
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/symfony/polyfill-mbstring/bootstrap80.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=function_exists
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/symfony/polyfill-ctype/bootstrap80.php
+1 0 0
+cfl=/todo.php
+cfn=function_exists
+calls=11 1
+1 0 0
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/symfony/polyfill-ctype/bootstrap.php
+1 10796 122
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/symfony/polyfill-ctype/bootstrap80.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=class_exists
+1 0 0
+
+fl=/todo.php
+fn=strtr
+1 0 0
+
+fl=/todo.php
+fn=strrpos
+1 0 0
+
+fl=/todo.php
+fn=substr
+1 0 0
+
+fl=/todo.php
+fn=file_exists
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::findFileWithExtension
+1 0 0
+cfl=/todo.php
+cfn=strtr
+calls=40 1
+1 0 0
+cfl=/todo.php
+cfn=strrpos
+calls=115 1
+1 0 0
+cfl=/todo.php
+cfn=substr
+calls=155 1
+1 0 0
+cfl=/todo.php
+cfn=file_exists
+calls=40 1
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::findFile
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::findFileWithExtension
+calls=40 1
+1 0 0
+
+fl=/todo.php
+fn=strtr
+1 0 0
+
+fl=/todo.php
+fn=strrpos
+1 0 0
+
+fl=/todo.php
+fn=substr
+1 0 0
+
+fl=/todo.php
+fn=file_exists
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::findFileWithExtension
+1 0 0
+cfl=/todo.php
+cfn=strtr
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=strrpos
+calls=2 1
+1 0 0
+cfl=/todo.php
+cfn=substr
+calls=3 1
+1 0 0
+cfl=/todo.php
+cfn=file_exists
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::findFile
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::findFileWithExtension
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/AbstractEndpoint.php
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\includeFile
+1 33628 351
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/AbstractEndpoint.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::loadClass
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::findFile
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\includeFile
+calls=1 1
+1 33628 351
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/HotThreads.php
+1 2064 3
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::loadClass
+calls=1 1
+1 33628 351
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Info.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/ReloadSecureSettings.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Stats.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Usage.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Cluster/GetSettings.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Cluster/PutSettings.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/DeleteAlias.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsAlias.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetAlias.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutAlias.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/UpdateAliases.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ClearCache.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetMapping.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetFieldMapping.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutMapping.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetSettings.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutSettings.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetTemplate.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutTemplate.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsTemplate.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/DeleteTemplate.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsType.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetUpgrade.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/Upgrade.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ValidateQuery.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/DeletePipeline.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/GetPipeline.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/PutPipeline.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/ProcessorGrok.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/GetScript.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/PutScript.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/DeleteScript.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/CreateRepository.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/DeleteRepository.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/GetRepository.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/VerifyRepository.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/GetSource.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/ExistsSource.php
+1 0 0
+
+fl=/todo.php
+fn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Tasks/ListTasks.php
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\includeFile
+1 330040 2066
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/HotThreads.php
+calls=1 1
+1 35692 354
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Info.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/ReloadSecureSettings.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Stats.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Nodes/Usage.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Cluster/GetSettings.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Cluster/PutSettings.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/DeleteAlias.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsAlias.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetAlias.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutAlias.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/UpdateAliases.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ClearCache.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetMapping.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetFieldMapping.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutMapping.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetSettings.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutSettings.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetTemplate.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/PutTemplate.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsTemplate.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/DeleteTemplate.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ExistsType.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/GetUpgrade.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/Upgrade.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Indices/ValidateQuery.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/DeletePipeline.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/GetPipeline.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/PutPipeline.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Ingest/ProcessorGrok.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/GetScript.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/PutScript.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/DeleteScript.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/CreateRepository.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/DeleteRepository.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/GetRepository.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Snapshot/VerifyRepository.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/GetSource.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/ExistsSource.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=include /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/Elasticsearch/Endpoints/Tasks/ListTasks.php
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=Composer\Autoload\ClassLoader::loadClass
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::findFile
+calls=40 1
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\includeFile
+calls=40 1
+1 365732 2420
+
+fl=/todo.php
+fn=class_alias
+1 2896 40
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::loadClass
+calls=40 1
+1 365732 2420
+
+fl=/todo.php
+fn=require /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/autoload.php
+1 0 0
+cfl=/todo.php
+cfn=class_exists
+calls=40 1
+1 0 0
+cfl=/todo.php
+cfn=class_alias
+calls=40 1
+1 368628 2460
+
+fl=/todo.php
+fn=composerRequire9bc2de5e117912a6a621249b036cf55a
+1 60884 630
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/react/promise/src/functions_include.php
+calls=1 1
+1 55692 454
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/symfony/polyfill-php80/bootstrap.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/symfony/polyfill-mbstring/bootstrap.php
+calls=1 1
+1 48940 474
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/symfony/polyfill-ctype/bootstrap.php
+calls=1 1
+1 10796 122
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/elasticsearch/elasticsearch/src/autoload.php
+calls=1 1
+1 368628 2460
+
+fl=/todo.php
+fn=ComposerAutoloaderInit9bc2de5e117912a6a621249b036cf55a::getLoader
+1 20492 164
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/composer/platform_check.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=spl_autoload_register
+calls=1 1
+1 376 2
+cfl=/todo.php
+cfn=ComposerAutoloaderInit9bc2de5e117912a6a621249b036cf55a::loadClassLoader
+calls=1 1
+1 51496 449
+cfl=/todo.php
+cfn=dirname
+calls=2 1
+1 72 1
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::__construct
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=spl_autoload_unregister
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=function_exists
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=require /var/www/html/application.loc/vendor/composer/autoload_static.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ComposerStaticInit9bc2de5e117912a6a621249b036cf55a::getInitializer
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::Composer\Autoload\{closure}
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Composer\Autoload\ClassLoader::register
+calls=1 1
+1 408 3
+cfl=/todo.php
+cfn=composerRequire9bc2de5e117912a6a621249b036cf55a
+calls=5 1
+1 544940 4140
+
+fl=/todo.php
+fn=require_once /var/www/html/application.loc/vendor/autoload.php
+1 11080 89
+cfl=/todo.php
+cfn=require_once /var/www/html/application.loc/vendor/composer/autoload_real.php
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=ComposerAutoloaderInit9bc2de5e117912a6a621249b036cf55a::getLoader
+calls=1 1
+1 617784 4759
+
+fl=/todo.php
+fn=ini_set
+1 32 1
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showSuccess
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=getServerAddress
+1 0 0
+cfl=/todo.php
+cfn=showSuccess
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=php_sapi_name
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showSuccess
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=checkWhoStarted
+1 0 0
+cfl=/todo.php
+cfn=php_sapi_name
+calls=2 1
+1 0 0
+cfl=/todo.php
+cfn=showSuccess
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=PDO::__construct
+1 0 0
+
+fl=/todo.php
+fn=Exception::getMessage
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showError
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=checkPostgresPDO
+1 0 0
+cfl=/todo.php
+cfn=PDO::__construct
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Exception::getMessage
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=showError
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=ErrorException::__construct
+1 0 0
+
+fl=/todo.php
+fn=exception_error_handler
+1 0 0
+cfl=/todo.php
+cfn=ErrorException::__construct
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=pg_connect
+1 0 0
+cfl=/todo.php
+cfn=exception_error_handler
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=Exception::getMessage
+1 0 0
+
+fl=/todo.php
+fn=str_ireplace
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showError
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=checkPostgres
+1 0 0
+cfl=/todo.php
+cfn=pg_connect
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Exception::getMessage
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=str_ireplace
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=showError
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=PDO::__construct
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showSuccess
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=checkMysqlPDO
+1 0 0
+cfl=/todo.php
+cfn=PDO::__construct
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=showSuccess
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=mysqli::__construct
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=2 1
+1 0 0
+
+fl=/todo.php
+fn=showSuccess
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=2 1
+1 0 0
+
+fl=/todo.php
+fn=checkMysqli
+1 0 0
+cfl=/todo.php
+cfn=mysqli::__construct
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=showSuccess
+calls=2 1
+1 0 0
+
+fl=/todo.php
+fn=function_exists
+1 0 0
+
+fl=/todo.php
+fn=memprof_enable
+1 1800 11
+
+fl=/todo.php
+fn=Exception::getCode
+1 0 0
+
+fl=/todo.php
+fn=Exception::getMessage
+1 0 0
+
+fl=/todo.php
+fn=json_encode
+1 0 0
+
+fl=/todo.php
+fn=showMessage
+1 0 0
+cfl=/todo.php
+cfn=json_encode
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=showSuccess
+1 0 0
+cfl=/todo.php
+cfn=showMessage
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=fopen
+1 586 7
+
+fl=/todo.php
+fn=memprof_dump_callgrind
+1 0 0
+
+fl=/todo.php
+fn=checkMemprof
+1 64 1
+cfl=/todo.php
+cfn=function_exists
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=memprof_enable
+calls=1 1
+1 1800 11
+cfl=/todo.php
+cfn=Exception::getCode
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=Exception::getMessage
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=showSuccess
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=fopen
+calls=1 1
+1 586 7
+cfl=/todo.php
+cfn=memprof_dump_callgrind
+calls=1 1
+1 0 0
+
+fl=/todo.php
+fn=checkAll
+1 0 0
+cfl=/todo.php
+cfn=getServerAddress
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkWhoStarted
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkPostgresPDO
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkPostgres
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkMysqlPDO
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkMysqli
+calls=1 1
+1 0 0
+cfl=/todo.php
+cfn=checkMemprof
+calls=1 1
+1 2450 19
+
+fl=/todo.php
+fn=main /var/www/html/application.loc/index.php
+1 45960 480
+cfl=/todo.php
+cfn=require_once /var/www/html/application.loc/checker.php
+calls=1 1
+1 320 2
+cfl=/todo.php
+cfn=require_once /var/www/html/application.loc/checker.html
+calls=1 1
+1 103 3
+cfl=/todo.php
+cfn=require_once /var/www/html/application.loc/vendor/autoload.php
+calls=1 1
+1 628864 4848
+cfl=/todo.php
+cfn=ini_set
+calls=3 1
+1 32 1
+cfl=/todo.php
+cfn=checkAll
+calls=1 1
+1 2450 19
+
+fl=/todo.php
+fn=root
+1 22568 243
+cfl=/todo.php
+cfn=main /var/www/html/application.loc/index.php
+calls=1 1
+1 677729 5353
+
+total: 700297 5596

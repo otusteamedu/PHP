@@ -1,0 +1,189 @@
+# версия синтаксиса
+version: '3.9'
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Контейнер с PHP (app - просто имя, по которому можно обращаться к контейнеру для манипуляций с ним типа: docker-compose exec app bash)
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - PHP_ERROR_LOG_PATH=${PHP_ERROR_LOG_PATH}
+        - X_DEBUG=${X_DEBUG}
+        - X_DEBUG_ERROR_LOG_PATH=${X_DEBUG_ERROR_LOG_PATH}
+        - MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH_DOCKER}
+        - TIMEZONE=${TIMEZONE}
+    image: mydock/php # имя будущего образа
+    container_name: app # имя контейнера после запуска внутри сети Docker
+    # переменные окружения
+    environment:
+      MEMPROF_PROFILE: ${MEMPROF_PROFILE_ENABLE} # нужно для профилирования памяти. При значиении null отключается
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG} # используется для x-debug - значение необходимо использовать в качестве имени сервера в IDE
+      TZ: ${TIMEZONE} # устанавливает зону времени для контейнера
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      - ${PHP_ERROR_LOG_PATH}:/var/log/php_errors
+      - ${X_DEBUG_ERROR_LOG_PATH}:/var/log/x_debug
+      - ${MEMPROF_LOG_PATH_HOST}:${MEMPROF_LOG_PATH_DOCKER}
+      - ./fpm/conf/php:/usr/local/etc/php_from_host
+      - ./storage/docker/sock:/sock
+    networks:
+      - app-network
+
+  workspace:
+    build:
+      context: ./workspace
+      dockerfile: Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - PHP_ERROR_LOG_PATH=${PHP_ERROR_LOG_PATH}
+        - X_DEBUG=${X_DEBUG}
+        - X_DEBUG_ERROR_LOG_PATH=${X_DEBUG_ERROR_LOG_PATH}
+        - MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH_DOCKER}
+        - TIMEZONE=${TIMEZONE}
+    image: mydock/workspace
+    container_name: workspace
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      # код
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # логи
+      - ${PHP_ERROR_LOG_PATH}:/var/log/php_errors
+      - ${X_DEBUG_ERROR_LOG_PATH}:/var/log/x_debug
+      - ${MEMPROF_LOG_PATH_HOST}:${MEMPROF_LOG_PATH_DOCKER}
+    networks:
+      - app-network
+
+  #контейне с Nginx
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: mydock/nginx
+    container_name: webserver
+    environment:
+      TZ: ${TIMEZONE}
+    # проброс портов
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # код
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # сокет
+      - ${UNIX_SOCKET_PATH_HOST}:${UNIX_SOCKET_PATH_DOCKER}
+      # используемые сайты
+      - ${SITES_ENABLED_PATH}:/etc/nginx/sites-enabled/
+    networks:
+      - app-network
+
+  # контейнер с MySQL в качестве Master
+  # строим на базе стандартного образа
+  mysql-master:
+    image: mysql:5.7.22
+    container_name: db1
+    ports:
+      - "3306:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_MASTER_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_MASTER_ROOT_PASSWORD}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${MYSQL_MASTER_STORAGE_PLACE}:/var/lib/mysql
+      - ${MYSQL_MASTER_LOG_PATH_HOST}:${MYSQL_MASTER_LOG_PATH_DOCKER}   # пробрасываем место хранения логов
+      - ${MYSQL_MASTER_CONFIG_PATH_HOST}:/etc/mysql/mysql.conf.d        # папка, где находится файл конфигурации mysql
+    networks:
+      - app-network
+
+  # контейнер с MySQL в качестве Slave
+  # строим на базе стандартного образа
+  mysql-slave:
+    image: mysql:5.7.22
+    container_name: db2
+    ports:
+      - "3307:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_SLAVE_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_SLAVE_ROOT_PASSWORD}
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${MYSQL_SLAVE_STORAGE_PLACE}:/var/lib/mysql
+      - ${MYSQL_SLAVE_LOG_PATH_HOST}:${MYSQL_SLAVE_LOG_PATH_DOCKER}   # пробрасываем место хранения логов
+      - ${MYSQL_SLAVE_CONFIG_PATH_HOST}:/etc/mysql/mysql.conf.d       # папка, где находится файл конфигурации mysql
+    networks:
+      - app-network
+
+  # контейнер с Postgres
+  # строим на базе стандартного образа
+  pgsql:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - TZ=${TIMEZONE}
+      - POSTGRES_DATABASE=${PGSQL_DB_NAME}
+      - POSTGRES_USER=${PGSQL_DB_USER}
+      - POSTGRES_PASSWORD=${PGSQL_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${PGSQL_STORAGE_PLACE}:/var/lib/postgresql/data
+      # - ./log/postgres:/var/log/postgresql
+    networks:
+      - app-network
+
+  #Контейнер Redis
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: mydock/redis
+    container_name: redis
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${REDIS_CONF}:/usr/local/etc/redis
+      - ${REDIS_DATA}:/data
+      - ${REDIS_LOG}:/log
+    networks:
+      - app-network
+
+  #Контейнер MemCache
+  memcached:
+    build:
+      context: memcached
+      dockerfile: Dockerfile
+    image: mydock/memcached
+    container_name: memcached
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+  #Контейнер ElasticSearch
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    environment:
+      - TZ=${TIMEZONE}
+      - discovery.type=single-node
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ${ELASTICSEARCH_DATA}:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
