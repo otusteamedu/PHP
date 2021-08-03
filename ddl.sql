@@ -21,10 +21,25 @@ create table if not exists halls
 -- поиск будет проходить в основном по номеру зала
 create index halls_number_index on halls (number);
 
-create table if not exists movigoer_types
+create table if not exists moviegoer_types
 (
     id   serial primary key,
     name char(60)
+);
+
+create table tariffs
+(
+    id   serial primary key,
+    name varchar,
+    discount float default(0)
+);
+
+create table if not exists prices
+(
+    id                serial primary key,
+    price             float not null check ( price >= 0 ),
+    tariff_id         integer references tariffs,
+    moviegoer_type_id integer references moviegoer_types
 );
 
 create table if not exists schedule
@@ -32,8 +47,7 @@ create table if not exists schedule
     id                serial primary key,
     movie_id          integer references movies,
     hall_id           integer references halls,
-    moviegoer_type_id integer references movigoer_types,
-    price             float   not null check ( price >= 0 ),
+    price_id          integer references prices,
     start_time        integer not null, --unix_timestamp буду юзать
     unique (hall_id, start_time)        -- комбинация hall_id и start_time должна быть уникальной
 );
@@ -104,16 +118,23 @@ insert into seats (unique_number, position, hall_id)
 select gen_random_uuid(), position_num, 4
 from generate_series(1, 20) as position_num;
 
-insert into movigoer_types(name)
+insert into moviegoer_types(name)
 values ('детский'),
        ('студенческий'),
        ('взрослый');
 
-insert into schedule(movie_id, hall_id, start_time, moviegoer_type_id, price)
-select m.id, h.id, random_between(1609132499, 1609391699), mt.id, random_between(500, 2000)
+insert into tariffs(name) values ('tariff-1');
+insert into tariffs(name) values ('tariff-2');
+insert into tariffs(name) values ('tariff-3');
+
+insert into prices(price, tariff_id, moviegoer_type_id) VALUES (200, 1, 1);
+insert into prices(price, tariff_id, moviegoer_type_id) VALUES (400, 2, 2);
+insert into prices(price, tariff_id, moviegoer_type_id) VALUES (600, 3, 3);
+
+insert into schedule(movie_id, hall_id, price_id, start_time)
+select m.id, h.id, 1, random_between(1609132499, 1609391699)
 from movies m,
-     halls h,
-     movigoer_types mt;
+     halls h;
 
 insert into moviegoers(hash_code)
 select md5(random()::text)
