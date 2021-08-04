@@ -1,0 +1,119 @@
+explain (analyse, buffers)
+select m2.name, sum(t2.cost) from ticket t2
+left join schedule s2 on s2.id = t2.schedule_id
+left join movie m2 on m2.id = s2.movie_id
+where m2.id = 2137 and t2.cost > 1000
+group by m2.id;
+
+# минимальные настройки первый запуск
+GroupAggregate  (cost=1365.31..191273.63 rows=1 width=50) (actual time=7384.786..7387.703 rows=1 loops=1)
+  Group Key: m2.id
+  Buffers: shared hit=421 read=94847
+  ->  Nested Loop  (cost=1365.31..191271.58 rows=408 width=23) (actual time=533.493..7387.653 rows=167 loops=1)
+        Buffers: shared hit=421 read=94847
+        ->  Index Scan using movie_id_unique on movie m2  (cost=0.29..8.30 rows=1 width=18) (actual time=1.097..1.101 rows=1 loops=1)
+              Index Cond: (id = 2137)
+              Buffers: shared read=3
+        ->  Gather  (cost=1365.03..191259.20 rows=408 width=9) (actual time=532.392..7386.525 rows=167 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=421 read=94844
+              ->  Hash Join  (cost=365.02..190218.40 rows=170 width=9) (actual time=451.294..7302.278 rows=56 loops=3)
+                    Hash Cond: (t2.schedule_id = s2.id)
+                    Buffers: shared hit=421 read=94844
+                    ->  Parallel Seq Scan on ticket t2  (cost=0.00..185943.47 rows=1489126 width=7) (actual time=12.502..7174.944 rows=1182108 loops=3)
+                          Filter: (cost > '1000'::numeric)
+                          Rows Removed by Filter: 4657559
+                          Buffers: shared read=94698
+                    ->  Hash  (cost=365.00..365.00 rows=2 width=8) (actual time=11.693..11.694 rows=1 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=292 read=146
+                          ->  Seq Scan on schedule s2  (cost=0.00..365.00 rows=2 width=8) (actual time=1.207..11.689 rows=1 loops=3)
+                                Filter: (movie_id = 2137)
+                                Rows Removed by Filter: 17519
+                                Buffers: shared hit=292 read=146
+Planning:
+  Buffers: shared hit=243 read=33
+Planning Time: 22.560 ms
+JIT:
+  Functions: 52
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 4.821 ms, Inlining 0.000 ms, Optimization 1.737 ms, Emission 33.259 ms, Total 39.818 ms
+Execution Time: 7419.120 ms
+
+# Измененно:
+# shared_buffers = 4192MB (Было 1024MB)
+# work_mem = 32MB (Было 16MB)
+# maintenance_work_mem = 128MB (Было 64MB)
+# первый запуск
+GroupAggregate  (cost=1365.31..191273.63 rows=1 width=50) (actual time=7602.770..7617.400 rows=1 loops=1)
+  Group Key: m2.id
+  Buffers: shared hit=421 read=94847
+  ->  Nested Loop  (cost=1365.31..191271.58 rows=408 width=23) (actual time=531.659..7617.343 rows=167 loops=1)
+        Buffers: shared hit=421 read=94847
+        ->  Index Scan using movie_id_unique on movie m2  (cost=0.29..8.30 rows=1 width=18) (actual time=1.200..1.203 rows=1 loops=1)
+              Index Cond: (id = 2137)
+              Buffers: shared read=3
+        ->  Gather  (cost=1365.03..191259.20 rows=408 width=9) (actual time=530.455..7616.099 rows=167 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=421 read=94844
+              ->  Hash Join  (cost=365.02..190218.40 rows=170 width=9) (actual time=446.793..7517.568 rows=56 loops=3)
+                    Hash Cond: (t2.schedule_id = s2.id)
+                    Buffers: shared hit=421 read=94844
+                    ->  Parallel Seq Scan on ticket t2  (cost=0.00..185943.47 rows=1489126 width=7) (actual time=11.191..7385.152 rows=1182108 loops=3)
+                          Filter: (cost > '1000'::numeric)
+                          Rows Removed by Filter: 4657559
+                          Buffers: shared read=94698
+                    ->  Hash  (cost=365.00..365.00 rows=2 width=8) (actual time=11.768..11.769 rows=1 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=292 read=146
+                          ->  Seq Scan on schedule s2  (cost=0.00..365.00 rows=2 width=8) (actual time=1.128..11.764 rows=1 loops=3)
+                                Filter: (movie_id = 2137)
+                                Rows Removed by Filter: 17519
+                                Buffers: shared hit=292 read=146
+Planning:
+  Buffers: shared hit=243 read=33
+Planning Time: 24.682 ms
+JIT:
+  Functions: 52
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 4.946 ms, Inlining 0.000 ms, Optimization 1.578 ms, Emission 29.345 ms, Total 35.870 ms
+Execution Time: 7648.151 ms
+
+# Повторный запуск
+GroupAggregate  (cost=1365.31..191273.63 rows=1 width=50) (actual time=910.422..942.657 rows=1 loops=1)
+  Group Key: m2.id
+  Buffers: shared hit=95265
+  ->  Nested Loop  (cost=1365.31..191271.58 rows=408 width=23) (actual time=128.400..942.618 rows=167 loops=1)
+        Buffers: shared hit=95265
+        ->  Index Scan using movie_id_unique on movie m2  (cost=0.29..8.30 rows=1 width=18) (actual time=0.009..0.013 rows=1 loops=1)
+              Index Cond: (id = 2137)
+              Buffers: shared hit=3
+        ->  Gather  (cost=1365.03..191259.20 rows=408 width=9) (actual time=128.388..942.581 rows=167 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=95262
+              ->  Hash Join  (cost=365.02..190218.40 rows=170 width=9) (actual time=58.076..839.859 rows=56 loops=3)
+                    Hash Cond: (t2.schedule_id = s2.id)
+                    Buffers: shared hit=95262
+                    ->  Parallel Seq Scan on ticket t2  (cost=0.00..185943.47 rows=1489126 width=7) (actual time=10.008..748.007 rows=1182108 loops=3)
+                          Filter: (cost > '1000'::numeric)
+                          Rows Removed by Filter: 4657559
+                          Buffers: shared hit=94698
+                    ->  Hash  (cost=365.00..365.00 rows=2 width=8) (actual time=2.128..2.129 rows=1 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=438
+                          ->  Seq Scan on schedule s2  (cost=0.00..365.00 rows=2 width=8) (actual time=0.689..2.125 rows=1 loops=3)
+                                Filter: (movie_id = 2137)
+                                Rows Removed by Filter: 17519
+                                Buffers: shared hit=438
+Planning:
+  Buffers: shared hit=12
+Planning Time: 0.235 ms
+JIT:
+  Functions: 52
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 4.411 ms, Inlining 0.000 ms, Optimization 1.421 ms, Emission 27.959 ms, Total 33.791 ms
+Execution Time: 944.402 ms
+

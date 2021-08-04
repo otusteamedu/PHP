@@ -1,0 +1,28 @@
+explain (analyse, buffers) select * from ticket;
+
+# до прогрева
+Seq Scan on ticket  (cost=0.00..269889.30 rows=17519130 width=13) (actual time=0.214..17770.470 rows=17519001 loops=1)
+  Buffers: shared read=94698
+Planning:
+  Buffers: shared hit=60 read=12
+Planning Time: 10.207 ms
+Execution Time: 18452.699 ms
+
+# повторный запрос
+Seq Scan on ticket  (cost=0.00..269889.30 rows=17519130 width=13) (actual time=0.008..1158.156 rows=17519001 loops=1)
+  Buffers: shared hit=94698
+Planning Time: 0.033 ms
+Execution Time: 1809.092 ms
+
+# после изменения random_page_cost = 1.01 (было 4 для ssd)
+Seq Scan on ticket  (cost=0.00..269889.30 rows=17519130 width=13) (actual time=0.007..1142.058 rows=17519001 loops=1)
+  Buffers: shared hit=94698
+Planning Time: 0.042 ms
+Execution Time: 1789.695 ms
+
+# после изменения max_parallel_maintenance_workers = 4 (было 2)
+# и max_parallel_workers_per_gather = 4 (было 2)
+Seq Scan on ticket  (cost=0.00..269889.30 rows=17519130 width=13) (actual time=0.007..1146.180 rows=17519001 loops=1)
+  Buffers: shared hit=94698
+Planning Time: 0.035 ms
+Execution Time: 1798.157 ms
