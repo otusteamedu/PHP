@@ -1,0 +1,13 @@
+{
+  "name": "otus/homework",
+  "description": "docker enviroment package",
+  "type": "project",
+  "authors": [
+    {
+      "name": "NightWizard75",
+      "email": "vladimir@valyakin.ru"
+    }
+  ],
+  "require": {"vladi/words_counter": "dev-master"
+  }
+}
