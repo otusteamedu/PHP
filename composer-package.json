@@ -1,0 +1,22 @@
+{
+  "name": "vladi/words_counter",
+  "description": "Counts the word that is most often found in the file",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "NightWizard75",
+      "email": "vladimir@valyakin.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Counters\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
+
