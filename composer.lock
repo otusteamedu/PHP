@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c4a6fadd501247fd85e97c679e5dcdcb",
+    "packages": [
+        {
+            "name": "vladi/words_counter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NightWizard75/WordsCounter.git",
+                "reference": "b60685503d43d6beb9e2acb7c14716fe4e0765e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NightWizard75/WordsCounter/zipball/b60685503d43d6beb9e2acb7c14716fe4e0765e4",
+                "reference": "b60685503d43d6beb9e2acb7c14716fe4e0765e4",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Counters\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "NightWizard75",
+                    "email": "vladimir@valyakin.ru"
+                }
+            ],
+            "description": "Counts the word that is most often found in the file",
+            "support": {
+                "issues": "https://github.com/NightWizard75/WordsCounter/issues",
+                "source": "https://github.com/NightWizard75/WordsCounter/tree/master"
+            },
+            "time": "2021-08-08T22:55:47+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "vladi/words_counter": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
