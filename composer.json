@@ -3,6 +3,7 @@
     "description": "sockets",
     "type": "project",
     "require": {
+        "php": ">=8.0",
         "vlucas/phpdotenv": "^5.1",
         "ext-sockets": "*"
     },

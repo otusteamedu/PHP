@@ -4,8 +4,13 @@
 namespace app;
 
 
+use Exception;
+
 class StartSocket
 {
+    /**
+     * @throws Exception
+     */
     public function run($argv)
     {
         $possibleArguments = [
@@ -14,14 +19,14 @@ class StartSocket
         ];
         error_reporting(E_ERROR);
         if (!isset($argv[1])) {
-            throw new \Exception("Отсутсвует аргумент.");
+            throw new Exception("Отсутствует аргумент.");
         }
         if (!isset($possibleArguments[$argv[1]])) {
-            throw new \Exception("Неверный аргумент.");
+            throw new Exception("Неверный аргумент.");
         }
         $load = $possibleArguments[$argv[1]];
         if (!file_exists($load)) {
-            throw new \Exception("Отсутсвует файл $load");
+            throw new Exception("Отсутствует файл $load");
         }
         require_once $load;
     }

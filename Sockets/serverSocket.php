@@ -4,12 +4,16 @@
 namespace Sockets;
 
 
+use Exception;
+
+
 class serverSocket extends mainSocket
 {
     const ACCEPT_BLOCK_MODE = true;
 
     /**
-     * список комманд для закрытия сокета
+     * Список команд для закрытия сокета
+     *
      * @var array|string[]
      */
     protected array $exitMessages = [
@@ -20,7 +24,8 @@ class serverSocket extends mainSocket
     ];
 
     /**
-     * список комманд для закрытия соединения
+     * Список команд для закрытия соединения
+     *
      * @var array|string[]
      */
     protected array $disconnectMessages = [
@@ -33,20 +38,21 @@ class serverSocket extends mainSocket
 
     /**
      * Инициализация сокета
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     protected function initSocket():void
     {
         parent::initSocket();
         $this->clearOldSocket();
         $this->socket = new \Sockets\socket(
-            "$this->host",
-            "$this->port",
-            "$this->domain",
-            SOCK_STREAM,
-            0,
-            "$this->maxConnections",
-            "$this->buffer_length",
+            $host = $this->host,
+            $port = $this->port,
+            $domain = $this->domain,
+            $type = SOCK_STREAM,
+            $protocol = 0,
+            $maxConnection = $this->maxConnections,
+            $buffer_length = $this->buffer_length,
         );
             $this->socket->create();
             $address = ($this->domain != AF_UNIX) ? $this->host : $this->path;
@@ -57,6 +63,8 @@ class serverSocket extends mainSocket
 
     /**
      * Старт работы
+     *
+     * @throws Exception
      */
     public function start():void
     {
@@ -65,7 +73,8 @@ class serverSocket extends mainSocket
     }
 
     /**
-     * Возвращает true если $msg находится списке команд для завершения работы
+     * Возвращает true если $msg находится в списке команд для завершения работы
+     *
      * @param string $msg
      * @return bool
      */
@@ -75,7 +84,7 @@ class serverSocket extends mainSocket
     }
 
     /**
-     * Возвращает true если $msg находится списке команд для расставания с клиентом
+     * Возвращает true если $msg находится в списке команд для расставания с клиентом
      * @param string $msg
      * @return bool
      */
@@ -86,7 +95,8 @@ class serverSocket extends mainSocket
 
     /**
      * Осуществляет диалог с клиентом через сокет
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     private function setDialog():void
     {
@@ -109,7 +119,7 @@ class serverSocket extends mainSocket
                     }
                 }
                 $this->socket->putToAcceptedSocket($this->getMessage());
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->socket->closeAcceptedSocket();
                 echo $exception->getMessage() . PHP_EOL;
                 $this->socket->accept();

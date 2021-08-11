@@ -4,25 +4,33 @@
 namespace Sockets;
 
 
+use Exception;
+
 class clientSocket extends mainSocket
 {
 
-    private $connectedSocket;
-
     /**
      * Инициализация сокета
+     * @throws Exception
      */
     protected function initSocket()
     {
         parent::chooseDomain();
-        $this->socket = new \Sockets\socket("$this->host", "$this->port", "$this->domain");
+        $this->socket = new \Sockets\socket(
+            $host = $this->host,
+            $port = $this->port,
+            $domain = $this->domain);
         $this->socket->create();
         $this->socket->connect();
     }
 
+    /**
+     * @throws Exception
+     */
     public function start():void
     {
         $exitMessages = [
+            'stop',
             'quit',
             'exit',
             '\q',

@@ -3,6 +3,8 @@
 
 namespace Sockets;
 
+use Exception;
+
 class serverConnections extends serverSocket
 {
     const ACCEPT_BLOCK_MODE = false;
@@ -17,7 +19,11 @@ class serverConnections extends serverSocket
      */
     private bool $stopFlag = false;
 
-    public function start():void
+    /**
+     *
+     * @throws Exception
+     */
+    public function start(): void
     {
         // Ждем подключения и сообщения от клиентов, пока не придет команда на завершение
         do {
@@ -28,6 +34,9 @@ class serverConnections extends serverSocket
         } while (!$this->stopFlag);
     }
 
+    /**
+     * @throws Exception
+     */
     private function checkMessages(array $activeSockets):void
     {
         // получаем сокеты с сообщениями
@@ -35,7 +44,7 @@ class serverConnections extends serverSocket
         foreach ($activeSocket as $readSock) {
             try {
                 $this->OnReadSockets($readSock);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $id  = $this->getIdBySocket($readSock);
                 $this->closeConnection($readSock);
                 echo "Error with client number". $id .". ".$exception->getMessage() . PHP_EOL;
@@ -43,6 +52,9 @@ class serverConnections extends serverSocket
         }
     }
 
+    /**
+     * @param \Socket $Sock
+     */
     private function addNewConnection(\Socket $Sock):void
     {
         if (socket_getpeername($Sock, $tmpIP)) {
@@ -76,6 +88,9 @@ class serverConnections extends serverSocket
         return $SendedMsgSockets;
     }
 
+    /**
+     * @throws Exception
+     */
     private function waitingConnections():void
     {
         if (($tmpSock = $this->socket->accept(static::ACCEPT_BLOCK_MODE))) {
@@ -120,7 +135,7 @@ class serverConnections extends serverSocket
     /**
      * Обрабатывает входящее сообщение от клиента
      * @param $socket
-     * @throws \Exception
+     * @throws Exception
      */
     private function OnReadSockets ($socket):void
     {
