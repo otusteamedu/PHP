@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Сайт APPLICATION.LOC Запущен из Docker.<br><br>
+<form action="index.php" method="post">
+    <button type="submit" name="checker" value="checkAll">Запустить все</button>
+    <pre>
+        <table border="1" style="font-size: x-large">
+            <tr>
+                <th width="100px">Что проверям</th>
+                <th width="50px">Проверка </th>
+                <th>Результат</th>
+            </tr>
+            <tr>
+                <td>Server Address</td>
+                <td align="center"><button type="submit" name="checker" value="address">Info</button></td>
+                <td id="address"></td>
+            </tr>
+            <tr>
+                <td>Тип запуска</td>
+                <td align="center"><button type="submit" name="checker" value="sapi_name">Info</button></td>
+                <td id="sapi_name"></td>
+            </tr>
+            <tr>
+                <td>Postgres PDO</td>
+                <td align="center"><button type="submit" name="checker" value="postgresPDO">Check</button></td>
+                <td id="postgresPDO"></td>
+            </tr>
+            <tr>
+                <td>Postgres pg_connect</td>
+                <td align="center"><button type="submit" name="checker" value="pg_connect">Check</button></td>
+                <td id="pg_connect"></td>
+            </tr>
+            <tr>
+                <td>MySQL PDO</td>
+                <td align="center"><button type="submit" name="checker" value="mysqlPDO">Check</button></td>
+                <td id="mysqlPDO"></td>
+            </tr>
+            <tr>
+                <td>MySQL mysqli</td>
+                <td align="center"><button type="submit" name="checker" value="mysqli">Check</button></td>
+                <td id="mysqli"></td>
+            </tr>
+            <tr>
+                <td>ElasticSearch</td>
+                <td align="center"><button type="submit" name="checker" value="elastic">Check</button></td>
+                <td><span id="elastic"></span> | <span id="elastic-php"></span></td>
+            </tr>
+            <tr>
+                <td>Memcached</td>
+                <td align="center"><button type="submit" name="checker" value="memcached">Check</button></td>
+                <td id="memcached"></td>
+            </tr>
+            <tr>
+                <td>Redis</td>
+                <td align="center"><button type="submit" name="checker" value="redis">Info</button></td>
+                <td id="redis"></td>
+            </tr>
+            <tr>
+                <td>Memprof</td>
+                <td align="center"><button type="submit" name="checker" value="memprof">Info</button></td>
+                <td id="memprof"></td>
+            </tr>
+            <tr>
+                <td>opcache</td>
+                <td align="center"><button type="submit" name="checker" value="opcache">Info</button></td>
+                <td id="opcache"></td>
+            </tr>
+        </table>
+    </pre>
+</form>
+
+</body>
+<script>
+    function print_r(arr, space) {
+        //Проверка аргумента
+        //Если он есть, то присвоить себя
+        //Иначе присвоить пустую строку
+        space = space || "";
+        var result = " " + (arr.length ? "Array" : "Object") + " \n " + space + " ( \n";
+        var iter = 0;
+        //Такой вид прохода по массиву позволяет вызывать эту функцию любым массивом
+        // (даже с объектом)
+        for (var i in arr) {
+            iter++;
+            //Проверка на существование следующего элемента массива
+            // (или объекта, неважно)
+            if (arr[i] != null) {
+                if ((arr[i].length > 0 || typeof (arr[i]) === "object") && typeof (arr[i]) !== "string") {
+                    result += "\t" + space + " [ " + i + " ] =>" + print_r(arr[i], space + "\t");
+                } else {
+                    result += "\t" + space + " [ " + i + " ] => " + arr[i];
+                }
+                if (iter < Object.keys(arr).length) {
+                    result += ",";
+                }
+                result += "\n";
+            }
+        }
+        return result + space + " )";
+    }
+</script>
+</html>
