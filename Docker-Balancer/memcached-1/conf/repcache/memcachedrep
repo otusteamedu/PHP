@@ -1,0 +1,4 @@
+## extra commandline options to start memcached in replicated mode
+# -x < ip_addr > hostname or IP address of the master replication server
+# -X < num > TCP port number of the master (default: 11212)
+DAEMON_ARGS="-m 64 -p 11211 -u root -P /var/run/memcachedrep.pid -d -x memcached-2 -X 11212"
