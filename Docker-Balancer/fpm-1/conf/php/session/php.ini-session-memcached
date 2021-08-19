@@ -1,5 +1,0 @@
-[Session]
-; Handler used to store/retrieve data.
-; http://php.net/session.save-handler
-session.save_handler = memcached
-session.save_path = "memcached-1:11211, memcached-2:11211"

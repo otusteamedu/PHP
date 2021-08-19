@@ -18,5 +18,4 @@ if (class_exists($route)) {
        ValidatorResponse::sendData($exception->getCode(), $exception->getMessage());
     }
 }
-session_destroy();
-
+session_write_close();

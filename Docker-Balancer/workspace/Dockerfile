@@ -37,11 +37,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install xdebug \
     redis \
-    memcached \
+    memcache \
     memprof \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-enable redis \
-    && docker-php-ext-enable memcached \
+    && docker-php-ext-enable memcache \
     && docker-php-ext-install opcache \
     # модуль для работы с сокетами
     && docker-php-ext-install sockets \
@@ -49,15 +49,37 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && docker-php-ext-install pdo \
     pgsql pdo_pgsql \
     && touch /tmp/profile.heap
-# копируем подготовленный php.ini
+# копирование подготовленного php.ini
 COPY ./conf/php/php.ini /usr/local/etc/php/php.ini
-# копируем подготовленный xdebug.ini
-COPY ./conf/X-Debug/x-debug.ini /usr/local/etc/php/xdebug.ini
+# копирование подготовленных настроек для записи сессий в файл
+COPY ./conf/php/session/php.ini-session-file /usr/local/etc/php/php.ini-session-file
+# копирование подготовленных настроек для записи сессий в memcached
+COPY ./conf/php/session/php.ini-session-memcache /usr/local/etc/php/php.ini-session-memcache
+# копирование подготовленного xdebug.ini
+COPY ./conf/X-Debug/docker-php-ext-xdebug.ini /usr/local/etc/php/docker-php-ext-xdebug.ini
+# копирование подготовленного memcached.ini
+COPY ./conf/memcached/docker-php-ext-memcache.ini /usr/local/etc/php/docker-php-ext-memcache.ini
+# копирование конфигурационного файла для работы через сокет
+COPY ./conf/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+# Если установлен параметр X_DEBUG, то копируем настройки x-debug
 RUN if [ ${X_DEBUG} = true ]; then \
- cat /usr/local/etc/php/xdebug.ini >> /usr/local/etc/php/php.ini ; \
+ mv /usr/local/etc/php/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
 fi
 RUN if [ ${X_DEBUG} = 1 ]; then \
- cat /usr/local/etc/php/xdebug.ini >> /usr/local/etc/php/php.ini ; \
+ mv /usr/local/etc/php/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ; \
+fi
+# Если установлен параметр MEMCACHED_USE_SESSION, то копируем настройки memcached
+RUN if [ ${MEMCACHED_USE_SESSION} = 1 ]; then \
+ cat /usr/local/etc/php/php.ini-session-memcache >> /usr/local/etc/php/php.ini ; \
+else  \
+ cat /usr/local/etc/php/php.ini-session-file >> /usr/local/etc/php/php.ini ; \
+fi
+# Если установлен параметр MEMCACHED_CLUSTER, то копируем настройки memcached
+RUN if [ ${MEMCACHED_CLUSTER} = true ]; then \
+ mv /usr/local/etc/php/docker-php-ext-memcache.ini /usr/local/etc/php/conf.d/docker-php-ext-memcache.ini ; \
+fi
+RUN if [ ${MEMCACHED_CLUSTER} = 1 ]; then \
+ mv /usr/local/etc/php/docker-php-ext-memcache.ini /usr/local/etc/php/conf.d/docker-php-ext-memcache.ini ; \
 fi
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

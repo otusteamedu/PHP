@@ -225,35 +225,33 @@ function checkElasticsearch(): bool
 function checkMemcached(): bool
 {
     $tag = 'memcached';
-    $memcached = new Memcached;
-    $servers = array(
-        array('memcached-2', 11211, 50),
-        array('memcached-1', 11211, 50),
-    );
-    // устанавливаются опции для кластера memcached если их нет в php.ini
-    $memcached->setOption(Memcached::OPT_CONNECT_TIMEOUT, 1);
-    $memcached->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
-    $memcached->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, 1);
-    $memcached->setOption(Memcached::OPT_REMOVE_FAILED_SERVERS, true);
-    $memcached->setOption(Memcached::OPT_RETRY_TIMEOUT, 1);
+    $memcached = new Memcache;
+    $host1 = 'tcp://memcached-1';
+    $host2 = 'tcp://memcached-2';
+    $port = 11211;
+    $persistent = 50;
 
-    $memcached->addServers($servers);
-    // если один из серверов лежит, то getVersion будет некоторое время ждать connection и вернет false
-    $versions = $memcached->getVersion();
-    $servers = array_merge($servers, (array)$versions);
+    $memcached->addServer($host1, $port, $persistent);
+    $memcached->addServer($host2, $port, $persistent);
 
     // Почему-то, при выключенном сервере $connection все равно true
     // и при try-catch, тоже не выводит ошибку подключения.
     // Приходится идти путем: положил, взял, сравнил.
-    $key = "key";
+    $key = "newkey";
     $value = "This is Test value for MemCached";
-    $memcached->set($key, $value);
+    try {
+        $version = $memcached->getVersion();
+        $memcached->set($key, $value);
+    } catch (Exception $ex) {
+        showError("Connection to server $host1 and $host2 FAILED!", $tag);
+        return false;
+    }
     $get_value = $memcached->get($key);
     if ($value == $get_value) {
-        showSuccess("Connection to server " . print_r($servers, true) . " SUCCESSED!", $tag);
+        showSuccess("Connection to server $host1 or $host2 version $version SUCCESSED! -> $get_value", $tag);
         return true;
     } else {
-        showError("Connection to server " . print_r($servers, true) . " FAILED!", $tag);
+        showError("Connection to server $host1 and $host2 FAILED!", $tag);
     }
     return false;
 }

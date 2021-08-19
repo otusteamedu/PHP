@@ -1,37 +1,18 @@
-FROM debian:buster-slim
-ENV TZ=Europe/Moscow
-# ставим необходимые для нормальной работы модули
-RUN apt update && apt install -y \
-        wget \
-        gcc \
-        make \
-        memcached \
-        libevent-dev
-# временно устанавливаем рабочую директорию
-WORKDIR /tmp
+FROM ubuntu:trusty
+MAINTAINER Yolanda Robla <info@ysoft.biz>
 
-# копируем заплатку и bash скрипт запуска
-COPY ./conf/repcache/memcached.c /tmp/memcached.c
-COPY ./conf/repcache/memcachedrep.sh /etc/init.d/memcachedrep.sh
-COPY ./conf/repcache/memcachedrep /etc/default/memcachedrep
+#install repcached
+RUN apt-get update && \
+    apt-get install -y gcc make build-essential libevent-1.4-2 libevent-core-1.4-2 libevent1-dev libsasl2-2 sasl2-bin libsasl2-2 libsasl2-dev libsasl2-modules wget pwgen
 
-# Устанавливаем Repcached+Memcached
-RUN wget https://sourceforge.net/projects/repcached/files/repcached/2.2.1-1.2.8/memcached-1.2.8-repcached-2.2.1.tar.gz \
-	&& tar xvf memcached-1.2.8-repcached-2.2.1.tar.gz \
-    && cp memcached.c /tmp/memcached-1.2.8-repcached-2.2.1/memcached.c \
-	&& cd memcached-1.2.8-repcached-2.2.1 \
-    && ./configure --enable-replication \
-	&& make \
-	&& make install
+RUN wget -v -O repcached.tar.gz http://downloads.sourceforge.net/project/repcached/repcached/2.2.1-1.2.8/memcached-1.2.8-repcached-2.2.1.tar.gz
+RUN tar xzf repcached.tar.gz
+RUN cd memcached-1.2.8-repcached-2.2.1 && ./configure --prefix=/usr/local/ --exec-prefix=/usr/local/ --enable-64bit --enable-replication && make && make install
 
-# окончательно устанавливаем рабочую директорию
-WORKDIR /etc/init.d
+ADD ./conf/repcache/create_memcached_admin_user.sh /create_memcached_admin_user.sh
+ADD ./conf/repcache/run.sh /run.sh
+RUN chmod 755 /*.sh
 
 EXPOSE 11211
-# запускаем memcached
 
-CMD ["/etc/init.d/memcachedrep.sh", "start"]
-# Устанавливаем пользователя для запуска Set the user to run Memcached daemon
-USER daemon
-# Устанавливаем entrypoint для memcached binary
-ENTRYPOINT memcached
+CMD ["/run.sh"]
