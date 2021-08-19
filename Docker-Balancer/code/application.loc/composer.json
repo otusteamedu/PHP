@@ -1,0 +1,22 @@
+{
+    "name": "vladi/home-work",
+    "description": "Database Access",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.1",
+        "elasticsearch/elasticsearch": "~7.0"
+    },
+    "authors": [
+        {
+            "name": "NightWizard75",
+            "email": "vladimir@valyakin.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Services\\" : "services",
+            "app\\" : "app"
+        }
+    },
+    "minimum-stability": "dev"
+}

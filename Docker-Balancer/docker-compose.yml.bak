@@ -1,0 +1,183 @@
+# версия синтаксиса
+version: '3.9'
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Контейнер с PHP (app - просто имя, по которому можно обращаться к контейнеру для манипуляций с ним типа: docker-compose exec app bash)
+  app-1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm-1
+      dockerfile: Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - PHP_ERROR_LOG_PATH=${PHP_ERROR_LOG_PATH}
+        - X_DEBUG=${X_DEBUG}
+        - X_DEBUG_ERROR_LOG_PATH=${X_DEBUG_ERROR_LOG_PATH}
+        - MEMCACHED_CLUSTER=${MEMCACHED_CLUSTER}
+        - MEMCACHED_USE_SESSION=${MEMCACHED_USE_SESSION}
+        - MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH_DOCKER}
+        - TIMEZONE=${TIMEZONE}
+    image: mydock/php-1 # имя будущего образа
+    container_name: app-1 # имя контейнера после запуска внутри сети Docker
+    # переменные окружения
+    environment:
+      MEMPROF_PROFILE: ${MEMPROF_PROFILE_ENABLE} # Нужно для профилирования памяти. При значении null отключается
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG} # используется для x-debug - значение необходимо использовать в качестве имени сервера в IDE
+      TZ: ${TIMEZONE} # устанавливает зону времени для контейнера
+    volumes:
+      # для проброски кода
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # проброс дополнительного места кода
+      - ${ADDITIONAL_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}/${ADDITIONAL_SITE_NAME}
+      # логи
+      - ${PHP_ERROR_LOG_PATH}:/var/log/php_errors
+      - ${X_DEBUG_ERROR_LOG_PATH}:/var/log/x_debug
+      - ${MEMPROF_LOG_PATH_HOST}:${MEMPROF_LOG_PATH_DOCKER}
+      # Проброс папки содержащую php.ini во временную папку, чтобы потом при необходимости из нее запустить батник restart.sh,
+      # который скопирует из проброшенной папки php.ini и перезапустит php-fpm
+      - ./fpm-2/conf/php:/usr/local/etc/php_from_host
+      # проброс для сокета, если он используется
+      # сокет вместо TCP используется для ускорения работы между контейнерами app и webserver
+      - ${UNIX_SOCKET_PATH_HOST}:${UNIX_SOCKET_PATH_DOCKER}
+    # внутреннюю сеть для контейнеров
+    networks:
+      - app-network
+
+  app-2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm-2
+      dockerfile: Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - PHP_ERROR_LOG_PATH=${PHP_ERROR_LOG_PATH}
+        - X_DEBUG=${X_DEBUG}
+        - X_DEBUG_ERROR_LOG_PATH=${X_DEBUG_ERROR_LOG_PATH}
+        - MEMCACHED_CLUSTER=${MEMCACHED_CLUSTER}
+        - MEMCACHED_USE_SESSION=${MEMCACHED_USE_SESSION}
+        - MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH_DOCKER}
+        - TIMEZONE=${TIMEZONE}
+    image: mydock/php-2 # имя будущего образа
+    container_name: app-2 # имя контейнера после запуска внутри сети Docker
+    # переменные окружения
+    environment:
+      MEMPROF_PROFILE: ${MEMPROF_PROFILE_ENABLE} # Нужно для профилирования памяти. При значении null отключается
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG} # используется для x-debug - значение необходимо использовать в качестве имени сервера в IDE
+      TZ: ${TIMEZONE} # устанавливает зону времени для контейнера
+    volumes:
+      # для проброски кода
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # проброс дополнительного места кода
+      - ${ADDITIONAL_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}/${ADDITIONAL_SITE_NAME}
+      # логи
+      - ${PHP_ERROR_LOG_PATH}:/var/log/php_errors
+      - ${X_DEBUG_ERROR_LOG_PATH}:/var/log/x_debug
+      - ${MEMPROF_LOG_PATH_HOST}:${MEMPROF_LOG_PATH_DOCKER}
+      # Проброс папки содержащую php.ini во временную папку, чтобы потом при необходимости из нее запустить батник restart.sh,
+      # который скопирует из проброшенной папки php.ini и перезапустит php-fpm
+      - ./fpm-2/conf/php:/usr/local/etc/php_from_host
+      # проброс для сокета, если он используется
+      # сокет вместо TCP используется для ускорения работы между контейнерами app и webserver
+      - ${UNIX_SOCKET_PATH_HOST}:${UNIX_SOCKET_PATH_DOCKER}
+    # внутреннюю сеть для контейнеров
+    networks:
+      - app-network
+
+  # Контейнер с PHP для служебных нужд. (внутри установлен composer, npm...)
+  workspace:
+    build:
+      context: ./workspace
+      dockerfile: Dockerfile
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - PHP_ERROR_LOG_PATH=${PHP_ERROR_LOG_PATH}
+        - X_DEBUG=${X_DEBUG}
+        - X_DEBUG_ERROR_LOG_PATH=${X_DEBUG_ERROR_LOG_PATH}
+        - MEMPROF_LOG_PATH=${MEMPROF_LOG_PATH_DOCKER}
+        - TIMEZONE=${TIMEZONE}
+    image: mydock/workspace
+    container_name: workspace
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      # код
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # дополнительный код
+      - ${ADDITIONAL_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}/${ADDITIONAL_SITE_NAME}
+      # логи
+      - ${PHP_ERROR_LOG_PATH}:/var/log/php_errors
+      - ${X_DEBUG_ERROR_LOG_PATH}:/var/log/x_debug
+      - ${MEMPROF_LOG_PATH_HOST}:${MEMPROF_LOG_PATH_DOCKER}
+      # ssl - сертификаты
+      - ${CERTIFICATES}:/var/www/cert
+      # разные скрипты
+      - ${WORKSPACE_SCRIPTS_PATH_HOST}:${WORKSPACE_SCRIPTS_PATH_DOCKER}
+      # сокет вместо TCP используется для ускорения работы между контейнерами app и webserver
+      - ${UNIX_SOCKET_PATH_HOST}:${UNIX_SOCKET_PATH_DOCKER}
+    networks:
+      - app-network
+
+  #Контейнер Nginx
+  webserver:
+    depends_on:
+      - app-1
+      - app-2
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: mydock/nginx
+    container_name: webserver
+    environment:
+      TZ: ${TIMEZONE}
+    # проброс портов
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # код
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}
+      # дополнительный код
+      - ${ADDITIONAL_CODE_PATH_HOST}:${APP_CODE_PATH_DOCKER}/${ADDITIONAL_SITE_NAME}
+      # логи
+      - ${NGINX_LOG_PATH}:/var/log/nginx
+      # сокет
+      - ${UNIX_SOCKET_PATH_HOST}:${UNIX_SOCKET_PATH_DOCKER}
+      # используемые сайты
+      - ${SITES_ENABLED_PATH}:/etc/nginx/sites-enabled/
+      # ssl - сертификаты
+      - ${CERTIFICATES}:${NGINX_SSL_PATH_DOCKER}
+    networks:
+      - app-network
+
+  #Контейнер MemCache-1
+  memcached-1:
+    build:
+      context: ./memcached-1
+      dockerfile: Dockerfile
+    image: mydock/memcached-1
+    container_name: memcached-1
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+  #Контейнер MemCache-2
+  memcached-2:
+    build:
+      context: ./memcached-2
+      dockerfile: Dockerfile
+    image: mydock/memcached-2
+    container_name: memcached-2
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "11212:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
