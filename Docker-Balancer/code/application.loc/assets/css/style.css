@@ -1,0 +1,148 @@
+.modal-container {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	z-index: 99998;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: rgba(0,0,0,0.65);
+	text-align: center;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-show {
+	display:none;
+	vertical-align: middle;
+	position: relative;
+	z-index: 99999;
+	max-width: 650px;
+	box-sizing: border-box;
+	width: 90%;
+	background: #fff;
+	padding: 15px 30px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	-o-border-radius: 8px;
+	-ms-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: 0 0 10px #000;
+	-moz-box-shadow: 0 0 10px #000;
+	-o-box-shadow: 0 0 10px #000;
+	-ms-box-shadow: 0 0 10px #000;
+	box-shadow: 0 0 10px #000;
+	text-shadow: 0 0 0px #000;
+	text-align: left;
+}
+
+.modal-show .row {
+		padding-top: 40px;
+	}
+
+.modal-show div {
+	padding-top: 0;
+}
+.modal-show h3 {
+	font-size: 14pt;
+	color: blue;
+	font-weight: bold;
+	margin: 3px;
+}
+.modal-show p {
+	padding: 0;
+	margin: 0;
+	color: #200000;
+	font-size: 10pt;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+
+.modal-show ul {
+	color: #200000;
+	font-size: 9pt;
+	font-weight: normal;
+	line-height: 1.5em;
+}
+
+
+@media screen and (max-width: 450px) {
+	.modal-show {
+		text-align: center;	
+	}
+	
+	.modal-show img {
+		height: 200px;
+	}
+}
+
+.fadeIn, .fadeOut, .slideInDown, .slideOutUp {
+	-webkit-animation-duration: 0.4s;
+	animation-duration: 0.4s;
+	animation-timing-function: ease-out;
+}
+ 
+@keyframes fadeIn {
+	from {opacity: 0; visibility: hidden;}
+	to {opacity:1; visibility: visible;}
+}
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+	opacity: 1;
+	visibility: visible;
+}
+ 
+@keyframes fadeOut {
+	from {opacity: 1; visibility: visible;}
+	to {opacity:0; visibility: hidden;}
+}
+.fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+	opacity: 0;
+	visibility: hidden;
+}
+ 
+@keyframes slideInDown {
+	from {top: -320px;}
+	to {top: 180px;}
+}
+.slideInDown {
+	-webkit-animation-name: slideInDown;
+	animation-name: slideInDown;
+	top: 180px;
+}
+ 
+@keyframes slideOutUp {
+	from {top: 180px;}
+	to {top: -320px;}
+}
+.slideOutUp {
+	-webkit-animation-name: slideOutUp;
+	animation-name: slideOutUp;
+	top: -320px;
+}
+
+.modal-outer {
+	width: 100%;
+	max-width: 960px;
+	min-height: 460px;
+	position: fixed;
+	left: 50%;
+	z-index: 120;
+	padding: 80px 0;
+	background: #38181a;
+}
+	.modal-outer > div {
+		display: none;
+		opacity: 1;
+		visibility: visible;
+		position: static;
+		margin: 0 auto;
+	}
