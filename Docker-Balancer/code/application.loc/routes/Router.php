@@ -1,15 +1,12 @@
 <?php
 
-namespace routes;
+namespace Routes;
 
 
 use App\Exceptions\ErrorCodes;
 use App\Exceptions\Router\InvalidRouteException;
 use App\Exceptions\Router\InvalidRouteMethodException;
-use App\Http\Response\Checker\CheckerResponse;
 use App\Http\Response\IResponse;
-use App\Http\Response\Main\Response;
-use App\Http\Response\ResponseCli;
 use App\Http\Response\ResponseSelector;
 use Exception;
 
@@ -44,7 +41,6 @@ class Router
             }
         } catch (Exception $ex) {
             $response->send($ex->getCode(), $ex->getMessage());
-            //Response::send($ex->getCode(), $ex->getMessage());
         }
     }
 

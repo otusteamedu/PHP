@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\Checkers\InvalidCheckerException;
 use App\Exceptions\Loader\ViewLoaderException;
-use App\Helpers\ConfigHelper;
 use App\Http\Response\IResponse;
 use App\Models\SqlModel;
 
@@ -22,7 +21,7 @@ class SqlController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

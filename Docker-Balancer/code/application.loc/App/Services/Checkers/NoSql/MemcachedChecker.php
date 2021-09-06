@@ -4,6 +4,7 @@ namespace App\Services\Checkers\NoSql;
 
 use App\Exceptions\Connection\InvalidArgumentException;
 use App\Helpers\AppConst;
+use App\Repository\Memcached\MemcachedReadRepository;
 use App\Services\Checkers\AbstractChecker;
 use Src\Database\Connectors\ConnectorsFactory;
 
@@ -32,8 +33,6 @@ class MemcachedChecker extends AbstractChecker
 
 
     /**
-     * Конструктор класса
-     *
      * @param array $connectionConfig
      */
     public function __construct(array $connectionConfig = [])
@@ -51,10 +50,7 @@ class MemcachedChecker extends AbstractChecker
     public function check(): self
     {
         $memcache = $this->connect();
-        $info = $memcache->getStats();
-        if ($this->driver === 'Memcached') {
-            $info = $memcache->getStats()[$this->config['host'] . ":" . $this->config['port']];
-        }
+        $info = (new MemcachedReadRepository($this->connect()))->getInfo();
         $this->info = [
             'status' => AppConst::SERVER_CONNECTED,
             'serverInfo' => $this->layoutInfo($info)

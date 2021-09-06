@@ -2,19 +2,11 @@
 
 namespace App\Models;
 
-use App\Exceptions\Checkers\InvalidCheckerException;
-use App\Services\Checkers\CheckersFactory;
-use App\Services\Checkers\Inspector;
-use App\Services\Checkers\Sysinfo\NodeAddressChecker;
-use App\Services\Checkers\Sysinfo\SapiChecker;
-use App\Services\Checkers\Sysinfo\ServerAddressChecker;
-use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
 
-class SysinfoModel extends BaseModel
+class SysinfoModel implements IModel
 {
-
     #[ArrayShape([
         'webserverIp' => "array|string[]",
         'nodeIp' => "array|string[]",
@@ -42,6 +34,7 @@ class SysinfoModel extends BaseModel
     /**
      * @return array
      */
+    #[ArrayShape(['info' => "string"])]
     public function getNodeAddress(): array
     {
         $nodeIp = getHostByName(php_uname('n')) ?: 'Not defined';
@@ -51,6 +44,7 @@ class SysinfoModel extends BaseModel
     /**
      * @return array
      */
+    #[ArrayShape(['info' => "false|string"])]
     public function getSapi(): array
     {
         $sapi = php_sapi_name() ?: 'Not defined';

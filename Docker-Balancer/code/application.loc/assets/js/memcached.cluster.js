@@ -39,13 +39,12 @@ function requestMemcached($url, $server) {
         data: preparedData,
         dataType: 'html',
         success: function($data) {
-            console.log($data);
             let response = JSON.parse($data);
             console.log(response);
             if (response.data.server === 'memcached-1') {
                 $server1Status.innerHTML = response.status;
-                if (typeof response.data.lastInsertKey !== 'undefined' && response.data.status==='OK') $lastKey1.innerHTML = response.data.lastInsertKey;
-                if (typeof response.data.lastInsertValue !== 'undefined' && response.data.status==='OK') $lastValue1.innerHTML = response.data.lastInsertValue;
+                if (typeof response.data.lastInsertKey !== 'undefined' && response.data.putStatus == true) $lastKey1.innerHTML = response.data.lastInsertKey;
+                if (typeof response.data.lastInsertValue !== 'undefined' && response.data.putStatus == true) $lastValue1.innerHTML = response.data.lastInsertValue;
                 if (response.data.method==='Get') $getValue1.value = response.data.value;
                 if (response.status === 'error') {
                     $panel1.classList.remove('alert-success');

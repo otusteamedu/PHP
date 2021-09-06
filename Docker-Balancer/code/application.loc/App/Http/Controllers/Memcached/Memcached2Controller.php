@@ -18,7 +18,7 @@ class Memcached2Controller extends BaseMemcachedController
     protected BaseMemcachedModel $model;
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

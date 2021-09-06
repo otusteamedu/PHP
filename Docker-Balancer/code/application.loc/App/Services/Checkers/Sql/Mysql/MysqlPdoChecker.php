@@ -5,6 +5,7 @@ namespace App\Services\Checkers\Sql\Mysql;
 
 use App\Exceptions\Connection\InvalidArgumentException;
 use App\Helpers\AppConst;
+use App\Repository\Mysql\MysqlPdoReadRepository;
 use PDO;
 use App\Services\Checkers\AbstractChecker;
 use Src\Database\Connectors\ConnectorsFactory;
@@ -12,11 +13,6 @@ use Src\Database\Connectors\ConnectorsFactory;
 
 class MysqlPdoChecker extends AbstractChecker
 {
-    /**
-     * @var string
-     */
-    private string $query;
-
     /**
      * @var array
      */
@@ -29,15 +25,12 @@ class MysqlPdoChecker extends AbstractChecker
 
 
     /**
-     * Конструктор класса
-     *
      * @param array $connectionConfig
      */
     public function __construct(array $connectionConfig = [])
     {
         $this->config = $connectionConfig;
         $this->driver = $_ENV['MYSQL_DRIVER'];
-        $this->query = "SHOW VARIABLES LIKE '%version%';";
     }
 
     /**
@@ -48,13 +41,10 @@ class MysqlPdoChecker extends AbstractChecker
      */
     public function check(): self
     {
-        $row = $this
-            ->connect()
-            ->query($this->query)
-            ->fetchAll();
+        $info = (new MysqlPdoReadRepository($this->connect()))->getInfo();
         $this->info = [
             'status' => AppConst::SERVER_CONNECTED,
-            'serverInfo' => $this->layoutInfo($row),
+            'serverInfo' => $this->layoutInfo($info),
         ];
         return $this;
     }

@@ -11,8 +11,6 @@ use Monolog\Logger;
 class InvalidRouteMethodException extends Exception implements ILogged, IOutable
 {
     /**
-     * Конструктор класса
-     *
      * @param string $message
      * @param int $code
      * @param Exception|null $previous

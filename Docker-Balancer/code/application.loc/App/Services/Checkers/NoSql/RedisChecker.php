@@ -5,6 +5,7 @@ namespace App\Services\Checkers\NoSql;
 
 use App\Exceptions\Connection\InvalidArgumentException;
 use App\Helpers\AppConst;
+use App\Repository\Redis\RedisReadRepository;
 use App\Services\Checkers\AbstractChecker;
 use Redis;
 use Src\Database\Connectors\ConnectorsFactory;
@@ -32,8 +33,6 @@ class RedisChecker extends AbstractChecker
 
 
     /**
-     * Конструктор класса
-     *
      * @param array $connectionConfig
      */
     public function __construct(array $connectionConfig = [])
@@ -49,7 +48,7 @@ class RedisChecker extends AbstractChecker
      */
     public function check(): self
     {
-        $info = $this->connect()->info();
+        $info = (new RedisReadRepository($this->connect()))->getInfo();
         $this->info = [
             'status' => AppConst::SERVER_CONNECTED,
             'serverInfo' => $this->layoutInfo($info)

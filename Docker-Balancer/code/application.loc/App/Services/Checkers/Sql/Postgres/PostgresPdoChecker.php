@@ -4,6 +4,7 @@ namespace App\Services\Checkers\Sql\Postgres;
 
 
 use App\Helpers\AppConst;
+use App\Repository\Postgres\PostgresPdoReadRepository;
 use PDO;
 use App\Exceptions\Connection\InvalidArgumentException;
 use App\Services\Checkers\AbstractChecker;
@@ -12,11 +13,6 @@ use Src\Database\Connectors\ConnectorsFactory;
 
 class PostgresPdoChecker extends AbstractChecker
 {
-    /**
-     * @var string
-     */
-    private string $query;
-
     /**
      * @var array
      */
@@ -29,15 +25,12 @@ class PostgresPdoChecker extends AbstractChecker
 
 
     /**
-     * Конструктор класса
-     *
      * @param array $connectionConfig
      */
     public function __construct(array $connectionConfig = [])
     {
         $this->config = $connectionConfig;
         $this->driver = $_ENV['PGSQL_DRIVER'];
-        $this->query = "SELECT version();";
     }
 
     /**
@@ -48,13 +41,10 @@ class PostgresPdoChecker extends AbstractChecker
      */
     public function check(): self
     {
-        $row = $this
-            ->connect()
-            ->query($this->query)
-            ->fetch();
+        $info = (new PostgresPdoReadRepository($this->connect()))->getInfo();
         $this->info = [
             'status' => AppConst::SERVER_CONNECTED,
-            'serverInfo' => $row[0],
+            'serverInfo' => $info['version'],
         ];
         return $this;
     }

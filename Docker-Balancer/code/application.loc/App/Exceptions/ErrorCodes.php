@@ -6,7 +6,6 @@ namespace App\Exceptions;
 use App\Exceptions\Checkers\Sysinfo\CannotGetSystemInfoException;
 use App\Exceptions\Connection\CannotConnectElasticsearchException;
 use App\Exceptions\Connection\CannotConnectMemcachedException;
-use App\Exceptions\Connection\CannotConnectElasticsearch;
 use App\Exceptions\Connection\CannotConnectPostgresException;
 use App\Exceptions\Connection\CannotConnectRedisException;
 use App\Exceptions\Connection\CannotConnectMySqlException;

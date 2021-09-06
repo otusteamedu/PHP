@@ -46,7 +46,7 @@
                                         <li><a class="scrolly" href="/Nosql/check?db=redis">Redis</a></li>
                                         <li><a class="scrolly" href="/Nosql/check?db=elasticsearch">Elasticsearch</a></li>
                                         <?php if (isset($memcachedCluster)&&($memcachedCluster == 'true' || $memcachedCluster == 1)):?>
-                                            <li><a class="scrolly" href="/Memcached/Cluster">MemcachedCluster</a></li>
+                                            <li><a class="scrolly" href="/NoSql/memcachedCluster">MemcachedCluster</a></li>
                                         <?php else:?>
                                             <li><a class="scrolly" href="/Nosql/check?db=memcached">Memcached</a></li>
                                         <?php endif?>

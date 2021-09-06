@@ -56,7 +56,7 @@ abstract class BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {
@@ -98,12 +98,12 @@ abstract class BaseController
      */
     private function getCurrentControllerName(): string
     {
-        $controller = explode('\\', get_class($this));
         return str_replace(
             'Controller',
             '',
-            array_pop($controller)
+            (new \ReflectionClass($this))->getShortName()
         );
+        return (new \ReflectionClass($this))->getShortName();
     }
 
     /**

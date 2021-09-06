@@ -10,6 +10,26 @@
 2. "monolog/monolog": "2.x-dev"
 3. "elasticsearch/elasticsearch": "~7.0"
 
+### Запуск
+1. Используя браузер необходимо в адресной строке ввести путь http://application.loc
+В приложении использованы как вывод информации, сформированной на сервере, так и Ajax запросы (кирпичного цвета кнопки на главной странице).
+Если параметр MEMCACHED_CLUSTER установлен в true, то в разделе NoSql->MemcahcedCluser можно протестировать репликацию обоих серверов.
+2. В режиме cli для запуска используется файл 'App/Console/checker.php'
+    >php App/Console/checker.php параметр1 параметр2 
+   
+   параметр1 - используется для выбора проверяемого сервера
+   параметр2 - драйвер для серверов mysql и postgres
+
+   Возможны следующие варианты выбора параметров
+    1. checker.php elasticsearch - запускает проверку Elasticsearch
+    2. checker.php redis - запускает проверку Redis
+    3. checker.php memcached - запускает проверку Memcached
+    4. checker.php mysql mysqli - запускает проверку Mysql с драйвером mysqli
+    5. checker.php mysql pdo - запускает проверку Mysql с драйвером PDO
+    6. checker.php postgres pdo - запускает проверку Postgres с драйвером PDO
+    7. checker.php postgres pg_connect - запускает проверку Postgres с драйвером pg_connect
+    8. checker.php sysinfo - выводи системную информацию.
+    
 ### Структура
 1. [App](App) - основной код проекта
     1. [Exceptions](App/Exceptions) - Исключения проекта

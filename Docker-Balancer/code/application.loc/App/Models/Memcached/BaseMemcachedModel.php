@@ -3,19 +3,19 @@
 namespace App\Models\Memcached;
 
 
-use App\Exceptions\Checkers\InvalidCheckerException;
 use App\Exceptions\Connection\CannotConnectMemcachedException;
 use App\Exceptions\Connection\InvalidArgumentException;
-use Exception;
+use App\Http\Response\Helpers\StatusCodes;
+use App\Repository\Memcached\MemcachedReadRepository;
+use App\Repository\Memcached\MemcachedWriteRepository;
 use App\Helpers\ConfigHelper;
-use App\Models\BaseModel;
-use App\Services\Checkers\AbstractChecker;
+use App\Models\IModel;
 use Src\Database\Connectors\ConnectorsFactory;
 
 
-abstract class BaseMemcachedModel extends BaseModel
+abstract class BaseMemcachedModel implements IModel
 {
-    const MODEL_NAME = 'memcached';
+    const SERVER_NAME = 'memcached';
 
     /**
      * Информационный заголовок
@@ -47,44 +47,78 @@ abstract class BaseMemcachedModel extends BaseModel
      */
     public function __construct()
     {
-        $this->connect(static::MODEL_NAME);
-        $this->checkerName = static::MODEL_NAME;
-        $this->title = static::MODEL_NAME;
+        $this->connect(static::SERVER_NAME);
+        $this->checkerName = static::SERVER_NAME;
+        $this->title = static::SERVER_NAME;
     }
 
     /**
-     * @param string $serverName
-     * @return AbstractChecker
-     * @throws InvalidCheckerException
-     */
-    /*public function check(string $serverName): AbstractChecker
-    {
-        return match ($serverName) {
-            'memcached'   => Inspector::check(MemcachedChecker::class, ConfigHelper::getConnectionConfigMemCached()),
-            'memcached-1' => Inspector::check(MemcachedChecker::class, ConfigHelper::getConnectionConfigMemCached1()),
-            'memcached-2' => Inspector::check(MemcachedChecker::class, ConfigHelper::getConnectionConfigMemCached2()),
-        };
-    }*/
-
-    /**
+     * Возвращает массив с параметрами, для Response после вставки Value для ключа key
      *
      * @param string $key
      * @param string $value
-     * @return bool
+     * @return array
      */
-    public function putValue(string $key, string $value): bool
+    public function putValueReply(string $key, string $value): array
     {
-        return $this->connect->set($key, $value);
+        if (!$this->isConnected()) {
+            return $this->errorConnectInfo;
+        }
+
+        $displayErrors = ini_get('display_errors');
+        ini_set("display_errors", '0'); // нужно выключить вывод ошибок на экран, иначе эта ошибка попадет в CheckerResponse
+
+        $result = [
+            'code'      => StatusCodes::OK,
+            'message'   => 'Response: Memcached->Put',
+            'info'      => [
+                'method' => 'Put',
+                'server' => static::SERVER_NAME,
+            ],
+        ];
+        if (empty($key)) {
+            $result['info'] += [
+                'status' => 'Mistake',
+                'mistake' => ['message' => 'Пустой ключ'],
+            ];
+        } else {
+            $result['info'] += [
+                'lastInsertKey'         => $key,
+                'key'                   => $key,
+                'lastInsertValue'       => $value,
+                'putStatus'             => (new MemcachedWriteRepository($this->connect))->set($key, $value),
+            ];
+        }
+        ini_set("display_errors", $displayErrors); // возвращаем вывод ошибок в исходное состояние
+        return $result;
     }
 
     /**
+     * Возвращает массив с параметрами, для Response, в которых присутствует значение value для искомого key
      *
      * @param string $key
-     * @return mixed
+     * @return array
      */
-    public function getValue(string $key): mixed
+    public function getValueReply(string $key): array
     {
-        return $this->connect->get($key);
+        if (!$this->isConnected()) {
+            return $this->errorConnectInfo;
+        }
+        $displayErrors = ini_get('display_errors');
+        ini_set("display_errors", '0'); // нужно выключить вывод ошибок на экран, иначе эта ошибка попадет в CheckerResponse
+        $result = [
+            'code'      => StatusCodes::OK,
+            'message'   => 'Response: Memcached->Get',
+            'info'      => [
+                'method'    => 'Get',
+                'status'    => 'OK',
+                'server'    => static::SERVER_NAME,
+                'key'       => $key,
+                'value'     => (new MemcachedReadRepository($this->connect))->get($key),
+            ]
+        ];
+        ini_set("display_errors", $displayErrors); // возвращаем вывод ошибок в исходное состояние
+        return $result;
     }
 
     /**
@@ -100,24 +134,16 @@ abstract class BaseMemcachedModel extends BaseModel
                 'memcached-2' => ConnectorsFactory::createConnection($_ENV['MEMCACHED_DRIVER'], ConfigHelper::getConnectionConfigMemCached2())->connect(),
             };
         } catch (CannotConnectMemcachedException|InvalidArgumentException $ex) {
-            $this->errorConnectInfo = ['code' => $ex->getCode(), 'message' => $ex->getMessage()];
+            $this->errorConnectInfo = ['code' => $ex->getCode(), 'message' => $ex->getMessage(), 'info' => ['server' => static::SERVER_NAME]];
             $this->connect = null;
         }
     }
 
     /**
-     * @return array
+     * @return bool
      */
-    public function getErrorConnectInfo(): array
+    private function isConnected(): bool
     {
-        return $this->errorConnectInfo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConnect(): mixed
-    {
-        return $this->connect;
+        return !is_null($this->connect);
     }
 }

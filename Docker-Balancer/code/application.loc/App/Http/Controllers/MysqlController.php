@@ -7,7 +7,6 @@ use App\Http\Response\Checker\CheckerResponse;
 use App\Http\Response\IResponse;
 use App\Models\SqlModel;
 use Src\Database\Connectors\MySqlPdoSqlConnector;
-use Exception;
 
 /**
  * Контроллер маршрута /Mysql
@@ -22,7 +21,7 @@ class MysqlController extends BaseController
     private SqlModel $model;
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

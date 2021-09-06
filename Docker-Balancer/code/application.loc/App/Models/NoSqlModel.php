@@ -14,7 +14,7 @@ use App\Services\Checkers\NoSql\RedisChecker;
 use Exception;
 
 
-class NoSqlModel extends BaseModel
+class NoSqlModel implements IModel
 {
 
     /**

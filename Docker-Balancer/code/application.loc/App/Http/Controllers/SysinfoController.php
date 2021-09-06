@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\Loader\ViewLoaderException;
 use App\Http\Response\Helpers\StatusCodes;
 use App\Http\Response\IResponse;
-use App\Http\Response\Main\Response;
 use App\Models\SysinfoModel;
 
 /**
@@ -23,7 +22,7 @@ class SysinfoController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

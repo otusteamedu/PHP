@@ -5,6 +5,7 @@ namespace App\Services\Checkers\NoSql;
 
 use App\Exceptions\Connection\InvalidArgumentException;
 use App\Helpers\AppConst;
+use App\Repository\Elasticsearch\ElasticsearchSearchRepository;
 use App\Services\Checkers\AbstractChecker;
 use Elasticsearch\Client;
 use Src\Database\Connectors\ConnectorsFactory;
@@ -19,8 +20,6 @@ class ElasticsearchChecker extends AbstractChecker
 
 
     /**
-     * Конструктор класса
-     *
      * @param array $connectionConfig
      */
     public function __construct(array $connectionConfig = [])
@@ -36,8 +35,7 @@ class ElasticsearchChecker extends AbstractChecker
      */
     public function check(): self
     {
-        $elastic = $this->connect();
-        $info = $elastic->info();
+        $info = (new ElasticsearchSearchRepository($this->connect()))->getInfo();
         $this->info = [
             'status' => AppConst::SERVER_CONNECTED,
             'serverInfo' => $this->layoutInfo($info)

@@ -19,7 +19,7 @@ class ElasticsearchController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

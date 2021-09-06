@@ -14,8 +14,6 @@ use Monolog\Logger;
 class InvalidCheckerException extends Exception implements ILogged
 {
     /**
-     * Конструктор класса
-     *
      * @param string $message
      * @param int $code
      * @param Exception|null $previous

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Exceptions\Checkers\InvalidCheckerException;
 use App\Exceptions\Loader\ViewLoaderException;
-use App\Http\Controllers\Memcached\ClusterController;
 use App\Http\Response\IResponse;
 use App\Models\NoSqlModel;
 use JetBrains\PhpStorm\ArrayShape;
@@ -23,7 +21,7 @@ class NoSqlController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {
@@ -56,7 +54,7 @@ class NoSqlController extends BaseController
     {
         $this->data += $this->getParameters();
         if ($this->getItemNameToCheck() === 'memcachedCluster') {
-            (new ClusterController())->run();
+            $this->memcachedCluster();
         } else {
             $info = match($this->getItemNameToCheck()) {
                 'redis'             => [['title' => 'Redis Server', 'info' => $this->model->checkRedis()->getInfo()]],
@@ -66,6 +64,22 @@ class NoSqlController extends BaseController
             };
             $this->show($info);
         }
+    }
+
+    /**
+     * Обработчик маршрута NoSql/memcachedCluster
+     *
+     * @throws ViewLoaderException
+     */
+    public function memcachedCluster(): void
+    {
+        $this->data['memcached1'] = $this->model->checkMemcached('memcached-1')->getShortInfo();
+        $this->data['memcached2'] = $this->model->checkMemcached('memcached-2')->getShortInfo();
+
+        $this->data += $this->getParameters();
+        $this->loadView('Templates/header');
+        $this->loadView('Memcached/cluster');
+        $this->loadView('Templates/footer');
     }
 
     /**

@@ -21,7 +21,7 @@ class AloneMemcachedController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

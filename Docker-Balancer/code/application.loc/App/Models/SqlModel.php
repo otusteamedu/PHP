@@ -16,7 +16,7 @@ use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
 
-class SqlModel extends BaseModel
+class SqlModel implements IModel
 {
     /**
      * @return array

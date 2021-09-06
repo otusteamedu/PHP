@@ -5,7 +5,6 @@ namespace App\Logger;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\HtmlFormatter;
 
 
 class ApplicationLogger

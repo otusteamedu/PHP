@@ -17,15 +17,15 @@ class DefaultController extends BaseController
      */
     private SysinfoModel $sysinfoModel;
 
+
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {
         parent::__construct($response);
         $this->sysinfoModel = new SysinfoModel();
     }
-
 
     /**
      * Обработчик маршрута по умолчанию

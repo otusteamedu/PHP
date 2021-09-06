@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Response\IResponse;
 use App\Models\SqlModel;
-use App\Services\Checkers\Inspector;
-use Exception;
-use App\Services\Checkers\Sql\Postgres\PostgresPdoChecker;
-use App\Services\Checkers\Sql\Postgres\PostgresPgConnectChecker;
 
 /**
  * Контроллер маршрута /Postgres
@@ -26,7 +22,7 @@ class PostgresController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {
@@ -49,7 +45,7 @@ class PostgresController extends BaseController
     }
 
     /**
-     * * Проверяет сервер Postgres с помощью драйвера 'PgConnect'
+     * Проверяет сервер Postgres с помощью драйвера 'PgConnect'
      */
     public function xhrCheckPgConnection() {
         $this->title = 'Postgres Server. Driver: `PgConnect`';

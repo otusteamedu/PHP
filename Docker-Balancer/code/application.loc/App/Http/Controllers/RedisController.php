@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-use App\Exceptions\Checkers\InvalidCheckerException;
 use App\Http\Response\IResponse;
 use App\Models\NoSqlModel;
 
@@ -21,7 +20,7 @@ class RedisController extends BaseController
 
 
     /**
-     * Конструктор класса
+     * @param IResponse $response
      */
     public function __construct(IResponse $response)
     {

@@ -44,7 +44,7 @@ class CheckersFactory
             MysqlPdoChecker::class                             => new MysqlPdoChecker($config),
             MySQLiteChecker::class                             => new MySQLiteChecker($config),
             RedisChecker::class                                => new RedisChecker($config),
-            ElasticsearchChecker1::class                        => new ElasticsearchChecker($config),
+            ElasticsearchChecker::class                        => new ElasticsearchChecker($config),
             MemcachedChecker::class                            => new MemcachedChecker($config),
             default => throw new InvalidCheckerException("Unknown checker '$checkerName'", ErrorCodes::getCode(InvalidCheckerException::class)),
         };

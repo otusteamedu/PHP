@@ -2,7 +2,6 @@
 
 namespace App\Http\Response;
 
-use App\Http\Response\Helpers\StatusCodes;
 use App\Http\Response\Traits\HasUtils;
 
 class ResponseCli implements IResponse
