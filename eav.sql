@@ -30,13 +30,15 @@ create table if not exists attribute_values (
 	attribute_id int not null references attributes,
 	value_date date,
     value_text text,
-    value_number numeric,
+    value_integer_number integer,
+    value_float_number float,
     value_bool bool
 );
 
 create index attribute_values_index_text on attribute_values(value_text);
 create index attribute_values_index_date on attribute_values(value_date);
-create index attribute_values_index_number on attribute_values(value_number);
+create index attribute_values_index_float_number on attribute_values(value_float_number);
+create index attribute_values_index_integer_number on attribute_values(value_integer_number);
 create index attribute_values_index_bool on attribute_values(value_bool);
 
 insert into movies(name,duration,age_limit,description) values ('tenet-1',5400,16,'some_text');
@@ -59,25 +61,25 @@ insert into attributes(name,type_id) values ('рейтинг', 5);
 insert into attribute_values(movie_id, attribute_id, value_text) values (1,1,'сюжет tenet-1');
 insert into attribute_values(movie_id, attribute_id, value_text) values (1,2,'рецензия tenet-1');
 insert into attribute_values(movie_id, attribute_id, value_date) values (1,3,'2021-05-10');
-insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.1);
+insert into attribute_values(movie_id, attribute_id, value_float_number) values (2,6, 4.1);
 
 
 insert into attribute_values(movie_id, attribute_id, value_text) values (2,1,'сюжет tenet-2');
 insert into attribute_values(movie_id, attribute_id, value_text) values (2,2,'рецензия tenet-2');
 insert into attribute_values(movie_id, attribute_id, value_date) values (2,3,'2020-11-10');
 insert into attribute_values(movie_id, attribute_id, value_bool) values (2,4, true);
-insert into attribute_values(movie_id, attribute_id, value_number) values (2,5, 70000000);
-insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.3);
+insert into attribute_values(movie_id, attribute_id, value_integer_number) values (2,5, 70000000);
+insert into attribute_values(movie_id, attribute_id, value_float_number) values (2,6, 4.3);
 
 insert into attribute_values(movie_id, attribute_id, value_text) values (3,1,'сюжет tenet-3');
 insert into attribute_values(movie_id, attribute_id, value_text) values (3,2,'рецензия tenet-3');
 insert into attribute_values(movie_id, attribute_id, value_date) values (3,3,'2020-08-10');
 insert into attribute_values(movie_id, attribute_id, value_bool) values (3,4, true);
-insert into attribute_values(movie_id, attribute_id, value_number) values (3,5, 70000000);
-insert into attribute_values(movie_id, attribute_id, value_number) values (2,6, 4.7);
+insert into attribute_values(movie_id, attribute_id, value_integer_number) values (3,5, 70000000);
+insert into attribute_values(movie_id, attribute_id, value_float_number) values (2,6, 4.7);
 
 create or replace view otus_view as
-    select movies.name as movie_name, a.name as attr_name, av.value_date,av.value_text,av.value_number,av.value_bool from movies
+    select movies.name as movie_name, a.name as attr_name, av.value_date,av.value_text,av.value_integer_number,av.value_float_number,av.value_bool from movies
     inner join attribute_values av on movies.id = av.movie_id
     inner join attributes a on av.attribute_id = a.id
     inner join attribute_types t on a.type_id = t.id;
