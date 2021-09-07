@@ -86,6 +86,12 @@ create table if not exists tickets
 
 create index tickets_number_index on tickets (schedule_id, moviegoer_id, number);
 
+create table if not exists sold_tickets
+(
+    id serial primary key,
+    ticket_id integer not null references tickets
+);
+
 insert into movies(name, duration, age_limit, description)
 select 'tenet-1' || random()::text, 5400, 16, random()::text
 from generate_series(1, 10);
@@ -167,3 +173,5 @@ from (select id from schedule where id = 4) sh,
      (select id from moviegoers where id = 4) mg,
      (select id from seats where hall_id = 4) seats
 limit 1;
+
+insert into sold_tickets(ticket_id) select t.ticket_id from (select id as ticket_id from tickets limit 10) t;
