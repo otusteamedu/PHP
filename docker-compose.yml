@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/var/www/hw-otus
+      - ./docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8787:80"
+
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./app:/var/www/hw-otus
+
+  redis:
+    container_name: redis
+    build:
+      context: ./docker/redis
