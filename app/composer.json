@@ -1,0 +1,24 @@
+{
+    "name": "rsm/app",
+    "description": "hw-otus",
+    "type": "project",
+    "authors": [
+        {
+            "name": "yessaliyev",
+            "email": "40271311+yessaliyev@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "vlucas/phpdotenv": "^5.2@dev",
+        "monolog/monolog": "2.x-dev",
+        "ext-redis": "*",
+        "ext-json": "*",
+        "rakit/validation": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/hw"
+        }
+    }
+}
