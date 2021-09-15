@@ -1,8 +1,6 @@
 <?php
 
-
 namespace VideoPlatform\interfaces;
-
 
 interface DBInterface
 {

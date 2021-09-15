@@ -8,9 +8,9 @@ use VideoPlatform\interfaces\VideoSharingServiceInterface;
 
 class VideoPlatform
 {
-    const ANALYZE = 'analyze';
-    const STATISTICS = 'statistics';
-    const TOP_N = 'top_n';
+    private const ANALYZE    = 'analyze';
+    private const STATISTICS = 'statistics';
+    private const TOP_N      = 'top_n';
 
     private VideoSharingServiceInterface $service;
 

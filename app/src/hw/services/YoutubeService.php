@@ -223,20 +223,16 @@ class YoutubeService implements VideoSharingServiceInterface
      */
     public function getStatistics()
     {
-        $channelIds = explode(',', $_SERVER['argv'][2]);
+        $channelId = $_SERVER['argv'][2];
 
-        foreach ($channelIds as $channelId) {
-            $channel = Channel::findById($this->db, $channelId);
-            $youtubeStatistics = new YoutubeChannelStatistics($this->db);
-            $statistics = $youtubeStatistics->getTotalLikesDislikes($channel->getId());
+        $channel = Channel::findById($this->db, $channelId);
+        $youtubeStatistics = new YoutubeChannelStatistics($this->db);
+        $statistics = $youtubeStatistics->getTotalLikesDislikes($channel->getId());
 
-            return [
-                'channelId'=> $channelId,
-                'LikeDislikeCounter' => $statistics
-            ];
-        }
-
-        return [];
+        return [
+            'channelId'=> $channelId,
+            'LikeDislikeCounter' => $statistics
+        ];
     }
 
     /**
@@ -248,7 +244,7 @@ class YoutubeService implements VideoSharingServiceInterface
     {
         $n = (int)$_SERVER['argv'][2];
 
-        if (!is_int($n) or $n < 1) {
+        if (false === is_int($n) or $n < 1) {
             throw new AppException('specify an integer');
         }
 

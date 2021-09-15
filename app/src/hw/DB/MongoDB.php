@@ -32,7 +32,6 @@ class MongoDB implements DBInterface
         $result = $collection->insertOne($data);
 
         if ($result) {
-            echo ".";
             return true;
         }
 

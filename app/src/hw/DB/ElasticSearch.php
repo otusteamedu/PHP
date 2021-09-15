@@ -55,8 +55,8 @@ class ElasticSearch implements DBInterface
 
         $result = $this->client->get($params);
 
-        if (!$result['found']) {
-            throw new Exception('not found');
+        if (false === $result['found']) {
+            throw new Exception('Not found');
         }
 
         return $result['_source'];
