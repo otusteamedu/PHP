@@ -1,0 +1,279 @@
+6 запросов в базу
+
+1. select * from schedule where hall_id = 2 and movie_id = 2;
+2. select * from tickets where schedule_id = 500 order by id desc;
+3. select * from schedule where hall_id = 4 and price_id > 1 order by movie_id
+
+4. select count(movie_id) as counter, name
+       from movies
+                left join schedule s on movies.id = s.movie_id
+                left join tickets t on s.id = t.schedule_id
+       where t.id is not null
+       group by movie_id, name
+       order by counter desc;
+
+5. select * from halls
+       left join schedule s on halls.id = s.hall_id
+       left join prices p on p.id = s.price_id
+       left join tariffs t on p.tariff_id = t.id
+   where t.name = 'tariff-2' limit 30
+
+6. select count(moviegoer_type_id)
+   from prices
+            inner join schedule s on s.price_id = prices.id
+            inner join moviegoer_types mt on mt.id = prices.moviegoer_type_id
+            inner join halls h on h.id = s.hall_id
+   where moviegoer_type_id = 1
+     and hall_id = 2
+   group by moviegoer_type_id
+
+
+Заполнил таблицу schedule и tickets через insert_into.sql
+
+Запросы с индексом
+
+1. Пробуем простой 1-й запрос
+
+    explain analyze select * from schedule where hall_id = 2 and movie_id = 2
+
+    +--------------------------------------------------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                                                                |
+    +--------------------------------------------------------------------------------------------------------------------------+
+    |Bitmap Heap Scan on schedule  (cost=10.94..78.82 rows=259 width=20) (actual time=0.049..2.241 rows=268 loops=1)           |
+    |  Recheck Cond: ((movie_id = 2) AND (hall_id = 2))                                                                        |
+    |  Heap Blocks: exact=17                                                                                                   |
+    |  ->  Bitmap Index Scan on schedule_index  (cost=0.00..10.88 rows=259 width=0) (actual time=0.028..0.036 rows=268 loops=1)|
+    |        Index Cond: ((movie_id = 2) AND (hall_id = 2))                                                                    |
+    |Planning Time: 0.077 ms                                                                                                   |
+    |Execution Time: 4.371 ms                                                                                                  |
+    +--------------------------------------------------------------------------------------------------------------------------+
+
+
+2. Запрос 2
+
+    explain analyze select * from tickets where schedule_id = 500 order by id desc;
+
+    +----------------------------------------------------------------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                                                                              |
+    +----------------------------------------------------------------------------------------------------------------------------------------+
+    |Sort  (cost=1516.51..1517.76 rows=499 width=24) (actual time=0.050..0.075 rows=0 loops=1)                                               |
+    |  Sort Key: id DESC                                                                                                                     |
+    |  Sort Method: quicksort  Memory: 25kB                                                                                                  |
+    |  ->  Index Scan using tickets_number_index on tickets  (cost=0.42..1494.15 rows=499 width=24) (actual time=0.021..0.030 rows=0 loops=1)|
+    |        Index Cond: (schedule_id = 500)                                                                                                 |
+    |Planning Time: 0.082 ms                                                                                                                 |
+    |Execution Time: 0.118 ms                                                                                                                |
+    +----------------------------------------------------------------------------------------------------------------------------------------+
+
+
+3. Запрос 3
+
+    explain analyze select * from schedule where hall_id = 4 and price_id > 1 order by movie_id
+
+    +---------------------------------------------------------------------------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                                                                                         |
+    +---------------------------------------------------------------------------------------------------------------------------------------------------+
+    |Sort  (cost=243.28..247.49 rows=1685 width=20) (actual time=43.468..58.804 rows=1676 loops=1)                                                      |
+    |  Sort Key: movie_id                                                                                                                               |
+    |  Sort Method: quicksort  Memory: 179kB                                                                                                            |
+    |  ->  Bitmap Heap Scan on schedule  (cost=51.46..152.98 rows=1685 width=20) (actual time=6.129..26.775 rows=1676 loops=1)                          |
+    |        Recheck Cond: (hall_id = 4)                                                                                                                |
+    |        Filter: (price_id > 1)                                                                                                                     |
+    |        Rows Removed by Filter: 825                                                                                                                |
+    |        Heap Blocks: exact=17                                                                                                                      |
+    |        ->  Bitmap Index Scan on schedule_hall_id_start_time_key  (cost=0.00..51.04 rows=2501 width=0) (actual time=5.182..5.192 rows=2501 loops=1)|
+    |              Index Cond: (hall_id = 4)                                                                                                            |
+    |Planning Time: 0.116 ms                                                                                                                            |
+    |Execution Time: 73.896 ms                                                                                                                          |
+    +---------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+4. Запрос 4
+
+    explain analyze
+    select count(movie_id) as counter, name
+    from movies
+             left join schedule s on movies.id = s.movie_id
+             left join tickets t on s.id = t.schedule_id
+    where t.id is not null
+    group by movie_id, name
+    order by counter desc;
+
+    +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                                                                                                        |
+    +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |Sort  (cost=42249.32..42251.07 rows=700 width=1036) (actual time=1565.810..1567.176 rows=10 loops=1)                                                              |
+    |  Sort Key: (count(s.movie_id)) DESC                                                                                                                              |
+    |  Sort Method: quicksort  Memory: 30kB                                                                                                                            |
+    |  ->  Finalize GroupAggregate  (cost=42035.39..42216.24 rows=700 width=1036) (actual time=1564.684..1566.740 rows=10 loops=1)                                     |
+    |        Group Key: s.movie_id, movies.name                                                                                                                        |
+    |        ->  Gather Merge  (cost=42035.39..42198.74 rows=1400 width=1036) (actual time=1564.602..1566.350 rows=30 loops=1)                                         |
+    |              Workers Planned: 2                                                                                                                                  |
+    |              Workers Launched: 2                                                                                                                                 |
+    |              ->  Sort  (cost=41035.37..41037.12 rows=700 width=1036) (actual time=1539.316..1539.529 rows=10 loops=3)                                            |
+    |                    Sort Key: s.movie_id, movies.name                                                                                                             |
+    |                    Sort Method: quicksort  Memory: 30kB                                                                                                          |
+    |                    Worker 0:  Sort Method: quicksort  Memory: 30kB                                                                                               |
+    |                    Worker 1:  Sort Method: quicksort  Memory: 30kB                                                                                               |
+    |                    ->  Partial HashAggregate  (cost=40995.29..41002.29 rows=700 width=1036) (actual time=1539.005..1539.258 rows=10 loops=3)                     |
+    |                          Group Key: s.movie_id, movies.name                                                                                                      |
+    |                          Batches: 1  Memory Usage: 49kB                                                                                                          |
+    |                          Worker 0:  Batches: 1  Memory Usage: 49kB                                                                                               |
+    |                          Worker 1:  Batches: 1  Memory Usage: 49kB                                                                                               |
+    |                          ->  Hash Join  (cost=300.67..40691.62 rows=40490 width=1028) (actual time=160.801..1310.335 rows=33333 loops=3)                         |
+    |                                Hash Cond: (s.movie_id = movies.id)                                                                                               |
+    |                                ->  Hash Join  (cost=289.09..40567.32 rows=40490 width=4) (actual time=159.635..869.330 rows=33333 loops=3)                       |
+    |                                      Hash Cond: (t.schedule_id = s.id)                                                                                           |
+    |                                      ->  Parallel Seq Scan on tickets t  (cost=0.00..40171.90 rows=40490 width=4) (actual time=0.025..261.538 rows=33333 loops=3)|
+    |                                            Filter: (id IS NOT NULL)                                                                                              |
+    |                                      ->  Hash  (cost=164.04..164.04 rows=10004 width=8) (actual time=159.516..159.540 rows=10004 loops=3)                        |
+    |                                            Buckets: 16384  Batches: 1  Memory Usage: 519kB                                                                       |
+    |                                            ->  Seq Scan on schedule s  (cost=0.00..164.04 rows=10004 width=8) (actual time=1.195..80.136 rows=10004 loops=3)     |
+    |                                ->  Hash  (cost=10.70..10.70 rows=70 width=1028) (actual time=1.091..1.114 rows=10 loops=3)                                       |
+    |                                      Buckets: 1024  Batches: 1  Memory Usage: 11kB                                                                               |
+    |                                      ->  Seq Scan on movies  (cost=0.00..10.70 rows=70 width=1028) (actual time=0.819..0.960 rows=10 loops=3)                    |
+    |Planning Time: 0.316 ms                                                                                                                                           |
+    |Execution Time: 1567.343 ms                                                                                                                                       |
+    +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+5. Запрос 5
+
+    explain analyze
+    select * from halls
+        left join schedule s on halls.id = s.hall_id
+        left join prices p on p.id = s.price_id
+        left join tariffs t on p.tariff_id = t.id
+    where t.name = 'tariff-2' limit 30
+
+    +---------------------------------------------------------------------------------------------------------------------------------------+
+    |QUERY PLAN                                                                                                                             |
+    +---------------------------------------------------------------------------------------------------------------------------------------+
+    |Limit  (cost=55.95..175.50 rows=30 width=132) (actual time=0.298..3.679 rows=30 loops=1)                                               |
+    |  ->  Nested Loop  (cost=55.95..267.15 rows=53 width=132) (actual time=0.282..3.221 rows=30 loops=1)                                   |
+    |        ->  Hash Join  (cost=55.80..257.88 rows=53 width=84) (actual time=0.242..2.083 rows=30 loops=1)                                |
+    |              Hash Cond: (s.price_id = p.id)                                                                                           |
+    |              ->  Seq Scan on schedule s  (cost=0.00..164.04 rows=10004 width=20) (actual time=0.015..0.795 rows=93 loops=1)           |
+    |              ->  Hash  (cost=55.68..55.68 rows=9 width=64) (actual time=0.160..0.226 rows=1 loops=1)                                  |
+    |                    Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                       |
+    |                    ->  Hash Join  (cost=24.20..55.68 rows=9 width=64) (actual time=0.098..0.187 rows=1 loops=1)                       |
+    |                          Hash Cond: (p.tariff_id = t.id)                                                                              |
+    |                          ->  Seq Scan on prices p  (cost=0.00..27.00 rows=1700 width=20) (actual time=0.011..0.042 rows=3 loops=1)    |
+    |                          ->  Hash  (cost=24.12..24.12 rows=6 width=44) (actual time=0.045..0.067 rows=1 loops=1)                      |
+    |                                Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                           |
+    |                                ->  Seq Scan on tariffs t  (cost=0.00..24.12 rows=6 width=44) (actual time=0.012..0.028 rows=1 loops=1)|
+    |                                      Filter: ((name)::text = 'tariff-2'::text)                                                        |
+    |                                      Rows Removed by Filter: 2                                                                        |
+    |        ->  Index Scan using halls_pkey on halls  (cost=0.15..0.17 rows=1 width=48) (actual time=0.010..0.010 rows=1 loops=30)         |
+    |              Index Cond: (id = s.hall_id)                                                                                             |
+    |Planning Time: 0.249 ms                                                                                                                |
+    |Execution Time: 3.955 ms                                                                                                               |
+    +---------------------------------------------------------------------------------------------------------------------------------------+
+
+
+
+6. Запрос 6
+
+explain analyze
+select count(moviegoer_type_id)
+from prices
+         inner join schedule s on s.price_id = prices.id
+         inner join moviegoer_types mt on mt.id = prices.moviegoer_type_id
+         inner join halls h on h.id = s.hall_id
+where moviegoer_type_id = 1
+  and hall_id = 2
+group by moviegoer_type_id
+
++------------------------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                                                                                           |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|GroupAggregate  (cost=83.32..201.57 rows=8 width=12) (actual time=84.809..84.998 rows=1 loops=1)                                                                     |
+|  Group Key: prices.moviegoer_type_id                                                                                                                                |
+|  ->  Nested Loop  (cost=83.32..201.43 rows=12 width=4) (actual time=0.315..77.983 rows=820 loops=1)                                                                 |
+|        ->  Index Only Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=4) (actual time=0.019..0.045 rows=1 loops=1)                                  |
+|              Index Cond: (id = 2)                                                                                                                                   |
+|              Heap Fetches: 1                                                                                                                                        |
+|        ->  Nested Loop  (cost=83.17..193.14 rows=12 width=8) (actual time=0.273..64.854 rows=820 loops=1)                                                           |
+|              ->  Index Only Scan using moviegoer_types_pkey on moviegoer_types mt  (cost=0.15..8.17 rows=1 width=4) (actual time=0.013..0.050 rows=1 loops=1)       |
+|                    Index Cond: (id = 1)                                                                                                                             |
+|                    Heap Fetches: 1                                                                                                                                  |
+|              ->  Hash Join  (cost=83.02..184.86 rows=12 width=8) (actual time=0.235..51.449 rows=820 loops=1)                                                       |
+|                    Hash Cond: (s.price_id = prices.id)                                                                                                              |
+|                    ->  Bitmap Heap Scan on schedule s  (cost=51.67..146.93 rows=2501 width=8) (actual time=0.101..22.144 rows=2501 loops=1)                         |
+|                          Recheck Cond: (hall_id = 2)                                                                                                                |
+|                          Heap Blocks: exact=17                                                                                                                      |
+|                          ->  Bitmap Index Scan on schedule_hall_id_start_time_key  (cost=0.00..51.04 rows=2501 width=0) (actual time=0.080..0.092 rows=2501 loops=1)|
+|                                Index Cond: (hall_id = 2)                                                                                                            |
+|                    ->  Hash  (cost=31.25..31.25 rows=8 width=8) (actual time=0.046..0.079 rows=1 loops=1)                                                           |
+|                          Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                               |
+|                          ->  Seq Scan on prices  (cost=0.00..31.25 rows=8 width=8) (actual time=0.013..0.031 rows=1 loops=1)                                        |
+|                                Filter: (moviegoer_type_id = 1)                                                                                                      |
+|                                Rows Removed by Filter: 2                                                                                                            |
+|Planning Time: 0.198 ms                                                                                                                                              |
+|Execution Time: 85.121 ms                                                                                                                                            |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+
+Запросы без индексов
+
+то что заметил: использования индексов в нужных местах, помогает снизить cost и ускорить запрос. Так же что я не знал, это то что когда проставляется foreign_key
+он индексируется.
+
+К примеру взял запрос 2 и 4
+
+Запрос 2
+Без индекса tickets_number_index
+
++----------------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                                      |
++----------------------------------------------------------------------------------------------------------------+
+|Sort  (cost=41004.07..41005.32 rows=499 width=24) (actual time=104.722..104.748 rows=0 loops=1)                 |
+|  Sort Key: id DESC                                                                                             |
+|  Sort Method: quicksort  Memory: 25kB                                                                          |
+|  ->  Seq Scan on tickets  (cost=0.00..40981.71 rows=499 width=24) (actual time=104.700..104.709 rows=0 loops=1)|
+|        Filter: (schedule_id = 500)                                                                             |
+|        Rows Removed by Filter: 100000                                                                          |
+|Planning Time: 0.074 ms                                                                                         |
+|Execution Time: 104.800 ms                                                                                      |
++----------------------------------------------------------------------------------------------------------------+
+
+Без индекса -> Execution Time: 104.800 ms
+С индексом  -> Execution Time: 0.118 ms
+
+Запрос 6,
+убрал несколько индексов
+
++-----------------------------------------------------------------------------------------------------------------------------------+
+|QUERY PLAN                                                                                                                         |
++-----------------------------------------------------------------------------------------------------------------------------------+
+|GroupAggregate  (cost=31.35..265.24 rows=8 width=12) (actual time=119.476..119.624 rows=1 loops=1)                                 |
+|  Group Key: prices.moviegoer_type_id                                                                                              |
+|  ->  Nested Loop  (cost=31.35..264.86 rows=60 width=4) (actual time=0.324..111.921 rows=820 loops=1)                              |
+|        ->  Nested Loop  (cost=31.35..240.72 rows=12 width=8) (actual time=0.272..69.016 rows=820 loops=1)                         |
+|              ->  Seq Scan on moviegoer_types mt  (cost=0.00..13.62 rows=1 width=4) (actual time=0.017..0.034 rows=1 loops=1)      |
+|                    Filter: (id = 1)                                                                                               |
+|                    Rows Removed by Filter: 2                                                                                      |
+|              ->  Hash Join  (cost=31.35..226.98 rows=12 width=8) (actual time=0.224..54.440 rows=820 loops=1)                     |
+|                    Hash Cond: (s.price_id = prices.id)                                                                            |
+|                    ->  Seq Scan on schedule s  (cost=0.00..189.05 rows=2501 width=8) (actual time=0.157..23.669 rows=2501 loops=1)|
+|                          Filter: (hall_id = 2)                                                                                    |
+|                          Rows Removed by Filter: 7503                                                                             |
+|                    ->  Hash  (cost=31.25..31.25 rows=8 width=8) (actual time=0.043..0.067 rows=1 loops=1)                         |
+|                          Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                             |
+|                          ->  Seq Scan on prices  (cost=0.00..31.25 rows=8 width=8) (actual time=0.013..0.029 rows=1 loops=1)      |
+|                                Filter: (moviegoer_type_id = 1)                                                                    |
+|                                Rows Removed by Filter: 2                                                                          |
+|        ->  Materialize  (cost=0.00..23.40 rows=5 width=4) (actual time=0.009..0.018 rows=1 loops=820)                             |
+|              ->  Seq Scan on halls h  (cost=0.00..23.38 rows=5 width=4) (actual time=0.011..0.027 rows=1 loops=1)                 |
+|                    Filter: (id = 2)                                                                                               |
+|                    Rows Removed by Filter: 3                                                                                      |
+|Planning Time: 2.482 ms                                                                                                            |
+|Execution Time: 119.705 ms                                                                                                         |
++-----------------------------------------------------------------------------------------------------------------------------------+
+
+Без индекса -> Execution Time: 119.705 ms
+С индексом  -> Execution Time: 85.121 ms
