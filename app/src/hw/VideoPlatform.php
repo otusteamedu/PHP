@@ -76,7 +76,9 @@ class VideoPlatform
                 $result = $this->getTopChannels();
                 break;
             default:
-                throw new Exception('необходимо передать тип: php index.php analyze или statistics');
+                throw new Exception(
+                    'Необходимо передать тип: php index.php [' . self::ANALYZE . '|' . self::STATISTICS . '|' . self::TOP_N . ']'
+                );
         }
 
         print_r($result);
