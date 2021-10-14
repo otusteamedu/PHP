@@ -1,0 +1,24 @@
+{
+    "name": "vladi/home-work",
+    "description": "Patterns for fast-food",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "vlucas/phpdotenv": "^5.1",
+        "monolog/monolog": "2.x-dev"
+    },
+    "authors": [
+        {
+            "name": "NightWizard75",
+            "email": "vladimir@valyakin.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app",
+            "Resources\\" : "resources",
+            "Routes\\" : "routes"
+        }
+    },
+    "minimum-stability": "dev"
+}
