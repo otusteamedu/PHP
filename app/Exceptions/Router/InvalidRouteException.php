@@ -4,7 +4,6 @@ namespace App\Exceptions\Router;
 
 
 use App\Exceptions\ILogged;
-use App\Exceptions\IOutable;
 use Exception;
 use App\Logger\ApplicationLogger;
 use Monolog\Logger;

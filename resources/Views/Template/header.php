@@ -11,12 +11,5 @@
 <body>
 <div>
     <div id="header" class="header">
-        <div>
-        <span><b><?php echo $user->getRole() . ": " . $user->getFirstName() . " " . $user->getLastName();?></b></span>
-        <div class="form-group">
-            <form action="/login/logout" method="post">
-                <button type="submit">Выйти</button>
-            </form>
-        </div>
-        </div>
+        FastFood
     </div>

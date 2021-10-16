@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Auth\PermissionsDeniedException;
+
 use App\Exceptions\ErrorCodes;
 use App\Exceptions\Loader\ViewLoaderException;
-use App\Exceptions\User\InvalidUserRoleException;
 use App\Http\Response\Helpers\StatusCodes;
 use App\Http\Response\IResponse;
-use App\Models\LoginModel;
-use App\Services\Dao\DataMapper\User\User;
 use Resources\Views\ViewsLoader;
 
 /**
@@ -54,12 +51,6 @@ abstract class BaseController
      * @var IResponse
      */
     protected IResponse $response;
-
-    /**
-     * Текущий пользователь
-     * @var User|null
-     */
-    protected ?User $currentUser;
 
 
     /**
@@ -110,20 +101,6 @@ abstract class BaseController
             (new \ReflectionClass($this))->getShortName()
         );
         return (new \ReflectionClass($this))->getShortName();
-    }
-
-    /**
-     * @return bool
-     * @throws InvalidUserRoleException
-     * @throws PermissionsDeniedException
-     */
-    protected function checkPermissions(): bool
-    {
-        return match ($this->currentUser->getRoleId()) {
-            1 => true,
-            2 => throw new PermissionsDeniedException('Permissions denied', ErrorCodes::getCode(PermissionsDeniedException::class)),
-            default => throw new InvalidUserRoleException('Not valid user role', ErrorCodes::getCode(InvalidUserRoleException::class))
-        };
     }
 
     /**

@@ -3,19 +3,9 @@
 namespace App\Exceptions;
 
 
-use App\Exceptions\Auth\PermissionsDeniedException;
-use App\Exceptions\Checkers\Sysinfo\CannotGetSystemInfoException;
-use App\Exceptions\Connection\CannotConnectElasticsearchException;
-use App\Exceptions\Connection\CannotConnectMemcachedException;
-use App\Exceptions\Connection\CannotConnectPostgresException;
-use App\Exceptions\Connection\CannotConnectRedisException;
-use App\Exceptions\Connection\CannotConnectMySqlException;
-use App\Exceptions\Checkers\InvalidCheckerException;
-use App\Exceptions\Connection\InvalidArgumentException;
 use App\Exceptions\Loader\ViewLoaderException;
 use App\Exceptions\Router\InvalidRouteException;
-use App\Exceptions\User\InvalidRelationIdException;
-use App\Exceptions\User\InvalidUserRoleException;
+
 
 /**
  * Содержит коды ошибок проекта

@@ -26,20 +26,4 @@ class ConfigHelper
             'pass' => $_ENV['PGSQL_DB_PASSWORD'],
         ];
     }
-
-    public static function getDaysOfWeek(): array
-    {
-        return [
-            'Понедельник',
-            'Вторник',
-            'Среда',
-            'Четверг',
-            'Пятница',
-        ];
-    }
-
-    public static function getLessonsCountPerDay(): int
-    {
-        return $_ENV['LESSONS_COUNT_PER_DAY'];
-    }
 }
