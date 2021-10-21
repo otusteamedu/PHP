@@ -5,7 +5,8 @@
     "require": {
         "php": ">=8.0",
         "vlucas/phpdotenv": "^5.1",
-        "monolog/monolog": "2.x-dev"
+        "monolog/monolog": "2.x-dev",
+        "illuminate/container": "9.x-dev"
     },
     "authors": [
         {

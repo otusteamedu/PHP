@@ -3,6 +3,7 @@
 namespace App\Console\Routes;
 
 
+use Routes\PreparedArgs;
 use Routes\Router;
 
 
@@ -18,7 +19,7 @@ class ConsoleRouter
     {
         $argument = mb_strtolower(($arguments[1] ?? '') . '/' . ($arguments[2] ?? ''));
         echo $argument.PHP_EOL;
-        $_SERVER['REQUEST_URI'] = self::getRouteByArgument($argument);
+        PreparedArgs::setUriRequest(self::getRouteByArgument($argument));
     }
 
     static private function getRouteByArgument(string $argument): string

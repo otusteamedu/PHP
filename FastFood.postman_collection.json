@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "37a40668-f911-498c-a89a-e041408532b2",
+		"name": "FastFood",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sandwich",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product[size]",
+							"value": "Маленькая",
+							"type": "text"
+						},
+						{
+							"key": "product[type]",
+							"value": "Ржаная",
+							"type": "text"
+						},
+						{
+							"key": "sauces[mayonnaise]",
+							"value": "Московский провансаль",
+							"type": "text"
+						},
+						{
+							"key": "sauces[tabasco]",
+							"value": "Слабый",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/FastFood/Sandwich",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"FastFood",
+						"Sandwich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Burger",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product[size]",
+							"value": "Большой",
+							"type": "text"
+						},
+						{
+							"key": "product[type]",
+							"value": "Без кунжута",
+							"type": "text"
+						},
+						{
+							"key": "sauces[mayonnaise]",
+							"value": "Ряба оливковый",
+							"type": "text"
+						},
+						{
+							"key": "sauces[tabasco]",
+							"value": "Классический",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[steak]",
+							"value": "Сильной прожарки",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[onion]",
+							"value": "Зеленый репчатый",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[pepper]",
+							"value": "Болгарский",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/FastFood/Burger",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"FastFood",
+						"Burger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HotDog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product[size]",
+							"value": "Средний",
+							"type": "text"
+						},
+						{
+							"key": "product[type]",
+							"value": "Булка с разрезом",
+							"type": "text"
+						},
+						{
+							"key": "sauces[mayonnaise]",
+							"value": "Ряба классический",
+							"type": "text"
+						},
+						{
+							"key": "sauces[tabasco]",
+							"value": "Острый",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[sausage]",
+							"value": "Сливочная",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[onion]",
+							"value": "Зеленый. Перья",
+							"type": "text"
+						},
+						{
+							"key": "ingredients[pepper]",
+							"value": "Черный",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/FastFood/HotDog",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"FastFood",
+						"HotDog"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "homework.otus"
+		}
+	]
+}

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Exceptions\ErrorCodes;
 use App\Exceptions\Loader\ViewLoaderException;
 use App\Http\Response\Helpers\StatusCodes;
 use App\Http\Response\IResponse;
+use App\Services\Factories\ProductFactory\AbstractProductFactory;
+use Illuminate\Container\Container;
 use Resources\Views\ViewsLoader;
 
 /**
@@ -52,14 +53,43 @@ abstract class BaseController
      */
     protected IResponse $response;
 
+    /**
+     * @var Container
+     */
+    protected Container $container;
+
 
     /**
      * @param IResponse $response
      */
-    public function __construct(IResponse $response)
+    public function __construct(IResponse $response, Container $container)
     {
         $this->response = $response;
         $this->viewBasePath = $_ENV['VIEW_BASE_PATH'] ?? self::VIEW_BASE_PATH;
+        $this->container = $container;
+    }
+
+    /**
+     * Связывает Абстрактную фабрику с конкретным классом в DI контейнере
+     *
+     * @param string $productName
+     * @param string $productSize
+     */
+    public function bind(string $productName, string $productSize): void
+    {
+        $productName = mb_strtolower($productName);
+        $this->container->bind(
+            AbstractProductFactory::class,
+            function () use ($productName, $productSize) {
+                $factory = match ($productName) {
+                    'burger'        => 'App\Services\Factories\ProductFactory\BurgerFactory',
+                    'sandwich'      => 'App\Services\Factories\ProductFactory\SandwichFactory',
+                    'hotdog'        => 'App\Services\Factories\ProductFactory\HotDogFactory',
+                    default         => 'FactoryDoesNotPresent'
+                };
+                return new $factory($productSize);
+            }
+        );
     }
 
     /**
@@ -100,7 +130,6 @@ abstract class BaseController
             '',
             (new \ReflectionClass($this))->getShortName()
         );
-        return (new \ReflectionClass($this))->getShortName();
     }
 
     /**

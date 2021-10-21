@@ -10,6 +10,7 @@ use App\Http\Response\IResponse;
 use App\Http\Response\ResponseSelector;
 use App\Http\Controllers\LoginController;
 use Exception;
+use Illuminate\Container\Container;
 
 /**
  * Маршрутизатор
@@ -29,7 +30,7 @@ class Router
         [$route, $method, $parameter] = Router::getRoute();
         try {
             if (class_exists($route)) {
-                $app = new $route($response);
+                $app = new $route($response, new Container());
                 if (method_exists($app, $method)) {
                     empty($parameter)
                         ? $app->{$method}()
@@ -51,7 +52,7 @@ class Router
         $controller = $method = $parameter ='';
         $controllersBasePath = $_ENV['CONTROLLERS_BASE_PATH'] ?? self::CONTROLLERS_BASE_PATH;
         $startPhpFile = $_ENV['DEFAULT_PHP_START_FILE'] ?? self::DEFAULT_PHP_START_FILE;
-        $serviceRoot = $_SERVER['REQUEST_URI'] ?? '/';
+        $serviceRoot = PreparedArgs::getUriRequest() ?? '/';
         $serviceRoot = (empty(substr($serviceRoot, 1)) || substr($serviceRoot, 1) === $startPhpFile || mb_substr($serviceRoot, 1,1) === '?')
             ? '/' . $_ENV['DEFAULT_CONTROLLER_NAME']
             : $serviceRoot;

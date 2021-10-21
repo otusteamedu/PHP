@@ -3,9 +3,6 @@
 namespace App\Models;
 
 
-use App\Services\Factories\ProductFactory\BurgerFactory;
-use App\Services\Factories\ProductFactory\HotDogFactory;
-use App\Services\Factories\ProductFactory\SandwichFactory;
 use App\Services\Orders\ProductOrder;
 
 class FastFoodModel implements IModel
@@ -13,16 +10,11 @@ class FastFoodModel implements IModel
     private ProductOrder $order;
 
     /**
-     * @param array $product
-     * @param array $ingredients
+     * @param ProductOrder $productOrder
      */
-    public function __construct(array $product, array $ingredients = [])
+    public function __construct(ProductOrder $productOrder)
     {
-       $this->order = match ($product['name']) {
-           'Burger'     => new ProductOrder(new BurgerFactory($product['size'] ?? '')),
-           'HotDog'     => new ProductOrder(new HotDogFactory($product['size'] ?? '')),
-           'Sandwich'   => new ProductOrder(new SandwichFactory($product['size'] ?? '')),
-       };
+       $this->order = $productOrder;
     }
 
     public function createProduct(string $customBaseType = '', array $customIngredients = [], array $customSauces = []): ProductOrder
