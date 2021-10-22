@@ -20,6 +20,9 @@ use App\Services\Products\Sauces\Tabasco;
 
 class SandwichFactory extends AbstractProductFactory
 {
+    /**
+     * @var string
+     */
     private string $size;
 
 
@@ -64,7 +67,6 @@ class SandwichFactory extends AbstractProductFactory
                 default     => $ingredient
             };
         }
-        $ingredient->addToRecipe();
         return $ingredient;
     }
 
@@ -84,7 +86,6 @@ class SandwichFactory extends AbstractProductFactory
                 default         => $sauce
             };
         }
-        $sauce->addToRecipe();
         return $sauce;
     }
 }

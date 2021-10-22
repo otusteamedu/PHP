@@ -3,31 +3,34 @@
 namespace App\Services\Factories\ProductFactory;
 
 use JetBrains\PhpStorm\ArrayShape;
+use SplObjectStorage;
+use SplSubject;
+use SplObserver;
 
-abstract class AbstractProductBase
+abstract class AbstractProductBase implements SplSubject
 {
     const PRODUCT_BASE_STATUS = [
         'ready'     => 'Готова',
-        'wait'      => 'Необходимо добавить',
+        'wait'      => 'Создан заказ',
         'prepare'   => 'Готовится'
     ];
 
     const PRODUCT_BASE_NAME = '';
+
+    const COMPONENT_NAME = 'ОСНОВА';
 
 
     protected string $status = '';
     protected string $name = '';
     protected string $type = '';
     protected string $size = '';
-
-    //abstract public function prepareProduct(): void;
-    //abstract public function setStatusReady(): void;
+    protected SplObjectStorage $observerList;
 
 
     public function __construct()
     {
+        $this->observerList = new SplObjectStorage();
         $this->name = static::PRODUCT_BASE_NAME;
-        $this->addToRecipe();
     }
 
     /**
@@ -39,9 +42,17 @@ abstract class AbstractProductBase
     }
 
     /**
+     * @return string
+     */
+    public function getInfo(): string
+    {
+        return self::COMPONENT_NAME . ": " . $this->getProductBase();
+    }
+
+    /**
      * @return AbstractProductBase
      */
-    protected function addToRecipe(): AbstractProductBase
+    public function addToRecipe(): AbstractProductBase
     {
         $this->setStatusWait();
         return $this;
@@ -54,6 +65,7 @@ abstract class AbstractProductBase
     {
         // TODO установить в базе статус готов
         $this->status = static::PRODUCT_BASE_STATUS['ready'];
+        $this->notify();
         return $this;
     }
 
@@ -63,6 +75,7 @@ abstract class AbstractProductBase
     public function setStatusWait(): AbstractProductBase
     {
         $this->status = self::PRODUCT_BASE_STATUS['wait'];
+        $this->notify();
         return $this;
     }
 
@@ -72,6 +85,7 @@ abstract class AbstractProductBase
     public function setStatusPrepare(): AbstractProductBase
     {
         $this->status = self::PRODUCT_BASE_STATUS['prepare'];
+        $this->notify();
         return $this;
     }
 
@@ -123,6 +137,23 @@ abstract class AbstractProductBase
     }
 
     /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+
+    /**
      * @return array
      */
     #[ArrayShape(['name' => "string", 'type' => "string", 'status' => "string"])]
@@ -135,4 +166,22 @@ abstract class AbstractProductBase
         ];
     }
 
+    public function attach(SplObserver $observer)
+    {
+        $this->observerList->attach($observer);
+        return $this;
+    }
+
+    public function detach(SplObserver $observer)
+    {
+        $this->observerList->detach($observer);
+        return $this;
+    }
+
+    public function notify()
+    {
+        foreach ($this->observerList as $observer) {
+            $observer->update($this);
+        }
+    }
 }

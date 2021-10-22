@@ -5,10 +5,14 @@ namespace App\Services\Products\Sauces;
 
 use App\Services\Factories\ProductFactory\ISauce;
 use JetBrains\PhpStorm\ArrayShape;
+use SplObjectStorage;
+use SplObserver;
+use SplSubject;
 
 
-class Sauce implements ISauce
+class Sauce implements ISauce, SplSubject
 {
+    const COMPONENT_NAME = 'СОУС';
 
     const SAUCE_STATUS = [
         'ready'     => 'Добавлен',
@@ -35,6 +39,13 @@ class Sauce implements ISauce
      */
     protected ?ISauce $sauce = null;
 
+    /**
+     * Список подключенных слушателей
+     *
+     * @var SplObjectStorage
+     */
+    private SplObjectStorage $observerList;
+
     protected string $status = '';
     protected string $name = '';
     protected string $type = '';
@@ -42,6 +53,7 @@ class Sauce implements ISauce
 
     public function __construct()
     {
+        $this->observerList = new SplObjectStorage();
         $this->name = static::SAUCE_NAME;
     }
 
@@ -61,6 +73,16 @@ class Sauce implements ISauce
             static  fn($carry, $item) => $carry .= $item,
             ''
         );
+    }
+
+    /**
+     * Возвращает информацию о конкретном текущем ингредиенте
+     *
+     * @return string
+     */
+    public function getInfo(): string
+    {
+        return self::COMPONENT_NAME . ": " . $this->name . " '" . $this->type . "' - " . $this->status;
     }
 
     /**
@@ -93,6 +115,7 @@ class Sauce implements ISauce
     public function setStatusReady(): ISauce
     {
         $this->status = self::SAUCE_STATUS['ready'];
+        $this->notify();
         return $this;
     }
 
@@ -102,6 +125,7 @@ class Sauce implements ISauce
     public function setStatusWait(): ISauce
     {
         $this->status = self::SAUCE_STATUS['wait'];
+        $this->notify();
         return $this;
     }
 
@@ -124,5 +148,32 @@ class Sauce implements ISauce
             'type' => $this->type,
             'status' => $this->status
         ];
+    }
+
+    public function attach(SplObserver $observer)
+    {
+        if (is_null($this->sauce)) {
+            return $this;
+        }
+        $this->sauce->attach($observer);
+        $this->observerList->attach($observer);
+        return $this;
+    }
+
+    public function detach(SplObserver $observer)
+    {
+        if (is_null($this->sauce)) {
+            return $this;
+        }
+        $this->sauce->detach($observer);
+        $this->observerList->detach($observer);
+        return $this;
+    }
+
+    public function notify()
+    {
+        foreach ($this->observerList as $observer) {
+            $observer->update($this);
+        }
     }
 }

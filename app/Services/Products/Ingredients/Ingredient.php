@@ -4,9 +4,12 @@ namespace App\Services\Products\Ingredients;
 
 use App\Services\Factories\ProductFactory\IIngredient;
 use JetBrains\PhpStorm\ArrayShape;
+use SplObjectStorage;
+use SplObserver;
+use SplSubject;
 
 
-class Ingredient implements IIngredient
+class Ingredient implements IIngredient, SplSubject
 {
     const INGREDIENT_STATUS = [
         'ready'     => 'Добавлен',
@@ -15,6 +18,8 @@ class Ingredient implements IIngredient
     ];
 
     const INGREDIENT_NAME = '';
+
+    const COMPONENT_NAME = 'ИНГРЕДИЕНТ';
 
     /**
      * Набор ингредиентов для продукта
@@ -27,6 +32,13 @@ class Ingredient implements IIngredient
      */
     protected array $ingredientsList = [];
 
+    /**
+     * Список подключенных слушателей
+     *
+     * @var SplObjectStorage
+     */
+    protected SplObjectStorage $observerList;
+
     protected string $status = '';
     protected string $name = '';
     protected string $type = '';
@@ -38,13 +50,16 @@ class Ingredient implements IIngredient
      */
     protected ?IIngredient $ingredient = null;
 
+
     public function __construct()
     {
+        $this->observerList = new SplObjectStorage();
         $this->name = static::INGREDIENT_NAME;
     }
 
-
     /**
+     * Возвращает все ингредиенты
+     *
      * @return string
      */
     public function getIngredients(): string
@@ -60,6 +75,16 @@ class Ingredient implements IIngredient
             static  fn($carry, $item) => $carry .= $item,
             ''
         );
+    }
+
+    /**
+     * Возвращает информацию о конкретном текущем ингредиенте
+     *
+     * @return string
+     */
+    public function getInfo(): string
+    {
+        return self::COMPONENT_NAME . ": " . $this->name . " '" . $this->type . "' - " . $this->status;
     }
 
     /**
@@ -93,6 +118,7 @@ class Ingredient implements IIngredient
     {
         // TODO установить в базе статус готов
         $this->status = static::INGREDIENT_STATUS['ready'];
+        $this->notify();
         return $this;
     }
 
@@ -102,6 +128,7 @@ class Ingredient implements IIngredient
     public function setStatusWait(): IIngredient
     {
         $this->status = self::INGREDIENT_STATUS['wait'];
+        $this->notify();
         return $this;
     }
 
@@ -111,6 +138,7 @@ class Ingredient implements IIngredient
     public function setStatusPrepare(): IIngredient
     {
         $this->status = self::INGREDIENT_STATUS['prepare'];
+        $this->notify();
         return $this;
     }
 
@@ -165,5 +193,32 @@ class Ingredient implements IIngredient
             'type' => $this->type,
             'status' => $this->status
         ];
+    }
+
+    public function attach(SplObserver $observer)
+    {
+        if (is_null($this->ingredient)) {
+            return $this;
+        }
+        $this->ingredient->attach($observer);
+        $this->observerList->attach($observer);
+        return $this;
+    }
+
+    public function detach(SplObserver $observer)
+    {
+        if (is_null($this->ingredient)) {
+            return $this;
+        }
+        $this->ingredient->detach($observer);
+        $this->observerList->detach($observer);
+        return $this;
+    }
+
+    public function notify()
+    {
+        foreach ($this->observerList as $observer) {
+            $observer->update($this);
+        }
     }
 }

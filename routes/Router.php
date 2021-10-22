@@ -30,7 +30,9 @@ class Router
         [$route, $method, $parameter] = Router::getRoute();
         try {
             if (class_exists($route)) {
-                $app = new $route($response, new Container());
+                $container = Container::getInstance();
+                $container->bind(IResponse::class, fn() => $response);
+                $app = $container->make($route);
                 if (method_exists($app, $method)) {
                     empty($parameter)
                         ? $app->{$method}()

@@ -19,6 +19,9 @@ use App\Services\Products\Sauces\Tabasco;
 
 class HotDogFactory extends AbstractProductFactory
 {
+    /**
+     * @var string
+     */
     private string $size;
 
 
@@ -62,7 +65,6 @@ class HotDogFactory extends AbstractProductFactory
                 default     => $ingredient
             };
         }
-        $ingredient->addToRecipe();
         return $ingredient;
     }
 
@@ -82,7 +84,6 @@ class HotDogFactory extends AbstractProductFactory
                 default         => $sauce
             };
         }
-        $sauce->addToRecipe();
         return $sauce;
     }
 }

@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\Loader\ViewLoaderException;
 use App\Http\Response\Helpers\StatusCodes;
 use App\Http\Response\IResponse;
-use App\Services\Factories\ProductFactory\AbstractProductFactory;
+use App\Providers\AppServiceProvider;
 use Illuminate\Container\Container;
 use Resources\Views\ViewsLoader;
 
@@ -78,18 +78,8 @@ abstract class BaseController
     public function bind(string $productName, string $productSize): void
     {
         $productName = mb_strtolower($productName);
-        $this->container->bind(
-            AbstractProductFactory::class,
-            function () use ($productName, $productSize) {
-                $factory = match ($productName) {
-                    'burger'        => 'App\Services\Factories\ProductFactory\BurgerFactory',
-                    'sandwich'      => 'App\Services\Factories\ProductFactory\SandwichFactory',
-                    'hotdog'        => 'App\Services\Factories\ProductFactory\HotDogFactory',
-                    default         => 'FactoryDoesNotPresent'
-                };
-                return new $factory($productSize);
-            }
-        );
+        AppServiceProvider::bindProductFactory($this->container, $productName, $productSize);
+        AppServiceProvider::bindNotificator($this->container);
     }
 
     /**
@@ -119,7 +109,7 @@ abstract class BaseController
     }
 
     /**
-     * Возвращает имя текущего контроллеру
+     * Возвращает имя текущего контроллера
      *
      * @return string
      */
