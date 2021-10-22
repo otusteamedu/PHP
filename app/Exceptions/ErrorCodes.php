@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 
 use App\Exceptions\Loader\ViewLoaderException;
+use App\Exceptions\Orders\InvalidProductOrderException;
 use App\Exceptions\Router\InvalidRouteException;
 
 
@@ -17,6 +18,7 @@ class ErrorCodes
      */
     private static array $errorCodes = [
         InvalidRouteException::class                => 700,
+        InvalidProductOrderException::class         => 701,
         ViewLoaderException::class                  => 900,
     ];
 

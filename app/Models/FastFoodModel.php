@@ -3,21 +3,23 @@
 namespace App\Models;
 
 
+use App\Services\Orders\IProductOrder;
 use App\Services\Orders\ProductOrder;
+use App\Services\Orders\ProxyProductOrder;
 
 class FastFoodModel implements IModel
 {
-    private ProductOrder $order;
+    private ProxyProductOrder $order;
 
     /**
-     * @param ProductOrder $productOrder
+     * @param ProxyProductOrder $productOrder
      */
-    public function __construct(ProductOrder $productOrder)
+    public function __construct(ProxyProductOrder $productOrder)
     {
        $this->order = $productOrder;
     }
 
-    public function createProduct(string $customBaseType = '', array $customIngredients = [], array $customSauces = []): ProductOrder
+    public function createProduct(string $customBaseType = '', array $customIngredients = [], array $customSauces = []): IProductOrder
     {
         return $this->order
             ->getOrder()

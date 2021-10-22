@@ -9,7 +9,7 @@ use App\Services\Factories\ProductFactory\ISauce;
 use App\Services\Observer\ProductObserver;
 
 
-class ProductOrder
+class ProductOrder implements IProductOrder
 {
     private AbstractProductFactory $factory;
     private ISauce $sauces;
