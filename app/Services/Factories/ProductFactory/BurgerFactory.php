@@ -60,7 +60,7 @@ class BurgerFactory extends AbstractProductFactory
             $ingredient = match ($item) {
                 'onion'     => (new Onion($ingredient))->setType($type),
                 'pepper'    => (new Pepper($ingredient))->setType($type),
-                'steak'    => (new Steak($ingredient))->setType($type),
+                'steak'    => (new Steak($ingredient))->setType($type)->setStrategy(),
                 'salad'     => (new Salad($ingredient))->setType($type),
                 'cheese'    => (new Cheese($ingredient))->setType($type),
                 default     => $ingredient

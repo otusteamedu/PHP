@@ -3,13 +3,24 @@
 namespace App\Services\Products\Ingredients;
 
 
+use App\Exceptions\ErrorCodes;
+use App\Exceptions\Orders\InvalidSteakStrategyException;
 use App\Services\Factories\ProductFactory\IIngredient;
+use App\Services\Strategy\CookingTechnology\ISteakStrategy;
+use App\Services\Strategy\CookingTechnology\SteakHard;
+use App\Services\Strategy\CookingTechnology\SteakMiddle;
+use App\Services\Strategy\CookingTechnology\SteakSoft;
 
 
 class Steak extends Ingredient implements IIngredient
 {
 
     const INGREDIENT_NAME = 'Стейк';
+    const STRONG_ROASTING = 'Сильная прожарка';
+    const MIDDLE_ROASTING = 'Средняя прожарка';
+    const SOFT_ROASTING   = 'Слабая прожарка';
+
+    private ?ISteakStrategy $strategy;
 
     /**
      * @param IIngredient $ingredient
@@ -18,6 +29,20 @@ class Steak extends Ingredient implements IIngredient
     {
         parent::__construct();
         $this->ingredient = $ingredient;
+    }
+
+    /**
+     * @return $this
+     * @throws InvalidSteakStrategyException
+     */
+    public function prepare(): Steak
+    {
+        parent::prepare();
+        if (!$this->strategy) {
+            throw new InvalidSteakStrategyException("Не выбрана степень прожарки", ErrorCodes::getCode(InvalidSteakStrategyException::class));
+        }
+        echo $this->strategy->prepare();
+        return $this;
     }
 
     /**
@@ -35,6 +60,20 @@ class Steak extends Ingredient implements IIngredient
     public function setType(string $type): Steak
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setStrategy(): Steak
+    {
+        $this->strategy = match ($this->type) {
+            self::MIDDLE_ROASTING => new SteakMiddle(),
+            self::SOFT_ROASTING   => new SteakSoft(),
+            self::STRONG_ROASTING => new SteakHard(),
+            default => null,
+        };
         return $this;
     }
 
