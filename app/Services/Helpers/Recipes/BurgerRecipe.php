@@ -11,7 +11,7 @@ class BurgerRecipe
     private static string $base = 'С кунжутом';
 
     private static array $ingredients = [
-        'steak'     => 'Средней прожарки',
+        'steak'     => 'Средняя прожарка',
         'cheese'    => 'Чеддер',
         'onion'     => 'Зеленый репчатый',
     ];
