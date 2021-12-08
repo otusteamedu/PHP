@@ -1,0 +1,35 @@
+name: Users
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/users/{user}/estate'
+    metadata:
+      title: 'Поиск имущества для пользователя'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user:
+        name: user
+        description: ''
+        required: true
+        example: 20
+        type: integer
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "user": Ivan Ivanov,
+           'server answer' => 'The estate search request has been accepted. Expect an answer'
+          }
+        headers: []
+        description: '200'
+    responseFields: []

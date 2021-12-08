@@ -118,12 +118,19 @@ class UserController extends BaseUserController
     /**
      * Поиск имущества для пользователя
      *
+     * @group Users
+     *
+     * @response {
+     *  "user": Ivan Ivanov,
+     *  'server answer' => 'The estate search request has been accepted. Expect an answer'
+     * }
+     *
      * @param User $user
      * @return JsonResponse
      */
     public function getEstate(User $user): JsonResponse
     {
         $this->getEstateService()->findAll($user);
-        return response()->json(['user' => $user->name, 'server answer' => 'The estate search request has been accepted. Expect an answer']);
+        return response()->json(['user' => $user->name, 'server answer' => self::ESTATE_USER_ANSWER]);
     }
 }

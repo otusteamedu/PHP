@@ -1,0 +1,355 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "localhost"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "a64cb187-6fcb-4ee1-9255-8d78b2518548",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "api\/user",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "59"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":1,\"name\":\"Vladimir Valyakin\",\"email\":\"vladimir@valyakin.ru\",\"email_verified_at\":null,\"created_at\":\"2021-12-04T15:57:25.000000Z\",\"updated_at\":\"2021-12-04T15:57:25.000000Z\"},{\"id\":3,\"name\":\"Mikhail Valyakin\",\"email\":\"mikhail@valyakin.ru\",\"email_verified_at\":null,\"created_at\":\"2021-12-04T18:05:06.000000Z\",\"updated_at\":\"2021-12-04T18:05:06.000000Z\"},{\"id\":5,\"name\":\"Mikhail1 Valyakin1\",\"email\":\"mikhail1@valyakin.ru\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T16:59:40.000000Z\",\"updated_at\":\"2021-12-05T16:59:40.000000Z\"},{\"id\":17,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T18:21:12.000000Z\",\"updated_at\":\"2021-12-05T18:21:12.000000Z\"},{\"id\":18,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru1\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T18:22:06.000000Z\",\"updated_at\":\"2021-12-05T18:22:06.000000Z\"},{\"id\":19,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru2\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T18:27:25.000000Z\",\"updated_at\":\"2021-12-05T18:27:25.000000Z\"},{\"id\":20,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru3\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T19:16:59.000000Z\",\"updated_at\":\"2021-12-05T19:16:59.000000Z\"},{\"id\":21,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru4\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T19:50:43.000000Z\",\"updated_at\":\"2021-12-05T19:50:43.000000Z\"},{\"id\":22,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru5\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T20:04:03.000000Z\",\"updated_at\":\"2021-12-05T20:04:03.000000Z\"},{\"id\":23,\"name\":\"Mikhail2 Valyakin2\",\"email\":\"mikhail2@valyakin.ru6\",\"email_verified_at\":null,\"created_at\":\"2021-12-06T08:36:56.000000Z\",\"updated_at\":\"2021-12-06T08:36:56.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users\/:user",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "5",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "58"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"id\":5,\"name\":\"Mikhail1 Valyakin1\",\"email\":\"mikhail1@valyakin.ru\",\"email_verified_at\":null,\"created_at\":\"2021-12-05T16:59:40.000000Z\",\"updated_at\":\"2021-12-05T16:59:40.000000Z\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "api\/v1\/users",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"tzmgtsigxtczox\",\"email\":\"anissa.kautzer@example.org\",\"password\":\"idzqolfuzmhpdaevgquhamovaufevocpnjecqklhplisgeopyqrgfzxehlwvoyugtkuvzrgfcilhzkujwwlkjxlivumurbxynperrdkcqdmwggrbzrjzllbyrsjoejzbmtegpizlqaqiautvojonwenkvxwswqngwyzgqubigliwenwkojltwrqgbukdljqycitagsysggqbvqfklvfrmubntuxgtnv\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users\/:user",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "6",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users\/:user",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "4",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u0438\u0441\u043a \u0438\u043c\u0443\u0449\u0435\u0441\u0442\u0432\u0430 \u0434\u043b\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user\/estate",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/users\/:user\/estate",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "20",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"user\": Ivan Ivanov,\n 'server answer' => 'The estate search request has been accepted. Expect an answer'\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}
