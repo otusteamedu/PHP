@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "ef77930e-4ec0-4a7c-9dda-147c55672693",
+		"name": "Otus - Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Users List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "homework.otus/api/v1/user",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Mikhail Valyakin",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "mikhail@valyakin.ru",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "homework.otus/api/v1/users",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "homework.otus/api/v1/users/5",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "homework.otus/api/v1/users/2",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Old Name",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "new@email.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "newPassword",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "homework.otus/api/v1/users/2",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users Estate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "homework.otus/api/v1/users/21/estate",
+					"host": [
+						"homework",
+						"otus"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"21",
+						"estate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

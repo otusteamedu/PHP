@@ -1,0 +1,344 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/user:
+    get:
+      summary: ''
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/users:
+    get:
+      summary: 'Display a listing of the resource.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    name: 'Vladimir Valyakin'
+                    email: vladimir@valyakin.ru
+                    email_verified_at: null
+                    created_at: '2021-12-04T15:57:25.000000Z'
+                    updated_at: '2021-12-04T15:57:25.000000Z'
+                  -
+                    id: 3
+                    name: 'Mikhail Valyakin'
+                    email: mikhail@valyakin.ru
+                    email_verified_at: null
+                    created_at: '2021-12-04T18:05:06.000000Z'
+                    updated_at: '2021-12-04T18:05:06.000000Z'
+                  -
+                    id: 5
+                    name: 'Mikhail1 Valyakin1'
+                    email: mikhail1@valyakin.ru
+                    email_verified_at: null
+                    created_at: '2021-12-05T16:59:40.000000Z'
+                    updated_at: '2021-12-05T16:59:40.000000Z'
+                  -
+                    id: 17
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru
+                    email_verified_at: null
+                    created_at: '2021-12-05T18:21:12.000000Z'
+                    updated_at: '2021-12-05T18:21:12.000000Z'
+                  -
+                    id: 18
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru1
+                    email_verified_at: null
+                    created_at: '2021-12-05T18:22:06.000000Z'
+                    updated_at: '2021-12-05T18:22:06.000000Z'
+                  -
+                    id: 19
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru2
+                    email_verified_at: null
+                    created_at: '2021-12-05T18:27:25.000000Z'
+                    updated_at: '2021-12-05T18:27:25.000000Z'
+                  -
+                    id: 20
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru3
+                    email_verified_at: null
+                    created_at: '2021-12-05T19:16:59.000000Z'
+                    updated_at: '2021-12-05T19:16:59.000000Z'
+                  -
+                    id: 21
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru4
+                    email_verified_at: null
+                    created_at: '2021-12-05T19:50:43.000000Z'
+                    updated_at: '2021-12-05T19:50:43.000000Z'
+                  -
+                    id: 22
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru5
+                    email_verified_at: null
+                    created_at: '2021-12-05T20:04:03.000000Z'
+                    updated_at: '2021-12-05T20:04:03.000000Z'
+                  -
+                    id: 23
+                    name: 'Mikhail2 Valyakin2'
+                    email: mikhail2@valyakin.ru6
+                    email_verified_at: null
+                    created_at: '2021-12-06T08:36:56.000000Z'
+                    updated_at: '2021-12-06T08:36:56.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 2 characters. Must not be greater than 255 characters.'
+                  example: tzmgtsigxtczox
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: anissa.kautzer@example.org
+                password:
+                  type: string
+                  description: 'Must be at least 6 characters. Must not be greater than 255 characters.'
+                  example: idzqolfuzmhpdaevgquhamovaufevocpnjecqklhplisgeopyqrgfzxehlwvoyugtkuvzrgfcilhzkujwwlkjxlivumurbxynperrdkcqdmwggrbzrjzllbyrsjoejzbmtegpizlqaqiautvojonwenkvxwswqngwyzgqubigliwenwkojltwrqgbukdljqycitagsysggqbvqfklvfrmubntuxgtnv
+              required:
+                - name
+                - email
+      security: []
+  '/api/v1/users/{user}':
+    get:
+      summary: 'Display the specified resource.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 5
+                  name: 'Mikhail1 Valyakin1'
+                  email: mikhail1@valyakin.ru
+                  email_verified_at: null
+                  created_at: '2021-12-05T16:59:40.000000Z'
+                  updated_at: '2021-12-05T16:59:40.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+                  name:
+                    type: string
+                    example: 'Mikhail1 Valyakin1'
+                  email:
+                    type: string
+                    example: mikhail1@valyakin.ru
+                  email_verified_at:
+                    type: string
+                    example: null
+                  created_at:
+                    type: string
+                    example: '2021-12-05T16:59:40.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-12-05T16:59:40.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: user
+        description: ''
+        example: 5
+        required: true
+        schema:
+          type: integer
+  '/api/v1/users/{user}/estate':
+    get:
+      summary: 'Поиск имущества для пользователя'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n \"user\": Ivan Ivanov,\n 'server answer' => 'The estate search request has been accepted. Expect an answer'\n}"
+      tags:
+        - Users
+      security: []
+    parameters:
+      -
+        in: path
+        name: user
+        description: ''
+        example: 20
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: Users
+    description: ''
