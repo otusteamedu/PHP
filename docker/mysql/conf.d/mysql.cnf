@@ -1,0 +1,31 @@
+[client]
+default-character-set = utf8mb4
+
+[mysqld]
+skip-external-locking
+max_allowed_packet      = 16M
+key_buffer_size = 16M
+innodb_buffer_pool_size = 1024M
+innodb_file_per_table   = 1
+innodb_flush_method     = O_DIRECT
+innodb_flush_log_at_trx_commit  = 0
+
+max_connections         = 124
+
+slow_query_log          = /var/log/mysql/mysql-slow.log
+long_query_time         = 1
+
+expire_logs_days        = 10
+max_binlog_size         = 100M
+init_connect = 'SET collation_connection = utf8mb4_unicode_ci'
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+general_log = ON
+general_log_file =  /var/log/mysql/mysql8.log
+thread_cache_size       = 128
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 16M
