@@ -1,0 +1,36 @@
+version: '3.6'
+
+services:
+  balancer:
+    build:
+      context: balancer
+    ports:
+      - "8080:80"
+    depends_on:
+      - node1
+      - node2
+      - node3
+  node1:
+    build:
+      context: node
+      args:
+        UID: "3000"
+    volumes:
+      - ./app:/data/app
+  node2:
+    build:
+      context: node
+      args:
+        UID: "3000"
+    volumes:
+      - ./app:/data/app
+  node3:
+    build:
+      context: node
+      args:
+        UID: "3000"
+    volumes:
+      - ./app:/data/app
+
+#volumes:
+#  mydata:
