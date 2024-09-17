@@ -1,0 +1,7 @@
+For git cloning
+
+git@github.com:abazarov/my-extension.git
+
+For composer 
+
+composer require bazarov/my-extension
