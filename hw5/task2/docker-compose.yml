@@ -1,0 +1,75 @@
+version: '3'
+
+volumes:
+  node1_sockets:
+  node2_sockets:
+  node3_sockets:
+
+services:
+  load_balancer:
+    image: "nginx:alpine"
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/load_balancer.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - node1_web
+      - node2_web
+      - node3_web
+
+  node1_web:
+    image: "nginx:alpine"
+    ports:
+      - "8081:80"    
+    volumes:
+      - node1_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf 
+    links:
+      - node1_php
+  node1_php:
+    image: "php:7-fpm-alpine"
+    environment:
+      - WEB_NODE=1    
+    volumes: 
+      - node1_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+
+  node2_web:
+    image: "nginx:alpine"
+    ports:
+      - "8082:80"    
+    volumes:
+      - node2_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf    
+    links:
+      - node2_php
+  node2_php:
+    image: "php:7-fpm-alpine"
+    environment:
+      - WEB_NODE=2    
+    volumes: 
+      - node2_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+
+  node3_web:
+    image: "nginx:alpine"
+    ports:
+      - "8083:80"    
+    volumes:
+      - node3_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf     
+    links:
+      - node3_php
+  node3_php:
+    image: "php:7-fpm-alpine"
+    environment:
+      - WEB_NODE=3    
+    volumes: 
+      - node3_sockets:/sockets
+      - ./app:/var/www/app
+      - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
